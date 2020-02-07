@@ -2,13 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Marketplace\Plugins;
 
-use Piwik\Cache;
+use Matomo\Cache\Eager;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
@@ -37,7 +37,7 @@ class InvalidLicenses
     private $translator;
 
     /**
-     * @var Cache\Eager
+     * @var Eager
      */
     private $cache;
 
@@ -50,7 +50,7 @@ class InvalidLicenses
 
     private $cacheKey = 'Marketplace_ExpiredPlugins';
 
-    public function __construct(Client $client, Cache\Eager $cache, Translator $translator, Plugins $plugins)
+    public function __construct(Client $client, Eager $cache, Translator $translator, Plugins $plugins)
     {
         $this->client = $client;
         $this->translator = $translator;
@@ -193,7 +193,7 @@ class InvalidLicenses
                     continue;
                 }
                 $pluginName = $plugin['name'];
-                if ($this->isPluginActivated($pluginName)) {
+                if ($this->isPluginInActivatedPluginsList($pluginName)) {
                     if (empty($plugin['consumer']['license'])) {
                         $pluginNames['noLicense'][] = $pluginName;
                     } elseif (!empty($plugin['consumer']['license']['isExceeded'])) {
@@ -223,22 +223,13 @@ class InvalidLicenses
         $this->activatedPluginNames = $pluginNames;
     }
 
-    protected function isPluginInstalled($pluginName)
+    protected function isPluginInActivatedPluginsList($pluginName)
     {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
-            return true;
+        if (empty($this->activatedPluginNames)){
+            $this->activatedPluginNames = $this->pluginManager->getActivatedPluginsFromConfig();
         }
 
-        return $this->pluginManager->isPluginInstalled($pluginName);
-    }
-
-    protected function isPluginActivated($pluginName)
-    {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
-            return true;
-        }
-
-        return $this->pluginManager->isPluginActivated($pluginName);
+        return is_array($this->activatedPluginNames) && in_array($pluginName, $this->activatedPluginNames);
     }
 
 }

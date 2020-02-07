@@ -37,7 +37,6 @@ class ManySitesImportedLogs extends Fixture
         $this->setUpWebsitesAndGoals();
 
         LocationProvider::$providers = null;
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::setCurrentProvider('geoip2php');
 
         self::createSuperUser();
@@ -49,7 +48,6 @@ class ManySitesImportedLogs extends Fixture
     public function tearDown()
     {
         LocationProvider::$providers = null;
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
@@ -260,13 +258,14 @@ class ManySitesImportedLogs extends Fixture
                       '--enable-http-errors'        => false,
                       '--enable-http-redirects'     => false,
                       '--enable-reverse-dns'        => false,
-                      '--force-lowercase-path'      => false);
+                      '--force-lowercase-path'      => false,
+                      '--tracker-endpoint-path'     => '/matomo.php');
 
         self::executeLogImporter($logFile, $opts);
     }
 
     /**
-     * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
+     * Logs a couple visit using log entries that are tracking requests to a matomo.php file.
      * Adds two visits to idSite=1 and two to non-existant sites.
      *
      * @param array $additonalOptions

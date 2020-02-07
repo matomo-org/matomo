@@ -1,7 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "조회한 URL",
-        "ColumnClickedURLs": "조회한 URL들",
         "ColumnActionURL": "활동 URL",
         "ColumnClicks": "조회수",
         "ColumnClicksDocumentation": "이 링크를 클릭 한 횟수입니다.",
@@ -36,7 +34,6 @@
         "EntryPageTitlesReportDocumentation": "이 보고서는 기간별 진입 페이지 제목에 대한 정보입니다.",
         "ExitPageTitles": "이탈 페이지 제목",
         "ExitPageTitlesReportDocumentation": "이 보고서는 기간의 이탈 페이지 제목에 대한 정보입니다.",
-        "LearnMoreAboutSiteSearchLink": "방문자가 검색기능을 사용하는 것을 추적하는 방법에 대해 자세히 알아보세요.",
         "OneSearch": "검색 1",
         "OutlinkDocumentation": "외부 링크는 사이트 내에서 외부 사이트(다른 도메인)로의 링크입니다.",
         "OutlinksReportDocumentation": "이 보고서는 방문자가 클릭 한 외부 링크의 URL을 계층 구조 목록으로 표시합니다.",

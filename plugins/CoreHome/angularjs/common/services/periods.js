@@ -59,7 +59,7 @@
 
     DayPeriod.prototype = {
         getPrettyString: function () {
-            return $.datepicker.formatDate('yy-mm-dd', this.dateInPeriod);
+            return format(this.dateInPeriod);
         },
 
         getDateRange: function () {
@@ -83,8 +83,8 @@
     WeekPeriod.prototype = {
         getPrettyString: function () {
             var weekDates = this.getDateRange(this.dateInPeriod);
-            var startWeek = $.datepicker.formatDate('yy-mm-dd', weekDates[0]);
-            var endWeek = $.datepicker.formatDate('yy-mm-dd', weekDates[1]);
+            var startWeek = format(weekDates[0]);
+            var endWeek = format(weekDates[1]);
 
             return _pk_translate('General_DateRangeFromTo', [startWeek, endWeek]);
         },
@@ -182,7 +182,7 @@
         } else if (/^last/.test(strDate)) {
             return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
         } else {
-            var parts = strDate.split(',');
+            var parts = decodeURIComponent(strDate).split(',');
             return new RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType)
         }
     };
@@ -224,6 +224,25 @@
             endDate = endPeriod.getDateRange()[1];
         }
 
+        var firstWebsiteDate = new Date(1991, 7, 6);
+        if (startDate - firstWebsiteDate < 0) {
+            switch (childPeriodType) {
+                case 'year':
+                    startDate = new Date(1992, 0, 1);
+                    break;
+                case 'month':
+                    startDate = new Date(1991, 8, 1);
+                    break;
+                case 'week':
+                    startDate = new Date(1991, 8, 12);
+                    break;
+                case 'day':
+                default:
+                    startDate = firstWebsiteDate;
+                    break;
+            }
+        }
+
         return new RangePeriod(startDate, endDate, childPeriodType);
     };
 
@@ -233,8 +252,8 @@
 
     RangePeriod.prototype = {
         getPrettyString: function () {
-            var start = $.datepicker.formatDate('yy-mm-dd', this.startDate);
-            var end = $.datepicker.formatDate('yy-mm-dd', this.endDate);
+            var start = format(this.startDate);
+            var end = format(this.endDate);
             return _pk_translate('General_DateRangeFromTo', [start, end]);
         },
 
@@ -252,7 +271,9 @@
             isRecognizedPeriod: isRecognizedPeriod,
             get: get,
             parse: parse,
-            parseDate: parseDate
+            parseDate: parseDate,
+            format: format,
+            RangePeriod: RangePeriod
         };
 
         function getAllLabels() {
@@ -291,6 +312,10 @@
         };
     }
 
+    function format(date) {
+        return $.datepicker.formatDate('yy-mm-dd', date);
+    }
+
     function parseDate(strDate) {
         if (strDate instanceof Date) {
             return strDate;
@@ -327,9 +352,10 @@
         date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
         // apply piwik site timezone (if it exists)
-        date.setHours((piwik.timezoneOffset || 0) / 3600);
+        date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
 
-        // get rid of minutes/seconds/etc.
+        // get rid of hours/minutes/seconds/etc.
+        date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);

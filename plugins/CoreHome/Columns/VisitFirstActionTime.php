@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -37,7 +37,7 @@ class VisitFirstActionTime extends VisitDimension
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return $value;
+        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
     }
 
     /**

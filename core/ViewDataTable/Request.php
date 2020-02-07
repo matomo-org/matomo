@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,8 +11,6 @@ namespace Piwik\ViewDataTable;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
-use Piwik\DataTable;
-use Piwik\Period;
 
 class Request
 {
@@ -32,10 +30,11 @@ class Request
      * It builds the API request string and uses Request to call the API.
      * The requested DataTable object is stored in $this->dataTable.
      */
-    public function loadDataTableFromAPI()
+    public function loadDataTableFromAPI($extraParams = [])
     {
         // we build the request (URL) to call the API
         $requestArray = $this->getRequestArray();
+        $requestArray = array_merge($extraParams, $requestArray);
 
         // we make the request to the API
         $request = new ApiRequest($requestArray);
@@ -60,8 +59,9 @@ class Request
             'format' => 'original'
         );
 
-        $toSetEventually = array(
+        $toSetEventually = array_merge(array(
             'filter_limit',
+            'keep_totals_row',
             'keep_summary_row',
             'filter_sort_column',
             'filter_sort_order',
@@ -70,11 +70,12 @@ class Request
             'filter_column',
             'filter_pattern',
             'flat',
+            'totals',
             'expanded',
             'pivotBy',
             'pivotByColumn',
-            'pivotByColumnLimit'
-        );
+            'pivotByColumnLimit',
+        ), $this->requestConfig->getExtraParametersToSet());
 
         foreach ($toSetEventually as $varToSet) {
             $value = $this->getDefaultOrCurrent($varToSet);
@@ -106,6 +107,10 @@ class Request
 
         if ($this->requestConfig->disable_queued_filters) {
             $requestArray['disable_queued_filters'] = 1;
+        }
+
+        if (!empty($requestArray['compareSegments'])) {
+            $requestArray['compareSegments'] = Common::unsanitizeInputValues($requestArray['compareSegments']);
         }
 
         return $requestArray;

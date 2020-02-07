@@ -1,0 +1,28 @@
+{% set fontStyle %}color:{{ themeStyles.colorText|e('html_attr') }};font-family:{{ themeStyles.fontFamilyBase|e('html_attr') }};{% endset %}
+{% set styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;' %}
+{% set footerParagraphStyle %}{{styleParagraph}}{{fontStyle}}text-align:center;font-size:13px; color:#666;{% endset %}
+{% set hasHorizontalRule = not hasWhiteLabel or unsubscribeLink|default is not empty  %}
+
+{% if hasHorizontalRule %}
+    <hr style=" border: 0; margin-top: 50px;  height: 1px; background-image: linear-gradient(to right, rgba(231, 231, 231, 0), rgba(231, 231, 231, 1), rgba(2311, 2311, 231, 0));">
+{% else %}
+    <br/>
+{% endif %}
+
+{% if not hasWhiteLabel %}
+    <p style='{{ footerParagraphStyle }}padding-top:30px;margin-bottom:0;'>
+        {{'General_PoweredBy'|translate}}
+        <a style="color:#439fe0;" rel="noreferrer" href="https://matomo.org/" title="Matomo Analytics">Matomo Analytics</a>
+        <br />
+        {{ 'CoreHome_LeadingAnalyticsPlatformRespectsYourPrivacy'|translate }}
+    </p>
+{% endif %}
+
+{% if unsubscribeLink|default is not empty %}
+    {% set unsubLink %}<a style="color:#439fe0;" href="{{ unsubscribeLink|e('html_attr') }}">{{ 'ScheduledReports_Unsubscribe'|translate }}</a>{% endset %}
+    <p style='{{ footerParagraphStyle }}{% if hasWhiteLabel %}padding-top:30px;{% endif %}'>{{ 'ScheduledReports_UnsubscribeFooter'|translate(unsubLink)|raw }}.</p>
+{% endif %}
+
+</div>
+</body>
+</html>

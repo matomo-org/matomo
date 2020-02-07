@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\API;
@@ -38,6 +38,8 @@ class Inconsistencies
             'nb_visits_percentage',
             '/.*_evolution/',
             '/goal_.*_conversion_rate/',
+            '/step_.*_rate/',
+            '/funnel_.*_rate/',
             '/form_.*_rate/',
             '/field_.*_rate/',
         );

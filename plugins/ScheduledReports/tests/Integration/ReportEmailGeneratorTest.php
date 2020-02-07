@@ -121,7 +121,7 @@ Content-Disposition: inline; filename="file2.txt"
         $this->assertEquals('test@testytesterson.com', $mail->getReplyTo());
         $this->assertEquals([
             'From' => [
-                0 => 'ScheduledReports_PiwikReports <noreply@localhost>',
+                0 => 'TagManager_MatomoTagName <noreply@localhost>',
                 'append' => true,
             ],
             'Subject' => [

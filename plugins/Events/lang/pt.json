@@ -4,6 +4,7 @@
         "AvgEventValue": "O valor médio do evento é: %s",
         "AvgValue": "Valor médio",
         "AvgValueDocumentation": "A média de todos os valores para este evento",
+        "Category": "Categoria",
         "Event": "Evento",
         "EventAction": "Ação do evento",
         "EventActions": "Ações do evento",

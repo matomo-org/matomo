@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -21,7 +21,7 @@ class SegmentMetadata
      */
     private $categoryOrder = array();
 
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $isAuthenticatedWithViewAccess)
+    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $isAuthenticatedWithViewAccess, $_showAllSegments = false)
     {
         $segments = array();
 
@@ -46,6 +46,12 @@ class SegmentMetadata
 
         foreach (Dimension::getAllDimensions() as $dimension) {
             foreach ($dimension->getSegments() as $segment) {
+                if (!$_showAllSegments
+                    && $segment->isInternal()
+                ) {
+                    continue;
+                }
+
                 $segments[] = $segment;
             }
         }

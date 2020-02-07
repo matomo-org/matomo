@@ -2,14 +2,17 @@
     "Transitions": {
         "BouncesInline": "%s afvisninger",
         "DirectEntries": "Direkte besøg",
+        "Transitions": "Overgange",
         "ErrorBack": "Gå tilbage til forrige handling",
         "ExitsInline": "%s afslutninger",
+        "FeatureDescription": "Overgange giver dig en rapport over, hvad dine besøgende gjorde umiddelbart før og efter at have besøgt en given side. Denne side vil forklare, hvordan du tilgår forstår og anvender denne effektive rapport.",
         "FromCampaigns": "Fra kampagner",
         "FromPreviousPages": "Fra interne sider",
         "FromPreviousPagesInline": "%s fra interne sider",
         "FromPreviousSiteSearches": "Fra intern søgning",
         "FromPreviousSiteSearchesInline": "%s fra interne søgninger",
         "FromSearchEngines": "Fra søgemaskiner",
+        "FromSocialNetworks": "Fra sociale netværk",
         "FromWebsites": "Fra hjemmesider",
         "IncomingTraffic": "Indkommende trafik",
         "LoopsInline": "%s side genindlæsninger",
@@ -22,6 +25,7 @@
         "ToFollowingSiteSearches": "Interne søgninger",
         "ToFollowingSiteSearchesInline": "%s interne søgninger",
         "XOfAllPageviews": "%s af alle visninger af denne side",
-        "XOutOfYVisits": "%1$s (ud af %2$s)"
+        "XOutOfYVisits": "%1$s (ud af %2$s)",
+        "PageURLTransitions": "Side-URL-overgange"
     }
 }

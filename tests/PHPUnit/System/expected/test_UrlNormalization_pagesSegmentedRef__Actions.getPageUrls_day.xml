@@ -18,6 +18,7 @@
 		<avg_time_on_page>420</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>25%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffoo</segment>
 		<subtable>
 			<row>
 				<label>/bar.html</label>
@@ -38,6 +39,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/foo/bar.html</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Ffoo%252Fbar.html</segment>
 			</row>
 			<row>
 				<label>/bar2.html</label>
@@ -53,6 +55,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>https://www.example.org/foo/bar2.html</url>
+				<segment>pageUrl==https%253A%252F%252Fwww.example.org%252Ffoo%252Fbar2.html</segment>
 			</row>
 			<row>
 				<label>/bar3.html</label>
@@ -68,6 +71,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://www.example.org/foo/bar3.html</url>
+				<segment>pageUrl==http%253A%252F%252Fwww.example.org%252Ffoo%252Fbar3.html</segment>
 			</row>
 			<row>
 				<label>/bar4.html</label>
@@ -85,6 +89,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>https://example.org/foo/bar4.html</url>
+				<segment>pageUrl==https%253A%252F%252Fexample.org%252Ffoo%252Fbar4.html</segment>
 			</row>
 		</subtable>
 	</row>
@@ -103,7 +108,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>https://make.wordpress.org/?emoji=�l&amp;param=test</url>
-		<segment>pageUrl==https%3A%2F%2Fmake.wordpress.org%2F%3Femoji%3D%EF%BF%BDl%26param%3Dtest</segment>
+		<segment>pageUrl==https%253A%252F%252Fmake.wordpress.org%252F%253Femoji%253D%25EF%25BF%25BDl%2526param%253Dtest</segment>
 	</row>
 	<row>
 		<label>/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ</label>
@@ -120,6 +125,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://www.my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ</url>
-		<segment>pageUrl==http%3A%2F%2Fwww.my.url%2F%EA%9F%BD%EF%A4%BB%E3%92%A7%E4%8A%B6%E4%BA%84%EF%B6%86%E2%85%85%E0%B8%82%CE%BA%E3%82%82%E1%8A%B8%E1%BD%B9%CF%83%E0%A4%B6%CE%BC%CE%B5%DE%96%E0%A5%83</segment>
+		<segment>pageUrl==http%253A%252F%252Fwww.my.url%252F%25EA%259F%25BD%25EF%25A4%25BB%25E3%2592%25A7%25E4%258A%25B6%25E4%25BA%2584%25EF%25B6%2586%25E2%2585%2585%25E0%25B8%2582%25CE%25BA%25E3%2582%2582%25E1%258A%25B8%25E1%25BD%25B9%25CF%2583%25E0%25A4%25B6%25CE%25BC%25CE%25B5%25DE%2596%25E0%25A5%2583</segment>
 	</row>
 </result>

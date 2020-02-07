@@ -2,14 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Framework\TestDataHelper;
 
 use Piwik\Common;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Db;
 
 /**

@@ -2,14 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 
-use Piwik\Cache\Backend\NullCache;
-use Piwik\Cache\Lazy;
+use Matomo\Cache\Backend\NullCache;
+use Matomo\Cache\Lazy;
 use Psr\Log\NullLogger;
 
 class Client {

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -68,9 +68,9 @@ class DashboardTest extends IntegrationTestCase
         $expectedSites = array (
             array (
                 'label' => 'Site 1',
-                'nb_visits' => 0,
-                'nb_actions' => 0,
-                'nb_pageviews' => 0,
+                'nb_visits' => '0',
+                'nb_actions' => '0',
+                'nb_pageviews' => '0',
                 'revenue' => '$0',
                 'visits_evolution' => '0%',
                 'actions_evolution' => '0%',
@@ -79,12 +79,14 @@ class DashboardTest extends IntegrationTestCase
                 'idsite' => 1,
                 'group' => '',
                 'main_url' => 'http://piwik.net',
+                'nb_conversions' => 0,
+                'nb_conversions_evolution' => '0%',
             ),
             array (
                 'label' => 'Site 2',
-                'nb_visits' => 0,
-                'nb_actions' => 0,
-                'nb_pageviews' => 0,
+                'nb_visits' => '0',
+                'nb_actions' => '0',
+                'nb_pageviews' => '0',
                 'revenue' => '$0',
                 'visits_evolution' => '0%',
                 'actions_evolution' => '0%',
@@ -93,12 +95,14 @@ class DashboardTest extends IntegrationTestCase
                 'idsite' => 2,
                 'group' => '',
                 'main_url' => 'http://piwik.net',
+                'nb_conversions' => 0,
+                'nb_conversions_evolution' => '0%',
             ),
             array (
                 'label' => 'Site 3',
-                'nb_visits' => 0,
-                'nb_actions' => 0,
-                'nb_pageviews' => 0,
+                'nb_visits' => '0',
+                'nb_actions' => '0',
+                'nb_pageviews' => '0',
                 'revenue' => '$0',
                 'visits_evolution' => '0%',
                 'actions_evolution' => '0%',
@@ -107,6 +111,8 @@ class DashboardTest extends IntegrationTestCase
                 'idsite' => 3,
                 'group' => '',
                 'main_url' => 'http://piwik.net',
+                'nb_conversions' => 0,
+                'nb_conversions_evolution' => '0%',
             ),
         );
         $this->assertEquals($expectedSites, $dashboard->getSites(array(), $limit = 10));
@@ -120,9 +126,9 @@ class DashboardTest extends IntegrationTestCase
         $expectedSites = array (
             array (
                 'label' => 'Site 2',
-                'nb_visits' => 0,
-                'nb_actions' => 0,
-                'nb_pageviews' => 0,
+                'nb_visits' => '0',
+                'nb_actions' => '0',
+                'nb_pageviews' => '0',
                 'revenue' => '$0',
                 'visits_evolution' => '0%',
                 'actions_evolution' => '0%',
@@ -131,6 +137,8 @@ class DashboardTest extends IntegrationTestCase
                 'idsite' => 2,
                 'group' => '',
                 'main_url' => 'http://piwik.net',
+                'nb_conversions' => 0,
+                'nb_conversions_evolution' => '0%',
             ),
         );
         $dashboard->search('site 2');

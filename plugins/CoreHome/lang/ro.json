@@ -23,7 +23,6 @@
         "InjectedHostWarningIntro": "Acum accesati Matomo de la %1$s, dar Matomo a fost configurat sa ruleze la aceasta adresa: %2$s.",
         "MakeOneTimeDonation": "În schimb, donează o dată (fără subscriere).",
         "NoPrivilegesAskPiwikAdmin": "Sunteti logat ca '%1$s' dar se pare ca nu aveti nici o permisiune setata in Matomo. %2$s Solicitati administratorului dvs al Matomo (click pentru email)%3$s sa va permita accesul tip 'vizualizare' pentru un site.",
-        "PageOf": "%1$s din %2$s",
         "PeriodRange": "Perioadă",
         "ReportGeneratedOn": "Raport creat la %s",
         "ReportGeneratedXAgo": "Raport creat %s în urmă",

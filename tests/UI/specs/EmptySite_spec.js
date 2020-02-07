@@ -8,22 +8,31 @@
  */
 
 describe("EmptySite", function () {
-    this.timeout(0);
+    const generalParams = 'idSite=4&period=day&date=2010-01-03';
 
-    var generalParams = 'idSite=4&period=day&date=2010-01-03';
+    it('should show the tracking code if the website has no recorded data', async function () {
+        const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
+        await page.goto(urlToTest);
 
-    it('should show the tracking code if the website has no recorded data', function (done) {
-        var urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
-
-        expect.screenshot('emptySiteDashboard').to.be.captureSelector('.page', function (page) {
-            page.load(urlToTest);
-        }, done);
+        const pageElement = await page.$('.page');
+        expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
     });
 
-    it('should be possible to ignore this screen for one hour', function (done) {
-        expect.screenshot('emptySiteDashboard_ignored').to.be.captureSelector('.page', function (page) {
-            page.click('.ignoreSitesWithoutData');
-            page.wait(1000)
-        }, done);
+    it('should have button to send tracking code to developer', async function() {
+        var mailtoLink = await page.$eval('#emailTrackingCodeBtn', btn => btn.getAttribute('href'));
+
+        // Check that it's a mailto link with correct subject line
+        expect(mailtoLink).to.include('mailto:?subject=Matomo%20Analytics%20Tracking%20Code&body');
+        // Check that template rendered and only contains chars that are OK in all mail clients (e.g. no HTML at all)
+        expect(mailtoLink).to.match(/^mailto:\?[a-zA-Z0-9&%=.,-_]*$/);
+    });
+
+    it('should be possible to ignore this screen for one hour', async function () {
+        await page.click('.ignoreSitesWithoutData');
+        await page.waitFor('.widget');
+        await page.waitForNetworkIdle();
+
+        const pageElement = await page.$('.page');
+        expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard_ignored');
     });
 });

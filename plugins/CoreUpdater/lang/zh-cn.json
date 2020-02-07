@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "检查插件更新",
-        "ClickHereToViewSqlQueries": "点击这里查看并复制即将执行的 SQL 语句列表",
         "CriticalErrorDuringTheUpgradeProcess": "在升级过程中发生严重的错误：",
         "DatabaseUpgradeRequired": "数据库需要升级",
         "DisablingIncompatiblePlugins": "正在停用不兼容的插件：%s",
@@ -24,14 +23,12 @@
         "HelpMessageIntroductionWhenError": "以上是核心的错误讯息。它应有助于解释原因，但如果您需要进一步的说明，请:",
         "HelpMessageIntroductionWhenWarning": "此次升级成功完成，但在过程中有发生一些问题，请仔细阅读上面的详细说明。如需更进一步的说明:",
         "HighTrafficPiwikServerEnableMaintenance": "如果你管理一个高流量的Matomo服务器，我们建议您%1$s暂时禁止访问者跟踪，并设置Matomo用户界面为维护模式%2$s。",
-        "IncompatbilePluginsWillBeDisabledInfo": "注意：某些插件与Matomo不兼容%s。当您升级时，如果市场中有它的更新，我们将会升级它，否则将被禁用：",
         "InstallingTheLatestVersion": "正在安装最新版本",
         "LatestBetaRelease": "最新测试版本",
         "LatestStableRelease": "最新稳定版本",
         "Latest2XStableRelease": "最新的 2.X 稳定版本",
         "Latest2XBetaRelease": "最新的 2.X 测试版本",
         "LtsSupportVersion": "长期支持版本",
-        "ListOfSqlQueriesFYI": "谨供参考：这是升级您的数据库到 Matomoi%s所要执行的 SQL 语句",
         "MajorUpdateWarning1": "这是全面升级！会比平时多花些时间。",
         "MajorUpdateWarning2": "下面的建议对大型网站格外重要。",
         "NeedHelpUpgrading": "升级 Matomo 时需要帮助？",

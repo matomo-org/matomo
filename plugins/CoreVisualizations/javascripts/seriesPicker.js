@@ -91,7 +91,7 @@
                 + ' selected-rows="selectedRows"'
                 + ' on-select="selectionChanged(columns, rows)"/>';
 
-            this.domElem = $(seriesPicker); // TODO: don't know if this will work without a root scope
+            this.domElem = $(seriesPicker);
 
             $(this).trigger('placeSeriesPicker');
 
@@ -105,6 +105,8 @@
                         if (columns.length === 0 && rows.length === 0) {
                             return;
                         }
+
+                        rows = rows.map(encodeURIComponent);
 
                         $(self).trigger('seriesPicked', [columns, rows]);
 

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -43,7 +43,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateByServerTime()
     {
-        $dataArray = $this->getLogAggregator()->getMetricsFromVisitByDimension(array("label" => "HOUR(log_visit.visit_last_action_time)"));
+        $dataArray = $this->getLogAggregator()->getMetricsFromVisitByDimension(array("label" => "HOUR(log_visit.visit_first_action_time)"));
         $query = $this->getLogAggregator()->queryConversionsByDimension(array("label" => "HOUR(log_conversion.server_time)"));
         if ($query === false) {
             return;

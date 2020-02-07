@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "செய்து முடிக்கதக்க எஸ்கியூஎல் வினாப்பட்டியலை காண மற்றும் நகல் எடுக்க, இங்கே சொடுக்கவும்",
         "CriticalErrorDuringTheUpgradeProcess": "புதுப்பிக்கும் போது, விமர்சன பிழை எழுகிறது:",
         "DatabaseUpgradeRequired": "தரவுத்தள மேம்பாடு தேவைப்படுகிறது",
         "DownloadingUpdateFromX": "%s -இல் இருந்து புதுப்பிக்கபட்ட பதிவு தரவிறக்கம் செய்யப்படுகிறது.",

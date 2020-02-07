@@ -45,6 +45,10 @@ _Note: the `tests:sync-ui-screenshots` console command can be used to speed up t
 
 ## <a name="run-tests"></a>Running Tests
 
+Before running tests you'll want to pull the screenshots in lfs (the `--exclude=` since by default LFS files are excluded from being fetched in .lfsconfig to keep bandwidth usage down):
+
+    $ git lfs pull --exclude=
+
 You can test the UI by running the following command in the root piwik directory:
 
     $ ./console tests:run-ui

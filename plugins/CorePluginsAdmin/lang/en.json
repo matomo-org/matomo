@@ -57,6 +57,24 @@
         "TeaserExtendPiwikByPlugin": "Extend Matomo by %1$sinstalling plugins from the Marketplace%2$s or %3$supload a plugin in .zip format%4$s.",
         "TeaserExtendPiwikByTheme": "Enjoy another look & feel by %1$sinstalling a new theme%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "You may automatically install plugins from the Marketplace or %1$supload a plugin%2$s in .zip format.",
+        "TagManagerNowAvailableTitle": "Matomo Tag Manager is now available",
+        "TagManagerNowAvailableSubtitle": "Manage all your tags easily through one platform to get the insights you want, the opportunities are endless!",
+        "ActivateTagManagerNow": "Activate Tag Manager now",
+        "TagManagerEmailSuperUserToActivate": "Email Super Users to activate this new feature",
+        "TagManagerTeaserHideSuperUser": "Do not show this page to any user",
+        "TagManagerTeaserHideNonSuperUser": "Not interested, do not show this page again",
+        "TagManagerTeaserEmailSuperUserBody": "Hi,%1$sMatomo Tag Manager is now available within Matomo and I would love to use this new feature. As you have Super User access, could you activate this feature through the Tag Manager page in the top menu?%2$sThe Matomo URL is %3$s.%4$sThanks",
+        "WhatIsTagManager": "What is a Tag Manager?",
+        "WhatIsTagManagerDetails1": "Similar to how a Content Management System (CMS) brings you all the flexibility to publish content for your website without having the technical HTML/CSS knowledge, a Tag Management System (TMS) is your go-to for simplifying the process of embedding first and third-party application tracking tags (also known as snippets or pixels) on your website.",
+        "WhatIsTagManagerDetails2": "Say you want to see the results of your conversions/goals, newsletter signups, social widgets, exit popups and remarketing campaigns; what was once a highly technical and time-consuming process is now easily done within the TMS and takes only a few clicks to implement.",
+        "TagManagerLearnMoreInUserGuide": "Learn more in the Tag Manager User Guide",
+        "WhyUsingATagManager": "Why a Tag Manager?",
+        "WhyUsingATagManagerDetails1": "A Tag Manager makes your life easier! You no longer need to wait on a developer to modify any first or third-party snippets on your website as the Tag Manager gives you a stress-free experience to make these changes and deploy your website yourself.",
+        "WhyUsingATagManagerDetails2": "It couldn't be more convenient and it not only lets you bring changes to the market faster, but also reduces cost.",
+        "WhyUsingATagManagerDetails3": "This keeps the marketing teams, digital teams and the IT guys happy... It’s a win-win for everyone!",
+        "AreThereAnyRisks": "Are there any risks?",
+        "AreThereAnyRisksDetails1": "When you activate the Tag Manager, users with admin access will be able to create custom HTML tags, triggers, and variables that may execute JavaScript on your website. These custom templates could be misused to steal, for example, sensitive information from your website visitors (known as %1$sXSS%2$s).",
+        "AreThereAnyRisksDetails2": "You can disable these custom templates under \"Administration => General Settings\" once you have activated the Tag Manager. Alternatively, you can also restrict the usage of these templates to specific users or super users only.",
         "Theme": "Theme",
         "Themes": "Themes",
         "ThemesDescription": "Themes can change the appearance of Matomo user interface, and provide a completely new visual experience to enjoy your analytics reports.",
@@ -65,6 +83,7 @@
         "Version": "Version",
         "ViewAllMarketplacePlugins": "View all Marketplace plugins",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "The plugin %1$s could not be loaded as it has missing dependencies: %2$s",
-        "Websites": "Websites"
+        "Websites": "Websites",
+        "UpdateSelected": "Update Selected"
     }
 }

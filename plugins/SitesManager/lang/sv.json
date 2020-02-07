@@ -14,8 +14,6 @@
         "EcommerceHelp": "När den är aktiverad, Målrapporten kommer att ha ett nytt avsnitt \"E-handel\".",
         "EnableEcommerce": "E-handel aktiverat",
         "EnableSiteSearch": "Webbplatssökning aktiv",
-        "EnableSiteSpecificUserAgentExclude": "Aktivera uteslutning för identifiering av användaragent (user agent) för specifika webbplatser.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Kryssa i den här rutan om du vill utesluta olika användaraganter (user agents) för olika webbplatser, klicka sen på spara och %1$slägg till användaragenterna här ovanför%2$s.",
         "ExceptionDeleteSite": "Det är inte möjligt att radera denna webbplats eftersom det är det enda registrerade webbplatsen. Lägg till en ny webbplats först och ta sedan bort den här.",
         "ExceptionEmptyName": "Webbplatsens namn kan inte vara tomt.",
         "ExceptionInvalidCurrency": "Valutan \"%1$s\" är inte giltig. Vänligen ange en giltig valutasymbol (t.ex. %2$s)",
@@ -26,6 +24,7 @@
         "ExcludedIps": "Exkluderade IP-adresser",
         "ExcludedParameters": "Exkluderade parametrar",
         "ExcludedUserAgents": "Uteslutna användaragenter",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Ange en lista med användaragenter som ska uteslutas från spårning av Matomo.",
         "GlobalExcludedUserAgentHelp2": "Det här kan användas för att utesluta vissa bottar från att blir spårade som besök.",
         "GlobalListExcludedIps": "Global lista över exkluderade IP-adresser",
@@ -34,6 +33,7 @@
         "GlobalListExcludedUserAgents_Desc": "Om besökarens användaragent innehåller något av det du anger, så kommer besöket exkluderas från Matomo.",
         "GlobalSettings": "Globala inställningar",
         "GlobalWebsitesSettings": "Globala inställningar för webbplatser",
+        "HelpExcludedIpAddresses": "Ange listan över IP-adresser, en per rad, som du önskar exkludera från spårningen av Matomo. Du kan använda CIDR notation t.ex. %1$s eller wildcards, t.ex. %2$s eller %3$s",
         "JsTrackingTagHelp": "Här är JavaScript-spårningskoden att inkludera på alla dina sidor",
         "KeepURLFragments": "Sidans URL fragment spåras",
         "KeepURLFragmentsHelp": "Om rutan som ska kryssas i här under är okryssad, kommer sidans URL fragment (allt efter den %1$s) att bli flyttad under spårningen: %2$s kommer att spåras som %3$s.",
@@ -69,7 +69,6 @@
         "ShowTrackingTag": "Visa spårningskod",
         "Sites": "Webbsidor",
         "SiteSearchUse": "Du kan använda Matomo för att spåra och rapportera om vad besökarna söker efter med din webbplats interna sökmotor.",
-        "SiteWithoutDataTitle": "Inga data har samlats in än",
         "SiteWithoutDataDescription": "Inga data har samlats in för denna webbplats än.",
         "SiteWithoutDataSetupTracking": "Vänligen lägg till %1$sspårningskoden%2$s nedan i din webbplats eller mobilapp om du inte redan har gjort det.",
         "SiteWithoutDataMessageDisappears": "Detta meddelande kommer visas tills data samlats in för denna webbsida.",
@@ -84,11 +83,12 @@
         "UTCTimeIs": "Aktuell tid (UTC) är %s.",
         "OnlyMatchedUrlsAllowed": "Spåra endast besök och händelser när en händelse-URL börjar med någon av ovan URL'er.",
         "OnlyMatchedUrlsAllowedHelp": "När aktiverat så kommer Matomo endast spåra interna händelser när sid-URL'en är någon av de kända URL'er för din webbplats. Detta förhindrar folk från att spamma din statistik med URL'er för andra webbplatser.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "Domänen och sökvägen måste vara en exakt matchning och varje godkänd subdomän måste specificeras separat. T.ex. när den kända URL'en är 'http:\/\/exempel.se\/sökväg' och 'http:\/\/bra.exempel.se' spårningsförfrågan för 'http:\/\/exempel.se\/annansökväg' eller 'http:\/\/dålig.exempel.se' ignoreras.",
         "WebsitesManagement": "Hantera webbplatser",
         "XManagement": "Hantera %s",
         "ChooseMeasurableTypeHeadline": "Vad vill du mäta?",
         "YouCurrentlyHaveAccessToNWebsites": "Du har tillgång till %s webbplats(er).",
-        "YourCurrentIpAddressIs": "Din aktuella IP-adress är %s"
+        "YourCurrentIpAddressIs": "Din aktuella IP-adress är %s",
+        "DeleteSiteExplanation": "Genom att ta bort en webbplats så kommer all data som har sparats för den tas bort. Denna åtgärd är permanent och kan inte ångras.",
+        "EmailInstructionsSubject": "Matomo Analytics spårningskod"
     }
 }

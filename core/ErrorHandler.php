@@ -2,13 +2,15 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\ErrorException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Piwik's error handler function.
@@ -39,10 +41,11 @@ class ErrorHandler
      * If a fatal error occurs, theMethodIWantToAppearInFatalErrorStackTraces will appear in the stack trace,
      * if PIWIK_PRINT_ERROR_BACKTRACE is true.
      */
-    public static function pushFatalErrorBreadcrumb($className = null)
+    public static function pushFatalErrorBreadcrumb($className = null, $importantArgs = null)
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit = 2);
         $backtrace[1]['class'] = $className; // knowing the derived class name is far more useful
+        $backtrace[1]['args'] = empty($importantArgs) ? [] : array_map('json_encode', $importantArgs);
         array_unshift(self::$fatalErrorStackTrace, $backtrace[1]);
     }
 
@@ -60,7 +63,20 @@ class ErrorHandler
                 $function = $entry['class'] . $entry['type'] . $function;
             }
 
-            $result .= sprintf("#%s %s(%s): %s()\n", $index, $entry['file'], $entry['line'], $function);
+            $args = '';
+            if (!empty($entry['args'])) {
+                $isFirst = true;
+                foreach ($entry['args'] as $name => $value) {
+                    if ($isFirst) {
+                        $isFirst = false;
+                    } else {
+                        $args .= ', ';
+                    }
+                    $args .= $name . '=' . $value;
+                }
+            }
+
+            $result .= sprintf("#%s %s(%s): %s(%s)\n", $index, $entry['file'], $entry['line'], $function, $args);
         }
         return $result;
     }
@@ -145,8 +161,12 @@ class ErrorHandler
             case E_DEPRECATED:
             case E_USER_DEPRECATED:
             default:
+                $context = array('trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 15));
                 try {
-                    Log::warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
+                    StaticContainer::get(LoggerInterface::class)->warning(
+                        self::createLogMessage($errno, $errstr, $errfile, $errline),
+                        $context
+                    );
                 } catch (\Exception $ex) {
                     // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
                 }

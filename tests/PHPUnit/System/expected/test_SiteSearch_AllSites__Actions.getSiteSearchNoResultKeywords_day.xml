@@ -16,6 +16,7 @@
 				<avg_time_on_page>36</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 			</row>
 		</result>
 		<result date="2010-01-04">
@@ -33,6 +34,7 @@
 				<avg_time_on_page>252</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 			</row>
 		</result>
 		<result date="2010-01-05" />
@@ -58,6 +60,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 			</row>
 			<row>
 				<label>SHOULD be a Search with no result!</label>
@@ -73,6 +76,7 @@
 				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==SHOULD+be+a+Search+with+no+result%21</segment>
 			</row>
 		</result>
 		<result date="2010-01-04" />

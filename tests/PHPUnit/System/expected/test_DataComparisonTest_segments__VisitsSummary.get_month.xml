@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_uniq_visitors>34</nb_uniq_visitors>
+	<nb_users>1</nb_users>
+	<nb_visits>34</nb_visits>
+	<nb_actions>37</nb_actions>
+	<nb_visits_converted>32</nb_visits_converted>
+	<bounce_count>32</bounce_count>
+	<sum_visit_length>305</sum_visit_length>
+	<max_actions>3</max_actions>
+	<bounce_rate>94%</bounce_rate>
+	<nb_actions_per_visit>1.1</nb_actions_per_visit>
+	<avg_time_on_site>9</avg_time_on_site>
+	<comparisons>
+		<row>
+			<nb_uniq_visitors>34</nb_uniq_visitors>
+			<nb_users>1</nb_users>
+			<nb_visits>34</nb_visits>
+			<nb_actions>37</nb_actions>
+			<nb_visits_converted>32</nb_visits_converted>
+			<bounce_count>32</bounce_count>
+			<sum_visit_length>305</sum_visit_length>
+			<max_actions>3</max_actions>
+			<bounce_rate>94%</bounce_rate>
+			<nb_actions_per_visit>1.1</nb_actions_per_visit>
+			<avg_time_on_site>9</avg_time_on_site>
+			<compareSegment />
+			<compareSegmentPretty>All visits</compareSegmentPretty>
+			<comparePeriod>month</comparePeriod>
+			<compareDate>2012-08-09</compareDate>
+			<comparePeriodPretty>August 2012</comparePeriodPretty>
+			<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
+			<idsubdatatable>-1</idsubdatatable>
+		</row>
+		<row>
+			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_users>0</nb_users>
+			<nb_visits>2</nb_visits>
+			<nb_actions>2</nb_actions>
+			<nb_visits_converted>2</nb_visits_converted>
+			<bounce_count>2</bounce_count>
+			<sum_visit_length>0</sum_visit_length>
+			<max_actions>1</max_actions>
+			<bounce_rate>100%</bounce_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>0</avg_time_on_site>
+			<compareSegment>browserCode%3D%3Dff</compareSegment>
+			<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
+			<comparePeriod>month</comparePeriod>
+			<compareDate>2012-08-09</compareDate>
+			<comparePeriodPretty>August 2012</comparePeriodPretty>
+			<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
+			<idsubdatatable>-1</idsubdatatable>
+		</row>
+		<row>
+			<nb_uniq_visitors>7</nb_uniq_visitors>
+			<nb_users>0</nb_users>
+			<nb_visits>7</nb_visits>
+			<nb_actions>7</nb_actions>
+			<nb_visits_converted>7</nb_visits_converted>
+			<bounce_count>7</bounce_count>
+			<sum_visit_length>0</sum_visit_length>
+			<max_actions>1</max_actions>
+			<bounce_rate>100%</bounce_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>0</avg_time_on_site>
+			<compareSegment>browserCode%3D%3Die</compareSegment>
+			<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
+			<comparePeriod>month</comparePeriod>
+			<compareDate>2012-08-09</compareDate>
+			<comparePeriodPretty>August 2012</comparePeriodPretty>
+			<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
+			<idsubdatatable>-1</idsubdatatable>
+		</row>
+	</comparisons>
+</result>

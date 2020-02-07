@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
+use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
@@ -77,7 +78,7 @@ class Php extends Renderer
 
         if ($this->prettyDisplay) {
             if (!is_array($toReturn)) {
-                $toReturn = unserialize($toReturn);
+                $toReturn = Common::safe_unserialize($toReturn);
             }
             $toReturn = "<pre>" . var_export($toReturn, true) . "</pre>";
         }
@@ -121,9 +122,14 @@ class Php extends Renderer
         } elseif ($dataTable instanceof Simple) {
             $flatArray = $this->renderSimpleTable($dataTable);
 
+            reset($flatArray);
+            $firstKey = key($flatArray);
+
             // if we return only one numeric value then we print out the result in a simple <result> tag
             // keep it simple!
-            if (count($flatArray) == 1) {
+            if (count($flatArray) == 1
+                && $firstKey !== DataTable\Row::COMPARISONS_METADATA_NAME
+            ) {
                 $flatArray = current($flatArray);
             }
         } // A normal DataTable needs to be handled specifically
@@ -205,6 +211,10 @@ class Php extends Renderer
                 $newRow['issummaryrow'] = true;
             }
 
+            if (isset($newRow['metadata'][DataTable\Row::COMPARISONS_METADATA_NAME])) {
+                $newRow['metadata'][DataTable\Row::COMPARISONS_METADATA_NAME] = $row->getComparisons();
+            }
+
             $subTable = $row->getSubtable();
             if ($this->isRenderSubtables()
                 && $subTable
@@ -244,6 +254,12 @@ class Php extends Renderer
         foreach ($row->getColumns() as $columnName => $columnValue) {
             $array[$columnName] = $columnValue;
         }
+
+        $comparisons = $row->getComparisons();
+        if (!empty($comparisons)) {
+            $array[DataTable\Row::COMPARISONS_METADATA_NAME] = $comparisons;
+        }
+
         return $array;
     }
 }

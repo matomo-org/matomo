@@ -148,7 +148,6 @@
         "Hide": "ซ่อน",
         "HoursMinutes": "%1$s ชั่วโมง %2$s นาที",
         "Id": "ID",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "สมมติว่าคุณเก็บอย่างรวดเร็ว สำหรับการติดตั้งนี้ คุณสามารถตั้ง crontab ในการทำงานที่บ่อยครั้ง",
         "Installed": "ติดตั้งแล้ว",
         "InvalidDateRange": "ช่วงวันที่ไม่ถูกต้องโปรดลองอีกครั้ง",
         "InvalidResponse": "การรับข้อมูลไม่สมบูรณ์",

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -59,6 +59,13 @@ class APITest extends SystemTestCase
 
         $this->assertStringStartsWith('{"result":"error","message":"', $data);
         $this->assertContains('Access denied', $data);
+    }
+
+    public function test_shouldReturnEmptyResultWhenNotInstalledAndDispatchIsDisabled()
+    {
+        $url = Fixture::getTestRootUrl() . 'nodispatchnotinstalled.php';
+        $response = $this->sendHttpRequest($url);
+        $this->assertSame('', $response['data']);
     }
 
     private function getUrl()

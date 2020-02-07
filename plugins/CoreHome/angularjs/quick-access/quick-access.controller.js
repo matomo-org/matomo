@@ -17,8 +17,8 @@
 
         this.onKeypress = function (event) {
             var areSearchResultsDisplayed = $scope.search && $scope.search.term && $scope.view && $scope.view.searchActive;
-            var isTabKey = 9 == event.which
-            var isEscKey = 27 == event.which
+            var isTabKey = 9 == event.which;
+            var isEscKey = 27 == event.which;
 
             if (38 == event.which) {
                 $scope.highlightPreviousItem();

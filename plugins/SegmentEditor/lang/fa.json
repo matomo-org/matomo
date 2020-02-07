@@ -17,6 +17,7 @@
         "ThisSegmentIsVisibleTo": "این بخش قابل رؤیت است:",
         "VisibleToAllUsers": "تمام کاربران",
         "VisibleToMe": "من",
-        "YouMustBeLoggedInToCreateSegments": "شما باید برای ایجاد و ویرایش بخش های بازدید کننده سفارشی، وارد سیستم شوید."
+        "YouMustBeLoggedInToCreateSegments": "شما باید برای ایجاد و ویرایش بخش های بازدید کننده سفارشی، وارد سیستم شوید.",
+        "Test": "آزمایش"
     }
 }

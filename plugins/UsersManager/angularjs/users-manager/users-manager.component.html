@@ -29,7 +29,7 @@
             </div>
 
             <piwik-paged-users-list
-                on-edit-user="$ctrl.isEditing = true; $ctrl.userBeingEdited = user;"
+                on-edit-user="$ctrl.onEditUser(user)"
                 on-change-user-role="$ctrl.onChangeUserRole(users, role)"
                 on-delete-user="$ctrl.onDeleteUser(users)"
                 on-search-change="$ctrl.searchParams = params; $ctrl.fetchUsers();"

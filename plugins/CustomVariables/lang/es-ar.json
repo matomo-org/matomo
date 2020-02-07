@@ -1,0 +1,25 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nombre de la variable personalizada",
+        "ColumnCustomVariableValue": "Valor de la variable personalizada",
+        "CustomVariables": "Variables personalizadas",
+        "CustomVariablesReportDocumentation": "Este informe contiene información sobre tus variables personalizadas. Hacé clic en el nombre de una variable para ver la distribución de los valores. %1$s Para más información sobre las variables personalizadas en general, leé la %2$sDocumentación de variables personalizadas en matomo.org%3$s.",
+        "PluginDescription": "Las variables personalizadas (nombre, valor) son pares que podés asignar usando la API de JavaScript a los visitantes o a cualquiera de sus acciones. Matomo informará la cantidad de visitas, páginas y conversiones para cada una de esos nombre y valores personalizados. Mirá las variables personalizadas en detalle para cada usuario y acción en el registro de visitas. ¡Se requiere este plugin para usar la función de análisis de comercio electrónico!",
+        "ScopePage": "ámbito de la página",
+        "ScopeVisit": "ámbito de la visita",
+        "ScopeConversion": "ámbito de la conversión",
+        "ManageDescription": "La vista general muestra todas las ranuras de variables personalizadas y sus usos para el sitio web \"%s\". Los nombres dentro de cada ranura están ordenados por su uso frecuente.",
+        "ScopeX": "Ámbito %s",
+        "Index": "Índice",
+        "Usages": "Usos",
+        "Unused": "Sin usar",
+        "CreateNewSlot": "Aumentar el número de ranuras de variables personalizadas",
+        "UsageDetails": "%1$s visitas y %2$s acciones desde la creación de este sitio web.",
+        "CreatingCustomVariableTakesTime": "Crear una nueva ranura de variable personalizada puede llevar mucho tiempo dependiendo del tamaño de tu base de datos. Por lo tanto, esto es posible de hacer sólo a través de un comando que necesita ejecutarse en una línea de comandos.",
+        "CurrentAvailableCustomVariables": "Actualmente, podés establecer hasta %s variables personalizadas por sitio web.",
+        "ToCreateCustomVarExecute": "Para crear una nueva ranura de variable personalizada, ejecutá el siguiente comando dentro de tu instalación de Matomo:",
+        "SlotsReportIsGeneratedOverTime": "Los datos para este informe será popularizados en el tiempo. Puede tomar un día o dos para ver cualquier dato, y algunas semanas hasta que el informe sea completamente preciso.",
+        "MetricsAreOnlyAvailableForVisitScope": "Nota: las mediciones de %1$s sólo están disponibles para variables personalizadas del ámbito de %2$s.",
+        "MetricsNotAvailableForPageScope": "Para variables personalizadas del ámbito de %1$s, el valor de columna de estas mediciones es %2$s"
+    }
+}

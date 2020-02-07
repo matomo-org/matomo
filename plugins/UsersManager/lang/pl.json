@@ -1,6 +1,16 @@
 {
     "UsersManager": {
+        "2FA": "2SA",
+        "UsesTwoFactorAuthentication": "Wykorzystuje 2 składnikowe uwierzytelnianie",
+        "TwoFactorAuthentication": "Uwierzytelnianie 2 składnikowe",
+        "ResetTwoFactorAuthentication": "Resetuj uwierzytelnienie 2 składnikowe",
+        "ResetTwoFactorAuthenticationInfo": "Jeśli użytkownik nie może zalogować się po utracie kodów dostępu lub utracie tokena sprzętowego, możesz zresetować uwierzytelnianie 2 składnikowe dla niego, aby umożliwić ponowne logowanie.",
         "AddUser": "Dodaj nowego użytkownika",
+        "AddExistingUser": "Dodaj istniejącego użytkownika",
+        "AddNewUser": "Dodaj nowego użytkownika",
+        "EditUser": "Edytuj użytkownika",
+        "CreateUser": "Utwórz użytkownika",
+        "SaveBasicInfo": "Zapisz Podstawowe Info",
         "Alias": "Alias",
         "AllWebsites": "Wszystkie strony",
         "AnonymousAccessConfirmation": "Zamierzasz przyznać anonimowemu użytkownikowi dostęp 'podgląd' do tego serwisu. To oznacza, że raporty analityczne i informacje o odwiedzających będą publicznie dostępne dla każdego nawet bez loginu. Czy na pewno chcesz kontynuować?",
@@ -39,7 +49,6 @@
         "GiveViewAccess": "Przyznaj podgląd użytkownikowi %1$s",
         "GiveViewAccessTitle": "Przyznaj istniejącemu użytkownikowi dostęp do raportów dla %s",
         "GiveViewAccessInstructions": "Aby przyznać istniejącemu użytkownikowi uprawnienia do %s wprowadź jego nazwę użytkownika lub adres e-mail.",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jeśli chcesz zmienić hasło, wpisz nowe. W innym przypadku pozostaw puste pole.",
         "InjectedHostCannotChangePwd": "Odwiedzasz tą stronę z nieznanego adresu (%1$s). Nie możesz zmienić swojego hasła do czasu rozwiązania tego problemu.",
         "LastSeen": "Ostatnio widziany",
         "MainDescription": "Zdecyduj, którzy użytkownicy mają dostęp do Twoich serwisów. Możesz również przydzielić dostęp do wszystkich serwisów na raz wybierając \"Wszystkie serwisy\" w selektorze serwisów.",
@@ -64,9 +73,6 @@
         "TheLoginScreen": "Ekran logowania",
         "ThereAreCurrentlyNRegisteredUsers": "Obecnie znajduje się %s zarejestrowanych użytkowników.",
         "TokenAuth": "Token autentykacji API",
-        "TokenRegenerateConfirm": "Zmiana Tokenu autentykacji API unieważni istniejące tokeny użytkowników. Użytkownicy zalogowani mogą musieć zalogować się ponownie. Czy na pewno chcesz kontynuować?",
-        "TokenRegenerateConfirmSelf": "Zmiana Tokenu autentykacji API unieważni Twój token. Możesz zostać zmuszony do ponownego zalogowania. Czy na pewno chcesz zmienić swój token?",
-        "TokenRegenerateLogoutWarning": "Podczas regeneracji Twojego tokenu zostaniesz wylogowany\/a i konieczne będzie ponowne logowanie.",
         "TokenRegenerateTitle": "Regeneruj",
         "TypeYourPasswordAgain": "Wpisz nowe hasło ponownie.",
         "User": "Użytkownik",
@@ -74,11 +80,11 @@
         "UserHasNoPermission": "%1$s obecnie ma %2$s do %3$s",
         "UsersManagement": "Zarządzanie Użytkownikami",
         "UsersManagementMainDescription": "Utworzenie nowych użytkowników lub aktualizacja istniejących. Ponadto możesz ustawić im poziom uprawnień.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kiedy użytkownicy nie są zalogowani i odwiedzają Matomo, powinny wyświetlić się",
         "YourUsernameCannotBeChanged": "Twoja nazwa użytkownika nie może być zmieniona.",
         "YourVisitsAreIgnoredOnDomain": "%1$sTwoje odwiedziny są ignorowane przez Matomo na %2$s %3$s (Matomo zignoruje ciasteczka cookie które znajdzie w twojej przeglądarce).",
         "YourVisitsAreNotIgnored": "%1$sTwoje odwiedziny nie będą ignorowane przez Matomo%2$s (Matomo nie odnalazł właściwego dla wykluczenia ciasteczka cookie w twojej przeglądarce).",
-        "XtoYofN": "%1$s - %2$s z %3$s",
-        "Username": "Nazwa użytkownika"
+        "ShowAll": "Pokaż wszystko",
+        "Username": "Nazwa użytkownika",
+        "EmailChangeNotificationSubject": "Adres email powiązany z Twoim kontem Matomo został zmieniony"
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -47,6 +47,12 @@ class ControllerTest extends SystemTestCase
             'idsite' => 1,
             'group' => '',
             'main_url' => 'http://piwik.net',
+            'nb_conversions' => 1,
+            'orders' => 1,
+            'ecommerce_revenue' => 2541,
+            'nb_conversions_evolution' => '100%',
+            'orders_evolution' => '100%',
+            'ecommerce_revenue_evolution' => '100%',
         ), $sites['sites'][0]);
 
         unset($sites['sites']);

@@ -68,7 +68,7 @@ class PluginsArchiverTest extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
         Fixture::createWebsite('2015-01-01 00:00:00');
 
-        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters(), $isTemporary = false);
+        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters());
     }
 
     private function createArchiveProcessorParamaters()
@@ -82,8 +82,8 @@ class PluginsArchiverTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException \Piwik\Tracker\Db\DbException
-     * @expectedExceptionMessage Failed query foo bar - caused by plugin MyPluginName
+     * @expectedException \Piwik\ArchiveProcessor\PluginsArchiverException
+     * @expectedExceptionMessage Failed query foo bar - in plugin MyPluginName
      * @expectedExceptionCode 42
      */
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
@@ -106,7 +106,7 @@ class PluginsArchiverTest extends IntegrationTestCase
             }
         });
 
-        $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParamaters(), $isTemporary = false);
+        $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParamaters());
         $this->pluginsArchiver->callAggregateCoreMetrics();
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
     }

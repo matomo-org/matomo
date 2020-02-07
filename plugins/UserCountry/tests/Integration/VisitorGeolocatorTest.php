@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,7 +11,7 @@ namespace Piwik\Plugins\UserCountry\tests\Integration;
 use PHPUnit_Framework_MockObject_MockObject;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;

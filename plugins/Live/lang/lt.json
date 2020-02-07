@@ -1,5 +1,6 @@
 {
     "Live": {
+        "ClickToViewMoreAboutVisit": "Spustelėkite, norėdami matyti daugiau informacijos apie šį apsilankymą",
         "FirstVisit": "Pirmasis apsilankymas",
         "GoalType": "Tipas",
         "HideMap": "paslėpti žemėlapį",
@@ -7,7 +8,6 @@
         "LastHours": "Paskutinės %s valandos",
         "LastMinutes": "Paskutinės %s minutės",
         "LastVisit": "Paskutinis apsilankymas",
-        "LinkVisitorLog": "Peržiūrėti išsamų apsilankymų žurnalą",
         "LoadMoreVisits": "Įkelti daugiau apsilankymų",
         "NbVisitor": "1 lankytojas",
         "NbVisitors": "%s lankytojų",
@@ -17,8 +17,7 @@
         "ShowMap": "rodyti žemėlapį",
         "ViewVisitorProfile": "Peržiūrėti lankytojo profilį",
         "VisitedPages": "Aplankyti puslapiai",
-        "VisitorLog": "Apsilankymų žurnalas",
-        "VisitorsInRealTime": "Lankytojai realiuoju laiku",
+        "ToggleActions": "Perjungti visų veiksmų matomumą",
         "VisitorsLastVisit": "Šio lankytojo paskutinis apsilankymas buvo prieš %s dienų."
     }
 }

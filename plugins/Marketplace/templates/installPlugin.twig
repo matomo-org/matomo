@@ -4,6 +4,7 @@
 
     <div style="max-width:980px;">
 
+        {% for plugin in plugins %}
         <h2>{{ 'Marketplace_InstallingPlugin'|translate(plugin.name) }}</h2>
 
         <div>
@@ -36,6 +37,7 @@
 
             {% endif %}
         </div>
+        {% endfor %}
     </div>
 
 {% endblock %}

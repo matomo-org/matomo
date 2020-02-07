@@ -15,29 +15,66 @@ describe('SingleMetricView', function () {
     var rangeUrl = "?module=Widgetize&action=iframe&idSite=1&period=range&date=2012-08-07,2012-08-10&moduleToWidgetize=Dashboard&"
         + "actionToWidgetize=index&idDashboard=5";
 
-    it('should load correctly', function (done) {
-        expect.screenshot("loaded").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
-            page.load(url, 5000);
-            page.click('.dashboard-manager a.title');
+    it('should load correctly', async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+        await page.click('.dashboard-manager a.title');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
-            page.mouseMove('.widgetpreview-categorylist > li:contains(Generic)');
+        await (await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)')).hover(); // have to mouse move twice... otherwise Live! will just be highlighted
+        await (await page.jQuery('.widgetpreview-categorylist > li:contains(KPI Metric)')).hover();
 
-            page.mouseMove('.widgetpreview-widgetlist li:contains(Metric)');
-            page.click('.widgetpreview-widgetlist li:contains(Metric)');
-        }, done);
+        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).hover();
+        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).click();
+
+        var elem = await page.waitForSelector('#widgetCoreVisualizationssingleMetricViewcolumn');
+        await page.waitForNetworkIdle();
+        await page.waitFor(250);
+
+        expect(await elem.screenshot()).to.matchImage('loaded');
     });
 
-    it('should handle formatted metrics properly', function (done) {
-        expect.screenshot("formatted_metric").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
-            page.mouseMove('#widgetCoreVisualizationssingleMetricViewcolumn .single-metric-view-picker');
-            page.click('.jqplot-seriespicker-popover label:contains(Revenue)');
-        }, done);
+    it('should handle formatted metrics properly', async function () {
+        await page.evaluate(() => {
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
+        });
+        await page.webpage.evaluate(function(){
+            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(Revenue)').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitFor(250);
+
+        var elem = await page.waitForSelector('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
+        expect(await elem.screenshot()).to.matchImage('formatted_metric');
     });
 
-    it('should handle range periods correctly', function (done) {
-        expect.screenshot("range").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
-            page.load(rangeUrl, 8000);
-        }, done);
+    it('should handle individual goal metrics properly', async function () {
+        await page.evaluate(function(){
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').last().trigger('mouseenter');
+        });
+        await page.waitFor(250);
+        await page.evaluate(function(){
+            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(_x)').click()
+        });
+        await page.waitForNetworkIdle();
+        await page.waitFor(250);
+
+        var elem = await page.$('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
+        expect(await elem.screenshot()).to.matchImage('goal_metric');
+    });
+
+    it('should handle range periods correctly', async function () {
+        await page.goto(rangeUrl);
+        await page.evaluate(function(){
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
+        });
+        await page.waitFor(250);
+        await page.evaluate(function(){
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker-popover label:contains(Revenue)').click()
+        });
+        await page.waitForNetworkIdle();
+        await page.waitFor(250);
+
+        var elem = await page.$('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
+        expect(await elem.screenshot()).to.matchImage('range');
     });
 });

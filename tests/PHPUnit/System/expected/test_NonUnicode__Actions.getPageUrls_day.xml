@@ -18,7 +18,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/exit-page</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fexit-page</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fexit-page</segment>
 	</row>
 	<row>
 		<label>page</label>
@@ -34,6 +34,7 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage</segment>
 		<subtable>
 			<row>
 				<label>/index.htm?whatever=</label>
@@ -50,6 +51,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/page/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage%252Findex.htm%253Fwhatever%253D%2525EC%2525E5%2525F8%2525EA%2525EE%2525E2%2525FB%2525E5</segment>
 			</row>
 		</subtable>
 	</row>

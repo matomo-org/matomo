@@ -11,13 +11,13 @@
         <div piwik-field uicontrol="text" name="goal_name"
              ng-model="manageGoals.goal.name"
              maxlength="50"
-             title="{{ 'Goals_GoalName'|translate|e('html_attr') }}">
+             data-title="{{ 'Goals_GoalName'|translate|e('html_attr') }}">
         </div>
 
         <div piwik-field uicontrol="text" name="goal_description"
              ng-model="manageGoals.goal.description"
              maxlength="255"
-             title="{{ 'General_Description'|translate|e('html_attr') }}">
+             data-title="{{ 'General_Description'|translate|e('html_attr') }}">
         </div>
 
         <div class="row goalIsTriggeredWhen">
@@ -44,6 +44,7 @@
                      ng-show="manageGoals.goal.triggerType != 'manually'"
                      full-width="true"
                      ng-model="manageGoals.goal.matchAttribute"
+                     ng-change="manageGoals.initPatternType()"
                      options="{{ goalMatchAttributeOptions|json_encode }}">
                 </div>
             </div>
@@ -63,6 +64,9 @@
                <span ng-show="manageGoals.goal.matchAttribute == 'external_website'">
                     {{ 'Goals_ExternalWebsiteUrl'|translate }}
                 </span>
+                <span ng-show="manageGoals.goal.matchAttribute == 'visit_duration'">
+                    {{ 'Goals_VisitDuration'|translate }}
+                </span>
             </h3>
         </div>
 
@@ -76,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="col s12 m6 l4">
+            <div class="col s12 m6 l4" ng-if="!manageGoals.isMatchAttributeNumeric()">
                 <div piwik-field uicontrol="select" name="pattern_type"
                      ng-model="manageGoals.goal.patternType"
                      full-width="true"
@@ -84,11 +88,19 @@
                 </div>
             </div>
 
+            <div class="col s12 m6 l4" ng-if="manageGoals.isMatchAttributeNumeric()">
+                <div piwik-field uicontrol="select" name="pattern_type"
+                     ng-model="manageGoals.goal.patternType"
+                     full-width="true"
+                     options="{{ numericComparisonTypeOptions|json_encode }}">
+                </div>
+            </div>
+
             <div class="col s12 m6 l4">
                 <div piwik-field uicontrol="text" name="pattern"
                      ng-model="manageGoals.goal.pattern"
                      maxlength="255"
-                     title="{{ 'Goals_Pattern'|translate|e('html_attr') }}"
+                     data-title="{{ "{{ manageGoals.getPatternFieldLabel() }}"|raw }}"
                      full-width="true">
                 </div>
             </div>
@@ -117,26 +129,40 @@
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'click'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)_banner'") }}"
                 </span>
+                <span ng-show="manageGoals.goal.matchAttribute == 'visit_duration'">
+                    {{ 'General_ForExampleShort'|translate }} {{ 'Goals_AtLeastMinutes'|translate('5', '0.5') }}
+                </span>
             </div>
         </div>
 
         <div piwik-field uicontrol="checkbox" name="case_sensitive"
              ng-model="manageGoals.goal.caseSensitive"
-             ng-show="manageGoals.goal.triggerType != 'manually'"
-             title="{{ 'Goals_CaseSensitive'|translate|e('html_attr') }} {{ 'Goals_Optional'|translate|e('html_attr') }}">
+             ng-show="manageGoals.goal.triggerType != 'manually' && !manageGoals.isMatchAttributeNumeric()"
+             data-title="{{ 'Goals_CaseSensitive'|translate|e('html_attr') }} {{ 'Goals_Optional'|translate|e('html_attr') }}">
         </div>
 
         <div piwik-field uicontrol="radio" name="allow_multiple"
              ng-model="manageGoals.goal.allowMultiple"
+             ng-if="manageGoals.goal.matchAttribute !== 'visit_duration'"
              options="{{ allowMultipleOptions|json_encode }}"
              introduction="{{ 'Goals_AllowMultipleConversionsPerVisit'|translate|e('html_attr') }}"
              inline-help="{{ 'Goals_HelpOneConversionPerVisit'|translate|e('html_attr') }}">
         </div>
 
-        <div piwik-field uicontrol="text" name="revenue"
+        <h3>{{ 'Goals_GoalRevenue'|translate }} {{ 'Goals_Optional'|translate }}</h3>
+
+        <div piwik-field uicontrol="number" name="revenue"
              ng-model="manageGoals.goal.revenue"
-             introduction="{{ 'Goals_DefaultRevenue'|translate }} {{ 'Goals_Optional'|translate }}"
+             placeholder="{{ 'Goals_DefaultRevenueLabel'|translate }}"
              inline-help="{{ 'Goals_DefaultRevenueHelp'|translate|e('html_attr') }}">
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="use_event_value"
+             ng-model="manageGoals.goal.useEventValueAsRevenue"
+             data-title="{{ 'Goals_UseEventValueAsRevenue'|translate|e('html_attr') }}"
+             ng-show="manageGoals.goal.matchAttribute == 'event'"
+             inline-help="{{ 'Goals_EventValueAsRevenueHelp'|translate|e('html_attr') }} &lt;br/&gt;&lt;br/&gt; {{ 'Goals_EventValueAsRevenueHelp2'|translate|e('html_attr') }}"
+        >
         </div>
 
         {{ postEvent("Template.endGoalEditTable") }}

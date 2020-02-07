@@ -2,6 +2,7 @@
     "Transitions": {
         "BouncesInline": "%s käväisyä",
         "DirectEntries": "Suorat merkinnät",
+        "Transitions": "Siirtymät",
         "ErrorBack": "Palaa takaisin edelliseen toimintoon",
         "ExitsInline": "%s poistumista",
         "NumPageviews": "%s sivunavausta",
@@ -13,6 +14,7 @@
         "FromPreviousSiteSearches": "Sisäisestä hausta",
         "FromPreviousSiteSearchesInline": "%s sisäisestä hausta",
         "FromSearchEngines": "Hakukoneista",
+        "FromSocialNetworks": "Sosiaalisista verkostoista",
         "FromWebsites": "Verkkosivuilta",
         "IncomingTraffic": "Sisääntuleva liikenne",
         "LoopsInline": "%s sivujen uudelleenlatauksia",

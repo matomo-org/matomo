@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\Handler;
 
 use Monolog\Handler\StreamHandler;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 
 /**
@@ -23,9 +24,11 @@ class FileHandler extends StreamHandler
         try {
             parent::write($record);
         } catch (\UnexpectedValueException $e) {
-            throw new \Exception(
+            $ex = new MissingFilePermissionException(
                 Filechecks::getErrorMessageMissingPermissions($this->url)
             );
+            $ex->setIsHtmlMessage();
+            throw $ex;
         }
     }
 }

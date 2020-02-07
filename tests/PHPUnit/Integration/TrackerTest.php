@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,6 +10,9 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Date;
+use Piwik\Db;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
@@ -35,6 +38,8 @@ class TrackerTest extends IntegrationTestCase
      */
     private $request;
 
+    private $iniTimeZone;
+
     public function setUp()
     {
         parent::setUp();
@@ -43,6 +48,8 @@ class TrackerTest extends IntegrationTestCase
 
         $this->tracker = new TestTracker();
         $this->request = $this->buildRequest(array('idsite' => 1));
+
+        $this->iniTimeZone = ini_get('date.timezone');
     }
 
     public function tearDown()
@@ -56,7 +63,9 @@ class TrackerTest extends IntegrationTestCase
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
-        
+
+        ini_set('date.timezone', $this->iniTimeZone);
+
         parent::tearDown();
     }
 
@@ -250,7 +259,7 @@ class TrackerTest extends IntegrationTestCase
 
         $response = $this->tracker->main($this->getDefaultHandler(), $requestSet);
 
-        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
         $this->assertEquals($expected, $response);
     }
 
@@ -357,6 +366,48 @@ class TrackerTest extends IntegrationTestCase
         $this->assertTrue($called);
     }
 
+    public function test_archiveInvalidation_differentServerAndWebsiteTimezones()
+    {
+        // Server timezone is UTC
+        ini_set('date.timezone', 'America/New_York');
+
+        // Website timezone is New York
+        $idSite = Fixture::createWebsite('2014-01-01 00:00:00', 0, false, false,
+            1, null, null, 'America/New_York');
+
+        // It's 3 April in UTC but 2 April in New York
+        Date::$now = 1554257039;
+
+        $this->tracker = new TestTracker();
+
+        $this->request = $this->buildRequest(array('idsite' => $idSite));
+        $this->request->setParam('rec', 1);
+        $this->request->setCurrentTimestamp(Date::$now);
+        $this->tracker->trackRequest($this->request);
+
+        // make sure today archives are also invalidated
+        $this->assertEquals(['report_to_invalidate_2_2019-04-02_' . getmypid() => '1'], Option::getLike('report_to_invalidate_2_2019-04-02%'));
+    }
+
+    public function test_TrackingNewVisitOfKnownVisitor()
+    {
+        Fixture::createWebsite('2015-01-01 00:00:00');
+
+        // track one visit
+        $t = self::$fixture->getTracker($idSite = 1, '2015-01-01', $defaultInit = true, $useLocalTracker = true);
+        $t->setForceVisitDateTime('2015-08-06 07:53:09');
+        $t->setNewVisitorId();
+        Fixture::checkResponse($t->doTrackPageView('page view'));
+
+        // track action 2 seconds later w/ new_visit=1
+        $t->setForceVisitDateTime('2015-08-06 07:53:11');
+        $t->setCustomTrackingParameter('new_visit', '1');
+        Fixture::checkResponse($t->doTrackPageView('page view 2'));
+
+        $this->assertEquals(2, $this->getVisitCount());
+        $this->assertEquals(1, $this->getReturningVisitorCount());
+    }
+
     private function getDefaultHandler()
     {
         return new Tracker\Handler();
@@ -416,12 +467,31 @@ class TrackerTest extends IntegrationTestCase
             rename($this->getLocalConfigPathMoved(), $this->getLocalConfigPath());
         }
     }
+
+    private function getVisitCount()
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('log_visit'));
+    }
+
+    private function getReturningVisitorCount()
+    {
+        return Db::fetchOne("SELECT COUNT(DISTINCT idvisitor) FROM " . Common::prefixTable('log_visit') . ' WHERE visitor_returning = 1');
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+
+        $fixture->createSuperUser = true;
+    }
 }
 
 class TestTracker extends Tracker
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->isInstalled = true;
         $this->record = true;
     }

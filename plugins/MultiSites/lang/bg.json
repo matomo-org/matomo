@@ -2,7 +2,6 @@
     "MultiSites": {
         "Evolution": "Развитие",
         "LoadingWebsites": "Зарежда сайтовете",
-        "TopLinkTooltip": "Сравнете статистиката за всички ваши уебсайтове.",
-        "Pagination": "%1$s - %2$s като %3$s"
+        "TopLinkTooltip": "Сравнете статистиката за всички ваши уебсайтове."
     }
 }

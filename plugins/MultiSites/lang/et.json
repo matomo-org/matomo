@@ -1,7 +1,6 @@
 {
     "MultiSites": {
         "Evolution": "Muutus ajas",
-        "LoadingWebsites": "Veebilehtede avamine",
-        "Pagination": "%1$s - %2$s \/ %3$s"
+        "LoadingWebsites": "Veebilehtede avamine"
     }
 }

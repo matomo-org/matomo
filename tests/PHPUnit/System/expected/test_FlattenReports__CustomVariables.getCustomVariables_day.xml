@@ -16,6 +16,7 @@
 					<index>1</index>
 				</row>
 			</slots>
+			<CustomVariables_CustomVariableName>CustomVarVisit</CustomVariables_CustomVariableName>
 			<is_aggregate>1</is_aggregate>
 		</row>
 		<row>
@@ -27,6 +28,7 @@
 					<index>1</index>
 				</row>
 			</slots>
+			<CustomVariables_CustomVariableName>CustomVarPage</CustomVariables_CustomVariableName>
 			<is_aggregate>1</is_aggregate>
 		</row>
 		<row>
@@ -38,7 +40,15 @@
 			<sum_visit_length>3</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<slots>
+				<row>
+					<scope>visit</scope>
+					<index>1</index>
+				</row>
+			</slots>
+			<CustomVariables_CustomVariableName>CustomVarVisit</CustomVariables_CustomVariableName>
 			<is_aggregate>0</is_aggregate>
+			<CustomVariables_CustomVariableValue>CustomVarValue1</CustomVariables_CustomVariableValue>
 		</row>
 		<row>
 			<label>CustomVarVisit - CustomVarValue2</label>
@@ -49,25 +59,57 @@
 			<sum_visit_length>3</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<slots>
+				<row>
+					<scope>visit</scope>
+					<index>1</index>
+				</row>
+			</slots>
+			<CustomVariables_CustomVariableName>CustomVarVisit</CustomVariables_CustomVariableName>
 			<is_aggregate>0</is_aggregate>
+			<CustomVariables_CustomVariableValue>CustomVarValue2</CustomVariables_CustomVariableValue>
 		</row>
 		<row>
 			<label>CustomVarPage - CustomVarValue0</label>
 			<nb_visits>6</nb_visits>
 			<nb_actions>6</nb_actions>
+			<slots>
+				<row>
+					<scope>page</scope>
+					<index>1</index>
+				</row>
+			</slots>
+			<CustomVariables_CustomVariableName>CustomVarPage</CustomVariables_CustomVariableName>
 			<is_aggregate>0</is_aggregate>
+			<CustomVariables_CustomVariableValue>CustomVarValue0</CustomVariables_CustomVariableValue>
 		</row>
 		<row>
 			<label>CustomVarPage - CustomVarValue1</label>
 			<nb_visits>6</nb_visits>
 			<nb_actions>6</nb_actions>
+			<slots>
+				<row>
+					<scope>page</scope>
+					<index>1</index>
+				</row>
+			</slots>
+			<CustomVariables_CustomVariableName>CustomVarPage</CustomVariables_CustomVariableName>
 			<is_aggregate>0</is_aggregate>
+			<CustomVariables_CustomVariableValue>CustomVarValue1</CustomVariables_CustomVariableValue>
 		</row>
 		<row>
 			<label>CustomVarPage - CustomVarValue2</label>
 			<nb_visits>6</nb_visits>
 			<nb_actions>6</nb_actions>
+			<slots>
+				<row>
+					<scope>page</scope>
+					<index>1</index>
+				</row>
+			</slots>
+			<CustomVariables_CustomVariableName>CustomVarPage</CustomVariables_CustomVariableName>
 			<is_aggregate>0</is_aggregate>
+			<CustomVariables_CustomVariableValue>CustomVarValue2</CustomVariables_CustomVariableValue>
 		</row>
 	</result>
 	<result date="2010-03-06">
@@ -80,7 +122,15 @@
 			<sum_visit_length>1</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<slots>
+				<row>
+					<scope>visit</scope>
+					<index>1</index>
+				</row>
+			</slots>
+			<CustomVariables_CustomVariableName>CustomVarVisit</CustomVariables_CustomVariableName>
 			<is_aggregate>0</is_aggregate>
+			<CustomVariables_CustomVariableValue>CustomVarValue1</CustomVariables_CustomVariableValue>
 		</row>
 		<row>
 			<label>CustomVarVisit</label>
@@ -97,13 +147,22 @@
 					<index>1</index>
 				</row>
 			</slots>
+			<CustomVariables_CustomVariableName>CustomVarVisit</CustomVariables_CustomVariableName>
 			<is_aggregate>1</is_aggregate>
 		</row>
 		<row>
 			<label>CustomVarPage - CustomVarValue1</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
+			<slots>
+				<row>
+					<scope>page</scope>
+					<index>1</index>
+				</row>
+			</slots>
+			<CustomVariables_CustomVariableName>CustomVarPage</CustomVariables_CustomVariableName>
 			<is_aggregate>0</is_aggregate>
+			<CustomVariables_CustomVariableValue>CustomVarValue1</CustomVariables_CustomVariableValue>
 		</row>
 		<row>
 			<label>CustomVarPage</label>
@@ -114,6 +173,7 @@
 					<index>1</index>
 				</row>
 			</slots>
+			<CustomVariables_CustomVariableName>CustomVarPage</CustomVariables_CustomVariableName>
 			<is_aggregate>1</is_aggregate>
 		</row>
 	</result>

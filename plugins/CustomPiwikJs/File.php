@@ -15,11 +15,16 @@ class File
     /**
      * @var string
      */
-    private $file;
+    protected $file;
 
     public function __construct($file)
     {
         $this->file = $file;
+    }
+
+    public function setFile($file)
+    {
+        return new static($file);
     }
 
     public function checkReadable()
@@ -36,11 +41,21 @@ class File
         }
     }
 
+    public function isFileContentSame($content)
+    {
+        // we determine if file content is the same in here in case a different "file" implementation needs to check
+        // whether multiple files are up to date
+        return $this->getContent() === $content;
+    }
+
     public function save($content)
     {
-        if(false === file_put_contents($this->file, $content)) {
+        if (false === file_put_contents($this->file, $content, LOCK_EX)) {
             throw new AccessDeniedException(sprintf("Could not write to %s", $this->file));
         }
+        // we need to return an array of files in case some other "File" implementation actually updates multiple files
+        // eg one file per trusted host
+        return [$this->getPath()];
     }
 
     public function getContent()

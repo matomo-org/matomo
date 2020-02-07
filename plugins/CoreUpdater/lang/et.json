@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Vajuta siia, et näha ja kopeerida teostamisele minevad SQL päringud",
         "CriticalErrorDuringTheUpgradeProcess": "Kriitiline viga uuendamise protsessi ajal:",
         "DatabaseUpgradeRequired": "Andmebaasi uuendus on vajalik",
         "DownloadingUpdateFromX": "Laen uuendust %s",
@@ -12,6 +11,8 @@
         "HelpMessageIntroductionWhenWarning": "Uuendamine edukalt lõpetatud, siiski esines protsessis vigu. Palun tutvu ülal vigade kirjeldustega. Saamaks rohkem abi:",
         "HighTrafficPiwikServerEnableMaintenance": "Kui sa haldad suure liiklusega Matomo serverit, soovitame korraks %1$slülitada Matomou kasutajaliides hooldusrežiimi ja katkestada külastuste kohta info kogumine%2$s.",
         "InstallingTheLatestVersion": "Paigaldan uusimat versiooni",
+        "LatestBetaRelease": "Viimane beetaversioon",
+        "LatestStableRelease": "Viimane stabiilne versioon",
         "MajorUpdateWarning1": "Tegemist on suure uuendusega! See võtab tavapärasest kauem aega.",
         "MajorUpdateWarning2": "Järgnev info on eriti oluline suure külastatavusega paigaldustele.",
         "NoteForLargePiwikInstances": "Oluline teave suure liiklusega Matomou paigaldustele",
@@ -28,6 +29,8 @@
         "UpdateAutomatically": "Uuenda automaatselt",
         "UpdateTitle": "Uuendus",
         "UpdateSuccessTitle": "Matomo edukalt uuendatud!",
+        "UpdateErrorTitle": "Uuendamise viga",
+        "CloudHosting": "Pilvemajutus",
         "UpgradeComplete": "Uuendamine lõpuni viidud!",
         "UpgradePiwik": "Uuenda Matomo",
         "VerifyingUnpackedFiles": "Kontrollin lahtipakitud failide terviklikkust",

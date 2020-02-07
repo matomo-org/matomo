@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,6 +15,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\UpdateCheck;
 use Piwik\Version;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\View;
 
 /**
  * @group Plugins
@@ -69,20 +70,24 @@ class UpdateCommunicationTest extends IntegrationTestCase
     public function test_sendNotifications_shouldSentCorrectEmail()
     {
         $rootUrl = Fixture::getTestRootUrl();
-        $message = "ScheduledReports_EmailHello
+        $rootUrlEscaped = str_replace(array(':', '/'), array('&#x3A;', '&#x2F;'), $rootUrl);
+        $message = "<p>ScheduledReports_EmailHello</p>
 
-CoreUpdater_ThereIsNewVersionAvailableForUpdate
+<p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
-CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
-{$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
+<p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
+<a href=\"".$rootUrlEscaped."index.php?module=CoreUpdater&action=newVersionAvailable\">".$rootUrl."index.php?module=CoreUpdater&action=newVersionAvailable</a>
+</p>
 
-CoreUpdater_ViewVersionChangelog
-https://matomo.org/changelog/matomo-33-0-0/
+<p>
+    CoreUpdater_ViewVersionChangelog
+    <br/>
+    <a href=\"https&#x3A;&#x2F;&#x2F;matomo.org&#x2F;changelog&#x2F;matomo-33-0-0&#x2F;\">https://matomo.org/changelog/matomo-33-0-0/</a>
+</p>
 
-CoreUpdater_ReceiveEmailBecauseIsSuperUser
-
-CoreUpdater_FeedbackRequest
-https://matomo.org/contact/";
+<p>CoreUpdater_ReceiveEmailBecauseIsSuperUser</p>
+<p>CoreUpdater_FeedbackRequest<br/><a href=\"https://matomo.org/contact/\">https://matomo.org/contact/</a></p>
+";
 
         $this->assertEmailForVersion('33.0.0', $message);
     }
@@ -90,17 +95,19 @@ https://matomo.org/contact/";
     public function test_sendNotifications_shouldNotIncludeChangelogIfNotMajorVersionUpdate()
     {
         $rootUrl = Fixture::getTestRootUrl();
-        $message = "ScheduledReports_EmailHello
+        $rootUrlEscaped = str_replace(array(':', '/'), array('&#x3A;', '&#x2F;'), $rootUrl);
+        $message = "<p>ScheduledReports_EmailHello</p>
 
-CoreUpdater_ThereIsNewVersionAvailableForUpdate
+<p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
-CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
-{$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
+<p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
+<a href=\"".$rootUrlEscaped."index.php?module=CoreUpdater&action=newVersionAvailable\">".$rootUrl."index.php?module=CoreUpdater&action=newVersionAvailable</a>
+</p>
 
-CoreUpdater_ReceiveEmailBecauseIsSuperUser
 
-CoreUpdater_FeedbackRequest
-https://matomo.org/contact/";
+<p>CoreUpdater_ReceiveEmailBecauseIsSuperUser</p>
+<p>CoreUpdater_FeedbackRequest<br/><a href=\"https://matomo.org/contact/\">https://matomo.org/contact/</a></p>
+";
 
         $this->assertEmailForVersion('33.0.0-b1', $message);
     }
@@ -114,7 +121,10 @@ https://matomo.org/contact/";
         $mock = $this->getCommunicationMock(array('sendEmailNotification'));
         $mock->expects($this->once())
             ->method('sendEmailNotification')
-            ->with($this->equalTo($subject), $this->equalTo($expectedMessage));
+            ->with($this->equalTo($subject), $this->callback(function (View $view) use ($expectedMessage) {
+                $this->assertEquals($expectedMessage, $view->render());
+                return true;
+            }));
         $mock->sendNotificationIfUpdateAvailable();
     }
 

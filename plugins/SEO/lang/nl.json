@@ -1,6 +1,6 @@
 {
     "SEO": {
-        "PluginDescription": "Deze plugin extraheert en toon SEO metrics: Alexa web ranking, Google pagerank, aantal geïndexeerde pagina's en links naar de huidige geselecteerde website.",
+        "PluginDescription": "Deze plugin extraheert en toon SEO metrics: Alexa web ranking, Google Pagerank, het aantal geïndexeerde pagina's en backlinks naar de huidige geselecteerde website.",
         "AlexaRank": "Alexa Rank",
         "Bing_IndexedPages": "Bing geindexeerde pagina's",
         "DomainAge": "Domein leeftijd",

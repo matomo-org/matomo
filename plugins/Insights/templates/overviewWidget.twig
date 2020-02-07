@@ -2,7 +2,7 @@
      data-table-type="InsightsDataTable"
      data-table-onlyinsightsinit="1">
     {% if reports.getColumns|length > 0 %}
-
+        <div class="dataTableScroller">
         <table class="dataTable"
                title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
             {% for dataTable in reports.getDataTables() if dataTable.getRowsCount > 0 %}
@@ -20,6 +20,7 @@
 
             {% endfor %}
         </table>
+        </div>
 
         <script type="text/javascript" defer="defer">
             $(document).ready(function () {

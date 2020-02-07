@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Ser etter nye oppdateringer for utvidelser",
-        "ClickHereToViewSqlQueries": "Klikk her for å se og kopiere listen med SQL-spørringer som vil bli utført.",
         "CriticalErrorDuringTheUpgradeProcess": "Kritisk feil under oppdateringen:",
         "DatabaseUpgradeRequired": "Databaseoppgradering er nødvendig",
         "DisablingIncompatiblePlugins": "Deaktiverer inkompatible tillegg: %s",
@@ -24,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Over vises feilmeldingen. Den bør hjelpe deg med å forklare årsaken, men hvis du trenger mer hjelp, vennligst:",
         "HelpMessageIntroductionWhenWarning": "Oppdateringen er fullført, men det var noen småproblemer under prossessen. Les beskrivelsene over for mer informasjon. For videre hjelp:",
         "HighTrafficPiwikServerEnableMaintenance": "Hvis du administrerer en Matomo-tjener for et nettsted med høy trafikk, anbefaler vi at du %1$smidlertidig slår av sporing av besøkende og setter Matomo-brukergrensesnittet i vedlikeholdsmodus%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Merk: noen utvidelser er ikke kompatible med Matomo %s. Vi vil oppdatere dem hvis det finnes en oppdatering på Markedsplassen. Ellers vil vi deaktivere dem når du oppgraderer Matomo:",
         "InstallingTheLatestVersion": "Installerer siste versjon.",
         "LatestBetaRelease": "Siste beta-versjon",
         "LatestStableRelease": "Siste stabile versjon",

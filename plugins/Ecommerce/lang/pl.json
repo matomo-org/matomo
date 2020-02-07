@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "PluginDescription": "Ecommerce pozwala śledzić kiedy odwiedzający dodają produkty do koszyków oraz kiedy następuje konwersja koszyków na sprzedaż. Pozwala również śledzić produkty i ich kategorie oraz porzucone koszyki.",
         "Sales": "Sprzedaż",
         "Order": "Zamówienie",
         "Orders": "Zamówienia",

@@ -71,16 +71,24 @@ DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, 
 };
 
 DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
-    var posSegment = (link+'').indexOf(':segment:');
-    var segment = null;
-
-    // handle and remove ':segment:$SEGMENT' from link
-    if (posSegment && posSegment > 0) {
-        segment = link.substring(posSegment + (':segment:'.length));
-        link = link.substring(0, posSegment);
-    }
+    var ALLOWED_OVERRIDE_PARAMS = ['segment', 'date', 'period', 'idSite'];
 
     var parts = link.split(':');
+
+    var overrideParams = {};
+
+    var i = 0;
+    while (i < parts.length) {
+        var paramName = decodeURIComponent(parts[i]);
+        if (ALLOWED_OVERRIDE_PARAMS.indexOf(paramName) === -1) {
+            i += 1;
+            continue;
+        }
+
+        overrideParams[paramName] = decodeURIComponent(parts[i + 1]);
+        parts.splice(i, 2);
+    }
+
     if (parts.length < 2) {
         return;
     }
@@ -90,7 +98,7 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
     var actionName = parts.join(':');
 
     if (this.transitions === null) {
-        this.transitions = new Piwik_Transitions(actionType, actionName, this, segment);
+        this.transitions = new Piwik_Transitions(actionType, actionName, this, overrideParams);
     } else {
         this.transitions.reset(actionType, actionName, segment);
     }
@@ -129,7 +137,7 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        if (tr.hasClass('subDataTable')) {
+        if (tr.hasClass('subDataTable') || tr.hasClass('totalsRow')) {
             // not available on groups (i.e. folders)
             return false;
         }
@@ -154,8 +162,8 @@ DataTable_RowActions_Registry.register({
 // TRANSITIONS IMPLEMENTATION
 //
 
-function Piwik_Transitions(actionType, actionName, rowAction, segment) {
-    this.reset(actionType, actionName, segment);
+function Piwik_Transitions(actionType, actionName, rowAction, overrideParams) {
+    this.reset(actionType, actionName, overrideParams);
     this.rowAction = rowAction;
 
     this.ajax = new Piwik_Transitions_Ajax();
@@ -165,10 +173,10 @@ function Piwik_Transitions(actionType, actionName, rowAction, segment) {
     this.rightGroups = ['followingPages', 'followingSiteSearches', 'downloads', 'outlinks'];
 }
 
-Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
+Piwik_Transitions.prototype.reset = function (actionType, actionName, overrideParams) {
     this.actionType = actionType;
     this.actionName = actionName;
-    this.segment    = segment;
+    this.overrideParams = overrideParams;
 
     this.popover = null;
     this.canvas = null;
@@ -183,20 +191,34 @@ Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
 };
 
 /** Open the popover */
-Piwik_Transitions.prototype.showPopover = function () {
+Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     var self = this;
+    this.showEmbeddedInReport = showEmbeddedInReport;
 
-    this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-    Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+    $('#transitions_report .popoverContainer').hide();
+
+    if (showEmbeddedInReport) {
+        this.popover = $('#transitions_report');
+        $('#Transitions_Error_Container').hide();
+        $('#transitions_inline_loading').show();
+    } else {
+        this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
+        Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+    }
 
     var bothLoaded = function () {
-        Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
-
+        if (!showEmbeddedInReport) {
+            Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
+        } else {
+            $('#transitions_inline_loading').hide();
+            $('#transitions_report .popoverContainer').html(Piwik_Transitions.popoverHtml);
+            $('#transitions_report .popoverContainer').show();
+        }
         self.preparePopover();
         self.model.htmlLoaded();
 
         if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0 && self.model.socialNetworksNbTransitions > 0
-            + self.model.campaignsNbTransitions > 0) {
+            && self.model.campaignsNbTransitions > 0) {
             self.canvas.narrowMode();
         }
 
@@ -216,7 +238,7 @@ Piwik_Transitions.prototype.showPopover = function () {
     }
 
     // load the data
-    self.model.loadData(self.actionType, self.actionName, self.segment, function () {
+    self.model.loadData(self.actionType, self.actionName, self.overrideParams, function () {
         if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
             // html not there yet
             callbackForHtml = bothLoaded;
@@ -566,11 +588,26 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
         var isOthers = (label == 'Others');
         var onClick = false;
         if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
-            onClick = (function (url) {
-                return function () {
-                    self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
-                };
-            })(label);
+
+            if (this.showEmbeddedInReport) {
+                onClick = (function (url) {
+                    return function () {
+                        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                        if ($rootScope) {
+                            $rootScope.$emit('Transitions.switchTransitionsUrl', {
+                                url:url
+                            });
+                        }
+                    };
+                })(label);
+            } else {
+                onClick = (function (url) {
+                    return function () {
+                        self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
+                    };
+                })(label);
+            }
+
         } else if (!isOthers && (groupName == 'outlinks' || groupName == 'websites' || groupName == 'downloads')) {
             onClick = label
         }
@@ -1287,7 +1324,7 @@ Piwik_Transitions_Model.prototype.htmlLoaded = function () {
     };
 };
 
-Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, segment, callback) {
+Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, overrideParams, callback) {
     var self = this;
 
     this.pageviews = 0;
@@ -1333,8 +1370,8 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, s
         actionName: actionName,
         expanded: 1
     };
-    if (segment) {
-        params.segment = segment;
+    if (overrideParams) {
+        $.extend(params, overrideParams);
     }
 
     this.ajax.callApi('Transitions.getTransitionsForAction', params,
@@ -1516,7 +1553,27 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                     }
 
                     errorMessage = sprintf(errorMessage, '<br />');
-                    Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    var inlineErrorNode = $('#Transitions_Error_Container');
+                    if (inlineErrorNode.length) {
+                        // viewing it as report, not popover
+                        inlineErrorNode.html('');
+                        var theContentNode = $(document.createElement('div')).addClass('Piwik_Popover_Error');
+
+                        var p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Title');
+                        theContentNode.append(p.html(errorTitle));
+
+                        if (errorMessage) {
+                            p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Message');
+                            theContentNode.append(p.html(errorMessage));
+                        }
+                        inlineErrorNode.append(theContentNode);
+                        inlineErrorNode.show();
+                        $('#transitions_report .popoverContainer').hide();
+                    } else {
+                        Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    }
+
+                    $('#transitions_inline_loading').hide();
                 };
 
                 if (typeof Piwik_Transitions_Translations == 'undefined') {

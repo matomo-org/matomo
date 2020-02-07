@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -80,12 +80,26 @@ class FormDatabaseSetup extends QuickForm2
         $defaultDatabaseType = Config::getInstance()->database['type'];
         $this->addElement( 'hidden', 'type')->setLabel('Database engine');
 
+
+        $defaults = array(
+            'host'          => '127.0.0.1',
+            'type'          => $defaultDatabaseType,
+            'tables_prefix' => 'matomo_',
+        );
+
+        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'password', 'dbname');
+        foreach ($defaultsEnvironment as $name) {
+            $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
+            $envNameMatomo = 'MATOMO_' . $envName;
+            if (getenv($envNameMatomo)) {
+                $defaults[$name] = getenv($envNameMatomo);
+            } elseif (getenv($envName)) {
+                $defaults[$name] = getenv($envName);
+            }
+        }
+
         // default values
-        $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-                                                                       'host'          => '127.0.0.1',
-                                                                       'type'          => $defaultDatabaseType,
-                                                                       'tables_prefix' => 'matomo_',
-                                                                  )));
+        $this->addDataSource(new HTML_QuickForm2_DataSource_Array($defaults));
     }
 
     /**
@@ -117,7 +131,8 @@ class FormDatabaseSetup extends QuickForm2
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
-            'type'          => $this->getSubmitValue('type')
+            'type'          => $this->getSubmitValue('type'),
+            'enable_ssl'    => false
         );
 
         if (($portIndex = strpos($dbInfos['host'], '/')) !== false) {

@@ -2,14 +2,12 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Archive;
-
-use Piwik\DataTable;
 
 /**
  * This class is used to split blobs of DataTables into chunks. Each blob used to be stored under one blob in the

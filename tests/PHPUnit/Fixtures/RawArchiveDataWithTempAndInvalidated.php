@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -241,6 +241,110 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ),
     );
 
+
+    private static $segmentArchiveData = array(
+        array(
+            'idarchive' => 20,
+            'idsite' => 1,
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850',   // Raw segment = abcd1234abcd5678
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 21,
+            'idsite' => 1,
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850.MyPlugin',   // Raw segment = abcd1234abcd5678
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 22,
+            'idsite' => 2,
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850',   // Raw segment = abcd1234abcd5678
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 23,
+            'idsite' => 2,
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850.MyPlugin',   // Raw segment = abcd1234abcd5678
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 24,
+            'idsite' => 1,
+            'name' => 'done1e39a89fcc269acc36bd4d7c742763ed',   // Raw segment = 9876fedc5432abcd
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 25,
+            'idsite' => 2,
+            'name' => 'done00c6ee2e21a7548de6260cf72c4f4b5b',   // Raw segment = hash1
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 26,
+            'idsite' => 2,
+            'name' => 'done58833651db311ba4bc11cb26b1900b0f',   // Raw segment = hash2
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 27,
+            'idsite' => 2,
+            'name' => 'done58833651db311ba4bc11cb26b1900b0f.MyPlugin',  // Raw segment = hash2
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 28,
+            'idsite' => 2,
+            'name' => 'done1a4ead8b39d17dfe89418452c9bba770',   // Raw segment = hash3
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 29,
+            'idsite' => 2,
+            'name' => 'done1a4ead8b39d17dfe89418452c9bba770',   // Raw segment = hash3
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 12:12:12'
+        ),
+    );
+
     /**
      * @var Date
      */
@@ -262,10 +366,21 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         $this->insertOutdatedArchives($this->february);
     }
 
+    public function insertSegmentArchives(Date $archiveDate)
+    {
+        $dummyArchiveData = $this->setDatesOnArchiveData($archiveDate, self::$segmentArchiveData);
+        $this->insertArchiveRows($archiveDate, $dummyArchiveData);
+    }
+
     private function insertOutdatedArchives(Date $archiveDate)
     {
-        $dummyArchiveData = $this->getDummyArchiveDataForDate($archiveDate);
+        $dummyArchiveData = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveData);
+        $this->insertArchiveRows($archiveDate, $dummyArchiveData);
 
+    }
+
+    private function insertArchiveRows(Date $archiveDate, array $dummyArchiveData)
+    {
         $numericTable = ArchiveTableCreator::getNumericTable($archiveDate);
         foreach ($dummyArchiveData as $row) {
             // done row
@@ -301,14 +416,13 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         Db::exec(sprintf($insertSqlTemplate, $table, implode("','", $row)));
     }
 
-    private function getDummyArchiveDataForDate($archiveDate)
+    private function setDatesOnArchiveData($archiveDate, $data)
     {
-        $rows = self::$dummyArchiveData;
-        foreach ($rows as &$row) {
+        foreach ($data as &$row) {
             $row['date1'] = $this->setDateMonthAndYear($row['date1'], $archiveDate);
             $row['date2'] = $this->setDateMonthAndYear($row['date1'], $archiveDate);
         }
-        return$rows;
+        return $data;
     }
 
     private function setDateMonthAndYear($dateString, Date $archiveDate)

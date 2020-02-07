@@ -8,156 +8,224 @@
  */
 
 describe("ViewDataTableTest", function () { // TODO: should remove Test suffix from images instead of naming suites ...Test
-    this.timeout(0);
-
     // TODO: rename screenshot files, remove numbers
     var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 
-    it("should load correctly", function (done) {
-        expect.screenshot("0_initial").to.be.capture(function (page) {
-            page.load(url);
-        }, done);
+    it("should load correctly", async function () {
+        await page.goto(url);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('0_initial');
     });
 
-    it("should load all columns when all columns clicked", function (done) {
-        expect.screenshot("1_all_columns").to.be.capture(function (page) {
-            page.click('.activateVisualizationSelection');
-            page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
-        }, done);
+    it("should load all columns when all columns clicked", async function () {
+        await page.click('.activateVisualizationSelection');
+        await page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('1_all_columns');
     });
 
-    it("should sort a column in descending order when column clicked initially", function (done) {
-        expect.screenshot("2_column_sorted_desc").to.be.capture(function (page) {
-            page.click('th#avg_time_on_site');
-        }, done);
+    it("should sort a column in descending order when column clicked initially", async function () {
+        await page.click('th#avg_time_on_site');
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('2_column_sorted_desc');
     });
 
-    it("should sort a column in ascending order when column clicked second time", function (done) {
-        expect.screenshot("3_column_sorted_asc").to.be.capture(function (page) {
-            page.click('th#avg_time_on_site');
-        }, done);
+    it("should sort a column in ascending order when column clicked second time", async function () {
+        await page.click('th#avg_time_on_site');
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('3_column_sorted_asc');
     });
 
-    it("should show all available visualizations for this report", function (done) {
-        expect.screenshot("5_visualizations").to.be.captureSelector('.dataTableFooterIcons', function (page) {
-            page.click('.activateVisualizationSelection');
-        }, done);
+    it("should show all available visualizations for this report", async function () {
+        await page.click('.activateVisualizationSelection');
+
+        const element = await page.$('.dataTableFooterIcons');
+        expect(await element.screenshot()).to.matchImage('5_visualizations');
     });
 
-    it("should load goals table when goals footer icon clicked", function (done) {
-        expect.screenshot("5_goals").to.be.capture(function (page) {
-            page.click('.tableIcon[data-footer-icon-id=tableGoals]');
-        }, done);
+    it("should load goals table when goals footer icon clicked", async function () {
+        await page.click('.tableIcon[data-footer-icon-id=tableGoals]');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('5_goals');
     });
 
-    it("should load bar graph when bar graph footer icon clicked", function (done) {
-        expect.screenshot('6_bar_graph').to.be.capture(function (page) {
-            page.click('.activateVisualizationSelection');
-            page.click('.tableIcon[data-footer-icon-id=graphVerticalBar]');
-        }, done);
+    it("should load bar graph when bar graph footer icon clicked", async function () {
+        await page.click('.activateVisualizationSelection');
+        await page.click('.tableIcon[data-footer-icon-id=graphVerticalBar]');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('6_bar_graph');
     });
 
-    it("should load pie graph when pie graph footer icon clicked", function (done) {
-        expect.screenshot('7_pie_graph').to.be.capture(function (page) {
-            page.click('.activateVisualizationSelection');
-            page.click('.tableIcon[data-footer-icon-id=graphPie]');
-        }, done);
+    it("should load pie graph when pie graph footer icon clicked", async function () {
+        await page.click('.activateVisualizationSelection');
+        await page.click('.tableIcon[data-footer-icon-id=graphPie]');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('7_pie_graph');
     });
 
-    it("should load a tag cloud when tag cloud footer icon clicked", function (done) {
-        expect.screenshot('8_tag_cloud').to.be.capture(function (page) {
-            page.click('.activateVisualizationSelection');
-            page.click('.tableIcon[data-footer-icon-id=cloud]');
-        }, done);
+    it("should load a tag cloud when tag cloud footer icon clicked", async function () {
+        await page.click('.activateVisualizationSelection');
+        await page.click('.tableIcon[data-footer-icon-id=cloud]');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('8_tag_cloud');
     });
 
-    it("should load normal table when normal table footer icon clicked", function (done) {
-        expect.screenshot('9_normal_table').to.be.capture(function (page) {
-            page.click('.activateVisualizationSelection');
-            page.click('.tableIcon[data-footer-icon-id=table]');
-            page.mouseMove({x: -10, y: -10}); // mae sure no row is highlighted
-        }, done);
+    it("should load normal table when normal table footer icon clicked", async function () {
+        await page.click('.activateVisualizationSelection');
+        await page.click('.tableIcon[data-footer-icon-id=table]');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10); // mae sure no row is highlighted
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('9_normal_table');
     });
 
-    it("should show the limit selector when the limit selector is clicked", function (done) {
-        expect.screenshot('limit_selector_open').to.be.capture(function (page) {
-            page.click('.limitSelection input');
-        }, done);
+    it("should show the limit selector when the limit selector is clicked", async function () {
+        await page.click('.limitSelection input');
+        await page.waitFor(200);
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_selector_open');
     });
 
-    it("should change the number of rows when new limit selected", function (done) {
-        expect.screenshot('10_change_limit').to.be.capture(function (page) {
-            page.evaluate(function () {
-                $('.limitSelection ul li:contains(10):first span').click();
-            });
-        }, done);
+    it("should change the number of rows when new limit selected", async function () {
+        await page.evaluate(function () {
+            $('.limitSelection ul li:contains(10):first span').click();
+        });
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('10_change_limit');
     });
 
-    it("should flatten the table when the flatten link is clicked", function (done) {
-        expect.screenshot('11_flattened').to.be.capture(function (page) {
-            page.click('.dropdownConfigureIcon');
-            page.click('.dataTableFlatten');
-        }, done);
+    it("should flatten the table when the flatten link is clicked", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableFlatten');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('11_flattened');
     });
 
-    it("should show aggregate rows when the aggregate rows option is clicked", function (done) {
-        expect.screenshot('12_aggregate_shown').to.be.capture(function (page) {
-            page.click('.dropdownConfigureIcon');
-            page.click('.dataTableIncludeAggregateRows');
-        }, done);
+    it("should show dimensions separately when option is clicked", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_columns');
     });
 
-    it("should make the report hierarchical when the flatten link is clicked again", function (done) {
-        expect.screenshot('13_make_hierarchical').to.be.capture(function (page) {
-            page.click('.dropdownConfigureIcon');
-            page.click('.dataTableFlatten');
-        }, done);
+    it("should search in subtable dimensions even when they are displayed separately", async function () {
+        await page.click('.dataTableAction.searchAction');
+        await page.focus('.searchAction .dataTableSearchInput');
+        await page.keyboard.type('Bing');
+        await page.click('.searchAction .icon-search');
+        await page.waitForNetworkIdle();
+        await page.evaluate(() => document.activeElement.blur());
+        await page.waitFor(500);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
     });
 
-    it("should show the visits percent when hovering over a column", function (done) {
-        expect.screenshot('14_visits_percent').to.be.capture(function (page) {
-            page.mouseMove('td.column:not(.label)');
-        }, done);
+    it("search should still work when showing dimensions combined again", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('flatten_search');
     });
 
-    it("should load subtables correctly when row clicked", function (done) {
-        expect.screenshot('subtables_loaded').to.be.capture(function (page) {
-            page.click('tr.subDataTable:first');
-            page.click('tr.subDataTable:eq(2)');
-        }, done);
+    it("search should still work when switching to back to separate dimensions", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.waitFor(500);
+        await page.mouse.move(-10, -10);
+        await page.evaluate(() => document.activeElement.blur());
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
     });
 
-    it("should search the table when a search string is entered and the search button clicked", function (done) {
-        expect.screenshot('15_search').to.be.capture(function (page) {
-            page.click('.dataTableAction.searchAction');
-            page.sendKeys('.searchAction .dataTableSearchInput', 'term');
-            page.click('.searchAction .icon-search');
-        }, done);
+    it("should show aggregate rows when the aggregate rows option is clicked", async function () {
+        await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableIncludeAggregateRows');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('12_aggregate_shown');
     });
 
-    it("should display the export popover when clicking the export icon", function (done) {
-        expect.screenshot('export_options').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('.activateExportSelection');
-        }, done);
+    it("should make the report hierarchical when the flatten link is clicked again", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableFlatten');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('13_make_hierarchical');
     });
 
-    it("should display a related report when related report link is clicked", function (done) {
-        expect.screenshot('related_report_click').to.be.capture(function (page) {
-            var newReportUrl = url.replace("=Referrers", "=DevicesDetection").replace("=getKeywords", "=getOsFamilies");
-
-            page.load(newReportUrl);
-            page.click('.datatableRelatedReports li>span:visible');
-        }, done);
+    it("should show the visits percent when hovering over a column", async function () {
+        await page.hover('td.column:not(.label)');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('14_visits_percent');
     });
 
-    it("should exclude low population rows when low population clicked", function (done) {
-        var newUrl = url.replace('moduleToWidgetize=Referrers', 'moduleToWidgetize=Actions').replace('actionToWidgetize=getKeywords', 'actionToWidgetize=getPageUrls');
-        expect.screenshot("exclude_low_population").to.be.capture(function (page) {
-            page.load(newUrl);
-            page.click('.dropdownConfigureIcon');
-            page.click('.dataTableExcludeLowPopulation');
-        }, done);
+    it("should load subtables correctly when row clicked", async function () {
+        (await page.$$('tr.subDataTable'))[0].click();
+        await page.waitForNetworkIdle();
+
+        (await page.$$('tr.subDataTable'))[2].click();
+        await page.waitForNetworkIdle();
+
+        await page.waitFor(function () {
+            return $('.cellSubDataTable > .dataTable').length === 2;
+        });
+
+        await page.mouse.move(-10, -10); // mae sure no row is highlighted
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_loaded');
     });
 
+    it("should search the table when a search string is entered and the search button clicked", async function () {
+        await page.click('.dataTableAction.searchAction');
+        await page.focus('.searchAction .dataTableSearchInput');
+        await page.keyboard.type('term');
+        await page.click('.searchAction .icon-search');
+        await page.waitForNetworkIdle();
+        await page.evaluate(() => document.activeElement.blur());
+        await page.waitFor(500);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('15_search');
+    });
+
+    it("should display the export popover when clicking the export icon", async function () {
+        await page.click('.activateExportSelection');
+        await page.waitFor('#reportExport .btn');
+
+        dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('export_options');
+    });
+
+    it("should show the totals row when the config link is clicked", async function () {
+        await page.goto(url);
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowTotalsRow');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('totals_row');
+    });
+
+    it("should display a related report when related report link is clicked", async function () {
+        const newReportUrl = url.replace("=Referrers", "=DevicesDetection").replace("=getKeywords", "=getOsFamilies");
+        await page.goto(newReportUrl);
+
+        const visibleSpan = await page.jQuery('.datatableRelatedReports li>span:visible');
+        await visibleSpan.click();
+        await page.waitForNetworkIdle();
+
+        await page.mouse.move(-10, -10); // mae sure no row is highlighted
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('related_report_click');
+    });
+
+    it("should exclude low population rows when low population clicked", async function () {
+        const newUrl = url
+            .replace('moduleToWidgetize=Referrers', 'moduleToWidgetize=Actions')
+            .replace('actionToWidgetize=getKeywords', 'actionToWidgetize=getPageUrls');
+        await page.goto(newUrl);
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableExcludeLowPopulation');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('exclude_low_population');
+    });
 });

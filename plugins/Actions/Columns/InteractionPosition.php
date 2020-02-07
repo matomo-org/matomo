@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -18,7 +18,7 @@ use Piwik\Plugin\Dimension\ActionDimension;
 class InteractionPosition extends ActionDimension
 {
     protected $columnName = 'interaction_position';
-    protected $columnType = 'SMALLINT UNSIGNED DEFAULT NULL';
+    protected $columnType = 'MEDIUMINT UNSIGNED DEFAULT NULL';
     protected $nameSingular = 'Actions_ColumnInteractionPosition';
     protected $type = self::TYPE_NUMBER;
 

@@ -2,7 +2,6 @@
     "Live": {
         "GoalType": "రకం",
         "LastHours": "గత %s గంటలు",
-        "LastMinutes": "గత %s నిమిషాలు",
-        "VisitorLog": "సందర్శకుల చిట్టా"
+        "LastMinutes": "గత %s నిమిషాలు"
     }
 }

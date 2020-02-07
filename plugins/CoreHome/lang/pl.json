@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Brak danych w tej kategorii. Spróbuj opcji \"Uwzględnij całą populację\".",
         "ChangeVisualization": "Zmień wizualizację",
+        "ChangePeriod": "Zmień zakres",
         "CheckForUpdates": "Sprawdź aktualizacje",
         "CheckPiwikOut": "Sprawdź Matomo!",
         "ClickToEditX": "Edytuj %s",
@@ -14,7 +15,7 @@
         "DataTableIncludeAggregateRows": "Sumaryczne wiersze są ukryte %s Pokaż je",
         "DataTableHowToSearch": "Naciśnij Enter lub kliknij lupkę aby wyszukać",
         "Default": "domyślne",
-        "DonateCall1": "Matomo zawsze nie będzie Cię nic kosztował, ale to nie znaczy, że nic nas nie kosztuje aby go tworzyć.",
+        "DonateCall1": "Korzystanie z Matomo zawsze będzie bezpłatne, ale to nie znaczy, że tworzenie go nic nas nie kosztuje.",
         "DonateCall2": "Matomo potrzebuje Twojego ciągłego wsparcia by rosnąć i kwitnąć.",
         "DonateCall3": "Jeśli uważasz, że Matomo wniósł znaczącą wartość do Twojego przedsięwzięcia lub projektu, %1$srozważ proszę datek %2$s lub %3$s zakup funkcjonalności premium%4$s. Każdy grosik może pomóc.",
         "DonateFormInstructions": "Kliknij na suwaku aby wybrać ilość, następnie kliknij subskrybuj aby wesprzeć.",
@@ -29,7 +30,7 @@
         "ShowExportUrl": "Pokaż adres eksportu",
         "HideExportUrl": "Ukryj adres eksportu",
         "HomeShortcut": "Strona główna",
-        "HowMuchIsPiwikWorth": "Ile Matomo jest warty dla Ciebie?",
+        "HowMuchIsPiwikWorth": "Ile Matomo jest dla Ciebie warte?",
         "IncludeRowsWithLowPopulation": "Wiersze z niską populacją zostały ukryte %s Pokaż wszystkie wiersze",
         "InjectedHostEmailBody": "Witaj, próbowałem dostać się dzisiaj do Matomo i napotkałem ostrzeżenie o nieznanym hoście.",
         "InjectedHostEmailSubject": "Matomo został otwarty z nieznaną nazwą hosta: %s",
@@ -46,7 +47,6 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Jesteś zalogowany jako '%1$s' ale wygląda na to, że nie masz nadanych żadnych uprawnień w Matomo'u. %2$s Poproś swojego administratora Matomo'a (kliknij aby wysłąć email)%3$s aby nadał Ci uprawnienia 'przeglądania' strony.",
         "OnlyForSuperUserAccess": "Ten widżet jest wyświetlany na domyślnym pulpicie jedynie użytkownikom w uprawnieniami Super Użytkownika.",
-        "PageOf": "%1$s z %2$s",
         "PeriodRange": "Zakres",
         "ReportGeneratedOn": "Raport wygenerowany %s",
         "ReportGeneratedXAgo": "Raport wygenerowany %s temu",
@@ -67,6 +67,8 @@
         "TableNoData": "Brak danych dla tej tabeli.",
         "ThereIsNoDataForThisReport": "Brak danych dla tego raportu.",
         "UnFlattenDataTable": "Raport jest jednolity %s Przełącz na hierarchiczny",
+        "RemoveTotalsRowDataTable": "Raport pokazuje podsumowane wiersze %s Usuń podsumowanie wierszy",
+        "AddTotalsRowDataTable": "Raport nie pokazuje podsumowanych wierszy %s Pokaż podsumowane wiersze",
         "ViewAllPiwikVideoTutorials": "Obejrzyj wideo tutoriale Matomo",
         "WebAnalyticsReports": "Raport analityki statystyk stron",
         "YouAreUsingTheLatestVersion": "Używasz najnowszej wersji Matomo!",
@@ -101,6 +103,7 @@
         "ExpandSubtables": "Rozwiń zagnieżdżone tabele",
         "StandardReport": "Raport standardowy",
         "FlattenReport": "Spłaszcz raport",
-        "ReportWithMetadata": "Raport z metadanymi"
+        "ReportWithMetadata": "Raport z metadanymi",
+        "SeeAvailableVersions": "Zobacz dostępne wersje"
     }
 }

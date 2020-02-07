@@ -22,6 +22,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub</segment>
 		<subtable>
 			<row>
 				<label>dir</label>
@@ -44,6 +45,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
 				<avg_time_generation>0.3</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub%252Fdir</segment>
 				<subtable>
 					<row>
 						<label>/page0.html</label>
@@ -68,6 +70,7 @@
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.15</avg_time_generation>
 						<url>http://example.org/dir1/sub/dir/page0.html</url>
+						<segment>pageUrl==http%253A%252F%252Fexample.org%252Fdir1%252Fsub%252Fdir%252Fpage0.html</segment>
 					</row>
 					<row>
 						<label>/page1.html</label>
@@ -87,6 +90,7 @@
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.3</avg_time_generation>
 						<url>http://example.org/dir1/sub/dir/page1.html</url>
+						<segment>pageUrl==http%253A%252F%252Fexample.org%252Fdir1%252Fsub%252Fdir%252Fpage1.html</segment>
 					</row>
 					<row>
 						<label>/page2.html</label>
@@ -108,6 +112,7 @@
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.45</avg_time_generation>
 						<url>http://example.org/dir1/sub/dir/page2.html</url>
+						<segment>pageUrl==http%253A%252F%252Fexample.org%252Fdir1%252Fsub%252Fdir%252Fpage2.html</segment>
 					</row>
 				</subtable>
 			</row>

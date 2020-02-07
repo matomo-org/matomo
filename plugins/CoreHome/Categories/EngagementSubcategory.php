@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,8 +12,8 @@ use Piwik\Category\Subcategory;
 
 class EngagementSubcategory extends Subcategory
 {
-    protected $categoryId = 'General_Visitors';
+    protected $categoryId = 'General_Actions';
     protected $id = 'VisitorInterest_Engagement';
-    protected $order = 30;
+    protected $order = 46;
 
 }

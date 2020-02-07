@@ -9,6 +9,7 @@
 		<module>Contents</module>
 		<action>getContentNames</action>
 		<dimension>Content Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
 			<nb_interactions>Content Interactions</nb_interactions>
@@ -48,7 +49,7 @@
 			</row>
 			<row>
 				<label>Video Ad</label>
-				<nb_impressions>2</nb_impressions>
+				<nb_impressions>4</nb_impressions>
 				<nb_interactions>0</nb_interactions>
 				<interaction_rate>0%</interaction_rate>
 			</row>
@@ -63,19 +64,16 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
-				<contentTarget>http://www.example.com</contentTarget>
 				<segment>contentName==ImageAd</segment>
-				<idsubdatatable>1</idsubdatatable>
+				
 			</row>
 			<row>
-				<contentTarget>http://piwik.org/</contentTarget>
 				<segment>contentName==Text+Ad</segment>
-				<idsubdatatable>2</idsubdatatable>
+				
 			</row>
 			<row>
-				<contentTarget />
 				<segment>contentName==Video+Ad</segment>
-				<idsubdatatable>3</idsubdatatable>
+				
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />
@@ -86,7 +84,9 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>16</nb_visits>
 		<nb_uniq_visitors>16</nb_uniq_visitors>
+		<nb_visits>16</nb_visits>
+		<nb_impressions>18</nb_impressions>
+		<nb_interactions>6</nb_interactions>
 	</reportTotal>
 </result>

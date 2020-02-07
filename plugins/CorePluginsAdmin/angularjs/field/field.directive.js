@@ -20,7 +20,7 @@
  * placeholder=""
  * rows="3"
  * autocomplete="off"
- * disabled="true"
+ * data-disabled="true"
  * full-width="true"
  * templateFile=""></div>
  *

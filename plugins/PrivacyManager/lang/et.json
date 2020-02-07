@@ -5,13 +5,17 @@
         "CurrentDBSize": "Praegune andmebaasi suurus",
         "DBPurged": "Andmebaas tühjendatud.",
         "DeleteDataInterval": "Kustuta vanad andmed iga",
+        "DeleteLogsOlderThan": "Kustuta logid, mis on vanemad kui",
+        "DeleteMaxRowsNoLimit": "piirangut pole",
         "DeleteDataSettings": "Kustuta vanad külastajate logid ja raportid",
         "EstimatedSpaceSaved": "Ennustatud kettaruumi sääst",
+        "LastDelete": "Viimane kustutamine",
         "MenuPrivacySettings": "Privaatsus",
+        "NextDelete": "Järgmine kustutamine",
         "PurgeNow": "Tühjenda andmebaas kohe",
+        "PurgingData": "Andmete kustutamine...",
         "ReportsDataSavedEstimate": "Andmebaasi suurus",
         "TeaserHeadline": "Privaatsusseaded",
-        "UseDeleteLog": "Kustuta regulaarselt vanad külastajate logid andmebaasist",
         "UseDeleteReports": "Kustuta regulaarselt vanad raportid andmebaasist"
     }
 }

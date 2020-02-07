@@ -33,6 +33,24 @@
             </ul>
         {% endset %}
 
+        {% if properties.show_periods %}
+            <a class="dropdown-button dataTableAction activatePeriodsSelection"
+               href="javascript:;"
+               title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
+               data-activates="dropdownPeriods{{ randomIdForDropdown }}">
+                <span class="icon-calendar"></span>
+            </a>
+            <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
+                {% for selectablePeriod in properties.selectable_periods %}
+                    <li>
+                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
+                            <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         {% if activeFooterIcon and numIcons > 1 %}
             <a class="dropdown-button dataTableAction activateVisualizationSelection"
                href="javascript:;"
@@ -58,6 +76,7 @@
                report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
                api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
                href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
+               max-filter-limit="{{ properties.max_export_filter_limit|e('html_attr') }}"
                ><span class="icon-export"></span></a>
         {% endif %}
 
@@ -87,15 +106,39 @@
             </a>
         {% endif %}
 
+        {% if properties.datatable_actions|default is not empty %}
+        {% for action in properties.datatable_actions %}
+            <a class='dataTableAction {{ action.id|e('html_attr') }}'
+               href='javascript:;' title="{{ action.title|e('html_attr') }}"
+            >
+                {% if action.icon starts with 'icon-' %}
+                    <span class="{{ action.icon }}"></span>
+                {% else %}
+                    <img width="16" height="16" title="{{ action.title }}" src="{{ action.icon }}"/>
+                {% endif %}
+            </a>
+        {% endfor %}
+        {% endif %}
+
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
             {% if properties.show_flatten_table %}
+                <li>
+                    <div class="configItem dataTableFlatten"></div>
+                </li>
                 {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
+                    {% if hasMultipleDimensions|default %}
+                        <li>
+                            <div class="configItem dataTableShowDimensions"></div>
+                        </li>
+                    {% endif %}
                     <li>
                         <div class="configItem dataTableIncludeAggregateRows"></div>
                     </li>
                 {% endif %}
+            {% endif %}
+            {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
                 <li>
-                    <div class="configItem dataTableFlatten"></div>
+                    <div class="configItem dataTableShowTotalsRow"></div>
                 </li>
             {% endif %}
             {% if properties.show_exclude_low_population %}
@@ -103,7 +146,7 @@
                     <div class="configItem dataTableExcludeLowPopulation"></div>
                 </li>
             {% endif %}
-            {% if properties.show_pivot_by_subtable|default is not empty %}
+            {% if properties.show_pivot_by_subtable|default is not empty and not isComparing|default(false) %}
                 <li>
                     <div class="configItem dataTablePivotBySubtable"></div>
                 </li>

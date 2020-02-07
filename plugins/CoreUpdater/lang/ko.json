@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "새로운 플러그인 업데이트를 체크하고 있습니다",
-        "ClickHereToViewSqlQueries": "이 목록을 실행하는 SQL 쿼리를 조회하고 복사하려면 여기를 클릭하세요",
         "CriticalErrorDuringTheUpgradeProcess": "업데이트 과정중에 치명적인 에러 발생:",
         "DatabaseUpgradeRequired": "데이터베이스 업그레이드 필요함",
         "DisablingIncompatiblePlugins": "호환이 안되는 플러그인들을 비활성화하는 중입니다: %s",
@@ -24,14 +23,12 @@
         "HelpMessageIntroductionWhenError": "위와 같은 경우는 코어 에러 메세지입니다. 원인을 설명할 수 있으나 도움이 필요하다면:",
         "HelpMessageIntroductionWhenWarning": "업데이트는 성공적으로 완료되었습니다. 하지만 진행중에 문제가 있었습니다. 자세한 사항은 위의 설명을 읽어주세요. 더 많은 도움은:",
         "HighTrafficPiwikServerEnableMaintenance": "만약 여러분이 높은 트래픽의 피윅 서버를 다룰려고 한다면, %1$s 잠깐동안 방문자 추적을 비활성화하고 관리모드로 피윅 유저 인터페이스를 설정하도록 추천합니다 %2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "노트: 어떤 플러그인들은 피윅 %s 와 호환이 되지 않습니다. 마켓플레이스상에서 업데이트를 하세요, 그렇지 않으면 업그레이드시, 비활성화될 것입니다.",
         "InstallingTheLatestVersion": "최근 버전 설치중",
         "LatestBetaRelease": "최근 릴리즈 된 베타 버전",
         "LatestStableRelease": "최근 릴리즈 된 안정 버전",
         "Latest2XStableRelease": "최근 안정 2.X 버전",
         "Latest2XBetaRelease": "최근 베타 2.X 버전",
         "LtsSupportVersion": "Long Term Support 버전",
-        "ListOfSqlQueriesFYI": "FYI: 피윅 %s 에 있는 데이타베이스를 업그레이드 하기 위해서 이 SQL 쿼리들이 실행되어질 것입니다.",
         "MajorUpdateWarning1": "중요한 업데이트입니다! 평소보다 더 오래 걸릴지도 모릅니다.",
         "MajorUpdateWarning2": "다음은 무거운 설치시 알아야하는 중요한 내용입니다.",
         "NeedHelpUpgrading": "피윅을 업그레이드를 하는데 도움이 필요하십니까?",

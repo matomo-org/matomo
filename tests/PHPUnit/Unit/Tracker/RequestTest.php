@@ -2,14 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Cookie;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
@@ -47,44 +47,6 @@ class RequestTest extends UnitTestCase
         $request = $this->buildRequest(array('cdt' => '' . 5));
         $request->setIsAuthenticated();
         $this->assertSame($this->time, $request->getCurrentTimestamp());
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Custom timestamp is 86500 seconds old
-     */
-    public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
-        $this->assertSame($this->time, $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfNotAuthenticatedButTimestampIsRecent()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5)));
-
-        $this->assertSame('' . ($this->time - 5), $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfAuthenticatedAndValid()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
-        $request->setIsAuthenticated();
-        $this->assertSame('' . ($this->time - 86500), $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfTimestampIsInFuture()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800)));
-        $this->assertSame($this->time, $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
-    {
-        $request = $this->buildRequest(array('cdt' => '5 years ago'));
-        $request->setIsAuthenticated();
-        $this->assertNotSame($this->time, $request->getCurrentTimestamp());
-        $this->assertNotEmpty($request->getCurrentTimestamp());
     }
 
     public function test_isEmptyRequest_ShouldReturnTrue_InCaseNoParamsSet()
@@ -162,7 +124,7 @@ class RequestTest extends UnitTestCase
     {
         $request = $this->buildRequest(array('_idts' => '' . ($this->time - 43200)));
         $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceFirstVisit());
+        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
     }
 
     public function test_getDaysSinceFirstVisit_Yesterday()
@@ -181,7 +143,7 @@ class RequestTest extends UnitTestCase
 
     public function test_getDaysSinceFirstVisit_IfTimestampIsNotValidShouldIgnoreParam()
     {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 15 * 365))));
+        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 25 * 365))));
         $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
     }
 
@@ -491,32 +453,6 @@ class RequestTest extends UnitTestCase
 
         $request = $this->buildRequest(array('h' => '-26', 'm' => '-60', 's' => '-333'));
         $this->assertSame('00:00:00', $request->getLocalTime());
-    }
-
-    public function test_getIdSite()
-    {
-        $request = $this->buildRequest(array('idsite' => '14'));
-        $this->assertSame(14, $request->getIdSite());
-    }
-
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '0'
-     */
-    public function test_getIdSite_shouldThrowException_IfValueIsZero()
-    {
-        $request = $this->buildRequest(array('idsite' => '0'));
-        $request->getIdSite();
-    }
-
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '-1'
-     */
-    public function test_getIdSite_shouldThrowException_IfValueIsLowerThanZero()
-    {
-        $request = $this->buildRequest(array('idsite' => '-1'));
-        $request->getIdSite();
     }
 
     public function test_getIpString_ShouldDefaultToServerAddress()

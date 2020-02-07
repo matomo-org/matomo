@@ -15,7 +15,6 @@
         "TheLoginScreen": "Skjár fyrir auðkenningu",
         "User": "Notandi",
         "UsersManagement": "Notendastjórnun",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Vefsíðan sem óauðkenndir notendur fá",
         "Username": "Notandanafn"
     }
 }

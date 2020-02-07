@@ -36,8 +36,8 @@
             model.sites = sites;
 
             var numSites      = sites.length;
-            model.offsetStart = model.currentPage * model.pageSize;
-            model.offsetEnd   = model.offsetStart + numSites;
+            model.offsetStart = model.currentPage * model.pageSize + 1;
+            model.offsetEnd   = model.offsetStart + numSites - 1;
             model.hasPrev     = model.currentPage >= 1;
             model.hasNext     = numSites === model.pageSize;
         }

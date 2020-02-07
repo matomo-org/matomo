@@ -19,7 +19,7 @@
         "NbUsersDescription": "kullanıcı",
         "NbVisitsDescription": "ziyaret",
         "NbVisitsBounced": "hemen çıkan ziyaretler (bir sayfadan sonra siteden ayrılan)",
-        "PluginDescription": "Bu rapor, ziyaretler, tekil ziyaretçiler, işlem sayısı, hemen çıkma oranı gibi genel istatistik ölçütlerini içerir.",
+        "PluginDescription": "Bu rapor, ziyaretler, tekil ziyaretçiler, işlem sayısı, hemen çıkma oranı gibi genel istatistik ölçümlerini içerir.",
         "VisitsSummary": "Ziyaret Özeti",
         "VisitsSummaryDocumentation": "Ziyaret sayılarının özetini görüntüler.",
         "WidgetLastVisits": "Zamana Göre Ziyaretler",

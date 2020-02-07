@@ -19,22 +19,7 @@
     </div>
     <nav>
         <div class="nav-wrapper">
-            <span id="logo" class="brand-logo center">
-
-                {% if isCustomLogo == false %}
-                    <a href="https://matomo.org" title="{{ linkTitle }}">
-                {% endif %}
-                {% if hasSVGLogo %}
-                    <img src='{{ logoSVG }}' class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" title="{{ linkTitle }}" alt="Matomo"/>
-                {% else %}
-                    <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Matomo" />
-                {% endif %}
-
-                {% if isCustomLogo == false %}
-                    </a>
-                {% endif %}
-
-            </span>
+            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': true, 'useLargeLogo': false } %}
         </div>
     </nav>
 
@@ -51,13 +36,13 @@
                             <strong>{{ 'General_Error'|translate }}</strong>: {{ error|raw }}<br/>
                         </div>
                     {% elseif success is defined %}
-                        <p class="message">{{ 'ScheduledReports_SuccessfullyUnsubscribed'|translate('<strong>'~reportName~'</strong>')|raw }}</p>
+                        <p class="message">{{ 'ScheduledReports_SuccessfullyUnsubscribed'|translate('<strong>'~reportName|rawSafeDecoded~'</strong>')|raw }}</p>
                     {% else %}
                         <form method="POST" ng-non-bindable>
                             <div class="row">
                                 <div class="col s12">
                                     <br/>
-                                    <p>{{ 'ScheduledReports_UnsubscribeReportConfirmation'|translate('<strong>'~reportName~'</strong>')|raw }}</p>
+                                    <p>{{ 'ScheduledReports_UnsubscribeReportConfirmation'|translate('<strong>'~reportName|rawSafeDecoded~'</strong>')|raw }}</p>
                                     <br /><br /><br />
                                     <input type="hidden" name="nonce" id="unsubscribe_form_nonce" value="{{ nonce }}"/>
                                     <input class="submit btn" type="submit" name="confirm" value="{{ 'ScheduledReports_Unsubscribe'|translate }}"/>

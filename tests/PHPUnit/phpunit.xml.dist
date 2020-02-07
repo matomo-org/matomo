@@ -23,6 +23,8 @@
         <directory>./System</directory>
         <directory>../../plugins/*/tests</directory><!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
         <directory>../../plugins/*/Test</directory>
+        <directory>../../tests/resources/custompluginsdir/*/tests/System</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/System</directory>
         <exclude>../../plugins/*/tests/Integration</exclude>
         <exclude>../../plugins/*/Test/Integration</exclude>
         <exclude>../../plugins/*/tests/Unit</exclude>
@@ -34,6 +36,8 @@
     <testsuite name="SystemTestsPlugins">
         <directory>../../plugins/*/tests</directory><!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
         <directory>../../plugins/*/Test</directory>
+        <directory>../../tests/resources/custompluginsdir/*/tests/System</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/System</directory>
         <exclude>../../plugins/*/tests/Integration</exclude>
         <exclude>../../plugins/*/Test/Integration</exclude>
         <exclude>../../plugins/*/tests/Unit</exclude>
@@ -43,11 +47,24 @@
         <directory>./Integration</directory>
         <directory>../../plugins/*/tests/Integration</directory>
         <directory>../../plugins/*/Test/Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+    </testsuite>
+    <testsuite name="IntegrationTestsCore">
+        <directory>./Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+    </testsuite>
+    <testsuite name="IntegrationTestsPlugins">
+        <directory>../../plugins/*/tests/Integration</directory>
+        <directory>../../plugins/*/Test/Integration</directory>
     </testsuite>
     <testsuite name="UnitTests">
         <directory>./Unit</directory>
         <directory>../../plugins/*/tests/Unit</directory>
         <directory>../../plugins/*/Test/Unit</directory>
+        <directory>../../tests/resources/custompluginsdir/*/tests/Unit</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/Unit</directory>
     </testsuite>
     <testsuite name="PluginTests">
         <directory>../../plugins/*/tests</directory>

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -86,6 +86,12 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
             array('A!@B%', array('where' => " ( A IS NULL OR A NOT LIKE ? ) ", 'bind' => array('%B\%%'))),
             array('A=$B%', array('where' => " A LIKE ? ", 'bind' => array('%B\%'))),
             array('A=^B%', array('where' => " A LIKE ? ", 'bind' => array('B\%%'))),
+
+            array('log_visit.A==3', ['where' => ' log_visit.A = ? ', 'bind' => ['3']], [], ['log_visit']),
+            array('log_visit.A==3;log_conversion.B>4', ['where' => ' log_visit.A = ? AND log_conversion.B > ? ', 'bind' => ['3', '4']], [], ['log_visit', 'log_conversion']),
+            array('(UNIX_TIMESTAMP(log_visit.A)-log_visit.B)==3', ['where' => ' (UNIX_TIMESTAMP(log_visit.A)-log_visit.B) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
+            array('(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`)==3', ['where' => ' (UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
+            array('(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`)==3', ['where' => ' (UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
         );
     }
 
@@ -93,14 +99,17 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getOperationSegmentExpressions
      * @group Core
      */
-    public function testSegmentSqlWithOperations($expression, $expectedSql)
+    public function testSegmentSqlWithOperations($expression, $expectedSql, $initialFrom = [], $expectedTables = [])
     {
         $segment = new SegmentExpression($expression);
         $segment->parseSubExpressions();
-        $segment->parseSubExpressionsIntoSqlExpressions();
+        $segment->parseSubExpressionsIntoSqlExpressions($initialFrom);
         $processed = $segment->getSql();
-        $expectedSql['join'] = '';
+        if (empty($expectedSql['join'])) {
+            $expectedSql['join'] = '';
+        }
         $this->assertEquals($expectedSql, $processed);
+        $this->assertEquals($expectedTables, $initialFrom);
     }
 
     /**
@@ -135,5 +144,72 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
             return;
         }
         $this->fail('Expected exception not raised for:' . var_export($segment->getSql(), true));
+    }
+
+    /**
+     * @dataProvider getTestDataForParseColumnsFromSqlExpr
+     */
+    public function test_parseColumnsFromSqlExpr($field, $expected)
+    {
+        $actual = SegmentExpression::parseColumnsFromSqlExpr($field);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForParseColumnsFromSqlExpr()
+    {
+        return [
+            [
+                'log_visit.column',
+                ['log_visit.column'],
+            ],
+            [
+                'log_visitcolumn',
+                [],
+            ],
+            [
+                '`log_visit.column`',
+                ['log_visit.column'],
+            ],
+            [
+                '`log_visit`.column',
+                ['log_visit.column'],
+            ],
+            [
+                '`log_visit`.`column`',
+                ['log_visit.column'],
+            ],
+            [
+                'log_visit.`column`',
+                ['log_visit.column'],
+            ],
+            [
+                'log_visit.column == 5 OR log_link_visit_action.othercolumn <> 3',
+                ['log_visit.column', 'log_link_visit_action.othercolumn'],
+            ],
+            [
+                '(log_visit.column == 5)',
+                ['log_visit.column'],
+            ],
+            [
+                '(log_visit.column = 5) AND ((HOUR(log_visit.column) == 12)) AND FUNC(mytable.mycolumn) - OTHERFUNC(`myothertable`.`myothercolumn`) = LASTFUNC(mylasttable.mylastcolumn)',
+                ['log_visit.column', 'mytable.mycolumn', 'myothertable.myothercolumn', 'mylasttable.mylastcolumn'],
+            ],
+            [
+                'log_visit.column = 5 OR @@session.whatever == 5',
+                ['log_visit.column'],
+            ],
+            [
+                '@something.whatever = 5',
+                [],
+            ],
+            [
+                '@something.whatever <> 5.0',
+                [],
+            ],
+            [
+                'log_visit.thing = 3.45 AND @log_visit.what < 23.00',
+                ['log_visit.thing'],
+            ],
+        ];
     }
 }

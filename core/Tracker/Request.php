@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -16,7 +16,7 @@ use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -86,12 +86,25 @@ class Request
             }
         }
 
-        // check for 4byte utf8 characters in url and replace them with �
+        // check for 4byte utf8 characters in all tracking params and replace them with �
         // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
-        if (array_key_exists('url', $this->params) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $this->params['url'])) {
-            Common::printDebug("Unsupport character detected. Replacing with \xEF\xBF\xBD");
-            $this->params['url'] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $this->params['url']);
+        $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
+    }
+
+    protected function replaceUnsupportedUtf8Chars($value, $key=false)
+    {
+        if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
+            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
         }
+
+        if (is_array($value)) {
+            array_walk_recursive ($value, function(&$value, $key){
+                $value = $this->replaceUnsupportedUtf8Chars($value, $key);
+            });
+        }
+
+        return $value;
     }
 
     /**
@@ -133,6 +146,7 @@ class Request
             try {
                 $idSite = $this->getIdSite();
             } catch (Exception $e) {
+                Common::printDebug("failed to authenticate: invalid idSite");
                 $this->isAuthenticated = false;
                 return;
             }
@@ -161,6 +175,8 @@ class Request
 
             if ($this->isAuthenticated) {
                 Common::printDebug("token_auth is authenticated!");
+            } else {
+                StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
             }
         } else {
             $this->isAuthenticated = true;
@@ -201,6 +217,12 @@ class Request
 
         Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
 
+        /**
+         * @ignore
+         * @internal
+         */
+        Piwik::postEvent('Tracker.Request.authenticate.failed');
+
         return false;
     }
 
@@ -215,7 +237,7 @@ class Request
             $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
         }
 
-        $daysSinceFirstVisit = round(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400, $precision = 0);
+        $daysSinceFirstVisit = floor(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400);
 
         if ($daysSinceFirstVisit < 0) {
             $daysSinceFirstVisit = 0;
@@ -400,7 +422,7 @@ class Request
         $paramType = $supportedParams[$name][1];
 
         if ($this->hasParam($name)) {
-            $this->paramsCache[$name] = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+            $this->paramsCache[$name] = $this->replaceUnsupportedUtf8Chars(Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params), $name);
         } else {
             $this->paramsCache[$name] = $paramDefaultValue;
         }
@@ -480,6 +502,18 @@ class Request
             }
         }
 
+        $cache = Tracker\Cache::getCacheGeneral();
+        if (!empty($cache['delete_logs_enable']) && !empty($cache['delete_logs_older_than'])) {
+            $scheduleInterval = $cache['delete_logs_schedule_lowest_interval'];
+            $maxLogAge = $cache['delete_logs_older_than'];
+            $logEntryCutoff = time() - (($maxLogAge + $scheduleInterval) * 60*60*24);
+            if ($cdt < $logEntryCutoff) {
+                $message = "Custom timestamp is older than the configured 'deleted old raw data' value of $maxLogAge days";
+                Common::printDebug($message);
+                throw new InvalidRequestParameterException($message);
+            }
+        }
+
         return $cdt;
     }
 
@@ -497,15 +531,15 @@ class Request
         }
 
         return $time <= $now
-            && $time > $now - 10 * 365 * 86400;
+            && $time > $now - 20 * 365 * 86400;
     }
 
-    public function getIdSite()
+    /**
+     * @internal
+     * @ignore
+     */
+    public function getIdSiteUnverified()
     {
-        if (isset($this->idSiteCache)) {
-            return $this->idSiteCache;
-        }
-
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
@@ -521,8 +555,26 @@ class Request
          *                      request.
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
+        return $idSite;
+    }
+
+    public function getIdSite()
+    {
+        if (isset($this->idSiteCache)) {
+            return $this->idSiteCache;
+        }
+
+        $idSite = $this->getIdSiteUnverified();
 
         if ($idSite <= 0) {
+            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
+        }
+
+        // check site actually exists, should throw UnexpectedWebsiteFoundException directly
+        $site = Cache::getCacheWebsiteAttributes($idSite);
+
+        if (empty($site)) {
+            // fallback just in case exception wasn't thrown...
             throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
         }
 
@@ -580,7 +632,8 @@ class Request
             if ($id < 1
                 || $id > $maxCustomVars
                 || count($keyValue) != 2
-                || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
+                || (!is_string($keyValue[0]) && !is_numeric($keyValue[0])
+                || (!is_string($keyValue[1]) && !is_numeric($keyValue[1])))
             ) {
                 Common::printDebug("Invalid custom variables detected (id=$id)");
                 continue;
@@ -633,7 +686,7 @@ class Request
         $cookie = $this->makeThirdPartyCookieUID();
         $idVisitor = bin2hex($idVisitor);
         $cookie->set(0, $idVisitor);
-        $cookie->save();
+        $cookie->save('None');
 
         Common::printDebug(sprintf("We set the visitor ID to %s in the 3rd party cookie...", $idVisitor));
     }
@@ -687,15 +740,6 @@ class Request
     public function getVisitorId()
     {
         $found = false;
-        
-        // If User ID is set it takes precedence
-        $userId = $this->getForcedUserId();
-        if ($userId) {
-            $userIdHashed = $this->getUserIdHashed($userId);
-            $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
-            Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
-            $found = true;
-        }
 
         // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
         if (!$found) {
@@ -825,7 +869,7 @@ class Request
     }
 
     /**
-     * Matches implementation of PiwikTracker::getUserIdHashed
+     * Matches implementation of MatomoTracker::getUserIdHashed
      *
      * @param $userId
      * @return string

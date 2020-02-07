@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\ProxyHttp;
@@ -22,9 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'
  *
  * @see core/Piwik.php
  */
-define('PIWIK_INCLUDE_PATH', '..');
 define('PIWIK_DOCUMENT_ROOT', '..');
-define('PIWIK_USER_PATH', '..');
+
+if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
+    require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
+}
+
+if (!defined('PIWIK_INCLUDE_PATH')) {
+    define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
+}
+
+if (!defined('PIWIK_USER_PATH')) {
+    define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
+}
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
@@ -37,7 +47,7 @@ if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {
 // Composer autoloader
 require PIWIK_VENDOR_PATH . '/autoload.php';
 
-$file = '../piwik.js';
+$file = '../matomo.js';
 
 $daysExpireFarFuture = 10;
 
@@ -45,7 +55,7 @@ $byteStart = $byteEnd = false;
 if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     || !PIWIK_KEEP_JS_TRACKER_COMMENT
 ) {
-    $byteStart = 371; // length of comment header in bytes
+    $byteStart = 378; // length of comment header in bytes
 }
 
 class Validator {

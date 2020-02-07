@@ -6,5 +6,6 @@
 		<email>login1@example.com</email>
 		<superuser_access>1</superuser_access>
 		
+		<uses_2fa>0</uses_2fa>
 	</row>
 </result>

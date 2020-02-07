@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,10 +15,9 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Network\IPUtils;
-use Piwik\Piwik;
-use Piwik\Plugin;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -31,7 +30,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  * views, time spent, etc.
  *
  * Whether a visit is NEW or KNOWN we also save the action in the DB.
- * One request to the piwik.php script is associated to one action.
+ * One request to the matomo.php script is associated to one action.
  *
  */
 class Visit implements VisitInterface
@@ -66,20 +65,22 @@ class Visit implements VisitInterface
     protected $visitProperties;
 
     /**
-     * @var VisitorRecognizer
-     */
-    private $visitorRecognizer;
-
-    /**
      * @var ArchiveInvalidator
      */
     private $invalidator;
+
+    protected $fieldsThatRequireAuth = array(
+        'city',
+        'region',
+        'country',
+        'lat',
+        'long'
+    );
 
     public function __construct()
     {
         $requestProcessors = StaticContainer::get('Piwik\Plugin\RequestProcessors');
         $this->requestProcessors = $requestProcessors->getRequestProcessors();
-        $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
         $this->visitProperties = null;
         $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
@@ -91,6 +92,30 @@ class Visit implements VisitInterface
     public function setRequest(Request $request)
     {
         $this->request = $request;
+    }
+
+    private function checkSiteExists(Request $request)
+    {
+        try {
+            $request->getIdSite();
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // we allow 0... the request will fail anyway as the site won't exist... allowing 0 will help us
+            // reporting this tracking problem as it is a common issue. Otherwise we would not be able to report
+            // this problem in tracking failures
+            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
+            throw $e;
+        }
+    }
+
+    private function validateRequest(Request $request)
+    {
+        // Check for params that aren't allowed to be included unless the request is authenticated
+        foreach ($this->fieldsThatRequireAuth as $field) {
+            Base::getValueFromUrlParamsIfAllowed($field, $request);
+        }
+
+        // Special logic for timestamp as some overrides are OK without auth and others aren't
+        $request->getCurrentTimestamp();
     }
 
     /**
@@ -115,11 +140,15 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
+        $this->checkSiteExists($this->request);
+
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
 
             $processor->manipulateRequest($this->request);
         }
+
+        $this->validateRequest($this->request);
 
         $this->visitProperties = new VisitProperties();
 
@@ -521,14 +550,6 @@ class Visit implements VisitInterface
             $valuesToUpdate['idvisitor'] = $binIdVisitor;
         }
 
-        // User ID takes precedence and overwrites idvisitor value
-        $userId = $this->request->getForcedUserId();
-        if ($userId) {
-            $userIdHash = $this->request->getUserIdHashed($userId);
-            $binIdVisitor = Common::hex2bin($userIdHash);
-            $this->visitProperties->setProperty('idvisitor', $binIdVisitor);
-            $valuesToUpdate['idvisitor'] = $binIdVisitor;
-        }
         return $valuesToUpdate;
     }
 
@@ -550,9 +571,14 @@ class Visit implements VisitInterface
 
         $date = Date::factory((int)$time, $timezone);
 
-        if (!$date->isToday()) { // we don't have to handle in case date is in future as it is not allowed by tracker
-            $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
+        // $date->isToday() is buggy when server and website timezones don't match - so we'll do our own checking
+        $startOfTomorrow = Date::factoryInTimezone('today', $timezone)->addDay(1);
+        $isLaterThanToday = $date->getTimestamp() >= $startOfTomorrow->getTimestamp();
+        if ($isLaterThanToday) {
+            return;
         }
+
+        $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
     }
 
     private function getTimezoneForSite($idSite)

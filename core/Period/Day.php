@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -91,11 +91,6 @@ class Day extends Period
         return $this->date->toString($format);
     }
 
-    /**
-     * Returns the current period as a string
-     *
-     * @return string
-     */
     public function __toString()
     {
         return $this->toString();

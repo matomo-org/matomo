@@ -2,20 +2,23 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics;
-use Piwik\Period;
+use Piwik\Plugin\LogTablesProvider;
+use Piwik\Segment;
 use Piwik\Tracker\GoalManager;
 use Psr\Log\LoggerInterface;
 
@@ -127,6 +130,8 @@ class LogAggregator
 
     const FIELDS_SEPARATOR = ", \n\t\t\t";
 
+    const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
+
     /** @var \Piwik\Date */
     protected $dateStart;
 
@@ -149,6 +154,15 @@ class LogAggregator
      */
     private $logger;
 
+    /**
+     * @var bool
+     */
+    private $isRootArchiveRequest;
+
+    /**
+     * @var bool
+     */
+    private $allowUsageSegmentCache = false;
 
     /**
      * Constructor.
@@ -161,6 +175,7 @@ class LogAggregator
         $this->dateEnd = $params->getDateTimeEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
+        $this->isRootArchiveRequest = $params->isRootArchiveRequest();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
@@ -174,10 +189,178 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigiin;
     }
 
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    public function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();
-        $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        $tableName = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+
+        $lengthPrefix = Common::mb_strlen(Common::prefixTable(''));
+        $maxLength = Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH - $lengthPrefix;
+
+        return Common::mb_substr($tableName, 0, $maxLength);
+    }
+
+    public function cleanup()
+    {
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+            $segmentTable = $this->getSegmentTmpTableName();
+            $segmentTable = Common::prefixTable($segmentTable);
+
+            if ($this->doesSegmentTableExist($segmentTable)) {
+                // safety in case an older MySQL version is used that does not drop table at the end of the connection
+                // automatically. also helps us release disk space/memory earlier when multiple segments are archived
+                $this->getDb()->query('DROP TEMPORARY TABLE IF EXISTS ' . $segmentTable);
+            }
+
+            $logTablesProvider = $this->getLogTableProvider();
+            if ($logTablesProvider->getLogTable($segmentTable)) {
+                $logTablesProvider->setTempTable(null); // no longer available
+            }
+        }
+    }
+
+    private function doesSegmentTableExist($segmentTablePrefixed)
+    {
+        try {
+            // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
+            $this->getDb()->fetchOne('SELECT 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
+            $tableExists = true;
+        } catch (\Exception $e) {
+            $tableExists = false;
+        }
+
+        return $tableExists;
+    }
+
+    private function isSegmentCacheEnabled()
+    {
+        if (!$this->allowUsageSegmentCache) {
+            return false;
+        }
+
+        $config = Config::getInstance();
+        $general = $config->General;
+        return !empty($general['enable_segments_cache']);
+    }
+
+    public function allowUsageSegmentCache()
+    {
+        $this->allowUsageSegmentCache = true;
+    }
+
+    private function getLogTableProvider()
+    {
+        return StaticContainer::get(LogTablesProvider::class);
+    }
+
+    private function createTemporaryTable($unprefixedSegmentTableName, $segmentSelectSql, $segmentSelectBind)
+    {
+        $table = Common::prefixTable($unprefixedSegmentTableName);
+
+        if ($this->doesSegmentTableExist($table)) {
+            return; // no need to create the table, it was already created... better to have a select vs unneeded create table
+        }
+	    
+        $engine = '';
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            $engine = 'ENGINE=MEMORY';
+        }
+        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $engine;
+        // we do not insert the data right away using create temporary table ... select ...
+        // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
+
+        $readerDb = Db::getReader();
+        try {
+            $readerDb->query($createTableSql);
+        } catch (\Exception $e) {
+            if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
+                return;
+            }
+            throw $e;
+        }
+
+        $transactionLevel = new Db\TransactionLevel($readerDb);
+        $canSetTransactionLevel = $transactionLevel->canLikelySetTransactionLevel();
+
+	    if ($canSetTransactionLevel) {
+	        // i know this could be shortened to one if or one line but I want to make sure this line where we
+            // set uncomitted is easily noticable in the code as it could be missed quite easily otherwise
+            // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
+            // eg the visits table
+	        if (!$transactionLevel->setUncommitted()) {
+	        	$canSetTransactionLevel = false;
+	        }
+	    }
+
+        if (!$canSetTransactionLevel) {
+            // transaction level doesn't work... we're instead executing the select individually and then insert the data
+            // this uses more memory but at least is not locking
+            $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
+            if (!empty($all)) {
+                // we're not using batchinsert since this would not support the reader DB.
+                $readerDb->query('INSERT INTO ' . $table . ' VALUES ('.implode('),(', array_column($all, 'idvisit')).')');
+            }
+            return;
+        }
+
+        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $readerDb->query($insertIntoStatement, $segmentSelectBind);
+
+        $transactionLevel->restorePreviousStatus();
+    }
+
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    {
+        $segment = $this->segment;
+        $bind = $this->getGeneralQueryBindParams();
+
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+            // here we create the TMP table and apply the segment including the datetime and the requested idsite
+            // at the end we generated query will no longer need to apply the datetime/idsite and segment
+            $segment = new Segment('', $this->sites);
+
+            $segmentTable = $this->getSegmentTmpTableName();
+
+            $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
+            $segmentBind = $this->getGeneralQueryBindParams();
+
+            $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+            $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
+            $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
+            $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
+            $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
+
+            $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
+
+            if (!is_array($from)) {
+                $from = array($segmentTable, $from);
+            } else {
+                array_unshift($from, $segmentTable);
+            }
+
+            $logTablesProvider = $this->getLogTableProvider();
+            $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
+
+            foreach ($logTablesProvider->getAllLogTables() as $logTable) {
+                if ($logTable->getDateTimeColumn()) {
+                    $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
+                    if (strpos($where, $whereTest) === 0) {
+                        // we don't need to apply the where statement again as it would have been applied already
+                        // in the temporary table... instead it should join the tables through the idvisit index
+                        $where = ltrim(str_replace($whereTest, '', $where));
+                        if (stripos($where, 'and ') === 0) {
+                            $where = substr($where, strlen('and '));
+                        }
+                        $bind = array();
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
 
         $select = 'SELECT';
         if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
@@ -185,9 +368,11 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
-	// Log on DEBUG level all SQL archiving queries
-        $this->logger->debug($query['sql']);
-
+        if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
+        }
+ 
         return $query;
     }
 
@@ -318,13 +503,14 @@ class LogAggregator
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
+     *
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
-                                           $metrics = false, $rankingQuery = false)
+                                           $metrics = false, $rankingQuery = false, $orderBy = false)
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -333,16 +519,22 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
+        $orderBys = $orderBy ? [$orderBy] : [];
 
         if ($rankingQuery) {
-            $orderBy = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
+            $orderBys[] = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
         }
 
-        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->generateQuery($select, $from, $where, $groupBy, implode(', ', $orderBys));
 
         if ($rankingQuery) {
             unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);
+
+            // INDEX_NB_UNIQ_FINGERPRINTS is only processed if specifically asked for
+            if (!$this->isMetricRequested(Metrics::INDEX_NB_UNIQ_FINGERPRINTS, $metrics)) {
+                unset($availableMetrics[Metrics::INDEX_NB_UNIQ_FINGERPRINTS]);
+            }
+
             $sumColumns = array_keys($availableMetrics);
 
             if ($metrics) {
@@ -423,6 +615,7 @@ class LogAggregator
      * @param $dimensions
      * @param $tableName
      * @param bool $appendSelectAs
+     * @param bool $parseSelectAs
      * @return mixed
      */
     protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
@@ -432,11 +625,15 @@ class LogAggregator
 
             if (!is_numeric($selectAs)) {
                 $selectAsString = $selectAs;
-            } else {
-                // if function, do not alias or prefix
-                if ($this->isFieldFunctionOrComplexExpression($field)) {
-                    $selectAsString = $appendSelectAs = false;
+            } else if ($this->isFieldFunctionOrComplexExpression($field)) {
+                // if complex expression has a select as, use it
+                if (!$appendSelectAs && preg_match('/\s+AS\s+(.*?)\s*$/', $field, $matches)) {
+                    $field = $matches[1];
+                    continue;
                 }
+
+                // if function w/o select as, do not alias or prefix
+                $selectAsString = $appendSelectAs = false;
             }
 
             $isKnownField = !in_array($field, array('referrer_data'));
@@ -675,13 +872,21 @@ class LogAggregator
      *
      *                                           If a string is used for this parameter, the table alias is not
      *                                           suffixed (since there is only one column).
+     * @param string $secondaryOrderBy      A secondary order by clause for the ranking query
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)
      *               to see what aggregate data is calculated by the query.
      * @api
      */
-    public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
-    {
+    public function queryActionsByDimension(
+        $dimensions,
+        $where = '',
+        $additionalSelects = array(),
+        $metrics = false,
+        $rankingQuery = null,
+        $joinLogActionOnColumn = false,
+        $secondaryOrderBy = null
+    ) {
         $tableName = self::LOG_ACTIONS_TABLE;
         $availableMetrics = $this->getActionsMetricFields();
 
@@ -689,7 +894,6 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::ACTION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
 
         if ($joinLogActionOnColumn !== false) {
             $multiJoin = is_array($joinLogActionOnColumn);
@@ -715,8 +919,12 @@ class LogAggregator
             }
         }
 
+        $orderBy = false;
         if ($rankingQuery) {
             $orderBy = '`' . Metrics::INDEX_NB_ACTIONS . '` DESC';
+            if ($secondaryOrderBy) {
+                $orderBy .= ', ' . $secondaryOrderBy;
+            }
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
@@ -800,7 +1008,7 @@ class LogAggregator
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
      * @return \Zend_Db_Statement
      */
-    public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array())
+    public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array(), $extraFrom = [])
     {
         $dimensions = array_merge(array(self::IDGOAL_FIELD), $dimensions);
         $tableName  = self::LOG_CONVERSION_TABLE;
@@ -808,7 +1016,7 @@ class LogAggregator
 
         $select = $this->getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics);
 
-        $from    = array($tableName);
+        $from    = array_merge([$tableName], $extraFrom);
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
         $orderBy = false;
@@ -951,6 +1159,9 @@ class LogAggregator
 
     public function getDb()
     {
-        return Db::get();
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $archivingLock = $archivingStatus->getCurrentArchivingLock();
+        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
     }
 }

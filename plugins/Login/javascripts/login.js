@@ -39,6 +39,9 @@
             });
         };
 
+        // set login form redirect url
+        $('#login_form_redirect').val(window.location.href);
+
         // 'lost your password?' on click
         $('#login_form_nav').click(function (e) {
             e.preventDefault();

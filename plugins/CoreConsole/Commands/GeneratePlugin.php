@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -47,7 +47,7 @@ class GeneratePlugin extends GeneratePluginBase
         $exampleDescription = $info['description'];
 
         if ($isTheme) {
-            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleTheme';
+            $exampleFolder = Plugin\Manager::getPluginDirectory('ExampleTheme');
             $replace       = array(
                 'ExampleTheme'       => $pluginName,
                 $exampleDescription  => $description,
@@ -58,7 +58,7 @@ class GeneratePlugin extends GeneratePluginBase
 
         } else {
 
-            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+            $exampleFolder = Plugin\Manager::getPluginDirectory('ExamplePlugin');
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,
                 $exampleDescription  => $description,
@@ -75,6 +75,9 @@ class GeneratePlugin extends GeneratePluginBase
                 '/docs',
                 '/docs/faq.md',
                 '/docs/index.md',
+                '/config',
+                '/config/config.php',
+                '/config/tracker.php'
             );
         }
 

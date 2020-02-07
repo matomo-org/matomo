@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -52,7 +52,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
         $mail = $this->testInstance->makeEmail($generatedReport);
         $mailContent = $this->getMailContent($mail);
 
-        $this->assertStringStartsWith('=0A<html', $mail->getBodyHtml()->getContent());
+        $this->assertStringStartsWith('<html', $mail->getBodyHtml()->getContent());
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
         $this->assertContains('ScheduledReports_PleaseFindAttachedFile', $mailContent);
         $this->assertContains('ScheduledReports_SentFromX', $mailContent);
@@ -99,7 +99,7 @@ Content-Disposition: inline; filename="General_Report report - pretty date.thing
         $mail = $this->testInstance->makeEmail($generatedReport);
         $mailContent = $this->getMailContent($mail);
 
-        $this->assertStringStartsWith('=0A<html', $mailContent);
+        $this->assertStringStartsWith('<html', $mailContent);
         $this->assertContains('ScheduledReports_PleaseFindAttachedFile', $mailContent);
         $this->assertEquals('Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -129,7 +129,7 @@ Content-Disposition: inline
         $mail = $this->testInstance->makeEmail($generatedReport);
         $mailContent = $this->getMailContent($mail);
 
-        $this->assertStringStartsWith('=0A<html', $mailContent);
+        $this->assertStringStartsWith('<html', $mailContent);
         $this->assertContains("ScheduledReports_PleaseFindAttachedFile", $mailContent);
         $this->assertContains('ScheduledReports_SentFromX=', $mailContent);
         $this->assertContains('ScheduledReports_CustomVisitorSegment', $mailContent);

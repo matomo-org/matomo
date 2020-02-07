@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,8 @@ namespace Piwik\Tests\Integration\Session;
 
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
@@ -20,7 +22,6 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class SessionAuthTest extends IntegrationTestCase
 {
-    const TEST_UA = 'test-user-agent';
     const TEST_OTHER_USER = 'testuser';
 
     /**
@@ -37,37 +38,9 @@ class SessionAuthTest extends IntegrationTestCase
         $this->testInstance = StaticContainer::get(SessionAuth::class);
     }
 
-    public function test_authenticate_ReturnsFailure_IfRequestUserAgentDiffersFromSessionUserAgent()
-    {
-        $this->initializeSession(self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
-        $this->initializeRequest('some-other-user-agent');
-
-        $result = $this->testInstance->authenticate();
-        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
-    }
-
-    public function test_authenticate_ReturnsSuccess_IfRequestUserAgentMatchSession()
-    {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
-
-        $result = $this->testInstance->authenticate();
-        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
-    }
-
-    public function test_authenticate_ReturnsSuperUserSuccess_IfRequestUserAgentMatchSession()
-    {
-        $this->initializeSession(self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
-        $this->initializeRequest(self::TEST_UA);
-
-        $result = $this->testInstance->authenticate();
-        $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $result->getCode());
-    }
-
     public function test_authenticate_ReturnsFailure_IfNoSessionExists()
     {
-        $this->initializeSession(self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(Fixture::ADMIN_USER_LOGIN);
 
         $this->destroySession();
 
@@ -77,12 +50,12 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function test_authenticate_ReturnsFailure_IfAuthenticatedSession_AndPasswordChangedAfterSessionCreated()
     {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(self::TEST_OTHER_USER);
 
         sleep(1);
 
-        UsersManagerAPI::getInstance()->updateUser(self::TEST_OTHER_USER, 'testpass2');
+        $userUpdater = new UserUpdater();
+        $userUpdater->updateUserWithoutCurrentPassword(self::TEST_OTHER_USER, 'testpass2');
 
         $result = $this->testInstance->authenticate();
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
@@ -92,8 +65,7 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function test_authenticate_ReturnsFailure_IfUsersModelReturnsIncorrectUser()
     {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(self::TEST_OTHER_USER);
 
         $sessionAuth = new SessionAuth(new MockUsersModel([
             'login' => 'wronguser',
@@ -103,30 +75,67 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function test_authenticate_ReturnsSuccess_IfUserDataHasNoPasswordModifiedTimestamp()
     {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $expireTime = $sessionFingerprint->getExpirationTime();
+        $this->assertNotNull($expireTime);
 
         $usersModel = new UsersModel();
         $user = $usersModel->getUser(self::TEST_OTHER_USER);
         unset($user['ts_password_modified']);
 
+        sleep(1);
+
         $sessionAuth = new SessionAuth(new MockUsersModel($user));
         $result = $sessionAuth->authenticate();
+
+        $this->assertGreaterThan($expireTime, $sessionFingerprint->getExpirationTime());
 
         $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }
 
-    private function initializeRequest($userAgent)
+    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeUsed()
     {
-        $_SERVER['HTTP_USER_AGENT'] = $userAgent;
+        Date::$now = strtotime('2012-02-03 04:55:44');
+        $this->initializeSession(self::TEST_OTHER_USER, true);
+
+        Date::$now = strtotime('2012-03-03 04:55:44');
+
+        $usersModel = new UsersModel();
+        $user = $usersModel->getUser(self::TEST_OTHER_USER);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel($user));
+        $result = $sessionAuth->authenticate();
+
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
-    private function initializeSession($userAgent, $userLogin)
+    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeNotUsed()
+    {
+        Date::$now = strtotime('2012-02-03 04:55:44');
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        Date::$now = strtotime('2012-02-04 04:56:44');
+
+        $usersModel = new UsersModel();
+        $user = $usersModel->getUser(self::TEST_OTHER_USER);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel($user));
+        $result = $sessionAuth->authenticate();
+
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    private function initializeSession($userLogin, $isRemembered = false)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin, $time = null, $userAgent);
+        $sessionFingerprint->initialize($userLogin, $isRemembered);
     }
 
     protected static function configureFixture($fixture)

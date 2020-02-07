@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<name>All Referrers (Referrers)</name>
+		<name>All Channels (Referrers)</name>
 		<documentation>This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.</documentation>
 	</row>
 	<row>
@@ -18,7 +18,12 @@
 	</row>
 	<row>
 		<name>Campaigns (Referrers)</name>
-		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report shows which campaigns led visitors to your website.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-campaigns/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Channel Type (Referrers)</name>
+		<documentation>This table contains information about the distribution of the channel types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 	</row>
 	<row>
 		<name>City (Visitors)</name>
@@ -38,7 +43,8 @@
 	</row>
 	<row>
 		<name>Custom Variables (Visitors)</name>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/custom-variables/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Downloads (Actions)</name>
@@ -65,7 +71,7 @@
 		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt;&lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.&lt;br /&gt;&lt;br /&gt;Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.</documentation>
 	</row>
 	<row>
-		<name>Length of Visits (Visitors)</name>
+		<name>Length of Visits (Actions)</name>
 		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
@@ -75,6 +81,7 @@
 	<row>
 		<name>Page Titles Following a Site Search (Actions)</name>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Page URLs (Actions)</name>
@@ -87,14 +94,11 @@
 	<row>
 		<name>Pages Following a Site Search (Actions)</name>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Pages per Visit (Visitors)</name>
+		<name>Pages per Visit (Actions)</name>
 		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
-	</row>
-	<row>
-		<name>Referrer Type (Referrers)</name>
-		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 	</row>
 	<row>
 		<name>Region (Visitors)</name>
@@ -103,6 +107,7 @@
 	<row>
 		<name>Search Categories (Actions)</name>
 		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Search Engines (Referrers)</name>
@@ -111,10 +116,12 @@
 	<row>
 		<name>Search Keywords with No Results (Actions)</name>
 		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Site Search Keywords (Actions)</name>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Social Networks (Referrers)</name>
@@ -125,11 +132,11 @@
 		<documentation>This graph shows the number of visits your website received on each day of the week.</documentation>
 	</row>
 	<row>
-		<name>Visits by Visit Number (Visitors)</name>
+		<name>Visits by Visit Number (Actions)</name>
 		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
-		<name>Visits by days since last visit (Visitors)</name>
+		<name>Visits by days since last visit (Actions)</name>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
 	</row>
 	<row>

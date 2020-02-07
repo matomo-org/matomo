@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "اینجا کلیک کنید تا فهرست پرس و جوهای SQL ی را که اجرا شده اند مشاهده و کپی نمایید.",
         "CriticalErrorDuringTheUpgradeProcess": "خطای بحرانی در فرآیند به روز رسانی:",
         "DatabaseUpgradeRequired": "بانک اطلاعاتی به بروزرسانی نیاز دارد.",
         "DownloadingUpdateFromX": "دانلود آپدیت از %s",

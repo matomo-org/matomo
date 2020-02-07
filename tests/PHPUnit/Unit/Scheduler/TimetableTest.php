@@ -2,13 +2,15 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Scheduler;
 
+use Piwik\Date;
 use Piwik\Plugin;
+use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
 use ReflectionProperty;
@@ -22,6 +24,11 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
         'CoreAdminHome.purgeOutdatedArchives' => 1355529607,
         'PrivacyManager.deleteReportData_1'   => 1322229607,
     );
+
+    public function tearDown()
+    {
+        self::resetPiwikOption();
+    }
 
     /**
      * Dataprovider for testGetTimetableFromOptionValue
@@ -57,8 +64,21 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
 
         $timetable = new Timetable();
         $this->assertEquals($expectedTimetable, $timetable->getTimetable());
+    }
 
-        self::resetPiwikOption();
+    public function testRescheduleTaskAndRunTomorrow()
+    {
+        self::stubPiwikOption(serialize([]));
+
+        $timetable = new Timetable();
+        $task = $this->getMockBuilder(Task::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $task->method('getName')->willReturn('taskName');
+
+        $timetable->rescheduleTaskAndRunTomorrow($task);
+
+        $this->assertEquals(Date::factory('tomorrow')->getTimeStamp(), $timetable->getTimetable()[$task->getName()]);
     }
 
     /**

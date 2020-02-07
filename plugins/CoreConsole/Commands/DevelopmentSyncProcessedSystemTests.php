@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Decompress\Tar;
+use Matomo\Decompress\Tar;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;
@@ -65,12 +65,15 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $tar = new Tar($tarFile, 'bz2');
 
-        $tar->extract($targetDir);
-
-        $this->writeSuccessMessage($output, array(
-            'All processed system test results were copied to <comment>' . $targetDir . '</comment>',
-            'Compare them with the expected test results and commit them if needed.'
-        ));
+        if ($tar->extract($targetDir)) {
+            $this->writeSuccessMessage($output, array(
+                'All processed system test results were copied to <comment>' . $targetDir . '</comment>',
+                'Compare them with the expected test results and commit them if needed.'
+            ));
+        } else {
+            $output->write('<error>' . $tar->errorInfo() . '.</error>');
+            $output->writeln('<error> Check that you have the PHP bz2 extension installed and try again.');
+        }
 
         unlink($tarFile);
     }
@@ -100,14 +103,23 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         $extractionTarget = $tmpDir . '/artifacts';
 
         Filesystem::mkdir($extractionTarget);
-        $tar->extract($extractionTarget);
+
+        $success = $tar->extract($extractionTarget);
+        if (! $success) {
+            $output->write('<error>' . $tar->errorInfo() . '.</error>');
+            $output->writeln('<error> Check that you have the PHP bz2 extension installed and try again.');
+            unlink($tarFile);
+            return;
+        }
 
         $artifacts = Filesystem::globr($extractionTarget, '*~~*');
 
         foreach($artifacts as $artifact) {
             $artifactName = basename($artifact);
             list($plugin, $file) = explode('~~', $artifactName);
-            Filesystem::copy($artifact, sprintf($targetDir, $plugin) . $file);
+            $pluginTargetDir = sprintf($targetDir, $plugin);
+            Filesystem::mkdir($pluginTargetDir);
+            Filesystem::copy($artifact, $pluginTargetDir . $file);
         }
 
         Filesystem::unlinkRecursive($extractionTarget, true);

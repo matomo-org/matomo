@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,7 +11,9 @@ namespace Piwik\Tests\Framework\TestCase;
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Menu\MenuAbstract;
+use Piwik\Option;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -91,6 +93,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
         MenuAbstract::clearMenus();
+        Option::clearCache();
     }
 
     /**
@@ -104,6 +107,9 @@ abstract class IntegrationTestCase extends SystemTestCase
         parent::tearDown();
     }
 
+    /**
+     * @param Fixture $fixture
+     */
     protected static function configureFixture($fixture)
     {
         $fixture->createSuperUser     = false;

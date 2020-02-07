@@ -2,38 +2,41 @@
 <result>
 	<row>
 		<label>Direct Entry</label>
-		<nb_uniq_visitors>15</nb_uniq_visitors>
-		<nb_visits>55</nb_visits>
-		<nb_actions>55</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
+		<nb_uniq_visitors>25</nb_uniq_visitors>
+		<nb_visits>105</nb_visits>
+		<nb_actions>130</nb_actions>
+		<nb_users>25</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>65</sum_visit_length>
 		<bounce_count>55</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==direct</segment>
+		<referrer_type>1</referrer_type>
 	</row>
 	<row>
 		<label>Search Engines</label>
 		<nb_uniq_visitors>12</nb_uniq_visitors>
 		<nb_visits>12</nb_visits>
 		<nb_actions>12</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_users>12</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>12</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==search</segment>
+		<referrer_type>2</referrer_type>
 	</row>
 	<row>
 		<label>Websites</label>
 		<nb_uniq_visitors>7</nb_uniq_visitors>
 		<nb_visits>8</nb_visits>
 		<nb_actions>8</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_users>7</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>8</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==website</segment>
+		<referrer_type>3</referrer_type>
 	</row>
 </result>

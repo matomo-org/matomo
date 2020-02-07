@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -26,13 +26,13 @@ class Response
 
     private $requestUrl;
 
-    public function __construct($apiResponse, $params, $requestUrl)
+    public function __construct($apiResponse, $params, $requestUrl, $normalize = true)
     {
         $this->params = $params;
         $this->requestUrl = $requestUrl;
 
         $apiResponse = (string) $apiResponse;
-        $this->processedResponseText = $this->normalizeApiResponse($apiResponse);
+        $this->processedResponseText = $normalize ? $this->normalizeApiResponse($apiResponse) : $apiResponse;
     }
 
     public function getResponseText()
@@ -56,7 +56,7 @@ class Response
         return new Response($contents, $params, $requestUrl);
     }
 
-    public static function loadFromApi($params, $requestUrl)
+    public static function loadFromApi($params, $requestUrl, $normalize = true)
     {
         $testRequest = new Request($requestUrl);
 
@@ -64,13 +64,16 @@ class Response
         // with format=original, objects or php arrays can be returned.
         $response = (string) $testRequest->process();
 
-        return new Response($response, $params, $requestUrl);
+        return new Response($response, $params, $requestUrl, $normalize);
     }
 
     public static function assertEquals(Response $expected, Response $actual, $message = false)
     {
         $expectedText = $expected->getResponseText();
         $actualText = $actual->getResponseText();
+
+        $expectedText = preg_replace('/[^\x09-\x0d\x1b\x20-\xff]/', '', $expectedText);
+        $actualText = preg_replace('/[^\x09-\x0d\x1b\x20-\xff]/', '', $actualText);
 
         if ($expected->requestUrl['format'] == 'xml') {
             Asserts::assertXmlStringEqualsXmlString($expectedText, $actualText, $message);
@@ -124,7 +127,9 @@ class Response
 
     private function removeTodaysDate($apiResponse)
     {
-        return str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $apiResponse);
+        $result = preg_replace('/' . date('Y-m-d') . ' [0-9]{2}:[0-9]{2}:[0-9]{2}/', 'today-date-removed-in-tests', $apiResponse);
+        $result = str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $result);;
+        return $result;
     }
 
     private function normalizeEncodingPhp533($apiResponse)

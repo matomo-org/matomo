@@ -1,0 +1,7 @@
+{
+    "GeoIp2": {
+        "CannotUnzipGeoIPFile": "GeoIP-tiedoston purkaminen epäonnistui: %1$s: %2$s",
+        "ServerBasedVariablesConfiguration": "Palvelimen muuttujat GeoIP2-palvelinmoduulille",
+        "ServerVariableFor": "Palvelimen muuttuja %s:lle"
+    }
+}

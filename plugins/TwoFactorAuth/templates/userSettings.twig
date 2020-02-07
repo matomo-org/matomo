@@ -1,0 +1,41 @@
+<div piwik-content-block
+     content-title="{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }} ({{ 'TwoFactorAuth_TwoFAShort'|translate }})" class="userSettings2FA">
+
+    <p>
+        {{ 'TwoFactorAuth_TwoFactorAuthenticationIntro'|translate('<a href="https://matomo.org/faq/general/faq_27245" rel="noreferrer noopener">', '</a>')|raw }}
+    </p>
+
+    {% if isEnabled %}
+        <p><strong class="twoFaStatusEnabled">{{ 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled'|translate }}</strong></p>
+
+        <p>
+        {% if isForced %}
+            {{ 'TwoFactorAuth_TwoFactorAuthenticationRequired'|translate }}
+            <br />
+            <br />
+            <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
+        {% else %}
+            <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
+            <a href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'disableNonce': disableNonce}) }}" style="display:none;" id="disable2fa">disable2fa</a>
+            <input type="button"
+                   class="btn btn-link disable2FaLink"
+                   onclick="twoFactorAuth.confirmDisable2FA('{{ disableNonce|e('url') }}');"
+                   value="{{ 'TwoFactorAuth_DisableTwoFA'|translate }}">
+        {% endif %}
+            <a class="btn btn-link showRecoveryCodesLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}">{{ 'TwoFactorAuth_ShowRecoveryCodes'|translate }}</a>
+        </p>
+    {% else %}
+        <p><strong>{{ 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled'|translate }}</strong>
+            <br />
+            <br />
+           <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_EnableTwoFA'|translate }}</a>
+        </p>
+    {% endif %}
+
+    <div id="confirmDisable2FA" class="ui-confirm">
+        <h2>{{ 'TwoFactorAuth_ConfirmDisableTwoFA'|translate }}</h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+
+</div>

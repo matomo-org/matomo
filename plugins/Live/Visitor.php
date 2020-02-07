@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin;
 use Piwik\Piwik;
+use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Tracker\GoalManager;
 
 class Visitor implements VisitorInterface
@@ -146,23 +147,26 @@ class Visitor implements VisitorInterface
     }
 
     /**
-     * Removes fields that are not meant to be displayed (md5 config hash)
-     * Or that the user should only access if they are Super User or admin (cookie, IP)
+     * Removes fields that the user should only access if they are Super User or admin (cookie, IP,
+     * md5 config "fingerprint" hash)
      *
      * @param array $visitorDetails
      * @return array
      */
     public static function cleanVisitorDetails($visitorDetails)
     {
-        $toUnset = array('config_id');
         if (Piwik::isUserIsAnonymous()) {
-            $toUnset[] = 'idvisitor';
-            $toUnset[] = 'user_id';
-            $toUnset[] = 'location_ip';
-        }
-        foreach ($toUnset as $keyName) {
-            if (isset($visitorDetails[$keyName])) {
-                unset($visitorDetails[$keyName]);
+            $toUnset = array(
+                'idvisitor',
+                'user_id',
+                'location_ip',
+                'config_id'
+            );
+
+            foreach ($toUnset as $keyName) {
+                if (isset($visitorDetails[$keyName])) {
+                    unset($visitorDetails[$keyName]);
+                }
             }
         }
 
@@ -288,7 +292,7 @@ class Visitor implements VisitorInterface
             $instance->filterActions($actionDetails, $visitorDetailsArray);
         }
 
-        usort($actionDetails, array('static', 'sortByServerTime'));
+        $actionDetails = self::sortActionDetails($actionDetails);
 
         $actionDetails = array_values($actionDetails);
 
@@ -312,23 +316,21 @@ class Visitor implements VisitorInterface
         return $visitorDetailsArray;
     }
 
-    private static function sortByServerTime($a, $b)
+    private static function sortActionDetails($actions)
     {
-        $ta = strtotime($a['serverTimePretty']);
-        $tb = strtotime($b['serverTimePretty']);
-
-        if ($ta < $tb) {
-            return -1;
-        }
-
-        if ($ta == $tb) {
-            if ($a['idlink_va'] > $b['idlink_va']) {
-               return 1;
+        usort($actions, function ($a, $b) {
+            $fields = array('serverTimePretty', 'idlink_va', 'type', 'title', 'url', 'pageIdAction', 'goalId');
+            foreach ($fields as $field) {
+                $sort = VisitorLog::sortByActionsOnPageColumn($a, $b, $field);
+                if ($sort !== 0) {
+                    return $sort;
+                }
             }
 
-            return -1;
-        }
+            return 0;
+        });
 
-        return 1;
+        return $actions;
     }
+
 }

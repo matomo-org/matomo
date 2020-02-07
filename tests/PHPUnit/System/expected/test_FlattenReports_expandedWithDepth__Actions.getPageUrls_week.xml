@@ -22,6 +22,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1</segment>
 		<subtable>
 			<row>
 				<label>sub</label>
@@ -44,6 +45,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
 				<avg_time_generation>0.3</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub</segment>
 			</row>
 		</subtable>
 	</row>
@@ -69,6 +71,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.6</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir2</segment>
 		<subtable>
 			<row>
 				<label>sub</label>
@@ -91,6 +94,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
 				<avg_time_generation>0.6</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir2%252Fsub</segment>
 			</row>
 		</subtable>
 	</row>
@@ -116,6 +120,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir3</segment>
 		<subtable>
 			<row>
 				<label>sub</label>
@@ -138,6 +143,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
 				<avg_time_generation>0.9</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir3%252Fsub</segment>
 			</row>
 		</subtable>
 	</row>
@@ -162,7 +168,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/page1.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage1.html</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage1.html</segment>
 	</row>
 	<row>
 		<label>sub</label>
@@ -185,6 +191,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fsub</segment>
 		<subtable>
 			<row>
 				<label>dir</label>
@@ -202,6 +209,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fsub%252Fdir</segment>
 			</row>
 		</subtable>
 	</row>

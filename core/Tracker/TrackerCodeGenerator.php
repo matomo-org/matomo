@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -20,6 +21,17 @@ use Piwik\View;
  */
 class TrackerCodeGenerator
 {
+    /**
+     * whether matomo.js|php should be forced over piwik.js|php
+     * @var bool
+     */
+    private $shouldForceMatomoEndpoint = false;
+
+    public function forceMatomoEndpoint()
+    {
+        $this->shouldForceMatomoEndpoint = true;
+    }
+
     /**
      * @param int $idSite
      * @param string $piwikUrl http://path/to/piwik/site/
@@ -134,7 +146,9 @@ class TrackerCodeGenerator
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
             'protocol'                => '//',
             'loadAsync'               => true,
-            'trackNoScript'           => $trackNoScript
+            'trackNoScript'           => $trackNoScript,
+            'matomoJsFilename'        => $this->getJsTrackerEndpoint(),
+            'matomoPhpFilename'       => $this->getPhpTrackerEndpoint(),
         );
 
         if (SettingsPiwik::isHttpsForced()) {
@@ -191,6 +205,34 @@ class TrackerCodeGenerator
         return $jsCode;
     }
 
+    public function getJsTrackerEndpoint()
+    {
+        $name = 'matomo.js';
+        if ($this->shouldPreferPiwikEndpoint()) {
+            $name = 'piwik.js';
+        }
+        return $name;
+    }
+
+    public function getPhpTrackerEndpoint()
+    {
+        $name = 'matomo.php';
+        if ($this->shouldPreferPiwikEndpoint()) {
+            $name = 'piwik.php';
+        }
+        return $name;
+    }
+
+    public function shouldPreferPiwikEndpoint()
+    {
+        if ($this->shouldForceMatomoEndpoint) {
+            return false;
+        }
+
+        // only since 3.7.0 we use the default matomo.js|php... for all other installs we need to keep BC
+        return DbHelper::wasMatomoInstalledBeforeVersion('3.7.0-b1');
+    }
+
     private function getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls)
     {
         try {
@@ -202,17 +244,28 @@ class TrackerCodeGenerator
         $websiteHosts = array();
         $firstHost = null;
         foreach ($websiteUrls as $site_url) {
+            if (empty($site_url)) {
+                continue;
+            }
+            
             $referrerParsed = parse_url($site_url);
 
-            if (!isset($firstHost)) {
+            if (!isset($firstHost) && isset($referrerParsed['host'])) {
                 $firstHost = $referrerParsed['host'];
             }
 
-            $url = $referrerParsed['host'];
+            if (isset($referrerParsed['host'])) {
+                $url = $referrerParsed['host'];
+            } else {
+                $url = '';
+            }
             if (!empty($referrerParsed['path'])) {
                 $url .= $referrerParsed['path'];
             }
-            $websiteHosts[] = $url;
+            
+            if (!empty($url)) {
+                $websiteHosts[] = $url;
+            }
         }
         $options = '';
         if ($mergeSubdomains && !empty($firstHost)) {
@@ -223,5 +276,18 @@ class TrackerCodeGenerator
             $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . "\n";
         }
         return $options;
+    }
+
+    /**
+     * When including the JS tracking code in a mailto link, we need to strip the surrounding HTML tags off. This
+     * ensures consistent behaviour between mail clients that render the mailto body as plain text (as in the
+     * spec), and those which try to render it as HTML and therefore hide the tags.
+     * @param string $jsTrackingCode JS tracking code as returned from the generate() function.
+     * @return string
+     */
+    public static function stripTags($jsTrackingCode)
+    {
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        return trim(strip_tags(html_entity_decode($jsTrackingCode)));
     }
 }

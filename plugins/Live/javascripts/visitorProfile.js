@@ -119,9 +119,9 @@
             });
 
             $element.on('keydown', function (e) {
-                if (e.which == 37) { // on <- key press, load previous visitor
+                if (e.which == 37 && !e.altKey) { // on <- key press, load previous visitor
                     self._loadPreviousVisitor();
-                } else if (e.which == 39) { // on -> key press, load next visitor
+                } else if (e.which == 39 && !e.altKey) { // on -> key press, load next visitor
                     self._loadNextVisitor();
                 }
             });

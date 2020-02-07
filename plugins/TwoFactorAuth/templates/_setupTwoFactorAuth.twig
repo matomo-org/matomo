@@ -1,0 +1,76 @@
+<div ng-controller="SetupTwoFactorAuthController as setup2fa" class="setupTwoFactorAuthentication">
+    {% if isAlreadyUsing2fa %}
+        <div class="alert alert-warning">{{ 'TwoFactorAuth_WarningChangingConfiguredDevice'|translate }}</div>
+    {% endif %}
+
+    <p>
+        {{ 'TwoFactorAuth_SetupIntroFollowSteps'|translate }}
+    </p>
+
+    <h2>
+        {{ 'TwoFactorAuth_StepX'|translate(1) }} - {{ 'TwoFactorAuth_RecoveryCodes'|translate }}
+    </h2>
+    {% include '@TwoFactorAuth/_showRecoveryCodes.twig' %}
+
+    <div class="alert alert-info backupRecoveryCodesAlert" ng-show="setup2fa.step == 1">{{ 'TwoFactorAuth_SetupBackupRecoveryCodes'|translate }}</div>
+
+    <p><button ng-click="setup2fa.nextStep()" ng-show="setup2fa.step == 1" ng-disabled="!setup2fa.hasDownloadedRecoveryCode" class="btn goToStep2">{{ 'General_Next'|translate }}</button></p>
+
+    <a name="twoFactorStep2" id="twoFactorStep2" style="opacity: 0"></a>
+    <div ng-show="setup2fa.step >= 2">
+        <h2>
+            {{ 'TwoFactorAuth_StepX'|translate(2) }} - {{ 'TwoFactorAuth_SetupAuthenticatorOnDevice'|translate }}
+        </h2>
+        <p>{{ 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep1'|translate }} <a rel="noreferrer noopener" href="https://github.com/andOTP/andOTP#downloads">andOTP</a>, <a rel="noreferrer noopener" href="https://authy.com/guides/github/">Authy</a>, <a rel="noreferrer noopener" href="https://support.1password.com/one-time-passwords/">1Password</a>, <a rel="noreferrer noopener" href="https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/">LastPass Authenticator</a>, {{ 'General_Or'|translate }} <a rel="noreferrer noopener" href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>.
+        </p>
+        <p>{{ 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2'|translate('<a href="javascript:void(0)" onclick="piwikHelper.modalConfirm(\'#setupTwoFAsecretConfirm\')">', '</a>')|raw }}<br/>
+            <div id="qrcode" title=""></div>
+            <br />
+            <button ng-show="setup2fa.step == 2" ng-click="setup2fa.nextStep()" class="btn goToStep3">{{ 'General_Next'|translate }}</button>
+        </p>
+    </div>
+
+    <a name="twoFactorStep3" id="twoFactorStep3" style="opacity: 0"></a>
+    <div ng-show="setup2fa.step >= 3">
+        <h2>{{ 'TwoFactorAuth_StepX'|translate(3) }} - {{ 'TwoFactorAuth_ConfirmSetup'|translate }}</h2>
+        <p>{{ 'TwoFactorAuth_VerifyAuthCodeIntro'|translate }}</p>
+
+        {% if AccessErrorString %}
+            <div class="message_container">
+                <div piwik-notification
+                     noclear="true"
+                     context="error">
+                    <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+                </div>
+            </div>
+        {% endif %}
+
+        <form method="post"
+              action="{{ linkTo({'module': 'TwoFactorAuth', 'action': submitAction}) }}"
+              class="setupConfirmAuthCodeForm"
+              autocorrect="off" autocapitalize="none"
+              autocomplete="off"
+              >
+            <div piwik-field uicontrol="text" name="authCode" maxlength="6"
+                 data-title="{{ 'TwoFactorAuth_AuthenticationCode'|translate|e('html_attr') }}"
+                 ng-model="setup2fa.authCode"
+                 inline-help="{{ 'TwoFactorAuth_VerifyAuthCodeHelp'|translate|e('html_attr') }}"
+                 placeholder="123456">
+            </div>
+
+            <input type="hidden" name="authCodeNonce" value="{{ authCodeNonce|e('html_attr') }}">
+            <input type="submit" ng-disabled="setup2fa.authCode.length != 6"
+                   class="btn confirmAuthCode" value="{{ 'General_Confirm'|translate }}">
+        </form>
+    </div>
+
+</div>
+<script type="text/javascript">
+    window.twoFaBarCodeSetupUrl = {{ twoFaBarCodeSetupUrl|json_encode|raw }};
+</script>
+
+<div id="setupTwoFAsecretConfirm" class="ui-confirm">
+    <h2>{{ 'TwoFactorAuth_Your2FaAuthSecret'|translate }}</h2>
+    <p style="text-align: center;"><code piwik-select-on-focus style="font-size: 30px;">{{ newSecret }}</code></p>
+    <input role="ok" type="button" value="{{ 'General_Ok'|translate }}"/>
+</div>

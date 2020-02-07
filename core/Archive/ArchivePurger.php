@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -152,6 +152,70 @@ class ArchivePurger
         ));
 
         return $deletedRowCount;
+    }
+
+    public function purgeDeletedSiteArchives(Date $dateStart)
+    {
+        $archiveTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $idArchivesToDelete = $this->model->getArchiveIdsForDeletedSites($archiveTable);
+
+        return $this->purge($idArchivesToDelete, $dateStart, 'deleted sites');
+    }
+
+    /**
+     * @param Date $dateStart
+     * @param array $deletedSegments List of segments whose archives should be purged
+     * @return int
+     */
+    public function purgeDeletedSegmentArchives(Date $dateStart, array $deletedSegments)
+    {
+        if (count($deletedSegments)) {
+            $idArchivesToDelete = $this->getDeletedSegmentArchiveIds($dateStart, $deletedSegments);
+            return $this->purge($idArchivesToDelete, $dateStart, 'deleted segments');
+        }
+    }
+
+    /**
+     * Purge all numeric and blob archives with the given IDs from the database.
+     * @param array $idArchivesToDelete
+     * @param Date $dateStart
+     * @param string $reason
+     * @return int
+     */
+    protected function purge(array $idArchivesToDelete, Date $dateStart, $reason)
+    {
+        $deletedRowCount = 0;
+        if (!empty($idArchivesToDelete)) {
+            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+
+            $this->logger->info(
+                "Deleted {count} rows in archive tables (numeric + blob) for {reason} for {date}.",
+                array(
+                    'count' => $deletedRowCount,
+                    'date' => $dateStart,
+                    'reason' => $reason
+                )
+            );
+
+            $this->logger->debug("[Deleted IDs: {deletedIds}]", array(
+                'deletedIds' => implode(',', $idArchivesToDelete)
+            ));
+        } else {
+            $this->logger->debug(
+                "No archives for {reason} found in archive numeric table for {date}.",
+                array('date' => $dateStart, 'reason' => $reason)
+            );
+        }
+
+        return $deletedRowCount;
+    }
+
+    protected function getDeletedSegmentArchiveIds(Date $date, array $deletedSegments)
+    {
+        $archiveTable = ArchiveTableCreator::getNumericTable($date);
+        return $this->model->getArchiveIdsForSegments(
+            $archiveTable, $deletedSegments, $this->getOldestTemporaryArchiveToKeepThreshold()
+        );
     }
 
     protected function getOutdatedArchiveIds(Date $date, $purgeArchivesOlderThan)

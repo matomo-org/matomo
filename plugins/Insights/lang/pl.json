@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Insights dostarcza informacji o ruchu na stronie. Informacje te dostępne są w postaci widżetów pulpitu jak też jako nowa ikona w raportach, tak abyś widział najważniejsze trendy w swoich danych.",
         "ControlComparedToDescription": "Wzrost w stosunku do",
         "ControlFilterByDescription": "Pokaż wszystkich, tylko przechodzących, tylko nowych lub tylko znikających",
         "DatePeriodCombinationNotSupported": "Nie udało się wygenerować Insights'a dla tej kombinacji daty i okresu.",

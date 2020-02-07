@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -29,6 +29,11 @@ class VisitorDaysSinceFirst extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        // if the visitor is new, force days since first to 0, to ignore any potential bad values for _idts
+        if (!$visitor->isVisitorKnown()) {
+            return 0;
+        }
+
         return $request->getDaysSinceFirstVisit();
     }
 

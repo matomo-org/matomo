@@ -2,21 +2,20 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Metrics\Formatter;
-use Piwik\NoAccessException;
+use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -55,6 +54,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeAdminAccess();
+        UsersManager::dieIfUsersAdminIsDisabled();
 
         $view = new View('@UsersManager/index');
 
@@ -63,7 +63,7 @@ class Controller extends ControllerAdmin
 
         if (count($IdSitesAdmin) > 0) {
             $defaultWebsiteId = $IdSitesAdmin[0];
-            $idSiteSelected = Common::getRequestVar('idSite', $defaultWebsiteId);
+            $idSiteSelected = $this->idSite ?: $defaultWebsiteId;
         }
 
         if (!Piwik::isUserHasAdminAccess($idSiteSelected) && count($IdSitesAdmin) > 0) {
@@ -84,6 +84,7 @@ class Controller extends ControllerAdmin
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'disabled' => true],
         ];
         $view->filterAccessLevels = [
+            ['key' => '', 'value' => Piwik::translate('UsersManager_ShowAll')],
             ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
             ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView')],
             ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
@@ -91,6 +92,15 @@ class Controller extends ControllerAdmin
             ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
         ];
+
+        $capabilities = Request::processRequest('UsersManager.getAvailableCapabilities', [], []);
+        foreach ($capabilities as $capability) {
+            $capabilityEntry = [
+                'key' => $capability['id'], 'value' => $capability['category'] . ': ' . $capability['name'],
+            ];
+            $view->accessLevels[] = $capabilityEntry;
+            $view->filterAccessLevels[] = $capabilityEntry;
+        }
 
         $this->setBasicVariablesView($view);
 
@@ -172,11 +182,14 @@ class Controller extends ControllerAdmin
 
         $userLogin = Piwik::getCurrentUserLogin();
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
-        $view->userAlias = $user['alias'];
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
-
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
+        $view->isUsersAdminEnabled = UsersManager::isUsersAdminEnabled();
+
+        $newsletterSignupOptionKey = NewsletterSignup::NEWSLETTER_SIGNUP_OPTION . $userLogin;
+        $view->showNewsletterSignup = Option::get($newsletterSignupOptionKey) === false
+                                    && SettingsPiwik::isInternetEnabled();
 
         $userPreferences = new UserPreferences();
         $defaultReport   = $userPreferences->getDefaultReport();
@@ -200,11 +213,14 @@ class Controller extends ControllerAdmin
             $view->defaultReportSiteName = Site::getNameFor($defaultReport);
         }
 
-        $view->defaultReportOptions = array(
-            array('key' => 'MultiSites', 'value' => Piwik::translate('General_AllWebsitesDashboard')),
-            array('key' => $reportOptionsValue, 'value' => Piwik::translate('General_DashboardForASpecificWebsite')),
-        );
+        $defaultReportOptions = array();
+        if (Plugin\Manager::getInstance()->isPluginActivated('MultiSites')) {
+            $defaultReportOptions[] = array('key' => 'MultiSites', 'value' => Piwik::translate('General_AllWebsitesDashboard'));
+        }
 
+        $defaultReportOptions[] = array('key' => $reportOptionsValue, 'value' => Piwik::translate('General_DashboardForASpecificWebsite'));
+
+        $view->defaultReportOptions = $defaultReportOptions;
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
         $view->availableDefaultDates = $this->getDefaultDates();
 
@@ -373,11 +389,20 @@ class Controller extends ControllerAdmin
 
             Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
-            $this->processPasswordChange($userLogin);
+            if (UsersManager::isUsersAdminEnabled()) {
+                $this->processPasswordChange($userLogin);
+            }
 
             LanguagesManager::setLanguageForSession($language);
-            APILanguagesManager::getInstance()->setLanguageForUser($userLogin, $language);
-            APILanguagesManager::getInstance()->set12HourClockForUser($userLogin, $timeFormat);
+
+            Request::processRequest('LanguagesManager.setLanguageForUser', [
+                'login' => $userLogin,
+                'languageCode' => $language,
+            ]);
+            Request::processRequest('LanguagesManager.set12HourClockForUser', [
+                'login' => $userLogin,
+                'use12HourClock' => $timeFormat,
+            ]);
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -407,39 +432,40 @@ class Controller extends ControllerAdmin
 
     private function processPasswordChange($userLogin)
     {
-        $alias = Common::getRequestVar('alias');
         $email = Common::getRequestVar('email');
-        $newPassword = false;
         $password = Common::getRequestvar('password', false);
         $passwordBis = Common::getRequestvar('passwordBis', false);
-        if (!empty($password)
-            || !empty($passwordBis)
-        ) {
+        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
+
+        $newPassword = false;
+        if (!empty($password) || !empty($passwordBis)) {
             if ($password != $passwordBis) {
                 throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));
             }
             $newPassword = $password;
         }
 
+        if ($newPassword !== false && !Url::isValidHost()) {
+            throw new Exception("Cannot change password or email with untrusted hostname!");
+        }
+        
         // UI disables password change on invalid host, but check here anyway
-        if (!Url::isValidHost()
-            && $newPassword !== false
-        ) {
-            throw new Exception("Cannot change password with untrusted hostname!");
-        }
+        Request::processRequest('UsersManager.updateUser', [
+            'userLogin' => $userLogin,
+            'password' => $newPassword,
+            'email' => $email,
+            'passwordConfirmation' => $passwordCurrent
+        ], $default = []);
 
-        APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
         if ($newPassword !== false) {
+            // logs the user in with the new password
             $newPassword = Common::unsanitizeInputValue($newPassword);
-        }
-
-        // logs the user in with the new password
-        if ($newPassword !== false) {
             $sessionInitializer = new SessionInitializer();
             $auth = StaticContainer::get('Piwik\Auth');
+            $auth->setTokenAuth(null); // ensure authenticated through password
             $auth->setLogin($userLogin);
             $auth->setPassword($newPassword);
-            $sessionInitializer->initSession($auth, $rememberMe = false);
+            $sessionInitializer->initSession($auth);
         }
     }
 

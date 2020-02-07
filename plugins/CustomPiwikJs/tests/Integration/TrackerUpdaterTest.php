@@ -67,7 +67,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertTrue($toFile instanceof File);
 
         $this->assertSame(basename(TrackerUpdater::ORIGINAL_PIWIK_JS), $fromFile->getName());
-        $this->assertSame(basename(TrackerUpdater::TARGET_PIWIK_JS), $toFile->getName());
+        $this->assertSame(basename(TrackerUpdater::TARGET_MATOMO_JS), $toFile->getName());
     }
 
     public function test_setFormFile_getFromFile()

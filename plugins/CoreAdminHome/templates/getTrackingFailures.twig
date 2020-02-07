@@ -1,0 +1,13 @@
+<div class="widgetBody system-check">
+    {% if numFailures == 0 %}
+        <p class="system-success"><span class="icon-ok"></span> {{ 'CoreAdminHome_NoKnownFailures'|translate }}</p>
+    {% else %}
+        <p class="system-errors">
+            <span style="font-size: 16px;"><span class="icon-error"></span> {{ 'CoreAdminHome_NTrackingFailures'|translate(numFailures) }}</span>
+        </p>
+        <p>
+            <a href="{{ linkTo({'module': 'CoreAdminHome', 'action': 'trackingFailures'}) }}"
+            >{{ 'CoreAdminHome_ViewAllTrackingFailures'|translate }}</a>
+        </p>
+    {% endif %}
+</div>

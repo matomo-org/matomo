@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Націсніце тут для прагляду і капіравання спісу SQL запытаў, якія будуць выкананы",
         "CriticalErrorDuringTheUpgradeProcess": "Крытычная памылка падчас абнаўлення:",
         "DatabaseUpgradeRequired": "Патрабуецца абнаўленне базы дадзеных",
         "DownloadingUpdateFromX": "Запампоўка абнаўленняў %s",

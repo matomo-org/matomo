@@ -12,7 +12,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite5.com/20/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F20%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite5.com/20/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F20%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite5.com/21/download</label>
@@ -26,7 +27,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite5.com/21/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F21%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite5.com/21/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F21%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite5.com/22/download</label>
@@ -40,7 +42,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite5.com/22/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F22%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite5.com/22/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F22%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite5.com/23/download</label>
@@ -54,7 +57,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite5.com/23/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F23%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite5.com/23/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F23%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite5.com/download</label>
@@ -68,7 +72,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite5.com/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite5.com/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/24/download</label>
@@ -82,7 +87,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite6.com/24/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2F24%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite6.com/24/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F24%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/25/download</label>
@@ -96,7 +102,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite6.com/25/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2F25%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite6.com/25/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F25%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/26/download</label>
@@ -110,7 +117,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite6.com/26/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2F26%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite6.com/26/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F26%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/27/download</label>
@@ -124,7 +132,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite6.com/27/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2F27%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite6.com/27/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F27%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/download</label>
@@ -138,7 +147,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite6.com/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite6.com/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/28/download</label>
@@ -152,7 +162,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite7.com/28/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2F28%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite7.com/28/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F28%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/29/download</label>
@@ -166,7 +177,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite7.com/29/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2F29%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite7.com/29/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F29%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/30/download</label>
@@ -180,7 +192,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite7.com/30/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2F30%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite7.com/30/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F30%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/31/download</label>
@@ -194,7 +207,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite7.com/31/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2F31%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite7.com/31/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F31%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/download</label>
@@ -208,7 +222,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite7.com/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite7.com/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite8.com/32/download</label>
@@ -222,7 +237,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite8.com/32/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite8.com%2F32%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite8.com/32/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F32%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite8.com/33/download</label>
@@ -236,7 +252,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite8.com/33/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite8.com%2F33%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite8.com/33/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F33%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite8.com/34/download</label>
@@ -250,7 +267,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite8.com/34/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite8.com%2F34%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite8.com/34/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F34%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite8.com/35/download</label>
@@ -264,7 +282,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite8.com/35/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite8.com%2F35%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite8.com/35/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F35%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite8.com/download</label>
@@ -278,7 +297,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite8.com/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite8.com%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite8.com/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite9.com/36/download</label>
@@ -292,7 +312,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite9.com/36/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite9.com%2F36%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite9.com/36/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F36%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite9.com/37/download</label>
@@ -306,7 +327,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite9.com/37/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite9.com%2F37%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite9.com/37/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F37%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite9.com/38/download</label>
@@ -320,7 +342,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite9.com/38/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite9.com%2F38%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite9.com/38/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F38%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite9.com/39/download</label>
@@ -334,7 +357,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite9.com/39/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite9.com%2F39%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite9.com/39/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F39%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite9.com/download</label>
@@ -348,6 +372,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite9.com/download</url>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite9.com%2Fdownload</segment>
+		<Actions_DownloadUrl>cloudsite9.com/download</Actions_DownloadUrl>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252Fdownload</segment>
 	</row>
 </result>

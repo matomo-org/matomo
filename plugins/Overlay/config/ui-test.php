@@ -9,6 +9,8 @@ return array(
     )),
     'tests.ui.url_normalizer_blacklist.controller' => DI\add(array(
         'Overlay.renderSidebar',
+        'Overlay.index',
+        'Overlay.startOverlaySession',
     )),
 
 );

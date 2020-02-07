@@ -18,10 +18,6 @@
     path = plugins/TasksTimetable
     url = https://github.com/matomo-org/plugin-TasksTimetable.git
     branch = master
-[submodule "plugins/LoginHttpAuth"]
-    path = plugins/LoginHttpAuth
-    url = https://github.com/matomo-org/plugin-LoginHttpAuth.git
-    branch = master
 [submodule "plugins/QueuedTracking"]
     path = plugins/QueuedTracking
     url = https://github.com/matomo-org/plugin-QueuedTracking.git
@@ -54,6 +50,14 @@
 	path = plugins/MarketingCampaignsReporting
 	url = https://github.com/matomo-org/plugin-MarketingCampaignsReporting.git
     branch = master
+[submodule "plugins/TagManager"]
+	path = plugins/TagManager
+	url = https://github.com/matomo-org/tag-manager.git
+	branch = master
+[submodule "plugins/DeviceDetectorCache"]
+	path = plugins/DeviceDetectorCache
+	url = https://github.com/matomo-org/plugin-DeviceDetectorCache.git
+
 
 # Add new Plugin submodule above this line ^^
 # 

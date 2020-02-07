@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,6 +13,7 @@ use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
+use Piwik\ReportRenderer\Html;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 use Zend_Mime;
@@ -75,7 +76,7 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
         );
         $headerView->isAttachedFile = true;
 
-        $footerView = new View\HtmlEmailFooterView();
+        $footerView = new View\HtmlEmailFooterView(Html::UNSUBSCRIBE_LINK_PLACEHOLDER);
 
         return $headerView->render() . $footerView->render();
     }

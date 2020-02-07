@@ -1,4 +1,4 @@
-{% extends "admin.twig" %}
+{% extends inReportingMenu ? "empty.twig" : "admin.twig" %}
 {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
@@ -10,6 +10,7 @@
         <div piwik-content-intro>
             <h2 piwik-enriched-headline feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}"
             >{{ title|e('html_attr') }}</h2>
+
             <p>
                 {% if not isSuperUser %}
                     {% if showThemes %}
@@ -24,6 +25,9 @@
                     {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
                     {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('General_Plugins'|translate), '<a href="#" class="uploadPlugin">', ('General_Plugin'|translate), '</a>')|raw }}
                 {% endif %}
+                {% if isSuperUser and inReportingMenu %}
+                    {{ 'Marketplace_NoticeRemoveMarketplaceFromReportingMenu'|translate('<a href="#" piwik-plugin-name="WhiteLabel">', '</a>')|raw }}
+                {% endif %}
             </p>
 
             {% include '@Marketplace/licenseform.twig' %}
@@ -35,14 +39,14 @@
                      class="col s12 m6 l4"
                      ng-model="marketplace.pluginType"
                      ng-change="marketplace.changePluginType()"
-                     title="{{ 'Show'|translate|e('html_attr') }}"
+                     data-title="{{ 'Show'|translate|e('html_attr') }}"
                      value="{{ pluginType }}"
                      full-width="true"
                      options="{{ pluginTypeOptions|json_encode }}">
                 </div>
 
                 <div piwik-field uicontrol="select" name="plugin_sort"
-                     title="{{ 'Sort'|translate|e('html_attr') }}"
+                     data-title="{{ 'Sort'|translate|e('html_attr') }}"
                      value="{{ sort }}"
                      ng-model="marketplace.pluginSort"
                      ng-change="marketplace.changePluginSort()"
@@ -56,7 +60,7 @@
                     <div class="col s12 m12 l4 ">
                         <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
                             <div piwik-field uicontrol="text" name="query"
-                                 title="{{ 'General_Search'|translate }} {{ numAvailablePlugins }} {{ 'General_Plugins'|translate|lcfirst }}..."
+                                 data-title="{{ 'General_Search'|translate }} {{ numAvailablePlugins }} {{ 'General_Plugins'|translate|lcfirst }}..."
                                  value="{{ query }}"
                                  full-width="true">
                             </div>

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -27,7 +27,6 @@ class OneVisitorTwoVisits extends Fixture
 
     public $useThirdPartyCookies = false;
     public $useSiteSearch = false;
-    public $excludeMozilla = false;
     public $simulateIntegerOverflow = false;
     public $maxUnsignedIntegerValue = '4294967295';
 
@@ -81,10 +80,6 @@ class OneVisitorTwoVisits extends Fixture
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
 
-        if ($this->excludeMozilla) {
-            APISitesManager::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
-        }
-
         self::createSuperUser();
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
@@ -114,9 +109,7 @@ class OneVisitorTwoVisits extends Fixture
             $timezone = null,
             $currency = null,
             $group = null,
-            $startDate = null,
-            // test that visit won't be excluded since site-specific exclude is not enabled
-            $excludedUserAgents = $this->excludeMozilla ? 'mozilla' : null
+            $startDate = null
         );
 
         // Record 1st page view
@@ -199,7 +192,7 @@ class OneVisitorTwoVisits extends Fixture
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
         $t->setUrl('http://example.org/store/purchase.htm');
         $t->setUrlReferrer('http://search.yahoo.com/search?p=purchase');
-        // Temporary, until we implement 1st party cookies in PiwikTracker
+        // Temporary, until we implement 1st party cookies in MatomoTracker
         $t->DEBUG_APPEND_URL = '&_idvc=2';
 
         // Goal Tracking URL matching, testing custom referrer including keyword

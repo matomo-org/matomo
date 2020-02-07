@@ -1,8 +1,16 @@
 {
     "Ecommerce": {
-        "PluginDescription": "E-kauppa mahdollistaa myyntiin liittyvien toimintojen seuraamisen: tuotteiden lisäämisen ostoskoriin ja ostosten tekemisen. Myös tuotteiden ja tuotekategorioiden katselu, ja hylätyt ostoskorit seurataan.",
         "Sales": "Myynnit",
+        "Order": "Tilaus",
+        "OrderId": "Tilauksen ID",
+        "Orders": "Tilaukset",
         "SalesBy": "Myynnit %s:n mukaan",
-        "SalesAdjective": "Myynnit %s"
+        "SalesAdjective": "Myynnit %s",
+        "NumberOfItems": "Ostoskorissa olevien kohteiden määrä",
+        "OrderValue": "Tilauksen arvo",
+        "LifeTimeValue": "Verkkokaupan arvo koko elinkaaren aikana",
+        "VisitorProfileLTV": "Tuottanut kaikilla vierailukerroillaan yhteensä %1$s.",
+        "VisitorProfileItemsAndOrders": "Osti %1$s tuotetta %2$s verkkokauppatilauksessa.",
+        "VisitorProfileAbandonedCartSummary": "Hylkäsi %1$s ostoskoria, joissa oli %2$s kohdetta yhteisarvoltaan %3$s."
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,16 +10,22 @@ namespace Piwik\Db\Schema;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Option;
+use Piwik\Version;
 
 /**
  * MySQL schema
  */
 class Mysql implements SchemaInterface
 {
+    const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
+    const MAX_TABLE_NAME_LENGTH = 64;
+
     private $tablesInstalled = null;
 
     /**
@@ -38,12 +44,21 @@ class Mysql implements SchemaInterface
                           password VARCHAR(255) NOT NULL,
                           alias VARCHAR(45) NOT NULL,
                           email VARCHAR(100) NOT NULL,
+                          twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
                           token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE KEY uniq_keytoken(token_auth)
+                          ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'twofactor_recovery_code'    => "CREATE TABLE {$prefixTables}twofactor_recovery_code (
+                          idrecoverycode BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                          login VARCHAR(100) NOT NULL,
+                          recovery_code VARCHAR(40) NOT NULL,
+                            PRIMARY KEY(idrecoverycode)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
@@ -75,6 +90,7 @@ class Mysql implements SchemaInterface
                             `group` VARCHAR(250) NOT NULL,
                             `type` VARCHAR(255) NOT NULL,
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,
+                            creator_login VARCHAR(100) NULL,
                               PRIMARY KEY(idsite)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -117,11 +133,12 @@ class Mysql implements SchemaInterface
                               `description` varchar(255) NOT NULL DEFAULT '',
                               `match_attribute` varchar(20) NOT NULL,
                               `pattern` varchar(255) NOT NULL,
-                              `pattern_type` varchar(10) NOT NULL,
+                              `pattern_type` varchar(25) NOT NULL,
                               `case_sensitive` tinyint(4) NOT NULL,
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` float NOT NULL,
                               `deleted` tinyint(4) NOT NULL default '0',
+                              `event_value_as_revenue` tinyint(4) NOT NULL default '0',
                                 PRIMARY KEY  (`idsite`,`idgoal`)
                               ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -138,7 +155,7 @@ class Mysql implements SchemaInterface
 
             'log_action'          => "CREATE TABLE {$prefixTables}log_action (
                                       idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                                      name TEXT,
+                                      name VARCHAR(4096),
                                       hash INTEGER(10) UNSIGNED NOT NULL,
                                       type TINYINT UNSIGNED NULL,
                                       url_prefix TINYINT(2) NULL,
@@ -193,7 +210,7 @@ class Mysql implements SchemaInterface
                                       buster int unsigned NOT NULL,
                                       idorder varchar(100) default NULL,
                                       items SMALLINT UNSIGNED DEFAULT NULL,
-                                      url text NOT NULL,
+                                      url VARCHAR(4096) NOT NULL,
                                         PRIMARY KEY (idvisit, idgoal, buster),
                                         UNIQUE KEY unique_idsite_idorder (idsite, idorder),
                                         INDEX index_idsite_datetime ( idsite, server_time )
@@ -274,6 +291,31 @@ class Mysql implements SchemaInterface
                                       `name` VARCHAR(120) NOT NULL,
                                       `value` BIGINT(20) UNSIGNED NOT NULL ,
                                       PRIMARY KEY(`name`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'brute_force_log'        => "CREATE TABLE {$prefixTables}brute_force_log (
+                                      `id_brute_force_log` bigint(11) NOT NULL AUTO_INCREMENT,
+                                      `ip_address` VARCHAR(60) DEFAULT NULL,
+                                      `attempted_at` datetime NOT NULL,
+                                        INDEX index_ip_address(ip_address),
+                                      PRIMARY KEY(`id_brute_force_log`)
+                                      ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'tracking_failure'        => "CREATE TABLE {$prefixTables}tracking_failure (
+                                      `idsite` BIGINT(20) UNSIGNED NOT NULL ,
+                                      `idfailure` SMALLINT UNSIGNED NOT NULL ,
+                                      `date_first_occurred` DATETIME NOT NULL ,
+                                      `request_url` MEDIUMTEXT NOT NULL ,
+                                      PRIMARY KEY(`idsite`, `idfailure`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+            'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
+                                      `key` VARCHAR(".Lock::MAX_KEY_LEN.") NOT NULL,
+                                      `value` VARCHAR(255) NULL DEFAULT NULL,
+                                      `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
+                                      PRIMARY KEY (`key`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
         );
@@ -394,7 +436,9 @@ class Mysql implements SchemaInterface
             $dbName = $this->getDbName();
         }
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+        $dbName = str_replace('`', '', $dbName);
+
+        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET utf8");
     }
 
     /**
@@ -407,7 +451,7 @@ class Mysql implements SchemaInterface
      */
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
-        $statement = sprintf("CREATE TABLE `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=utf8 ;",
+        $statement = sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=utf8 ;",
                              Common::prefixTable($nameWithoutPrefix),
                              $createDefinition,
                              $this->getTableEngine());
@@ -429,7 +473,8 @@ class Mysql implements SchemaInterface
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->getDbName();
-        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
+        $dbName = str_replace('`', '', $dbName);
+        Db::exec("DROP DATABASE IF EXISTS `" . $dbName . "`");
     }
 
     /**
@@ -464,7 +509,29 @@ class Mysql implements SchemaInterface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '$now', '$now' );");
+                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 'anonymous', 0, '$now', '$now' );");
+    }
+
+    /**
+     * Records the Matomo version a user used when installing this Matomo for the first time
+     */
+    public function recordInstallVersion()
+    {
+        if (!self::getInstallVersion()) {
+            Option::set(self::OPTION_NAME_MATOMO_INSTALL_VERSION, Version::VERSION);
+        }
+    }
+
+    /**
+     * Returns which Matomo version was used to install this Matomo for the first time.
+     */
+    public function getInstallVersion()
+    {
+        Option::clearCachedOption(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        $version = Option::get(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        if (!empty($version)) {
+            return $version;
+        }
     }
 
     /**

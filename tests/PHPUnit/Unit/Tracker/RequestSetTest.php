@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -396,32 +396,6 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
         $_POST['redirecturl'] = 'whatsoever';
         $this->assertTrue($this->requestSet->hasRedirectUrl());
         unset($_POST['redirecturl']);
-    }
-
-    public function test_getAllSiteIdsWithinRequest_ShouldReturnEmptyArray_IfNoRequestsSet()
-    {
-        $this->assertEquals(array(), $this->requestSet->getAllSiteIdsWithinRequest());
-    }
-
-    public function test_getAllSiteIdsWithinRequest_ShouldReturnTheSiteIds_FromRequests()
-    {
-        $this->requestSet->setRequests($this->buildRequests(3));
-
-        $this->assertEquals(array(1, 2, 3), $this->requestSet->getAllSiteIdsWithinRequest());
-    }
-
-    public function test_getAllSiteIdsWithinRequest_ShouldReturnUniqueSiteIds_Unordered()
-    {
-        $this->requestSet->setRequests(array(
-            $this->buildRequest(1),
-            $this->buildRequest(5),
-            $this->buildRequest(1),
-            $this->buildRequest(2),
-            $this->buildRequest(2),
-            $this->buildRequest(9),
-        ));
-
-        $this->assertEquals(array(1, 5, 2, 9), $this->requestSet->getAllSiteIdsWithinRequest());
     }
 
     /**

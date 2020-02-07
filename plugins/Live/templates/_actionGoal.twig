@@ -2,7 +2,7 @@
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {# Goal conversion #}
-        <img src="{{ action.icon }}" class="action-list-action-icon" />
+        <img src="{{ action.iconSVG|default(action.icon) }}" class="action-list-action-icon" />
         <strong>{{ action.goalName }}</strong>
         {% if action.revenue > 0 %}, {{ 'General_ColumnRevenue'|translate }}:
             <strong>{{ action.revenue|money(visitInfo.idSite)|raw }}</strong>

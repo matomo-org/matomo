@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -17,7 +17,7 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 function getBrandLogo($label)
 {
     $path = 'plugins/Morpheus/icons/dist/brand/%s.png';
-    $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
+    $label = preg_replace("/[^a-z0-9_\-]+/i", "_", $label);
     if (!file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $label))) {
         $label = "unk";
     }
@@ -134,6 +134,7 @@ function getDeviceTypeLabel($label)
         'smart display' => 'DevicesDetection_SmartDisplay',
         'camera'        => 'DevicesDetection_Camera',
         'portable media player' => 'DevicesDetection_PortableMediaPlayer',
+        'smart speaker' => 'DevicesDetection_SmartSpeaker',
     );
 
     $deviceTypes = DeviceParser::getAvailableDeviceTypes();

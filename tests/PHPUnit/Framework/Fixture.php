@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Framework;
@@ -13,7 +13,7 @@ use Piwik\Archive;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
 use Piwik\Auth\Password;
-use Piwik\Cache\Backend\File;
+use Matomo\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
@@ -23,14 +23,16 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Ini\IniReader;
+use Piwik\FrontController;
+use Matomo\Ini\IniReader;
 use Piwik\Log;
+use Piwik\NumberFormatter;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\ProcessedReport;
-use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
@@ -50,11 +52,8 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
-use Piwik\Url;
-use PHPUnit_Framework_Assert;
-use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use PiwikTracker;
-use Piwik_LocalTracker;
+use MatomoTracker;
+use Matomo_LocalTracker;
 use Piwik\Updater;
 use Exception;
 use ReflectionClass;
@@ -140,7 +139,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         if (SystemTestCase::isTravisCI()) {
-            return 'python2.6';
+            return 'python2.7';
         }
 
         return 'python';
@@ -198,7 +197,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->dbName = $this->getDbName();
 
         if ($this->persistFixtureData) {
-            $this->dropDatabaseInSetUp = false;
+            $this->dropDatabaseInSetUp = getenv('DROP') == 1;
             $this->dropDatabaseInTearDown = false;
             $this->overwriteExisting = false;
             $this->removeExistingSuperUser = false;
@@ -213,6 +212,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         foreach ($this->extraTestEnvVars as $name => $value) {
             $testEnv->$name = $value;
+        }
+
+        if (!empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'))) {
+            $testEnv->environmentVariables['MATOMO_TESTS_ENABLE_LOGGING'] = '1';
         }
 
         $testEnv->save();
@@ -243,6 +246,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             Db::get()->query("SET wait_timeout=28800;");
 
             DbHelper::createTables();
+            DbHelper::recordInstallVersion();
 
             self::getPluginManager()->unloadPlugins();
 
@@ -287,10 +291,13 @@ class Fixture extends \PHPUnit_Framework_Assert
                 $this->loginAsSuperUser();
             }
 
-            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
+            APILanguagesManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getTestRootUrl());
+
+        $testEnv->tokenAuth = self::getTokenAuth();
+        $testEnv->save();
 
         if ($setupEnvironmentOnly) {
             return;
@@ -346,10 +353,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
-        self::unloadAllPlugins();
-
-
         if ($this->dropDatabaseInTearDown) {
+            self::unloadAllPlugins();
+
             $this->dropDatabase();
         }
 
@@ -362,11 +368,14 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function clearInMemoryCaches()
     {
+        Date::$now = null;
+        FrontController::$requestId = null;
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
+        NumberFormatter::getInstance()->clearCache();
         PiwikCache::getTransientCache()->flushAll();
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getLazyCache()->flushAll();
@@ -407,6 +416,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         DbHelper::createTables();
+        DbHelper::recordInstallVersion();
         self::getPluginManager()->loadActivatedPlugins();
     }
 
@@ -572,26 +582,26 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTrackerUrl()
     {
-        return self::getTestRootUrl() . 'piwik.php';
+        return self::getTestRootUrl() . 'matomo.php';
     }
 
     /**
-     * Returns a PiwikTracker object that you can then use to track pages or goals.
+     * Returns a MatomoTracker object that you can then use to track pages or goals.
      *
      * @param int     $idSite
      * @param string  $dateTime
      * @param boolean $defaultInit If set to true, the tracker object will have default IP, user agent, time, resolution, etc.
      * @param bool    $useLocal
      *
-     * @return PiwikTracker
+     * @return MatomoTracker
      */
     public static function getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = false)
     {
         if ($useLocal) {
             require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
-            $t = new Piwik_LocalTracker($idSite, self::getTrackerUrl());
+            $t = new Matomo_LocalTracker($idSite, self::getTrackerUrl());
         } else {
-            $t = new PiwikTracker($idSite, self::getTrackerUrl());
+            $t = new MatomoTracker($idSite, self::getTrackerUrl());
         }
         $t->setForceVisitDateTime($dateTime);
 
@@ -621,7 +631,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
-        $url = "\n =========================== \n URL was: " . PiwikTracker::$DEBUG_LAST_REQUESTED_URL;
+        $url = "\n =========================== \n URL was: " . MatomoTracker::$DEBUG_LAST_REQUESTED_URL;
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
             . var_export($response, true)
             . "\n If you are stuck, you can enable [Tracker] debug=1; in config.ini.php to get more debug info."
@@ -629,6 +639,17 @@ class Fixture extends \PHPUnit_Framework_Assert
             . base64_encode($response)
             . $url
         );
+    }
+
+    public static function checkTrackingFailureResponse($response)
+    {
+        $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        $expectedResponse = base64_decode($trans_gif_64);
+
+        self::assertContains($expectedResponse, $response);
+        self::assertContains('This resource is part of Matomo.', $response);
+        self::assertNotContains('Error', $response);
+        self::assertNotContains('Fatal', $response);
     }
 
     /**
@@ -779,7 +800,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             // set-up mail report with one row evolution based png graph
             APIScheduledReports::getInstance()->addReport(
                 $idSite,
-                'Mail Test report',
+                'Mail Test report (previous default)',
                 'day',
                 0,
                 ScheduledReports::EMAIL_TYPE,
@@ -788,7 +809,39 @@ class Fixture extends \PHPUnit_Framework_Assert
                 array(
                      ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
                      ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
-                )
+                ),
+                false
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (previous10)',
+                'day',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'prev',
+                10
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (each in period)',
+                'week',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'each'
             );
         }
     }
@@ -836,7 +889,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $cmd .= '"' . $logFile . '" 2>&1';
 
-        // run the command
+        // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
+        // and no one will know why the build fails.
+        if (SystemTestCase::isTravisCI()) {
+            $cmd = "timeout 10m $cmd";
+        }
+
         exec($cmd, $output, $result);
         if ($result !== 0
             && !$allowFailure
@@ -907,15 +965,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
     }
 
-    // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must
-    // sometimes do sanitization ourselves.
+    /**
+     * @param $type
+     * @param bool $sanitize
+     * @deprecated Use XssTesting
+     */
     public static function makeXssContent($type, $sanitize = false)
     {
-        $result = "<script>$('body').html('$type XSS!');</script>";
-        if ($sanitize) {
-            $result = Common::sanitizeInputValue($result);
-        }
-        return $result;
+        $xssTesting = new XssTesting();
+        return $xssTesting->forTwig($type, $sanitize);
     }
 
     public static function updateDatabase($force = false)

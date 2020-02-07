@@ -5,8 +5,9 @@
 		<nb_visits>6</nb_visits>
 		<nb_actions>16</nb_actions>
 		<max_actions>5</max_actions>
-		<sum_visit_length>4863</sum_visit_length>
+		<sum_visit_length>4865</sum_visit_length>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>

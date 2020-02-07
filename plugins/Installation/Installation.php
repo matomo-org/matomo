@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Installation;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Exception\NotYetInstalledException;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
@@ -63,8 +64,8 @@ class Installation extends \Piwik\Plugin
     {
         $general = Config::getInstance()->General;
 
-        if (!SettingsPiwik::isPiwikInstalled() && !$general['enable_installer']) {
-            throw new \Exception('Matomo is not set up yet');
+        if (!SettingsPiwik::isMatomoInstalled() && !$general['enable_installer']) {
+            throw new NotYetInstalledException('Matomo is not set up yet');
         }
 
         if (empty($general['installation_in_progress'])) {
@@ -107,8 +108,13 @@ class Installation extends \Piwik\Plugin
 
         $action = Common::getRequestVar('action', 'welcome', 'string');
 
-        if ($this->isAllowedAction($action)) {
+        if ($this->isAllowedAction($action) && (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH)) {
             echo FrontController::getInstance()->dispatch('Installation', $action, array($message));
+        } elseif (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) {
+            if ($exception && $exception instanceof \Exception) {
+                throw $exception;
+            }
+            return;
         } else {
             Piwik::exitWithErrorMessage($this->getMessageToInviteUserToInstallPiwik($message));
         }

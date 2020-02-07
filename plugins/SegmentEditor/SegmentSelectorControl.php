@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -65,7 +65,7 @@ class SegmentSelectorControl extends UIControl
         $this->nameOfCurrentSegment = '';
         $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = 0;
 
-        $this->availableSegments = API::getInstance()->getAll($this->idSite);
+        $this->availableSegments = Request::processRequest("SegmentEditor.getAll", ['idSite' => $this->idSite], $defaultRequest = []);
         foreach ($this->availableSegments as &$savedSegment) {
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
 

@@ -56,7 +56,7 @@
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>2</nb_visits>
 			<nb_actions>9</nb_actions>
-			<revenue>$ 3111.11</revenue>
+			<revenue>$3,111.11</revenue>
 			<nb_actions_per_visit>4.5</nb_actions_per_visit>
 			<avg_time_on_site>00:39:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -66,7 +66,7 @@
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<nb_actions>4</nb_actions>
-			<revenue>$ 10</revenue>
+			<revenue>$10</revenue>
 			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>00:12:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -87,11 +87,39 @@
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>3</nb_visits>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>3</nb_visits>
 		<nb_actions>13</nb_actions>
-		<nb_conversions>3</nb_conversions>
+		<nb_users>0</nb_users>
+		<max_actions>6</max_actions>
+		<sum_visit_length>5403</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal="ecommerceAbandonedCart">
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>5020.22</revenue>
+				<items>8</items>
+			</row>
+			<row idgoal="ecommerceOrder">
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>3111.11</revenue>
+				<revenue_subtotal>2500</revenue_subtotal>
+				<revenue_tax>511</revenue_tax>
+				<revenue_shipping>100.11</revenue_shipping>
+				<revenue_discount>666</revenue_discount>
+				<items>10</items>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
+		<nb_actions_per_visit>4.3</nb_actions_per_visit>
 	</reportTotal>
 </result>

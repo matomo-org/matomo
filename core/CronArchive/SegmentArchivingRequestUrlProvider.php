@@ -2,13 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\CronArchive;
 
-use Piwik\Cache\Cache;
-use Piwik\Cache\Transient;
+use Matomo\Cache\Cache;
+use Matomo\Cache\Transient;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Factory as PeriodFactory;

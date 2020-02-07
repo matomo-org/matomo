@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,12 +10,15 @@ namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\TagManager\Model\Container\StaticContainerIdGenerator;
+use Piwik\Tracker\Action;
 use Piwik\View;
 
 /**
@@ -51,6 +54,11 @@ class VisitorLog extends Visualization
             $this->requestConfig->filter_limit = $defaultLimit;
         }
 
+        if ($this->isInPopover()) {
+            $this->requestConfig->filter_limit = 10;
+        }
+
+        $this->requestConfig->request_parameters_to_modify['filter_limit'] = $this->requestConfig->filter_limit+1; // request one more record, to check if a next page is available
         $this->requestConfig->disable_generic_filters = true;
         $this->requestConfig->filter_sort_column      = false;
 
@@ -64,11 +72,19 @@ class VisitorLog extends Visualization
                 }
             }
         };
+        $this->config->filters[] = function (DataTable $table) {
+            $this->groupActionsByPageviewId($table);
+        };
     }
 
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
         $this->requestConfig->filter_sort_column = false;
+    }
+
+    private function isInPopover()
+    {
+        return Common::getRequestVar('inPopover', '0') !== '0';
     }
 
     /**
@@ -95,28 +111,179 @@ class VisitorLog extends Visualization
             $this->config->custom_parameters = array();
         }
 
-        // set a very high row count so that the next link in the footer of the data table is always shown
-        $this->config->custom_parameters['totalRows'] = 10000000;
-        $this->config->custom_parameters['smallWidth'] = (1 == Common::getRequestVar('small', 0, 'int'));
-        $this->config->custom_parameters['hideProfileLink'] = (1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
+        // ensure to show next link if there are enough rows for a next page
+        if ($this->dataTable->getRowsCount() > $this->requestConfig->filter_limit) {
+            $this->dataTable->deleteRowsOffset($this->requestConfig->filter_limit);
+            $this->config->custom_parameters['totalRows'] = 10000000;
+        }
+
+        $this->config->custom_parameters['smallWidth'] = (int)(1 == Common::getRequestVar('small', 0, 'int'));
+        $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
-        $this->config->footer_icons = array(
-            array(
-                'class'   => 'tableAllColumnsSwitch',
-                'buttons' => array(
-                    array(
-                        'id'    => static::ID,
-                        'title' => Piwik::translate('Live_LinkVisitorLog'),
-                        'icon'  => 'plugins/Morpheus/images/table.png'
+        if (!$this->isInPopover()) {
+            $this->config->footer_icons = array(
+                array(
+                    'class'   => 'tableAllColumnsSwitch',
+                    'buttons' => array(
+                        array(
+                            'id'    => static::ID,
+                            'title' => Piwik::translate('Live_LinkVisitorLog'),
+                            'icon'  => 'plugins/Morpheus/images/table.png'
+                        )
                     )
                 )
-            )
-        );
+            );
+        } else {
+            // It's opening in a popover, just show a few records and don't give the user any actions to play with
+            $this->config->footer_icons = array();
+            $this->config->show_export = false;
+            $this->config->show_pagination_control = false;
+            $this->config->show_limit_control = false;
+        }
+        $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
+
+        $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);
+        if ($enableAddNewSegment) {
+            $this->config->datatable_actions[] = [
+                'id' => 'addSegmentToMatomo',
+                'title' => Piwik::translate('SegmentEditor_AddThisToMatomo'),
+                'icon' => 'icon-segment',
+            ];
+        }
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
     {
         return ($view->requestConfig->getApiModuleToRequest() === 'Live');
+    }
+
+    // TODO: need to unit test this
+    public static function groupActionsByPageviewId(DataTable $table)
+    {
+        foreach ($table->getRows() as $row) {
+            $actionGroups = [];
+            foreach ($row->getColumn('actionDetails') as $key => $action) {
+                // if action is not a pageview action
+                if (empty($action['idpageview'])
+                    && self::isPageviewAction($action)
+                ) {
+                    $actionGroups[] = [
+                        'pageviewAction' => null,
+                        'actionsOnPage' => [$action],
+                        'refreshActions' => [],
+                    ];
+                    continue;
+                }
+
+                // if there is no idpageview for wahtever reason, invent one
+                $idPageView = !empty($action['idpageview']) ? $action['idpageview'] : count($actionGroups);
+                if (empty($actionGroups[$idPageView])) {
+                    $actionGroups[$idPageView] = [
+                        'pageviewAction' => null,
+                        'actionsOnPage' => [],
+                        'refreshActions' => [],
+                    ];
+                }
+
+                if ($action['type'] == 'action') {
+                    if (empty($actionGroups[$idPageView]['pageviewAction'])) {
+                        $actionGroups[$idPageView]['pageviewAction'] = $action;
+                    } else if (empty($actionGroups[$idPageView]['pageviewAction']['url'])) {
+                        // set this action as the pageview action either if there isn't one set already, or the existing one
+                        // has no URL
+                        $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
+                        $actionGroups[$idPageView]['pageviewAction'] = $action;
+                    } else {
+                        $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
+                    }
+                } else {
+                    $actionGroups[$idPageView]['actionsOnPage'][] = $action;
+                }
+            }
+
+            foreach ($actionGroups as $idPageView => $actionGroup) {
+                if (!empty($actionGroup['actionsOnPage'])) {
+                    usort($actionGroup['actionsOnPage'], function ($a, $b) {
+                        $fields = array('timestamp', 'title', 'url', 'type', 'pageIdAction', 'goalId', 'timeSpent');
+                        foreach ($fields as $field) {
+                            $sort = self::sortByActionsOnPageColumn($a, $b, $field);
+                            if ($sort !== 0) {
+                                return $sort;
+                            }
+                        }
+
+                        return 0;
+                    });
+                    $actionGroups[$idPageView]['actionsOnPage'] = $actionGroup['actionsOnPage'];
+                }
+            }
+
+            // merge action groups that have the same page url/action and no pageviewactions
+            $actionGroups = self::mergeRefreshes($actionGroups);
+
+            $row->setColumn('actionGroups', $actionGroups);
+        }
+    }
+
+    public static function sortByActionsOnPageColumn($a, $b, $field)
+    {
+        if (!isset($a[$field]) && !isset($b[$field])) {
+            return 0;
+        }
+        if (!isset($a[$field])) {
+            return -1;
+        }
+        if (!isset($b[$field])) {
+            return 1;
+        }
+        if ($field === 'serverTimePretty') {
+            $a[$field] = strtotime($a[$field]);
+            $b[$field] = strtotime($b[$field]);
+        }
+        if ($a[$field] === $b[$field]) {
+            return 0;
+        }
+        if ($a[$field] < $b[$field]) {
+            return -1;
+        }
+        return 1;
+    }
+
+    private static function mergeRefreshes(array $actionGroups)
+    {
+        $previousId = null;
+        foreach ($actionGroups as $idPageview => $group) {
+            if (empty($previousId)) {
+                $previousId = $idPageview;
+                continue;
+            }
+
+            $action = $group['pageviewAction'];
+            $lastActionGroup = $actionGroups[$previousId];
+
+            $isLastGroupEmpty = empty($actionGroups[$previousId]['actionsOnPage']);
+            $isPageviewActionSame = $lastActionGroup['pageviewAction']['url'] == $action['url']
+                && $lastActionGroup['pageviewAction']['pageTitle'] == $action['pageTitle'];
+
+            // if the current action has the same url/action name as the last, merge w/ the last action group
+            if ($isLastGroupEmpty
+                && $isPageviewActionSame
+            ) {
+                $actionGroups[$previousId]['refreshActions'][] = $action;
+                $actionGroups[$previousId]['actionsOnPage'] = array_merge($actionGroups[$previousId]['actionsOnPage'], $actionGroups[$idPageview]['actionsOnPage']);
+                unset($actionGroups[$idPageview]);
+            } else {
+                $previousId = $idPageview;
+            }
+        }
+        return $actionGroups;
+    }
+
+    private static function isPageviewAction($action)
+    {
+        return $action['type'] != 'action'
+            && $action['type'] != Action::TYPE_PAGE_URL
+            && $action['type'] != Action::TYPE_PAGE_TITLE;
     }
 }

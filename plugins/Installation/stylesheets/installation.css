@@ -22,8 +22,12 @@ body {
     margin-bottom: 20px;
 }
 
+#installation .form-group .dropdown-content li>a, .dropdown-content li>span {
+    color: #43a047;
+}
+
 .header .languageSelection {
-    color: #4183C4;
+    color: #1976D2;
     font-size: 13px;
 }
 
@@ -54,7 +58,7 @@ body {
 }
 .installation-progress h4 small {
     float: right;
-    color: #d4291f;
+    color: #43a047;
 }
 .installation-progress .progress {
     margin-bottom: 0;
@@ -106,7 +110,7 @@ p.next-step:first-child {
 }
 
 .system-check .icon-ok, .system-check-legend .icon-ok {
-    color: #1AA282;
+    color: #43a047;
     margin-right: 10px;
 }
 .system-check .icon-warning, .system-check-legend .icon-warning {
@@ -128,4 +132,12 @@ p.next-step:first-child {
 
 .email-privacy-notice {
     margin-top: -4rem;
+}
+
+.trackingHelpHeader h2 {
+    display: inline-block;
+}
+.trackingHelpHeader a.btn {
+    float: right;
+    margin-top: -10px;
 }

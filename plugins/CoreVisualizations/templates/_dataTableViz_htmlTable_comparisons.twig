@@ -1,0 +1,83 @@
+{% if properties.columns_to_display is not empty %}
+{% set lastSeenComparePeriod = false %}
+{% set comparedPeriodPretty = (dataTable.getRows()|last).getMetadata('comparePeriodPretty') %}
+{% set isComparingSegments = rootDataTable.getMetadata('compareSegments')|default([])|length > 1 %}
+{% set isComparingPeriods = rootDataTable.getMetadata('comparePeriods')|default([])|length > 1 %}
+{%- for rowId, row in dataTable.getRows() -%}
+    {% set comparePeriod = row.getMetadata('comparePeriodPretty') %}
+    {% if lastSeenComparePeriod != comparePeriod and isComparingSegments and isComparingPeriods %}
+    <tr class="comparePeriod">
+        <td class="label">
+            {{ comparePeriod }}
+        </td>
+
+        {# add extra empty columns for sticky column scrolling to work #}
+        {% for column in properties.columns_to_display %}
+        {% if column != 'label' %}
+        <td class="column">&nbsp;</td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endif %}
+    {% set overrideParams = {} %}
+
+    {% if row.getMetadata('compareSegment')|default is not empty %}{% set overrideParams = overrideParams|merge({ segment: row.getMetadata('compareSegment'), compareSegments: '' }) %}{% endif %}
+    {% if row.getMetadata('comparePeriod')|default is not empty %}{% set overrideParams = overrideParams|merge({ period: row.getMetadata('comparePeriod'), comparePeriods: '' }) %}{% endif %}
+    {% if row.getMetadata('compareDate')|default is not empty %}{% set overrideParams = overrideParams|merge({ date: row.getMetadata('compareDate'), compareDates: '' }) %}{% endif %}
+    {% set idSubtable = row.getMetadata('idsubdatatable') %}
+    {% set seriesIndex = loop.index0 %}
+    <tr
+        {% if idSubtable != false %}data-idsubtable="{{ idSubtable|e('html_attr') }}"{% endif %}
+        data-comparison-series="{{ seriesIndex }}"
+        class="comparisonRow"
+        data-param-override="{{ overrideParams|json_encode|e('html_attr') }}" data-label="{{ comparedRow.getColumn('label')|e('html_attr') }}"
+        {% if row.getMetadata('segment') is not false %}data-segment-filter="{{ row.getMetadata('segment')|e('html_attr') }}"{% endif %}
+    >
+        <td class="label">
+            {% if isComparingSegments %}
+                {%- set comparisonLabel = row.getMetadata('compareSegmentPretty') -%}
+            {% else %}
+                {%- set comparisonLabel = comparePeriod -%}
+            {% endif %}
+            <span class="label">{{ comparisonLabel }}</span>
+        </td>
+        {% for dimension in dimensions %}
+        {% if loop.index0 != 0 and dimension in properties.columns_to_display %}
+        <td class="label">
+            &nbsp;
+        </td>
+        {% endif %}
+        {% endfor %}
+        {% for column in properties.columns_to_display %}
+        {% if column != 'label' and column not in dimensions %}
+        {% set columnValue = row.getColumn(column) %}
+        <td class="column">
+            {% set rowComparisonTotals = comparisonTotals[seriesIndex].totals|default(null) %}
+
+            {% set comparisonTooltipSuffix = '' %}
+            {% set columnChange = false %}
+
+            {% if row.getColumn(column ~ '_change')|default is not empty %}
+                {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
+                {% set comparisonTooltipSuffix = 'General_ComparisonRatioTooltip'|translate(columnChange, row.getMetadata('compareSegmentPretty'), comparedPeriodPretty) %}
+            {% endif %}
+
+            {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
+                'changePercentage': columnChange,
+                'totals': rowComparisonTotals,
+                'label': comparedRow.getColumn('label'),
+                'labelColumn': properties.columns_to_display|first,
+                'forceZero': true,
+                'tooltipSuffix': comparisonTooltipSuffix,
+                'translations': properties.translations,
+                'segmentTitlePretty': row.getMetadata('compareSegmentPretty'),
+                'periodTitlePretty': row.getMetadata('comparePeriodPretty')
+            } %}
+            <span class="value">{{ columnValue|default(0)|number(2,0)|rawSafeDecoded }}</span>
+        </td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% set lastSeenComparePeriod = comparePeriod %}
+{%- endfor -%}
+{% endif %}

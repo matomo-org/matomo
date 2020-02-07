@@ -1,0 +1,28 @@
+{
+    "CoreAdminHome": {
+        "AddNewTrustedHost": "Aldoni fidendan gastejon",
+        "Administration": "Administrado",
+        "ArchivingSettings": "Konservanta agordojn",
+        "ReleaseChannel": "Liberigi kanalon",
+        "ClickHereToOptIn": "Klaki ĉi tie por permesi.",
+        "ClickHereToOptOut": "Klaki ĉi tie por malpermesi.",
+        "ForBetaTestersOnly": "Nur por betaaj uzantoj",
+        "ImageTracking": "Bildasekvado",
+        "JavaScriptTracking": "Sekvado per JavaSkripto",
+        "JSTracking_DisableCookies": "Malebligi ĉiujn sekvantajn kuketojn",
+        "JSTracking_MergeSubdomains": "Sekvu ĉiujn vizitantojn ĉe ĉiuj subdomajnoj de",
+        "JSTracking_MergeSubdomainsDesc": "Do, se unu vizitanto vizitas %1$skaj %2$s, ili estos kalkulitaj kiel unika vizitanto.",
+        "LogoUpload": "Elekti emblemon por alŝuti.",
+        "FaviconUpload": "Elekti Favicon por alŝuti.",
+        "LogoUploadHelp": "Bonvole alŝuti dosieron laŭ la formatoj %1$skaj minimuma alteco de %2$spikseloj.",
+        "MenuGeneralSettings": "Ĝeneralaj agordoj",
+        "MenuSystem": "Sistemo",
+        "MenuDevelopment": "Disvolvigo",
+        "PiwikIsInstalledAt": "Matomo estas instalita ĉe",
+        "PersonalPluginSettings": "Peronaj agordoj por kromprogramo",
+        "PluginSettingChangeNotAllowed": "Vi ne rajtas ŝanĝi la valoron de la parametro \"%1$s\" en la kromprogramo \"%2$s\"",
+        "PluginSettingReadNotAllowed": "Vi ne rajtas legi la valoron de la parametro \"%1$s\" en la kromprogramo \"%2$s\"",
+        "PluginSettings": "Kromprogramaj agordoj",
+        "SettingsSaveSuccess": "Agordoj ĝisdatigitaj"
+    }
+}

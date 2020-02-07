@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Questo User-Agent è stato individuato come %1$s. Per impostazione predefinita le visite che avvengono tramite questo user agent non verranno tracciate da Matomo.",
         "BrowserEngine": "Motore browser",
         "BrowserEngineDocumentation": "Questo report mostra i browser dei vostri visitatori suddivisi in famiglie di browser. %s Le informazioni più importanti per gli sviluppatori web sono che tipo di motore di rendering i loro visitatori stanno usando. Le etichette contengono i nomi dei motori seguiti dal browser più comune che utilizza quel motore, messo tra parentesi.",
         "BrowserEngines": "Motori browser",
@@ -11,6 +12,7 @@
         "CarBrowser": "Browser in auto",
         "Software": "Software",
         "ColumnBrowser": "Browser",
+        "BrowserCode": "Codice browser",
         "ColumnOperatingSystem": "Sistema operativo",
         "ColumnOperatingSystemVersion": "Versione sistema operativo",
         "Console": "Console",
@@ -30,6 +32,7 @@
         "FeaturePhone": "Feature phone",
         "OperatingSystemFamilies": "Famiglie Sistema Operativo",
         "OperatingSystemFamily": "Famiglia sistema operativo",
+        "OperatingSystemCode": "Codice sistema operativo",
         "OperatingSystems": "Sistemi Operativi",
         "OperatingSystemVersions": "Versioni Sistema Operativo",
         "PluginDescription": "Fornisce informazioni dettagliate sui dispositivi degli utenti, come marca, modello, tipo di dispositivo (tv, console, smartphone, desktop, ecc.) e altro ancora.",

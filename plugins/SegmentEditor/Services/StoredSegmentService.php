@@ -2,14 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SegmentEditor\Services;
 
 use Piwik\Plugins\SegmentEditor\Model;
-use Piwik\Cache\Transient as TransientCache;
+use Matomo\Cache\Transient as TransientCache;
 
 
 /**

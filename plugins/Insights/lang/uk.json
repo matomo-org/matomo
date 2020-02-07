@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Надає Вам прогнози вашого трафіку. Прогнози доступні як у вигляді віджетів панелі управління, так і у вигляді нової іконки в звітах, щоб дозволяти вам бачити найбільш важливі тенденції в ваших даних.",
         "ControlComparedToDescription": "Приріст у порівнянні з",
         "ControlFilterByDescription": "Показати всі, тільки рухомі, тільки нові або тільки зниклі",
         "DatePeriodCombinationNotSupported": "Для комбінації цієї дати і періоду неможливо згенерувати прогнози.",
@@ -26,7 +25,6 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s змінився з %2$s до %3$s порівняно %4$s. Грунтуючись на цьому, очікується розвиток кожного ряду %5$s%%.",
         "TitleRowChangeDetails": "'%1$s' змінилося з %2$s (%3$s) до %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' зменшилася на %2$s і пропало в %3$s порівняно з %4$s.",
-        "TitleRowMoverAndShaker": "Вплив цього рядка більше середнього.",
         "TitleRowNewDetails": "'%1$s' збільшилось на %2$s і є новим у порівнянні з %3$s.",
         "WeekComparedToPreviousWeek": "попередній тиждень",
         "WidgetCategory": "Прогнози",

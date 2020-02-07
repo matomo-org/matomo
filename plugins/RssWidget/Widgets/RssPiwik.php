@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -39,13 +39,9 @@ class RssPiwik extends \Piwik\Widget\Widget
     public function render()
     {
         try {
-            return $this->getFeed('https://feeds.feedburner.com/Piwik');
+            return $this->getFeed('https://matomo.org/feed/');
         } catch (\Exception $e) {
-            try {
-                return $this->getFeed('http://feeds.feedburner.com/Piwik');
-            } catch (\Exception $e) {
-                return $this->error($e);
-            }
+            return $this->error($e);
         }  
     }
 

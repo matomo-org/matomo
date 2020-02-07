@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Configuración",
+        "ColumnResolution": "Resolución",
+        "Configurations": "Configuración",
+        "PluginDescription": "Informa las resoluciones de pantalla de tus visitantes.",
+        "Resolutions": "Resoluciones",
+        "WidgetGlobalVisitors": "Configuración de visitante",
+        "WidgetGlobalVisitorsDocumentation": "Este informe muestra las configuraciones más comunes que tenían tus visitantes. Una configuración es una combinación de un sistema operativo, un tipo de navegador y una resolución de pantalla.",
+        "WidgetResolutions": "Resolución de pantalla"
+    }
+}

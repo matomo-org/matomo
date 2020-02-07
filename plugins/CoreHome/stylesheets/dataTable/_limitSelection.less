@@ -17,14 +17,23 @@
   .select-wrapper:hover {
     background-color: #edecec;
     border-radius: 2px;
-    color: #333;
+    color: @theme-color-brand !important;
     cursor: pointer;
 
-    input.select-dropdown {
-      color: #333;
-    }
+    input.select-dropdown,
     span.caret {
-        color: #333 !important;
+      color: @theme-color-brand !important;
+      opacity: 1;
+       &:hover {
+         color: @theme-color-brand !important;
+         opacity: 1;
+       }
+    }
+
+    input.select-dropdown {
+      &:hover {
+        border-color: @theme-color-brand !important;
+      }
     }
   }
 
@@ -39,16 +48,23 @@
       overflow: hidden;
       border: 0;
       transition: all 0s;
-      color: #adadad;
+      color: @theme-color-brand !important;
+      opacity: 0.7;
       &:hover {
-        color: #333;
-        border-color: #333;
+        color: @theme-color-brand !important;
+        opacity: 1;
+        border-color: @theme-color-brand !important;
       }
     }
     span.caret {
       top: 11px;
       right: 4px;
-      color: #adadad;
+      color: @theme-color-brand !important;
+      opacity: 0.7;
+      &:hover {
+        color: @theme-color-brand !important;
+        opacity: 1;
+      }
     }
   }
 

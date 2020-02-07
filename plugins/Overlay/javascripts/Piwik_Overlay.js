@@ -7,6 +7,14 @@
 
 var Piwik_Overlay = (function () {
 
+    var DOMAIN_PARSE_REGEX = /^http(s)?:\/\/(www\.)?([^\/]*)/i;
+    var ORIGIN_PARSE_REGEX = /^https?:\/\/[^\/]*/;
+    var ALLOWED_API_REQUEST_WHITELIST = [
+        'Overlay.getTranslations',
+        'Overlay.getExcludedQueryParameters',
+        'Overlay.getFollowingPages',
+    ];
+
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
     var $rowEvolutionLink, $transitionsLink, $visitorLogLink;
 
@@ -18,6 +26,7 @@ var Piwik_Overlay = (function () {
     var iframeCurrentPageNormalized = '';
     var iframeCurrentActionLabel = '';
     var updateComesFromInsideFrame = false;
+    var iframeOrigin = '';
 
     /** Load the sidebar for a url */
     function loadSidebar(currentUrl) {
@@ -26,7 +35,7 @@ var Piwik_Overlay = (function () {
         $location.html('&nbsp;').unbind('mouseenter').unbind('mouseleave');
 
         iframeCurrentPage = currentUrl;
-        iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
+        iframeDomain = currentUrl.match(DOMAIN_PARSE_REGEX)[3];
 
         var params = {
             module: 'Overlay',
@@ -113,6 +122,7 @@ var Piwik_Overlay = (function () {
     /** Hide the loading message */
     function hideLoading() {
         $loading.hide();
+        $('#overlayDateRangeSelect').prop('disabled', false).material_select();
     }
 
     function getOverlaySegment(url) {
@@ -135,10 +145,31 @@ var Piwik_Overlay = (function () {
         return location;
     }
 
+    function setIframeOrigin(location) {
+        var m = location.match(ORIGIN_PARSE_REGEX);
+        iframeOrigin = m ? m[0] : null;
+
+        // unset iframe origin if it is not one of the site URLs
+        var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {
+            return url.match(ORIGIN_PARSE_REGEX)[0].toLowerCase();
+        });
+
+        if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin.toLowerCase()) === -1) {
+            try {
+                console.log('Found invalid iframe origin in hash URL: ' + iframeOrigin);
+            } catch (e) {
+                // ignore
+            }
+            iframeOrigin = null;
+        }
+    }
+
     /** $.history callback for hash change */
     function hashChangeCallback(urlHash) {
         var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
+
+        setIframeOrigin(location);
 
         if (location == iframeCurrentPageNormalized) {
             return;
@@ -156,6 +187,58 @@ var Piwik_Overlay = (function () {
         }
 
         updateComesFromInsideFrame = false;
+    }
+
+    function handleApiRequests() {
+        window.addEventListener("message", function (event) {
+            if (event.origin !== iframeOrigin || !iframeOrigin) {
+                return;
+            }
+
+            if (typeof event.data !== 'string') {
+                return; // some other message not intended for us
+            }
+
+            var strData = event.data.split(':', 3);
+            if (strData[0] !== 'overlay.call') {
+                return;
+            }
+
+            var requestId = strData[1];
+            var url = decodeURIComponent(strData[2]);
+
+            var params = broadcast.getValuesFromUrl(url);
+            Object.keys(params).forEach(function (name) {
+                params[name] = decodeURIComponent(params[name]);
+            });
+            params.module = 'API';
+            params.action = 'index';
+
+            if (ALLOWED_API_REQUEST_WHITELIST.indexOf(params.method) === -1) {
+                sendResponse({
+                    result: 'error',
+                    message: "'" + params.method + "' method is not allowed.",
+                });
+                return;
+            }
+
+            angular.element(document).injector().invoke(['piwikApi', function (piwikApi) {
+                piwikApi.fetch(params)
+                    .then(function (response) {
+                        sendResponse(response);
+                    }).catch(function (err) {
+                        sendResponse({
+                            result: 'error',
+                            message: err.message,
+                        });
+                    });
+            }]);
+
+            function sendResponse(data) {
+                var message = 'overlay.response:' + requestId + ':' + encodeURIComponent(JSON.stringify(data));
+                $iframe[0].contentWindow.postMessage(message, iframeOrigin);
+            }
+        }, false);
     }
 
     return {
@@ -181,7 +264,6 @@ var Piwik_Overlay = (function () {
             $visitorLogLink = $('#overlaySegmentedVisitorLog');
 
             adjustDimensions();
-
             showLoading();
 
             // apply initial dimensions
@@ -205,6 +287,8 @@ var Piwik_Overlay = (function () {
             if (window.location.href.split('#').length == 1) {
                 hashChangeCallback('');
             }
+
+            handleApiRequests();
 
             // handle date selection
             var $select = $('select#overlayDateRangeSelect').change(function () {
@@ -286,6 +370,7 @@ var Piwik_Overlay = (function () {
                 window.location.replace(newLocation);
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
+                setIframeOrigin(currentUrl);
                 loadSidebar(currentUrl);
             }
         }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -45,7 +45,13 @@ class ArchiveSelector
         return new Model();
     }
 
-    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC)
+    /**
+     * @param ArchiveProcessor\Parameters $params
+     * @param bool $minDatetimeArchiveProcessedUTC deprecated. will be removed in Matomo 4.
+     * @return array|bool
+     * @throws Exception
+     */
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = true)
     {
         $idSite       = $params->getSite()->getId();
         $period       = $params->getPeriod()->getId();
@@ -65,7 +71,7 @@ class ArchiveSelector
         $plugins = array("VisitsSummary", $requestedPlugin);
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
-        $doneFlagValues = Rules::getSelectableDoneFlagValues();
+        $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
 
@@ -138,6 +144,7 @@ class ArchiveSelector
      * @param array $periods
      * @param Segment $segment
      * @param array $plugins List of plugin names for which data is being requested.
+     * @param bool $includeInvalidated true to include archives that are DONE_INVALIDATED, false if only DONE_OK.
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
      *                   'VisitsSummary.done' => array(
@@ -146,7 +153,7 @@ class ArchiveSelector
      *               )
      * @throws
      */
-    public static function getArchiveIds($siteIds, $periods, $segment, $plugins)
+    public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $includeInvalidated = true)
     {
         if (empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
@@ -159,16 +166,21 @@ class ArchiveSelector
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
-                                AND " . self::getNameCondition($plugins, $segment) . "
+                                AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
                                 AND %s
-                           GROUP BY idsite, date1, date2";
+                           GROUP BY idsite, date1, date2, name";
 
         $monthToPeriods = array();
         foreach ($periods as $period) {
             /** @var Period $period */
+            if ($period->getDateStart()->isLater(Date::now()->addDay(2))) {
+                continue; // avoid creating any archive tables in the future
+            }
             $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
             $monthToPeriods[$table][] = $period;
         }
+
+        $db = Db::get();
 
         // for every month within the archive query, select from numeric table
         $result = array();
@@ -201,7 +213,8 @@ class ArchiveSelector
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
 
-            $archiveIds = Db::fetchAll($sql, $bind);
+
+            $archiveIds = $db->fetchAll($sql, $bind);
 
             // get the archive IDs
             foreach ($archiveIds as $row) {
@@ -224,12 +237,14 @@ class ArchiveSelector
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
      * @param int|null|string $idSubtable  null if the root blob should be loaded, an integer if a subtable should be
      *                                     loaded and 'all' if all subtables should be loaded.
-     * @throws Exception
      * @return array
+     *@throws Exception
      */
     public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
     {
         $chunk = new Chunk();
+
+        $db = Db::get();
 
         // create the SQL to select archive data
         $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
@@ -290,7 +305,7 @@ class ArchiveSelector
             }
 
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
-            $dataRows = Db::fetchAll($sql, $bind);
+            $dataRows = $db->fetchAll($sql, $bind);
 
             foreach ($dataRows as $row) {
                 if ($isNumeric) {
@@ -313,7 +328,7 @@ class ArchiveSelector
     private static function moveChunkRowToRows(&$rows, $row, Chunk $chunk, $loadAllSubtables, $idSubtable)
     {
         // $blobs = array([subtableID] = [blob of subtableId])
-        $blobs = unserialize($row['value']);
+        $blobs = Common::safe_unserialize($row['value']);
 
         if (!is_array($blobs)) {
             return;
@@ -351,16 +366,17 @@ class ArchiveSelector
      *
      * @param array $plugins
      * @param Segment $segment
+     * @param bool $includeInvalidated
      * @return string
      */
-    private static function getNameCondition(array $plugins, Segment $segment)
+    private static function getNameCondition(array $plugins, Segment $segment, $includeInvalidated = true)
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
         $doneFlags    = Rules::getDoneFlags($plugins, $segment);
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
-        $possibleValues = Rules::getSelectableDoneFlagValues();
+        $possibleValues = Rules::getSelectableDoneFlagValues($includeInvalidated);
 
         // create the SQL to find archives that are DONE
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -61,17 +61,12 @@ class MobileMessagingTest extends IntegrationTestCase
             array("phoneNumbers" => array('33698896656'))
         );
 
-        list($outputFilename, $prettyDate, $websiteName, $additionalFiles) =
-            $APIScheduledReports->generateReport(
-                $reportId,
-                '01-01-2010',
-                'en',
-                2
-            );
-
-        $handle = fopen($outputFilename, "r");
-        $contents = fread($handle, filesize($outputFilename));
-        fclose($handle);
+        $contents = $APIScheduledReports->generateReport(
+            $reportId,
+            '01-01-2010',
+            'en',
+            APIScheduledReports::OUTPUT_RETURN
+        );
 
         $this->assertEquals(
             \Piwik\Piwik::translate('MobileMessaging_MultiSites_Must_Be_Activated'),

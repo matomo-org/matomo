@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Este plugin extrae y muestra mediciones SEO: el posicionamiento web de Alexa, Google Pagerank, el número de páginas indexadas y los enlaces de visita del sitio web seleccionado actualmente.",
+        "AlexaRank": "Posicionamiento de Alexa",
+        "Bing_IndexedPages": "Páginas indexadas por Bing",
+        "DomainAge": "Edad del dominio",
+        "Google_IndexedPages": "Páginas indexadas por Google",
+        "Rank": "Posicionamiento",
+        "SeoRankings": "Posicionamientos SEO",
+        "SEORankingsFor": "Posicionamiento SEO para %s"
+    }
+}

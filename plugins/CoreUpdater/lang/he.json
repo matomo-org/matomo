@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "צפייה והעתקת השאילתות שירוצו",
         "CriticalErrorDuringTheUpgradeProcess": "שגיאה קריטית במהלך תהליך השדרוג:",
         "DatabaseUpgradeRequired": "שדרוג בסיס נתונים נדרש",
         "DownloadingUpdateFromX": "מוריד עדכון מ%s",

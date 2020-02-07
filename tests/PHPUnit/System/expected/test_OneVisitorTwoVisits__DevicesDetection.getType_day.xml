@@ -6,8 +6,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>8</nb_actions>
 		<max_actions>7</max_actions>
-		<sum_visit_length>1621</sum_visit_length>
+		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -72,6 +73,12 @@
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==smartphone</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/smartphone.png</logo>
+	</row>
+	<row>
+		<label>Smart speaker</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==smart+speaker</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/smart_speaker.png</logo>
 	</row>
 	<row>
 		<label>Tablet</label>

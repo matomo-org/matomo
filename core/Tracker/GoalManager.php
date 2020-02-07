@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,11 +12,12 @@ use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Tracker;
+use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -55,6 +56,10 @@ class GoalManager
     const INTERNAL_ITEM_CATEGORY5 = 6;
     const INTERNAL_ITEM_PRICE = 7;
     const INTERNAL_ITEM_QUANTITY = 8;
+
+    public static $NUMERIC_MATCH_ATTRIBUTES = [
+        'visit_duration',
+    ];
 
     /**
      * TODO: should remove this, but it is used by getGoalColumn which is used by dimensions. should replace w/ value object.
@@ -117,10 +122,12 @@ class GoalManager
      *
      * @param int $idSite
      * @param Action $action
+     * @param VisitProperties $visitor
+     * @param Request $request
      * @throws Exception
      * @return array[] Goals matched
      */
-    public function detectGoalsMatchingUrl($idSite, $action)
+    public function detectGoalsMatchingUrl($idSite, $action, VisitProperties $visitor, Request $request)
     {
         if (!Common::isGoalPluginEnabled()) {
             return array();
@@ -130,7 +137,7 @@ class GoalManager
 
         $convertedGoals = array();
         foreach ($goals as $goal) {
-            $convertedUrl = $this->detectGoalMatch($goal, $action);
+            $convertedUrl = $this->detectGoalMatch($goal, $action, $visitor, $request);
             if (!is_null($convertedUrl)) {
                 $convertedGoals[] = array('url' => $convertedUrl) + $goal;
             }
@@ -144,24 +151,30 @@ class GoalManager
      *
      * @param array $goal
      * @param Action $action
-     * @return if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
+     * @param VisitProperties $visitor
+     * @param Request $request
+     * @return bool|null if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
      */
-    public function detectGoalMatch($goal, Action $action)
+    public function detectGoalMatch($goal, Action $action, VisitProperties $visitor, Request $request)
     {
         $actionType = $action->getActionType();
 
         $attribute = $goal['match_attribute'];
+
+        // handle numeric match attributes specifically
+        if (in_array($attribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
+            return $this->detectNumericGoalMatch($goal, $action, $visitor, $request);
+        }
 
         // if the attribute to match is not the type of the current action
         if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
           || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
           || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
           || ($attribute == 'manually')
-          || in_array($attribute, array('event_action', 'event_name', 'event_category')) && $actionType != Action::TYPE_EVENT
+          || self::isEventMatchingGoal($goal) && $actionType != Action::TYPE_EVENT
         ) {
             return null;
         }
-
 
         switch ($attribute) {
             case 'title':
@@ -191,6 +204,42 @@ class GoalManager
         }
 
         return $action->getActionUrl();
+    }
+
+    private function detectNumericGoalMatch($goal, Action $action, VisitProperties $visitProperties, Request $request)
+    {
+        switch ($goal['match_attribute']) {
+            case 'visit_duration':
+                $firstActionTime = $visitProperties->getProperty('visit_first_action_time');
+                if (empty($firstActionTime)) {
+                    return null;
+                }
+
+                $visitDurationInSecs = $request->getCurrentTimestamp() - ((int) $firstActionTime);
+                $valueToMatchAgainst = $visitDurationInSecs / 60;
+                break;
+            default:
+                return null;
+        }
+
+        $pattern = (float) $goal['pattern'];
+
+        Common::printDebug("Matching {$goal['match_attribute']} (current value = $valueToMatchAgainst, idGoal = {$goal['idgoal']}) {$goal['pattern_type']} $pattern.");
+
+        switch ($goal['pattern_type']) {
+            case 'greater_than':
+                $matches = $valueToMatchAgainst > $pattern;
+                break;
+            default:
+                return null;
+        }
+
+        if ($matches) {
+            Common::printDebug("Conversion detected for idGoal = , idGoal = {$goal['idgoal']}.");
+            return $action->getActionUrl();
+        } else {
+            return null;
+        }
     }
 
     public function detectGoalId($idSite, Request $request)
@@ -670,15 +719,30 @@ class GoalManager
             }
 
             // If multiple Goal conversions per visit, set a cache buster
-            $conversion['buster'] = $convertedGoal['allow_multiple'] == 0
-                ? '0'
-                : $visitProperties->getProperty('visit_last_action_time');
+            if ($convertedGoal['allow_multiple'] == 0) {
+                $conversion['buster'] = 0;
+            } else {
+                $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
+                if (empty($lastActionTime)) {
+                    $conversion['buster'] = $this->makeRandomMySqlUnsignedInt(10);
+                } else {
+                    $conversion['buster'] = $this->makeRandomMySqlUnsignedInt(2) . Common::mb_substr($visitProperties->getProperty('visit_last_action_time'), 2);
+                }
+            }
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
-            $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action);
+            $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action, $convertedGoal);
         }
+    }
+    
+    private function makeRandomMySqlUnsignedInt($length)
+    {
+        // mysql int unsgined max value is 4294967295 so we want to allow max 39999...
+        $randomInt = Common::getRandomString(1, '123');
+        $randomInt .= Common::getRandomString($length - 1, '0123456789');
+        return $randomInt;
     }
 
     /**
@@ -690,7 +754,7 @@ class GoalManager
      * @param Action|null $action
      * @return bool
      */
-    protected function insertNewConversion($conversion, $visitInformation, Request $request, $action)
+    protected function insertNewConversion($conversion, $visitInformation, Request $request, $action, $convertedGoal = null)
     {
         /**
          * Triggered before persisting a new [conversion entity](/guides/persistence-and-the-mysql-backend#conversions).
@@ -711,11 +775,29 @@ class GoalManager
          */
         Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request, $action));
 
+        if (!empty($convertedGoal)
+            && $this->isEventMatchingGoal($convertedGoal)
+            && !empty($convertedGoal['event_value_as_revenue'])
+        ) {
+            $eventValue = ActionEvent::getEventValue($request);
+            if ($eventValue != '') {
+                $conversion['revenue'] = $eventValue;
+            }
+        }
+
         $newGoalDebug = $conversion;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);
 
+        $idorder = $request->getParam('ec_id');
+
         $wasInserted = $this->getModel()->createConversion($conversion);
+        if (!$wasInserted
+            && !empty($idorder)
+        ) {
+            $idSite = $request->getIdSite();
+            throw new InvalidRequestParameterException("Invalid non-unique idsite/idorder combination ($idSite, $idorder), conversion was not inserted.");
+        }
 
         return $wasInserted;
     }
@@ -870,5 +952,10 @@ class GoalManager
             $pattern = str_replace('/', '\\/', $pattern);
         }
         return '/' . $pattern . '/';
+    }
+
+    public static function isEventMatchingGoal($goal)
+    {
+        return in_array($goal['match_attribute'], array('event_action', 'event_name', 'event_category'));
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -88,7 +88,65 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
             array('foobar'),
         );
     }
-    
+
+    /**
+     * @dataProvider getTestDataForToString
+     */
+    public function test_toString_CreatesCommaSeparatedStringList($periodType, $date, $format, $expected)
+    {
+        $period = Period\Factory::build($periodType, $date);
+        $actual = $period->toString($format);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForToString()
+    {
+        return [
+            ['day', '2012-02-03', 'Y-m-d', '2012-02-03'],
+            ['day', '2012-02-03', 'Y_m', '2012_02'],
+
+            ['week', '2012-02-04', 'Y-m-d', [
+                '2012-01-30',
+                '2012-01-31',
+                '2012-02-01',
+                '2012-02-02',
+                '2012-02-03',
+                '2012-02-04',
+                '2012-02-05',
+            ]],
+            ['month', '2012-02-04', 'Y-m-d', [
+                '2012-02-01',
+                '2012-02-02',
+                '2012-02-03',
+                '2012-02-04',
+                '2012-02-05',
+                '2012-02-06,2012-02-07,2012-02-08,2012-02-09,2012-02-10,2012-02-11,2012-02-12',
+                '2012-02-13,2012-02-14,2012-02-15,2012-02-16,2012-02-17,2012-02-18,2012-02-19',
+                '2012-02-20,2012-02-21,2012-02-22,2012-02-23,2012-02-24,2012-02-25,2012-02-26',
+                '2012-02-27',
+                '2012-02-28',
+                '2012-02-29',
+            ]],
+            ['month', '2012-02-04', 'Y-m', [
+                '2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02,2012-02,2012-02,2012-02,2012-02,2012-02,2012-02',
+                '2012-02,2012-02,2012-02,2012-02,2012-02,2012-02,2012-02',
+                '2012-02,2012-02,2012-02,2012-02,2012-02,2012-02,2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02',
+            ]],
+            ['range', '2012-03-05,2012-03-12', 'Y-m-d', [
+                '2012-03-05,2012-03-06,2012-03-07,2012-03-08,2012-03-09,2012-03-10,2012-03-11',
+                '2012-03-12',
+            ]],
+        ];
+    }
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage is a date before first website was online. Try date that's after

@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Memeriksa untuk pembaruan plugin",
-        "ClickHereToViewSqlQueries": "Klik di sini untuk melihat dan menyalin daftar kueri SQL yang akan dieksekusi",
         "CriticalErrorDuringTheUpgradeProcess": "Kesalahan fatal terjadi selama pembaruan:",
         "DatabaseUpgradeRequired": "Membutuhkan Pembaruan Basisdata",
         "DownloadingUpdateFromX": "Mengunduh pembaruan dari %s",

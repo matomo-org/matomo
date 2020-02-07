@@ -1,8 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Media basata su %1$s hits %2$s tra %3$s e %4$s",
-        "ColumnClickedURL": "URL Cliccate",
-        "ColumnClickedURLs": "URL Cliccati",
+        "ColumnClickedURL": "Link in Uscita Cliccato",
+        "ColumnClickedURLs": "Link in Uscita Cliccati",
         "ColumnActionURL": "URL dell'azione",
         "ColumnClicks": "Click",
         "ColumnClicksDocumentation": "Numero di volte che questo link è stato cliccato.",
@@ -40,7 +40,6 @@
         "ExitPagesReportDocumentation": "Questo report contiene le informazioni sulle pagine di uscita utilizzate nel periodo di tempo definito. Una pagina di uscita è l'ultima pagina che un utente vede durante la sua visita. %s Le URL di uscita vengono visualizzate come una struttura a cartelle.",
         "ExitPageTitles": "Titoli delle pagine di uscita",
         "ExitPageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine di uscita durante il periodo specificato.",
-        "LearnMoreAboutSiteSearchLink": "Scopri di più sul tracciamento di come i visitatori usano il vostro motore di ricerca.",
         "OneSearch": "1 ricerca",
         "OutlinkDocumentation": "Un link esterno è un link che conduce il visitatore lontano dal tuo sito web (in un altro dominio)",
         "OutlinksReportDocumentation": "Questo report mostra un elenco gerarchico di link esterni che sono stati cliccati dai visitatori.",

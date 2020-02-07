@@ -1,0 +1,17 @@
+{
+    "API": {
+        "ChangeTokenHint": "Si querés cambiar esta clave, por favor, andá a tu %1$spágina personal de configuración%2$s.",
+        "GenerateVisits": "Si no tenés los datos de hoy, primero podés generar algunos datos mediante el plugin %1$s. Podés habilitar el plugin %2$s, luego hacer clic en el menú \"Generador de visitante\" en el área de administración de Matomo.",
+        "KeepTokenSecret": "Esta token_auth es tan secreta como tu nombre de usuario y contraseña, %1$s ¡no la compartás%2$s!",
+        "LoadedAPIs": "Se cargaron %s APIs exitosamente",
+        "MoreInformation": "Para más información acerca de las APIs de Matomo, por favor, mirá la %1$s Introducción a la API de Matomo %2$s y a la %3$s Referencia de las API de Matomo %4$s.",
+        "PluginDescription": "Todos los datos en Matomo están disponibles a través de simples APIs. Este plugin es el punto de entrada al servicio web, al que podés llamar para obtener todos tus análisis web en XML, JSON, PHP, CSV, etc.",
+        "ReportingApiReference": "Informe de referencia de API",
+        "TopLinkTooltip": "Accedé a tus datos de análisis web programáticamente, a través de una sencilla API en JSON, XML, etc.",
+        "UserAuthentication": "Autenticación de usuario",
+        "UsingTokenAuth": "Si querés %1$s solicitar datos dentro de un script, un crontab, etc %2$s tenés que agregar el parámetro %3$s a las direcciones web de llamadas a la API que requiere autenticación.",
+        "Glossary": "Glosario",
+        "LearnAboutCommonlyUsedTerms2": "Aprendé más sobre los términos usados comúnmente para sacar el mayor provecho a los análisis de Matomo.",
+        "EvolutionMetricName": "%s Evolution"
+    }
+}

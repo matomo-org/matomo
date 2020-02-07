@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Request;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
@@ -42,6 +43,23 @@ class Goals extends \Piwik\Plugin
         }
 
         return $dimensionsByGroup;
+    }
+
+    public static function getGoalIdFromGoalColumn($columnName)
+    {
+        if (strpos($columnName, 'goal_') === 0) {
+            $column = str_replace(array('goal_'), '', $columnName);
+            return (int) $column;
+        }
+    }
+
+    public static function makeGoalColumn($idGoal, $column, $forceInt = true)
+    {
+        if ($forceInt) { // in non-archiver code idGoal can be, eg, ecommerceOrder
+            $idGoal = (int) $idGoal;
+        }
+
+        return 'goal_'. $idGoal . '_' . $column;
     }
 
     public static function getGoalColumns($idGoal)
@@ -102,7 +120,7 @@ class Goals extends \Piwik\Plugin
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         foreach ($goals as $goal) {
             $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visitors', ComputedMetric::AGGREGATION_RATE);
@@ -116,7 +134,7 @@ class Goals extends \Piwik\Plugin
     public function addMetrics(MetricsList $metricsList)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         foreach ($goals as $goal) {
             $custom = new GoalDimension($goal, 'idgoal', 'Conversions goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
@@ -173,7 +191,7 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         $order = 900;
         foreach ($goals as $goal) {
@@ -262,7 +280,7 @@ class Goals extends \Piwik\Plugin
         $reports = new ReportsProvider();
 
         foreach ($reports->getAllReports() as $report) {
-            if ($report->hasGoalMetrics()) {
+            if ($report->hasGoalMetrics() && $report->isEnabled()) {
                 $reportsWithGoals[] = array(
                     'category' => $report->getCategoryId(),
                     'name'     => $report->getName(),
@@ -349,5 +367,8 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = 'Goals_TimeInMinutes';
+        $translationKeys[] = 'Goals_Pattern';
+        $translationKeys[] = 'Goals_ClickToViewThisGoal';
     }
 }

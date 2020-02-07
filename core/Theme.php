@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -75,7 +75,8 @@ class Theme
 
     public function rewriteAssetsPathToTheme($output)
     {
-        if ($this->themeName == \Piwik\Plugin\Manager::DEFAULT_THEME) {
+        if ($this->themeName == \Piwik\Plugin\Manager::DEFAULT_THEME
+            && !Manager::getAlternativeWebRootDirectories()) {
             return $output;
         }
 
@@ -140,6 +141,15 @@ class Theme
         if (file_exists($fileToCheck)) {
             return str_replace($pathAsset, $overridingAsset, $source);
         }
+
+        // not rewritten by theme, but may be located in custom webroot directory
+        foreach (Manager::getAlternativeWebRootDirectories() as $absDir => $webRootDirectory) {
+            $withoutPlugins = str_replace('plugins/', '', $pathAsset);
+            if (file_exists($absDir . '/' . $withoutPlugins)) {
+                return $webRootDirectory . $withoutPlugins;
+            }
+        }
+
         return $source;
     }
 

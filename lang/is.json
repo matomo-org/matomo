@@ -72,7 +72,6 @@
         "HelloUser": "Halló, %s!",
         "HoursMinutes": "%1$s klst %2$s mín",
         "Id": "Auðkenni",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Ef geymsla er hraðvirk fyrir uppsetningu þína þá getur þú keyrt crontab færslu mun örar",
         "InvalidResponse": "Mótteknu gögnin eru ógild.",
         "JsTrackingTag": "Merkimiði sem er eltur (JavaScript)",
         "Language": "Tungumál",

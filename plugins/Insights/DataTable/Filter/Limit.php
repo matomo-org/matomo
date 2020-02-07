@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -37,14 +37,14 @@ class Limit extends BaseFilter
 
                 $countIncreaser++;
 
-                if ($countIncreaser > $this->limitPositive) {
+                if ($countIncreaser > $this->limitPositive && $this->limitPositive > -1) {
                     $table->deleteRow($key);
                 }
 
             } else {
                 $countDecreaser++;
 
-                if ($countDecreaser > $this->limitNegative) {
+                if ($countDecreaser > $this->limitNegative && $this->limitNegative > -1) {
                     $table->deleteRow($key);
                 }
 

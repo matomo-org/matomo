@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
+use Piwik\Columns\Dimension;
 use Piwik\ViewDataTable\Config as VisualizationConfig;
 
 /**
@@ -87,6 +88,25 @@ class Config extends VisualizationConfig
      */
     public $highlight_summary_row = false;
 
+    /**
+     * If true, the totals row will be shown
+     *
+     * Default value: false
+     */
+    public $show_totals_row = true;
+
+    /**
+     * A list of columns that support showing the ratio percentage on hover
+     * @var array
+     */
+    public $report_ratio_columns = array();
+
+    /**
+     * If true, dimensions in flattened reports will be shown as separate columns
+     * @var bool
+     */
+    public $show_dimensions = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -102,6 +122,7 @@ class Config extends VisualizationConfig
             'enable_sort',
             'keep_summary_row',
             'subtable_controller_action',
+            'show_dimensions',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
@@ -113,6 +134,7 @@ class Config extends VisualizationConfig
             'disable_subtable_when_show_goals',
             'keep_summary_row',
             'highlight_summary_row',
+            'show_dimensions',
         ));
     }
 

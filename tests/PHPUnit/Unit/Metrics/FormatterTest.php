@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Unit\Metrics;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
+use Piwik\NumberFormatter;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
@@ -58,6 +59,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         Translate::reset();
+        NumberFormatter::getInstance()->clearCache();
         $this->unsetSiteManagerApiMock();
     }
 
@@ -89,16 +91,20 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getPrettyMoneyTestData
      */
-    public function test_getPrettyMoney_ReturnsCorrectResult($value, $idSite, $expected)
+    public function test_getPrettyMoney_ReturnsCorrectResult($value, $idSite, $language, $expected)
     {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+
         $this->assertEquals($expected, $this->formatter->getPrettyMoney($value, $idSite));
     }
 
     /**
      * @dataProvider getPrettyPercentFromQuotientTestData
      */
-    public function test_getPrettyPercentFromQuotient_ReturnsCorrectResult($value, $expected)
+    public function test_getPrettyPercentFromQuotient_ReturnsCorrectResult($value, $language, $expected)
     {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+
         $this->assertEquals($expected, $this->formatter->getPrettyPercentFromQuotient($value));
     }
 
@@ -125,18 +131,18 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             array(0.14567, '0.15'),
             array(100.1234, '100.12'),
             array(1000.45, '1,000.45'),
-            array(23456789.00, '23,456,789.00')
+            array(23456789.00, '23,456,789')
         );
     }
 
     public function getPrettyNumberLocaleTestData()
     {
         return array(
-            array(0.14, '0.14'),
-            array(0.14567, '0.15'),
-            array(100.1234, '100.12'),
-            array(1000.45, '1,000.45'),
-            array(23456789.00, '23,456,789.00'),
+            array(0.14, '0,14'),
+            array(0.14567, '0,15'),
+            array(100.1234, '100,12'),
+            array(1000.45, '1.000,45'),
+            array(23456789.00, '23.456.789'),
         );
     }
 
@@ -160,22 +166,26 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function getPrettyMoneyTestData()
     {
         return array(
-            array(1, 1, '1 €'),
-            array(1.045, 2, 'DKK 1.04'),
-            array(1000.4445, 3, 'PLN 1000.44'),
-            array(1234.56, 4, 'NZ$ 1234.56'),
-            array(234.76, 5, '¥ 234.76')
+            array(1, 1, 'en', '€1'),
+            array(1.045, 2, 'en', 'DKK1.05'),
+            array(1000.4445, 3, 'en', 'PLN1,000.44'),
+            array(1234.56, 4, 'en', 'NZ$1,234.56'),
+            array(234.76, 5, 'en', '¥234.76'),
+            array(234.76, 5, 'de', '234,76 ¥'),
+            array(234.76, 5, 'kr', '¥234.76'),
         );
     }
 
     public function getPrettyPercentFromQuotientTestData()
     {
         return array(
-            array(100, '10000%'),
-            array(1, '100%'),
-            array(.85, '85%'),
-            array(.89999, '89.999%'),
-            array(.0004, '0.04%')
+            array(100, 'en', '10,000%'),
+            array(1, 'en', '100%'),
+            array(.85, 'en', '85%'),
+            array(.89999, 'en', '89.999%'),
+            array(.0004, 'en', '0.04%'),
+            array(0.123, 'eu', '% 12,3'),
+            array(0.103, 'zh-cn', '10.3%'),
         );
     }
 

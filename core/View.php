@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,7 +11,6 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
 
@@ -121,6 +120,8 @@ class View implements ViewInterface
     private $xFrameOptions = null;
     private $enableCacheBuster = true;
 
+    private $useStrictReferrerPolicy = true;
+
     /**
      * Constructor.
      *
@@ -224,15 +225,9 @@ class View implements ViewInterface
         unset($this->templateVars[$name]);
     }
 
-    /** @var Twig */
-    static $twigCached = null;
-
     private function initializeTwig()
     {
-        if (empty(static::$twigCached)) {
-            static::$twigCached = new Twig();
-        }
-        $this->twig = static::$twigCached->getTwigEnvironment();
+        $this->twig = StaticContainer::get(Twig::class)->getTwigEnvironment();
     }
 
     /**
@@ -258,6 +253,7 @@ class View implements ViewInterface
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
             $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
             $this->isInternetEnabled = SettingsPiwik::isInternetEnabled();
+            $this->shouldPropagateTokenAuth = $this->shouldPropagateTokenAuthInAjaxRequests();
 
             $piwikAds = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
             $this->areAdsForProfessionalServicesEnabled = $piwikAds->areAdsForProfessionalServicesEnabled();
@@ -271,8 +267,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = APIUsersManager::getInstance()->getUser($this->userLogin);
-            $this->userAlias = $user['alias'];
+            $this->userAlias = $this->userLogin; // can be removed in Matomo 4.0
         } catch (Exception $e) {
             Log::debug($e);
 
@@ -286,6 +281,11 @@ class View implements ViewInterface
         // - when calling sendHeader() multiple times, the last one prevails
         if(!empty($this->xFrameOptions)) {
             Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        }
+
+        // don't send Referer-Header for outgoing links
+        if (!empty($this->useStrictReferrerPolicy)) {
+            Common::sendHeader('Referrer-Policy: same-origin');
         }
 
         return $this->renderTwigTemplate();
@@ -324,18 +324,24 @@ class View implements ViewInterface
 
     protected function applyFilter_cacheBuster($output)
     {
-        $assetManager = AssetManager::getInstance();
+        $cacheBuster = UIAssetCacheBuster::getInstance();
+        $cache = Cache::getTransientCache();
 
-        $stylesheet = $assetManager->getMergedStylesheetAsset();
-        if ($stylesheet->exists()) {
-            $content = $stylesheet->getContent();
-        } else {
-            $content = $assetManager->getMergedStylesheet()->getContent();
+        $cssCacheBusterId = $cache->fetch('cssCacheBusterId');
+        if (empty($cssCacheBusterId)) {
+            $assetManager = AssetManager::getInstance();
+            $stylesheet = $assetManager->getMergedStylesheetAsset();
+            if ($stylesheet->exists()) {
+                $content = $stylesheet->getContent();
+            } else {
+                $content = $assetManager->getMergedStylesheet()->getContent();
+            }
+            $cssCacheBusterId = $cacheBuster->md5BasedCacheBuster($content);
+            $cache->save('cssCacheBusterId', $cssCacheBusterId);
         }
 
-        $cacheBuster = UIAssetCacheBuster::getInstance();
-        $tagJs       = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
-        $tagCss      = 'cb=' . $cacheBuster->md5BasedCacheBuster($content);
+        $tagJs  = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
+        $tagCss = 'cb=' . $cssCacheBusterId;
 
         $pattern = array(
             '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
@@ -423,7 +429,7 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $twig = new Twig();
+        $twig = StaticContainer::get(Twig::class);
         $environment = $twig->getTwigEnvironment();
         $environment->clearTemplateCache();
 
@@ -451,5 +457,31 @@ class View implements ViewInterface
         $view->title = $title;
         $view->report = $reportHtml;
         return $view->render();
+    }
+
+    private function shouldPropagateTokenAuthInAjaxRequests()
+    {
+        $generalConfig = Config::getInstance()->General;
+        return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'] == '1';
+    }
+
+    /**
+     * Returns whether a strict Referrer-Policy header will be sent. Generally this should be set to 'true'.
+     *
+     * @return bool
+     */
+    public function getUseStrictReferrerPolicy()
+    {
+        return $this->useStrictReferrerPolicy;
+    }
+
+    /**
+     * Sets whether a strict Referrer-Policy header will be sent (if not, nothing is sent).
+     *
+     * @param bool $useStrictReferrerPolicy
+     */
+    public function setUseStrictReferrerPolicy($useStrictReferrerPolicy)
+    {
+        $this->useStrictReferrerPolicy = $useStrictReferrerPolicy;
     }
 }

@@ -2,14 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
 use Exception;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 
 /**
  * Provides URL related helper methods.
@@ -244,7 +244,7 @@ class Url
         $untrustedHost = Common::mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
 
-        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
+        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('$|', $trustedHosts) . '$/');
 
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;
@@ -613,8 +613,8 @@ class Url
      */
     public static function getHostSanitized($host)
     {
-        if (!class_exists("Piwik\\Network\\IPUtils")) {
-            throw new Exception("Piwik\\Network\\IPUtils could not be found, maybe you are using Matomo from git and need to update Composer. $ php composer.phar update");
+        if (!class_exists("Matomo\\Network\\IPUtils")) {
+            throw new Exception("Matomo\\Network\\IPUtils could not be found, maybe you are using Matomo from git and need to update Composer. $ php composer.phar update");
         }
         return IPUtils::sanitizeIp($host);
     }
@@ -727,6 +727,14 @@ class Url
      */
     protected static function getCurrentSchemeFromRequestHeader()
     {
+        if (isset($_SERVER['HTTP_X_FORWARDED_SCHEME']) && strtolower($_SERVER['HTTP_X_FORWARDED_SCHEME']) === 'https') {
+            return 'https';
+        }
+
+        if (isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTP_X_URL_SCHEME']) === 'https') {
+            return 'https';
+        }
+
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http') {
             return 'http';
         }

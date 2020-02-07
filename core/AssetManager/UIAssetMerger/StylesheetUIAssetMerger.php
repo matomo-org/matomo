@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,8 +13,10 @@ use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
 {
@@ -45,6 +47,9 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         try {
             $compiled = $this->lessCompiler->compile($concatenatedAssets);
         } catch(\Exception $e) {
+            // save the concated less files so we can debug the issue
+            $this->saveConcatenatedAssets($concatenatedAssets);
+
             throw new StylesheetLessCompileException($e->getMessage());
         }
 
@@ -191,8 +196,9 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     private function getCssPathsRewriter($uiAsset)
     {
         $baseDirectory = dirname($uiAsset->getRelativeLocation());
+        $webDirs = Manager::getAlternativeWebRootDirectories();
 
-        return function ($matches) use ($baseDirectory) {
+        return function ($matches) use ($baseDirectory, $webDirs) {
             $absolutePath = PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2];
 
             // Allow to import extension less file
@@ -201,13 +207,39 @@ class StylesheetUIAssetMerger extends UIAssetMerger
             }
 
             // Prevent from rewriting full path
-            $absolutePath = realpath($absolutePath);
-            if ($absolutePath) {
+            $absolutePathReal = realpath($absolutePath);
+            if ($absolutePathReal) {
                 $relativePath = $baseDirectory . "/" . $matches[2];
                 $relativePath = str_replace('\\', '/', $relativePath);
                 $publicPath   = $matches[1] . $relativePath;
             } else {
-                $publicPath   = $matches[1] . $matches[2];
+                foreach ($webDirs as $absPath => $relativePath) {
+                    if (strpos($baseDirectory, $relativePath) === 0) {
+                        if (strpos($matches[2], '.') === 0) {
+                            // eg ../images/ok.png
+                            $fileRelative = $baseDirectory . '/' . $matches[2];
+                            $fileAbsolute = $absPath . str_replace($relativePath, '', $fileRelative);
+                            if (file_exists($fileAbsolute)) {
+                                return $matches[1] . $fileRelative;
+                            }
+                        } elseif (strpos($matches[2], 'plugins/') === 0) {
+                            // eg plugins/Foo/images/ok.png
+                            $fileRelative = substr($matches[2], strlen('plugins/'));
+                            $fileAbsolute = $absPath . $fileRelative;
+                            if (file_exists($fileAbsolute)) {
+                                return $matches[1] . $relativePath . $fileRelative;
+                            }
+                        } elseif ($matches[1] === '@import "') {
+                            $fileRelative = $baseDirectory . '/' . $matches[2];
+                            $fileAbsolute = $absPath . str_replace($relativePath, '', $fileRelative);
+                            if (file_exists($fileAbsolute)) {
+                                return $matches[1] . $baseDirectory . '/' . $matches[2];
+                            }
+                        }
+                    }
+                }
+
+                $publicPath = $matches[1] . $matches[2];
             }
 
             return $publicPath;
@@ -228,5 +260,13 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         }
         $rootDirectoryLen = strlen($rootDirectory);
         return $rootDirectoryLen;
+    }
+
+    private function saveConcatenatedAssets($concatenatedAssets)
+    {
+        $file = StaticContainer::get('path.tmp') . '/assets/uimergedassets.concat.less';
+        if (is_writable(dirname($file))) {
+            file_put_contents($file, $concatenatedAssets);
+        }
     }
 }

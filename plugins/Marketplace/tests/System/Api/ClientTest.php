@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -99,7 +99,10 @@ class ClientTest extends SystemTestCase
         $this->assertNotEmpty($plugin['versions']);
 
         $lastVersion = $plugin['versions'][count($plugin['versions']) - 1];
-        $this->assertEquals(array('name', 'release', 'requires', 'numDownloads', 'license', 'repositoryChangelogUrl', 'readmeHtml', 'download'), array_keys($lastVersion));
+        $this->assertEquals(
+            array('name', 'release', 'requires', 'wordPressCompatible', 'onPremiseCompatible', 'numDownloads', 'license', 'repositoryChangelogUrl', 'readmeHtml', 'download'),
+            array_keys($lastVersion)
+        );
         $this->assertNotEmpty($lastVersion['download']);
     }
 

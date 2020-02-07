@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "No se encontró la columna \"%1$s\" en este informe. Intentá cualquiera de %2$s.",
+        "PluginDescription": "Generá bellas imágenes estáticas de gráficos PNG de cualquiera de tus informes de datos."
+    }
+}

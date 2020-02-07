@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -90,7 +90,7 @@ class ImageGraph extends \Piwik\Plugin
 				$periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
 				$dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
 					$periodForSinglePeriodGraph,
-					'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
+					'last' . self::getDefaultGraphEvolutionLastPeriods(),
 					$dateForSinglePeriodGraph,
 					$piwikSite
 				);
@@ -173,5 +173,14 @@ class ImageGraph extends \Piwik\Plugin
                 $report['imageGraphEvolutionUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
             }
         }
+    }
+
+    public static function getDefaultGraphEvolutionLastPeriods()
+    {
+        $lastPeriods = (int) Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
+        if ($lastPeriods <= 0) {
+            throw new \Exception("Invalid value '$lastPeriods' supplied for [General] graphs_default_evolution_graph_last_days_amount config.");
+        }
+        return $lastPeriods;
     }
 }

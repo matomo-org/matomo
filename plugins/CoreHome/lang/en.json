@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "No data in this category. Try to \"Include all population\".",
         "ChangeVisualization": "Change visualization",
+        "ChangePeriod": "Change period",
         "CheckForUpdates": "Check for updates",
         "CheckPiwikOut": "Check Matomo out!",
         "ClickToEditX": "Click to edit %s",
@@ -13,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Aggregate rows are shown %s Hide them",
         "DataTableIncludeAggregateRows": "Aggregate rows are hidden %s Show them",
         "DataTableHowToSearch": "Press enter or click the search icon to search",
+        "DataTableShowDimensions": "Dimensions are combined %s Show dimensions separately",
+        "DataTableCombineDimensions": "Dimensions are shown separately %s Show dimensions combined",
         "Default": "default",
         "DonateCall1": "Matomo will always cost you nothing to use, but that doesn't mean it costs us nothing to make.",
         "DonateCall2": "Matomo needs your continued support to grow and thrive.",
@@ -46,12 +49,11 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "You are logged in as '%1$s' but it seems you don't have any permission set in Matomo. %2$s Ask your Matomo administrator (click to email)%3$s to give you 'view' access to a website.",
         "OnlyForSuperUserAccess": "This widget is displayed in the default dashboard only to users having Super User access.",
-        "PageOf": "%1$s of %2$s",
         "PeriodRange": "Range",
         "ReportGeneratedOn": "Report generated on %s",
         "ReportGeneratedXAgo": "Report generated %s ago",
         "SharePiwikLong": "Hi! I just found a great piece of free software: Matomo!\n\nMatomo will let you track visitors to your website for free. You should definitely check it out!",
-        "SharePiwikShort": "Piwik! Free\/libre web analytics. Own your data.",
+        "SharePiwikShort": "Matomo! Free\/libre web analytics. Own your data.",
         "ShareThis": "Share this",
         "ShortcutsAvailable": "Available shortcuts",
         "ShortcutZenMode": "for Zen mode",
@@ -67,6 +69,8 @@
         "TableNoData": "No data for this table.",
         "ThereIsNoDataForThisReport": "There is no data for this report.",
         "UnFlattenDataTable": "The report is flat %s Make it hierarchical",
+        "RemoveTotalsRowDataTable": "The report is showing the totals row %s Remove totals row",
+        "AddTotalsRowDataTable": "The report is not showing the totals row %s Show totals row",
         "ViewAllPiwikVideoTutorials": "View all Matomo Video Tutorials",
         "WebAnalyticsReports": "Web Analytics Reports",
         "YouAreUsingTheLatestVersion": "You are using the latest version of Matomo!",
@@ -102,6 +106,8 @@
         "StandardReport": "Standard report",
         "FlattenReport": "Flatten report",
         "ReportWithMetadata": "Report with metadata",
-        "SeeAvailableVersions": "See Available Versions"
+        "ReadMoreOnlineGuide": "Read more about this topic in the online guide.",
+        "SeeAvailableVersions": "See Available Versions",
+        "QuickLinks": "Quick Links"
     }
 }

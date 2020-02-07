@@ -14,7 +14,7 @@ SOFTWARE LICENSE
 
 	The free software license of Matomo is GNU General Public License v3
 	or later.  A copy of GNU GPL v3 should have been included in this
-	software package in misc/gpl-3.0.txt.
+	software package in LICENSE.
 
 
 TRADEMARK
@@ -36,12 +36,12 @@ TRADEMARK
 CREDITS
 
 	The software consists of contributions made by many individuals.
-	Major contributors are listed in https://matomo.org/the-piwik-team/.
+	Major contributors are listed in https://matomo.org/team/.
 
 	For detailed contribution history, refer to the source, tickets,
 	patches, and Git revision history, available at
-	https://github.com/matomo-org/piwik/issues
-	https://github.com/matomo-org/piwik
+	https://github.com/matomo-org/matomo/issues
+	https://github.com/matomo-org/matomo
 
 
 SEPARATELY LICENSED COMPONENTS AND LIBRARIES
@@ -50,19 +50,20 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	and subject to their respective licenses.
 
 	Name:  javascriptCode.tpl - tracking tag to embed in your web pages
-	Link:  https://github.com/matomo-org/piwik/blob/master/core/Tracker/javascriptTag.tpl
+	Link:  https://github.com/matomo-org/matomo/blob/master/core/Tracker/javascriptTag.tpl
 	License:  Public Domain
 
 	Name:  jquery.truncate
-	Link:  https://github.com/matomo-org/piwik/blob/master/libs/jquery/truncate/
+	Link:  https://github.com/matomo-org/matomo/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
-	Name:  piwik.js - JavaScript tracker
-	Link:  https://github.com/matomo-org/piwik/blob/master/js/piwik.js
+	Name:  matomo.js & piwik.js - JavaScript tracker
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/piwik.js
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/matomo.js
 	License:  New BSD
 
 	Name:  PiwikTracker - server-side tracker (PHP)
-	Link: https://github.com/matomo-org/piwik/blob/master/libs/PiwikTracker/
+	Link: https://github.com/matomo-org/matomo/blob/master/libs/PiwikTracker/
 	License:  New BSD
 
 	Name:  DeviceDetector
@@ -115,6 +116,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name:  jquery placeholder
 	Link:  http://mths.be/placeholder
 	License:  Dual licensed: MIT (Expat) or GPL
+
+	Name:  qrcode.js
+	Link:  https://github.com/davidshimjs/qrcodejs
+	License:  MIT
 
 	Name:  json2.js
 	Link:  http://json.org/
@@ -212,6 +217,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: http://raphaeljs.com/
 	License: MIT (Expat)
 
+	Name: iFrame Resizer 
+	Link: https://github.com/davidjbradshaw/iframe-resizer
+	License: MIT
+
 	Name: lessphp
 	Link: http://leafo.net/lessphp
 	License: GPL3, MIT (Expat)
@@ -270,7 +279,7 @@ THIRD-PARTY CONTENT
 	License: GPL
 	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload") in plugins/Morpheus/fonts
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
 	Link: https://design.google.com/icons/
 	License: Apache License Version 2.0
 
@@ -281,6 +290,6 @@ THIRD-PARTY CONTENT
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
-- icons for browsers, operating systems, browser plugins, search engines, and
+- icons for browsers, operating systems, browser plugins, brands, search engines, social media websites 
   and flags of countries are nominative use of third-party trademarks when
   referring to the corresponding product or entity

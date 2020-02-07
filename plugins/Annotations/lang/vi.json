@@ -1,7 +1,7 @@
 {
     "Annotations": {
         "AddAnnotationsFor": "Thêm các chú thích cho %s...",
-        "AnnotationOnDate": "Chú thích dựa trên %1$s: %2$s",
+        "AnnotationOnDate": "Chú thích trên %1$s: %2$s",
         "Annotations": "Các chú thích",
         "ClickToDelete": "Click để xóa chú thích này",
         "ClickToEdit": "Click để sửa chú thích này",

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -150,7 +150,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         }
     }
 
-    private function trackPageview(\PiwikTracker $tracker, $userId, $url)
+    private function trackPageview(\MatomoTracker $tracker, $userId, $url)
     {
         $tracker->setUrl('http://www.example.org' . $url);
         $tracker->setUserId($userId);

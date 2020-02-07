@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -178,6 +178,24 @@ class Scheduler
         $this->logger->debug('Rescheduling task {task}', array('task' => $task->getName()));
 
         $this->timetable->rescheduleTask($task);
+    }
+
+    /**
+     * Determines a task's scheduled time and persists it, overwriting the previous scheduled time.
+     *
+     * Call this method if your task's scheduled time has changed due to, for example, an option that
+     * was changed.
+     *
+     * The task will be run the first time tomorrow.
+     *
+     * @param Task $task Describes the scheduled task being rescheduled.
+     * @api
+     */
+    public function rescheduleTaskAndRunTomorrow(Task $task)
+    {
+        $this->logger->debug('Rescheduling task and setting first run for tomorrow {task}', array('task' => $task->getName()));
+
+        $this->timetable->rescheduleTaskAndRunTomorrow($task);
     }
 
     /**

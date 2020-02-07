@@ -4,70 +4,84 @@
 		<label>1 visit</label>
 		<nb_visits>8</nb_visits>
 		<nb_visits_percentage>53%</nb_visits_percentage>
+		<segment>visitCount==1</segment>
 	</row>
 	<row>
 		<label>2 visits</label>
 		<nb_visits>2</nb_visits>
 		<nb_visits_percentage>13%</nb_visits_percentage>
+		<segment>visitCount==2</segment>
 	</row>
 	<row>
 		<label>3 visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount==3</segment>
 	</row>
 	<row>
 		<label>4 visits</label>
 		<nb_visits>1</nb_visits>
 		<nb_visits_percentage>7%</nb_visits_percentage>
+		<segment>visitCount==4</segment>
 	</row>
 	<row>
 		<label>5 visits</label>
 		<nb_visits>2</nb_visits>
 		<nb_visits_percentage>13%</nb_visits_percentage>
+		<segment>visitCount==5</segment>
 	</row>
 	<row>
 		<label>6 visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount==6</segment>
 	</row>
 	<row>
 		<label>7 visits</label>
 		<nb_visits>1</nb_visits>
 		<nb_visits_percentage>7%</nb_visits_percentage>
+		<segment>visitCount==7</segment>
 	</row>
 	<row>
 		<label>8 visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount==8</segment>
 	</row>
 	<row>
 		<label>9-14 visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=9;visitCount&lt;=14</segment>
 	</row>
 	<row>
 		<label>15-25 visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=15;visitCount&lt;=25</segment>
 	</row>
 	<row>
 		<label>26-50 visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=26;visitCount&lt;=50</segment>
 	</row>
 	<row>
 		<label>51-100 visits</label>
 		<nb_visits>1</nb_visits>
 		<nb_visits_percentage>7%</nb_visits_percentage>
+		<segment>visitCount&gt;=51;visitCount&lt;=100</segment>
 	</row>
 	<row>
 		<label>101-200 visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=101;visitCount&lt;=200</segment>
 	</row>
 	<row>
 		<label>201+ visits</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=201</segment>
 	</row>
 </result>

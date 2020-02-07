@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit\Session;
 
 
+use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
 
 class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
@@ -28,6 +29,13 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         $this->testInstance = new SessionFingerprint();
     }
 
+    public function tearDown()
+    {
+        Date::$now = null;
+
+        parent::tearDown();
+    }
+
     public function test_getUser_ReturnsUserNameSessionVar_WhenSessionVarIsSet()
     {
         $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME] = 'testuser';
@@ -43,7 +51,6 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
     {
         $sessionVarValue = [
             'ip' => 'someip',
-            'ua' => 'someua',
         ];
 
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = $sessionVarValue;
@@ -57,72 +64,45 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_SetsSessionVarsToCurrentRequest()
     {
-        $_SERVER['HTTP_USER_AGENT'] = 'test-user-agent';
-        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', true, self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'ua' => 'test-user-agent'],
+            ['ts' => self::TEST_TIME_VALUE, 'remembered' => true, 'expiration' => self::TEST_TIME_VALUE + 3600],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
 
-    public function test_initialize_DoesNotSetUserAgent_IfUserAgentIsNotInHttpRequest()
+    public function test_initialize_hasVerifiedTwoFactor()
     {
-        unset($_SERVER['HTTP_USER_AGENT']);
         $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
 
-        $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
+        // after logging in, the user has by default not verified two factor, important
+        $this->assertFalse($this->testInstance->hasVerifiedTwoFactor());
+
+        $this->testInstance->setTwoFactorAuthenticationVerified();
+
+        $this->assertTrue($this->testInstance->hasVerifiedTwoFactor());
+    }
+
+    public function test_updateSessionExpireTime_SetsANewExpirationTime()
+    {
+        $this->testInstance->initialize('testuser', false, self::TEST_TIME_VALUE);
+
+        Date::$now = self::TEST_TIME_VALUE + 100;
+
+        $this->testInstance->updateSessionExpirationTime();
+
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'ua' => null],
-            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
+            self::TEST_TIME_VALUE + 3700,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
         );
     }
 
-    /**
-     * @dataProvider getTestDataForIsMatchingCurrentRequest
-     */
-    public function test_isMatchingCurrentRequest_ChecksIfSessionVarsMatchRequest(
-        $sessionUa, $requestUa, $expectedResult
-    ) {
-        $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ua' => $sessionUa,
-        ];
-
-        $_SERVER['HTTP_USER_AGENT'] = $requestUa;
-
-        $this->assertEquals($expectedResult, $this->testInstance->isMatchingCurrentRequest());
-    }
-
-    public function getTestDataForIsMatchingCurrentRequest()
-    {
-        return [
-            ['test ua', 'test ua', true],
-            ['nontest ua', 'test ua', false],
-            [null, 'test ua', false],
-        ];
-    }
-
-    public function test_isMatchingCurrentRequest_ReturnsFalse_IfUserInfoSessionVarDoesNotExist()
-    {
-        $_SERVER['HTTP_USER_AGENT'] = 'test-ua';
-
-        $this->assertEquals(false, $this->testInstance->isMatchingCurrentRequest());
-    }
-
-    public function test_isMatchingCurrentRequest_ReturnsFalse_IfRequestDetailsDoNotExist()
+    public function test_getSessionStartTime_ReturnsCorrectValue()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ua' => 'test-ua',
-        ];
-
-        $this->assertEquals(false, $this->testInstance->isMatchingCurrentRequest());
-    }
-
-    public function test_getSessionStartTime_()
-    {
-        $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ts' => 123.
+            'ts' => 123,
         ];
         $this->assertEquals(123, $this->testInstance->getSessionStartTime());
     }

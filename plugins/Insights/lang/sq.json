@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Furnizon Prirje të trafikut tuaj. Prirjet mund të kihen në formë widget-esh pulti, si edhe në formën e një ikone të re në raporte që t’ju lejojë të shihni tendencat më të rëndësishme në të dhënat tuaja.",
+        "PluginDescription": "Furnizon Prirje të trafikut tuaj. Prirjet mund të kihen në formë widget-esh pulti, si edhe në formën e një ikone të re në raporte, që t’ju lejojë të shihni tendencat më të rëndësishme në të dhënat tuaja.",
         "ControlComparedToDescription": "Rritja e krahasuar me",
         "ControlFilterByDescription": "Shfaqi krejt, vetëm protagonistët, vetëm të rinjtë ose vetëm të zhdukurit",
         "DatePeriodCombinationNotSupported": "S’është e mundur të prodhohen prirje për këtë ndërthurje date dhe periudhe.",
@@ -26,7 +26,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s ndryshoi nga %2$s në %3$s krahasuar me %4$s. Bazuar në këtë, pritet një evolucion %5$s%% për çdo rresht.",
         "TitleRowChangeDetails": "'%1$s' ndryshoi nga %2$s (%3$s) to %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' u pakësua me %2$s dhe u zhduk në %3$s krahasuar me %4$s.",
-        "TitleRowMoverAndShaker": "Ky rresht ka një ndikim më të madh se sa mesatarja.",
+        "TitleRowMoverAndShaker": "Ky rresht ka një ndikim më të madh se mesatarja.",
         "TitleRowNewDetails": "'%1$s' u rrit me %2$s dhe është i ri krahasuar me %3$s.",
         "WeekComparedToPreviousWeek": "java e mëparshme",
         "WidgetCategory": "Prirje",

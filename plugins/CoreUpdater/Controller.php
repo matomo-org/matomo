@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -29,6 +29,7 @@ use Piwik\Updater as DbUpdater;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\View\OneClickDone;
+use Piwik\Updater\Migration\Db as DbMigration;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -98,9 +99,9 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
             'libs/bower_components/angular/angular.min.js',
-            'libs/bower_components/angular-sanitize/angular-sanitize.js',
-            'libs/bower_components/angular-animate/angular-animate.js',
-            'libs/bower_components/angular-cookies/angular-cookies.js',
+            'libs/bower_components/angular-sanitize/angular-sanitize.min.js',
+            'libs/bower_components/angular-animate/angular-animate.min.js',
+            'libs/bower_components/angular-cookies/angular-cookies.min.js',
             'libs/bower_components/ngDialog/js/ngDialog.min.js',
             'plugins/CoreHome/angularjs/common/services/service.module.js',
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
@@ -166,8 +167,6 @@ class Controller extends \Piwik\Plugin\Controller
             $messages = $e->getUpdateLogMessages();
         }
 
-        Filesystem::deleteAllCacheOnUpdate();
-
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
         return $view->render();
@@ -175,6 +174,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickResults()
     {
+        Filesystem::deleteAllCacheOnUpdate();
+
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
         $error = Common::getRequestVar('error', '', 'string', $_POST);
 
@@ -255,7 +256,12 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if ($doDryRun) {
-            $viewWelcome->queries = $updater->getSqlQueriesToExecute();
+            $migrations = $updater->getSqlQueriesToExecute();
+            $queryCount = count($migrations);
+
+            $migrations = $this->groupMigrations($migrations);
+            $viewWelcome->migrations = $migrations;
+            $viewWelcome->queryCount = $queryCount;
             $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
             return $viewWelcome->render();
@@ -272,6 +278,29 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         exit;
+    }
+
+    private function groupMigrations($migrations)
+    {
+        $result = [];
+
+        $group = null;
+        foreach ($migrations as $migration) {
+            $type = $migration instanceof DbMigration ? 'sql' : 'command';
+            if ($group === null
+                || $type != $group['type']
+            ) {
+                $group = [
+                    'type' => $type,
+                    'migrations' => [],
+                ];
+                $result[] = $group;
+            }
+
+            $result[count($result) - 1]['migrations'][] = $migration;
+        }
+
+        return $result;
     }
 
     private function doWelcomeUpdates($view, $componentsWithUpdateFile)

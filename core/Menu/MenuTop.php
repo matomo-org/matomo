@@ -2,13 +2,11 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Menu;
-
-use Piwik\Piwik;
 
 /**
  * Contains menu entries for the Top menu (the menu at the very top of the page).

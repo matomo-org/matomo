@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -45,7 +45,7 @@ class GenerateReport extends GeneratePluginBase
         $order   = $this->getOrder($category);
         $apiName = $this->getApiName($reportName);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExampleReport';
+        $exampleFolder  = Manager::getPluginDirectory('ExampleReport');
         $replace        = array('GetExampleReport'  => ucfirst($apiName),
                                 'getExampleReport'  => lcfirst($apiName),
                                 'getApiReport'      => lcfirst($apiName),
@@ -69,7 +69,7 @@ class GenerateReport extends GeneratePluginBase
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-            sprintf('plugins/%s/Reports/%s.php for %s generated.', $pluginName, ucfirst($apiName)),
+            sprintf('plugins/%s/Reports/%s.php for %s generated.', $pluginName, ucfirst($apiName), $pluginName),
             'You should now implement the method called <comment>"' . lcfirst($apiName) . '()"</comment> in API.php',
            // 'Read more about this here: link to developer guide',
             'Enjoy!'

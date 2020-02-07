@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -29,6 +29,7 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('news://www.pi-wik.org', true),
             array('https://www.tëteâ.org', true),
             array('http://汉语/漢語.cn', true), //chinese
+            array('news://www.javascript.org', true),
 
             array('rtp://whatever.com', true),
             array('testhttp://test.com', true),
@@ -51,6 +52,14 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('http://', false),
             array(' http://', false),
             array('2fer://', false),
+            array('javascript://test.com/test', false),
+            array('javascript://alert', false),
+            array('vbscript://alert', false),
+            array('vbscript://alert', false),
+            array('data://example.com/test', false),
+            array('jaVascRipt://test.com/test', false),
+            array('VBscrIpt://alert', false),
+            array('dAtA://example.com/test', false),
         );
     }
 
@@ -61,6 +70,41 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
     public function testIsUrl($url, $isValid)
     {
         $this->assertEquals($isValid, UrlHelper::isLookLikeUrl($url), "$url failed test");
+    }
+
+    /**
+     * @dataProvider getTestDataForIsLookLikeSafeUrl
+     */
+    public function test_isLookLikeSafeUrl($url, $isSafe)
+    {
+        $this->assertEquals($isSafe, UrlHelper::isLookLikeSafeUrl($url));
+    }
+
+    public function getTestDataForIsLookLikeSafeUrl()
+    {
+        return [
+            // valid
+            array('http://piwik.org', true),
+            array('http://www.piwik.org', true),
+            array('https://piwik.org', true),
+            array('https://piwik.org/dir/dir2/?oeajkgea7aega=&ge=a', true),
+            array('tel:12345', true),
+            array('sms:456543', true),
+
+            // invalid
+            array('rtp://whatever.com', false),
+            array('testhttp://test.com', false),
+            array('cylon://3.hmn', false),
+            array('://something.com', false),
+            array('data://example.com/test', false),
+            array('jaVascRipt://test.com/test', false),
+            array('VBscrIpt://alert', false),
+            array('dAtA://example.com/test', false),
+            array('data://tel.org/http', false),
+            array('smstest:456543', false),
+            array(urldecode('javascript://%0D%0Aalert(1)'), false),
+            array(urldecode('http://%0D%0Aalert(1)'), false),
+        ];
     }
 
     /**

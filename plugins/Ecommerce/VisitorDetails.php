@@ -24,6 +24,8 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    const CATEGORY_COUNT = 5;
+
     public function extendVisitorDetails(&$visitor)
     {
         $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
@@ -89,10 +91,10 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
         $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
-        $ecommerceOrders = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $ecommerceOrders = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         $sql            = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
-        $abandonedCarts = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $abandonedCarts = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         return array(
             'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
@@ -134,8 +136,8 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsForVisits($idVisits)
     {
-        $sql              = "SELECT
-						idvisit,
+        $sql = "SELECT
+						log_conversion.idvisit,
 						case idgoal when " . GoalManager::IDGOAL_CART
             . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
@@ -147,12 +149,15 @@ class VisitorDetails extends VisitorDetailsAbstract
 						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
 						items as items,
 						log_conversion.server_time as serverTimePretty,
-						log_conversion.idlink_va
+						log_conversion.idlink_va,
+						log_link_visit_action.idpageview
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-					WHERE idvisit IN ('" . implode("','", $idVisits) . "')
+		       LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+		              ON log_link_visit_action.idlink_va = log_conversion.idlink_va
+					WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY idvisit, server_time ASC";
-        $ecommerceDetails = Db::fetchAll($sql);
+					ORDER BY log_conversion.idvisit, log_conversion.server_time ASC";
+        $ecommerceDetails = $this->getDb()->fetchAll($sql);
         return $ecommerceDetails;
     }
 
@@ -165,10 +170,22 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceItemsForOrder($idVisit, $idOrder)
     {
+        $categorySelects = [];
+        $categoryJoins = [];
+        for ($i = 0; $i < self::CATEGORY_COUNT; ++$i) {
+            $suffix = $i === 0 ? '' : $i;
+            $column = $i === 0 ? 'idaction_category' : ('idaction_category' . ($i + 1));
+            $categorySelects[] = 'log_action_category' . $suffix . '.name as itemCategory' . $suffix;
+            $categoryJoins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . " AS log_action_category$suffix
+                                       ON $column = log_action_category$suffix.idaction";
+        }
+        $categorySelects = implode(',', $categorySelects);
+        $categoryJoins = implode("\n", $categoryJoins);
+
         $sql = "SELECT
 							log_action_sku.name as itemSKU,
 							log_action_name.name as itemName,
-							log_action_category.name as itemCategory,
+							$categorySelects,
 							" . LogAggregator::getSqlRevenue('price') . " as price,
 							quantity as quantity
 						FROM " . Common::prefixTable('log_conversion_item') . "
@@ -176,8 +193,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 							ON  idaction_sku = log_action_sku.idaction
 							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
 							ON  idaction_name = log_action_name.idaction
-							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_category
-							ON idaction_category = log_action_category.idaction
+							$categoryJoins
 						WHERE idvisit = ?
 							AND idorder = ?
 							AND deleted = 0
@@ -185,7 +201,27 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $bind = array($idVisit, $idOrder);
 
-        $itemsDetails = Db::fetchAll($sql, $bind);
+        $itemsDetails = $this->getDb()->fetchAll($sql, $bind);
+
+        // create categories array for each item
+        foreach ($itemsDetails as &$item) {
+            $categories = [];
+            for ($i = 0; $i < self::CATEGORY_COUNT; ++$i) {
+                $suffix = $i === 0 ? '' : $i;
+                if (empty($item['itemCategory' . $suffix])) {
+                    continue;
+                }
+
+                $categories[] = trim($item['itemCategory' . $suffix]);
+            }
+            $item['categories'] = array_filter($categories);
+
+            // remove itemCategotyN properties, except 'itemCategory' property for BC
+            for ($i = 1; $i < self::CATEGORY_COUNT; ++$i) {
+                unset($item['itemCategory' . $i]);
+            }
+        }
+
         return $itemsDetails;
     }
 

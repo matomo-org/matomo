@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -276,6 +276,8 @@ class ProcessedReport
             $uniqueId = $availableReport['module'] . '_' . $availableReport['action'];
             if (!empty($availableReport['parameters'])) {
                 foreach ($availableReport['parameters'] as $key => $value) {
+                    $value = urlencode($value);
+                    $value = str_replace('%', '', $value);
                     $uniqueId .= '_' . $key . '--' . $value;
                 }
             }
@@ -428,6 +430,7 @@ class ProcessedReport
         $columns = @$reportMetadata['metrics'] ?: array();
 
         if ($hasDimension) {
+
             $columns = array_merge(
                 array('label' => $reportMetadata['dimension']),
                 $columns
@@ -597,15 +600,17 @@ class ProcessedReport
      * - extract row metadata to a separate Simple $rowsMetadata
      *
      * @param int $idSite enables monetary value formatting based on site currency
-     * @param Simple $simpleDataTable
+     * @param DataTable $simpleDataTable
      * @param array $metadataColumns
      * @param boolean $hasDimension
      * @param bool $returnRawMetrics If set to true, the original metrics will be returned
      * @param bool|null $formatMetrics
      * @return array DataTable $enhancedDataTable filtered metrics with human readable format & Simple $rowsMetadata
      */
-    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false, $formatMetrics = null)
+    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false, $formatMetrics = null, $keepMetadata = false)
     {
+        $comparisonColumns = $this->getComparisonColumns($metadataColumns);
+
         // new DataTable to store metadata
         $rowsMetadata = new DataTable();
 
@@ -631,7 +636,11 @@ class ProcessedReport
                 }
             }
 
-            $enhancedRow = new Row();
+            $c = [];
+            if ($keepMetadata) {
+                $c[Row::METADATA] = $row->getMetadata();
+            }
+            $enhancedRow = new Row($c);
             $enhancedDataTable->addRow($enhancedRow);
 
             foreach ($rowMetrics as $columnName => $columnValue) {
@@ -666,10 +675,22 @@ class ProcessedReport
                 }
             }
 
+            /** @var DataTable $comparisons */
+            $comparisons = $row->getComparisons();
+
+            if (!empty($comparisons)
+                && $comparisons->getRowsCount() > 0
+            ) {
+                list($newComparisons, $ignore) = $this->handleSimpleDataTable($idSite, $comparisons, $comparisonColumns, true, $returnRawMetrics, $formatMetrics, $keepMetadata = true);
+                $enhancedRow->setComparisons($newComparisons);
+            }
+
             // If report has a dimension, extract metadata into a distinct DataTable
             if ($hasDimension) {
                 $rowMetadata = $row->getMetadata();
                 $idSubDataTable = $row->getIdSubDataTable();
+
+                unset($rowMetadata[Row::COMPARISONS_METADATA_NAME]);
 
                 // always add a metadata row - even if empty, so the number of rows and metadata are equal and can be matched directly
                 $metadataRow = new Row();
@@ -711,10 +732,35 @@ class ProcessedReport
 
         $simpleTotals = $this->hideShowMetrics($metadataTotals);
 
+        return $this->calculateTotals($simpleTotals, $totals);
+    }
+
+    private function calculateTotals($simpleTotals, $totals)
+    {
         foreach ($simpleTotals as $metric => $value) {
+            if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
+                continue; // skip average, rate and evolution metrics
+            }
+
+            if (!is_numeric($value) && !is_array($value)) {
+                continue;
+            }
+
+            if (is_array($value)) {
+                $currentValue = array_key_exists($metric, $totals) ? $totals[$metric] : [];
+                $newValue = $this->calculateTotals($value, $currentValue);
+                if (!empty($newValue)) {
+                    $totals[$metric] = $newValue;
+                }
+            }
+
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
-            } else {
+            } else if(0 === strpos($metric, 'min_')) {
+                $totals[$metric] = min($totals[$metric], $value);
+            } else if(0 === strpos($metric, 'max_')) {
+                $totals[$metric] = max($totals[$metric], $value);
+            } else if($value) {
                 $totals[$metric] += $value;
             }
         }
@@ -802,6 +848,10 @@ class ProcessedReport
             return $value;
         }
 
+        if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
+            return $value == '0' ? '+0%' : $value;
+        }
+
         // Display time in human readable
 		if (strpos($columnName, 'time_generation') !== false) {
 			return $formatter->getPrettyTimeFromSeconds($value, true);
@@ -824,5 +874,14 @@ class ProcessedReport
         }
 
         return $value;
+    }
+
+    private function getComparisonColumns(array $metadataColumns)
+    {
+        $result = $metadataColumns;
+        foreach ($metadataColumns as $columnName => $columnTranslation) {
+            $result[$columnName . '_change'] = Piwik::translate('General_ChangeInX', lcfirst($columnName));
+        }
+        return $result;
     }
 }

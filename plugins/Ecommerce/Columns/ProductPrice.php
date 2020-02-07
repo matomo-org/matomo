@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -17,5 +17,6 @@ class ProductPrice extends Dimension
     protected $columnName = 'price';
     protected $nameSingular = 'Goals_ProductPrice';
     protected $category = 'Goals_Ecommerce';
+    protected $segmentName = 'productPrice';
 
 }

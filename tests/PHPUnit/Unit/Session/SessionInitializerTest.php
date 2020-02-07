@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -40,7 +40,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
     public function test_initSession_Throws_IfAuthenticationFailed($rememberMe)
     {
         $sessionInitializer = new TestSessionInitializer();
-        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS), $rememberMe);
+        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS));
     }
 
     /**
@@ -49,7 +49,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
     public function test_initSession_InitializesTheSessionCorrectly_IfAuthenticationSucceeds($rememberMe)
     {
         $sessionInitializer = new TestSessionInitializer();
-        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS), $rememberMe);
+        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS));
 
         $this->assertSessionCreatedCorrectly();
     }
@@ -72,7 +72,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
         $fingerprint = new SessionFingerprint();
         $this->assertEquals('testlogin', $fingerprint->getUser());
         $this->assertNotEmpty($fingerprint->getSessionStartTime());
-        $this->assertEquals(['ts', 'ua'], array_keys($fingerprint->getUserInfo()));
+        $this->assertEquals(['ts', 'remembered', 'expiration'], array_keys($fingerprint->getUserInfo()));
     }
 }
 

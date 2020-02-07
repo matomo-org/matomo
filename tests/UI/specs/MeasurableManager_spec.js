@@ -8,49 +8,51 @@
  */
 
 describe("MeasurableManager", function () {
-    this.timeout(0);
     this.fixture = "Piwik\\Plugins\\SitesManager\\tests\\Fixtures\\ManySites";
 
-    var url = "?module=SitesManager&action=index&idSite=1&period=day&date=yesterday&showaddsite=false";
+    const url = "?module=SitesManager&action=index&idSite=1&period=day&date=yesterday&showaddsite=false";
 
     before(function () {
         testEnvironment.pluginsToLoad = ['MobileAppMeasurable'];
-
         testEnvironment.save();
     });
 
-    function assertScreenshotEquals(screenshotName, done, test)
-    {
-        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget,.modal.open', test, done);
+    async function assertScreenshotEquals(screenshotName, selector) {
+        const element = await page.jQuery(selector);
+        expect(await element.screenshot()).to.matchImage(screenshotName);
     }
 
-    it("should load correctly and should not use SitesManager wording as another type is enabled", function (done) {
-        assertScreenshotEquals("loaded", done, function (page) {
-            page.load(url);
-        });
+    it("should load correctly and should not use SitesManager wording as another type is enabled", async function () {
+        await page.goto(url);
+        await assertScreenshotEquals("loaded", '#content.admin');
     });
 
-    it("should use measurable wording in menu", function (done) {
-        var selector = '#secondNavBar li:contains(Manage):first';
-        expect.screenshot('measurable_menu_item').to.be.captureSelector(selector, function (page) {
-
-        }, done);
+    it("should use measurable wording in menu", async function () {
+        const element = await page.jQuery('#secondNavBar li:contains(Manage):first');
+        expect(await element.screenshot()).to.matchImage('measurable_menu_item');
     });
 
-    it("should show selection of available types when adding a type", function (done) {
-        assertScreenshotEquals("add_new_dialog", done, function (page) {
-            page.click('.SitesManager .addSite:first');
-        });
+    // '.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget,.modal.open'
+    it("should show selection of available types when adding a type", async function () {
+        const element = await page.jQuery('.SitesManager .addSite:first');
+        await element.click();
+        await page.waitFor('.modal.open');
+        await page.waitFor(350); // wait for modal animation
+        await assertScreenshotEquals("add_new_dialog", '.modal.open');
     });
 
-    it("should load mobile app specific fields", function (done) {
-        assertScreenshotEquals("add_measurable_view", done, function (page) {
-            page.click('.modal.open .btn:contains(Mobile App)');
-            page.evaluate(function () {
-                $('.form-help:contains(UTC time is)').hide();
-            });
-            page.wait(250);
+    it("should load mobile app specific fields", async function () {
+        const element = await page.jQuery('.modal.open .btn:contains(Mobile App)');
+        await element.click();
+
+        await page.waitFor('input.btn[value=Save]');
+        await page.waitForNetworkIdle();
+        await page.evaluate(function () {
+            $('.form-help:contains(UTC time is)').hide();
         });
+        await page.waitFor(250);
+
+        await assertScreenshotEquals("add_measurable_view", '#content.admin');
     });
 
 });

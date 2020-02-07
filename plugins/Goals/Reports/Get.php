@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Goals\Reports;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
@@ -44,7 +45,7 @@ class Get extends Base
     private function getGoals()
     {
         $idSite = $this->getIdSite();
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         return $goals;
     }
 
@@ -201,9 +202,9 @@ class Get extends Base
 
             $goal = $this->getGoal($idGoal);
             if (!empty($goal['name'])) {
-                $view->config->title = Piwik::translate('Goals_GoalX', "'" . $goal['name'] . "'");
+                $view->config->title = Piwik::translate('Goals_GoalX', "'" . Common::unsanitizeInputValue($goal['name']) . "'");
                 if (!empty($goal['description'])) {
-                    $view->config->description = $goal['description'];
+                    $view->config->description = Common::unsanitizeInputValue($goal['description']);
                 }
             } else {
                 $view->config->title = Piwik::translate('General_EvolutionOverPeriod');
@@ -225,6 +226,6 @@ class Get extends Base
 
         $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) {
             return Piwik::translate('Goals_GoalX', $goal['name']);
-        });
+        }, $isSummary = true);
     }
 }

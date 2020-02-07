@@ -1,103 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>http:</label>
-		<nb_visits>2</nb_visits>
-		<nb_hits>2</nb_hits>
-		<sum_time_spent>1080</sum_time_spent>
-		<sum_bandwidth>0</sum_bandwidth>
-		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
-		<entry_nb_visits>1</entry_nb_visits>
-		<entry_nb_actions>8</entry_nb_actions>
-		<entry_sum_visit_length>2161</entry_sum_visit_length>
-		<entry_bounce_count>0</entry_bounce_count>
-		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>540</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
-		<subtable>
-			<row>
-				<label> incredible.title</label>
-				<nb_visits>1</nb_visits>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>720</sum_time_spent>
-				<sum_bandwidth>0</sum_bandwidth>
-				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-				<min_bandwidth />
-				<max_bandwidth />
-				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
-				<entry_nb_visits>1</entry_nb_visits>
-				<entry_nb_actions>8</entry_nb_actions>
-				<entry_sum_visit_length>2161</entry_sum_visit_length>
-				<entry_bounce_count>0</entry_bounce_count>
-				<avg_time_on_page>720</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-			</row>
-			<row>
-				<label> www.incredible.title</label>
-				<nb_visits>1</nb_visits>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
-				<sum_bandwidth>0</sum_bandwidth>
-				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-				<min_bandwidth />
-				<max_bandwidth />
-				<avg_time_on_page>360</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-			</row>
-		</subtable>
-	</row>
-	<row>
-		<label>https:</label>
-		<nb_visits>2</nb_visits>
-		<nb_hits>2</nb_hits>
-		<sum_time_spent>720</sum_time_spent>
-		<sum_bandwidth>0</sum_bandwidth>
-		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
-		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>360</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
-		<subtable>
-			<row>
-				<label> incredible.title</label>
-				<nb_visits>1</nb_visits>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
-				<sum_bandwidth>0</sum_bandwidth>
-				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-				<min_bandwidth />
-				<max_bandwidth />
-				<avg_time_on_page>360</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-			</row>
-			<row>
-				<label> www.incredible.title</label>
-				<nb_visits>1</nb_visits>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
-				<sum_bandwidth>0</sum_bandwidth>
-				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-				<min_bandwidth />
-				<max_bandwidth />
-				<avg_time_on_page>360</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-			</row>
-		</subtable>
-	</row>
-	<row>
 		<label> Emoji here: 😎</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -111,9 +14,79 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>pageTitle==Emoji%2Bhere%253A%2B%2525F0%25259F%252598%25258E</segment>
 	</row>
 	<row>
-		<label> incredible.title</label>
+		<label> http://incredible.title/</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>720</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>8</entry_nb_actions>
+		<entry_sum_visit_length>2161</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>720</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<segment>pageTitle==http%253A%252F%252Fincredible.title%252F</segment>
+	</row>
+	<row>
+		<label> http://www.incredible.title/</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>360</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>360</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<segment>pageTitle==http%253A%252F%252Fwww.incredible.title%252F</segment>
+	</row>
+	<row>
+		<label> https://incredible.title/</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>360</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>360</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<segment>pageTitle==https%253A%252F%252Fincredible.title%252F</segment>
+	</row>
+	<row>
+		<label> https://www.incredible.title/</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>360</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>360</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<segment>pageTitle==https%253A%252F%252Fwww.incredible.title%252F</segment>
+	</row>
+	<row>
+		<label> incredible.title/</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
@@ -128,6 +101,7 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<segment>pageTitle==incredible.title%252F</segment>
 	</row>
 	<row>
 		<label> Valid URL, although strange looking</label>
@@ -143,5 +117,6 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>pageTitle==Valid%2BURL%252C%2Balthough%2Bstrange%2Blooking</segment>
 	</row>
 </result>

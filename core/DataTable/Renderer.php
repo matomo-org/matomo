@@ -2,15 +2,15 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\DataTable;
 
 use Exception;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\BaseFactory;
@@ -123,7 +123,7 @@ abstract class Renderer extends BaseFactory
     /**
      * Set the DataTable to be rendered
      *
-     * @param DataTable|Simple|DataTable\Map $table table to be rendered
+     * @param DataTableInterface $table table to be rendered
      * @throws Exception
      */
     public function setTable($table)
@@ -227,6 +227,15 @@ abstract class Renderer extends BaseFactory
             foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index) {
                 if (isset($meta[$index]) && is_array($meta[$index])) {
                     $t = array_merge($t, $meta[$index]);
+                }
+            }
+
+            foreach (Dimension::getAllDimensions() as $dimension) {
+                $dimensionId   = str_replace('.', '_', $dimension->getId());
+                $dimensionName = $dimension->getName();
+
+                if (!empty($dimensionId) && !empty($dimensionName)) {
+                    $t[$dimensionId] = $dimensionName;
                 }
             }
 

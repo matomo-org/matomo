@@ -1,8 +1,20 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Config file",
-        "ConfigFileIntroduction": "Here you can view the Matomo configuration. If you are running Matomo in a load balanced environment the page might be different depending from which server this page is loaded. Rows with a different background color are changed config values that are specified for example in the %1$s file.",
+        "MysqlTemporaryTablesWarning": "MySQL Permission CREATE TEMPORARY TABLES is required for Matomo to work properly.",
+        "MysqlTransactionLevel": "Changing transaction isolation level not supported. Archiving will still work but it may be slower and it is recommended to change for example the `binlog_format` to `row` if possible.",
+        "MysqlMaxPacketSize": "Max Packet Size",
+        "MysqlMaxPacketSizeWarning": "It is recommended to configure a 'max_allowed_packet' size in your MySQL database of at least %1$s. Configured is currently %2$s.",
+        "ConfigFileIntroduction": "Here you can view the Matomo configuration. If you are running Matomo in a load balanced environment, the page might be different depending on from which server this page is loaded. Rows with a different background color are changed config values that are specified for example in the %1$s file.",
         "HideUnchanged": "If you want to see only changed values you can %1$shide all unchanged values%2$s.",
-        "Sections": "Sections"
+        "Sections": "Sections",
+        "DatabaseReaderConnection": "Database Reader Connection",
+        "CronArchivingLastRunCheck": "Last Successful Archiving Completion",
+        "CronArchivingHasNotRun": "Archiving has not yet run successfully.",
+        "CronArchivingHasNotRunInAWhile": "Archiving last ran successfully on %1$s which is %2$s ago.",
+        "CronArchivingRunDetails": "Please check that you have setup a crontab calling the %1$s console command, and that you have configured a %2$s to receive errors by email if archiving fails. You can also try to run the console command to archive your reports manually: %3$s. %4$sLearn more.%5$s",
+        "CronArchivingRanSuccessfullyXAgo": "The archiving process completed successfully %1$s ago.",
+        "BrowserTriggeredArchivingEnabled": "For optimal performance and a speedy Matomo, it is highly recommended to set up a crontab to automatically archive your reports, and to disable browser triggering in the Matomo settings. %1$sLearn more.%2$s",
+        "NoDataForReportArchivingNotRun": "The archiving of your reports hasn't been executed recently, %1$slearn more about how to generate your reports.%2$s"
     }
 }

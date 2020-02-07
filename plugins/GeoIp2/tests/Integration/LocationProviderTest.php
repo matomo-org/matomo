@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -17,8 +17,6 @@ class LocationProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function testGeoIP2City()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
         $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-City.mmdb'], 'isp' => []]);
         $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
 
@@ -38,8 +36,6 @@ class LocationProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGeoIP2Country()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
         $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-Country.mmdb'], 'isp' => []]);
         $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
 
@@ -53,8 +49,6 @@ class LocationProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGeoIP2ASN()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
         $locationProvider = new GeoIp2\Php(['loc' => [], 'isp' => ['GeoLite2-ASN.mmdb']]);
         $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
 
@@ -66,8 +60,6 @@ class LocationProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGeoIP2ISP()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
         $locationProvider = new GeoIp2\Php(['loc' => [], 'isp' => ['GeoIP2-ISP.mmdb']]);
         $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
 
@@ -79,8 +71,6 @@ class LocationProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGeoIP2CityAndISP()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
         $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-City.mmdb'], 'isp' => ['GeoIP2-ISP.mmdb']]);
         $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
 

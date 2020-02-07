@@ -9,7 +9,6 @@
         "ClickHereToOptOut": "클릭하여 차단합니다.",
         "CustomLogoFeedbackInfo": "Matomo 로고를 변경하거나 상단 메뉴의 %1$s 링크도 숨길 수 있습니다. %2$s 플러그인 관리 %3$s 페이지에서 피드백 플러그인을 비활성화세요.",
         "CustomLogoHelpText": "Matomo 로고를 사용자정의하여 사용자 인터페이스 화면과 이메일 보고서를 볼 수 있습니다.",
-        "DevelopmentProcess": "Matomo의 %1$s개발 과정%2$s안에 수많은 자동 검사를 수행하지만, Matomo의 \\\"무버그 정책\\\"을 만족시키기 위해 베타 테스터가 상당히 중요합니다.",
         "EmailServerSettings": "메일 서버 설정",
         "ForBetaTestersOnly": "베타 테스터 전용",
         "ImageTracking": "이미지 추적",
@@ -60,7 +59,6 @@
         "UpdateSettings": "업데이트 설정",
         "UseCustomLogo": "로고 변경하기",
         "ValidPiwikHostname": "유효한 Matomo 호스트네임",
-        "YouAreOptedIn": "허용된 상태입니다.",
         "YouAreOptedOut": "차단된 상태입니다.",
         "YouMayOptOut": "이 웹사이트에 모은 데이터 수집 및 분석을 피하기 위해, 당신의 컴퓨터에 웹 분석 Cookie 식별 번호를 할당하지 않을 수 있습니다.",
         "YouMayOptOutBis": "차단 Cookie를 활성하려면 다음의 확인란에 체크하세요."

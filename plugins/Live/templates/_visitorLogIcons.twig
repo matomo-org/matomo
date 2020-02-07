@@ -70,17 +70,13 @@
     <span class="visitorType">
         {# Goals, and/or Ecommerce activity #}
         {% if visitor.getColumn('goalConversions') %}
-            <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank visitorLogTooltip'
-                  {% if isWidget or breakBeforeVisitorRank %}style="margin-left:0;"{% endif %}>
+            <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class="visitorLogTooltip">
                 <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
-                {{ visitor.getColumn('goalConversions') }}
-                {% if visitHasEcommerceActivity %}
-                    &nbsp;
-                    <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" class='visitorLogTooltip' title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
-                {% endif %}
+                <span class="conversionCount">{% if visitor.getColumn('goalConversions') > 99 %}99+{% else %}{{ visitor.getColumn('goalConversions') }}{% endif %}</span>
             </span>
-        {# Ecommerce activity only (no goal) #}
-        {% elseif visitHasEcommerceActivity %}
+        {% endif %}
+        {# Ecommerce activity #}
+        {% if visitHasEcommerceActivity %}
             <img class="visitorLogTooltip" src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
         {% endif %}
     </span>

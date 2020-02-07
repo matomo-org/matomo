@@ -2,15 +2,18 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
+use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Period;
+use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
@@ -35,12 +38,17 @@ class Evolution extends JqplotGraph
     {
         parent::beforeRender();
 
+        $this->checkRequestIsOnlyForMultiplePeriods();
+
+        $this->config->show_flatten_table = false;
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
     public function beforeLoadDataTable()
     {
-        $this->calculateEvolutionDateRange();
+        if (!$this->isComparing()) {
+            $this->calculateEvolutionDateRange();
+        }
 
         parent::beforeLoadDataTable();
 
@@ -52,6 +60,35 @@ class Evolution extends JqplotGraph
         }
 
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
+
+        if ($this->isComparing()) {
+            $this->config->show_limit_control = false; // since we always show the days over the period, there's no point in changing the limit
+
+            $requestArray = $this->request->getRequestArray();
+            $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
+
+            $requestingPeriod = Factory::build($requestArray['period'], $requestArray['date']);
+
+            $this->requestConfig->request_parameters_to_modify['period'] = 'day';
+            $this->requestConfig->request_parameters_to_modify['date'] = $requestingPeriod->getDateStart()->toString() . ',' . $requestingPeriod->getDateEnd()->toString();
+
+            if (!empty($requestArray['comparePeriods'])) {
+                foreach ($requestArray['comparePeriods'] as $index => $comparePeriod) {
+                    $compareDate = $requestArray['compareDates'][$index];
+                    if (Period::isMultiplePeriod($compareDate, $comparePeriod)) {
+                        continue;
+                    }
+
+                    $comparePeriodObj = Factory::build($comparePeriod, $compareDate);
+
+                    $requestArray['comparePeriods'][$index] = 'day';
+                    $requestArray['compareDates'][$index] = $comparePeriodObj->getRangeString();
+                }
+
+                $this->requestConfig->request_parameters_to_modify['compareDates'] = $requestArray['compareDates'];
+                $this->requestConfig->request_parameters_to_modify['comparePeriods'] = $requestArray['comparePeriods'];
+            }
+        }
     }
 
     public function afterAllFiltersAreApplied()
@@ -67,7 +104,7 @@ class Evolution extends JqplotGraph
 
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('evolution', $properties);
+        return JqplotDataGenerator::factory('evolution', $properties, $this);
     }
 
     /**
@@ -77,23 +114,22 @@ class Evolution extends JqplotGraph
     private function calculateEvolutionDateRange()
     {
         $period = Common::getRequestVar('period');
+        $idSite = Common::getRequestVar('idSite');
+        $timezone = Site::getTimezoneFor($idSite);
 
         $defaultLastN = self::getDefaultLastN($period);
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ('range' != $period) { // show evolution limit if the period is not a range
-            $this->config->show_limit_control = true;
-
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) {
                 // if a multiple period
 
                 // overwrite last_n param using the date range
-                $oPeriod = new Range($period, $originalDate);
+                $oPeriod = new Range($period, $originalDate, $timezone);
                 $lastN   = count($oPeriod->getSubperiods());
 
             } else {
-
                 // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $originalDate, $defaultLastN);
                 $this->requestConfig->request_parameters_to_modify['date'] = $newDate;
@@ -196,5 +232,20 @@ class Evolution extends JqplotGraph
         $paddedCount = $countGraphElements + 2; // pad count so last label won't be cut off
 
         return ceil($paddedCount / $steps);
+    }
+
+    public function supportsComparison()
+    {
+        return true;
+    }
+
+    protected function ensureValidColumnsToDisplay()
+    {
+        parent::ensureValidColumnsToDisplay();
+
+        $columnsToDisplay = $this->config->columns_to_display;
+
+        // Use a sensible default if the columns_to_display is empty
+        $this->config->columns_to_display = $columnsToDisplay ? : array('nb_visits');
     }
 }

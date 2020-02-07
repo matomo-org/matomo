@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -212,8 +212,8 @@ class DocumentationGenerator
             'email'          => 'test@example.org',
 
             'languageCode'   => 'fr',
-            'url'            => 'http://forum.piwik.org/',
-            'pageUrl'        => 'http://forum.piwik.org/',
+            'url'            => 'https://divezone.net/',
+            'pageUrl'        => 'https://divezone.net/',
             'apiModule'      => 'UserCountry',
             'apiAction'      => 'getCountry',
             'lastMinutes'    => '30',
@@ -262,6 +262,7 @@ class DocumentationGenerator
         $aParameters['language'] = false;
         $aParameters['translateColumnNames'] = false;
         $aParameters['label'] = false;
+        $aParameters['labelSeries'] = false;
         $aParameters['flat'] = false;
         $aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_offset'] = false; 
@@ -285,6 +286,12 @@ class DocumentationGenerator
         $aParameters['expanded'] = false;
         $aParameters['idDimenson'] = false;
         $aParameters['format_metrics'] = false;
+        $aParameters['compare'] = false;
+        $aParameters['compareDates'] = false;
+        $aParameters['comparePeriods'] = false;
+        $aParameters['compareSegments'] = false;
+        $aParameters['comparisonIdSubtables'] = false;
+        $aParameters['invert_compare_change_compute'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
@@ -366,6 +373,10 @@ class DocumentationGenerator
 
             foreach ($toDisplay as $moduleName => $methods) {
                 foreach ($methods as $index => $method) {
+                    if (!method_exists($class, $method)) { // method is handled through API.Request.intercept event
+                        continue;
+                    }
+
                     $reflectionMethod = new \ReflectionMethod($class, $method);
                     if ($this->checkIfCommentContainsInternalAnnotation($reflectionMethod)) {
                         unset($toDisplay[$moduleName][$index]);

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,14 +15,13 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -55,6 +54,7 @@ use Piwik\Validators\WhitelistedValue;
 class API extends \Piwik\Plugin\API
 {
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
+    /** @deprecated Use VisitFrequency\API::NEW_VISITOR_SEGMENT */
     const NEW_VISIT_SEGMENT = 'visitorType==new';
 
     /**
@@ -86,6 +86,9 @@ class API extends \Piwik\Plugin\API
         $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
         if (!$cache->contains($cacheId)) {
+            // note: the reason this is secure is because the above cache is a static cache and cleared after each request
+            // if we were to use a different cache that persists the result, this would not be secure because when a
+            // result is in the cache, it would just return the result
             $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
             if (empty($idSite)) {
@@ -123,9 +126,10 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param string $name
-     * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'event_action', 'event_category' or 'event_name'
-     * @param string $pattern eg. purchase-confirmation.htm
-     * @param string $patternType 'regex', 'contains', 'exact'
+     * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions', 'visit_total_pageviews',
+     *                               'event_action', 'event_category' or 'event_name'
+     * @param string $pattern eg. purchase-confirmation.htm or numeric value if used with a numeric match attribute
+     * @param string $patternType 'regex', 'contains', 'exact', or 'greater_than' for numeric match attributes
      * @param bool $caseSensitive
      * @param bool|float $revenue If set, default revenue to assign to conversions
      * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
@@ -133,14 +137,17 @@ class API extends \Piwik\Plugin\API
      * @param string $description
      * @return int ID of the new goal
      */
-    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
+    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
+                            $useEventValueAsRevenue = false)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $patternType = Common::unsanitizeInputValue($patternType);
+
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
-        $pattern     = $this->checkPattern($pattern);
-        $patternType = $this->checkPatternType($patternType);
+        $pattern     = $this->checkPattern($pattern, $matchAttribute);
+        $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $description = $this->checkDescription($description);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -155,6 +162,7 @@ class API extends \Piwik\Plugin\API
             'allow_multiple'  => (int)$allowMultipleConversionsPerVisit,
             'revenue'         => $revenue,
             'deleted'         => 0,
+            'event_value_as_revenue' => (int) $useEventValueAsRevenue,
         );
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
@@ -187,19 +195,22 @@ class API extends \Piwik\Plugin\API
      * @param string $description
      * @return void
      */
-    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
+    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
+                               $useEventValueAsRevenue = false)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $patternType = Common::unsanitizeInputValue($patternType);
+
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
-        $patternType = $this->checkPatternType($patternType);
-        $pattern     = $this->checkPattern($pattern);
+        $patternType = $this->checkPatternType($patternType, $matchAttribute);
+        $pattern     = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
-        $this->getModel()->updateGoal($idSite, $idGoal, array(
+        $goal = array(
             'name'            => $name,
             'description'     => $description,
             'match_attribute' => $matchAttribute,
@@ -208,11 +219,23 @@ class API extends \Piwik\Plugin\API
             'case_sensitive'  => (int) $caseSensitive,
             'allow_multiple'  => (int) $allowMultipleConversionsPerVisit,
             'revenue'         => $revenue,
-        ));
+            'event_value_as_revenue' => (int) $useEventValueAsRevenue,
+        );
+
+        $this->checkEventValueAsRevenue($goal);
+
+        $this->getModel()->updateGoal($idSite, $idGoal, $goal);
 
         $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
+    }
+
+    private function checkEventValueAsRevenue($goal)
+    {
+        if ($goal['event_value_as_revenue'] && !GoalManager::isEventMatchingGoal($goal)) {
+            throw new \Exception("'useEventValueAsRevenue' can only be 1 if the goal matches an event attribute.");
+        }
     }
 
     private function checkPatternIsValid($patternType, $pattern, $matchAttribute)
@@ -241,7 +264,7 @@ class API extends \Piwik\Plugin\API
         return urldecode($description);
     }
 
-    private function checkPatternType($patternType)
+    private function checkPatternType($patternType, $matchAttribute)
     {
         if (empty($patternType)) {
             return '';
@@ -249,14 +272,26 @@ class API extends \Piwik\Plugin\API
 
         $patternType = strtolower($patternType);
 
-        $validator = new WhitelistedValue(['exact', 'contains', 'regex']);
+        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)) {
+            $validValues = ['greater_than'];
+        } else {
+            $validValues = ['exact', 'contains', 'regex'];
+        }
+
+        $validator = new WhitelistedValue($validValues);
         $validator->validate($patternType);
 
         return $patternType;
     }
 
-    private function checkPattern($pattern)
+    private function checkPattern($pattern, $matchAttribute)
     {
+        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
+            && !is_numeric($pattern)
+        ) {
+            throw new \Exception("Invalid pattern for match attribute '$matchAttribute'. (got '$pattern', expected numeric value).");
+        }
+
         return urldecode($pattern);
     }
 
@@ -401,9 +436,10 @@ class API extends \Piwik\Plugin\API
      * @param bool $segment
      * @param bool|int $idGoal
      * @param array $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue
+     * @param bool $showAllGoalSpecificMetrics whether to show all goal specific metrics when no goal is set
      * @return DataTable
      */
-    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
+    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false, $compare = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -412,7 +448,7 @@ class API extends \Piwik\Plugin\API
 
         $segments = array(
             '' => false,
-            '_new_visit' => self::NEW_VISIT_SEGMENT,
+            '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
             '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
         );
 
@@ -427,8 +463,9 @@ class API extends \Piwik\Plugin\API
                 'date'    => $date,
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
+                'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
                 'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
-            ));
+            ), $default = []);
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
                                     array($appendToMetricName));
@@ -439,6 +476,19 @@ class API extends \Piwik\Plugin\API
                 $merger = new MergeDataTables();
                 $merger->mergeDataTables($table, $tableSegmented);
             }
+        }
+
+        // if we are comparing, this will be queried with format_metrics=0, but we will eventually need to format the metrics.
+        // unfortunately, we can't do that since the processed metric information is in the GetMetrics report. in this case,
+        // we queue the filter so it will eventually be formatted.
+        if (!empty($compare)) {
+            $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
+            $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
+                $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
+
+                $formatter = new Metrics\Formatter();
+                $formatter->formatMetrics($t, $getMetricsReport, $metricsToFormat = null, $formatAll = true);
+            });
         }
 
         return $table;
@@ -452,16 +502,28 @@ class API extends \Piwik\Plugin\API
      * @deprecated
      * @internal
      */
-    public function getMetrics($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
+    public function getMetrics($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
+
+        $showAllGoalSpecificMetrics = $showAllGoalSpecificMetrics && $idGoal === false;
 
         // Mapping string idGoal to internal ID
         $idGoal = self::convertSpecialGoalIds($idGoal);
         $isEcommerceGoal = $idGoal === GoalManager::IDGOAL_ORDER || $idGoal === GoalManager::IDGOAL_CART;
 
         $allMetrics = Goals::getGoalColumns($idGoal);
+
+        if ($showAllGoalSpecificMetrics) {
+            foreach ($this->getGoals($idSite) as $aGoal) {
+                foreach (Goals::getGoalColumns($aGoal['idgoal']) as $goalColumn) {
+                    $allMetrics[] = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
+                }
+            }
+            $allMetrics[] = 'nb_visits';
+        }
+
         $columnsToShow = Piwik::getArrayFromApiParameter($columns);
         $requestedColumns = $columnsToShow;
 
@@ -475,10 +537,24 @@ class API extends \Piwik\Plugin\API
             $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
         }
 
+        if ($showAllGoalSpecificMetrics && !empty($requestedColumns)) {
+            foreach ($requestedColumns as $requestedColumn) {
+                if (strpos($requestedColumn, '_conversion_rate') !== false) {
+                    $columnIdGoal = Goals::getGoalIdFromGoalColumn($requestedColumn);
+                    if ($columnIdGoal) {
+                        $goalConversionRate = new GoalConversionRate($idSite, $columnIdGoal);
+                        $metricsToAdd = $goalConversionRate->getDependentMetrics();
+                        $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
+                    }
+                }
+            }
+        }
+
         $report = ReportsProvider::factory('Goals', 'getMetrics');
         $columnsToGet = $report->getMetricsRequiredForReport($allMetrics, $requestedColumns);
 
         $inDbMetricNames = array_map(function ($name) use ($idGoal) {
+            $name = str_replace('goal_', '', $name);
             return $name == 'nb_visits' ? $name : Archiver::getRecordName($name, $idGoal);
         }, $columnsToGet);
         $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
@@ -500,6 +576,23 @@ class API extends \Piwik\Plugin\API
                     $extraProcessedMetrics = array();
                 }
                 $extraProcessedMetrics[] = new AverageOrderRevenue();
+                $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            });
+        }
+        if ($showAllGoalSpecificMetrics) {
+            $dataTable->filter(function (DataTable $table) use($idSite, &$allMetrics, $requestedColumns) {
+                $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+                if (empty($extraProcessedMetrics)) {
+                    $extraProcessedMetrics = array();
+                }
+                foreach ($this->getGoals($idSite) as $aGoal) {
+                    $metric = new GoalConversionRate($idSite, $aGoal['idgoal']);
+                    if (!empty($requestedColumns) && !in_array($metric->getName(), $requestedColumns)) {
+                        continue;
+                    }
+                    $extraProcessedMetrics[] = $metric;
+                    $allMetrics[] = $metric->getName();
+                }
                 $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
             });
         }

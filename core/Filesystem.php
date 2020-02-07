@@ -2,17 +2,17 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
-use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
+use Piwik\Exception\FailedCopyException;
 use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Cache as PiwikCache;
+use Piwik\Exception\Exception;
 
 /**
  * Contains helper functions that deal with the filesystem.
@@ -324,7 +324,10 @@ class Filesystem
         }
 
         if (!$success) {
-            throw new Exception("Error while creating/copying file from $source to <code>$dest</code>. Content of copied file is different.");
+            $ex = new FailedCopyException("Error while creating/copying file from $source to <code>" . Common::sanitizeInputValue($dest)
+                . "</code>. Content of copied file is different.");
+            $ex->setIsHtmlMessage();
+            throw $ex;
         }
 
         return true;
@@ -415,7 +418,7 @@ class Filesystem
                        'B' => 1);
 
         if (!array_key_exists($unit, $units)) {
-            throw new Exception('Invalid unit given');
+            throw new \Exception('Invalid unit given');
         }
 
         if (!file_exists($pathToFile)) {
@@ -507,9 +510,11 @@ class Filesystem
         if (!@copy($source, $dest)) {
             @chmod($dest, 0755);
             if (!@copy($source, $dest)) {
-                $message = "Error while creating/copying file to <code>$dest</code>. <br />"
+                $message = "Error while creating/copying file to <code>" . Common::sanitizeInputValue($dest) . "</code>. <br />"
                     . Filechecks::getErrorMessageMissingPermissions(self::getPathToPiwikRoot());
-                throw new Exception($message);
+                $ex = new FailedCopyException($message);
+                $ex->setIsHtmlMessage();
+                throw $ex;
             }
         }
 

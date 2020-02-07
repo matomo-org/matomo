@@ -87,7 +87,9 @@ class ImportLogsTest extends SystemTestCase
             'periods' => 'range',
             'otherRequestParameters' => array(
                 'filter_limit' => 1000
-        )));
+            ),
+            'xmlFieldsToRemove' => array('fingerprint')
+        ));
 
         // imported via --replay-tracking --idsite=3  should ignore idSite from logs and use fixed idSite instead
         $apis[] = array($apiMethods, array(
@@ -97,7 +99,8 @@ class ImportLogsTest extends SystemTestCase
             'otherRequestParameters' => array(
                 'filter_limit' => 1000
             ),
-            'testSuffix' => '_siteIdThree_TrackedUsingLogReplayWithFixedSiteId'));
+            'testSuffix' => '_siteIdThree_TrackedUsingLogReplayWithFixedSiteId'
+        ));
 
         return $apis;
     }

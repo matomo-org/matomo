@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +30,7 @@ class GenerateScheduledTask extends GeneratePluginBase
         $pluginName = $this->getPluginName($input, $output);
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $exampleFolder  = Manager::getPluginDirectory('ExamplePlugin');
         $replace        = array('ExamplePlugin' => $pluginName);
         $whitelistFiles = array('/Tasks.php');
 

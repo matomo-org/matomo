@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -71,15 +71,13 @@ class Model
         $rows = Db::fetchAll($sql);
         foreach ($rows as $row) {
             $duplicateArchives = explode(',', $row['archives']);
+            $countOfArchives = count($duplicateArchives);
 
             $firstArchive = array_shift($duplicateArchives);
             list($firstArchiveId, $firstArchiveValue) = explode('.', $firstArchive);
 
-            // if the first archive (ie, the newest) is an 'ok' or 'ok temporary' archive, then
-            // all invalidated archives after it can be deleted
-            if ($firstArchiveValue == ArchiveWriter::DONE_OK
-                || $firstArchiveValue == ArchiveWriter::DONE_OK_TEMPORARY
-            ) {
+            // if there is more than one archive, the older invalidated ones can be deleted
+            if ($countOfArchives > 1) {
                 foreach ($duplicateArchives as $pair) {
                     if (strpos($pair, '.') === false) {
                         $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");
@@ -115,10 +113,21 @@ class Model
         foreach ($datesByPeriodType as $periodType => $dates) {
             $dateConditions = array();
 
-            foreach ($dates as $date) {
-                $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                $bind[] = $date;
-                $bind[] = $date;
+            if ($periodType == Period\Range::PERIOD_ID) {
+                foreach ($dates as $date) {
+                    // Ranges in the DB match if their date2 is after the start of the search range and date1 is before the end
+                    // e.g. search range is 2019-01-01 to 2019-01-31
+                    // date2 >= startdate -> Ranges with date2 < 2019-01-01 (ended before 1 January) and are excluded
+                    // date1 <= endate -> Ranges with date1 > 2019-01-31 (started after 31 January) and are excluded
+                    $dateConditions[] = "(date2 >= ? AND date1 <= ?)";
+                    $bind = array_merge($bind, explode(',', $date));
+                }
+            } else {
+                foreach ($dates as $date) {
+                    $dateConditions[] = "(date1 <= ? AND ? <= date2)";
+                    $bind[] = $date;
+                    $bind[] = $date;
+                }
             }
 
             $dateConditionsSql = implode(" OR ", $dateConditions);
@@ -148,7 +157,6 @@ class Model
 
         return Db::query($sql, $bind);
     }
-
 
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)
     {
@@ -186,13 +194,15 @@ class Model
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
         $idsToDelete = array_values($idsToDelete);
-        $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
-        $queryObj = Db::query(sprintf($query, $numericTable), $idsToDelete);
+        $idsToDelete = array_map('intval', $idsToDelete);
+        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+
+        $queryObj = Db::query(sprintf($query, $numericTable), array());
         $deletedRows = $queryObj->rowCount();
 
         try {
-            $queryObj = Db::query(sprintf($query, $blobTable), $idsToDelete);
+            $queryObj = Db::query(sprintf($query, $blobTable), array());
             $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
@@ -213,13 +223,13 @@ class Model
             $period,
         );
 
+        $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
+
         $timeStampWhere = '';
         if ($minDatetimeIsoArchiveProcessedUTC) {
             $timeStampWhere = " AND ts_archived >= ? ";
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
-
-        $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
         $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
@@ -279,25 +289,11 @@ class Model
         return $idarchive;
     }
 
-    public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
+    public function updateArchiveStatus($numericTable, $archiveId, $doneFlag, $value)
     {
-        $tableWithoutLeadingPrefix = $numericTable;
-        $lenNumericTableWithoutPrefix = strlen('archive_numeric_MM_YYYY');
-
-        if (strlen($numericTable) >= $lenNumericTableWithoutPrefix) {
-            $tableWithoutLeadingPrefix = substr($numericTable, strlen($numericTable) - $lenNumericTableWithoutPrefix);
-            // we need to make sure lock name is less than 64 characters see https://github.com/piwik/piwik/issues/9131
-        }
-        $dbLockName = "rmPrevArchiveStatus.$tableWithoutLeadingPrefix.$archiveId";
-
-        // without advisory lock here, the DELETE would acquire Exclusive Lock
-        $this->acquireArchiveTableLock($dbLockName);
-
-        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag . "')",
-            array($archiveId)
+        Db::query("UPDATE $numericTable SET `value` = ? WHERE idarchive = ? and `name` = ?",
+            array($value, $archiveId, $doneFlag)
         );
-
-        $this->releaseArchiveTableLock($dbLockName);
     }
 
     public function insertRecord($tableName, $fields, $record, $name, $value)
@@ -334,6 +330,96 @@ class Model
     }
 
     /**
+     * Get a list of IDs of archives that don't have any matching rows in the site table. Excludes temporary archives
+     * that may still be in use, as specified by the $oldestToKeep passed in.
+     * @param string $archiveTableName
+     * @param string $oldestToKeep Datetime string
+     * @return array of IDs
+     */
+    public function getArchiveIdsForDeletedSites($archiveTableName)
+    {
+        $sql = "SELECT DISTINCT idsite FROM " . $archiveTableName;
+        $rows = Db::getReader()->fetchAll($sql, array());
+
+        if (empty($rows)) {
+            return array(); // nothing to delete
+        }
+
+        $idSitesUsed = array_column($rows, 'idsite');
+
+        $model = new \Piwik\Plugins\SitesManager\Model();
+        $idSitesExisting = $model->getSitesId();
+
+        $deletedSites = array_diff($idSitesUsed, $idSitesExisting);
+
+        if (empty($deletedSites)) {
+            return array();
+        }
+        $deletedSites = array_values($deletedSites);
+        $deletedSites = array_map('intval', $deletedSites);
+
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".implode(',',$deletedSites).")";
+
+        $rows = Db::getReader()->fetchAll($sql, array());
+
+        return array_column($rows, 'idarchive');
+    }
+
+    /**
+     * Get a list of IDs of archives with segments that no longer exist in the DB. Excludes temporary archives that 
+     * may still be in use, as specified by the $oldestToKeep passed in.
+     * @param string $archiveTableName
+     * @param array $segments  List of segments to match against
+     * @param string $oldestToKeep Datetime string
+     * @return array With keys idarchive, name, idsite
+     */
+    public function getArchiveIdsForSegments($archiveTableName, array $segments, $oldestToKeep)
+    {
+        $segmentClauses = [];
+        foreach ($segments as $segment) {
+            if (!empty($segment['definition'])) {
+                $segmentClauses[] = $this->getDeletedSegmentWhereClause($segment);
+            }
+        }
+
+        if (empty($segmentClauses)) {
+            return array();
+        }
+
+        $segmentClauses = implode(' OR ', $segmentClauses);
+
+        $sql = 'SELECT idarchive FROM ' . $archiveTableName
+            . ' WHERE ts_archived < ?'
+            . ' AND (' . $segmentClauses . ')';
+
+        $rows = Db::fetchAll($sql, array($oldestToKeep));
+
+        return array_column($rows, 'idarchive');
+    }
+
+    private function getDeletedSegmentWhereClause(array $segment)
+    {
+        $idSite = (int)$segment['enable_only_idsite'];
+        $segmentHash = Segment::getSegmentHash($segment['definition']);
+        // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
+        if (!ctype_xdigit($segmentHash)) {
+            throw new Exception($segment . ' expected to be an md5 hash');
+        }
+
+        $nameClause = 'name LIKE "done' . $segmentHash . '%"';
+        $idSiteClause = '';
+        if ($idSite > 0) {
+            $idSiteClause = ' AND idsite = ' . $idSite;
+        } elseif (! empty($segment['idsites_to_preserve'])) {
+            // A segment for all sites was deleted, but there are segments for a single site with the same definition
+            $idSitesToPreserve = array_map('intval', $segment['idsites_to_preserve']);
+            $idSiteClause = ' AND idsite NOT IN (' . implode(',', $idSitesToPreserve) . ')';
+        }
+
+        return "($nameClause $idSiteClause)";
+    }
+
+    /**
      * Returns the SQL condition used to find successfully completed archives that
      * this instance is querying for.
      */
@@ -345,15 +431,4 @@ class Model
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    protected function acquireArchiveTableLock($dbLockName)
-    {
-        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("Cannot get named lock $dbLockName.");
-        }
-    }
-
-    protected function releaseArchiveTableLock($dbLockName)
-    {
-        Db::releaseDbLock($dbLockName);
-    }
 }

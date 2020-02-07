@@ -1,20 +1,27 @@
-h1, h2, h3, h4 {
+h1,
+ h2,
+ h3,
+ h4 {
   &.card-title {
     color: @theme-color-text !important;
+
     a {
       color: @theme-color-text !important;
     }
   }
 }
 
-.card.hoverable:hover{
-  @media print{
-    box-shadow:0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+.card.hoverable:hover {
+  @media print {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   }
 }
 
 .card {
-  h1, h2, h3, h4 {
+  h1,
+ h2,
+ h3,
+ h4 {
     color: @theme-color-text;
   }
 
@@ -33,6 +40,7 @@ h1, h2, h3, h4 {
 
   .card-content {
     color: @theme-color-text;
+
     .card-title {
       margin-bottom: 16px;
       display: block;

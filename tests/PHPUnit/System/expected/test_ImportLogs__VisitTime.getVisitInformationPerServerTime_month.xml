@@ -10,7 +10,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==0</segment>
+		<segment>visitStartServerHour==0</segment>
 	</row>
 	<row>
 		<label>01</label>
@@ -19,7 +19,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -31,7 +31,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<segment>visitServerHour==1</segment>
+		<segment>visitStartServerHour==1</segment>
 	</row>
 	<row>
 		<label>02</label>
@@ -43,7 +43,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==2</segment>
+		<segment>visitStartServerHour==2</segment>
 	</row>
 	<row>
 		<label>03</label>
@@ -55,7 +55,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==3</segment>
+		<segment>visitStartServerHour==3</segment>
 	</row>
 	<row>
 		<label>04</label>
@@ -64,7 +64,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -76,7 +76,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<segment>visitServerHour==4</segment>
+		<segment>visitStartServerHour==4</segment>
 	</row>
 	<row>
 		<label>05</label>
@@ -88,7 +88,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==5</segment>
+		<segment>visitStartServerHour==5</segment>
 	</row>
 	<row>
 		<label>06</label>
@@ -100,7 +100,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==6</segment>
+		<segment>visitStartServerHour==6</segment>
 	</row>
 	<row>
 		<label>07</label>
@@ -109,7 +109,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -121,7 +121,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<segment>visitServerHour==7</segment>
+		<segment>visitStartServerHour==7</segment>
 	</row>
 	<row>
 		<label>08</label>
@@ -130,6 +130,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>9</bounce_count>
+		<nb_visits_converted>9</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>9</nb_conversions>
@@ -141,8 +142,7 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitServerHour==8</segment>
+		<segment>visitStartServerHour==8</segment>
 	</row>
 	<row>
 		<label>09</label>
@@ -154,7 +154,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==9</segment>
+		<segment>visitStartServerHour==9</segment>
 	</row>
 	<row>
 		<label>10</label>
@@ -166,7 +166,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==10</segment>
+		<segment>visitStartServerHour==10</segment>
 	</row>
 	<row>
 		<label>11</label>
@@ -175,7 +175,7 @@
 		<max_actions>2</max_actions>
 		<sum_visit_length>242</sum_visit_length>
 		<bounce_count>0</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -187,7 +187,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<segment>visitServerHour==11</segment>
+		<segment>visitStartServerHour==11</segment>
 	</row>
 	<row>
 		<label>12</label>
@@ -196,7 +196,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -208,7 +208,7 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
-		<segment>visitServerHour==12</segment>
+		<segment>visitStartServerHour==12</segment>
 	</row>
 	<row>
 		<label>13</label>
@@ -217,6 +217,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -228,8 +229,7 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitServerHour==13</segment>
+		<segment>visitStartServerHour==13</segment>
 	</row>
 	<row>
 		<label>14</label>
@@ -241,7 +241,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==14</segment>
+		<segment>visitStartServerHour==14</segment>
 	</row>
 	<row>
 		<label>15</label>
@@ -250,7 +250,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<goals>
@@ -262,7 +262,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<segment>visitServerHour==15</segment>
+		<segment>visitStartServerHour==15</segment>
 	</row>
 	<row>
 		<label>16</label>
@@ -271,7 +271,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -283,16 +283,16 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
-		<segment>visitServerHour==16</segment>
+		<segment>visitStartServerHour==16</segment>
 	</row>
 	<row>
 		<label>17</label>
 		<nb_visits>8</nb_visits>
 		<nb_actions>11</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>4</sum_visit_length>
-		<bounce_count>6</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<max_actions>2</max_actions>
+		<sum_visit_length>6</sum_visit_length>
+		<bounce_count>5</bounce_count>
+		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<goals>
@@ -304,7 +304,7 @@
 		</goals>
 		<nb_conversions>7</nb_conversions>
 		<revenue>35</revenue>
-		<segment>visitServerHour==17</segment>
+		<segment>visitStartServerHour==17</segment>
 	</row>
 	<row>
 		<label>18</label>
@@ -313,7 +313,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>123</sum_visit_length>
 		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -325,7 +325,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<segment>visitServerHour==18</segment>
+		<segment>visitStartServerHour==18</segment>
 	</row>
 	<row>
 		<label>19</label>
@@ -334,7 +334,7 @@
 		<max_actions>2</max_actions>
 		<sum_visit_length>182</sum_visit_length>
 		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<goals>
@@ -346,7 +346,7 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
-		<segment>visitServerHour==19</segment>
+		<segment>visitStartServerHour==19</segment>
 	</row>
 	<row>
 		<label>20</label>
@@ -355,6 +355,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>7</bounce_count>
+		<nb_visits_converted>7</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>7</nb_conversions>
@@ -366,8 +367,7 @@
 		<revenue>35</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitServerHour==20</segment>
+		<segment>visitStartServerHour==20</segment>
 	</row>
 	<row>
 		<label>21</label>
@@ -376,6 +376,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -387,8 +388,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitServerHour==21</segment>
+		<segment>visitStartServerHour==21</segment>
 	</row>
 	<row>
 		<label>22</label>
@@ -400,7 +400,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==22</segment>
+		<segment>visitStartServerHour==22</segment>
 	</row>
 	<row>
 		<label>23</label>
@@ -412,6 +412,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>visitServerHour==23</segment>
+		<segment>visitStartServerHour==23</segment>
 	</row>
 </result>

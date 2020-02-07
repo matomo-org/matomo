@@ -2,6 +2,7 @@
     "Insights": {
         "ControlComparedToDescription": "Kasvu verrattuna",
         "ControlFilterByDescription": "Näytä kaikki, vain siirtyneet, vain uudet tai vain kadonneet",
+        "DatePeriodCombinationNotSupported": "Tämän päivän ja ajanjakson yhdistelmällä ei ole mahdollista luoda oivalluksia.",
         "DayComparedToPreviousDay": "edellinen päivä",
         "DayComparedToPreviousWeek": "sama päivä edelliseltä viikolta",
         "DayComparedToPreviousYear": "sama päivä edelliseltä vuodelta",
@@ -16,8 +17,9 @@
         "MonthComparedToPreviousMonth": "edellinen kuukausi",
         "MonthComparedToPreviousYear": "sama kuukausi edelliseltä vuodelta",
         "NoResultMatchesCriteria": "Yksikään rivi ei vastannut valintoja",
-        "TitleRowMoverAndShaker": "Tällä rivillä on keskiarvoa suurempi vaikutus.",
+        "OverviewWidgetTitle": "Oivallusten yleiskatsaus",
         "WeekComparedToPreviousWeek": "edellinen viikko",
+        "WidgetCategory": "Oivallukset",
         "YearComparedToPreviousYear": "edellinen vuosi"
     }
 }

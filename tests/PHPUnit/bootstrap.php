@@ -36,9 +36,14 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 @ini_set('memory_limit', -1);
 
-require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
+$GLOBALS['MATOMO_PLUGIN_DIRS'] = array(
+    array(
+        'pluginsPathAbsolute' => PIWIK_INCLUDE_PATH . '/tests/resources/custompluginsdir',
+        'webrootDirRelativeToMatomo' => 'tests/resources/custompluginsdir'
+    ),
+);
 
-require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
+require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 if (getenv('PIWIK_USE_XHPROF') == 1) {
     \Piwik\Profiler::setupProfilerXHProf();
@@ -120,7 +125,7 @@ function prepareTestDatabaseConfig(Config $config)
     $config->forceSave();
 }
 
-if (!SettingsPiwik::isPiwikInstalled()) {
+if (!SettingsPiwik::isMatomoInstalled()) {
     throw new Exception('Piwik needs to be installed in order to run the tests');
 }
 

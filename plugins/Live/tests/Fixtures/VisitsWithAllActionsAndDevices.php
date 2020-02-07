@@ -35,6 +35,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
 
         $t->setUserId('X4F66G776HGI');
+        $t->setVisitorId(substr(sha1('X4F66G776HGI'), 0, 16));
 
         // smart display
         $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(0)->getDatetime(), 'Mozilla/5.0 (Linux; U; Android 4.0.4; de-de; VSD220 Build/IMM76D.UI23ED12_VSC) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30');
@@ -68,7 +69,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         // empty
     }
 
-    private function trackVisitSmartphone(\PiwikTracker $t, $dateTime)
+    private function trackVisitSmartphone(\MatomoTracker $t, $dateTime)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (Linux; U; Android 4.4.2; fr-fr; HTC One_M8 Build/KOT49H) AppleWebKit/537.16 (KHTML, like Gecko) Version/4.0 Mobile Safari/537.16');
@@ -146,7 +147,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackAction('http://vendor.site', 'link'));
     }
 
-    private function trackVisitTablet(\PiwikTracker $t, $dateTime)
+    private function trackVisitTablet(\MatomoTracker $t, $dateTime)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (Linux; U; en-us; KFAPWI Build/JDQ39) AppleWebKit/535.19 (KHTML, like Gecko) Silk/3.8 Safari/535.19 Silk-Accelerated=true');
@@ -186,7 +187,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
     }
 
-    private function trackVisitMediaPlayer(\PiwikTracker $t, $dateTime)
+    private function trackVisitMediaPlayer(\MatomoTracker $t, $dateTime)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (iPod; U; CPU iPhone OS 4_2_1 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Mobile/8C148');
@@ -212,7 +213,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackPageView('Action without url'));
     }
 
-    private function trackDeviceVisit(\PiwikTracker $t, $dateTime, $useragent)
+    private function trackDeviceVisit(\MatomoTracker $t, $dateTime, $useragent)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent($useragent);
@@ -223,5 +224,8 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
+        $t->doTrackContentImpression('product slider', 'product_17.jpg', 'http://example.org/product17');
+        $t->doTrackContentImpression('product slider', 'product_18.jpg', 'http://example.org/product18');
+        $t->doTrackContentImpression('product zoom', 'product_18.jpg', 'http://example.org/product18');
     }
 }

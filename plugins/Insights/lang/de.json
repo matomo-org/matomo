@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Stellt Einblicke in ihren Traffic zur Verfügung. Diese \"Einblicke\" sind verfügbar als Dashboard Widgets sowie über ein neues Icon in den Berichten, dass Ihnen die Möglichkeit gibt die wichtigsten Trends ihrer Daten zu sehen.",
+        "PluginDescription": "Stellt Einblicke in ihren Traffic zur Verfügung. Diese \"Einblicke\" sind verfügbar als Dashboard Widgets sowie über ein neues Icon in den Berichten, das Ihnen die Möglichkeit gibt die wichtigsten Trends ihrer Daten zu sehen.",
         "ControlComparedToDescription": "Wachstum verglichen mit",
         "ControlFilterByDescription": "Zeige alle, nur Verschiebungen, nur neue oder nur Ausstiege",
         "DatePeriodCombinationNotSupported": "Es ist nicht möglich, Ansichten für diese Datums- und Zeitraumskombination zu generieren.",
@@ -26,7 +26,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s hat sich von %2$s auf %3$s geändert verglichen mit %4$s. Darauf basierend ist eine Entwicklung jeder Reihe über %5$s%% zu erwarten.",
         "TitleRowChangeDetails": "'%1$s' hat sich geändert von %2$s (%3$s) zu %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' ist um %2$s gesunken und verschwand in %3$s verglichen zu %4$s.",
-        "TitleRowMoverAndShaker": "Diese Reihe hatte einen größeren Einfluss als der Durchschnitt.",
+        "TitleRowMoverAndShaker": "Diese Reihe hatte einen überdurchschnittlichen Einfluss.",
         "TitleRowNewDetails": "'%1$s' ist um %2$s gestiegen und ist neu im Vergleich zu %3$s.",
         "WeekComparedToPreviousWeek": "vorherige Woche",
         "WidgetCategory": "Insights",

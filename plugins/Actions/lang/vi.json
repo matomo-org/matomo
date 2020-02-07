@@ -1,7 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Trung bình dựa trên %1$s lần(s) %2$s giữa %3$s và %4$s",
-        "ColumnClickedURL": "URL đã truy cập",
+        "AvgGenerationTimeTooltip": "Trung bình dựa trên %1$s lần %2$s giữa %3$s và %4$s",
         "ColumnActionURL": "URL hành động",
         "ColumnClicks": "Clicks",
         "ColumnClicksDocumentation": "Số lần đường dẫn này đã được click",
@@ -30,7 +29,6 @@
         "EntryPageTitlesReportDocumentation": "Báo cáo này chứa thông tin về các tiêu đề của các trang đến đã được sử dụng trong một thời hạn quy định.",
         "ExitPageTitles": "Tiêu đề trang rời đi",
         "ExitPageTitlesReportDocumentation": "Báo cáo này có chứa thông tin về những tiêu đề của những trang thoát xuất hiện trong một khoảng thời gian nhất định.",
-        "LearnMoreAboutSiteSearchLink": "Tìm hiểu thêm về việc theo dõi cách những khách truy cập của bạn sử dụng công cụ tìm kiếm của bạn.",
         "OneSearch": "1 lần tìm kiếm",
         "OutlinkDocumentation": "Một outlink là một liên kết dẫn người truy cập từ trang web của bạn (đến tên miền khác)",
         "OutlinksReportDocumentation": "Báo cáo này cho thấy một danh sách phân cấp của outlink URL đã được click bởi khách truy cập của bạn",
@@ -42,7 +40,7 @@
         "SiteSearchCategories2": "Ví dụ, một trang thương mại điện tử (e-commerce) thường có chức năng \"Lựa chọn Phân mục\" để khách truy cập giới hạn phạm vi tìm kiếm đối với các sản phẩm trong một phân mục quy định.",
         "SiteSearchFollowingPagesDoc": "Khi khách tìm kiếm trên trang web của bạn, họ tìm kiếm một trang, nội dung, sản phẩm hoặc một dịch vụ cụ thể. Báo cáo này liệt kê các trang đã được click nhiều nhất sau khi thực hiện phép tìm kiếm (nội bộ). Nói cách khác, danh sách này chứa các trang được tìm kiếm nhiều nhất được thực hiện bởi khách trên trang web của bạn.",
         "SiteSearchIntro": "Theo dõi các tìm kiếm mà khách đã thực hiện trên trang web của bạn là một cách hữu hiệu để hiểu hơn về thói quen tìm kiếm của khách hàng, và có thể giúp bạn tìm ra ý tưởng cho nội dung mới, sản phẩm thương mại điện tử mới mà những khách hàng tiềm năng có thể tìm kiếm, và cải thiện trải nghiệm của khách hàng trên trang web của bạn.",
-        "SiteSearchKeyword": "Từ khóa(trang tìm kiếm)",
+        "SiteSearchKeyword": "Từ khóa (trang tìm kiếm)",
         "SiteSearchKeywordsDocumentation": "Báo cáo này liệt kê các từ khóa tìm kiếm mà người truy cập thực hiện tìm kiếm trên công cụ tìm kiếm nội bộ của bạn",
         "SiteSearchKeywordsNoResultDocumentation": "Báo cáo này liệt kê các từ khóa tìm kiếm không trả lại bất cứ kết quả nào => Có thể cần cải thiện máy tìm kiếm, hoặc có thể do người dùng tìm kiếm thứ chưa có trên website.",
         "SubmenuPagesEntry": "Trang khởi đầu",

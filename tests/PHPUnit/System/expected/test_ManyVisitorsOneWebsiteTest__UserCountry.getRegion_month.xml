@@ -5,8 +5,9 @@
 		<nb_visits>8</nb_visits>
 		<nb_actions>23</nb_actions>
 		<max_actions>5</max_actions>
-		<sum_visit_length>6484</sum_visit_length>
+		<sum_visit_length>6485</sum_visit_length>
 		<bounce_count>4</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>8</nb_conversions>
@@ -34,8 +35,9 @@
 		<nb_visits>6</nb_visits>
 		<nb_actions>16</nb_actions>
 		<max_actions>5</max_actions>
-		<sum_visit_length>4863</sum_visit_length>
+		<sum_visit_length>4865</sum_visit_length>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>
@@ -64,8 +66,9 @@
 		<nb_visits>6</nb_visits>
 		<nb_actions>17</nb_actions>
 		<max_actions>5</max_actions>
-		<sum_visit_length>4863</sum_visit_length>
+		<sum_visit_length>4864</sum_visit_length>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>
@@ -94,8 +97,9 @@
 		<nb_visits>4</nb_visits>
 		<nb_actions>11</nb_actions>
 		<max_actions>5</max_actions>
-		<sum_visit_length>3242</sum_visit_length>
+		<sum_visit_length>3243</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -126,6 +130,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -154,8 +159,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
-		<sum_visit_length>1621</sum_visit_length>
+		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -186,6 +192,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -214,8 +221,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
-		<sum_visit_length>1621</sum_visit_length>
+		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -240,12 +248,13 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Xizang, China</label>
+		<label>Xizang Zizhiqu, China</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
-		<sum_visit_length>1621</sum_visit_length>
+		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -266,7 +275,7 @@
 		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
-		<region_name>Xizang</region_name>
+		<region_name>Xizang Zizhiqu</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 	<row>
@@ -276,6 +285,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>

@@ -58,20 +58,32 @@
 	<reportMetadata>
 		<row>
 			
-			<idsubdatatable>5200</idsubdatatable>
+			<segment>pageTitle=^Checkout</segment>
+			<idsubdatatable>2</idsubdatatable>
 		</row>
 		<row>
+			<segment>pageTitle==incredible%2Btitle%2521</segment>
 		</row>
 		<row>
+			<segment>pageTitle==Looking%2Bat%2Bhomepage%2B%2528again%2529...</segment>
 		</row>
 		<row>
+			<segment>pageTitle==Second%2Bpage%2Bview%2B-%2Bshould%2Bbe%2Bregistered%2Bas%2BURL</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<entry_bounce_count>1</entry_bounce_count>
+		<sum_time_spent>1080</sum_time_spent>
+		<sum_time_generation>0.615</sum_time_generation>
+		<min_time_generation>0.615</min_time_generation>
+		<max_time_generation>0.615</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<entry_nb_actions>8</entry_nb_actions>
+		<entry_sum_visit_length>1622</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 	</reportTotal>
 </result>

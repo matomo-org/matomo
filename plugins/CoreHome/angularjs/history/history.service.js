@@ -42,9 +42,7 @@
         // this function makes sure URLs like http://piwik.net/?...#/module=Whatever&action=whatever still work.
         function changePathToSearch() {
             var path = $location.path();
-            if (!path
-                || path == '/'
-            ) {
+            if (!path || path == '/') {
                 return;
             }
 

@@ -20,7 +20,8 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/homepage</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fhomepage</segment>
+		<Actions_PageUrl>/homepage</Actions_PageUrl>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fhomepage</segment>
 	</row>
 	<row>
 		<label>/news</label>
@@ -44,7 +45,8 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/news</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fnews</segment>
+		<Actions_PageUrl>/news</Actions_PageUrl>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fnews</segment>
 	</row>
 	<row>
 		<label>/sub1/sub2/sub3/news</label>
@@ -63,6 +65,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/sub1/sub2/sub3/news</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fsub1%2Fsub2%2Fsub3%2Fnews</segment>
+		<Actions_PageUrl>/sub1/sub2/sub3/news</Actions_PageUrl>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fsub1%252Fsub2%252Fsub3%252Fnews</segment>
 	</row>
 </result>

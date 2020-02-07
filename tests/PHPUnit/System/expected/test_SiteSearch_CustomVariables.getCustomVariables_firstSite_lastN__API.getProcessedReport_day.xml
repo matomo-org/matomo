@@ -9,7 +9,12 @@
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/custom-variables/</onlineGuideUrl>
+		<dimensions>
+			<CustomVariables_CustomVariableName>Custom Variable name</CustomVariables_CustomVariableName>
+			<CustomVariables_CustomVariableValue>Custom Variable value</CustomVariables_CustomVariableValue>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -65,7 +70,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 			<row>
 				<label>_pk_scat</label>
@@ -76,7 +81,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -89,7 +94,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 			<row>
 				<label>_pk_scat</label>
@@ -100,7 +105,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -120,7 +125,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3309</idsubdatatable>
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -131,7 +136,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3308</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -144,7 +149,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3312</idsubdatatable>
+				<idsubdatatable>6</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -155,7 +160,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3311</idsubdatatable>
+				<idsubdatatable>5</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -165,8 +170,9 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>11</nb_visits>
 		<nb_uniq_visitors>11</nb_uniq_visitors>
+		<nb_visits>11</nb_visits>
 		<nb_actions>14</nb_actions>
+		<nb_actions_per_visit>2.5</nb_actions_per_visit>
 	</reportTotal>
 </result>

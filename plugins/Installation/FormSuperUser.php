@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -46,7 +46,7 @@ class FormSuperUser extends QuickForm2
         $passwordBis = $this->addElement('password', 'password_bis')
             ->setLabel(Piwik::translate('Installation_PasswordRepeat'));
         $passwordBis->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_PasswordRepeat')));
-        $passwordBis->addRule('eq', Piwik::translate('Installation_PasswordDoNotMatch'), $password);
+        $passwordBis->addRule('eq', Piwik::translate('Installation_PasswordDoNotMatch'), ['operand' => $password]);
 
         $email = $this->addElement('text', 'email')
             ->setLabel(Piwik::translate('Installation_Email'));
@@ -59,7 +59,7 @@ class FormSuperUser extends QuickForm2
             ));
 
         $professionalServicesNewsletter = Piwik::translate('Installation_ProfessionalServicesNewsletter',
-            array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer noopener' target='_blank'>", "</a>")
+            array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Matomo_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer noopener' target='_blank'>", "</a>")
         );
 
         $privacyNoticeLink = '<a href="https://matomo.org/privacy-policy/" target="_blank" rel="noreferrer noopener">';

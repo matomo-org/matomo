@@ -34,11 +34,11 @@
             if(singleChar == true){
                 newMetric.segment = metric.substr(0,minPos);
                 newMetric.matches = metric.substr(minPos,1);
-                newMetric.value = metric.substr(minPos+1);
+                newMetric.value = decodeURIComponent(metric.substr(minPos+1));
             } else {
                 newMetric.segment = metric.substr(0,minPos);
                 newMetric.matches = metric.substr(minPos,2);
-                newMetric.value = metric.substr(minPos+2);
+                newMetric.value = decodeURIComponent(metric.substr(minPos+2));
             }
             // if value is only "" -> change to empty string
             if(newMetric.value === '""')
@@ -47,7 +47,13 @@
             }
         }
 
-        newMetric.value = decodeURIComponent(newMetric.value);
+        try {
+            // Decode again to deal with double-encoded segments in database
+            newMetric.value = decodeURIComponent(newMetric.value);
+        } catch (e) {
+            // Expected if the segment was not double-encoded
+        }
+
         return newMetric;
     };
 
@@ -228,7 +234,8 @@
                         subSegmentStr += ","; // OR operator
                     }
 
-                    subSegmentStr += orCondition.segment + orCondition.matches +  encodeURIComponent(orCondition.value);
+                    // one encode for urldecode on value, one encode for urldecode on condition
+                    subSegmentStr += orCondition.segment + orCondition.matches + encodeURIComponent(encodeURIComponent(orCondition.value));
                 });
 
                 if (segmentStr !== '') {
@@ -238,7 +245,7 @@
                 segmentStr += subSegmentStr;
             });
 
-            return segmentStr
+            return segmentStr;
         };
 
         this.setSegmentString = function (segmentStr) {

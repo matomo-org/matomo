@@ -49,11 +49,11 @@
 	</followingSiteSearches>
 	<outlinks>
 		<row>
-			<label>http://www.anothersite.com/to/outlink/page.html</label>
+			<label>http://anothersite.com/to/outlink/page2.html</label>
 			<referrals>1</referrals>
 		</row>
 		<row>
-			<label>http://anothersite.com/to/outlink/page2.html</label>
+			<label>http://www.anothersite.com/to/outlink/page.html</label>
 			<referrals>1</referrals>
 		</row>
 	</outlinks>

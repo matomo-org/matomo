@@ -11,9 +11,9 @@ var hasBlockedContent = false;
 (function () {
     angular.module('piwikApp.service').factory('piwikApi', piwikApiService);
 
-    piwikApiService.$inject = ['$http', '$q', '$rootScope', 'piwik', '$window'];
+    piwikApiService.$inject = ['$http', '$q', '$rootScope', 'piwik', '$window', 'piwikUrl'];
 
-    function piwikApiService ($http, $q, $rootScope, piwik, $window) {
+    function piwikApiService ($http, $q, $rootScope, piwik, $window, piwikUrl) {
 
         var url = 'index.php';
         var format = 'json';
@@ -33,7 +33,15 @@ var hasBlockedContent = false;
                 params = piwik.broadcast.getValuesFromUrl(params);
             }
 
+            var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
+
             for (var key in params) {
+                if (arrayParams.indexOf(key) !== -1
+                    && !params[key]
+                ) {
+                    continue;
+                }
+
                 getParams[key] = params[key];
             }
         }
@@ -45,10 +53,6 @@ var hasBlockedContent = false;
 
         function isRequestToApiMethod() {
             return getParams && getParams['module'] === 'API' && getParams['method'];
-        }
-
-        function isWidgetizedRequest() {
-            return (broadcast.getValueFromUrl('module') == 'Widgetize');
         }
 
         function reset () {
@@ -99,9 +103,7 @@ var hasBlockedContent = false;
 
                 if (!angular.isDefined(response) || response === null) {
                     return $q.reject(null);
-
                 } else if (isErrorResponse(response)) {
-
                     createResponseErrorNotification(response, options);
 
                     return $q.reject(response.message || null);
@@ -136,9 +138,8 @@ var hasBlockedContent = false;
 
             var ajaxCall = {
                 method: 'POST',
-                url: url,
+                url: url + '?' + $.param(mixinDefaultGetParams(getParams)),
                 responseType: requestFormat,
-                params: mixinDefaultGetParams(getParams),
                 data: $.param(getPostParams(postParams)),
                 timeout: requestPromise,
                 headers: headers
@@ -188,7 +189,7 @@ var hasBlockedContent = false;
          * @private
          */
         function getPostParams (params) {
-            if (isRequestToApiMethod() || isWidgetizedRequest()) {
+            if (isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
                 params.token_auth = piwik.token_auth;
             }
 
@@ -203,15 +204,16 @@ var hasBlockedContent = false;
          * @private
          */
         function mixinDefaultGetParams (getParamsToMixin) {
-            var segment = piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1]);
-
             // we have to decode the value manually because broadcast will not decode anything itself. if we don't,
             // angular will encode it again before sending the value in an HTTP request.
-            segment = decodeURIComponent(segment);
+            var segment = piwikUrl.getSearchParam('segment');
+            if (segment) {
+                segment = decodeURIComponent(segment);
+            }
 
             var defaultParams = {
-                idSite:  piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'),
-                period:  piwik.period || piwik.broadcast.getValueFromUrl('period'),
+                idSite:  piwik.idSite || piwikUrl.getSearchParam('idSite'),
+                period:  piwik.period || piwikUrl.getSearchParam('period'),
                 segment: segment
             };
 

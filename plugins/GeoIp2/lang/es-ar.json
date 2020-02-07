@@ -1,0 +1,12 @@
+{
+    "GeoIp2": {
+        "CannotUnzipGeoIPFile": "No se pudo descomprimir el archivo GeoIP en %1$s: %2$s",
+        "LocationProviderDesc_Php_WithExtension": "Este proveedor de ubicación se acelera al instalar la extensión %1$sMaxMindDB%2$s.",
+        "LocationProviderDesc_ServerModule": "Este proveedor de ubicación utiliza el módulo GeoIP2 que se instaló en tu servidor HTTP. Este proveedor es fiable y rápido, pero %1$ssólo puede ser usado con el rastreo común de los navegadores web.%2$s",
+        "LocationProviderDesc_ServerModule2": "Si tenés que importar archivos de registro o cualquier otra acción que requiera configurar direcciones IP, usá la %3$simplementación GeoIP2 PHP%4$s e instalá la extensión %1$sMaxMindDB%2$s.",
+        "ServerBasedVariablesConfiguration": "Configuración para variables de servidor usadas por los módulos de servidor GeoIP2",
+        "GeoIPVariablesConfigurationHere": "Podés configurar las variables de servidor usadas %1$sacá%2$s.",
+        "ShowCustomServerVariablesConfig": "Uso el módulo de servidor GeoIP2 (Nginx, Apache, etc.) y quiero configurar las variables de servidor",
+        "ServerVariableFor": "Variable de servidor para %s"
+    }
+}

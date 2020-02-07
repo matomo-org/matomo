@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -70,6 +70,11 @@ class ProxyHttp
         // if the file cannot be found return HTTP status code '404'
         if (!file_exists($file)) {
             Common::sendResponseCode(404);
+            return;
+        }
+
+        if (!is_readable($file)) {
+            Common::sendResponseCode(500);
             return;
         }
 
@@ -165,6 +170,14 @@ class ProxyHttp
             Common::sendHeader('Content-Encoding: ' . $encoding);
         }
 
+        // in case any notices were triggered before this point (eg in WordPress) etc.
+        // it would break the gzipped response since it would have mixed regular notice/string plus gzipped content
+        // and would not be able to decode the response
+        $levels = ob_get_level();
+        for ( $i = 0; $i < $levels; $i++ ) {
+            ob_end_clean();
+        }
+
         if (!_readfile($file, $byteStart, $byteEnd)) {
             Common::sendResponseCode(500);
         }
@@ -239,11 +252,10 @@ class ProxyHttp
     private static function getCompressionEncodingAcceptedByClient()
     {
         $acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-
-        if (preg_match(self::DEFLATE_ENCODING_REGEX, $acceptEncoding, $matches)) {
-            return array('deflate', '.deflate');
-        } elseif (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
+        if (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
             return array('gzip', '.gz');
+        } elseif (preg_match(self::DEFLATE_ENCODING_REGEX, $acceptEncoding, $matches)) {
+            return array('deflate', '.deflate');
         } else {
             return array(false, false);
         }

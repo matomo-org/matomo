@@ -1,8 +1,18 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Ayar Dosyası",
+        "MysqlMaxPacketSize": "En Büyük Paket Boyutu",
+        "MysqlMaxPacketSizeWarning": "MySQL veritabanınız için 'max_allowed_packet' değerini en az %1$s olarak ayarlamanız önerilir. Şu anda %2$s olarak ayarlanmış.",
         "ConfigFileIntroduction": "Matomo ayarları bu bölümde görülebilir. Matomo yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen değerlere göre değiştirilmiş olan satırlar farklı art alan renginde görüntülenir.",
         "HideUnchanged": "Yalnız değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
-        "Sections": "Bölümler"
+        "Sections": "Bölümler",
+        "DatabaseReaderConnection": "Veritabanı Okuyucu Bağlantısı",
+        "CronArchivingLastRunCheck": "Son Tamamlanmış Arşivleme İşlemi",
+        "CronArchivingHasNotRun": "Henüz tamamlanmış bir arşivleme işlemi yapılmamış.",
+        "CronArchivingHasNotRunInAWhile": "Son tamamlanmış arşivleme işlemi %1$s tarihinde %2$s önce yapılmış.",
+        "CronArchivingRunDetails": "Lütfen %1$s konsol komutunu çağıran bir zamanlanmış görev yapılandırdığınızdan ve arşivleme işleminde sorun çıkarsa hataların alınabilmesi için bir %2$s yapılandırdığınızdan emin olun. Ayrıca raporları el ile arşivlemek için şu konsol komutunu çalıştırmayı deneyebilirsiniz: %3$s. %4$sAyrıntılı bilgi alın.%5$s",
+        "CronArchivingRanSuccessfullyXAgo": "Arşivleme işlemi %1$s önce tamamlanmış.",
+        "BrowserTriggeredArchivingEnabled": "En iyi başarım ve daha hızlı bir Matomo kullanımı için raporlarınızı otomatik olarak arşivleyecek bir zamanlanmış görev yapılandırmanız ve Matomo ayarlarından web tarayıcı ile tetiklenen arşivleme özelliğini devre dışı bırakmanız önemle önerilir. %1$sAyrıntılı bilgi almak için buraya tıklayabilirsiniz.%2$s",
+        "NoDataForReportArchivingNotRun": "Yakın zamanda raporlarınız arşivlenmemiş. %1$sRaporlarınızı üretmek hakkında ayrıntılı bilgi almak için buraya tıklayabilirsiniz.%2$s"
     }
 }

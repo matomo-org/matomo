@@ -18,6 +18,9 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<creator_login>superUserLogin</creator_login>
+		<timezone_name>UTC</timezone_name>
+		<currency_name>US Dollar</currency_name>
 	</row>
 	<row>
 		<idsite>10</idsite>
@@ -37,5 +40,8 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<creator_login>superUserLogin</creator_login>
+		<timezone_name>UTC</timezone_name>
+		<currency_name>US Dollar</currency_name>
 	</row>
 </result>

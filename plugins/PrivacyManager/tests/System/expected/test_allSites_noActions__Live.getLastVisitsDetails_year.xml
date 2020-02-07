@@ -5,6 +5,7 @@
 		<idVisit>97</idVisit>
 		<visitIp>156.5.3.200</visitIp>
 		
+		<fingerprint>d5e8ac7a720f0405</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -22,10 +23,10 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -113,6 +114,7 @@
 		<idVisit>102</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -130,10 +132,10 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -221,6 +223,7 @@
 		<idVisit>109</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -238,10 +241,10 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -329,6 +332,7 @@
 		<idVisit>112</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -349,7 +353,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -437,6 +441,7 @@
 		<idVisit>116</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -457,7 +462,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -545,6 +550,7 @@
 		<idVisit>120</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -653,6 +659,7 @@
 		<idVisit>122</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -673,7 +680,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -757,6 +764,7 @@
 		<idVisit>128</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -777,7 +785,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -865,6 +873,7 @@
 		<idVisit>129</idVisit>
 		<visitIp>156.5.3.200</visitIp>
 		
+		<fingerprint>8eb6c0402c835718</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -885,7 +894,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -973,6 +982,7 @@
 		<idVisit>134</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>c37c84be07b2ab16</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -990,10 +1000,10 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1081,6 +1091,7 @@
 		<idVisit>141</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>077245205f2ee79c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1098,10 +1109,10 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1189,6 +1200,7 @@
 		<idVisit>144</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>32df9bbcdb672be6</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1209,7 +1221,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1297,6 +1309,7 @@
 		<idVisit>148</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>cdf190bfe8778de6</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1317,7 +1330,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1405,6 +1418,7 @@
 		<idVisit>152</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>7e55cc2b68c0eb44</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1513,6 +1527,7 @@
 		<idVisit>154</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>4ee1556fea48e95e</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1533,7 +1548,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1617,6 +1632,7 @@
 		<idVisit>160</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f4b430914146e6ee</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1637,7 +1653,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1725,6 +1741,7 @@
 		<idVisit>161</idVisit>
 		<visitIp>156.5.3.200</visitIp>
 		
+		<fingerprint>7d83e53fe3960b63</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1745,7 +1762,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1833,6 +1850,7 @@
 		<idVisit>166</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1850,10 +1868,10 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1941,6 +1959,7 @@
 		<idVisit>173</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1958,10 +1977,10 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2049,6 +2068,7 @@
 		<idVisit>176</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>353bbff99e5be135</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2069,7 +2089,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2157,6 +2177,7 @@
 		<idVisit>180</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2177,7 +2198,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2265,6 +2286,7 @@
 		<idVisit>184</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>ca3e24181288298d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -2373,6 +2395,7 @@
 		<idVisit>186</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>259551f545941cb4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2393,7 +2416,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2477,6 +2500,7 @@
 		<idVisit>192</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2497,7 +2521,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2585,6 +2609,7 @@
 		<idVisit>99</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2602,10 +2627,10 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2693,6 +2718,7 @@
 		<idVisit>110</idVisit>
 		<visitIp>156.5.3.204</visitIp>
 		
+		<fingerprint>45d102bfa62b9a00</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2710,10 +2736,10 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2801,6 +2827,7 @@
 		<idVisit>118</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -2909,6 +2936,7 @@
 		<idVisit>123</idVisit>
 		<visitIp>156.5.3.210</visitIp>
 		
+		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2929,7 +2957,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3017,6 +3045,7 @@
 		<idVisit>131</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>9f88465470cf09b8</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3034,10 +3063,10 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3125,6 +3154,7 @@
 		<idVisit>142</idVisit>
 		<visitIp>156.5.3.204</visitIp>
 		
+		<fingerprint>3c6f99b75d7ffea1</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3145,7 +3175,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3233,6 +3263,7 @@
 		<idVisit>150</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>fe26c54b89d1bb52</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3341,6 +3372,7 @@
 		<idVisit>155</idVisit>
 		<visitIp>156.5.3.210</visitIp>
 		
+		<fingerprint>6cd6eb47f346457c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3361,7 +3393,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3449,6 +3481,7 @@
 		<idVisit>163</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>8d8bc0ea9a9333de</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3466,10 +3499,10 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3557,6 +3590,7 @@
 		<idVisit>174</idVisit>
 		<visitIp>156.5.3.204</visitIp>
 		
+		<fingerprint>521775fbc1378e3f</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3577,7 +3611,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3665,6 +3699,7 @@
 		<idVisit>182</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bfcdab4d0d75db11</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3773,6 +3808,7 @@
 		<idVisit>187</idVisit>
 		<visitIp>156.5.3.210</visitIp>
 		
+		<fingerprint>902e8975f4e8467f</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3793,7 +3829,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3881,6 +3917,7 @@
 		<idVisit>108</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3898,8 +3935,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -3989,6 +4026,7 @@
 		<idVisit>124</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4009,10 +4047,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -4097,6 +4135,7 @@
 		<idVisit>140</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>077245205f2ee79c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4114,8 +4153,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -4205,6 +4244,7 @@
 		<idVisit>156</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f4b430914146e6ee</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4225,10 +4265,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -4313,6 +4353,7 @@
 		<idVisit>172</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4330,8 +4371,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -4421,6 +4462,7 @@
 		<idVisit>188</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4441,10 +4483,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -4529,6 +4571,7 @@
 		<idVisit>113</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4637,6 +4680,7 @@
 		<idVisit>121</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4741,6 +4785,7 @@
 		<idVisit>145</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>cdf190bfe8778de6</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4849,6 +4894,7 @@
 		<idVisit>153</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>4ee1556fea48e95e</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4953,6 +4999,7 @@
 		<idVisit>177</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5061,6 +5108,7 @@
 		<idVisit>185</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>259551f545941cb4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5165,6 +5213,7 @@
 		<idVisit>98</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5182,8 +5231,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -5273,6 +5322,7 @@
 		<idVisit>130</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>9f88465470cf09b8</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5381,6 +5431,7 @@
 		<idVisit>162</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>8d8bc0ea9a9333de</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5489,6 +5540,7 @@
 		<idVisit>107</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5506,8 +5558,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -5597,6 +5649,7 @@
 		<idVisit>111</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5614,13 +5667,13 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -5705,6 +5758,7 @@
 		<idVisit>115</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5722,8 +5776,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -5813,6 +5867,7 @@
 		<idVisit>139</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>077245205f2ee79c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5830,8 +5885,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -5921,6 +5976,7 @@
 		<idVisit>143</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>32df9bbcdb672be6</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5941,10 +5997,10 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -6029,6 +6085,7 @@
 		<idVisit>147</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>cdf190bfe8778de6</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6046,8 +6103,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -6137,6 +6194,7 @@
 		<idVisit>171</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6154,8 +6212,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -6245,6 +6303,7 @@
 		<idVisit>175</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>353bbff99e5be135</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6265,10 +6324,10 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -6353,6 +6412,7 @@
 		<idVisit>179</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6370,8 +6430,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -6461,6 +6521,7 @@
 		<idVisit>117</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6478,8 +6539,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -6569,6 +6630,7 @@
 		<idVisit>149</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>fe26c54b89d1bb52</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6677,6 +6739,7 @@
 		<idVisit>181</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bfcdab4d0d75db11</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6785,6 +6848,7 @@
 		<idVisit>101</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6802,8 +6866,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -6893,6 +6957,7 @@
 		<idVisit>127</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6910,8 +6975,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7001,6 +7066,7 @@
 		<idVisit>133</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>c37c84be07b2ab16</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7018,8 +7084,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7109,6 +7175,7 @@
 		<idVisit>159</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f4b430914146e6ee</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7126,8 +7193,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7217,6 +7284,7 @@
 		<idVisit>165</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7234,8 +7302,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7325,6 +7393,7 @@
 		<idVisit>191</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7342,8 +7411,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7433,6 +7502,7 @@
 		<idVisit>114</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7450,8 +7520,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7541,6 +7611,7 @@
 		<idVisit>146</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>cdf190bfe8778de6</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7649,6 +7720,7 @@
 		<idVisit>178</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7757,6 +7829,7 @@
 		<idVisit>106</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7774,8 +7847,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7865,6 +7938,7 @@
 		<idVisit>119</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7882,13 +7956,13 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -7973,6 +8047,7 @@
 		<idVisit>138</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>077245205f2ee79c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7990,8 +8065,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -8081,6 +8156,7 @@
 		<idVisit>151</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>7e55cc2b68c0eb44</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8104,7 +8180,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -8189,6 +8265,7 @@
 		<idVisit>170</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8206,8 +8283,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -8297,6 +8374,7 @@
 		<idVisit>183</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>ca3e24181288298d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8320,7 +8398,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -8405,6 +8483,7 @@
 		<idVisit>126</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -8422,10 +8501,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -8513,6 +8592,7 @@
 		<idVisit>158</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f4b430914146e6ee</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -8530,10 +8610,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -8621,6 +8701,7 @@
 		<idVisit>190</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -8638,10 +8719,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -8729,6 +8810,7 @@
 		<idVisit>105</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8746,8 +8828,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -8837,6 +8919,7 @@
 		<idVisit>125</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -8854,10 +8937,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -8945,6 +9028,7 @@
 		<idVisit>137</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>077245205f2ee79c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8962,8 +9046,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -9053,6 +9137,7 @@
 		<idVisit>157</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f4b430914146e6ee</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -9073,7 +9158,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -9161,6 +9246,7 @@
 		<idVisit>169</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9178,8 +9264,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -9269,6 +9355,7 @@
 		<idVisit>189</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -9289,7 +9376,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -9377,6 +9464,7 @@
 		<idVisit>104</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9394,8 +9482,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -9485,6 +9573,7 @@
 		<idVisit>136</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>077245205f2ee79c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9502,8 +9591,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -9593,6 +9682,7 @@
 		<idVisit>168</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9610,8 +9700,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -9701,6 +9791,7 @@
 		<idVisit>100</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9718,13 +9809,13 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -9809,6 +9900,7 @@
 		<idVisit>103</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9826,8 +9918,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -9917,6 +10009,7 @@
 		<idVisit>132</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>c37c84be07b2ab16</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9940,7 +10033,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -10025,6 +10118,7 @@
 		<idVisit>135</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>077245205f2ee79c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10133,6 +10227,7 @@
 		<idVisit>164</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10156,7 +10251,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -10241,6 +10336,7 @@
 		<idVisit>167</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10349,6 +10445,7 @@
 		<idVisit>65</idVisit>
 		<visitIp>156.5.3.200</visitIp>
 		
+		<fingerprint>d5e8ac7a720f0405</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -10366,10 +10463,10 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -10457,6 +10554,7 @@
 		<idVisit>70</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -10474,10 +10572,10 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -10565,6 +10663,7 @@
 		<idVisit>77</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -10582,10 +10681,10 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -10673,6 +10772,7 @@
 		<idVisit>80</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -10693,7 +10793,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -10781,6 +10881,7 @@
 		<idVisit>84</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -10801,7 +10902,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -10889,6 +10990,7 @@
 		<idVisit>88</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10997,6 +11099,7 @@
 		<idVisit>90</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11017,7 +11120,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -11101,6 +11204,7 @@
 		<idVisit>96</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11121,7 +11225,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -11209,6 +11313,7 @@
 		<idVisit>67</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11226,10 +11331,10 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -11317,6 +11422,7 @@
 		<idVisit>78</idVisit>
 		<visitIp>156.5.3.204</visitIp>
 		
+		<fingerprint>45d102bfa62b9a00</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11334,10 +11440,10 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -11425,6 +11531,7 @@
 		<idVisit>86</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -11533,6 +11640,7 @@
 		<idVisit>91</idVisit>
 		<visitIp>156.5.3.210</visitIp>
 		
+		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11553,7 +11661,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -11641,6 +11749,7 @@
 		<idVisit>76</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -11658,8 +11767,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11749,6 +11858,7 @@
 		<idVisit>92</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -11769,10 +11879,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -11857,6 +11967,7 @@
 		<idVisit>81</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -11965,6 +12076,7 @@
 		<idVisit>89</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12069,6 +12181,7 @@
 		<idVisit>66</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12086,8 +12199,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12177,6 +12290,7 @@
 		<idVisit>75</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12194,8 +12308,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12285,6 +12399,7 @@
 		<idVisit>79</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12302,13 +12417,13 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -12393,6 +12508,7 @@
 		<idVisit>83</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12410,8 +12526,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12501,6 +12617,7 @@
 		<idVisit>85</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12518,8 +12635,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12609,6 +12726,7 @@
 		<idVisit>69</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12626,8 +12744,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12717,6 +12835,7 @@
 		<idVisit>95</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12734,8 +12853,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12825,6 +12944,7 @@
 		<idVisit>82</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12842,8 +12962,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12933,6 +13053,7 @@
 		<idVisit>74</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12950,8 +13071,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13041,6 +13162,7 @@
 		<idVisit>87</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13058,13 +13180,13 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -13149,6 +13271,7 @@
 		<idVisit>94</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -13166,10 +13289,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -13257,6 +13380,7 @@
 		<idVisit>73</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13274,8 +13398,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13365,6 +13489,7 @@
 		<idVisit>93</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -13382,10 +13507,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -13473,6 +13598,7 @@
 		<idVisit>72</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13490,8 +13616,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13581,6 +13707,7 @@
 		<idVisit>68</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13598,13 +13725,13 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -13689,6 +13816,7 @@
 		<idVisit>71</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13706,8 +13834,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13797,6 +13925,7 @@
 		<idVisit>33</idVisit>
 		<visitIp>156.5.3.200</visitIp>
 		
+		<fingerprint>d5e8ac7a720f0405</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -13814,10 +13943,10 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -13905,6 +14034,7 @@
 		<idVisit>38</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -13922,10 +14052,10 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14013,6 +14143,7 @@
 		<idVisit>45</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14030,10 +14161,10 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14121,6 +14252,7 @@
 		<idVisit>48</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14141,7 +14273,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14229,6 +14361,7 @@
 		<idVisit>52</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14249,7 +14382,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14337,6 +14470,7 @@
 		<idVisit>56</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -14445,6 +14579,7 @@
 		<idVisit>58</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14465,7 +14600,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14549,6 +14684,7 @@
 		<idVisit>64</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14569,7 +14705,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14657,6 +14793,7 @@
 		<idVisit>193</idVisit>
 		<visitIp>156.5.3.200</visitIp>
 		
+		<fingerprint>7d83e53fe3960b63</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14677,7 +14814,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14765,6 +14902,7 @@
 		<idVisit>198</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14782,10 +14920,10 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14873,6 +15011,7 @@
 		<idVisit>205</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14890,10 +15029,10 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -14981,6 +15120,7 @@
 		<idVisit>208</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>353bbff99e5be135</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15001,7 +15141,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -15089,6 +15229,7 @@
 		<idVisit>212</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15109,7 +15250,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -15197,6 +15338,7 @@
 		<idVisit>216</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>ca3e24181288298d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -15305,6 +15447,7 @@
 		<idVisit>218</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>259551f545941cb4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15325,7 +15468,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -15409,6 +15552,7 @@
 		<idVisit>224</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15429,7 +15573,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -15517,6 +15661,7 @@
 		<idVisit>35</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15534,10 +15679,10 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -15625,6 +15770,7 @@
 		<idVisit>46</idVisit>
 		<visitIp>156.5.3.204</visitIp>
 		
+		<fingerprint>45d102bfa62b9a00</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15642,10 +15788,10 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -15733,6 +15879,7 @@
 		<idVisit>54</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -15841,6 +15988,7 @@
 		<idVisit>59</idVisit>
 		<visitIp>156.5.3.210</visitIp>
 		
+		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15861,7 +16009,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -15949,6 +16097,7 @@
 		<idVisit>195</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>8d8bc0ea9a9333de</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15966,10 +16115,10 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -16057,6 +16206,7 @@
 		<idVisit>206</idVisit>
 		<visitIp>156.5.3.204</visitIp>
 		
+		<fingerprint>521775fbc1378e3f</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16077,7 +16227,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -16165,6 +16315,7 @@
 		<idVisit>214</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bfcdab4d0d75db11</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16273,6 +16424,7 @@
 		<idVisit>219</idVisit>
 		<visitIp>156.5.3.210</visitIp>
 		
+		<fingerprint>902e8975f4e8467f</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16293,7 +16445,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -16381,6 +16533,7 @@
 		<idVisit>44</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16398,8 +16551,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -16489,6 +16642,7 @@
 		<idVisit>60</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16509,10 +16663,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -16597,6 +16751,7 @@
 		<idVisit>204</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16614,8 +16769,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -16705,6 +16860,7 @@
 		<idVisit>220</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16725,10 +16881,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -16813,6 +16969,7 @@
 		<idVisit>49</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16921,6 +17078,7 @@
 		<idVisit>57</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17025,6 +17183,7 @@
 		<idVisit>209</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17133,6 +17292,7 @@
 		<idVisit>217</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>259551f545941cb4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17237,6 +17397,7 @@
 		<idVisit>34</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17254,8 +17415,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17345,6 +17506,7 @@
 		<idVisit>194</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>8d8bc0ea9a9333de</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17453,6 +17615,7 @@
 		<idVisit>43</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17470,8 +17633,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17561,6 +17724,7 @@
 		<idVisit>47</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17578,13 +17742,13 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -17669,6 +17833,7 @@
 		<idVisit>51</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17686,8 +17851,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17777,6 +17942,7 @@
 		<idVisit>203</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17794,8 +17960,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17885,6 +18051,7 @@
 		<idVisit>207</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>353bbff99e5be135</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17905,10 +18072,10 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -17993,6 +18160,7 @@
 		<idVisit>211</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18010,8 +18178,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18101,6 +18269,7 @@
 		<idVisit>53</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18118,8 +18287,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18209,6 +18378,7 @@
 		<idVisit>213</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bfcdab4d0d75db11</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18317,6 +18487,7 @@
 		<idVisit>37</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18334,8 +18505,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18425,6 +18596,7 @@
 		<idVisit>63</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18442,8 +18614,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18533,6 +18705,7 @@
 		<idVisit>197</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18550,8 +18723,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18641,6 +18814,7 @@
 		<idVisit>223</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18658,8 +18832,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18749,6 +18923,7 @@
 		<idVisit>50</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18766,8 +18941,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18857,6 +19032,7 @@
 		<idVisit>210</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>075ecf13a1e1c3d5</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18965,6 +19141,7 @@
 		<idVisit>42</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18982,8 +19159,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -19073,6 +19250,7 @@
 		<idVisit>55</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19090,13 +19268,13 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -19181,6 +19359,7 @@
 		<idVisit>202</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19198,8 +19377,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -19289,6 +19468,7 @@
 		<idVisit>215</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>ca3e24181288298d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19312,7 +19492,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -19397,6 +19577,7 @@
 		<idVisit>62</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -19414,10 +19595,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -19505,6 +19686,7 @@
 		<idVisit>222</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -19522,10 +19704,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -19613,6 +19795,7 @@
 		<idVisit>41</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19630,8 +19813,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -19721,6 +19904,7 @@
 		<idVisit>61</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -19738,10 +19922,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -19829,6 +20013,7 @@
 		<idVisit>201</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19846,8 +20031,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -19937,6 +20122,7 @@
 		<idVisit>221</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>f71dd0793e981b1d</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -19957,7 +20143,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -20045,6 +20231,7 @@
 		<idVisit>40</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20062,8 +20249,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -20153,6 +20340,7 @@
 		<idVisit>200</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20170,8 +20358,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -20261,6 +20449,7 @@
 		<idVisit>36</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20278,13 +20467,13 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -20369,6 +20558,7 @@
 		<idVisit>39</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20386,8 +20576,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -20477,6 +20667,7 @@
 		<idVisit>196</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20500,7 +20691,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -20585,6 +20776,7 @@
 		<idVisit>199</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>15a82f79c9664e1c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20693,6 +20885,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.200</visitIp>
 		
+		<fingerprint>d5e8ac7a720f0405</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -20713,7 +20906,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -20801,6 +20994,7 @@
 		<idVisit>6</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -20818,10 +21012,10 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -20909,6 +21103,7 @@
 		<idVisit>13</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -20926,10 +21121,10 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21017,6 +21212,7 @@
 		<idVisit>16</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21037,7 +21233,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21125,6 +21321,7 @@
 		<idVisit>20</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21145,7 +21342,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21233,6 +21430,7 @@
 		<idVisit>24</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -21341,6 +21539,7 @@
 		<idVisit>26</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21361,7 +21560,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21445,6 +21644,7 @@
 		<idVisit>32</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21465,7 +21665,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21553,6 +21753,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21570,10 +21771,10 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21661,6 +21862,7 @@
 		<idVisit>14</idVisit>
 		<visitIp>156.5.3.204</visitIp>
 		
+		<fingerprint>45d102bfa62b9a00</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21681,7 +21883,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21769,6 +21971,7 @@
 		<idVisit>22</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -21877,6 +22080,7 @@
 		<idVisit>27</idVisit>
 		<visitIp>156.5.3.210</visitIp>
 		
+		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21897,7 +22101,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -21985,6 +22189,7 @@
 		<idVisit>12</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22002,8 +22207,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22093,6 +22298,7 @@
 		<idVisit>28</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22113,10 +22319,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -22201,6 +22407,7 @@
 		<idVisit>17</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22309,6 +22516,7 @@
 		<idVisit>25</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
+		<fingerprint>9ff28a3b61810f93</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22413,6 +22621,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.201</visitIp>
 		
+		<fingerprint>862f8758e8a04856</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22521,6 +22730,7 @@
 		<idVisit>11</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22538,8 +22748,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22629,6 +22839,7 @@
 		<idVisit>15</idVisit>
 		<visitIp>156.5.3.205</visitIp>
 		
+		<fingerprint>e047d32ffaa9b618</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22649,10 +22860,10 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -22737,6 +22948,7 @@
 		<idVisit>19</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22754,8 +22966,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22845,6 +23057,7 @@
 		<idVisit>21</idVisit>
 		<visitIp>156.5.3.207</visitIp>
 		
+		<fingerprint>bb05333df7a99d87</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22953,6 +23166,7 @@
 		<idVisit>5</idVisit>
 		<visitIp>156.5.3.202</visitIp>
 		
+		<fingerprint>98850fa73c0eaad4</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22970,8 +23184,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23061,6 +23275,7 @@
 		<idVisit>31</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23078,8 +23293,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23169,6 +23384,7 @@
 		<idVisit>18</idVisit>
 		<visitIp>156.5.3.206</visitIp>
 		
+		<fingerprint>8e7e63b0a38f8882</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23277,6 +23493,7 @@
 		<idVisit>10</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23294,8 +23511,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23385,6 +23602,7 @@
 		<idVisit>23</idVisit>
 		<visitIp>156.5.3.208</visitIp>
 		
+		<fingerprint>2622a9fc22265dd0</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23408,7 +23626,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
@@ -23493,6 +23711,7 @@
 		<idVisit>30</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -23510,10 +23729,10 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -23601,6 +23820,7 @@
 		<idVisit>9</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23618,8 +23838,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23709,6 +23929,7 @@
 		<idVisit>29</idVisit>
 		<visitIp>156.5.3.211</visitIp>
 		
+		<fingerprint>2ed71e854068fc9c</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -23729,7 +23950,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -23817,6 +24038,7 @@
 		<idVisit>8</idVisit>
 		<visitIp>156.5.3.203</visitIp>
 		
+		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23834,8 +24056,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>

@@ -17,20 +17,22 @@
             result.push([customVar.name, customVar.value]);
         });
         return result;
-    };
+    }
 
     // quickly gets the host + port from a url
     function getHostNameFromUrl(url) {
         var element = $('<a></a>')[0];
         element.href = url;
         return element.hostname;
-    };
+    }
 
     angular.module('piwikApp').controller('JsTrackingCodeController', JsTrackingCodeController);
 
-    JsTrackingCodeController.$inject = ['$scope', 'piwikApi'];
+    JsTrackingCodeController.$inject = ['$scope', '$filter', 'piwikApi'];
 
-    function JsTrackingCodeController($scope, piwikApi) {
+    function JsTrackingCodeController($scope, $filter, piwikApi) {
+
+        var translate = $filter('translate');
 
         this.showAdvanced = false;
         this.isLoading = false;
@@ -88,7 +90,8 @@
                 doNotTrack: self.doNotTrack ? 1 : 0,
                 disableCookies: self.disableCookies ? 1 : 0,
                 crossDomain: self.crossDomain ? 1 : 0,
-                trackNoScript: self.trackNoScript ? 1: 0
+                trackNoScript: self.trackNoScript ? 1: 0,
+                forceMatomoEndpoint: 1
             };
 
             if (self.useCustomCampaignParams) {
@@ -139,11 +142,22 @@
             generateJsCode(true);
         };
 
+        this.sendEmail = function() {
+            var subjectLine = translate('SitesManager_EmailInstructionsSubject');
+
+            var trackingCode = self.trackingCode;
+            trackingCode = trackingCode.replace(/<[^>]+>/g, '');
+            var bodyText = translate('SitesManager_JsTrackingTagHelp')  + '. '
+                + translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail', "'head")
+                + "\n" + trackingCode;
+
+            var linkText = 'mailto:?subject=' + encodeURIComponent(subjectLine) + '&body=' + encodeURIComponent(bodyText);
+            window.location.href = linkText;
+        };
+
         this.changeSite = function (trackingCodeChangedManually) {
-
-            $('.current-site-name').html(self.site.name);
-
             getSiteData(this.site.id, '#js-code-options', function () {
+                $('.current-site-name').text(self.site.name);
 
                 self.hasManySiteUrls = self.siteUrls[self.site.id] && self.siteUrls[self.site.id].length > 1;
 

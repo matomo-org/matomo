@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Kattints ide a végrehajtásra kerülő SQL parancsok listájának megtekintéséhez vagy kimásolásához.",
         "CriticalErrorDuringTheUpgradeProcess": "Kritikus hiba lépett fel a frissítés során:",
         "DatabaseUpgradeRequired": "Adatbázis-frissítés szükséges",
         "DownloadingUpdateFromX": "Frissítés letöltése innen: %s",

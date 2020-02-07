@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "انقر هنا لمشاهدة ونسخ قائمة استعلامات SQL والتي سيتم تنفيذها.",
         "CriticalErrorDuringTheUpgradeProcess": "خطأ حرج أثناء عملية التحديث:",
         "DatabaseUpgradeRequired": "تحديث قاعدة البيانات مطلوب",
         "DownloadingUpdateFromX": "جاري تحميل التحديث من %s",

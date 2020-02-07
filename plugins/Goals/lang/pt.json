@@ -43,7 +43,7 @@
         "DaysToConv": "Dias para a conversão",
         "Details": "Detalhes do objetivo",
         "DefaultGoalConvertedOncePerVisit": "(predefinido) Um objetivo só pode ser convertido uma vez por visita",
-        "DefaultRevenue": "A receita predefinida do objetivo é",
+        "DefaultRevenueLabel": "Rendimento predefinido do objetivo",
         "DefaultRevenueHelp": "Por exemplo, um formulário de contacto submetido por um visitante pode valer em média $10. O Matomo ajuda-o a perceber como os seus segmentos de visitantes se estão a comportar.",
         "DeleteGoalConfirm": "Tem a certeza que deseja eliminar o objetivo %s?",
         "DocumentationRevenueGeneratedByProductSales": "Vendas de produtos. Excluindo taxas, transporte e descontos.",
@@ -65,6 +65,8 @@
         "GoalName": "Nome do objetivo",
         "Goals": "Objetivos",
         "NGoals": "%s objetivos",
+        "NRevenue": "%s de rendimento",
+        "NItems": "%s itens",
         "ManageGoals": "Gerir objetivos",
         "GoalsOverview": "Vista geral dos objetivos",
         "GoalsOverviewDocumentation": "Esta é uma visão geral das suas conversões de objetivos. Inicialmente, o gráfico mostra a soma de todas as conversões. %s Abaixo do gráfico, você pode ver relatórios de conversão para cada um dos seus objetivos. Os gráficos Sparkline podem ser ampliados clicando sobre os mesmos.",
@@ -107,9 +109,18 @@
         "VisitPageTitle": "Visita num título de página específico",
         "VisitsUntilConv": "Visitas até à conversão",
         "VisitUrl": "Visitar um dado endereço (página ou grupo de páginas)",
+        "VisitDurationMatchAttr": "Ficar por um determinado período de tempo",
+        "VisitDuration": "a duração da visita é",
         "WhenVisitors": "quando os visitantes",
         "WhereThe": "onde o",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "As páginas visitadas necessitam de conter uma invocação ao método JavaScript 'trackGoal' (%1$ssaber mais%2$s)",
-        "YouCanEnableEcommerceReports": "Pode ativar %1$s para este site na página %2$s."
+        "YouCanEnableEcommerceReports": "Pode ativar %1$s para este site na página %2$s.",
+        "UseEventValueAsRevenue": "Utilizar o valor do evento (se este existir) como o rendimento da conversão do objetivo.",
+        "GoalRevenue": "Rendimento do objetivo",
+        "EventValueAsRevenueHelp": "Se o evento que está a corresponder tem um rendimento e, se esse rendimento é acompanhado como o valor do evento, pode ativar esta opção para registar o valor do evento como rendimento da conversão do objetivo. Se o rendimento do objetivo não vai variar por conversão, pode ignorar esta opção e definir apenas um valor predefinido de rendimento acima.",
+        "EventValueAsRevenueHelp2": "Nota: Se estiverem definidos o rendimento predefinido do objetivo e o valor do evento, será utilizado o valor do evento. Se esta opção estiver ativa e se nenhum valor de evento for enviado num pedido, será utilizador o valor predefinido de rendimento (se definido).",
+        "AtLeastMinutes": "pelo menos %1$s minutos. Utilize decimais para corresponder segundos, por exemplo, %2$s para corresponder 30 segundos.",
+        "TimeInMinutes": "Tempo em minutos",
+        "ClickToViewThisGoal": "Clique para ver este objetivo."
     }
 }

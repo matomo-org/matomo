@@ -8,6 +8,10 @@
     {% elseif value is null %}
     {% elseif value is emptyString %}
         ''
+    {% elseif value is empty %}
+        []
+    {% elseif value is iterable %}
+        <div class="pre">{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</div>
     {% else %}
         {{ value|join(', ') }}
     {% endif %}

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -21,6 +21,7 @@ use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
+use Psr\Log\LoggerInterface;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -64,6 +65,9 @@ class FrontController extends Singleton
     const DEFAULT_LOGIN = 'anonymous';
     const DEFAULT_TOKEN_AUTH = 'anonymous';
 
+    // public for tests
+    public static $requestId = null;
+
     /**
      * Set to false and the Front Controller will not dispatch the request
      *
@@ -104,14 +108,29 @@ class FrontController extends Singleton
      */
     private static function generateSafeModeOutputFromException($e)
     {
+        StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+            'exception' => $e,
+            'ignoreInScreenWriter' => true,
+        ]);
+
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
-            'line' => $e->getLine()
+            'line' => $e->getLine(),
         );
 
-        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-            $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n" . $e->getTraceAsString();
+        if (isset(self::$requestId)) {
+            $error['request_id'] = self::$requestId;
+        }
+
+        $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
+        $error['backtrace'] .= $e->getTraceAsString();
+
+        $exception = $e;
+        while ($exception = $exception->getPrevious()) {
+            $error['backtrace'] .= "\ncaused by: " . $exception->getMessage();
+            $error['backtrace'] .= ' on ' . $exception->getFile() . '(' . $exception->getLine() . ")\n";
+            $error['backtrace'] .= $exception->getTraceAsString();
         }
 
         return self::generateSafeModeOutputFromError($error);
@@ -234,11 +253,19 @@ class FrontController extends Singleton
     public static function triggerSafeModeWhenError()
     {
         $lastError = error_get_last();
+
+        if (!empty($lastError) && isset(self::$requestId)) {
+            $lastError['request_id'] = self::$requestId;
+        }
+
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
-                    . ErrorHandler::getFatalErrorPartialBacktrace();
-            }
+            $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+                . ErrorHandler::getFatalErrorPartialBacktrace();
+
+            StaticContainer::get(LoggerInterface::class)->error('Fatal error encountered: {exception}', [
+                'exception' => $lastError,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
@@ -261,6 +288,8 @@ class FrontController extends Singleton
         if ($this->initialized) {
             return;
         }
+
+        self::setRequestIdHeader();
 
         $this->initialized = true;
 
@@ -373,6 +402,8 @@ class FrontController extends Singleton
         if (!$loggedIn) {
             $authAdapter = $this->makeAuthenticator();
             Access::getInstance()->reloadAccess($authAdapter);
+        } else {
+            $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
@@ -595,6 +626,10 @@ class FrontController extends Singleton
             return;
         }
 
+        if (!StaticContainer::get('EnableDbVersionCheck')) {
+            return;
+        }
+
         $updater = new Updater();
 
         $dbSchemaVersion = $updater->getCurrentComponentVersion('core');
@@ -617,7 +652,7 @@ class FrontController extends Singleton
 
         // the session must be started before using the session authenticator,
         // so we do it here, if this is not an API request.
-        if (SettingsPiwik::isPiwikInstalled()
+        if (SettingsPiwik::isMatomoInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
             /**
@@ -632,7 +667,7 @@ class FrontController extends Singleton
         return null;
     }
 
-    private function makeAuthenticator()
+    private function makeAuthenticator(SessionAuth $auth = null)
     {
         /**
          * Triggered before the user is authenticated, when the global authentication object
@@ -662,9 +697,28 @@ class FrontController extends Singleton
             throw $ex;
         }
 
-        $authAdapter->setLogin(self::DEFAULT_LOGIN);
-        $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
+        if ($auth) {
+            $authAdapter->setLogin($auth->getLogin());
+            $authAdapter->setTokenAuth($auth->getTokenAuth());
+        } else {
+            $authAdapter->setLogin(self::DEFAULT_LOGIN);
+            $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
+        }
 
         return $authAdapter;
+    }
+
+    public static function getUniqueRequestId()
+    {
+        if (self::$requestId === null) {
+            self::$requestId = substr(Common::generateUniqId(), 0, 5);
+        }
+        return self::$requestId;
+    }
+
+    private static function setRequestIdHeader()
+    {
+        $requestId = self::getUniqueRequestId();
+        Common::sendHeader("X-Matomo-Request-Id: $requestId");
     }
 }

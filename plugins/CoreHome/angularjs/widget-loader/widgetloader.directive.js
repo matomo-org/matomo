@@ -19,9 +19,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikWidgetLoader', piwikWidgetLoader);
 
-    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location', 'notifications'];
+    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location', 'notifications', '$rootScope', '$timeout', 'piwikComparisonsService'];
 
-    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location, notifications){
+    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location, notifications, $rootScope, $timeout, piwikComparisonsService){
         return {
             restrict: 'A',
             transclude: true,
@@ -71,6 +71,10 @@
 
                         var $urlParams = $location.search();
 
+                        delete $urlParams['comparePeriods[]'];
+                        delete $urlParams['compareDates[]'];
+                        delete $urlParams['compareSegments[]'];
+
                         if ($.isEmptyObject($urlParams) || !$urlParams || !$urlParams['idSite']) {
                             // happens eg in exported widget etc when URL does not have #?...
                             $urlParams = {idSite: 'idSite', period: 'period',date: 'date'};
@@ -93,11 +97,22 @@
                             }
                         });
 
+                        if (piwikComparisonsService.isComparisonEnabled()) {
+                            ['comparePeriods', 'compareDates', 'compareSegments'].forEach(function (paramName) {
+                                var value = piwikUrl.getSearchParam(paramName);
+                                if (value) {
+                                    var map = {};
+                                    map[paramName] = value;
+                                    url += '&' + $.param(map);
+                                }
+                            });
+                        }
+
                         if (!parameters || !('showtitle' in parameters)) {
                             url += '&showtitle=1';
                         }
 
-                        if (broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('token_auth')) {
+                        if (piwik.shouldPropagateTokenAuth && broadcast.getValueFromUrl('token_auth')) {
                             url += '&token_auth=' + broadcast.getValueFromUrl('token_auth');
                         }
 
@@ -117,7 +132,7 @@
 
                         httpCanceler = $q.defer();
 
-                        $http.get(url, {timeout: httpCanceler.promise}).then(function(response) {
+                        $http.get(url, {timeout: httpCanceler.promise, headers: {'X-Requested-With': 'XMLHttpRequest'}}).then(function(response) {
                             if (thisChangeId !== changeCounter || !response.data) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
@@ -136,19 +151,25 @@
                             if (scope.widgetName) {
                                 // we need to respect the widget title, which overwrites a possibly set report title
                                 var $title = currentElement.find('> .card-content .card-title');
-                                if ($title.length) {
-                                    $title.text(scope.widgetName);
-                                } else {
+                                if (!$title.length) {
                                     $title = currentElement.find('> h2');
-                                    if ($title.length) {
-                                        $title.text(scope.widgetName);
-                                    }
+                                }
+
+                                if ($title.length) {
+                                    $title.html(piwik.helper.htmlEntities(scope.widgetName));
                                 }
                             }
 
                             $compile(currentElement)(newScope);
 
                             notifications.parseNotificationDivs();
+
+                            $timeout(function () {
+                                $rootScope.$emit('widget:loaded', {
+                                    parameters: parameters,
+                                    element: currentElement,
+                                });
+                            });
                         })['catch'](function () {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response

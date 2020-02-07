@@ -1,13 +1,13 @@
 .widget {
     .font-default(13px, 18px);
     background: @theme-color-widget-background;
-    border: 1px solid @theme-color-widget-border;
     border-radius: 2px;
     position: relative;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.14),0 1px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.12);
+    box-shadow: @default-box-shade;
+    border: 1px solid @theme-color-widget-background !important;
 
     &:hover, &:focus {
-        box-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+        box-shadow: @default-box-shade;
     }
 
     h2 {
@@ -22,7 +22,7 @@
         margin: 0;
         color: @theme-color-text;
         text-shadow: none;
-        padding: 15px 15px 10px 12px;
+        padding: 22px 15px 16px 12px !important;
     }
     p {
         margin-left: 10px;
@@ -58,6 +58,7 @@
             position: absolute;
             padding-left: 50px;
             display: none;
+            top: 7px;
             color: @theme-color-widget-title-text;
             background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
             background: -webkit-linear-gradient(left,rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);

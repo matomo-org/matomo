@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -148,6 +148,25 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(0, count($this->getConversionItems()));
     }
 
+    public function test_trackingEcommerceOrder_FailsWhenNonUniqueOrderIsUsed()
+    {
+        $ecItems = array(array("\"scarysku&", "superscarymovie'", 'scary <> movies', 12.99, 1));
+
+        $urlToTest = $this->getEcommerceItemsUrl($ecItems);
+
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        Fixture::checkResponse($response);
+
+        $this->assertEquals(1, $this->getCountOfConversions());
+        $this->assertEquals(1, count($this->getConversionItems()));
+
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        $this->assertContains('This resource is part of Matomo.', $response);
+
+        $this->assertEquals(1, $this->getCountOfConversions());
+        $this->assertEquals(1, count($this->getConversionItems()));
+    }
+
     public function test_trackingWithLangParameter_ForwardsLangParameter_ToDefaultLocationProvider()
     {
         LocationProvider::$providers = null;
@@ -224,7 +243,7 @@ class TrackerTest extends IntegrationTestCase
 
     protected function issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed)
     {
-        $piwikHost = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php';
+        $piwikHost = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php';
 
         $command = 'curl -s -X POST -d \'{"requests":["?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&rec=1","?idsite=1&url=http://example.net/test.htm&action_name=Another bulk page view&rec=1"],"token_auth":"' . $token_auth . '"}\' ' . $piwikHost;
 
@@ -251,7 +270,7 @@ class TrackerTest extends IntegrationTestCase
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php' . $url);
+        curl_setopt($ch, CURLOPT_URL, Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php' . $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -392,7 +411,8 @@ class TrackerTest extends IntegrationTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Tests.log.allowAllHandlers' => true,
         );
     }
 

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -35,6 +35,12 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addMeasurableItem('CoreAdminHome_TrackingCode',
                 $this->urlForAction('trackingCodeGenerator'),
                 $order = 12);
+        }
+
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            $menu->addDiagnosticItem('CoreAdminHome_TrackingFailures',
+                $this->urlForAction('trackingFailures'),
+                $order = 2);
         }
     }
 

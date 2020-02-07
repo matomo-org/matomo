@@ -15,6 +15,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<segment>siteSearchKeyword==a+keyword</segment>
 	</row>
 	<row>
 		<label>non unicode keyword </label>
@@ -30,6 +31,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==non%2Bunicode%2Bkeyword%2B%25EC%25E5%25F8%25EA%25EE%25E2%25FB%25E5</segment>
 	</row>
 	<row>
 		<label>Search 2ü</label>
@@ -45,6 +47,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==Search+2%C3%BC</segment>
 	</row>
 	<row>
 		<label>мешковые</label>
@@ -60,5 +63,6 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==%D0%BC%D0%B5%D1%88%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5</segment>
 	</row>
 </result>

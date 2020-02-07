@@ -7,61 +7,58 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// required modules
-config = require("./../../UI/config.dist");
-try {
-    var localConfig = require("./../../UI/config");
-} catch (e) {
-    localConfig = null;
-}
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // ignore ssl errors
 
-if (localConfig) {
-    for (var prop in localConfig) {
-        if (localConfig.hasOwnProperty(prop)) {
-            config[prop] = localConfig[prop];
-        }
-    }
-}
-
-// assume the URI points to a folder and make sure Piwik won't cut off the last path segment
-if (config.phpServer.REQUEST_URI.slice(-1) != '/') {
-    config.phpServer.REQUEST_URI += '/';
-}
-
+const path = require('path');
+const puppeteer = require('puppeteer');
+const setUpGlobals = require('./support/globals.js');
+const Mocha = require('mocha');
+const chai = require('chai');
+const chaiFiles = require('chai-files');
 require('./support/fs-extras');
 
-phantom.injectJs('./support/globals.js');
+main();
 
-console.log('PhantomJS version: ' + phantom.version.major + '.' + phantom.version.minor + '.' + phantom.version.patch);
+async function main() {
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--ignore-certificate-errors'] });
+    const webpage = await browser.newPage();
+    await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
 
-// make sure script works wherever it's executed from
-require('fs').changeWorkingDirectory(__dirname);
+    // required modules
+    let config = require("./../../UI/config.dist");
+    try {
+        config = Object.assign({}, config, require("./../../UI/config"));
+    } catch (e) {
+        // ignore
+    }
 
-// load mocha + chai
-require('./support/mocha-loader');
-phantom.injectJs(chaiPath);
-require('./support/chai-extras');
+    // assume the URI points to a folder and make sure Piwik won't cut off the last path segment
+    if (config.phpServer.REQUEST_URI.slice(-1) !== '/') {
+        config.phpServer.REQUEST_URI += '/';
+    }
 
-// load & configure resemble (for comparison)
-phantom.injectJs(resemblePath);
+    setUpGlobals(config, webpage);
 
-resemble.outputSettings({
-    errorColor: {
-        red: 255,
-        green: 0,
-        blue: 0,
-        alpha: 125
-    },
-    errorType: 'movement',
-    transparency: 0.3,
-    largeImageThreshold: 20000
-});
+    mocha = new Mocha({
+        ui: 'bdd',
+        reporter: config.reporter,
+        bail: false,
+        useColors: true,
+        timeout: options.timeout || 240000,
+    });
 
-// run script
-if (options['help']) {
-    app.printHelpAndExit();
+    const imageAssert = require('./support/chai-extras');
+    chai.use(imageAssert());
+    chai.use(chaiFiles);
+
+    // run script
+    if (options['help']) {
+        app.printHelpAndExit();
+    }
+
+    // the mocha-super-suite imports the individual specs. kept for expedience when converting to chromium
+    // headless.
+    mocha.addFile(path.join(__dirname, 'mocha-super-suite.js'));
+
+    app.runTests(mocha)
 }
-
-app.init();
-app.loadTestModules();
-app.runTests();

@@ -2,33 +2,129 @@
 <result>
 	<row>
 		<label>foo</label>
+		<nb_visits>4</nb_visits>
+		<nb_hits>6</nb_hits>
+		<sum_time_spent>2520</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>8</entry_nb_actions>
+		<entry_sum_visit_length>2161</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>420</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>25%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffoo</segment>
+		<subtable>
+			<row>
+				<label>/bar.html</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>2</nb_hits>
+				<sum_time_spent>1080</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>8</entry_nb_actions>
+				<entry_sum_visit_length>2161</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<avg_time_on_page>540</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<url>http://example.org/foo/bar.html</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Ffoo%252Fbar.html</segment>
+			</row>
+			<row>
+				<label>/bar2.html</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>2</nb_hits>
+				<sum_time_spent>720</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<avg_time_on_page>360</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<url>https://www.example.org/foo/bar2.html</url>
+				<segment>pageUrl==https%253A%252F%252Fwww.example.org%252Ffoo%252Fbar2.html</segment>
+			</row>
+			<row>
+				<label>/bar3.html</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>720</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<avg_time_on_page>720</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<url>http://www.example.org/foo/bar3.html</url>
+				<segment>pageUrl==http%253A%252F%252Fwww.example.org%252Ffoo%252Fbar3.html</segment>
+			</row>
+			<row>
+				<label>/bar4.html</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>https://example.org/foo/bar4.html</url>
+				<segment>pageUrl==https%253A%252F%252Fexample.org%252Ffoo%252Fbar4.html</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>/?emoji=�l&amp;param=test</label>
 		<nb_visits>1</nb_visits>
-		<nb_hits>2</nb_hits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>https://make.wordpress.org/?emoji=�l&amp;param=test</url>
+		<segment>pageUrl==https%253A%252F%252Fmake.wordpress.org%252F%253Femoji%253D%25EF%25BF%25BDl%2526param%253Dtest</segment>
+	</row>
+	<row>
+		<label>/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
 		<sum_time_spent>360</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>180</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<subtable>
-			<row>
-				<label>/bar2.html</label>
-				<nb_visits>1</nb_visits>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>2</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
-				<sum_bandwidth>0</sum_bandwidth>
-				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-				<min_bandwidth />
-				<max_bandwidth />
-				<avg_time_on_page>180</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<url>https://www.example.org/foo/bar2.html</url>
-			</row>
-		</subtable>
+		<url>http://www.my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ</url>
+		<segment>pageUrl==http%253A%252F%252Fwww.my.url%252F%25EA%259F%25BD%25EF%25A4%25BB%25E3%2592%25A7%25E4%258A%25B6%25E4%25BA%2584%25EF%25B6%2586%25E2%2585%2585%25E0%25B8%2582%25CE%25BA%25E3%2582%2582%25E1%258A%25B8%25E1%25BD%25B9%25CF%2583%25E0%25A4%25B6%25CE%25BC%25CE%25B5%25DE%2596%25E0%25A5%2583</segment>
 	</row>
 </result>

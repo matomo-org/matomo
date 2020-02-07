@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Metrics;
@@ -27,9 +27,6 @@ class Formatter
 {
     const PROCESSED_METRICS_FORMATTED_FLAG = 'processed_metrics_formatted';
 
-    private $decimalPoint = null;
-    private $thousandsSeparator = null;
-
     /**
      * Returns a prettified string representation of a number. The result will have
      * thousands separators and a decimal point specific to the current locale, eg,
@@ -41,14 +38,7 @@ class Formatter
      */
     public function getPrettyNumber($value, $precision = 0)
     {
-        if ($this->decimalPoint === null) {
-            $locale = localeconv();
-
-            $this->decimalPoint = $locale['decimal_point'];
-            $this->thousandsSeparator = $locale['thousands_sep'];
-        }
-
-        return number_format($value, $precision, $this->decimalPoint, $this->thousandsSeparator);
+        return NumberFormatter::getInstance()->formatNumber($value, $precision);
     }
 
     /**
@@ -154,30 +144,8 @@ class Formatter
      */
     public function getPrettyMoney($value, $idSite)
     {
-        $space = ' ';
         $currencySymbol = Site::getCurrencySymbolFor($idSite);
-        $currencyBefore =  $currencySymbol . $space;
-        $currencyAfter = '';
-        // (maybe more currencies prefer this notation?)
-        $currencySymbolToAppend = array('€', 'kr', 'zł');
-        // manually put the currency symbol after the amount
-        if (in_array($currencySymbol, $currencySymbolToAppend)) {
-            $currencyAfter = $space . $currencySymbol;
-            $currencyBefore = '';
-        }
-        // if the input is a number (it could be a string or INPUT form),
-        // and if this number is not an int, we round to precision 2
-        if (is_numeric($value)) {
-            if ($value == round($value)) {
-                // 0.0 => 0
-                $value = round($value);
-            } else {
-                $precision = GoalManager::REVENUE_PRECISION;
-                $value = sprintf("%01." . $precision . "f", $value);
-            }
-        }
-        $prettyMoney = $currencyBefore . $value . $currencyAfter;
-        return $prettyMoney;
+        return NumberFormatter::getInstance()->formatCurrency($value, $currencySymbol, GoalManager::REVENUE_PRECISION);
     }
 
     /**
@@ -190,8 +158,7 @@ class Formatter
      */
     public function getPrettyPercentFromQuotient($value)
     {
-        $result = ($value * 100) . '%';
-        return Common::forceDotAsSeparatorForDecimalPoint($result);
+        return NumberFormatter::getInstance()->formatPercent($value * 100, 4, 0);
     }
 
     /**
@@ -240,7 +207,11 @@ class Formatter
         foreach ($dataTable->getRows() as $row) {
             $subtable = $row->getSubtable();
             if (!empty($subtable)) {
-                $this->formatMetrics($subtable, $report, $metricsToFormat);
+                $this->formatMetrics($subtable, $report, $metricsToFormat, $formatAll);
+            }
+            $comparisons = $row->getComparisons();
+            if (!empty($comparisons)) {
+                $this->formatMetrics($comparisons, $report, $metricsToFormat, $formatAll);
             }
         }
 

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminController;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\Tracker\Cache;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -28,6 +29,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
         $this->trustedHostnames = $this->createTrustedHostnames();
         $this->trustedHostnames->setIsWritableByCurrentUser($isWritable);
+
+        $isWritable = Piwik::hasUserSuperUserAccess();
         $this->corsDomains = $this->createCorsDomains();
         $this->corsDomains->setIsWritableByCurrentUser($isWritable);
     }
@@ -60,4 +63,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
+    public function save()
+    {
+        parent::save();
+        Cache::deleteTrackerCache();
+    }
 }

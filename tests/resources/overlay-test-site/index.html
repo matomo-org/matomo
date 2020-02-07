@@ -81,12 +81,12 @@
 
     <script type="text/javascript">
         var pkBaseURL = (("https:" == document.location.protocol) ? "https://%trackerBaseUrl%" : "http://%trackerBaseUrl%");
-        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "matomo.js' type='text/javascript'%3E%3C/script%3E"));
     </script>
     <script>
         var pkBaseURL = (("https:" == document.location.protocol) ? "https://%trackerBaseUrl%" : "http://%trackerBaseUrl%");
         try {
-            var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 3);
+            var piwikTracker = Piwik.getTracker(pkBaseURL + "matomo.php", 3);
             piwikTracker.setCookieDomain('*.piwik.org');
 
             piwikTracker.trackPageView();

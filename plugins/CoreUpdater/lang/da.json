@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Klik her for at se og kopiere listen over SQL-forespørgsler, der vil blive udført",
         "CriticalErrorDuringTheUpgradeProcess": "Kritisk fejl under opdateringen:",
         "DatabaseUpgradeRequired": "Database opdatering er nødvendig",
         "DisablingIncompatiblePlugins": "Deaktivere inkompatible programudvidelsen: %s",

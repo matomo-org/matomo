@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -191,6 +191,13 @@ class ApiTestConfig
      * @param bool
      */
     public $keepLiveIds = false;
+
+    /**
+     * For format=original tests. Will forego comparison w/ expected files and just make sure unserialize works.
+     *
+     * @var bool
+     */
+    public $onlyCheckUnserialize = false;
 
     /**
      * Constructor. Sets class properties using an associative array mapping property names w/ values.

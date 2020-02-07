@@ -8,8 +8,6 @@
         "PreviousVisitor": "Prijašnji posjetitelj",
         "Referrer_URL": "Referrer URL",
         "ShowMap": "pokaži mapu",
-        "VisitedPages": "Posjećene stranice",
-        "VisitorLog": "Zapis posjeta",
-        "VisitorsInRealTime": "Posjete u stvarnom vremenu"
+        "VisitedPages": "Posjećene stranice"
     }
 }

@@ -1,10 +1,15 @@
 var Piwik_Overlay_Client = (function () {
 
+    var DOMAIN_PARSE_REGEX = /^http(s)?:\/\/(www\.)?([^\/]*)/i;
+
     /** jQuery */
     var $;
 
     /** Url of the Piwik root */
     var piwikRoot;
+
+    /** protocol and domain of Piwik root */
+    var piwikOrigin;
 
     /** Piwik idsite */
     var idSite;
@@ -15,12 +20,18 @@ var Piwik_Overlay_Client = (function () {
     /** Reference to the status bar DOM element */
     var statusBar;
 
+    /** Counter for request IDs for postMessage based API requests. */
+    var lastRequestId = 0;
+
+    /** Map of callbacks for postMessage based API requests. */
+    var requestCallbacks = {};
+
     /** Load the client CSS */
     function loadCss() {
         var css = c('link').attr({
             rel: 'stylesheet',
             type: 'text/css',
-            href: piwikRoot + 'plugins/Overlay/client/client.css'
+            href: piwikRoot + '/plugins/Overlay/client/client.css'
         });
         $('head').append(css);
     }
@@ -51,7 +62,7 @@ var Piwik_Overlay_Client = (function () {
         // check whether the session has been opened in a new tab (instead of an iframe)
         if (window != window.top) {
             var iframe = c('iframe', false, {
-                src: piwikRoot + 'index.php?module=Overlay&action=notifyParentIframe#' + window.location.href
+                src: piwikRoot + '/index.php?module=Overlay&action=notifyParentIframe#' + window.location.href
             }).css({width: 0, height: 0, border: 0});
 
             $('body').append(iframe);
@@ -81,11 +92,48 @@ var Piwik_Overlay_Client = (function () {
         return el;
     }
 
+    function nextRequestId() {
+        var nextId = lastRequestId + 1;
+        lastRequestId = nextId;
+        return nextId;
+    }
+
+    function handlePostMessages() {
+        window.addEventListener("message", function (event) {
+            if (event.origin !== piwikOrigin) {
+                return;
+            }
+
+            var strData = event.data.split(':', 3);
+            if (strData[0] !== 'overlay.response') {
+                return;
+            }
+
+            var requestId = strData[1];
+            if (!requestCallbacks[requestId]) {
+                return;
+            }
+
+            var callback = requestCallbacks[requestId];
+            delete requestCallbacks[requestId];
+
+            var data = JSON.parse(decodeURIComponent(strData[2]));
+            if (typeof data.result !== 'undefined'
+                && data.result === 'error'
+            ) {
+                alert('Error: ' + data.message);
+            } else {
+                callback(data);
+            }
+        }, false);
+    }
+
     return {
 
         /** Initialize in-site analytics */
         initialize: function (pPiwikRoot, pIdSite, pPeriod, pDate, pSegment) {
             piwikRoot = pPiwikRoot;
+            piwikOrigin = piwikRoot.match(DOMAIN_PARSE_REGEX)[0];
             idSite = pIdSite;
             period = pPeriod;
             date = pDate;
@@ -95,6 +143,7 @@ var Piwik_Overlay_Client = (function () {
             var loading = this.loadingNotification;
 
             loadJQuery(function () {
+                handlePostMessages();
                 notifyPiwikOfLocation();
                 loadCss();
 
@@ -138,13 +187,13 @@ var Piwik_Overlay_Client = (function () {
             };
             script.onload = onLoad;
 
-            script.src = piwikRoot + relativePath + '?v=1';
+            script.src = piwikRoot + '/' + relativePath + '?v=1';
             head.appendChild(script);
         },
 
         /** Piwik Overlay API Request */
         api: function (method, callback, additionalParams) {
-            var url = piwikRoot + 'index.php?module=API&method=Overlay.' + method
+            var url = piwikRoot + '/index.php?module=API&method=Overlay.' + method
                 + '&idSite=' + idSite + '&period=' + period + '&date=' + date + '&format=JSON&filter_limit=-1';
 
             if (segment) {
@@ -155,14 +204,11 @@ var Piwik_Overlay_Client = (function () {
                 url += '&' + additionalParams;
             }
 
-            $.getJSON(url + "&jsoncallback=?", function (data) {
-                if (typeof data.result != 'undefined' && data.result == 'error') {
-                    alert('Error: ' + data.message);
-                }
-                else {
-                    callback(data);
-                }
-            });
+            var requestId = nextRequestId();
+            requestCallbacks[requestId] = callback;
+
+            var matomoFrame = window.parent;
+            matomoFrame.postMessage('overlay.call:' + requestId + ':' + encodeURIComponent(url), piwikOrigin);
         },
 
         /**

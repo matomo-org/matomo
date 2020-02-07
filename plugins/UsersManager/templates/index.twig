@@ -6,7 +6,7 @@
 
 <piwik-users-manager
     initial-site-id="{{ idSiteSelected }}"
-    initial-site-name="{{ defaultReportSiteName }}"
+    initial-site-name="{{ defaultReportSiteName|rawSafeDecoded }}"
     current-user-role="'{{ currentUserRole }}'"
     access-levels="{{ accessLevels|json_encode|e('html_attr') }}"
     filter-access-levels="{{ filterAccessLevels|json_encode|e('html_attr') }}"

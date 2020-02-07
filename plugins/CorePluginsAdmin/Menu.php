@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,7 +10,10 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
+use Piwik\Plugin;
+use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Plugins;
 
@@ -29,6 +32,15 @@ class Menu extends \Piwik\Plugin\Menu
         } elseif (Marketplace::isMarketplaceEnabled()) {
             // we load it manually as marketplace plugin might not be loaded
             $this->marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        }
+    }
+
+    public function configureTopMenu(MenuTop $menu)
+    {
+        $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
+
+        if ($tagManagerTeaser->shouldShowTeaser()) {
+            $menu->addItem('Tag Manager', null, $this->urlForAction('tagManagerTeaser'));
         }
     }
 

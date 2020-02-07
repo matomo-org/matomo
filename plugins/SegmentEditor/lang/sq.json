@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Krijoni dhe ripërdorni Segmente vetjakë vizitorësh me Përpunuesin e Segmenteve.",
+        "PluginDescription": "Një segment është një grup kriteresh të përdorur për të përzgjedhur vetëm një pjesë të krejt grupit të vizitave. Duke përdorur segment e mund të injektoni kontekst arbitrar në raportet tuaja.",
         "AddANDorORCondition": "Shtoni kusht %s",
         "AddNewSegment": "Shtoni segment të ri",
         "AreYouSureDeleteSegment": "Jeni i sigurt se doni të fshihet ky segment?",
@@ -51,6 +51,11 @@
         "CustomUnprocessedSegmentApiError4": "Pasi segmenti të jetë krijuar te përpunuesi (ose përmes API-t), ky mesazh gabimi do të zhduket dhe brenda pak orësh do të shihni të dhënat e raportit për segmentin, pasi të dhënat e segmentit të jenë parapërpunuar. (Nëse s’ndodh, mund të ketë ndonjë problem.)",
         "CustomUnprocessedSegmentApiError5": "Ju lutemi, mbani parasysh që mund të testoni nëse segmenti juaj do të funksionojë apo jo, pa u dashur të pritni që ai të përpunohet, duke përdorur API-n Live.getLastVisitsDetails.",
         "CustomUnprocessedSegmentApiError6": "Kur përdoret kjo metodë API, do të shihni se cilët përdorues dhe veprime patën përputhje me &segment= parameter tuaj.",
-        "CustomUnprocessedSegmentNoData": "Që të shihni të dhëna për këtë segment, duhet ta krijoni këtë segment dorazi te Përpunues Segmentesh, dhe mandej të pritni dy-tre orë që të plotësohet parapërpunimi."
+        "CustomUnprocessedSegmentNoData": "Që të shihni të dhëna për këtë segment, duhet ta krijoni këtë segment dorazi te Përpunues Segmentesh, dhe mandej të pritni dy-tre orë që të plotësohet parapërpunimi.",
+        "AddThisToMatomo": "Shtoje këtë segment te Matomo",
+        "ThisSegmentIsCompared": "Ky segment po krahasohet tani.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Ky segment është aktualisht i përzgjedhur, ndaj s’mund të përzgjidhet për krahasim.",
+        "CompareThisSegment": "Krahasojeni këtë segment me segmentin dhe periudhën e përzgjedhur.",
+        "Test": "Provë"
     }
 }

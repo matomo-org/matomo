@@ -28,7 +28,7 @@
 				<exit_rate>11%</exit_rate>
 				<avg_time_generation>0.301</avg_time_generation>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<label>Page URL not defined</label>
@@ -49,6 +49,7 @@
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.223</avg_time_generation>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 			<row>
 				<label>/thankyou</label>
@@ -71,7 +72,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.313</avg_time_generation>
 				<url>http://example.org/thankyou</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fthankyou</segment>
 			</row>
 			<row>
 				<label>/products</label>
@@ -99,7 +100,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.153</avg_time_generation>
 				<url>http://example.org/products</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fproducts</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fproducts</segment>
 			</row>
 		</result>
 		<result date="2011" />
@@ -137,7 +138,7 @@
 				<exit_rate>50%</exit_rate>
 				<avg_time_generation>0.348</avg_time_generation>
 				<url>http://example2.com/home#notIgnoredFragment</url>
-				<segment>pageUrl==http%3A%2F%2Fexample2.com%2Fhome%23notIgnoredFragment</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample2.com%252Fhome%2523notIgnoredFragment</segment>
 			</row>
 			<row>
 				<label>Page URL not defined</label>
@@ -158,6 +159,7 @@
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.203</avg_time_generation>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result date="2011" />

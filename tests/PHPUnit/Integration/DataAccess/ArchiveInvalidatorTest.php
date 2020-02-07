@@ -2,13 +2,16 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -16,9 +19,12 @@ use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Site;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Segment;
@@ -57,11 +63,20 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         self::$segment2 = new Segment(self::TEST_SEGMENT_2, array());
     }
 
+    protected static function beforeTableDataCached()
+    {
+        parent::beforeTableDataCached();
+
+        for ($i = 0; $i != 10; ++$i) {
+            Fixture::createWebsite('2012-03-04');
+        }
+    }
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->invalidator = new ArchiveInvalidator(new Model());
+        $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class));
     }
 
     public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()
@@ -310,6 +325,34 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedIdArchives, $idArchives);
     }
 
+    /**
+     * @dataProvider getTestDataForMarkArchiveRangesAsInvalidated
+     */
+    public function test_markArchivesAsInvalidated_MarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
+    {
+        $dates = array_map(array('Piwik\Date', 'factory'), $dates);
+
+        $this->insertArchiveRowsForTest();
+
+        if (!empty($segment)) {
+            $segment = new Segment($segment, $idSites);
+        }
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+        $result = $archiveInvalidator->markArchivesOverlappingRangeAsInvalidated($idSites, array($dates), $segment);
+
+        $this->assertEquals(array($dates[0]), $result->processedDates);
+
+        $idArchives = $this->getInvalidatedArchives();
+
+        // Remove empty values (some new empty entries may be added each month)
+        $idArchives = array_filter($idArchives);
+        $expectedIdArchives = array_filter($expectedIdArchives);
+
+        $this->assertEquals($expectedIdArchives, $idArchives);
+    }
+
     public function getTestDataForMarkArchivesAsInvalidated()
     {
         // $idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives
@@ -462,7 +505,21 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 ),
             ),
 
-            // range period, one site, cascade = true
+            // range period, exact match
+            array(
+                array(1),
+                array('2015-01-01', '2015-01-10'),
+                'range',
+                null,
+                true,
+                array(
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, overlapping a range in the DB
             array(
                 array(1),
                 array('2015-01-02', '2015-03-05'),
@@ -472,11 +529,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                    '2015_03' => array(
-                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
-                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                    ),
+                    )
                 ),
             ),
 
@@ -532,6 +585,101 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         );
     }
 
+    public function getTestDataForMarkArchiveRangesAsInvalidated()
+    {
+        // $idSites, $dates, $segment, $expectedIdArchives
+        return array(
+            // range period, has an exact match, also a match where DB end date = reference start date
+            array(
+                array(1),
+                array('2015-01-01', '2015-01-10'),
+                null,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, overlapping range = a match
+            array(
+                array(1),
+                array('2015-01-02', '2015-03-05'),
+                null,
+                array(
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                    '2015_03' => array(
+                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    ),
+                ),
+            ),
+
+            // range period, small range within the 2014-12-05 to 2015-01-01 range should cause it to be invalidated
+            array(
+                array(1),
+                array('2014-12-18', '2014-12-20'),
+                null,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, range that overlaps start of archived range
+            array(
+                array(1),
+                array('2014-12-01', '2014-12-05'),
+                null,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, large range that includes the smallest archived range (3 to 4 March)
+            array(
+                array(1),
+                array('2015-01-11', '2015-03-30'),
+                null,
+                array(
+                    '2015_03' => array(
+                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    ),
+                ),
+            ),
+
+            // range period, doesn't match any archived ranges
+            array(
+                array(1),
+                array('2014-12-01', '2014-12-04'),
+                null,
+                array(
+                ),
+            ),
+
+            // three-month range period, there's a range archive for the middle month
+            array(
+                array(1),
+                array('2014-09-01', '2014-11-08'),
+                null,
+                array(
+                    '2014_10' => array(
+                        '1.2014-10-15.2014-10-20.5.done3736b708e4d20cfc10610e816a1b2341',
+                    ),
+                ),
+            ),
+        );
+    }
+
     private function getInvalidatedIdArchives()
     {
         $result = array();
@@ -579,7 +727,13 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             }
         }
 
-        $rangePeriods = array('2015-03-04,2015-03-05', '2014-12-05,2015-01-01', '2015-03-05,2015-03-10', '2015-01-01,2015-01-10');
+        $rangePeriods = array(
+            '2015-03-04,2015-03-05', 
+            '2014-12-05,2015-01-01', 
+            '2015-03-05,2015-03-10', 
+            '2015-01-01,2015-01-10',
+            '2014-10-15,2014-10-20'
+        );
         foreach ($rangePeriods as $dateRange) {
             $this->insertArchiveRow($idSite = 1, $dateRange, 'range');
         }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -28,6 +28,8 @@ class LabelFilter extends DataTableManipulator
 
     private $labels;
     private $addLabelIndex;
+    private $isComparing;
+    private $labelSeries;
     const FLAG_IS_ROW_EVOLUTION = 'label_index';
 
     /**
@@ -50,9 +52,18 @@ class LabelFilter extends DataTableManipulator
             $labels = array($labels);
         }
 
-        $this->labels = $labels;
+        $this->labels = array_values($labels);
         $this->addLabelIndex = (bool)$addLabelIndex;
-        return $this->manipulate($dataTable);
+        $this->isComparing = $this->isComparing();
+
+        $labelSeries = Common::getRequestVar('labelSeries', '', 'string', $this->request);
+        $labelSeries = explode(',', $labelSeries);
+        $labelSeries = array_filter($labelSeries, 'strlen');
+        $this->labelSeries = $labelSeries;
+
+        $result = $this->manipulate($dataTable);
+
+        return $result;
     }
 
     /**
@@ -175,14 +186,37 @@ class LabelFilter extends DataTableManipulator
 
                 $row = $this->doFilterRecursiveDescend($labelVariation, $dataTable);
                 if ($row) {
+                    if ($this->isComparing
+                        && isset($this->labelSeries[$labelIndex])
+                    ) {
+                        $comparisons = $row->getComparisons();
+                        if (!empty($comparisons)) {
+                            $labelSeriesIndex = $this->labelSeries[$labelIndex];
+
+                            $originalLabel = $row->getColumn('label');
+
+                            $row = $comparisons->getRowFromId($labelSeriesIndex);
+
+                            // add label and make sure it is the first column
+                            $columns = array_merge(['label' => $originalLabel . ' ' . $row->getMetadata('compareSeriesPretty')], $row->getColumns());
+                            $row->setColumns($columns);
+                        }
+                    }
+
                     if ($this->addLabelIndex) {
                         $row->setMetadata(self::FLAG_IS_ROW_EVOLUTION, $labelIndex);
                     }
+
                     $result->addRow($row);
                     break;
                 }
             }
         }
         return $result;
+    }
+
+    private function isComparing()
+    {
+        return Common::getRequestVar('compare', 0, 'int', $this->request) == 1;
     }
 }

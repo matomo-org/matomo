@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -83,9 +83,9 @@ class ReportsProvider
         $lazyCacheId = CacheId::pluginAware($cacheKey);
 
         $cache = PiwikCache::getLazyCache();
-        if ($cache->contains($lazyCacheId)) {
-            $mapApiToReport = $cache->fetch($lazyCacheId);
-        } else {
+        $mapApiToReport = $cache->fetch($lazyCacheId);
+
+        if (empty($mapApiToReport)) {
             $reports = new static();
             $reports = $reports->getAllReports();
 

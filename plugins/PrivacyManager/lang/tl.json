@@ -8,15 +8,10 @@
         "DBPurged": "DB purged",
         "DeleteDataInterval": "Tanggalin ang mga lumang data sa bawat",
         "DeleteLogDescription2": "Kapag iyong pinagana ang automatic log deletion dapat mong tiyakin na ang lahat ng karaang mga ulat ay na proseso na upang sa ganun ay wala ng data na mawawala.",
-        "DeleteLogInfo": "Ang mga logs sa mga sumusunod na talahanayan ay tatanggalin: %s",
         "DeleteLogsOlderThan": "Tanggalin ang mga log na mas luma sa",
         "DeleteMaxRows": "Pinakamataas na bilang ng mga hilera na tatanggalin sa isang pagtakbo:",
         "DeleteMaxRowsNoLimit": "walang limitasyon",
         "DeleteReportsConfirm": "Iyong papaganahin ang pag tanggal sa datus ng ulat. Kung ang matatagal ng ulat ay natanggal Kailangan mong ulitin ang mga ito upang makita. Gustomo mo bang gawin ito?",
-        "DeleteReportsDetailedInfo": "Ang data mula sa database numeric archive tables (%1$s) at blob archive tables (%2$s) ay tinanggal.",
-        "DeleteReportsInfo": "Kung gumagana ang mga lumang ulat ay mabubura. %1$s Aming inirerekomenda na itoy paganahin lamang kung ang iyong database ay may limitadong espasyo %2$s.",
-        "DeleteReportsInfo2": "Kung hindi mo pinagana ang \"%s\" mga lumang ulat ay awtomatikong magagawa muli kapag iyong ni-request.",
-        "DeleteReportsInfo3": "Kapag in-enable mo ang \"%s\" and data ay permanenteng mawawala.",
         "DeleteReportsOlderThan": "Tanggalin ang mga lumang ulat na hihigit sa",
         "DeleteDataSettings": "Tanggaling lumang log ng mga bisita at mga ulat.",
         "DoNotTrack_Description": "Do Not Track ay isang teknolohiya at patakaran na nagbibigay daan sa mga gumagamit upang makapili kung nais nitong hindi masubay-bayan ang bawat website na kanilang binibista kabilang na dito ang analytics services mga network sa advertising at social platform.",
@@ -43,9 +38,7 @@
         "SeeAlsoOurOfficialGuidePrivacy": "Tingnan din ang aming opisyal na gabay: %1$s Privacy Web Analytics %2$s",
         "TeaserHeadline": "Mga setting ng privacy",
         "UseAnonymizedIpForVisitEnrichment": "Gamitin rin ang hindi kilalang IP address kapag bumibisita.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Plugis tulad ng Geo Location sa pamamagitang ng IP at Provider ay pinagbuti ang metadata ng mga bumibisita. Sa una ang plugins na ito ay gumagamit ng anonymized IP addresses. Kapag iyong pinili ang 'No' pagkatapos ay ang non-anonymized na IP address ay syang magagamit na mag-reresulta ng may mababang privacy ngunit mas mahusay at tiyak na data.",
         "UseAnonymizeIp": "I-anonymize ang IP addresses ng mga bisita.",
-        "UseDeleteLog": "Regular na tanggalin ang lumang mga log ng bisita mula sa database",
         "UseDeleteReports": "Palaging tanggalin ang mga lumang report sa database"
     }
 }

@@ -8,7 +8,7 @@
 		<name>Visits per server time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<dimension>Server time - hour (End of visit)</dimension>
+		<dimension>Server time - hour (Start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -43,7 +43,7 @@
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 	</metadata>
 	<columns>
-		<label>Server time - hour (End of visit)</label>
+		<label>Server time - hour (Start of visit)</label>
 		<nb_visits>Visits</nb_visits>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
@@ -60,32 +60,32 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>4</nb_actions>
 			<nb_users>0</nb_users>
-			<revenue>$ 10</revenue>
+			<revenue>$10</revenue>
 			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>00:12:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</row>
 		<row>
 			<label>01</label>
-			<nb_uniq_visitors>0</nb_uniq_visitors>
-			<nb_visits>0</nb_visits>
-			<nb_actions>0</nb_actions>
-			<nb_users>0</nb_users>
-			<nb_actions_per_visit>0</nb_actions_per_visit>
-			<avg_time_on_site>00:00:00</avg_time_on_site>
-			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
-		</row>
-		<row>
-			<label>02</label>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<nb_actions>6</nb_actions>
 			<nb_users>0</nb_users>
-			<revenue>$ 3111.11</revenue>
 			<nb_actions_per_visit>6</nb_actions_per_visit>
 			<avg_time_on_site>01:06:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<revenue>$0</revenue>
+		</row>
+		<row>
+			<label>02</label>
+			<revenue>$3,111.11</revenue>
+			<nb_visits>0</nb_visits>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
+			<nb_uniq_visitors>0</nb_uniq_visitors>
+			<nb_actions>0</nb_actions>
+			<nb_users>0</nb_users>
 		</row>
 		<row>
 			<label>03</label>
@@ -96,7 +96,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>04</label>
@@ -107,7 +107,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>05</label>
@@ -118,7 +118,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>06</label>
@@ -129,7 +129,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>07</label>
@@ -137,7 +137,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>3</nb_actions>
 			<nb_users>0</nb_users>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 			<nb_actions_per_visit>3</nb_actions_per_visit>
 			<avg_time_on_site>00:12:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -151,7 +151,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>09</label>
@@ -162,7 +162,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>10</label>
@@ -173,7 +173,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>11</label>
@@ -184,7 +184,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>12</label>
@@ -195,7 +195,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>13</label>
@@ -206,7 +206,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>14</label>
@@ -217,7 +217,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>15</label>
@@ -228,7 +228,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>16</label>
@@ -239,7 +239,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>17</label>
@@ -250,7 +250,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>18</label>
@@ -261,7 +261,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>19</label>
@@ -272,7 +272,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>20</label>
@@ -283,7 +283,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>21</label>
@@ -294,7 +294,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>22</label>
@@ -305,7 +305,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label>23</label>
@@ -316,90 +316,117 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
 		</row>
 	</reportData>
 	<reportMetadata>
 		<row>
-			<segment>visitServerHour==0</segment>
+			<segment>visitStartServerHour==0</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==1</segment>
+			<segment>visitStartServerHour==1</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==2</segment>
+			<segment>visitStartServerHour==2</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==3</segment>
+			<segment>visitStartServerHour==3</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==4</segment>
+			<segment>visitStartServerHour==4</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==5</segment>
+			<segment>visitStartServerHour==5</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==6</segment>
+			<segment>visitStartServerHour==6</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==7</segment>
+			<segment>visitStartServerHour==7</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==8</segment>
+			<segment>visitStartServerHour==8</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==9</segment>
+			<segment>visitStartServerHour==9</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==10</segment>
+			<segment>visitStartServerHour==10</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==11</segment>
+			<segment>visitStartServerHour==11</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==12</segment>
+			<segment>visitStartServerHour==12</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==13</segment>
+			<segment>visitStartServerHour==13</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==14</segment>
+			<segment>visitStartServerHour==14</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==15</segment>
+			<segment>visitStartServerHour==15</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==16</segment>
+			<segment>visitStartServerHour==16</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==17</segment>
+			<segment>visitStartServerHour==17</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==18</segment>
+			<segment>visitStartServerHour==18</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==19</segment>
+			<segment>visitStartServerHour==19</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==20</segment>
+			<segment>visitStartServerHour==20</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==21</segment>
+			<segment>visitStartServerHour==21</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==22</segment>
+			<segment>visitStartServerHour==22</segment>
 		</row>
 		<row>
-			<segment>visitServerHour==23</segment>
+			<segment>visitStartServerHour==23</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>3</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>3</nb_visits>
 		<nb_actions>13</nb_actions>
-		<nb_conversions>3</nb_conversions>
+		<nb_users>0</nb_users>
+		<max_actions>6</max_actions>
+		<sum_visit_length>5403</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal="ecommerceAbandonedCart">
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>5020.22</revenue>
+				<items>8</items>
+			</row>
+			<row idgoal="ecommerceOrder">
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>3111.11</revenue>
+				<revenue_subtotal>2500</revenue_subtotal>
+				<revenue_tax>511</revenue_tax>
+				<revenue_shipping>100.11</revenue_shipping>
+				<revenue_discount>666</revenue_discount>
+				<items>10</items>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_actions_per_visit>4.3</nb_actions_per_visit>
 	</reportTotal>
 </result>

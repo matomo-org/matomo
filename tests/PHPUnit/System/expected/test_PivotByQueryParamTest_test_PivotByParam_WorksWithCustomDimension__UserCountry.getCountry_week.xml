@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<col name="label">Australia</col>
+		<col name="1. 0">1</col>
+		<col name="2. 10">2</col>
+		<col name="3. 15">1</col>
+		<col name="4. 20">1</col>
+		<col name="5. 5">1</col>
+		<col name="code">au</col>
+		<col name="logo">plugins/Morpheus/icons/dist/flags/au.png</col>
+	</row>
+	<row>
+		<col name="label">Canada</col>
+		<col name="1. 0">2</col>
+		<col name="2. 10">1</col>
+		<col name="3. 15">1</col>
+		<col name="4. 20">2</col>
+		<col name="5. 5">1</col>
+		<col name="code">ca</col>
+		<col name="logo">plugins/Morpheus/icons/dist/flags/ca.png</col>
+	</row>
+	<row>
+		<col name="label">France</col>
+		<col name="1. 0">1</col>
+		<col name="2. 10">1</col>
+		<col name="3. 15">1</col>
+		<col name="4. 20">1</col>
+		<col name="5. 5">2</col>
+		<col name="code">fr</col>
+		<col name="logo">plugins/Morpheus/icons/dist/flags/fr.png</col>
+	</row>
+	<row>
+		<col name="label">Japan</col>
+		<col name="1. 0">1</col>
+		<col name="2. 10">1</col>
+		<col name="3. 15">2</col>
+		<col name="4. 20">1</col>
+		<col name="5. 5">1</col>
+		<col name="code">jp</col>
+		<col name="logo">plugins/Morpheus/icons/dist/flags/jp.png</col>
+	</row>
+</result>

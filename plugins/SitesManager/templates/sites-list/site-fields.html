@@ -1,4 +1,4 @@
-<div class="site card hoverable" idsite="{{ site.idsite }}" ng-class="{'editingSite': site.editMode==true}">
+<div class="site card hoverable" idsite="{{ site.idsite }}" type="{{ site.type }}" ng-class="{'editingSite': site.editMode==true}">
 <div class="card-content">
 
     <div class="row" ng-if="!site.editMode">
@@ -44,7 +44,7 @@
                     <span class="title">{{ 'SitesManager_ExcludedParameters'|translate }}:</span>
                     {{ site.excluded_parameters.join(', ') }}
                 </li>
-                <li ng-if="globalSettings.siteSpecificUserAgentExcludeEnabled && site.excluded_user_agents.length">
+                <li ng-if="site.excluded_user_agents.length">
                     <span class="title">{{ 'SitesManager_ExcludedUserAgents'|translate }}:</span>
                     {{ site.excluded_user_agents.join(', ') }}
                 </li>
@@ -87,14 +87,14 @@
 
         <div piwik-field uicontrol="select" name="currency"
              ng-model="site.currency"
-             title="{{ 'SitesManager_Currency'|translate }}"
+             data-title="{{ 'SitesManager_Currency'|translate }}"
              inline-help="{{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}"
              options='currencies'>
         </div>
 
         <div piwik-field uicontrol="select" name="timezone"
              ng-model="site.timezone"
-             title="{{ 'SitesManager_Timezone'|translate }}"
+             data-title="{{ 'SitesManager_Timezone'|translate }}"
              inline-help="#timezoneHelpText"
              options='timezones'>
         </div>

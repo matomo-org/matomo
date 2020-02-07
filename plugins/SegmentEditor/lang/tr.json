@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Dilim Yönetimi ile özel ziyaretçi dilimleri eklenip kullanılabilir.",
+        "PluginDescription": "Bir dilim, tüm ziyaretçi grubunun yalnız bir bölümünü seçmek için kullanılan bir ölçüt kümesidir. Dilimleri kullanarak, raporlarınızda isteğinize bağlı olarak seçebileceğiniz içeriğin görüntülenmesini sağlayabilirsiniz.",
         "AddANDorORCondition": "%s koşulu ekle",
         "AddNewSegment": "Yeni dilim ekle",
         "AreYouSureDeleteSegment": "Bu dilimi silmek istediğinize emin misiniz?",
@@ -38,6 +38,24 @@
         "SegmentOperatorIsNullOrEmpty": "null ya da boş olan",
         "SegmentOperatorIsNotNullNorEmpty": "null ya da boş olmayan",
         "UnprocessedSegmentNoData1": "Veri istediğiniz %1$s özel dilimi henüz sistem tarafından işlenmemiş olduğundan bu raporlarda herhangi bir veri yok.",
-        "UnprocessedSegmentNoData2": "Bu dilimin verileri işlem bir kaç saat içinde tamamlandıktan sonra hazır olabilir. Daha sonra da herhangi bir veri görüntülenmiyorsa bir sorun olabilir."
+        "UnprocessedSegmentNoData2": "Bu dilimin verileri işlem bir kaç saat içinde tamamlandıktan sonra hazır olabilir. Daha sonra da herhangi bir veri görüntülenmiyorsa bir sorun olabilir.",
+        "UnprocessedSegmentInVisitorLog1": "%1$sBu arada ziyaretçi günlüğüne bakarak%2$s diliminizin uygulanarak kullanıcılarınız ile doğru şekilde eşleşip eşleşmediğini sınayabilirsiniz.",
+        "UnprocessedSegmentInVisitorLog2": "Uygulandığında, hangi ziyaret ve işlemlerin diliminiz ile eşleştiğini hemen görebilirsiniz.",
+        "UnprocessedSegmentInVisitorLog3": "Böylece diliminizin istediğiniz kullanıcı ve işlemler ile eşleşip eşleşmediğini anlayabilirsiniz.",
+        "UnprocessedSegmentApiError1": "'%1$s' dilimi '%2$s' olarak ayarlanmış. Ancak Matomo şu anda API üzerinden gelen dilimlenmiş rapor isteklerini işleyecek şekilde yapılandırılmamış.",
+        "UnprocessedSegmentApiError2": "Gelecekte bu raporun verilerini görüntüleyebilmek için, diliminizi düzenleyin ve '%s' olarak etiketlenmiş seçeneği seçin.",
+        "UnprocessedSegmentApiError3": "Bir kaç saat sonra dilim verilerine API üzerinden erişebiliyor olmanız gerekir (erişemiyorsanız bir sorun olabilir).",
+        "CustomUnprocessedSegmentApiError1": "İstediğiniz dilim, henüz Dilim Düzenleyici üzerinden eklenmemiş olduğundan rapor verilerinin ön hazırlığı yapılmamış.",
+        "CustomUnprocessedSegmentApiError2": "Bu dilimin verilerini görüntülemek için, Matomo Dilim Düzenleyici bölümünden bu dilimi eklemelisiniz.",
+        "CustomUnprocessedSegmentApiError3": "(Alternatif olarak, SegmentEditor.add API yöntemini kullanarak programlama ile yeni bir dilim ekleyebilirsiniz).",
+        "CustomUnprocessedSegmentApiError4": "Düzenleyici (ya da API) ile dilimi ekledikten sonra, bu hata iletisi kaldırılır ve dilim verilerinin ön hazırlığının tamamlanması ile bir kaç saat içinde dilimlenmiş rapor verileri görüntülenebilir (görüntülenmiyorsa bir sorun olabilir).",
+        "CustomUnprocessedSegmentApiError5": "Live.getLastVisitsDetails API yöntemini kullanarak verilerin ön hazırlığının tamamlanmasını beklemeden dilimin çalışıp çalışmadığını sınayabileceğinizi unutmayın.",
+        "CustomUnprocessedSegmentApiError6": "Bu API yöntemini kullanarak, &segment= parametre ölçütünüze uyan kullanıcı ve işlemleri görebilirsiniz.",
+        "CustomUnprocessedSegmentNoData": "Bu dilimin verilerini görüntülemek için, Dilim Düzenleyici üzerinden bu dilimi el ile ekledikten sonra verilerin hazırlanması için bir kaç saat beklemelisiniz.",
+        "AddThisToMatomo": "Bu parçayı Matomo üzerine ekle",
+        "ThisSegmentIsCompared": "Bu dilim şu anda karşılaştırılıyor.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Bu dilim şu anda seçilmiş olduğundan karşılaştırmak için seçilemez.",
+        "CompareThisSegment": "Bu dilimi seçilmiş dilim ve aralık ile karşılaştır.",
+        "Test": "Sına"
     }
 }

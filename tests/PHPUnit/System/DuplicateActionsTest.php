@@ -69,7 +69,18 @@ class DuplicateActionsTest extends SystemTestCase
             ))
         );
     }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Config' => \DI\decorate(function ($previous) {
+                $general = $previous->General;
+                $general['action_title_category_delimiter'] = "/";
+                $previous->General = $general;
+                return $previous;
+            }),
+        );
+    }
 }
 
 DuplicateActionsTest::$fixture = new OneVisitorTwoVisits();
-DuplicateActionsTest::$fixture->excludeMozilla = true;

@@ -4,30 +4,36 @@
 		<label>search term 2</label>
 		<Google>0</Google>
 		<Bing>0</Bing>
+		<Referrers_Keyword>search term 2</Referrers_Keyword>
 	</row>
 	<row>
 		<label>search term 3</label>
 		<Google>1</Google>
 		<Bing>0</Bing>
+		<Referrers_Keyword>search term 3</Referrers_Keyword>
 	</row>
 	<row>
 		<label>this search term</label>
 		<Google>1</Google>
 		<Bing>0</Bing>
+		<Referrers_Keyword>this search term</Referrers_Keyword>
 	</row>
 	<row>
 		<label>search term 1</label>
 		<Google>0</Google>
 		<Bing>1</Bing>
+		<Referrers_Keyword>search term 1</Referrers_Keyword>
 	</row>
 	<row>
 		<label>search term 4</label>
 		<Google>0</Google>
 		<Bing>1</Bing>
+		<Referrers_Keyword>search term 4</Referrers_Keyword>
 	</row>
 	<row>
 		<label>that search term</label>
 		<Google>1</Google>
 		<Bing>0</Bing>
+		<Referrers_Keyword>that search term</Referrers_Keyword>
 	</row>
 </result>

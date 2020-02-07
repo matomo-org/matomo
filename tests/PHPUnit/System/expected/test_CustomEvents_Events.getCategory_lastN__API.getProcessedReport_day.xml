@@ -9,6 +9,11 @@
 		<module>Events</module>
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
+		<dimensions>
+			<Events_EventCategory>Event Category</Events_EventCategory>
+			<Events_EventAction>Event Action</Events_EventAction>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -72,12 +77,12 @@
 			</row>
 			<row>
 				<label>CategoryTriggersGoal here</label>
-				<nb_events>1</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>23</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
+				<max_event_value>23</max_event_value>
+				<avg_event_value>11.5</avg_event_value>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -120,39 +125,39 @@
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>1533</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>1534</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1535</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventCategory==CategoryTriggersGoal+here</segment>
-				<idsubdatatable>1536</idsubdatatable>
+				
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>1538</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>1539</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1540</idsubdatatable>
+				
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -162,7 +167,12 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>64</nb_visits>
 		<nb_uniq_visitors>61</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_events>69</nb_events>
+		<nb_events_with_value>14</nb_events_with_value>
+		<sum_event_value>137.96</sum_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>52.32</max_event_value>
 	</reportTotal>
 </result>

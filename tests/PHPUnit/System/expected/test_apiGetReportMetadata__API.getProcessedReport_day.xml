@@ -56,7 +56,7 @@
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
-			<revenue>$ 42.26</revenue>
+			<revenue>$42.26</revenue>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:18:06</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
@@ -71,11 +71,23 @@
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_conversions>1</nb_conversions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1086</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<goals>
+			<row idgoal="3">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>42.26</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
 		<revenue>42.26</revenue>
+		<nb_actions_per_visit>1</nb_actions_per_visit>
 	</reportTotal>
 </result>

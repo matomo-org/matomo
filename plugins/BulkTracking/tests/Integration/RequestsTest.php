@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -32,6 +32,8 @@ class RequestsTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Fixture::createWebsite('2014-01-02 03:04:05');
 
         $this->requests = new Requests();
     }

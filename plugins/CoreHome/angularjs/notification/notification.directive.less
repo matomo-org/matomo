@@ -23,19 +23,35 @@
 
   &.notification-success {
     .alert-success;
-    background-color: #e8f5e9;
+    color: #eef6ef !important;
+    background-color: @color-green-piwik !important;
+    &:before, p, a {
+      color: #eef6ef;
+    }
   }
   &.notification-warning {
     .alert-warning;
-    background-color: #fff3e0;
+    background-color: #f57c00;
+    color: #fbf7f1 !important;
+    &:before, p, a {
+      color: #fbf7f1;
+    }
   }
   &.notification-danger,
   &.notification-error {
     .alert-danger;
-    background-color: #ffebee;
+    color: #fdf0f2 !important;
+    background-color: #e53935;
+    &:before, p, a {
+      color: #fdf0f2;
+    }
   }
   &.notification-info {
     .alert-info;
-    background-color: #e3f2fd;
+    color: #f3feff !important;
+    background-color: #00bcd4;
+    &:before, p, a {
+      color: #f3feff;
+    }
   }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 class VisitTotalInteractions extends VisitDimension
 {
     protected $columnName = 'visit_total_interactions';
-    protected $columnType = 'SMALLINT UNSIGNED DEFAULT 0';
+    protected $columnType = 'MEDIUMINT UNSIGNED DEFAULT 0';
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'interactions';
     protected $nameSingular = 'General_NbInteractions';

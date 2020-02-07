@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -62,6 +62,9 @@ class Json extends Renderer
             $array = array('value' => $array);
         }
 
+        // convert datatable column/metadata values
+        $this->convertDataTableColumnMetadataValues($array);
+
         // decode all entities
         $callback = function (&$value, $key) {
             if (is_string($value)) {
@@ -73,7 +76,32 @@ class Json extends Renderer
         // silence "Warning: json_encode(): Invalid UTF-8 sequence in argument"
         $str = @json_encode($array);
 
+        if ($str === false
+            && json_last_error() === JSON_ERROR_UTF8
+            && $this->canMakeArrayUtf8()) {
+            $array = $this->makeArrayUtf8($array);
+            $str = json_encode($array);
+        }
+
         return $str;
+    }
+
+    private function canMakeArrayUtf8()
+    {
+        return function_exists('mb_convert_encoding');
+    }
+
+    private function makeArrayUtf8($array)
+    {
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                $array[$key] = self::makeArrayUtf8($value);
+            }
+        } elseif (is_string($array)) {
+            return mb_convert_encoding($array, 'UTF-8', 'auto');
+        }
+
+        return $array;
     }
 
     public static function sendHeaderJSON()
@@ -91,5 +119,19 @@ class Json extends Renderer
         $array = $renderer->flatRender();
 
         return $array;
+    }
+
+    private function convertDataTableColumnMetadataValues(&$table)
+    {
+        if (empty($table)) {
+            return;
+        }
+
+        array_walk_recursive($table, function (&$value, $key) {
+            if ($value instanceof DataTable) {
+                $value = $this->convertDataTableToArray($value);
+                $this->convertDataTableColumnMetadataValues($value);
+            }
+        });
     }
 }

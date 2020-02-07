@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -139,6 +139,22 @@ class Schema extends Singleton
     public function createAnonymousUser()
     {
         $this->getSchema()->createAnonymousUser();
+    }
+
+    /**
+     * Records the Matomo version a user used when installing this Matomo for the first time
+     */
+    public function recordInstallVersion()
+    {
+        $this->getSchema()->recordInstallVersion();
+    }
+
+    /**
+     * Returns which Matomo version was used to install this Matomo for the first time.
+     */
+    public function getInstallVersion()
+    {
+        return $this->getSchema()->getInstallVersion();
     }
 
     /**

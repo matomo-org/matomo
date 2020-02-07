@@ -16,6 +16,7 @@
     angular.module('piwikApp').component('piwikSparkline', {
         template: '<img />',
         bindings: {
+            seriesIndices: '<',
             params: '<'
         },
         controller: SparklineController
@@ -34,17 +35,35 @@
         }
 
         function getSparklineUrl() {
+            var seriesIndices = vm.seriesIndices;
+            var sparklineColors = piwik.getSparklineColors();
+
+            if (seriesIndices) {
+                sparklineColors.lineColor = sparklineColors.lineColor.filter(function (c, index) {
+                    return seriesIndices.indexOf(index) !== -1;
+                });
+            }
+
+            var colors = JSON.stringify(sparklineColors);
+
             var defaultParams = {
                 forceView: '1',
                 viewDataTable: 'sparkline',
                 widget: $element.closest('[widgetId]').length ? '1' : '0',
                 showtitle: '1',
-                colors: JSON.stringify(piwik.getSparklineColors()),
+                colors: colors,
                 random: Date.now(),
                 date: getDefaultDate()
             };
 
             var urlParams = piwikApi.mixinDefaultGetParams($element.extend(defaultParams, vm.params));
+
+            // Append the token_auth to the URL if it was set (eg. embed dashboard)
+            var token_auth = piwik.broadcast.getValueFromUrl("token_auth");
+            if (token_auth.length && piwik.shouldPropagateTokenAuth) {
+                urlParams.token_auth = token_auth;
+            }
+
             return '?' + $httpParamSerializer(urlParams);
         }
 
@@ -54,8 +73,14 @@
             }
 
             var dateRange = piwikPeriods.get('range').getLastNRange(piwik.period, 30, piwik.currentDateString).getDateRange();
-            var startDateStr = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
-            var endDateStr = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+
+            var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay);
+            if (dateRange[0] < piwikMinDate) {
+                dateRange[0] = piwikMinDate;
+            }
+
+            var startDateStr = piwikPeriods.format(dateRange[0]);
+            var endDateStr = piwikPeriods.format(dateRange[1]);
             return startDateStr + ',' + endDateStr;
         }
     }

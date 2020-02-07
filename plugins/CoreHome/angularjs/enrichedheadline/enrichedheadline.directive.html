@@ -2,7 +2,7 @@
     ng-mouseenter="view.showIcons=true" ng-mouseleave="view.showIcons=false">
     <div ng-show="!editUrl" class="title" ng-transclude tabindex="6"></div>
     <a ng-show="editUrl" class="title" href="{{ editUrl }}"
-       title="{{ 'CoreHome_ClickToEditX'|translate:featureName }}"
+       title="{{ 'CoreHome_ClickToEditX'|translate:(featureName|escape) }}"
        ng-transclude ></a>
 
     <span ng-show="view.showIcons || view.showInlineHelp" class="iconsBar">

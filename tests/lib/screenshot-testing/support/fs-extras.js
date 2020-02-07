@@ -1,5 +1,21 @@
 var fs = require('fs'),
-    path = require('./path');
+    path = require('path');
+
+fs.isDirectory = function (p) {
+    try {
+        return fs.statSync(p).isDirectory();
+    } catch (e) {
+        return false;
+    }
+};
+
+fs.isFile = function (p) {
+    try {
+        return fs.statSync(p).isFile();
+    } catch (e) {
+        return false;
+    }
+};
 
 fs.commonprefixLength = function (lists) {
     var l = 0;

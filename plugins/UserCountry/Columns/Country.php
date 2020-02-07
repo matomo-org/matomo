@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,8 +13,10 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Metrics\Formatter;
-use Piwik\Network\IP;
+use Matomo\Network\IP;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugin\Segment;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;
@@ -34,7 +36,37 @@ class Country extends Base
     protected $nameSingular = 'UserCountry_Country';
     protected $namePlural = 'UserCountryMap_Countries';
     protected $segmentName = 'countryCode';
-    protected $acceptValues = 'de, us, fr, in, es, etc.';
+    protected $acceptValues = 'ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)';
+
+    protected function configureSegments()
+    {
+        $segment = new Segment();
+        $segment->setName('UserCountry_CountryCode');
+        $this->addSegment($segment);
+
+        $segment = new Segment();
+        $segment->setSegment('countryName');
+        $segment->setName('UserCountry_Country');
+        $segment->setAcceptedValues('Germany, France, Spain, ...');
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $countryList = $regionDataProvider->getCountryList();
+        array_walk($countryList, function(&$item, $key) {
+            $item = Piwik::translate('Intl_Country_'.strtoupper($key), [], 'en');
+        });
+
+        $segment->setSqlFilterValue(function ($val) use ($countryList) {
+            $result   = array_search($val, $countryList);
+            if ($result === false) {
+                $result = 'UNK';
+            }
+            return $result;
+        });
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) use ($countryList) {
+            return array_values($countryList + ['Unknown']);
+        });
+        $this->addSegment($segment);
+    }
+
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

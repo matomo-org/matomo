@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,7 +11,6 @@ namespace Piwik\Updates;
 
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Db;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_14_0_b2 extends Updates

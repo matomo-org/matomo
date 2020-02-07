@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -16,21 +16,20 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
-use Piwik\Db\Adapter;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\NewsletterSignup;
+use Piwik\Plugins\UsersManager\UserUpdater;
+
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
-use Piwik\Theme;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -207,6 +206,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
+            DbHelper::recordInstallVersion();
 
             $this->updateComponents();
 
@@ -276,14 +276,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($form->validate()) {
 
             try {
-                $this->createSuperUser($form->getSubmitValue('login'),
-                                       $form->getSubmitValue('password'),
-                                       $form->getSubmitValue('email'));
-
+                $loginName = $form->getSubmitValue('login');
                 $email = $form->getSubmitValue('email');
+
+                $this->createSuperUser($loginName,
+                                       $form->getSubmitValue('password'),
+                                       $email);
+
                 $newsletterPiwikORG = $form->getSubmitValue('subscribe_newsletter_piwikorg');
                 $newsletterProfessionalServices = $form->getSubmitValue('subscribe_newsletter_professionalservices');
-                $this->registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices);
+                NewsletterSignup::signupForNewsletter(
+                    $loginName,
+                    $email,
+                    $newsletterPiwikORG,
+                    $newsletterProfessionalServices
+                );
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {
@@ -369,11 +376,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $siteName = Common::unsanitizeInputValue($this->getParam('site_name'));
         $idSite = $this->getParam('site_idSite');
 
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $showMatomoLinks = true;
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
+        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
+
+        $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $idSite
+        ), $viewType = 'basic');
+
         // Load the Tracking code and help text from the SitesManager
         $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
-        $javascriptGenerator = new TrackerCodeGenerator();
-        $viewTrackingHelp->jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
+        $viewTrackingHelp->jsTag = $jsTag;
+        $viewTrackingHelp->emailBody = $emailBody;
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
         $viewTrackingHelp->isInstall = true;
@@ -524,9 +547,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
             'libs/bower_components/materialize/dist/js/materialize.min.js',
             'libs/bower_components/angular/angular.min.js',
-            'libs/bower_components/angular-sanitize/angular-sanitize.js',
-            'libs/bower_components/angular-animate/angular-animate.js',
-            'libs/bower_components/angular-cookies/angular-cookies.js',
+            'libs/bower_components/angular-sanitize/angular-sanitize.min.js',
+            'libs/bower_components/angular-animate/angular-animate.min.js',
+            'libs/bower_components/angular-cookies/angular-cookies.min.js',
             'libs/bower_components/ngDialog/js/ngDialog.min.js',
             'plugins/CoreHome/angularjs/common/services/service.module.js',
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
@@ -554,9 +577,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config = Config::getInstance();
 
         // make sure DB sessions are used if the filesystem is NFS
-        if (Filesystem::checkIfFileSystemIsNFS()) {
-            $config->General['session_save_handler'] = 'dbtable';
-        }
         if (count($headers = ProxyHeaders::getProxyClientHeaders()) > 0) {
             $config->General['proxy_client_headers'] = $headers;
         }
@@ -599,7 +619,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function checkPiwikIsNotInstalled($possibleErrorMessage = null)
     {
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             return;
         }
 
@@ -685,11 +705,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function createSuperUser($login, $password, $email)
     {
-        $self = $this;
-        Access::doAsSuperUser(function () use ($self, $login, $password, $email) {
+        Access::doAsSuperUser(function () use ($login, $password, $email) {
             $api = APIUsersManager::getInstance();
             $api->addUser($login, $password, $email);
-            $api->setSuperUserAccess($login, true);
+
+            $userUpdater = new UserUpdater();
+            $userUpdater->setSuperUserAccessWithoutCurrentPassword($login, true);
         });
     }
 
@@ -716,40 +737,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // deleting the config file removes the salt, which in turns invalidates existing cookies (including the
             // one for selected language), so we re-save that cookie now
             $this->resetLanguageCookie();
-        }
-    }
-
-    /**
-     * @param $email
-     * @param $newsletterPiwikORG
-     * @param $newsletterProfessionalServices
-     */
-    protected function registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices)
-    {
-        $url = Config::getInstance()->General['api_service_url'];
-        $url .= '/1.0/subscribeNewsletter/';
-        $params = array(
-            'email'     => $email,
-            'piwikorg'  => $newsletterPiwikORG,
-            'piwikpro'  => $newsletterProfessionalServices,
-            'url'       => Url::getCurrentUrlWithoutQueryString(),
-            'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
-        );
-        if ($params['piwikorg'] == '1'
-            || $params['piwikpro'] == '1'
-        ) {
-            if (!isset($params['piwikorg'])) {
-                $params['piwikorg'] = '0';
-            }
-            if (!isset($params['piwikpro'])) {
-                $params['piwikpro'] = '0';
-            }
-            $url .= '?' . Http::buildQuery($params);
-            try {
-                Http::sendHttpRequest($url, $timeout = 2);
-            } catch (Exception $e) {
-                // e.g., disable_functions = fsockopen; allow_url_open = Off
-            }
         }
     }
 

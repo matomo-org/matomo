@@ -22,11 +22,14 @@
         controller: UsersManagerController
     });
 
-    UsersManagerController.$inject = ['$element', 'piwikApi', '$q'];
+    UsersManagerController.$inject = ['$element', 'piwik', 'piwikApi', '$q', '$timeout'];
 
-    function UsersManagerController($element, piwikApi, $q) {
+    function UsersManagerController($element, piwik, piwikApi, $q, $timeout) {
         var vm = this;
-        vm.isEditing = false;
+
+        var search = String(window.location.search);
+        vm.isEditing = !!piwik.helper.getArrayFromQueryString(search).showadduser;
+
         vm.isCurrentUserSuperUser = true;
 
         // search state
@@ -38,6 +41,7 @@
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.$onDestroy = $onDestroy;
+        vm.onEditUser = onEditUser;
         vm.onDoneEditing = onDoneEditing;
         vm.showAddExistingUserModal = showAddExistingUserModal;
         vm.onChangeUserRole = onChangeUserRole;
@@ -167,6 +171,12 @@
             });
         }
 
+        function onEditUser(user) {
+            piwik.helper.lazyScrollToContent();
+            vm.isEditing = true;
+            vm.userBeingEdited = user;
+        }
+
         function onDoneEditing(isUserModified) {
             vm.isEditing = false;
             if (isUserModified) { // if a user was modified, we must reload the users list
@@ -196,7 +206,8 @@
                 });
             }).then(function (login) {
                 return piwikApi.post({
-                    method: 'UsersManager.setUserAccess',
+                    method: 'UsersManager.setUserAccess'
+                }, {
                     userLogin: login,
                     access: 'view',
                     idSites: vm.searchParams.idSite

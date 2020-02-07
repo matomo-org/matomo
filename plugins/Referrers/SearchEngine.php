@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -54,7 +54,7 @@ class SearchEngine extends Singleton
             $list = Option::get(self::OPTION_STORAGE_NAME);
 
             if ($list) {
-                $this->definitionList = unserialize(base64_decode($list));
+                $this->definitionList = Common::safe_unserialize(base64_decode($list));
             } else {
                 // Fallback to reading the bundled list
                 $yml                  = file_get_contents(PIWIK_INCLUDE_PATH . self::DEFINITION_FILE);

@@ -38,8 +38,7 @@
 
         instance: null,
 
-        dataTableIcon: 'plugins/UserId/images/visitordetails.png',
-        dataTableIconHover: 'plugins/UserId/images/visitordetails-hover.png',
+        dataTableIcon: 'icon-visitor-profile',
 
         order: 30,
 

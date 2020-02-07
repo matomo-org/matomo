@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -96,7 +96,7 @@ abstract class Base extends VisitDimension
         $referrerDetected = $this->detectReferrerCampaign($request, $visitor);
 
         if (!$referrerDetected) {
-            if ($this->detectReferrerDirectEntry()
+            if ($this->detectReferrerDirectEntry($request)
                 || $this->detectReferrerSearchEngine()
                 || $this->detectReferrerSocialNetwork()
             ) {
@@ -111,6 +111,8 @@ abstract class Base extends VisitDimension
             $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
             $directEntry = new SiteUrls();
+            $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
+
             $path = $directEntry->getPathMatchingUrl($this->referrerUrlParse, $urlsByHost);
             if (!empty($path) && $path !== '/') {
                 $this->nameReferrerAnalyzed .= rtrim($path, '/');
@@ -123,6 +125,14 @@ abstract class Base extends VisitDimension
             'referer_keyword' => $this->keywordReferrerAnalyzed,
             'referer_url'     => $this->referrerUrl,
         );
+
+        if (!empty($referrerInformation['referer_name'])) {
+            $referrerInformation['referer_name'] = $this->truncateReferrerName($referrerInformation['referer_name']);
+        }
+
+        if (!empty($referrerInformation['referer_keyword'])) {
+            $referrerInformation['referer_keyword'] = $this->truncateReferrerKeyword($referrerInformation['referer_keyword']);
+        }
 
         return $referrerInformation;
     }
@@ -329,7 +339,7 @@ abstract class Base extends VisitDimension
      * it is considered a direct entry
      * @return bool
      */
-    protected function detectReferrerDirectEntry()
+    protected function detectReferrerDirectEntry(Request $request)
     {
         if (empty($this->referrerHost)) {
             return false;
@@ -338,6 +348,8 @@ abstract class Base extends VisitDimension
         $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
         $directEntry   = new SiteUrls();
+        $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
+
         $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $urlsByHost);
 
         if (isset($matchingSites) && is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
@@ -425,7 +437,10 @@ abstract class Base extends VisitDimension
 
         $this->detectCampaignKeywordFromReferrerUrl();
 
-        $isCurrentVisitACampaignWithSameName = $visitor->getVisitorColumn('referer_name') == $this->nameReferrerAnalyzed;
+        $referrerNameAnalayzed = Common::mb_strtolower($this->nameReferrerAnalyzed);
+        $referrerNameAnalayzed = $this->truncateReferrerName($referrerNameAnalayzed);
+
+        $isCurrentVisitACampaignWithSameName = Common::mb_strtolower($visitor->getVisitorColumn('referer_name')) == $referrerNameAnalayzed;
         $isCurrentVisitACampaignWithSameName = $isCurrentVisitACampaignWithSameName && $visitor->getVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN;
 
         // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
@@ -561,7 +576,15 @@ abstract class Base extends VisitDimension
 
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
-        return Common::mb_strtolower($visitor->getVisitorColumn($infoName)) != Common::mb_strtolower($information[$infoName]);
+        $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName));
+        $new = Common::mb_strtolower($information[$infoName]);
+
+        $result = $existing != $new;
+        if ($result) {
+            Common::printDebug("Referrers\Base::isReferrerInformationNew: detected change in $infoName ('$existing' != '$new').");
+        }
+
+        return $result;
     }
 
     protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
@@ -572,5 +595,21 @@ abstract class Base extends VisitDimension
     protected function getReferrerCampaignQueryParam(Request $request, $paramName)
     {
         return trim(urldecode($request->getParam($paramName)));
+    }
+
+    private function truncateReferrerName($name)
+    {
+        return Common::mb_substr($name, 0, 255);
+    }
+
+    private function truncateReferrerKeyword($refererKeyword)
+    {
+        return Common::mb_substr($refererKeyword, 0, 255);
+    }
+
+    protected function isCurrentReferrerDirectEntry(Visitor $visitor)
+    {
+        $referrerType = $visitor->getVisitorColumn('referer_type');
+        return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
     }
 }

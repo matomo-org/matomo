@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,7 @@ use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Dependency;
+use Piwik\Plugin\Manager;
 use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,12 +28,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     public function getPluginPath($pluginName)
     {
-        return PIWIK_INCLUDE_PATH . $this->getRelativePluginPath($pluginName);
-    }
-
-    private function getRelativePluginPath($pluginName)
-    {
-        return '/plugins/' . $pluginName;
+        return Manager::getPluginDirectory($pluginName);
     }
 
     private function createFolderWithinPluginIfNotExists($pluginNameOrCore, $folder)
@@ -111,7 +107,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
     protected function checkAndUpdateRequiredPiwikVersion($pluginName, OutputInterface $output)
     {
         $pluginJsonPath     = $this->getPluginPath($pluginName) . '/plugin.json';
-        $relativePluginJson = $this->getRelativePluginPath($pluginName) . '/plugin.json';
+        $relativePluginJson = Manager::getPluginDirectory($pluginName) . '/plugin.json';
 
         if (!file_exists($pluginJsonPath) || !is_writable($pluginJsonPath)) {
             return;
@@ -326,11 +322,13 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     protected function getPluginNames()
     {
-        $pluginDirs = \_glob(PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
-
         $pluginNames = array();
-        foreach ($pluginDirs as $pluginDir) {
-            $pluginNames[] = basename($pluginDir);
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginDirs = \_glob($pluginsDir . '*', GLOB_ONLYDIR);
+
+            foreach ($pluginDirs as $pluginDir) {
+                $pluginNames[] = basename($pluginDir);
+            }
         }
 
         return $pluginNames;
@@ -338,15 +336,17 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     protected function getPluginNamesHavingNotSpecificFile($filename)
     {
-        $pluginDirs = \_glob(PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
-
         $pluginNames = array();
-        foreach ($pluginDirs as $pluginDir) {
-            if (!file_exists($pluginDir . '/' . $filename)) {
-                $pluginNames[] = basename($pluginDir);
-            }
-        }
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginDirs = \_glob($pluginsDir . '*', GLOB_ONLYDIR);
 
+            foreach ($pluginDirs as $pluginDir) {
+                if (!file_exists($pluginDir . '/' . $filename)) {
+                    $pluginNames[] = basename($pluginDir);
+                }
+            }
+
+        }
         return $pluginNames;
     }
 

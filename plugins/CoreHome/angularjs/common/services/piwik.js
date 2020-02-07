@@ -38,8 +38,8 @@
             piwik.period = period;
 
             var dateRange = piwikPeriods.parse(period, date).getDateRange();
-            piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
-            piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+            piwik.startDateString = piwikPeriods.format(dateRange[0]);
+            piwik.endDateString = piwikPeriods.format(dateRange[1]);
 
             updateDateInTitle(date, period);
 
@@ -62,12 +62,17 @@
         }
 
         function updateDateInTitle( date, period ) {
+            if (!$('.top_controls #periodString').length) {
+                return;
+            }
+
             // Cache server-rendered page title
             originalTitle = originalTitle || document.title;
-            var titleParts = originalTitle.split('-');
-            var dateString = ' ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
-            titleParts.splice(1, 0, dateString);
-            document.title = titleParts.join('-');
+
+            if (0 === originalTitle.indexOf(piwik.siteName)) {
+                var dateString = ' - ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
+                document.title = piwik.siteName + dateString + originalTitle.substr(piwik.siteName.length);
+            }
         }
     }
 

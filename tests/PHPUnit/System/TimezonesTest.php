@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -19,30 +19,42 @@ use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
  */
 class TimezonesTest extends SystemTestCase
 {
+    /**
+     * @var VisitsInDifferentTimezones
+     */
     public static $fixture = null; // initialized below class definition
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        self::$fixture->setMockNow();
+
+        $this->markTestSkipped("NOTE: currently timezone handling is broken in Date, so this doesn't work as expected.\n"
+            . "see https://github.com/matomo-org/matomo/issues/13829 for more info.");
+    }
 
     public function getApiForTesting()
     {
-        $idSite = self::$fixture->idSite;
-        $date = self::$fixture->date;
-
+        // NOTE: currently timezone handling is broken in Date, so this doesn't work as expected.
+        //
         return array(
-            // should have 1 visit
-            array('Live.getLastVisitsDetails', array('idSite' => $idSite,
-                                                     'date'   => $date,
-                                                     'period' => 'day')),
+            // should have 1 visit per site
+            array('Live.getLastVisitsDetails', array('idSite' => 'all',
+                                                     'date'   => Date::yesterday() . ',' . Date::today(),
+                                                     'period' => 'range')),
 
-            // should have 1 visit
-            array('VisitsSummary.get', array('idSite' => $idSite,
-                                             'date'   => $date,
+            // should have 1 visit for site in UTC (idSite = 2), 0 for site in EST (idSite = 1)
+            array('VisitsSummary.get', array('idSite' => 'all',
+                                             'date'   => 'yesterday',
                                              'period' => 'day',
-                                             'testSuffix' => '_withVisit')),
+                                             'testSuffix' => '_yesterday')),
 
-            // should have no visits
-            array('VisitsSummary.get', array('idSite' => $idSite,
-                                             'date'   => Date::factory($date)->addDay(1)->getDatetime(),
+            // should have 1 visit for site in EST (idSite = 1), 0 for site in UTC (idSite = 2)
+            array('VisitsSummary.get', array('idSite' => 'all',
+                                             'date'   => 'today',
                                              'period' => 'day',
-                                             'testSuffix' => '_dayAfterVisit')),
+                                             'testSuffix' => '_today')),
         );
     }
 

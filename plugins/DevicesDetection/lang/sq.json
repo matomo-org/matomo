@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Ky Agjent Përdoruesi është pikasur si %1$s. Si parazgjedhje, vizita me këtë agjent përdoruesi s’do të ndiqen në Matomo.",
         "BrowserEngine": "Motor shfletuesi",
         "BrowserEngineDocumentation": "Ky grafik tregon shfletuesit e vizitorëve tuaj, grupuar sipas familjesh shfletuesish. %s Informacioni më i rëndësishëm për programuesit web është lloji i mekanizmit vizatues që përdor shfletuesi. Etiketat përmbajnë emrat e mekanizmave, pasuar në kllapa nga shfletuesit më të zakonshëm që përdorin secilin prej tyre.",
         "BrowserEngines": "Motorë shfletuesi",
@@ -11,6 +12,7 @@
         "CarBrowser": "Shfletues automjetesh",
         "Software": "Software",
         "ColumnBrowser": "Shfletues",
+        "BrowserCode": "Kod shfletuesi",
         "ColumnOperatingSystem": "Sistem operativ",
         "ColumnOperatingSystemVersion": "Version sistemi operativ",
         "Console": "Konsolë",
@@ -30,11 +32,13 @@
         "FeaturePhone": "Telefon",
         "OperatingSystemFamilies": "Familje Sistemesh Operativë",
         "OperatingSystemFamily": "Familje Sistemi Operativ",
+        "OperatingSystemCode": "Kod sistemi operativ",
         "OperatingSystems": "Sisteme operativë",
         "OperatingSystemVersions": "Versione Sistemesh Operativë",
         "PluginDescription": "Furnizon të dhëna të zgjeruara rreth pajisje përdoruesish, të tilla si Marka (prodhuesi), Modeli (version pajisjeje), lloj pajisjeje (tv, konsola, telefon të mençur, desktop, etj) dhe të tjera.",
         "SmartDisplay": "Ekran i mençur",
         "Smartphone": "Telefon i mençur",
+        "SmartSpeaker": "Altoparlant i mençur",
         "PortableMediaPlayer": "Lojtës media portativ",
         "Devices": "Pajisje",
         "GenericDevice": "%s e rëndomtë",

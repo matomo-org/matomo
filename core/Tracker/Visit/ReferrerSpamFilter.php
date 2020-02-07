@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -75,7 +75,7 @@ class ReferrerSpamFilter
         $list = Option::get(self::OPTION_STORAGE_NAME);
 
         if ($list) {
-            $this->spammerList = unserialize($list);
+            $this->spammerList = Common::safe_unserialize($list);
         } else {
             // Fallback to reading the bundled list
             $file = PIWIK_VENDOR_PATH . '/matomo/referrer-spam-blacklist/spammers.txt';

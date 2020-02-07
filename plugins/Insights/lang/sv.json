@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Ger tillgång till i insikter om din trafik. Insikter finns tillgänglig som en instrumentpanel men även som en ny ikon i rapporter för att du ska få tillgång till de viktigaste trenderna i din data.",
         "ControlComparedToDescription": "Tillväxt jämfört med",
         "ControlFilterByDescription": "Visa alla, endast förändringar, endast nya eller endast försvunna",
         "DatePeriodCombinationNotSupported": "Det är inte möjligt att generera insikter för datum och tid tillsammans.",
@@ -26,7 +25,6 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s förändrades från %2$s till %3$s jämfört med %4$s. Baserat på detta förväntas en utveckling för varje rad på %5$s%%.",
         "TitleRowChangeDetails": "'%1$s' förändrades från %2$s (%3$s) till %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' minskade med %2$s och försvann i %3$s jämfört med %4$s.",
-        "TitleRowMoverAndShaker": "Denna rad hade en större påverkan än genomsnittet.",
         "TitleRowNewDetails": "'%1$s' ökade med %2$s och är ny jämfört med %3$s.",
         "WeekComparedToPreviousWeek": "Föregående vecka",
         "WidgetCategory": "Insikter",

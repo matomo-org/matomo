@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Prosek zasnovan na %1$s pogodaka %2$s između %3$s i %4$s",
-        "ColumnClickedURL": "Kliknutih linkova",
         "ColumnActionURL": "URL akcije",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj klikova na ovaj link.",
@@ -35,7 +34,6 @@
         "ExitPagesReportDocumentation": "Ovaj izveštaj sadrži informacije o izlaznim stranicama koje su se desile tokom određenog perioda. Izlazna stranica je poslednja stranica koju posetilac vidi tokom svoje posete. %s Izlazni linkovi su prikazani kao stablo foldera.",
         "ExitPageTitles": "Naslovi izlaznih stranica",
         "ExitPageTitlesReportDocumentation": "Ovaj izveštaj sadrži informacije o naslovima izlaznih stranica koje su se desile tokom određenog perioda.",
-        "LearnMoreAboutSiteSearchLink": "Naučite više o tome kako možete da pratite kako vaši posetioci koriste polje za pretragu.",
         "OneSearch": "Jedna pretraga",
         "OutlinkDocumentation": "Odlazni link je link koji posetioca vodi sa Vašeg sajta (ka nekom drugom).",
         "OutlinksReportDocumentation": "Ovaj izveštaj pokazuje hijerarhijsku listu odlaznih linkova koje su Vaši posetioci kliknuli.",

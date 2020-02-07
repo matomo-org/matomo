@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,16 +12,18 @@ use Exception;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\IP;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreHome\LoginWhitelist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Psr\Log\LoggerInterface;
 
 /**
  * Dispatches API requests to the appropriate API method.
@@ -212,25 +214,25 @@ class Request
      */
     public function process()
     {
-        // read the format requested for the output data
-        $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
-
-        $disablePostProcessing = $this->shouldDisablePostProcessing();
-
-        // create the response
-        $response = new ResponseBuilder($outputFormat, $this->request);
-        if ($disablePostProcessing) {
-            $response->disableDataTablePostProcessor();
-        }
-
-        $corsHandler = new CORSHandler();
-        $corsHandler->handle();
-
-        $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $this->request);
-        $shouldReloadAuth = false;
-
         try {
             ++self::$nestedApiInvocationCount;
+
+            // read the format requested for the output data
+            $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
+
+            $disablePostProcessing = $this->shouldDisablePostProcessing();
+
+            // create the response
+            $response = new ResponseBuilder($outputFormat, $this->request);
+            if ($disablePostProcessing) {
+                $response->disableDataTablePostProcessor();
+            }
+
+            $corsHandler = new CORSHandler();
+            $corsHandler->handle();
+
+            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $this->request);
+            $shouldReloadAuth = false;
 
             // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
             // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
@@ -261,9 +263,17 @@ class Request
             // call the method
             $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
 
-            $toReturn = $response->getResponse($returnedValue, $module, $method);
+            // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
+            // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters
+            // which may only exist in $this->request, if the request was called programatically)
+            $toReturn = Context::executeWithQueryParameters($this->request, function () use ($response, $returnedValue, $module, $method) {
+                return $response->getResponse($returnedValue, $module, $method);
+            });
         } catch (Exception $e) {
-            Log::debug($e);
+            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception in API: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             $toReturn = $response->getResponseException($e);
         } finally {
@@ -312,6 +322,16 @@ class Request
     public static function setIsRootRequestApiRequest($currentApiMethod)
     {
         Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
+    }
+
+    /**
+     * @ignore
+     * @internal
+     * @return string current Api Method if it is an api request
+     */
+    public static function getRootApiRequestMethod()
+    {
+        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
     }
 
     /**
@@ -413,7 +433,13 @@ class Request
          * @param string $token_auth The value of the **token_auth** query parameter.
          */
         Piwik::postEvent('API.Request.authenticate', array($tokenAuth));
-        Access::getInstance()->reloadAccess();
+        if (!Access::getInstance()->reloadAccess() && $tokenAuth && $tokenAuth !== 'anonymous') {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('API.Request.authenticate.failed');
+        }
         SettingsServer::raiseMemoryLimitIfNecessary();
     }
 
@@ -473,6 +499,7 @@ class Request
         $params['serialize'] = '0';
         $params['module'] = 'API';
         $params['method'] = $method;
+        $params['compare'] = '0';
         $params = $paramOverride + $params;
 
         // process request
@@ -528,6 +555,10 @@ class Request
                 }
             }
         }
+
+        $params['compareDates'] = null;
+        $params['comparePeriods'] = null;
+        $params['compareSegments'] = null;
 
         return Url::getCurrentQueryStringWithParametersModified($params);
     }
@@ -610,6 +641,11 @@ class Request
          * @param array $request The request parameters.
          */
         Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
+
+        if (!$shouldDisable) {
+            $shouldDisable = self::isCurrentApiRequestTheRootApiRequest() &&
+                Common::getRequestVar('disable_root_datatable_post_processor', 0, 'int', $this->request) == 1;
+        }
 
         return $shouldDisable;
     }

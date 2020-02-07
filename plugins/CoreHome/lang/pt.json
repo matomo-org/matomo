@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
         "ChangeVisualization": "Alterar visualização",
+        "ChangePeriod": "Alterar período",
         "CheckForUpdates": "Procurar por atualizações",
         "CheckPiwikOut": "Experimente o Matomo!",
         "ClickToEditX": "Clique para editar %s",
@@ -13,6 +14,8 @@
         "DataTableExcludeAggregateRows": "As linhas agregadas encontram-se visíveis %s Oculte-as",
         "DataTableIncludeAggregateRows": "As linhas agregadas encontram-se escondidas %s Mostre-as",
         "DataTableHowToSearch": "Pressione enter ou clique no ícone de pesquisa para pesquisar",
+        "DataTableShowDimensions": "As dimensões estão combinadas %s Mostrar dimensões em separado",
+        "DataTableCombineDimensions": "As dimensões estão separadas %s Mostrar dimensões combinadas",
         "Default": "predefinido",
         "DonateCall1": "O Matomo nunca lhe custará nada para usar, mas isso não quer dizer que não nos custe nada para o criar.",
         "DonateCall2": "O Matomo precisa do seu apoio contínuo para crescer e prosperar.",
@@ -46,12 +49,11 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Está autenticado como '%1$s' mas parece que não tem quaisquer permissões definidas no Matomo. %2$s Peça ao seu administrador do Matomo (clique para enviar um e-mail)%3$s para lhe dar permissões para 'ver' um site.",
         "OnlyForSuperUserAccess": "Esta widget é apresentada no painel predefinido apenas para utilizadores com acesso de super-utilizador.",
-        "PageOf": "%1$s de %2$s",
         "PeriodRange": "Intervalo",
         "ReportGeneratedOn": "Relatório gerado a %s",
         "ReportGeneratedXAgo": "Relatório gerado há %s",
         "SharePiwikLong": "Olá! Encontrei um excelente software gratuito: o Matomo!\n\nO Matomo permite-lhe acompanhar visitantes no seu site gratuitamente. Deve mesmo experimentar!",
-        "SharePiwikShort": "Piwik! Web analytics gratuito\/livre. Seja o proprietário dos seus dados.",
+        "SharePiwikShort": "Matomo! Web analytics gratuito\/livre. Seja o proprietário dos seus dados.",
         "ShareThis": "Partilhar isto",
         "ShortcutsAvailable": "Atalhos disponíveis",
         "ShortcutZenMode": "para o modo Zen",
@@ -67,6 +69,8 @@
         "TableNoData": "Sem dados para esta tabela.",
         "ThereIsNoDataForThisReport": "Não existem dados para este relatório.",
         "UnFlattenDataTable": "O relatório está nivelado %s Torná-lo hierarquizado",
+        "RemoveTotalsRowDataTable": "O relatório está a apresentar a linha dos totais %s Remover a linha de totais",
+        "AddTotalsRowDataTable": "O relatório não está a apresentar a linha dos totais %s Mostrar a linha de totais",
         "ViewAllPiwikVideoTutorials": "Ver todos os tutoriais vídeo do Matomo",
         "WebAnalyticsReports": "Relatórios de Web Analytics",
         "YouAreUsingTheLatestVersion": "Está a utilizar a última versão do Matomo!",
@@ -101,6 +105,9 @@
         "ExpandSubtables": "Expandir sub-tabelas",
         "StandardReport": "Relatório padrão",
         "FlattenReport": "Nivelar relatório",
-        "ReportWithMetadata": "Relatório com meta-dados"
+        "ReportWithMetadata": "Relatório com meta-dados",
+        "ReadMoreOnlineGuide": "Leia mais sobre este tópico no guia online.",
+        "SeeAvailableVersions": "Ver versões disponíveis",
+        "QuickLinks": "Ligações rápidas"
     }
 }

@@ -3,7 +3,7 @@
          class="multiPairFieldTable multiPairFieldTable{{ index }} multiple valign-wrapper">
 
         <div piwik-field uicontrol="{{ field1.uiControl }}"
-             title="{{ field1.title }}"
+             data-title="{{ field1.title }}"
              full-width="true"
              ng-if="field1.templateFile"
              template-file="{{ field1.templateFile }}"
@@ -16,7 +16,7 @@
         </div>
 
         <div piwik-field uicontrol="{{ field2.uiControl }}"
-             title="{{ field2.title }}"
+             data-title="{{ field2.title }}"
              full-width="true"
              ng-if="field2.templateFile"
              class="fieldUiControl2"

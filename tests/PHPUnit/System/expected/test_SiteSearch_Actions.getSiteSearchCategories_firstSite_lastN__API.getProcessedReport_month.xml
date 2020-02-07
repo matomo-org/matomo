@@ -10,6 +10,7 @@
 		<action>getSiteSearchCategories</action>
 		<dimension>Search Category</dimension>
 		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -58,5 +59,7 @@
 	<reportTotal>
 		<nb_visits>4</nb_visits>
 		<nb_actions>5</nb_actions>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<nb_pages_per_search>3.5</nb_pages_per_search>
 	</reportTotal>
 </result>

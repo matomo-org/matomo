@@ -2,17 +2,19 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Piwik;
+use Psr\Log\LoggerInterface;
 
 class Model
 {
@@ -194,7 +196,10 @@ class Model
                     $model->addCustomVariable();
                 }
             } catch (\Exception $e) {
-                Log::error('Failed to add custom variable: ' . $e->getMessage());
+                StaticContainer::get(LoggerInterface::class)->error('Failed to add custom variable: {exception}', [
+                    'exception' => $e,
+                    'ignoreInScreenWriter' => true,
+                ]);
             }
         }
     }

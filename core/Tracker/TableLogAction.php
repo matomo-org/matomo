@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,7 +10,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Segment\SegmentExpression;
 
@@ -225,6 +224,8 @@ class TableLogAction
             'contentTarget'      => Action::TYPE_CONTENT_TARGET,
             'contentName'        => Action::TYPE_CONTENT_NAME,
             'contentInteraction' => Action::TYPE_CONTENT_INTERACTION,
+            'productName'        => Action::TYPE_ECOMMERCE_ITEM_NAME,
+            'productSku'         => Action::TYPE_ECOMMERCE_ITEM_SKU,
         );
 
         if (!empty($exactMatch[$segmentName])) {
@@ -239,6 +240,9 @@ class TableLogAction
             return $actionType;
         } elseif (stripos($segmentName, 'sitesearch') !== false) {
             $actionType = Action::TYPE_SITE_SEARCH;
+            return $actionType;
+        } elseif (stripos($segmentName, 'productcategory') !== false) {
+            $actionType = Action::TYPE_ECOMMERCE_ITEM_CATEGORY;
             return $actionType;
         } else {
             throw new \Exception("We cannot guess the action type from the segment $segmentName.");

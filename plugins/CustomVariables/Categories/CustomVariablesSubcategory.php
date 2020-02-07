@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,6 @@ class CustomVariablesSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
     protected $id = 'CustomVariables_CustomVariables';
-    protected $order = 10;
+    protected $order = 45;
 
 }

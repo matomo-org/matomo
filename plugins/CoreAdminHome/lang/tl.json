@@ -7,7 +7,6 @@
         "ClickHereToOptOut": "I-click ito upang mag-opt out.",
         "CustomLogoFeedbackInfo": "Kung pinasadya mo ang logo ng Matomo, maaaring interesado ka rin upang itago ang %1$s na link sa itaas ng menu. Upang gawin ito, maaari mong i-disable ang Feedback plugin sa %2$s Manage Plugin %3$s na pahina.",
         "CustomLogoHelpText": "Maaari mong i-customize ang Matomo logo na ipapakita sa user interface at mga report sa email.",
-        "DevelopmentProcess": "Habang ang aming %1$s proseso ng development %2$s ay nakapaloob ang libu-libong automated tests, ang mga Beta Tester ay may pangunahing papel sa archiving ng \"No bug policy\" sa Matomo.",
         "EmailServerSettings": "Mga setting sa email server",
         "ForBetaTestersOnly": "Pagsusubaybay ng Imahe",
         "ImageTracking": "Pagsubaybay ng Imahe",
@@ -38,7 +37,6 @@
         "JSTracking_PageCustomVarsDesc": "Halimbawa, mayroong pangalan ng variable na \"Category\" at value na White Papers\"\".\"",
         "JSTracking_VisitorCustomVars": "Subaybayan ang mga custom na variable para sa bisitang ito",
         "JSTracking_VisitorCustomVarsDesc": "Halimbawa, mayroong pangalan ng variable na \"Type\" at value na \"Customer\"",
-        "JSTrackingIntro1": "Maaari mong subaybayan ang mga bisita sa iyong website sa iba't ibang paraan. Ang inirekomendang paraan upang gawin ito ay sa pamamagitan ng JavaScript. Upang magamit ang pamamaraang ito dapat mong tiyakin na ang bawat webpage sa iyong website ay may code ng JavaScript, na maaari mong gawin dito.",
         "JSTrackingIntro2": "Sa oras na mayroon ka nang JavaScript tracking code para sa iyong website, kopyahin at i-paste ito sa lahat ng pahina na gusto mong subaybayan gamit ang Matomo.",
         "JSTrackingIntro4": "Kung ayaw mong gamitin ang JavaScript upang masubaybayan ang mga bisita,%1$s gumawa ng link upang sumubaybay sa image sa ibaba %2$s.",
         "JSTrackingIntro5": "Kung gusto mong gawin nang higit pa kaysa sa pagsubaybay ng page view, mangyaring tingnan ang %1$s Tracking Matomo Javascript na dokumentasyon %2$s para sa listahan ng mga available na function. Sa paggamit ng mga function na ito maaari mong subaybayan ang mga layunin, mga custom variable, mga ecommerce order, mga inabandunang cart at marami pa.",
@@ -68,7 +66,6 @@
         "UseCustomLogo": "Gamitin ang isang custom na logo",
         "ValidPiwikHostname": "Wastong Matomo na Hostname",
         "WithOptionalRevenue": "may opsyonal na kita",
-        "YouAreOptedIn": "Kasalukuyan kang naka-opt-in",
         "YouAreOptedOut": "Kasalukuyan kang naka-opt-out",
         "YouMayOptOut": "Maaari mong piliin na huwag magkaroon ng isang natatanging web analytic na 'cookie identification number' na itatalaga sa iyong computer upang maiwasan ang pagsasama-sama at pag-aaral ng data na nakolekta sa website na ito.",
         "YouMayOptOutBis": "Upang magawa ang napili mo, paki-click sa ibaba upang matanggap ang opt-out cookie."

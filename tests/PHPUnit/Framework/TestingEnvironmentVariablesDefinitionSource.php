@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -17,11 +17,6 @@ use DI\Definition\ValueDefinition;
 class TestingEnvironmentVariablesDefinitionSource implements DefinitionSource
 {
     /**
-     * @var TestingEnvironmentVariables
-     */
-    private $vars;
-
-    /**
      * @var string
      */
     private $prefix;
@@ -30,9 +25,8 @@ class TestingEnvironmentVariablesDefinitionSource implements DefinitionSource
      * @param TestingEnvironmentVariables $vars
      * @param string $prefix
      */
-    public function __construct(TestingEnvironmentVariables $vars, $prefix = 'test.vars.')
+    public function __construct($prefix = 'test.vars.')
     {
-        $this->vars = $vars;
         $this->prefix = $prefix;
     }
 
@@ -47,7 +41,8 @@ class TestingEnvironmentVariablesDefinitionSource implements DefinitionSource
 
         $variableName = $this->parseVariableName($name);
 
-        return new ValueDefinition($name, $this->vars->$variableName);
+        $vars = new TestingEnvironmentVariables();
+        return new ValueDefinition($name, $vars->$variableName);
     }
 
     private function parseVariableName($name)

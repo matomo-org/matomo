@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -24,9 +24,10 @@ class TestingEnvironmentVariables
         $this->reload();
     }
 
-    public function __get($key)
+    public function &__get($key)
     {
-        return isset($this->behaviorOverrideProperties[$key]) ? $this->behaviorOverrideProperties[$key] : null;
+        $result =& $this->behaviorOverrideProperties[$key];
+        return $result;
     }
 
     public function __set($key, $value)
@@ -103,10 +104,10 @@ class TestingEnvironmentVariables
         $pluginManager = new PluginManager($pluginList);
 
         $disabledPlugins = $pluginList->getCorePluginsDisabledByDefault();
-        $disabledPlugins[] = 'LoginHttpAuth';
         $disabledPlugins[] = 'LoginLdap';
         $disabledPlugins[] = 'MarketingCampaignsReporting';
         $disabledPlugins[] = 'ExampleVisualization';
+        $disabledPlugins[] = 'DeviceDetectorCache';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -49,13 +49,6 @@ class VisitorRecognizer
     private $lookBackNSecondsCustom;
 
     /**
-     * Forces all requests to result in new visits. For debugging only.
-     *
-     * @var int
-     */
-    private $trackerAlwaysNewVisitor;
-
-    /**
      * @var Model
      */
     private $model;
@@ -65,22 +58,32 @@ class VisitorRecognizer
      */
     private $eventDispatcher;
 
-    public function __construct($trustCookiesOnly, $visitStandardLength, $lookbackNSecondsCustom, $trackerAlwaysNewVisitor,
+    /**
+     * @var array
+     */
+    private $visitRow;
+
+    public function __construct($trustCookiesOnly, $visitStandardLength, $lookbackNSecondsCustom,
                                 Model $model, EventDispatcher $eventDispatcher)
     {
         $this->trustCookiesOnly = $trustCookiesOnly;
         $this->visitStandardLength = $visitStandardLength;
         $this->lookBackNSecondsCustom = $lookbackNSecondsCustom;
-        $this->trackerAlwaysNewVisitor = $trackerAlwaysNewVisitor;
 
         $this->model = $model;
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    public function setTrustCookiesOnly($trustCookiesOnly)
+    {
+        $this->trustCookiesOnly = $trustCookiesOnly;
     }
 
     public function findKnownVisitor($configId, VisitProperties $visitProperties, Request $request)
     {
         $idSite    = $request->getIdSite();
         $idVisitor = $request->getVisitorId();
+        $userId    = $request->getForcedUserId();
 
         $isVisitorIdToLookup = !empty($idVisitor);
 
@@ -91,58 +94,24 @@ class VisitorRecognizer
             Common::printDebug("Visitor doesn't have the piwik cookie...");
         }
 
-        $persistedVisitAttributes = $this->getVisitFieldsPersist();
+        $persistedVisitAttributes = $this->getVisitorFieldsPersist();
 
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, $request);
         list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit($request);
 
-        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
+        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
+        $this->visitRow = $visitRow;
 
-        $isNewVisitForced = $request->getParam('new_visit');
-        $isNewVisitForced = !empty($isNewVisitForced);
-        $enforceNewVisit  = $isNewVisitForced || $this->trackerAlwaysNewVisitor;
-        if($isNewVisitForced) {
-            Common::printDebug("-> New visit forced: &new_visit=1 in request");
-        }
-        if($this->trackerAlwaysNewVisitor) {
-            Common::printDebug("-> New visit forced: Debug.tracker_always_new_visitor = 1 in config.ini.php");
-        }
-
-        if (!$enforceNewVisit
-            && $visitRow
+        if ($visitRow
             && count($visitRow) > 0
         ) {
-
-            // These values will be used throughout the request
-            foreach ($persistedVisitAttributes as $field) {
-                $visitProperties->setProperty($field, $visitRow[$field]);
-            }
-
-            $visitProperties->setProperty('visit_last_action_time', strtotime($visitRow['visit_last_action_time']));
-            $visitProperties->setProperty('visit_first_action_time', strtotime($visitRow['visit_first_action_time']));
-
-            // Custom Variables copied from Visit in potential later conversion
-            if (!empty($numCustomVarsToRead)) {
-                for ($i = 1; $i <= $numCustomVarsToRead; $i++) {
-                    if (isset($visitRow['custom_var_k' . $i])
-                        && strlen($visitRow['custom_var_k' . $i])
-                    ) {
-                        $visitProperties->setProperty('custom_var_k' . $i, $visitRow['custom_var_k' . $i]);
-                    }
-                    if (isset($visitRow['custom_var_v' . $i])
-                        && strlen($visitRow['custom_var_v' . $i])
-                    ) {
-                        $visitProperties->setProperty('custom_var_v' . $i, $visitRow['custom_var_v' . $i]);
-                    }
-                }
-            }
+            $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
+            $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->getProperty('idvisitor')) . ",
                     config_id = " . bin2hex($configId) . ",
-                    idvisit = {$visitProperties->getProperty('idvisit')},
                     last action = " . date("r", $visitProperties->getProperty('visit_last_action_time')) . ",
-                    first action = " . date("r", $visitProperties->getProperty('visit_first_action_time')) . ",
-                    visit_goal_buyer' = " . $visitProperties->getProperty('visit_goal_buyer') . ")");
+                    first action = " . date("r", $visitProperties->getProperty('visit_first_action_time')) . ")");
 
             return true;
         } else {
@@ -152,19 +121,36 @@ class VisitorRecognizer
         }
     }
 
+    public function updateVisitPropertiesFromLastVisitRow(VisitProperties $visitProperties)
+    {
+        // These values will be used throughout the request
+        foreach ($this->getVisitorFieldsPersist() as $field) {
+            $value = $this->visitRow[$field];
+            if ($field == 'visit_last_action_time' || $field == 'visit_first_action_time') {
+                $value = strtotime($value);
+            }
+
+            $visitProperties->setProperty($field, $value);
+        }
+
+        Common::printDebug("The visit is part of an existing visit (
+            idvisit = {$visitProperties->getProperty('idvisit')},
+            visit_goal_buyer' = " . $visitProperties->getProperty('visit_goal_buyer') . ")");
+    }
+
     protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, Request $request)
     {
         $isForcedUserIdMustMatch = (false !== $request->getForcedUserId());
-
-        if ($isForcedUserIdMustMatch) {
-            // if &iud was set, we must try and match both idvisitor and config_id
-            return false;
-        }
 
         // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
         // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
         if ($isVisitorIdToLookup && $this->trustCookiesOnly) {
             return true;
+        }
+
+        if ($isForcedUserIdMustMatch) {
+            // if &iud was set, we must try and match both idvisitor and config_id
+            return false;
         }
 
         // If a &cid= was set, we force to select this visitor (or create a new one)
@@ -207,7 +193,7 @@ class VisitorRecognizer
     /**
      * @return array
      */
-    private function getVisitFieldsPersist()
+    private function getVisitorFieldsPersist()
     {
         if (is_null($this->visitFieldsToSelect)) {
             $fields = array(
@@ -271,5 +257,10 @@ class VisitorRecognizer
         }
 
         return $this->visitFieldsToSelect;
+    }
+
+    public function getLastKnownVisit()
+    {
+        return $this->visitRow;
     }
 }

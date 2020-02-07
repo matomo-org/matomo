@@ -2,18 +2,18 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\UserCountry;
 
-use Piwik\Cache\Cache;
-use Piwik\Cache\Transient;
+use Matomo\Cache\Cache;
+use Matomo\Cache\Transient;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Visit;
 use Psr\Log\LoggerInterface;
@@ -265,7 +265,7 @@ class VisitorGeolocator
                     $onLogProcessed($row, $updatedValues);
                 }
             }
-        });
+        }, $willDelete = false);
     }
 
     /**

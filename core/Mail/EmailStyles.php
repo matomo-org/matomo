@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -101,10 +101,15 @@ class EmailStyles
         $this->brandNameLong = 'Matomo, ' . Piwik::translate('General_OpenSourceWebAnalytics');
     }
 
-    private static function rgbToHex($rgbValues)
+    public static function rgbToHex($rgbValues)
     {
         list($r, $g, $b) = explode(',', $rgbValues);
-        return '#' . dechex($r) . dechex($g) . dechex($b);
+
+        $r = str_pad(dechex($r), 2, "0", STR_PAD_LEFT);
+        $g = str_pad(dechex($g), 2, "0", STR_PAD_LEFT);
+        $b = str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
+
+        return '#' . $r . $g . $b;
     }
 
     public static function get()

@@ -36,7 +36,7 @@
     <div class="dropdown positionInViewport">
         {% if latest_version_available and isSuperUser %}
             {% if isMultiServerEnvironment %}
-                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer noopener' href='https://builds.matomo.org/piwik-" ~ latest_version_available ~ ".zip'>","</a>")|raw }}
+                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer noopener' href='https://builds.matomo.org/piwik-" ~ latest_version_available ~ ".zip'>builds.matomo.org</a>")|raw }}
             {% else %}
                 {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/changelog/'>","</a>")|raw }}
             {% endif %}

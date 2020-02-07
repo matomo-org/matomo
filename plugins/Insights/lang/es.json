@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Proporciona información detallada acerca de su tráfico. Estos detalles están disponibles como módulos del panel de control y como un nuevo icono en los informes que le permite ver las tendencias más importantes en sus datos.",
+        "PluginDescription": "Proporciona información detallada acerca de su tráfico. Estos detalles están disponibles como módulos del panel de control y como un nuevo ícono en los informes que le permite ver las tendencias más importantes en sus datos.",
         "ControlComparedToDescription": "Crecimiento comparado con",
         "ControlFilterByDescription": "Muestra todos, solo los más activos, nuevos o solo desaparecidos",
         "DatePeriodCombinationNotSupported": "No es posible generar estadística para esta combinación de fecha y periodo.",

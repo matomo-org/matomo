@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -76,6 +76,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getSum($a = 0, $b = 0)
     {
+        if (!is_numeric($a) || !is_numeric($b)) {
+            throw new \Exception('Given parameters need to be numeric');
+        }
+
         return (float)($a + $b);
     }
 

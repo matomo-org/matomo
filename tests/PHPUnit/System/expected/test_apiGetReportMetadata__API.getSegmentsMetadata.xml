@@ -76,8 +76,15 @@
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Browser</name>
+		<segment>browserName</segment>
+		<acceptedValues>FireFox, Internet Explorer, Chrome, Safari, Opera etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Browser code</name>
 		<segment>browserCode</segment>
-		<acceptedValues>FF, IE, CH, SF, OP, etc.</acceptedValues>
+		<acceptedValues>FF, IE, CH, SF, OP etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -99,7 +106,7 @@
 		<category>Visitors</category>
 		<name>Device brand</name>
 		<segment>deviceBrand</segment>
-		<acceptedValues>3Q, 4Good, Acer, Ainol, Airness, Airties, Aiwa, Alcatel, Allview, Altech UEC, Amazon, Amoi, Apple, Archos, Arnova, ARRIS, Asus, Audiovox, Avvio, Axxion, Azumi Mobile, BangOlufsen, Barnes &amp; Noble, BBK, Becker, Beetel, BenQ, BenQ-Siemens, BGH, Bird, Bitel, Blackview, Blaupunkt, Blu, Bmobile, Boway, bq, Bravis, Brondi, Bush, Capitel, Captiva, Carrefour, Casio, Cat, Celkon, Changhong, Cherry Mobile, China Mobile, CnM, Coby Kyros, Compal, Compaq, ConCorde, Condor, Coolpad, Cowon, CreNova, Cricket, Crius Mea, Crosscall, Cube, CUBOT, Cyrus, Danew, Datang, Dbtel, Dell, Denver, Desay, DEXP, Dialog, Dicam, Digma, DMM, DNS, DoCoMo, Doogee, Doov, Dopod, Doro, Dune HD, E-Boda, Easypix, EBEST, ECS, EKO, Elephone, Energy Sistem, Ericsson, Ericy, Essential, Eton, eTouch, Evertek, Evolveo, Explay, Ezio, Ezze, Fairphone, Fly, Foxconn, Freetel, Fujitsu, Garmin-Asus, Gateway, Gemini, Gigabyte, Gigaset, Gionee, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, HannSpree, Hasee, Hi-Level, Hisense, Homtom, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, i-Joy, i-mate, i-mobile, iBall, iBerry, IconBIT, Ikea, iKoMo, iNew, Infinix, Inkti, Innostream, INQ, Intek, Intex, Inverto, iOcean, iTel, JAY-Tech, Jiayu, Jolla, K-Touch, Karbonn, Kazam, KDDI, Kiano, Kingsun, Kogan, Komu, Konka, Konrow, Koobee, KOPO, Koridy, KT-Tech, Kumai, Kyocera, Landvo, Lanix, Lava, LCT, LeEco, Lenco, Lenovo, Le Pan, Lexand, Lexibook, LG, Lingwin, Loewe, Logicom, LYF, M.T.T., Majestic, Manta Multimedia, Mecer, Mediacom, MediaTek, Medion, MEEG, Meizu, Memup, Metz, MEU, MicroMax, Microsoft, Mio, Mitsubishi, MIXC, MLLED, Mobiistar, Mobistel, Modecom, Mofut, Motorola, Mpman, MSI, MyPhone, NEC, Neffos, Netgear, Newgen, Nexian, NextBook, NGM, Nikon, Nintendo, Noain, Noblex, Nokia, Nomi, Nous, Nvidia, O2, Obi, Odys, Onda, OnePlus, OPPO, Opsson, Orange, Ouki, OUYA, Overmax, Oysters, Palm, Panasonic, Pantech, PEAQ, Pentagram, Philips, phoneOne, Pioneer, Ployer, Point of View, Polaroid, PolyPad, Pomp, Positivo, PPTV, Prestigio, ProScan, PULID, Qilive, QMobile, Qtek, Quechua, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Sagem, Samsung, Sanyo, Sega, Selevision, Sencor, Sendo, Senseit, SFR, Sharp, Siemens, Skyworth, Smart, Smartfren, Smartisan, Softbank, Sony, Sony Ericsson, Spice, Star, STK, Stonex, Storex, Sumvision, SunVan, SuperSonic, Supra, Symphony, T-Mobile, TB Touch, TCL, TechniSat, TechnoTrend, Teclast, Tecno Mobile, Telefunken, Telenor, Telit, Tesco, Tesla, teXet, ThL, Thomson, TIANYU, TiPhone, Tolino, Toplux, Toshiba, TrekStor, Trevi, Tunisie Telecom, Turbo-X, TVC, Ulefone, UMIDIGI, Uniscope, Unknown, Unnecto, Unowhy, UTStarcom, Vastking, Vernee, Vertu, Verykool, Vestel, Videocon, Videoweb, ViewSonic, Vitelcom, Vivo, Vizio, VK Mobile, Vodafone, Vonino, Voto, Voxtel, Walton, Web TV, WellcoM, Wexler, Wiko, Wileyfox, Wolder, Wolfgang, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Ytone, Yuandao, Yusun, Zeemi, Zen, Zonda, Zopo, ZTE</acceptedValues>
+		<acceptedValues>3Q, 4Good, Acer, Advan, Advance, AGM, Ainol, Airness, Airties, AIS, Aiwa, Akai, Alba, Alcatel, AllCall, Allview, Allwinner, Altech UEC, altron, Amazon, AMGOO, Amoi, ANS, Apple, Archos, Arian Space, Ark, Arnova, ARRIS, Ask, Assistant, Asus, Audiovox, AVH, Avvio, Axxion, Azumi Mobile, BangOlufsen, Barnes &amp; Noble, BBK, BDF, Becker, Beeline, Beetel, BenQ, BenQ-Siemens, BGH, Bird, Bitel, Black Fox, Blackview, Blaupunkt, Blu, Bluboo, Bluegood, Bmobile, bogo, Boway, bq, Bravis, Brondi, Bush, CAGI, Capitel, Captiva, Carrefour, Casio, Casper, Cat, Celkon, Changhong, Cherry Mobile, China Mobile, Clarmin, CnM, Coby Kyros, Comio, Compal, Compaq, ComTrade Tesla, Concord, ConCorde, Condor, Coolpad, Cowon, CreNova, Crescent, Cricket, Crius Mea, Crosscall, Cube, CUBOT, CVTE, Cyrus, Danew, Datang, Datsun, Dbtel, Dell, Denver, Desay, DEXP, Dialog, Dicam, Digi, Digicel, Digiland, Digma, DMM, DNS, DoCoMo, Doogee, Doov, Dopod, Doro, Dune HD, E-Boda, E-tel, Easypix, EBEST, Echo Mobiles, ECS, EE, EKO, Eks Mobility, Elenberg, Elephone, Energizer, Energy Sistem, Ergo, Ericsson, Ericy, Essential, Essentielb, Eton, eTouch, Etuline, Eurostar, Evercoss, Evertek, Evolio, Evolveo, EvroMedia, Explay, Extrem, Ezio, Ezze, Fairphone, Famoco, Fengxiang, FiGO, FinePower, Fly, FNB, Fondi, FORME, Forstar, Foxconn, Freetel, Fujitsu, G-TiDE, Garmin-Asus, Gateway, Gemini, General Mobile, Geotel, Ghia, Gigabyte, Gigaset, Ginzzu, Gionee, GOCLEVER, Goly, GoMobile, Google, Gradiente, Grape, Grundig, Hafury, Haier, HannSpree, Hasee, Hi-Level, Highscreen, Hisense, Hoffmann, Homtom, Hoozo, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, i-Joy, i-mate, i-mobile, iBall, iBerry, IconBIT, iHunt, Ikea, iKoMo, iLA, IMO Mobile, Impression, iNew, Infinix, InFocus, Inkti, InnJoo, Innostream, Inoi, INQ, Insignia, Intek, Intex, Inverto, iOcean, iPro, Irbis, iRola, iTel, iView, iZotron, JAY-Tech, Jiayu, Jolla, Just5, K-Touch, Kaan, Kalley, Karbonn, Kazam, KDDI, Kempler &amp; Strauss, Keneksi, Kiano, Kingsun, Kocaso, Kodak, Kogan, Komu, Konka, Konrow, Koobee, KOPO, Koridy, KRONO, Krüger&amp;Matz, KT-Tech, Kumai, Kyocera, LAIQ, Land Rover, Landvo, Lanix, Lark, Lava, LCT, Leagoo, Ledstar, LeEco, Lemhoov, Lenco, Lenovo, Leotec, Le Pan, Lephone, Lexand, Lexibook, LG, Lingwin, Loewe, Logicom, Lumus, LYF, M.T.T., M4tel, Majestic, Manta Multimedia, Masstel, Maxwest, Maze, Mecer, Mecool, Mediacom, MediaTek, Medion, MEEG, MegaFon, Meitu, Meizu, Memup, Metz, MEU, MicroMax, Microsoft, Mio, Miray, Mitsubishi, MIXC, MLLED, Mobicel, Mobiistar, Mobiola, Mobistel, Modecom, Mofut, Motorola, Movic, Mpman, MSI, MTC, MTN, MYFON, MyPhone, Myria, MyWigo, Navon, NEC, Neffos, Netgear, NeuImage, Newgen, NEXBOX, Nexian, Nextbit, NextBook, NGM, Nikon, Nintendo, NOA, Noain, Nobby, Noblex, Nokia, Nomi, Nous, NUU Mobile, Nvidia, NYX Mobile, O+, O2, Obi, Odys, Onda, OnePlus, OPPO, Opsson, Orange, Ouki, OUYA, Overmax, Oysters, Palm, Panacom, Panasonic, Pantech, PCBOX, PCD, PCD Argentina, PEAQ, Pentagram, Philips, phoneOne, Pioneer, Pixus, Ployer, Plum, Point of View, Polaroid, PolyPad, Polytron, Pomp, Positivo, PPTV, Prestigio, Primepad, ProScan, PULID, Q-Touch, Qilive, QMobile, Qtek, Quantum, Quechua, R-TV, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Rinno, Ritmix, Riviera, Roadrover, Rokit, Roku, Rombica, Ross&amp;Moor, Rover, RoverPad, RT Project, Safaricom, Sagem, Samsung, Sanei, Santin BiTBiZ, Sanyo, Savio, Sega, Selevision, Selfix, Sencor, Sendo, Senseit, Senwa, SFR, Sharp, Shuttle, Siemens, Sigma, Silent Circle, Simbans, Sky, Skyworth, Smart, Smartfren, Smartisan, Softbank, Sonim, Sony, Sony Ericsson, Spice, Star, Starway, STF Mobile, STK, Stonex, Storex, Sumvision, SunVan, SuperSonic, Supra, SWISSMOBILITY, Symphony, Syrox, T-Mobile, TB Touch, TCL, TechniSat, TechnoTrend, TechPad, Teclast, Tecno Mobile, Telefunken, Telego, Telenor, Telit, Tesco, Tesla, teXet, ThL, Thomson, TIANYU, Timovi, TiPhone, Tolino, Tooky, Top House, Toplux, Toshiba, Touchmate, TrekStor, Trevi, True, Tunisie Telecom, Turbo, Turbo-X, TVC, U.S. Cellular, Uhappy, Ulefone, UMIDIGI, Unimax, Uniscope, Unknown, Unnecto, Unonu, Unowhy, UTOK, UTStarcom, Vastking, Venso, Verizon, Vernee, Vertex, Vertu, Verykool, Vestel, VGO TEL, Videocon, Videoweb, ViewSonic, Vinsoc, Vitelcom, Vivax, Vivo, Vizio, VK Mobile, Vodafone, Vonino, Vorago, Voto, Voxtel, Vulcan, Walton, Web TV, Weimei, WellcoM, Wexler, Wiko, Wileyfox, Wink, Wolder, Wolfgang, Wonu, Woo, Woxter, X-TIGI, X-View, Xiaolajiao, Xiaomi, Xion, Xolo, Yandex, Yarvik, Yes, Yezz, Ytone, Yu, Yuandao, Yusun, Zeemi, Zen, Zenek, Zonda, Zopo, ZTE, Zuum, Zync, ZYQ, öwn</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -113,7 +120,15 @@
 		<category>Visitors</category>
 		<name>Device type</name>
 		<segment>deviceType</segment>
-		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet</acceptedValues>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet, smart speaker</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Fingerprint</name>
+		<segment>fingerprint</segment>
+		<acceptedValues>1eceaa833348b187 - any 16 Hexadecimal chars ID, which can be fetched from API.getLastVisitsDetails</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -126,8 +141,15 @@
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Operating system</name>
+		<segment>operatingSystemName</segment>
+		<acceptedValues>Windows, Linux, Mac, Android, iOS etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Operating system code</name>
 		<segment>operatingSystemCode</segment>
-		<acceptedValues>WIN, MAC, LIN, AND, IPD, etc.</acceptedValues>
+		<acceptedValues>WIN, LIN, MAX, AND, IOS etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -304,8 +326,15 @@
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>Country</name>
+		<segment>countryName</segment>
+		<acceptedValues>Germany, France, Spain, ...</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit Location</category>
+		<name>Country code</name>
 		<segment>countryCode</segment>
-		<acceptedValues>de, us, fr, in, es, etc.</acceptedValues>
+		<acceptedValues>ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -536,7 +565,7 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
-		<name>Clicked URL</name>
+		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
 	</row>
 	<row>
@@ -663,6 +692,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Referrers</category>
+		<name>Channel Type</name>
+		<segment>referrerType</segment>
+		<acceptedValues>direct, search, website, campaign</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
 		<name>Keyword</name>
 		<segment>referrerKeyword</segment>
 		<acceptedValues>Encoded%20Keyword, keyword</acceptedValues>
@@ -677,15 +713,45 @@
 	<row>
 		<type>dimension</type>
 		<category>Referrers</category>
-		<name>Referrer Type</name>
-		<segment>referrerType</segment>
-		<acceptedValues>direct, search, website, campaign</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
 		<name>Referrer URL</name>
 		<segment>referrerUrl</segment>
 		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Ecommerce</category>
+		<name>Order ID</name>
+		<segment>orderId</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Ecommerce</category>
+		<name>Product Price</name>
+		<segment>productPrice</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Product Category</name>
+		<segment>productCategory</segment>
+		<unionOfSegments>
+			<row>productCategory1</row>
+			<row>productCategory2</row>
+			<row>productCategory3</row>
+			<row>productCategory4</row>
+			<row>productCategory5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Product Name</name>
+		<segment>productName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Product SKU</name>
+		<segment>productSku</segment>
 	</row>
 </result>

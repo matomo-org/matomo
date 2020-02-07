@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -34,8 +34,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     const LOG_CONVERSION_TABLE = 'log_conversion';
     const VISITS_COUNT_FIELD = 'visitor_count_visits';
     const DAYS_SINCE_FIRST_VISIT_FIELD = 'visitor_days_since_first';
-
-    const NEW_VISIT_SEGMENT = 'visitorType%3D%3Dnew'; // visitorType==new
 
     /**
      * This array stores the ranges to use when displaying the 'visits to conversion' report
@@ -91,7 +89,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->aggregateGeneralGoalMetrics();
         $this->aggregateEcommerceItems();
 
-        $this->getProcessor()->processDependentArchive('Goals', API::NEW_VISIT_SEGMENT);
+        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
     }
 
@@ -424,5 +422,8 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $columnsAggregationOperation,
                 $columnsToRenameAfterAggregation = null,
                 $countRowsRecursive = array());
+
+        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
+        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
     }
 }

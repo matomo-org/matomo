@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result date="2012-03-03" />
-	<result date="2012-03-04" />
-	<result date="2012-03-05" />
-	<result date="2012-03-06">
+	<result period="2012-03-03" />
+	<result period="2012-03-04" />
+	<result period="2012-03-05" />
+	<result period="2012-03-06">
 		<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
 		<nb_users_returning>0</nb_users_returning>
 		<nb_visits_returning>1</nb_visits_returning>
@@ -16,7 +16,7 @@
 		<nb_actions_per_visit_returning>1</nb_actions_per_visit_returning>
 		<avg_time_on_site_returning>0</avg_time_on_site_returning>
 	</result>
-	<result date="2012-03-07" />
-	<result date="2012-03-08" />
-	<result date="2012-03-09" />
+	<result period="2012-03-07" />
+	<result period="2012-03-08" />
+	<result period="2012-03-09" />
 </results>

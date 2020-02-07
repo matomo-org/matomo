@@ -2,13 +2,12 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Category;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Plugin;
 
 /**
  * Base type for category. lets you change the name for a categoryId and specifiy a different order

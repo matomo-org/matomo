@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@ namespace Piwik\AssetManager\UIAsset;
 
 use Exception;
 use Piwik\AssetManager\UIAsset;
+use Piwik\Common;
 use Piwik\Filesystem;
 
 class OnDiskUIAsset extends UIAsset
@@ -25,13 +26,26 @@ class OnDiskUIAsset extends UIAsset
     private $relativeLocation;
 
     /**
+     * @var string
+     */
+    private $relativeRootDir;
+
+    /**
      * @param string $baseDirectory
      * @param string $fileLocation
      */
-    public function __construct($baseDirectory, $fileLocation)
+    public function __construct($baseDirectory, $fileLocation, $relativeRootDir = '')
     {
         $this->baseDirectory = $baseDirectory;
         $this->relativeLocation = $fileLocation;
+
+        if (!empty($relativeRootDir)
+            && is_string($relativeRootDir)
+            && !Common::stringEndsWith($relativeRootDir, '/')) {
+            $relativeRootDir .= '/';
+        }
+
+        $this->relativeRootDir = $relativeRootDir;
     }
 
     public function getAbsoluteLocation()
@@ -41,6 +55,9 @@ class OnDiskUIAsset extends UIAsset
 
     public function getRelativeLocation()
     {
+        if (isset($this->relativeRootDir)) {
+            return $this->relativeRootDir . $this->relativeLocation;
+        }
         return $this->relativeLocation;
     }
 

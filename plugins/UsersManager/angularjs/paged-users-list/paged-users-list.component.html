@@ -54,7 +54,7 @@
                         ng-model-options="{debounce: 300}"
                         placeholder="{{:: 'UsersManager_UserSearch'|translate }}"
                         full-width="true"
-                        ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter })"
+                        ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter, offset: 0 })"
                 ></div>
             </div>
             <div class="input-field col s12 m4 l4">
@@ -66,7 +66,7 @@
                         placeholder="{{:: 'UsersManager_FilterByAccess'|translate }}"
                         options="$ctrl.filterAccessLevels"
                         full-width="true"
-                        ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter })"
+                        ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter, offset: 0 })"
                 ></div>
             </div>
         </div>
@@ -78,7 +78,7 @@
 
                 <div class="counter">
                     <span>
-                        {{ 'UsersManager_XtoYofN'|translate:$ctrl.searchParams.offset:$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
+                        {{ 'General_Pagination'|translate:$ctrl.getPaginationLowerBound():$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
                     </span>
                     <div piwik-activity-indicator ng-if="$ctrl.isLoadingUsers" loading="$ctrl.isLoadingUsers"></div>
                 </div>
@@ -121,6 +121,7 @@
                     ></div>
                 </th>
                 <th ng-if="$ctrl.currentUserRole == 'superuser'">{{:: 'UsersManager_Email'|translate }}</th>
+                <th ng-if="$ctrl.currentUserRole == 'superuser'" title="{{'UsersManager_UsesTwoFactorAuthentication'|translate}}">{{:: 'UsersManager_2FA'|translate }}</th>
                 <th ng-if="$ctrl.currentUserRole == 'superuser'">{{:: 'UsersManager_LastSeen'|translate }}</th>
                 <th class="actions-cell-header"><div>{{:: 'General_Actions'|translate }}</div></th>
             </tr>
@@ -128,7 +129,7 @@
 
             <tbody>
                 <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length && $ctrl.users.length < $ctrl.totalEntries">
-                    <td colspan="7">
+                    <td colspan="8">
                         <div ng-if="!$ctrl.areAllResultsSelected">
                             <span piwik-translate="UsersManager_TheDisplayedUsersAreSelected"><strong>{{ $ctrl.users.length }}</strong></span>
                             <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected" piwik-translate="UsersManager_ClickToSelectAll"><strong>{{ $ctrl.totalEntries }}</strong></a>
@@ -154,20 +155,23 @@
                             piwik-field
                             uicontrol="select"
                             ng-model="user.role"
-                            options="$ctrl.accessLevels"
+                            options="user.login != 'anonymous' ? $ctrl.accessLevels : $ctrl.anonymousAccessLevels"
                             ng-change="$ctrl.userToChange = user; $ctrl.roleToChangeTo = user.role; $ctrl.previousRole = '{{ user.role }}'; $ctrl.showAccessChangeConfirm();"
-                            disabled="user.role == 'superuser'"
+                            data-disabled="user.role == 'superuser'"
                         ></div>
                     </td>
                     <td id="email" ng-if="$ctrl.currentUserRole == 'superuser'">{{ user.email }}</td>
+                    <td id="twofa" ng-if="$ctrl.currentUserRole == 'superuser'">
+                        {{ user.uses_2fa ? ('✓') : '☓' }}
+                    </td>
                     <td id="last_seen" ng-if="$ctrl.currentUserRole == 'superuser'">
                         {{ user.last_seen ? (user.last_seen + ' ago') : '-' }}
                     </td>
                     <td class="center actions-cell">
-                        <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
+                        <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })" ng-if="user.login != 'anonymous'">
                             <span class="icon-edit"></span>
                         </button>
-                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToChange = user; $ctrl.showDeleteConfirm()" ng-if="$ctrl.currentUserRole == 'superuser'">
+                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToChange = user; $ctrl.showDeleteConfirm()" ng-if="$ctrl.currentUserRole == 'superuser' && user.login != 'anonymous'">
                             <span class="icon-delete"></span>
                         </button>
                     </td>
@@ -190,8 +194,9 @@
 
     <div class="change-user-role-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmSingle"><strong>{{ $ctrl.userToChange.login }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>::<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong></h3>
-            <p ng-if="!$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmMultiple"><strong>{{ $ctrl.getAffectedUsersCount() }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>::<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong></p>
+            <h3 ng-if="$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmSingle"><strong>{{ $ctrl.userToChange.login }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>::<strong>{{ $ctrl.permissionsForSite.name }}</strong></h3>
+            <h3 ng-if="$ctrl.userToChange && $ctrl.userToChange.login == 'anonymous' && $ctrl.roleToChangeTo == 'view'"><em>{{ 'General_Note'|translate }}: <span piwik-translate="UsersManager_AnonymousUserRoleChangeWarning">anonymous::{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</span></em></h3>
+            <p ng-if="!$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmMultiple"><strong>{{ $ctrl.getAffectedUsersCount() }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>::<strong>{{ $ctrl.permissionsForSite.name }}</strong></p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">{{:: 'General_Yes'|translate }}</a>

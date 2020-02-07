@@ -10,17 +10,23 @@ function isTrackerDebugEnabled(ContainerInterface $c)
 
 return array(
 
-    'Psr\Log\LoggerInterface' => function (ContainerInterface $c) {
-        if (isTrackerDebugEnabled($c)) {
-            return $c->get('Monolog\Logger');
-        } else {
-            return new \Psr\Log\NullLogger();
+    'ini.log.log_writers' => DI\decorate(function ($previous, ContainerInterface $c) {
+        if (isTrackerDebugEnabled($c)
+            && \Piwik\Common::isPhpCliMode()
+        ) {
+            $previous[] = 'screen';
+            $previous = array_unique($previous);
         }
-    },
+        return $previous;
+    }),
 
-    'log.handler.classes' => DI\decorate(function ($previous) {
-        if (isset($previous['screen'])) {
+    'log.handler.classes' => DI\decorate(function ($previous, ContainerInterface $c) {
+        if (isset($previous['screen'])
+            && isTrackerDebugEnabled($c)
+        ) {
             $previous['screen'] = 'Piwik\Plugins\Monolog\Handler\EchoHandler';
+        } else {
+            unset($previous['screen']);
         }
 
         return $previous;

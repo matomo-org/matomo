@@ -117,7 +117,7 @@
       margin-top: -4px;
     }
 
-    .select-wrapper {
+    .role-select .select-wrapper {
       transform: scale(.8) translate(-1.3rem);
       margin-top: -0.5rem;
       max-width: 160px;
@@ -183,7 +183,7 @@
     float: right;
   }
 
-  .delete-access-confirm-modal, .change-access-confirm-modal {
+  .delete-access-confirm-modal, .change-access-confirm-modal, .confirm-give-access-all-sites {
     .modal-no {
       float: right;
       margin-right: 1em;
@@ -191,7 +191,7 @@
     }
   }
 
-  th.role_header {
+  th.role_header, th.capabilities_header {
     .helpIcon {
       color: #9e9e9e;
       font-size: .8rem;
@@ -201,6 +201,25 @@
       &:hover,&.sticky {
         opacity: 1;
       }
+    }
+  }
+
+  .to-all-websites {
+    margin-left: -0.75em;
+    margin-right: -0.75em;
+  }
+  #all-sites-access-select {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 150px;
+    .form-group {
+      margin: 0;
+    }
+    .input-field {
+      margin-top: 0;
+    }
+    .select-dropdown {
+      margin-bottom: 0;
     }
   }
 }

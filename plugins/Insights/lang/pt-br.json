@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Fornece Insights sobre o seu tráfego. Insights estão disponíveis como widgets do painel de controle e também como um novo ícone nos relatórios para que você possa ver as tendências mais importantes em seus dados.",
+        "PluginDescription": "Fornece Insights sobre o seu tráfego. Insights estão disponíveis como widgets do painel de controle e também como um novo ícone nos relatórios, permitindo que você veja as tendências mais importantes em seus dados.",
         "ControlComparedToDescription": "Aumento comparado com",
         "ControlFilterByDescription": "Mostrar todos, apenas movedores, apenas novos ou apenas desaparecidos",
         "DatePeriodCombinationNotSupported": "não é possível gerar insights para esta combinação de período e data",

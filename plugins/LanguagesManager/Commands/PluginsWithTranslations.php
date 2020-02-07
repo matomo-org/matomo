@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -26,9 +27,14 @@ class PluginsWithTranslations extends TranslationBase
     {
         $output->writeln("Following plugins contain their own translation files:");
 
-        $pluginFiles = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginFiles = array();
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginFiles = array_merge($pluginsDir, glob(sprintf('%s*/lang/en.json', $pluginsDir)));
+        }
         $pluginFiles = array_map(function($elem){
-            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+            $replace = Manager::getPluginsDirectories();
+            $replace[] = '/lang/en.json';
+            return str_replace($replace, '', $elem);
         }, $pluginFiles);
 
         $output->writeln(join("\n", $pluginFiles));

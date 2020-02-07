@@ -19,7 +19,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.224</avg_time_generation>
 		<url>http://example.org/</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2F</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252F</segment>
 	</row>
 	<row>
 		<label>/index.htm</label>
@@ -43,7 +43,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.024</avg_time_generation>
 		<url>http://example.org/index.htm</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
 	<row>
 		<label>/index.htm?parameter=Should display</label>
@@ -69,7 +69,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.234</avg_time_generation>
 		<url>http://example.org/index.htm?parameter=Should display</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fparameter%3DShould+display</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm%253Fparameter%253DShould%2Bdisplay</segment>
 	</row>
 	<row>
 		<label>store</label>
@@ -85,7 +85,7 @@
 		<max_bandwidth />
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>1</entry_nb_actions>
-		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_sum_visit_length>1</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
@@ -93,6 +93,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fstore</segment>
 		<subtable>
 			<row>
 				<label>/purchase.htm</label>
@@ -110,7 +111,7 @@
 				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>1</entry_nb_actions>
-				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_sum_visit_length>1</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
@@ -119,6 +120,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
 				<url>http://example.org/store/purchase.htm</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fstore%252Fpurchase.htm</segment>
 			</row>
 		</subtable>
 	</row>

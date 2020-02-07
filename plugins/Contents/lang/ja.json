@@ -1,6 +1,6 @@
 {
     "Contents": {
-        "PluginDescription": "コンテンツやバナーの追跡では、ページのコンテンツの任意の部分(バナー広告、イメージ、任意項目) のパフォーマンス(ビュー、クリック数、CTR )を測定できます。",
+        "PluginDescription": "コンテンツとバナートラッキングでは、ページ上のコンテンツ ( バナー広告、画像、アイテム ) のパフォーマンス ( 表示、クリック、クリック率 ) を測定できます。",
         "Impressions": "インプレッション",
         "ContentImpression": "コンテンツインプレッション",
         "ContentInteraction": "コンテンツインタラクション",
@@ -12,9 +12,9 @@
         "ContentPieces": "コンテンツ要素",
         "ContentTarget": "コンテンツターゲット",
         "ContentTargets": "コンテンツターゲット",
-        "Contents": "内容",
-        "InteractionsMetricDocumentation": "( 例えば、バナーや広告を「クリック」というような ) 相互作用をコンテンツブロックが受けた回数。",
+        "Contents": "コンテンツ",
+        "InteractionsMetricDocumentation": "コンテンツブロックが操作された回数（バナーや広告の ' クリック ' など）。",
         "ImpressionsMetricDocumentation": "広告やバナーなどのコンテンツブロックがページに表示された回数。",
-        "InteractionRateMetricDocumentation": "相互作用に対するコンテンツの表示回数の比率。"
+        "InteractionRateMetricDocumentation": "インタラクションに対するコンテンツインプレッションの比率。"
     }
 }

@@ -1,6 +1,5 @@
 {
     "CoreHome": {
-        "PageOf": "%1$s of %2$s",
         "ShowJSCode": "Sýna JavaScript kóða til að setja inn",
         "ThereIsNoDataForThisReport": "Það eru eingin gögn til fyrir þessa skýrslu"
     }

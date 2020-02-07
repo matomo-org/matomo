@@ -1,0 +1,41 @@
+{% if column in properties.report_ratio_columns and (column in totals|keys or forceZero|default) -%}
+    {% set reportTotal   = totals[column]|default(0) %}
+
+    {% if siteTotalRow is defined and siteTotalRow is not empty %}
+        {% set siteTotal = siteTotalRow.getColumn(column) %}
+    {% else %}
+        {% set siteTotal = 0 %}
+    {% endif %}
+
+    {% if rowPercentage|default is empty %}
+        {% if row.getMetadata(column ~ '_row_percentage') != false %}
+            {% set rowPercentage = row.getMetadata(column ~ '_row_percentage') %}
+        {% elseif row.getColumn(column)|default(0) is numeric and reportTotal is numeric %}
+            {% set rowPercentage = row.getColumn(column)|percentage(reportTotal, 1) %}
+        {% else %}
+            {% set rowPercentage = '' %} {# should not happen #}
+        {% endif %}
+    {% endif %}
+
+    {% set metricTitle   = translations[column]|default(column) %}
+
+    {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(label, rowPercentage|e('html_attr'), reportTotal|e('html_attr'), metricTitle|e('html_attr'), '"' ~ segmentTitlePretty ~ '"', translations[labelColumn]|default(labelColumn)|e('html_attr')) %}
+
+    {% if totalPercentage|default is empty %}
+        {% if row.getMetadata(column ~ '_site_total_percentage') != false %}
+            {% set totalPercentage = row.getMetadata(column ~ '_site_total_percentage') %}
+        {% elseif row.getColumn(column)|default(0) is numeric and siteTotal is numeric %}
+            {% set totalPercentage = row.getColumn(column)|percentage(siteTotal, 1) %}
+        {% endif %}
+    {% endif %}
+
+    {% if totalPercentage|default is not empty %}
+        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal|number(2,0), metricTitle, periodTitlePretty) %}
+    {% else %}
+        {% set totalRatioTooltip = '' %}
+    {% endif %}
+
+    <span class="ratio"
+          title="{{ reportRatioTooltip|rawSafeDecoded|raw }} {{ totalRatioTooltip|rawSafeDecoded|e('html_attr') }}{% if tooltipSuffix|default is not empty %}<br/><br/> {{ tooltipSuffix|rawSafeDecoded|e('html_attr') }}{% endif %}"
+    >&nbsp;{{ rowPercentage }} {% if changePercentage|default is not empty %}({{ changePercentage }}){% endif %}</span>
+{%- endif %}

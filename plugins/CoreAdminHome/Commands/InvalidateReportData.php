@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -71,6 +71,9 @@ class InvalidateReportData extends ConsoleCommand
         $segments = $this->getSegmentsToInvalidateFor($input, $sites);
 
         foreach ($periodTypes as $periodType) {
+            if ($periodType === 'range') {
+                continue; // special handling for range below
+            }
             foreach ($dateRanges as $dateRange) {
                 foreach ($segments as $segment) {
                     $segmentStr = $segment ? $segment->getString() : '';
@@ -89,6 +92,31 @@ class InvalidateReportData extends ConsoleCommand
                         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
                             $output->writeln($invalidationResult->makeOutputLogs());
                         }
+                    }
+                }
+            }
+        }
+
+        $periods = trim($input->getOption('periods'));
+        $isUsingAllOption = $periods === self::ALL_OPTION_VALUE;
+        if ($isUsingAllOption || in_array('range', $periodTypes)) {
+            $rangeDates = array();
+            foreach ($dateRanges as $dateRange) {
+                if ($isUsingAllOption
+                    && !Period::isMultiplePeriod($dateRange, 'day')) {
+                    continue; // not a range, nothing to do... only when "all" option is used
+                }
+
+                $rangeDates[] = $this->getPeriodDates('range', $dateRange);
+            }
+            if (!empty($rangeDates)) {
+                foreach ($segments as $segment) {
+                    $segmentStr = $segment ? $segment->getString() : '';
+                    if ($dryRun) {
+                        $dateRangeStr = implode($dateRanges, ';');
+                        $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
+                    } else {
+                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
                     }
                 }
             }
@@ -123,7 +151,6 @@ class InvalidateReportData extends ConsoleCommand
 
         if ($periods == self::ALL_OPTION_VALUE) {
             $result = array_keys(Piwik::$idPeriods);
-            unset($result[4]); // remove 'range' period
             return $result;
         }
 
@@ -131,11 +158,6 @@ class InvalidateReportData extends ConsoleCommand
         $periods = array_map('trim', $periods);
 
         foreach ($periods as $periodIdentifier) {
-            if ($periodIdentifier == 'range') {
-                throw new \InvalidArgumentException(
-                    "Invalid period type: invalidating range periods is not currently supported.");
-            }
-
             if (!isset(Piwik::$idPeriods[$periodIdentifier])) {
                 throw new \InvalidArgumentException("Invalid period type '$periodIdentifier' supplied in --periods.");
             }
@@ -165,13 +187,17 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         try {
+
             $period = PeriodFactory::build($periodType, $dateRange);
         } catch (\Exception $ex) {
             throw new \InvalidArgumentException("Invalid date or date range specifier '$dateRange'", $code = 0, $ex);
         }
 
         $result = array();
-        if ($period instanceof Range) {
+        if ($periodType === 'range') {
+            $result[] = $period->getDateStart();
+            $result[] = $period->getDateEnd();
+        } elseif ($period instanceof Range) {
             foreach ($period->getSubperiods() as $subperiod) {
                 $result[] = $subperiod->getDateStart();
             }

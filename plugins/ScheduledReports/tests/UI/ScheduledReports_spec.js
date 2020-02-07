@@ -11,33 +11,34 @@ describe("ScheduledReports", function () {
     this.timeout(0);
     this.fixture = "Piwik\\Plugins\\ScheduledReports\\tests\\Fixtures\\ReportSubscription";
 
-    it("should show an error if no token was provided", function (done) {
-        expect.screenshot("no_token").to.be.capture(function (page) {
-            page.load("?module=ScheduledReports&action=unsubscribe&token=");
-        }, done);
+    it("should show an error if no token was provided", async function () {
+        await page.goto("?module=ScheduledReports&action=unsubscribe&token=");
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('no_token');
     });
 
-    it("should show an error if token is invalid", function (done) {
-        expect.screenshot("invalid_token").to.be.capture(function (page) {
-            page.load("?module=ScheduledReports&action=unsubscribe&token=invalidtoken");
-        }, done);
+    it("should show an error if token is invalid", async function () {
+        await page.goto("?module=ScheduledReports&action=unsubscribe&token=invalidtoken");
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token');
     });
 
-    it("should ask for confirmation before unsubscribing", function (done) {
-        expect.screenshot("unsubscribe_form").to.be.capture(function (page) {
-            page.load("?module=ScheduledReports&action=unsubscribe&token=mycustomtoken");
-        }, done);
+    it("should ask for confirmation before unsubscribing", async function () {
+        await page.goto("?module=ScheduledReports&action=unsubscribe&token=mycustomtoken");
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('unsubscribe_form');
     });
 
-    it("should show success message on submit", function (done) {
-        expect.screenshot("unsubscribe_success").to.be.capture(function (page) {
-            page.click(".submit", 1000);
-        }, done);
+    it("should show success message on submit", async function () {
+        await page.click(".submit");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('unsubscribe_success');
     });
 
-    it("token should be invalid on second try", function (done) {
-        expect.screenshot("invalid_token").to.be.capture(function (page) {
-            page.load("?module=ScheduledReports&action=unsubscribe&token=mycustomtoken");
-        }, done);
+    it("token should be invalid on second try", async function () {
+        await page.goto("?module=ScheduledReports&action=unsubscribe&token=mycustomtoken");
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token');
     });
 });

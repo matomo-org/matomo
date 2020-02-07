@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -149,6 +149,8 @@ class PrivacyManagerTest extends IntegrationTestCase
             'delete_logs_schedule_lowest_interval' => 7,
             'delete_logs_older_than' => 180,
             'delete_logs_max_rows_per_query' => 100000,
+            'delete_logs_unused_actions_max_rows_per_query' => 100000,
+            'delete_logs_unused_actions_schedule_lowest_interval' => 30,
             'enable_auto_database_size_estimate' => 1,
             'enable_database_size_estimate' => 1,
             'delete_reports_enable' => 0,

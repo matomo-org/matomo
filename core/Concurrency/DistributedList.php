@@ -2,11 +2,12 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Concurrency;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Psr\Log\LoggerInterface;
@@ -160,7 +161,7 @@ class DistributedList
 
         $result = array();
         if ($array
-            && ($array = unserialize($array))
+            && ($array = Common::safe_unserialize($array))
             && count($array)
         ) {
             $result = $array;

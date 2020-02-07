@@ -16,12 +16,7 @@ services:
 
 addons:
   apt:
-    sources:
-      - deadsnakes
-
     packages:
-      - python2.6
-      - python2.6-dev
       - nginx
       - realpath
       - lftp
@@ -41,21 +36,24 @@ matrix:
   fast_finish: true
   include:
     # PDO Mysql
-    - php: 5.6
+    - php: 7.2
       env: TEST_SUITE=SystemTestsCore MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
-    - php: 5.6
+    - php: 7.2
       env: TEST_SUITE=SystemTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
-    - php: 5.6
-      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 7.2
+      env: TEST_SUITE=IntegrationTestsCore MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
-    - php: 5.6
+    - php: 7.2
+      env: TEST_SUITE=IntegrationTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
+      sudo: required
+    - php: 7.2
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
       sudo: false
       addons: false
     # Javascript tests
-    - php: 5.6
+    - php: 7.2
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
       sudo: false
       addons:
@@ -63,22 +61,22 @@ matrix:
           packages:
             - nginx
             - realpath
-    - php: 5.6
+    - php: 7.2
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
       sudo: false
       addons: false
     # All tests after another
-    - php: 5.6
+    - php: 7.3
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
       sudo: required
-    - php: 5.6
+    - php: 7.3
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
       sudo: required
     # UITests use a specific version because the default 5.5 (== 5.5.38) is missing FreeType support
-    - php: 5.5.33
+    - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
       sudo: false
-    - php: 5.5.33
+    - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
       sudo: false
 
@@ -104,7 +102,7 @@ install:
 
 
 before_script:
-  - if [[ "$TRAVIS_PHP_VERSION" != 7* ]]; then phpenv config-rm xdebug.ini; fi
+  - phpenv config-rm xdebug.ini
 
   # add always_populate_raw_post_data=-1 to php.ini
   - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -128,7 +126,7 @@ after_script:
   # output contents of files w/ debugging info to screen
   - cat $PIWIK_ROOT_DIR/tests/travis/error.log
   - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
-  - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
+  - cat $PIWIK_ROOT_DIR/tmp/logs/matomo.log
   - cat $PIWIK_ROOT_DIR/config/config.ini.php
 
   # upload test artifacts (for debugging travis failures)
@@ -140,26 +138,5 @@ after_success:
 
 cache:
   directories:
-    - "travis_phantomjs"
     - $HOME/.composer/cache
-
-
-
-
-
-notifications:
-  slack:
-    rooms:
-      - piwik:3HWhNh21qPfDACQXTrJOb0mW
-    on_success: :change
-    on_failure: :change
-
-  irc:
-    skip_join: true
-    on_success: change
-    on_failure: change
-    channels:
-      - "irc.freenode.org#piwik-dev"
-    template:
-      - "%{repository} (%{commit}) : %{message} %{foo} "
-      - "Build details: %{build_url}"
+    - $PIWIK_ROOT_DIR/../travis_woff2

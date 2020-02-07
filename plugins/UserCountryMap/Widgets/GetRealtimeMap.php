@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -20,7 +20,8 @@ class GetRealtimeMap extends \Piwik\Widget\Widget
         $config->setName('UserCountryMap_RealTimeMap');
         $config->setModule('UserCountryMap');
         $config->setAction('realtimeMap');
-        $config->setOrder(5);
+        $config->setIsWide();
+        $config->setOrder(15);
 
         if (!PluginManager::getInstance()->isPluginActivated('UserCountry')) {
             $config->disable();

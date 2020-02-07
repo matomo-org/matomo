@@ -21,6 +21,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.443</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 		<subtable>
 			<row>
 				<label>category</label>
@@ -42,6 +43,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.443</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 				<subtable>
 					<row>
 						<label>community</label>
@@ -59,6 +61,7 @@
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.974</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 						<subtable>
 							<row>
 								<label>/index</label>
@@ -78,6 +81,7 @@
 								<exit_rate>0%</exit_rate>
 								<avg_time_generation>0.974</avg_time_generation>
 								<url>http://piwik.net/blog/category/community/</url>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -101,6 +105,7 @@
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.089</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 						<subtable>
 							<row>
 								<label>/index</label>
@@ -125,6 +130,7 @@
 								<exit_rate>0%</exit_rate>
 								<avg_time_generation>0.089</avg_time_generation>
 								<url>http://piwik.net/blog/category/meta/</url>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -149,6 +155,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.443</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 		<subtable>
 			<row>
 				<label>manage-websites</label>
@@ -166,6 +173,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.443</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -185,6 +193,7 @@
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.443</avg_time_generation>
 						<url>http://piwik.net/docs/manage-websites/</url>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -208,6 +217,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.255</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -229,6 +239,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.255</avg_time_generation>
 				<url>http://piwik.net/faq/</url>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 			</row>
 		</subtable>
 	</row>

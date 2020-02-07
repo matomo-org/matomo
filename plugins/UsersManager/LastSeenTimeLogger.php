@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -40,7 +40,7 @@ class LastSeenTimeLogger
         // only log time for non-anonymous visits to the reporting UI
         if ($module == 'API'
             || $module == 'Proxy'
-            || $currentUserLogin == 'anonymous'
+            || Piwik::isUserIsAnonymous()
         ) {
             return;
         }

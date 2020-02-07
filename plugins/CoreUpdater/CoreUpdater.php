@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\UpdateCheck;
 use Piwik\Updater as PiwikCoreUpdater;
 use Piwik\Version;
@@ -52,6 +53,10 @@ class CoreUpdater extends \Piwik\Plugin
 
     public function dispatch()
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            return;
+        }
+
         $module = Common::getRequestVar('module', '', 'string');
         $action = Common::getRequestVar('action', '', 'string');
 

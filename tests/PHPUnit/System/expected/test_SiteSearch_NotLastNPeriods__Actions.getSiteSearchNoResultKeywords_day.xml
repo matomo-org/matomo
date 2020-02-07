@@ -14,5 +14,6 @@
 		<avg_time_on_page>36</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 	</row>
 </result>

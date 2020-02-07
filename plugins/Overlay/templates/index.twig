@@ -16,7 +16,7 @@
         <div id="overlayDateRangeSelection">
 
             <span class="icon icon-calendar"></span>
-            <select id="overlayDateRangeSelect" name="overlayDateRangeSelect">
+            <select id="overlayDateRangeSelect" name="overlayDateRangeSelect" disabled>
                 <option value="day;today">{{ 'Intl_Today'|translate }}</option>
                 <option value="day;yesterday">{{ 'Intl_Yesterday'|translate }}</option>
                 <option value="week;today">{{ 'General_CurrentWeek'|translate }}</option>
@@ -59,13 +59,19 @@
     </div>
 
     <div id="overlayMain">
-        <iframe id="overlayIframe" src="" frameborder="0"></iframe>
+        <iframe id="overlayIframe" name="overlayIframe" src="" frameborder="0"></iframe>
     </div>
 
     <script type="text/javascript">
         broadcast._isInit = true;
         $(function () {
+            Piwik_Overlay.siteUrls = {{ siteUrls|json_encode|raw }};
+
             var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
+            if (piwik.shouldPropagateTokenAuth) {
+                iframeSrc += '&token_auth=' + piwik.token_auth;
+            }
+
             Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');
 
             window.Piwik_Overlay_Translations = {

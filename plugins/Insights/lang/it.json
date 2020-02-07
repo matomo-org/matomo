@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Fornisce approfondimenti sul tuo traffico. Questi sono disponibili come widgets nella dashboard e anche come una nuova icona in report che ti fanno vedere le più importanti tendenze dei tuoi dati.",
+        "PluginDescription": "Fornisce approfondimenti sul tuo traffico. Le statistiche sono disponibili come widget della dashboard e anche come una nuova icona nei report, che ti consentono di visualizzare le tendenze più importanti nei tuoi dati.",
         "ControlComparedToDescription": "Crescita comparata a",
         "ControlFilterByDescription": "Mostra tutto, solo protagoniste, solo nuove o solo scomparse",
         "DatePeriodCombinationNotSupported": "Non è possibile generare approfondimenti per questa combinazione di data e periodo.",
@@ -26,7 +26,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s cambiate da %2$s a %3$s comparate a %4$s. Basandoci su ciò ci si aspetta un'evoluzione per ciascuna riga di %5$s%%.",
         "TitleRowChangeDetails": "'%1$s' è cambiato da %2$s (%3$s) a %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' è diminuita di %2$s e scomparsa in %3$s comparata a %4$s.",
-        "TitleRowMoverAndShaker": "Questa riga ha avuto un impatto più alto della media.",
+        "TitleRowMoverAndShaker": "Questa riga ha un impatto più alto della media.",
         "TitleRowNewDetails": "'%1$s' è aumentata di %2$s ed è nuova comparata a %3$s.",
         "WeekComparedToPreviousWeek": "settimana precedente",
         "WidgetCategory": "Approfondimenti",

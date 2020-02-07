@@ -57,6 +57,24 @@
         "TeaserExtendPiwikByPlugin": "Estenda o Matomo %1$sinstalando extensões da loja%2$s ou %3$senviando uma extensão no formato .zip%4$s.",
         "TeaserExtendPiwikByTheme": "Desfrute de outra aparência %1$sinstalando um novo tema%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Pode instalar extensões automaticamente da loja ou %1$senviar uma extensão%2$s no formato .zip.",
+        "TagManagerNowAvailableTitle": "O Gestor de tags do Matomo já está disponível",
+        "TagManagerNowAvailableSubtitle": "Agora pode gerir todas as suas tags facilmente a partir de uma só plataforma, para que obtenha todas as perspetivas que desejar. As possibilidades são ilimitadas!",
+        "ActivateTagManagerNow": "Ativar agora o Gestor de tags",
+        "TagManagerEmailSuperUserToActivate": "Para ativar esta nova funcionalidade, envie um e-mail aos Super Utilizadores.",
+        "TagManagerTeaserHideSuperUser": "Não mostrar esta página a nenhum utilizador",
+        "TagManagerTeaserHideNonSuperUser": "Não mostrar esta página novamente",
+        "TagManagerTeaserEmailSuperUserBody": "Olá,%1$sO Gestor de tags do Matomo já está disponível na aplicação e, como tal, gostaria de poder usufruir desta nova funcionalidade. Dado que possui perfil de Super Utilizador, seria possível ativar a funcionalidade através da página Gestor de tags no menu de topo?%2$sO URL é %3$s.%4$sObrigado",
+        "WhatIsTagManager": "O que é um Gestor de tags?",
+        "WhatIsTagManagerDetails1": "Tal como um Sistema de Gestão de Conteúdos (CMS) disponibiliza a flexibilidade necessária para que possa publicar conteúdo no seu site sem precisar de conhecimentos técnicos de HTML\/CSS, um Sistema de Gestão de tags (TMS) é a sua melhor aposta para simplificar o processo de incorporação de tags de acompanhamento de aplicação (também conhecidas por excertos ou pixeis) de terceiros ou próprias, no seu site.",
+        "WhatIsTagManagerDetails2": "Suponhamos que quer ver os resultados das suas conversões\/objetivos, subscrições a newsletters, widgets sociais, popups de saída e campanhas de remarketing; o que antes era um processo altamente técnico e moroso é agora facilmente realizado no TMS, precisando somente de uns quantos cliques para ser implementado.",
+        "TagManagerLearnMoreInUserGuide": "Saiba mais no Guia de Utilizador de Gestor de tags",
+        "WhyUsingATagManager": "Porquê optar por um Gestor de tags?",
+        "WhyUsingATagManagerDetails1": "Um Gestor de tags facilita a sua vida! Com ele, já não precisa de aguardar que um programador modifique quaisquer excertos de terceiros ou próprios no seu site, o Gestor de tags confere-lhe a oportunidade isenta de stress de ser você mesmo a fazer estas alterações e as publicar de forma autónoma no seu site.",
+        "WhyUsingATagManagerDetails2": "Não podia ser mais conveniente e não só permite trazer alterações para o mercado mais rapidamente, mas também reduz o custo.",
+        "WhyUsingATagManagerDetails3": "Isto mantém as equipas de marketing, equipas digitais e a equipa de informática felizes... Toda a gente ganha!",
+        "AreThereAnyRisks": "Existem riscos associados?",
+        "AreThereAnyRisksDetails1": "Ao ativar o Gestor de tags, os utilizadores com privilégios de Administração serão capazes de criar etiquetas HTML personalizadas, acionadores e variáveis que podem executar JavaScript no seu site. Estes modelos personalizados podem ser utilizados indevidamente, por exemplo, para roubar informações sensíveis dos visitantes do seu site (também conhecido por %1$sXSS %2$s).",
+        "AreThereAnyRisksDetails2": "Pode desativar estes modelos personalizados ao aceder a \"Administração => Definições Gerais\" uma vez que tenha ativado o Gestor de tags. Em alternativa, pode também restringir o uso destes modelos a determinados utilizadores ou apenas a Super Utilizadores.",
         "Theme": "Tema",
         "Themes": "Temas",
         "ThemesDescription": "Os temas podem alterar a aparência da interface do utilizador do Matomo e fornecer uma experiência visual completamente diferente para desfrutar dos seus relatórios.",
@@ -65,6 +83,7 @@
         "Version": "Versão",
         "ViewAllMarketplacePlugins": "Ver todas as extensões da loja",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "A extensão %1$s não pôde ser carregada dado que tem dependências em falta: %2$s",
-        "Websites": "Sites"
+        "Websites": "Sites",
+        "UpdateSelected": "Atualizar selecionados"
     }
 }

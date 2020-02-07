@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -71,6 +71,7 @@ class CliMultiTest extends SystemTestCase
      */
     public function test_request_shouldFail_IfUrlsIsNotAnArray()
     {
+        $this->setExpectedException('TypeError');
         $this->cliMulti->request('');
     }
 

@@ -1,0 +1,18 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "eCommerce te permite hacer un seguimiento de los usuarios al agregar productos a sus changuitos, y cuando realizan una compra en línea. También hace un seguimiento de los productos y las vistas de categorías de productos, así como los changuitos abandonados.",
+        "Sales": "Ventas",
+        "Order": "Orden",
+        "OrderId": "Identificación de la orden",
+        "Orders": "Órdenes",
+        "SalesBy": "Ventas por %s",
+        "SalesAdjective": "Ventas %s",
+        "NumberOfItems": "Números de elementos en el changuito",
+        "OrderValue": "Valor de la orden",
+        "LifeTimeValue": "Valor de vida útil de eCommerce",
+        "LifeTimeValueDescription": "Los ingresos totales de eCommerce atribuidos a este consumidor en todas sus visitas: la suma de todas las órdenes de eCommerce para el visitante con identificación %s.",
+        "VisitorProfileLTV": "Generó un ingreso útil de %1$s.",
+        "VisitorProfileItemsAndOrders": "Compró %1$s elementos en %2$s órdenes de eCommerce.",
+        "VisitorProfileAbandonedCartSummary": "Abandonó %1$s changuitos, incluyendo %2$s elementos con un valor total de %3$s."
+    }
+}

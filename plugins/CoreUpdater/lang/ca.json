@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Feu click aquí per veure i copiar la llista de consultes SQL que s'executaran",
         "CriticalErrorDuringTheUpgradeProcess": "Hi ha hagut un error crític durant el procés d'actualització:",
         "DatabaseUpgradeRequired": "És necessari actualitzar la base de dades",
         "DownloadingUpdateFromX": "S'està descarregant l'actualització de %s",

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -25,6 +25,8 @@ class Bar extends JqplotGraph
     {
         parent::beforeLoadDataTable();
 
+        $this->checkRequestIsNotForMultiplePeriods();
+
         $this->config->datatable_js_type = 'JqplotBarGraphDataTable';
     }
 
@@ -36,8 +38,23 @@ class Bar extends JqplotGraph
         return $config;
     }
 
+    protected function ensureValidColumnsToDisplay()
+    {
+        parent::ensureValidColumnsToDisplay();
+
+        $columnsToDisplay = $this->config->columns_to_display;
+
+        // Use a sensible default if the columns_to_display is empty
+        $this->config->columns_to_display = $columnsToDisplay ? : array('nb_visits');
+    }
+
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('bar', $properties);
+        return JqplotDataGenerator::factory('bar', $properties, $this);
+    }
+
+    public function supportsComparison()
+    {
+        return true;
     }
 }

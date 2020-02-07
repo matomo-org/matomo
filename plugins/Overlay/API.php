@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -73,7 +73,7 @@ class API extends \Piwik\Plugin\API
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
             $transitionsReport = APITransitions::getInstance()->getTransitionsForAction(
                 $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
-                $part = 'followingActions', $returnNormalizedUrls = true);
+                $part = 'followingActions');
         } catch (Exception $e) {
             return $resultDataTable;
         }

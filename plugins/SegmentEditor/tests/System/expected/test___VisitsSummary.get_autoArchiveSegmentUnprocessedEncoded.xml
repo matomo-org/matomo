@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="These reports have no data, because the Segment you requested (testsegment) has not yet been processed by the system. Data for this Segment should become available in a few hours when processing completes. (If it does not, there may be a problem.) Please note that you can test whether your segment will work without having to wait for it to be processed by using the Live.getLastVisitsDetails API. When using this API method, you will see which users and actions were matched by your &amp;segment= parameter. This can help you confirm your Segment matches the users and actions you expect it to." />
+</result>

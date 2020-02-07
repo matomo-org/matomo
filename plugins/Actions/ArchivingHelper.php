@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
+use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Zend_Db_Statement;
@@ -57,15 +58,20 @@ class ArchivingHelper
                 continue;
             }
 
+            $hasRowName = !empty($row['name']) && $row['name'] != RankingQuery::LABEL_SUMMARY_ROW;
+
             // This will appear as <url /> in the API, which is actually very important to keep
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
             $url = '';
+            $pageTitlePath = null;
             if ($row['type'] == Action::TYPE_SITE_SEARCH
                 || $row['type'] == Action::TYPE_PAGE_TITLE
             ) {
                 $url = null;
-            } elseif (!empty($row['name'])
-                        && $row['name'] != DataTable::LABEL_SUMMARY_ROW) {
+                if ($hasRowName) {
+                    $pageTitlePath = $row['name'];
+                }
+            } elseif ($hasRowName) {
                 $url = PageUrl::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
 
@@ -120,6 +126,12 @@ class ArchivingHelper
                     $actionRow->setMetadata('url', $url);
                     $actionRow->maxVisitsSummed = !empty($row[PiwikMetrics::INDEX_PAGE_NB_HITS]) ? $row[PiwikMetrics::INDEX_PAGE_NB_HITS] : 0;
                 }
+            }
+
+            if ($pageTitlePath !== null
+                && !$actionRow->isSummaryRow()
+            ) {
+                $actionRow->setMetadata('page_title_path', $pageTitlePath);
             }
 
             if ($row['type'] != Action::TYPE_PAGE_URL
@@ -296,6 +308,7 @@ class ArchivingHelper
 
     public static $maximumRowsInDataTableLevelZero;
     public static $maximumRowsInSubDataTable;
+    public static $maximumRowsInDataTableSiteSearch;
     public static $columnToSortByBeforeTruncation;
 
     protected static $actionUrlCategoryDelimiter = null;
@@ -319,6 +332,7 @@ class ArchivingHelper
         self::$columnToSortByBeforeTruncation = PiwikMetrics::INDEX_NB_VISITS;
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
+        self::$maximumRowsInDataTableSiteSearch = Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
 
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
@@ -355,7 +369,7 @@ class ArchivingHelper
      * @param int $actionType
      * @param int $urlPrefix
      * @param array $actionsTablesByType
-     * @return DataTable
+     * @return DataTable\Row
      */
     public static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
     {
@@ -368,7 +382,7 @@ class ArchivingHelper
         }
 
         // check for ranking query cut-off
-        if ($actionName == DataTable::LABEL_SUMMARY_ROW) {
+        if ($actionName == RankingQuery::LABEL_SUMMARY_ROW) {
             $summaryRow = $currentTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
             if ($summaryRow === false) {
                 $summaryRow = $currentTable->addSummaryRow(self::createSummaryRow());
@@ -443,12 +457,20 @@ class ArchivingHelper
 
         $name = str_replace("\n", "", $name);
 
+        if ($type == Action::TYPE_PAGE_TITLE && self::$actionTitleCategoryDelimiter === '') {
+            if ($name === '' || $name === false || $name === null || trim($name) === '') {
+                $name = self::getUnknownActionName($type);
+            }
+            return array(' ' . trim($name));
+        }
+
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);
 
         // outlinks and downloads
-        if(is_array($name)) {
+        if (is_array($name)) {
             return $name;
         }
+
         $split = self::splitNameByDelimiter($name, $type);
 
         if (empty($split)) {
@@ -478,7 +500,7 @@ class ArchivingHelper
      */
     private static function getCachedActionRowKey($idAction, $actionType)
     {
-        return $idAction == DataTable::LABEL_SUMMARY_ROW
+        return $idAction == RankingQuery::LABEL_SUMMARY_ROW
             ? $actionType . '_others'
             : $idAction;
     }
@@ -622,5 +644,24 @@ class ArchivingHelper
         }
 
         return $name;
+    }
+
+    public static function setFolderPathMetadata(DataTable $dataTable, $isUrl, $prefix = '')
+    {
+        $configGeneral = Config::getInstance()->General;
+        $separator = $isUrl ? '/' : $configGeneral['action_title_category_delimiter'];
+        $metadataName = $isUrl ? 'folder_url_start' : 'page_title_path';
+
+        foreach ($dataTable->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if (!$subtable) {
+                continue;
+            }
+
+            $metadataValue = $prefix . $row->getColumn('label');
+            $row->setMetadata($metadataName, $metadataValue);
+
+            self::setFolderPathMetadata($subtable, $isUrl, $metadataValue . $separator);
+        }
     }
 }

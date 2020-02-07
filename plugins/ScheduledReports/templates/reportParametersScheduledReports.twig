@@ -3,13 +3,13 @@
      introduction="{{ 'ScheduledReports_SendReportTo'|translate|e('html_attr') }}"
      ng-show="manageScheduledReport.report.type == 'email'"
      ng-model="manageScheduledReport.report.emailMe"
-     title="{{ 'ScheduledReports_SentToMe'|translate|e('html_attr') }} ({{ currentUserEmail|e('html_attr') }})">
+     data-title="{{ 'ScheduledReports_SentToMe'|translate|e('html_attr') }} ({{ currentUserEmail|e('html_attr') }})">
 </div>
 
 <div piwik-field uicontrol="textarea" var-type="array"
      ng-show="manageScheduledReport.report.type == 'email'"
      ng-model="manageScheduledReport.report.additionalEmails"
-     title="{{ 'ScheduledReports_AlsoSendReportToTheseEmails'|translate|e('html_attr') }}">
+     data-title="{{ 'ScheduledReports_AlsoSendReportToTheseEmails'|translate|e('html_attr') }}">
 </div>
 
 <script>

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -14,9 +14,15 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * @group Core
  */
-class JsProxyTest extends \PHPUnit_Framework_TestCase
+class JsProxyTest extends IntegrationTestCase
 {
-    public function testPiwikJs()
+    public function setUp()
+    {
+        parent::setUp();
+        Fixture::createWebsite('2014-01-01 02:03:04');
+    }
+
+    public function testMatomoJs()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/');
@@ -27,7 +33,7 @@ class JsProxyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $responseInfo["http_code"], 'Ok response');
 
-        $piwik_js = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
+        $piwik_js = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/matomo.js');
         $this->assertEquals($piwik_js, $fullResponse, 'script content');
     }
 
@@ -42,7 +48,7 @@ class JsProxyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $responseInfo["http_code"], 'Ok response');
 
-        $piwikJs = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
+        $piwikJs = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/matomo.js');
         $piwikNoCommentJs = substr($piwikJs, strpos($piwikJs, "*/\n") + 3);
         $this->assertEquals($piwikNoCommentJs, trim($fullResponse), 'script content (if comment shows, $byteStart value in /js/tracker.php)');
     }
@@ -60,7 +66,7 @@ class JsProxyTest extends \PHPUnit_Framework_TestCase
         $responseInfo = curl_getinfo($curlHandle);
         curl_close($curlHandle);
 
-        $this->assertEquals(200, $responseInfo["http_code"], var_export($responseInfo, true));
+        $this->assertEquals(200, $responseInfo["http_code"], var_export($responseInfo, true) . $fullResponse);
         $expected = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $processed = base64_encode($fullResponse);
         if ($expected != $processed) {

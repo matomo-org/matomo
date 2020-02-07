@@ -2,37 +2,37 @@
 <result>
 	<row>
 		<label>1920x1080</label>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
-		<nb_visits>20</nb_visits>
-		<nb_actions>20</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_uniq_visitors>8</nb_uniq_visitors>
+		<nb_visits>40</nb_visits>
+		<nb_actions>40</nb_actions>
+		<nb_users>8</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>20</bounce_count>
+		<bounce_count>40</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>resolution==1920x1080</segment>
 	</row>
 	<row>
 		<label>1280x1024</label>
-		<nb_uniq_visitors>3</nb_uniq_visitors>
-		<nb_visits>15</nb_visits>
-		<nb_actions>15</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
+		<nb_uniq_visitors>6</nb_uniq_visitors>
+		<nb_visits>30</nb_visits>
+		<nb_actions>30</nb_actions>
+		<nb_users>6</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>25</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>resolution==1280x1024</segment>
 	</row>
 	<row>
 		<label>Others</label>
-		<nb_uniq_visitors>8</nb_uniq_visitors>
-		<nb_visits>40</nb_visits>
-		<nb_actions>40</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>40</bounce_count>
+		<nb_uniq_visitors>11</nb_uniq_visitors>
+		<nb_visits>55</nb_visits>
+		<nb_actions>80</nb_actions>
+		<nb_users>11</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>40</sum_visit_length>
+		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 </result>

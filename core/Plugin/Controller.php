@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,9 +14,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
@@ -25,7 +23,6 @@ use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
-use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\PeriodValidator;
@@ -34,10 +31,10 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugin\ReportsProvider;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
+use Piwik\Plugin;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
@@ -273,7 +270,21 @@ abstract class Controller
      * @since 2.5.0
      * @api
      */
-    protected function renderTemplate($template, array $variables = array())
+    protected function renderTemplate($template, array $variables = [])
+    {
+        return $this->renderTemplateAs($template, $variables);
+    }
+
+    /**
+     * @see {self::renderTemplate()}
+     *
+     * @param $template
+     * @param array $variables
+     * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
+     * @return string
+     * @throws Exception
+     */
+    protected function renderTemplateAs($template, array $variables = array(), $viewType = null)
     {
         if (false === strpos($template, '@') || false === strpos($template, '/')) {
             $template = '@' . $this->pluginName . '/' . $template;
@@ -281,19 +292,29 @@ abstract class Controller
 
         $view = new View($template);
 
+        $this->checkViewType($viewType);
+
+        if (empty($viewType)) {
+            $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
+        }
+
         // alternatively we could check whether the templates extends either admin.twig or dashboard.twig and based on
         // that call the correct method. This will be needed once we unify Controller and ControllerAdmin see
         // https://github.com/piwik/piwik/issues/6151
-        if ($this instanceof ControllerAdmin) {
-            $this->setBasicVariablesView($view);
+        if ($this instanceof ControllerAdmin && $viewType == 'admin') {
+            $this->setBasicVariablesViewAs($view, $viewType);
         } elseif (empty($this->site) || empty($this->idSite)) {
-            $this->setBasicVariablesView($view);
+            $this->setBasicVariablesViewAs($view, $viewType);
         } else {
-            $this->setGeneralVariablesView($view);
+            $this->setGeneralVariablesViewAs($view, $viewType);
         }
 
         foreach ($variables as $key => $value) {
             $view->$key = $value;
+        }
+
+        if (isset($view->siteName)) {
+            $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
         }
 
         return $view->render();
@@ -576,11 +597,23 @@ abstract class Controller
      * Will exit on error.
      *
      * @param View $view
+     * @param string|null $viewType 'basic' or 'admin'. If null, set based on the type of controller.
      * @return void
      * @api
      */
     protected function setGeneralVariablesView($view)
     {
+        $this->setGeneralVariablesViewAs($view, $viewType = null);
+    }
+
+    protected function setGeneralVariablesViewAs($view, $viewType)
+    {
+        $this->checkViewType($viewType);
+
+        if ($viewType === null) {
+            $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
+        }
+
         $view->idSite = $this->idSite;
         $this->checkSitePermission();
         $this->setPeriodVariablesView($view);
@@ -643,7 +676,7 @@ abstract class Controller
         $language = LanguagesManager::getLanguageForSession();
         $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 
-        $this->setBasicVariablesView($view);
+        $this->setBasicVariablesViewAs($view, $viewType);
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->adminMenu = MenuAdmin::getInstance()->getMenu();
@@ -669,27 +702,11 @@ abstract class Controller
     }
 
     /**
-     * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
-     *
-     * The following variables assigned:
-     *
-     * **isSuperUser** - True if the current user is the Super User, false if otherwise.
-     * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
-     *                          false if otherwise.
-     * **isCustomLogo** - The value of the `branding_use_custom_logo` option.
-     * **logoHeader** - The header logo URL to use.
-     * **logoLarge** - The large logo URL to use.
-     * **logoSVG** - The SVG logo URL to use.
-     * **hasSVGLogo** - True if there is a SVG logo, false if otherwise.
-     * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
-     *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
-     *
-     * Also calls {@link setHostValidationVariablesView()}.
-     *
+     * Needed when a controller extends ControllerAdmin but you don't want to call the controller admin basic variables
+     * view. Solves a problem when a controller has regular controller and admin controller views.
      * @param View $view
-     * @api
      */
-    protected function setBasicVariablesView($view)
+    protected function setBasicVariablesNoneAdminView($view)
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
@@ -721,16 +738,59 @@ abstract class Controller
         $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
         $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
         $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        $view->themeStyles = ThemeStyles::get();
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
-                || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
+            || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
         $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') == 'Widgetize');
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
         }
 
+        $pluginManager = Plugin\Manager::getInstance();
+        $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
+        $view->isMultiSitesEnabled = Manager::getInstance()->isPluginActivated('MultiSites');
+
+        if (isset($this->site) && is_object($this->site) && $this->site instanceof Site) {
+            $view->siteName = $this->site->getName();
+        }
+
         self::setHostValidationVariablesView($view);
+    }
+
+    /**
+     * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
+     *
+     * The following variables assigned:
+     *
+     * **isSuperUser** - True if the current user is the Super User, false if otherwise.
+     * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
+     *                          false if otherwise.
+     * **isCustomLogo** - The value of the `branding_use_custom_logo` option.
+     * **logoHeader** - The header logo URL to use.
+     * **logoLarge** - The large logo URL to use.
+     * **logoSVG** - The SVG logo URL to use.
+     * **hasSVGLogo** - True if there is a SVG logo, false if otherwise.
+     * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
+     *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
+     *
+     * Also calls {@link setHostValidationVariablesView()}.
+     *
+     * @param View $view
+     * @param string $viewType 'basic' or 'admin'. Used by ControllerAdmin.
+     * @api
+     */
+    protected function setBasicVariablesView($view)
+    {
+        $this->setBasicVariablesViewAs($view);
+    }
+
+    protected function setBasicVariablesViewAs($view, $viewType = null)
+    {
+        $this->checkViewType($viewType); // param is not used here, but the check can be useful for a developer
+
+        $this->setBasicVariablesNoneAdminView($view);
     }
 
     protected function addCustomLogoInfo($view)
@@ -972,8 +1032,9 @@ abstract class Controller
 
     protected function checkSitePermission()
     {
-        if (!empty($this->idSite) && empty($this->site)) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $this->idSite)));
+        if (!empty($this->idSite)) {
+            Access::getInstance()->checkUserHasViewAccess($this->idSite);
+            new Site($this->idSite);
         } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Matomo and have permission to access the specified website.");
@@ -1003,4 +1064,12 @@ abstract class Controller
         $url = $url . $queryParams;
         Url::redirectToUrl($url);
     }
+
+    private function checkViewType($viewType)
+    {
+        if ($viewType == 'admin' && !($this instanceof ControllerAdmin)) {
+            throw new Exception("'admin' view type is only allowed with ControllerAdmin class.");
+        }
+    }
 }
+

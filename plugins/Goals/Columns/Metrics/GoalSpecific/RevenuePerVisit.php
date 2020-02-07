@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
@@ -14,6 +14,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
+use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
 /**
@@ -27,7 +28,7 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return $this->getColumnPrefix() . '_revenue_per_visit';
+        return Goals::makeGoalColumn($this->idGoal, 'revenue_per_visit', false);
     }
 
     public function getTranslatedName()

@@ -4,6 +4,7 @@
 
     <div style="max-width:980px;">
 
+        {% for plugin in plugins %}
         <h2>{{ 'Marketplace_UpdatingPlugin'|translate(plugin.name) }}</h2>
 
         <div>
@@ -29,7 +30,9 @@
                 <p>{{ 'Marketplace_StepPluginSuccessfullyUpdated'|translate(plugin.name, plugin.latestVersion) }}</p>
 
             {% endif %}
-
+        </div>
+        {% endfor %}
+        <div>
             <p><a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'plugins'}) }}">{{ 'General_Plugins'|translate }}</a>
                 |
                 <a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'themes'}) }}">{{ 'CorePluginsAdmin_Themes'|translate }}</a>

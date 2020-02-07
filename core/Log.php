@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -243,5 +243,14 @@ class Log extends Singleton
                 // Highest level possible, need to do better in the future...
                 return Logger::EMERGENCY;
         }
+    }
+
+    public static function getMonologLevelIfValid($level)
+    {
+        $level = strtoupper($level);
+        if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
+            return self::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
+        }
+        return null;
     }
 }

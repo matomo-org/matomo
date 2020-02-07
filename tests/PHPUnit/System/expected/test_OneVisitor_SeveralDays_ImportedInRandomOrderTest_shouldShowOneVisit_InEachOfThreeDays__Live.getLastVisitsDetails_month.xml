@@ -4,6 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -15,7 +16,10 @@
 				<pageId>1</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365328800</timestamp>
 				<customVariables>
 					<row>
@@ -114,6 +118,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -125,7 +130,10 @@
 				<pageId>2</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365246000</timestamp>
 				<customVariables>
 					<row>
@@ -224,6 +232,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -235,7 +244,10 @@
 				<pageId>3</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365163200</timestamp>
 				<customVariables>
 					<row>

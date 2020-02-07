@@ -6,7 +6,7 @@
         <title>{{ title }}</title>
     {% endif %}
     {% if reloadUrl %}
-        <meta http-equiv="refresh" content="0; url={{ reloadUrl }}&amp;nonce={{ nonce }}" />
+        <meta http-equiv="refresh" content="0; url={{ reloadUrl }}" />
     {% endif %}
 
     {% if stylesheets.external|length > 0 %}
@@ -37,19 +37,26 @@
     <noscript>
     {% endif %}
 
-    {% if not trackVisits %}
+        <p id="textOptIn" {% if trackVisits %}style=" display:none"{% endif %}>
         {{ 'CoreAdminHome_OptOutComplete'|translate }}
-	    <br/>
+
         {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
-    {% else %}
-        {{ 'CoreAdminHome_YouMayOptOut'|translate }}
-        <br/>
-        {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
-    {% endif %}
+        </p>
+        <p id="textOptOut" {% if not trackVisits %}style="display:none"{% endif %}>
+            {{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}
+        </p>
+
+        <p id="textError_cookies" style="display:none; color: red; font-weight: bold;" %}>
+            {{ 'CoreAdminHome_OptOutErrorNoCookies'|translate }}
+        </p>
+        <p id="textError_https" style="display:none; color: red; font-weight: bold;" %}>
+            {{ 'CoreAdminHome_OptOutErrorNotHttps'|translate }}
+        </p>
+        <p id="textError_popupBlocker" style="display:none; color: red; font-weight: bold;" %}>
+            {{ 'CoreAdminHome_OptOutErrorWindowOpen'|translate }}
+        </p>
 
     {% if showConfirmOnly %}</noscript>{% endif %}
-
-    <br/><br/>
 
     {% if not showConfirmOnly %}
     <form method="post" action="?{{ queryParameters|url_encode|raw }}" target="_blank">
@@ -57,11 +64,13 @@
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
         <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
         <label for="trackVisits"><strong>
-        {% if trackVisits %}
-            {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
-        {% else %}
-            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
-        {% endif %}
+                <span id="labelOptOut" {% if not trackVisits %} style="display:none;"{% endif %}>
+                    {{ 'CoreAdminHome_YouAreNotOptedOut'|translate }} {{ 'CoreAdminHome_UncheckToOptOut'|translate }}
+                </span>
+
+                <span id="labelOptIn" {% if trackVisits %} style="display:none;"{% endif %}>
+                    {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_CheckToOptIn'|translate }}
+                </span>
         </strong></label>
         <noscript>
             <button type="submit">{{ 'General_Save'|translate }}</button>

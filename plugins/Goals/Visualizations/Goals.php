@@ -2,19 +2,24 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Goals\Visualizations;
 
+use Piwik\API\DataTablePostProcessor;
+use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
+
+require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_goals_columns to true.
@@ -29,6 +34,8 @@ class Goals extends HtmlTable
     {
         parent::beforeLoadDataTable();
 
+        $this->config->show_totals_row = false;
+
         if ($this->config->disable_subtable_when_show_goals) {
             $this->config->subtable_controller_action = null;
         }
@@ -38,6 +45,7 @@ class Goals extends HtmlTable
 
     public function beforeRender()
     {
+        $this->config->show_totals_row = false;
         $this->config->show_goals = true;
         $this->config->show_goals_columns  = true;
         $this->config->datatable_css_class = 'dataTableVizGoals';
@@ -80,7 +88,8 @@ class Goals extends HtmlTable
         }
 
         // add goals columns
-        $this->config->filters[] = array('AddColumnsProcessedMetricsGoal', array($enable = true, $idGoal, $goalsToProcess), $priority = true);
+        $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
+        $this->requestConfig->request_parameters_to_modify['filter_show_goal_columns_process_goals'] = implode(',', $goalsToProcess);
     }
 
     private function setPropertiesForEcommerceView()
@@ -171,7 +180,7 @@ class Goals extends HtmlTable
             }
 
             // add the site's goals (and escape all goal names)
-            $siteGoals = APIGoals::getInstance()->getGoals($idSite);
+            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
             foreach ($siteGoals as &$goal) {
                 $goal['name'] = Common::sanitizeInputValue($goal['name']);

@@ -60,9 +60,6 @@
                 $('td.label', domElem).width(parseInt(width * 0.50, 10));
             }
 
-            var showScrollbarIfMoreThanThisPxOverlap = 32;
-            this.overflowContentIfNeeded(domElem, showScrollbarIfMoreThanThisPxOverlap);
-
             var self = this;
 
             if (!this.windowResizeTableAttached) {

@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Kliknite tu, za ogled ter kopiranje seznama SQL proizvedb, ki bodo uveljavljene",
         "DatabaseUpgradeRequired": "Potrebna je nadgraditev baze podatkov",
         "DownloadingUpdateFromX": "Prenašam posodobitev iz %s",
         "DownloadX": "Prenos %s",

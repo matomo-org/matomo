@@ -3,41 +3,51 @@
 	<row>
 		<label>0-10s</label>
 		<nb_visits>13</nb_visits>
+		<segment>visitDuration&gt;=0;visitDuration&lt;=10</segment>
 	</row>
 	<row>
 		<label>11-30s</label>
 		<nb_visits>0</nb_visits>
+		<segment>visitDuration&gt;=11;visitDuration&lt;=30</segment>
 	</row>
 	<row>
 		<label>31-60s</label>
 		<nb_visits>1</nb_visits>
+		<segment>visitDuration&gt;=31;visitDuration&lt;=60</segment>
 	</row>
 	<row>
 		<label>1-2 min</label>
 		<nb_visits>1</nb_visits>
+		<segment>visitDuration&gt;=60;visitDuration&lt;=120</segment>
 	</row>
 	<row>
 		<label>2-4 min</label>
 		<nb_visits>0</nb_visits>
+		<segment>visitDuration&gt;=120;visitDuration&lt;=240</segment>
 	</row>
 	<row>
 		<label>4-7 min</label>
 		<nb_visits>0</nb_visits>
+		<segment>visitDuration&gt;=240;visitDuration&lt;=420</segment>
 	</row>
 	<row>
 		<label>7-10 min</label>
 		<nb_visits>0</nb_visits>
+		<segment>visitDuration&gt;=420;visitDuration&lt;=600</segment>
 	</row>
 	<row>
 		<label>10-15 min</label>
 		<nb_visits>0</nb_visits>
+		<segment>visitDuration&gt;=600;visitDuration&lt;=900</segment>
 	</row>
 	<row>
 		<label>15-30 min</label>
 		<nb_visits>0</nb_visits>
+		<segment>visitDuration&gt;=900;visitDuration&lt;=1800</segment>
 	</row>
 	<row>
 		<label>30+ min</label>
 		<nb_visits>0</nb_visits>
+		<segment>visitDuration&gt;=1801</segment>
 	</row>
 </result>

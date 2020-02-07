@@ -1,0 +1,8 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+<div piwik-content-block
+     content-title="{{ 'TwoFactorAuth_SetUpTwoFactorAuthentication'|translate }}">
+    {% include '@TwoFactorAuth/_setupTwoFactorAuth.twig' %}
+</div>
+{% endblock %}

@@ -13,31 +13,29 @@ describe("Dashboard", function () {
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Dashboard&"
             + "actionToWidgetize=index&idDashboard=5";
 
-    var removeAllExtraDashboards = function (done) {
-        testEnvironment.callController("Dashboard.getAllDashboards", {}, function (err, dashboards) {
-            dashboards = (dashboards || []).filter(function (dash) {
-                return parseInt(dash.iddashboard) > 5;
-            });
-
-            var removeDashboard = function (i) {
-                if (i >= dashboards.length) {
-                    done();
-                    return;
-                }
-
-                console.log("Removing dashboard ID = " + dashboards[i].iddashboard);
-                testEnvironment.callApi("Dashboard.removeDashboard", {idDashboard: dashboards[i].iddashboard}, function () {
-                    removeDashboard(i + 1);
-                });
-            };
-
-            removeDashboard(0);
+    var removeAllExtraDashboards = async function() {
+        var dashboards = await testEnvironment.callController("Dashboard.getAllDashboards", {});
+        dashboards = (dashboards || []).filter(function (dash) {
+            return parseInt(dash.iddashboard) > 5;
         });
+
+        var removeDashboard = async function (i) {
+            if (i >= dashboards.length) {
+                return;
+            }
+
+            console.log("Removing dashboard ID = " + dashboards[i].iddashboard);
+            await testEnvironment.callApi("Dashboard.removeDashboard", {idDashboard: dashboards[i].iddashboard});
+            await removeDashboard(i + 1);
+        };
+
+        await removeDashboard(0);
     };
 
-    var setup = function (done) {
+    var setup = async function() {
         // make sure live widget doesn't refresh constantly for UI tests
         testEnvironment.overrideConfig('General', 'live_widget_refresh_after_seconds', 1000000);
+        testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
 
         // save empty layout for dashboard ID = 5
@@ -52,214 +50,252 @@ describe("Dashboard", function () {
             []
         ];
 
-        testEnvironment.callController("Dashboard.saveLayout", {name: 'D4', layout: JSON.stringify(layout), idDashboard: 5, idSite: 2}, function () {
-            // reset default widget selection
-            testEnvironment.callController("Dashboard.saveLayoutAsDefault", {layout: 0}, function () {
-                removeAllExtraDashboards(done);
-            });
-        });
+        await testEnvironment.callController("Dashboard.saveLayout", {name: 'D4', layout: JSON.stringify(layout), idDashboard: 5, idSite: 2});
+        await testEnvironment.callController("Dashboard.saveLayoutAsDefault", {layout: 0});
+        await removeAllExtraDashboards();
     };
 
     before(setup);
     after(setup);
 
-    it("should load correctly", function (done) {
-        expect.screenshot("loaded").to.be.capture(function (page) {
-            page.load(url, 5000);
-        }, done);
+    it("should load correctly", async function() {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded');
     });
 
-    it("should move a widget when widget is drag & dropped", function (done) {
-        expect.screenshot("widget_move").to.be.capture(function (page) {
-            page.mousedown('.widgetTop');
-            page.mouseMove('#dashboardWidgetsArea > .col:eq(2)');
-            page.mouseup('#dashboardWidgetsArea > .col:eq(2)');
-        }, done);
+    it("should move a widget when widget is drag & dropped", async function() {
+        var widget = await page.$('.widgetTop');
+        await widget.hover();
+        await page.mouse.down();
+
+        var col2 = await page.jQuery('#dashboardWidgetsArea > .col:eq(2)');
+        await col2.hover();
+        await page.mouse.up();
+        await page.mouse.move(-10, -10);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
     });
 
-    it("should refresh widget when widget refresh icon clicked", function (done) {
-        expect.screenshot("widget_move_refresh").to.be.capture(function (page) {
-            page.mouseMove('.widgetTop');
-            page.click('.button#refresh');
-            page.mouseMove('.dashboard-manager'); // let widget top hide again
-        }, done);
+    it("should refresh widget when widget refresh icon clicked", async function() {
+        var widget = await page.$('.widgetTop');
+        await widget.hover();
+
+        await page.click('.button#refresh');
+        await page.mouse.move(-10, -10);
+
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_refresh');
     });
 
-    it("should minimise widget when widget minimise icon clicked", function (done) {
-        expect.screenshot("widget_minimised").to.be.capture(function (page) {
-            page.mouseMove('.widgetTop');
-            page.click('.button#minimise');
-        }, done);
+    it("should minimise widget when widget minimise icon clicked", async function() {
+        var widget = await page.$('.widgetTop');
+        await widget.hover();
+        await page.click('.button#minimise');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_minimised');
     });
 
-    it("should unminimise widget when widget maximise icon is clicked after being minimised", function (done) {
-        expect.screenshot("widget_move_unminimised").to.be.capture(function (page) {
-            page.mouseMove('.widgetTop');
-            page.click('.button#maximise');
-            page.mouseMove('.dashboard-manager'); // let widget top hide again
-        }, done);
+    it("should unminimise widget when widget maximise icon is clicked after being minimised", async function() {
+        var widget = await page.$('.widgetTop');
+        await widget.hover();
+        await page.click('.button#maximise');
+        await page.mouse.move(-10, -10);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unminimise');
     });
 
-    it("should maximise widget when widget maximise icon is clicked", function (done) {
-        expect.screenshot("widget_maximise").to.be.capture(function (page) {
-            page.mouseMove('.widgetTop');
-            page.click('.button#maximise');
-        }, done);
+    it("should maximise widget when widget maximise icon is clicked", async function() {
+        var widget = await page.$('.widgetTop');
+        await widget.hover();
+        await page.click('.button#maximise');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_maximise');
     });
 
-    it("should close maximise dialog when minimise icon is clicked", function (done) {
-        expect.screenshot("widget_move_unmaximise").to.be.capture(function (page) {
-            page.mouseMove('.widgetTop');
-            page.click('.button#minimise');
-            page.mouseMove('.dashboard-manager'); // let widget top hide again
-        }, done);
+    it("should close maximise dialog when minimise icon is clicked", async function() {
+        var widget = await page.$('.widgetTop');
+        await widget.hover();
+        await page.click('.button#minimise');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unmaximise');
     });
 
-    it("should add a widget when a widget is selected in the dashboard manager", function (done) {
-        expect.screenshot("widget_add_widget").to.be.capture(function (page) {
-            page.click('.dashboard-manager .title');
+    it("should add a widget when a widget is selected in the dashboard manager", async function() {
+        await page.click('.dashboard-manager .title');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
-            page.click('.widgetpreview-categorylist>li:contains(Live!)');
+        var live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
+        await live.hover();
+        await live.click();
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Behaviour):first');
-            page.click('.widgetpreview-categorylist>li:contains(Behaviour):first');
+        var behaviour = await page.jQuery('.widgetpreview-categorylist>li:contains(Behaviour):first');
+        await behaviour.hover();
+        await behaviour.click();
 
-            page.mouseMove('.widgetpreview-widgetlist>li:contains(Pages):first');
-            page.click('.widgetpreview-widgetlist>li:contains(Pages):first');
-        }, done);
+        var pages = await page.jQuery('.widgetpreview-widgetlist>li:contains(Pages):first');
+        await pages.hover();
+        await pages.click();
+
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_add_widget');
     });
 
-    it("should open row evolution", function (done) {
-        expect.screenshot("rowevolution").to.be.captureSelector('.ui-dialog:visible', function (page) {
-            page.mouseMove('#widgetActionsgetPageUrls table.dataTable tbody tr:contains(thankyou) td:first-child', 100);
-            page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
-            page.click('a.actionRowEvolution:visible', 2000);
-        }, done);
+    it("should open row evolution", async function() {
+        var row = await page.jQuery('#dashboardWidgetsArea .dataTable tbody td:contains(thankyou)');
+        await row.hover();
+        var icon = await page.waitForSelector('#dashboardWidgetsArea .dataTable tbody a.actionRowEvolution');
+        await icon.click();
+        await page.waitForSelector('.ui-dialog');
+        await page.waitForNetworkIdle();
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('rowevolution');
     });
 
-    it("should remove widget when remove widget icon is clicked", function (done) {
-        expect.screenshot("widget_move_removed").to.be.capture(function (page) {
-            page.click('.ui-dialog-titlebar-close:visible'); // close row evolution
+    it("should remove widget when remove widget icon is clicked", async function() {
+        await page.click('.ui-dialog-titlebar-close'); // close row evolution
 
-            var widget = '[id="widgetActionsgetPageUrls"]';
+        var widget = '[id="widgetActionsgetPageUrls"]';
 
-            page.mouseMove(widget + ' .widgetTop');
-            page.click(widget + ' .button#close');
+        var titlebar = await page.$(widget + ' .widgetTop');
+        await titlebar.hover();
 
-            page.click('.modal.open .modal-footer a:contains(Yes)');
-            page.mouseMove('.dashboard-manager');
-        }, done);
+        var icon = await page.$(widget + ' .button#close');
+        await icon.click();
+
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
+        await button.click();
+
+        await page.mouse.move(-10, -10);
+        await page.waitFor(250);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move_removed');
     });
 
-    it("should change dashboard layout when new layout is selected", function (done) {
-        expect.screenshot("change_layout").to.be.capture(function (page) {
-            page.click('.dashboard-manager .title');
-            page.click('li[data-action=showChangeDashboardLayoutDialog]');
-            page.click('.modal.open div[layout=50-50]');
-            page.click('.modal.open .modal-footer a:contains(Save)');
-        }, done);
+    it("should change dashboard layout when new layout is selected", async function() {
+        await page.click('.dashboard-manager .title');
+        await page.click('li[data-action="showChangeDashboardLayoutDialog"]');
+        await page.click('.modal.open div[layout="50-50"]');
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
+        await button.click();
+        await page.mouse.move(-10, -10);
+        await page.waitFor(500); // animation
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('change_layout');
     });
 
-    it("should rename dashboard when dashboard rename process completed", function (done) {
-        expect.screenshot("rename").to.be.capture(function (page) {
-            page.click('.dashboard-manager .title');
-            page.click('li[data-action=renameDashboard]');
-            page.evaluate(function () {
-                $('#newDashboardName:visible').val('newname'); // don't use sendKeys or click, since in this test it appears to trigger a seg fault on travis
-                $('.modal.open .modal-footer a:contains(Save):visible').click();
-            });
-        }, done);
+    it("should rename dashboard when dashboard rename process completed", async function() {
+        await page.click('.dashboard-manager .title');
+        await page.click('li[data-action="renameDashboard"]');
+        await page.evaluate(() => $('#newDashboardName').val('newname'));
+        await page.waitFor(250);
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
+        await button.click();
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('rename');
     });
 
-    it("should copy dashboard successfully when copy dashboard process completed", function (done) {
-        expect.screenshot("copied").to.be.capture(function (page) {
-            page.click('.dashboard-manager .title');
-            page.click('li[data-action=copyDashboardToUser]');
-            page.evaluate(function () {
-                $('[id=copyDashboardName]:last').val('');
-            });
-            page.sendKeys('[id=copyDashboardName]:last', 'newdash');
-            page.evaluate(function () {
-                $('[id=copyDashboardUser]:last').val('superUserLogin');
-            });
-            page.click('.modal.open .modal-footer a:contains(Ok)');
-
-            page.load(url.replace("idDashboard=5", "idDashboard=6"));
-        }, done);
-    });
-
-    it("should reset dashboard when reset dashboard process completed", function (done) {
-        this.retries(3);
-        expect.screenshot("reset").to.be.capture(function (page) {
-            page.click('.dashboard-manager .title');
-            page.click('li[data-action=resetDashboard]');
-            page.click('.modal.open .modal-footer a:contains(Yes)', 4000);
-            page.evaluate(function(){
-                $('#widgetReferrersgetReferrerType').hide();
-                $('#widgetReferrersgetReferrerType').offsetHeight;
-                $('#widgetReferrersgetReferrerType').show();
-            }, 100);
-            page.mouseMove('.dashboard-manager');
-        }, done);
-    });
-
-    it("should remove dashboard when remove dashboard process completed", function (done) {
-        expect.screenshot("removed").to.be.capture(function (page) {
-            page.click('.dashboard-manager .title');
-            page.click('li[data-action=removeDashboard]');
-            page.click('.modal.open .modal-footer a:contains(Yes)');
-            page.mouseMove('.dashboard-manager');
-            page.evaluate(function () {
-                $('.widgetTop').removeClass('widgetTopHover');
-            });
-        }, done);
-    });
-
-    it("should not fail when default widget selection changed", function (done) {
-        expect.screenshot("default_widget_selection_changed").to.be.capture(function (page) {
-            page.load(url);
-            page.click('.dashboard-manager .title');
-            page.click('li[data-action=setAsDefaultWidgets]');
-            page.click('.modal.open .modal-footer a:contains(Yes)');
-        }, done);
-    });
-
-    it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
-        expect.screenshot("create_new").to.be.capture(function (page) {
-            page.click('.dashboard-manager .title');
-            page.click('li[data-action=createDashboard]');
-            page.sendKeys('#createDashboardName:visible', 'newdash2');
-            page.click('.modal.open .modal-footer a:contains(Ok)');
-        }, done);
-    });
-
-    it("should load segmented dashboard", function (done) {
-        removeAllExtraDashboards(function(){
-            expect.screenshot("segmented").to.be.capture(function (page) {
-                page.load(url + '&segment=' + encodeURIComponent("browserCode==FF"), 5000);
-            }, done);
+    it("should copy dashboard successfully when copy dashboard process completed", async function() {
+        await page.click('.dashboard-manager .title');
+        await page.click('li[data-action="copyDashboardToUser"]');
+        await page.waitFor(100); // wait for animation
+        await page.evaluate(function () {
+            $('#copyDashboardName').val('');
         });
+        await page.type('#copyDashboardName', 'newdash');
+        await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
+        await page.select('#copyDashboardUser', 'superUserLogin');
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
+        await button.click();
+        await page.waitForFunction("$('.ui-confirm :contains(\"Current dashboard successfully copied to selected user.\").length > 0')");
+
+        await page.goto(url.replace("idDashboard=5", "idDashboard=6"));
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('copied');
     });
 
-    it("should load correctly with token_auth", function (done) {
+    it("should reset dashboard when reset dashboard process completed", async function() {
+        await page.click('.dashboard-manager .title');
+        await page.click('li[data-action="resetDashboard"]');
+        await page.waitForSelector('.modal.open');
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
+        await button.click();
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('reset');
+    });
+
+    it("should remove dashboard when remove dashboard process completed", async function() {
+        await page.click('.dashboard-manager .title');
+        await page.click('li[data-action="removeDashboard"]');
+        await page.waitForSelector('.modal.open');
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
+        await button.click();
+        await page.mouse.move(-10, -10);
+        await page.waitFor(200);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');
+    });
+
+    it("should not fail when default widget selection changed", async function() {
+        await page.goto(url);
+        await page.click('.dashboard-manager .title');
+        await page.click('li[data-action="setAsDefaultWidgets"]');
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
+        await button.click();
+        await page.waitFor(200);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('default_widget_selection_changed');
+    });
+
+    it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
+        await page.click('.dashboard-manager .title');
+        await page.click('li[data-action="createDashboard"]');
+        await page.waitFor('#createDashboardName', { visible: true });
+        await page.type('#createDashboardName', 'newdash2');
+        await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+        var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
+        await button.click();
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
+    });
+
+    it("should load segmented dashboard", async function() {
+        await removeAllExtraDashboards();
+        await page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"));
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('segmented');
+    });
+
+    it("should load correctly with token_auth", async function() {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
-        expect.screenshot("loaded_token_auth").to.be.capture(function (page) {
-            var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
-            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
-        }, done);
+        var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
+        await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_token_auth');
     });
 
-    it("should fail to load with invalid token_auth", function (done) {
+    it("should fail to load with invalid token_auth", async function() {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
-        expect.screenshot("invalid_token_auth").to.be.capture(function (page) {
-            var tokenAuth = "anyInvalidToken";
-            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
-        }, done);
+        var tokenAuth = "anyInvalidToken";
+        await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token_auth');
     });
 
 });

@@ -37,13 +37,6 @@
 
             angular.forEach(sites, function (site) {
                 if (site.group) site.name = '[' + site.group + '] ' + site.name;
-                if (!site.name) {
-                    return;
-                }
-                // Escape site names, see https://github.com/piwik/piwik/issues/7531
-                site.name = site.name.replace(/[\u0000-\u2666]/g, function(c) {
-                    return '&#'+c.charCodeAt(0)+';';
-                });
             });
 
             model.sites = sortSites(sites);

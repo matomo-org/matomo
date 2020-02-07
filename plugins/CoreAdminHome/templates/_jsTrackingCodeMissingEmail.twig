@@ -1,0 +1,5 @@
+{% set closingHeadTag %}<code>{{ '</head>'|e('html') }}</code>{% endset %}
+<p>{{ 'General_HelloUser'|translate(login) }}</p>
+<p>{{ 'CoreAdminHome_JsTrackingCodeMissingEmail1'|translate(siteName) }}</p>
+<p>{{ 'CoreAdminHome_JsTrackingCodeMissingEmail2'|translate(closingHeadTag)|raw }}</p>
+<p>{{ 'CoreAdminHome_JsTrackingCodeMissingEmail3'|translate('<a href="'~trackingCodeUrl~'">', '</a>', '<a href="https://developer.matomo.org/guides/tracking-javascript-guide">', '</a>')|raw }}</p>

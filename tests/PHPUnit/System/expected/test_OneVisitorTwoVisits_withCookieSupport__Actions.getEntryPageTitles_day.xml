@@ -14,7 +14,7 @@
 		<max_bandwidth />
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>1</entry_nb_actions>
-		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_sum_visit_length>1</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
@@ -22,6 +22,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
+		<segment>pageTitle=^Checkout</segment>
 		<subtable>
 			<row>
 				<label> Purchasing...</label>
@@ -39,7 +40,7 @@
 				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>1</entry_nb_actions>
-				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_sum_visit_length>1</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
@@ -47,6 +48,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
+				<segment>entryPageTitle==Checkout%252FPurchasing...</segment>
 			</row>
 		</subtable>
 	</row>
@@ -73,5 +75,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.234</avg_time_generation>
+		<segment>entryPageTitle==incredible%2Btitle%2521</segment>
 	</row>
 </result>

@@ -39,6 +39,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
 
         $view->availableLayouts = $this->getAvailableLayouts();
+        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
 
@@ -57,6 +58,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = $this->_getDashboardView('@Dashboard/index');
         $view->dashboardSettingsControl = new DashboardManagerControl();
+        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {
             $login = Piwik::getCurrentUserLogin();

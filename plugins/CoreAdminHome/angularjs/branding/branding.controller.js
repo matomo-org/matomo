@@ -57,10 +57,10 @@
                         // Upload succeed, so we update the images availability
                         // according to what have been uploaded
                         if (isSubmittingLogo) {
-                            $('#currentLogo').data("srcExists", true)
+                            $('#currentLogo').data("srcExists", true);
                         }
                         if (isSubmittingFavicon) {
-                            $('#currentFavicon').data("srcExists", true)
+                            $('#currentFavicon').data("srcExists", true);
                         }
                         refreshCustomLogo();
                     }

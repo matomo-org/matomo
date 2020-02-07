@@ -1,0 +1,20 @@
+{
+    "Contents": {
+        "PluginDescription": "El seguimiento de báner y contenido te permite medir tu rendimiento (vistas, clics, etc) de cualquier pieza de contenido en tus páginas (publicidad en báner, imagen, cualquier elemento).",
+        "Impressions": "Impresiones",
+        "ContentImpression": "Impresión de contenido",
+        "ContentInteraction": "Interacción de contenido",
+        "ContentInteractions": "Interacciones de contenido",
+        "InteractionRate": "Tasa de interacción",
+        "ContentName": "Nombre del contenido",
+        "ContentNames": "Nombres del contenido",
+        "ContentPiece": "Pieza del contenido",
+        "ContentPieces": "Piezas del contenido",
+        "ContentTarget": "Objetivo del contenido",
+        "ContentTargets": "Objetivos del contenido",
+        "Contents": "Contenidos",
+        "InteractionsMetricDocumentation": "El número de veces con que un bloque de contenido interactuó (por ejemplo, un clic en un báner o publicidad).",
+        "ImpressionsMetricDocumentation": "El número de veces que un bloque de contenido, como un báner o una publicidad, fue mostrado en una página.",
+        "InteractionRateMetricDocumentation": "La tasa entre las impresiones del contenido y las interacciones."
+    }
+}

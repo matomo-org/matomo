@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Create and reuse custom visitor Segments with the Segment Editor.",
+        "PluginDescription": "A segment is a set of criteria used to select only a part of the entire set of visits. Using segments you can inject arbitrary context back into your reports.",
         "AddANDorORCondition": "Add %s condition",
         "AddNewSegment": "Add new segment",
         "AreYouSureDeleteSegment": "Are you sure you want to delete this segment?",
@@ -51,6 +51,11 @@
         "CustomUnprocessedSegmentApiError4": "Once created the segment in the editor (or via API), this error message will disappear and within a few hours you will see your segmented report data, after the segment data has been pre-processed. (If it does not, there may be a problem.)",
         "CustomUnprocessedSegmentApiError5": "Please note that you can test whether your segment will work without having to wait for it to be processed by using the Live.getLastVisitsDetails API.",
         "CustomUnprocessedSegmentApiError6": "When using this API method, you will see which users and actions were matched by your &segment= parameter.",
-        "CustomUnprocessedSegmentNoData": "To see data for this segment, you must create this segment manually in the Segment Editor, then wait a couple hours for preprocessing to complete."
+        "CustomUnprocessedSegmentNoData": "To see data for this segment, you must create this segment manually in the Segment Editor, then wait a couple hours for preprocessing to complete.",
+        "AddThisToMatomo": "Add this segment to Matomo",
+        "ThisSegmentIsCompared": "This segment is currently compared.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "This segment is currently selected so cannot be selected to compare.",
+        "CompareThisSegment": "Compare this segment with the selected segment and period.",
+        "Test": "Test"
     }
 }

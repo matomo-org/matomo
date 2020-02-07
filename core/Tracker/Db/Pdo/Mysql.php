@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -43,9 +43,9 @@ class Mysql extends Db
      */
     public function __construct($dbInfo, $driverName = 'mysql')
     {
-        if (isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/') {
+        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['unix_socket'];
-        } elseif (!empty($dbInfo['port']) && $dbInfo['port'][0] == '/') {
+        } elseif (!empty($dbInfo['port']) && substr($dbInfo['port'], 0, 1) == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['port'];
         } else {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
@@ -112,7 +112,7 @@ class Mysql extends Db
         $this->connection = @new PDO($this->dsn, $this->username, $this->password, $this->mysqlOptions);
 
         // we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
-        // the piwik.php would stay waiting for the database... bad!
+        // the matomo.php would stay waiting for the database... bad!
         // we delete the password from this object "just in case" it could be printed
         $this->password = '';
 
@@ -260,10 +260,7 @@ class Mysql extends Db
      */
     public function isErrNo($e, $errno)
     {
-        if (preg_match('/([0-9]{4})/', $e->getMessage(), $match)) {
-            return $match[1] == $errno;
-        }
-        return false;
+        return \Piwik\Db\Adapter\Pdo\Mysql::isPdoErrorNumber($e, $errno);
     }
 
     /**

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Framework\TestCase;
@@ -83,7 +83,7 @@ abstract class BenchmarkTestCase extends SystemTestCase
     {
         require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
 
-        $t = new \Piwik_LocalTracker($idSite, Fixture::getTrackerUrl());
+        $t = new \Matomo_LocalTracker($idSite, Fixture::getTrackerUrl());
         $t->setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)");
         $t->setBrowserLanguage('fr');
         $t->setLocalTime('12:34:06');

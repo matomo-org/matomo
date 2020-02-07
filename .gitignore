@@ -34,6 +34,7 @@ php_errors.log
 /robots.txt
 /tmp/*
 !/tmp/.gitkeep
+!/tmp/CACHEDIR.TAG
 /vendor/
 /.cache
 /.externalToolBuilders
@@ -61,11 +62,17 @@ php_errors.log
 /tests/resources/overlay-test-site-real/
 /tests/PHPUnit/proxy/libs
 /tests/PHPUnit/proxy/piwik.js
+/tests/PHPUnit/proxy/matomo.js
 /tests/PHPUnit/proxy/plugins
 /tests/PHPUnit/proxy/tests
+/tests/PHPUnit/proxy/misc
 /tests/resources/piwik.test.js
+/tests/resources/matomo.test.js
 /config/*.config.ini.php
 /Vagrantfile
 /misc/vagrant
 /.vagrant
 /plugins/.gitignore
+/js/container*.js
+/.docker
+docker-compose.yml

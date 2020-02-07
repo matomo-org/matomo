@@ -1,8 +1,9 @@
 {
     "Ecommerce": {
-        "PluginDescription": "E-ticaret, bir e-ticaret satışı yapıldığında kullanıcıların ürünleri sepete ekleme ve satın alma işlemlerinin izlenmesini sağlar. Ayrıca ürün, ürün kategorileri görünümü ve terk edilen sepetleri de izler.",
+        "PluginDescription": "E-ticaret kullanıcılarının ürünleri sepete ekleme ve satın alma işlemlerinin izlenmesini sağlar. Ayrıca ürün, ürün kategorileri görünümü ve terk edilen sepetleri de izler.",
         "Sales": "Satışlar",
         "Order": "Sipariş",
+        "OrderId": "Sipariş Kodu",
         "Orders": "Sipariş",
         "SalesBy": "%s bazında satışlar",
         "SalesAdjective": "Satışlar %s",

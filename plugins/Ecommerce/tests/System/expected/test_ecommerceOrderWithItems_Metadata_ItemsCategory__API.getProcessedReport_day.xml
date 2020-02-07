@@ -9,6 +9,7 @@
 		<module>Goals</module>
 		<action>getItemsCategory</action>
 		<dimension>Product Category</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>
@@ -37,79 +38,93 @@
 	<reportData>
 		<row>
 			<label>Electronics &amp; Cameras</label>
-			<revenue>$ 2500</revenue>
+			<revenue>$2,500</revenue>
 			<quantity>3</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
-			<avg_price>$ 1000</avg_price>
+			<avg_price>$1,000</avg_price>
 			<avg_quantity>1.5</avg_quantity>
 			<conversion_rate>66.67%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 1</label>
-			<revenue>$ 1000</revenue>
+			<revenue>$1,000</revenue>
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<avg_price>$ 500</avg_price>
+			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 2</label>
-			<revenue>$ 1000</revenue>
+			<revenue>$1,000</revenue>
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<avg_price>$ 500</avg_price>
+			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 4</label>
-			<revenue>$ 1000</revenue>
+			<revenue>$1,000</revenue>
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<avg_price>$ 500</avg_price>
+			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 5</label>
-			<revenue>$ 1000</revenue>
+			<revenue>$1,000</revenue>
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<avg_price>$ 500</avg_price>
+			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Product Category not defined</label>
-			<revenue>$ 611.22</revenue>
+			<revenue>$611.22</revenue>
 			<quantity>7</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
-			<avg_price>$ 55.61</avg_price>
+			<avg_price>$55.61</avg_price>
 			<avg_quantity>3.5</avg_quantity>
 			<conversion_rate>66.67%</conversion_rate>
 		</row>
 		<row>
 			<label>Category TWO LEFT in cart</label>
 			<nb_visits>2</nb_visits>
-			<avg_price>$ 0</avg_price>
+			<avg_price>$0</avg_price>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
-			<revenue>$ 0</revenue>
+			<revenue>$0</revenue>
+			<quantity>0</quantity>
+			<orders>0</orders>
+		</row>
+		<row>
+			<label>second category</label>
+			<nb_visits>2</nb_visits>
+			<avg_price>$0</avg_price>
+			<avg_quantity>0</avg_quantity>
+			<conversion_rate>0%</conversion_rate>
+			<revenue>$0</revenue>
 			<quantity>0</quantity>
 			<orders>0</orders>
 		</row>
 	</reportData>
 	<reportMetadata />
 	<reportTotal>
-		<nb_visits>12</nb_visits>
-		<nb_uniq_visitors>8</nb_uniq_visitors>
-		<nb_actions>17</nb_actions>
+		<revenue>7111.22</revenue>
+		<quantity>18</quantity>
+		<price>4111.22</price>
+		<orders>8</orders>
+		<nb_uniq_visitors>9</nb_uniq_visitors>
+		<nb_visits>14</nb_visits>
+		<nb_actions>19</nb_actions>
 	</reportTotal>
 </result>

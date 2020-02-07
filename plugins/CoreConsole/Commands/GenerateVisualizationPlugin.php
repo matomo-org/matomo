@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,7 +40,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
 
         $this->generatePluginFolder($pluginName);
 
-        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleVisualization';
+        $exampleFolder = Manager::getPluginDirectory('ExampleVisualization');
         $replace = array(
             'SimpleTable'  => $visualizationName,
             'simpleTable'  => lcfirst($visualizationName),

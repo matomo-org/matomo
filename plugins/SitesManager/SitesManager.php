@@ -2,18 +2,21 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\SitesManager;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
@@ -36,7 +39,8 @@ class SitesManager extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
+            'Tracker.Cache.getSiteAttributes'        => array('function' => 'recordWebsiteDataInCache', 'before' => true),
+            'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
@@ -44,11 +48,26 @@ class SitesManager extends \Piwik\Plugin
         );
     }
 
+    public static function isSitesAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_sites_admin'];
+    }
+
+    public static function dieIfSitesAdminIsDisabled()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        if (!self::isSitesAdminEnabled()) {
+            throw new \Exception('Creating, updating, and deleting sites has been disabled.');
+        }
+    }
+
     public function addSystemSummaryItems(&$systemSummary)
     {
-        $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
-        $numWebsites = count($websites);
-        $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
+        if (self::isSitesAdminEnabled()) {
+            $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
+            $numWebsites = count($websites);
+            $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
+        }
     }
 
     public function redirectDashboardToWelcomePage(&$module, &$action)
@@ -62,12 +81,41 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
-        // Skip the screen if purging logs is enabled
-        $settings = PrivacyManager::getPurgeDataSettings();
-        if ($settings['delete_logs_enable'] == 1) {
+        $shouldPerformEmptySiteCheck = self::shouldPerormEmptySiteCheck($siteId);
+        if (!$shouldPerformEmptySiteCheck) {
             return;
         }
 
+        $hadTrafficKey = 'SitesManagerHadTrafficInPast_' . (int) $siteId;
+        $hadTrafficBefore = Option::get($hadTrafficKey);
+        if (!empty($hadTrafficBefore)) {
+            // user had traffic at some stage in the past... not needed to show tracking code
+            return;
+        } elseif (self::hasTrackedAnyTraffic($siteId)) {
+            // remember the user had traffic in the past so we won't show the tracking screen again
+            // if all visits are deleted for example
+            Option::set($hadTrafficKey, 1);
+            return;
+        } else {
+            // never had any traffic
+            $session = new SessionNamespace('siteWithoutData');
+            if (!empty($session->ignoreMessage)) {
+                return;
+            }
+
+            $module = 'SitesManager';
+            $action = 'siteWithoutData';
+        }
+    }
+
+    public static function hasTrackedAnyTraffic($siteId)
+    {
+        $trackerModel = new TrackerModel();
+        return !$trackerModel->isSiteEmpty($siteId);
+    }
+
+    public static function shouldPerormEmptySiteCheck($siteId)
+    {
         $shouldPerformEmptySiteCheck = true;
 
         /**
@@ -81,18 +129,7 @@ class SitesManager extends \Piwik\Plugin
          */
         Piwik::postEvent('SitesManager.shouldPerformEmptySiteCheck', [&$shouldPerformEmptySiteCheck, $siteId]);
 
-        $trackerModel = new TrackerModel();
-        if ($shouldPerformEmptySiteCheck
-            && $trackerModel->isSiteEmpty($siteId)
-        ) {
-            $session = new SessionNamespace('siteWithoutData');
-            if (!empty($session->ignoreMessage)) {
-                return;
-            }
-
-            $module = 'SitesManager';
-            $action = 'siteWithoutData';
-        }
+        return $shouldPerformEmptySiteCheck;
     }
 
     public function onSiteDeleted($idSite)
@@ -142,13 +179,13 @@ class SitesManager extends \Piwik\Plugin
     {
         $idSite = (int) $idSite;
 
+        $website = API::getInstance()->getSiteFromId($idSite);
         $urls = API::getInstance()->getSiteUrlsFromId($idSite);
 
         // add the 'hosts' entry in the website array
         $array['urls']  = $urls;
         $array['hosts'] = $this->getTrackerHosts($urls);
 
-        $website = API::getInstance()->getSiteFromId($idSite);
         $array['exclude_unknown_urls'] = $website['exclude_unknown_urls'];
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
@@ -159,6 +196,15 @@ class SitesManager extends \Piwik\Plugin
         $array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
         $array['timezone'] = $this->getTimezoneFromWebsite($website);
         $array['ts_created'] = $website['ts_created'];
+        $array['type'] = $website['type'];
+    }
+
+    public function setTrackerCacheGeneral(&$cache)
+    {
+        Access::doAsSuperUser(function () use (&$cache) {
+            $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
+            $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
+        });
     }
 
     /**
@@ -242,9 +288,7 @@ class SitesManager extends \Piwik\Plugin
     private static function getExcludedUserAgents($website)
     {
         $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
-        if (API::getInstance()->isSiteSpecificUserAgentExcludeEnabled()) {
-            $excludedUserAgents .= ',' . $website['excluded_user_agents'];
-        }
+        $excludedUserAgents .= ',' . $website['excluded_user_agents'];
         return self::filterBlankFromCommaSepList($excludedUserAgents);
     }
 
@@ -357,8 +401,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_GlobalListExcludedQueryParameters";
         $translationKeys[] = "SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites";
         $translationKeys[] = "SitesManager_GlobalListExcludedUserAgents";
-        $translationKeys[] = "SitesManager_EnableSiteSpecificUserAgentExclude_Help";
-        $translationKeys[] = "SitesManager_EnableSiteSpecificUserAgentExclude";
         $translationKeys[] = "SitesManager_KeepURLFragments";
         $translationKeys[] = "SitesManager_KeepURLFragmentsHelp";
         $translationKeys[] = "SitesManager_KeepURLFragmentsHelp2";
@@ -379,5 +421,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
         $translationKeys[] = "SitesManager_DeleteSiteExplanation";
+        $translationKeys[] = "SitesManager_EmailInstructionsButton";
+        $translationKeys[] = "SitesManager_EmailInstructionsSubject";
+        $translationKeys[] = "SitesManager_JsTrackingTagHelp";
     }
 }

@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Tùy chọn hiển thị",
         "AggregateReportsFormat_GraphsOnly": "Chỉ hiển thị đồ thị (không có bảng báo cáo)",
         "AggregateReportsFormat_TablesAndGraphs": "Báo cáo hiển thị bảng và đồ thị cho tất cả các báo cáo",
         "AggregateReportsFormat_TablesOnly": "(mặc định) Hiển thị các bảng báo cáo (Các đồ thị chỉ dành cho các số liệu chính)",
@@ -16,15 +17,20 @@
         "EmailSchedule": "Lịch email",
         "EvolutionGraph": "Hiển thị đồ thị lịch sử cho các giá trị %s đứng đầu",
         "FrontPage": "Trang đầu",
+        "PersonalEmailReports": "Báo cáo Email cá nhân",
         "MonthlyScheduleHelp": "Lịch trình hàng tháng: báo cáo sẽ được gửi vào ngày đầu tiên của mỗi tháng.",
         "MustBeLoggedIn": "Bạn phải đăng nhập để tạo và lập lịch các báo cáo tùy chỉnh.",
         "NoRecipients": "Báo cáo này không có người nhận",
         "Pagination": "Trang %1$s của %2$s",
         "PiwikReports": "Các báo cáo Matomo",
+        "SentFromX": "Gửi đi từ %s.",
         "PleaseFindBelow": "Hãy tìm dưới đây %1$s báo cáo của bạn cho %2$s.",
+        "PluginDescription": "Tạo báo cáo tùy chỉnh và lên lịch để gửi email hàng ngày, hàng tuần hoặc hàng tháng cho một hoặc một số người. Một số định dạng báo cáo được hỗ trợ (html, pdf, csv, hình ảnh).",
         "ReportFormat": "Định dạng báo cáo",
+        "ReportHour": "Gửi báo cáo lúc %s giờ",
+        "ReportHourWithUTC": "%s giờ, giờ UTC",
         "ReportIncludeNWebsites": "Báo cáo này sẽ bao gồm các số liệu chính cho tất cả các trang web có ít nhất một lần truy cập( từ trang web %s hiện đang có sẵn).",
-        "ReportSent": "Báo cáo đã gửi",
+        "ReportSent": "Báo cáo đã được gửi",
         "ReportsIncluded": "Số liệu thống kê bao gồm",
         "ReportType": "Gửi báo cáo qua",
         "ReportUpdated": "Báo cáo cập nhật",
@@ -39,6 +45,15 @@
         "TopLinkTooltip": "Tạo báo cáo Email để nhận được số liệu thống kê Matomo đã tự động cung cấp tới email của bạn hoặc địa chỉ của khách hàng của bạn!",
         "TopOfReport": "Quay lại đầu trang",
         "UpdateReport": "Cập nhật báo cáo",
-        "WeeklyScheduleHelp": "Lịch hàng tuần: báo cáo sẽ được gửi vào thứ Hai mỗi tuần."
+        "WeeklyScheduleHelp": "Lịch hàng tuần: báo cáo sẽ được gửi vào thứ Hai mỗi tuần.",
+        "Unsubscribe": "Hủy đăng ký",
+        "ReportUnsubscribe": "Hủy đăng ký báo cáo",
+        "UnsubscribeReportConfirmation": "Bạn có chắc chắn muốn hủy đăng ký báo cáo %1$s?",
+        "SuccessfullyUnsubscribed": "Bạn đã hủy đăng ký thành công khỏi báo cáo %1$s.",
+        "UnsubscribeFooter": "Để hủy đăng ký báo cáo này, vui lòng theo liên kết sau: %1$s",
+        "NoTokenProvided": "Không có mã token nào được cung cấp trong URL",
+        "NoSubscriptionFound": "Không tìm thấy đăng ký. Có thể báo cáo đã được hủy đăng ký hoặc xóa.",
+        "EvolutionGraphsShowForEachInPeriod": "Biểu đồ so sánh cho %1$s mỗi ngày %2$s vào mỗi tuần%3$s",
+        "EvolutionGraphsShowForPreviousN": "Biểu đồ so sánh so với N %s trước"
     }
 }

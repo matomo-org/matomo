@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,9 +10,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Intl\Data\Provider\CurrencyDataProvider;
 use Piwik\Plugins\SitesManager\API;
 
 /**
@@ -44,6 +42,14 @@ use Piwik\Plugins\SitesManager\API;
 class Site
 {
     const DEFAULT_SITE_TYPE = "website";
+
+    private static $intProperties = [
+        'idsite',
+        'ecommerce',
+        'sitesearch',
+        'exclude_unknown_urls',
+        'keep_url_fragment',
+    ];
 
     /**
      * @var int|null
@@ -82,6 +88,11 @@ class Site
         self::setSiteFromArray($this->id, $site);
 
         $this->site = $site;
+
+        // for serialized format to be predictable across php/mysql/pdo/mysqli versions, make sure the int props stay ints
+        foreach (self::$intProperties as $propertyName) {
+            $this->site[$propertyName] = (int)$this->site[$propertyName];
+        }
     }
 
     /**
@@ -136,6 +147,7 @@ class Site
      * @param $idSite
      * @param $infoSite
      * @throws Exception if website or idsite is invalid
+     * @internal
      */
     public static function setSiteFromArray($idSite, $infoSite)
     {
@@ -149,12 +161,19 @@ class Site
     /**
      * Sets the cached Site data with a non-associated array of site data.
      *
+     * This method will trigger the `Sites.setSites` event modifying `$sites` before setting cached
+     * site data. In other words, this method will change the site data before it is cached and then
+     * return the modified array.
+     *
      * @param array $sites The array of sites data. eg,
      *
      *                         array(
      *                             array('idsite' => '1', 'name' => 'Site 1', ...),
      *                             array('idsite' => '2', 'name' => 'Site 2', ...),
      *                         )
+     * @return array The modified array.
+     * @deprecated
+     * @internal
      */
     public static function setSitesFromArray($sites)
     {
@@ -168,6 +187,8 @@ class Site
 
             self::setSiteFromArray($idSite, $site);
         }
+
+        return $sites;
     }
 
     /**
@@ -380,6 +401,16 @@ class Site
     public function isSiteSearchEnabled()
     {
         return $this->get('sitesearch') == 1;
+    }
+
+    /**
+     * Returns the user that created this site.
+     *
+     * @return string|null If null, the site was created before the creation user was tracked.
+     */
+    public function getCreatorLogin()
+    {
+        return $this->get('creator_login');
     }
 
     /**
@@ -597,24 +628,6 @@ class Site
         return $symbol;
     }
 
-
-    /**
-     * Returns the list of all known currency symbols.
-     *
-     * @return array An array mapping currency codes to their respective currency symbols
-     *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
-     * @api
-     */
-    public static function getCurrencyList()
-    {
-        /** @var CurrencyDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
-        return $dataProvider->getCurrencyList();
-    }
-
     /**
      * Returns the excluded IP addresses of the site with the specified ID.
      *
@@ -635,5 +648,16 @@ class Site
     public static function getExcludedQueryParametersFor($idsite)
     {
         return self::getFor($idsite, 'excluded_parameters');
+    }
+
+    /**
+     * Returns the user that created this site.
+     *
+     * @param int $idsite The site ID.
+     * @return string|null If null, the site was created before the creation user was tracked.
+     */
+    public static function getCreatorLoginFor($idsite)
+    {
+        return self::getFor($idsite, 'creator_login');
     }
 }

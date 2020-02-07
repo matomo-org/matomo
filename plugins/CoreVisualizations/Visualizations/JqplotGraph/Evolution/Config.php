@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 
+use Piwik\Common;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Config as JqplotGraphConfig;
 
 /**
@@ -36,6 +37,12 @@ class Config extends JqplotGraphConfig
 
         $this->addPropertiesThatShouldBeAvailableClientSide(array('show_line_graph'));
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('show_line_graph'));
+
+        $period = Common::getRequestVar('period');
+        if ($period !== 'range') {
+            $this->show_limit_control = true;
+            $this->show_periods = true;
+        }
     }
 
 }

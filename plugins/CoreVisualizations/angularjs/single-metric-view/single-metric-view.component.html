@@ -1,7 +1,7 @@
 <div class="singleMetricView" ng-class="{'loading': $ctrl.isLoading}">
     <piwik-sparkline
         class="metric-sparkline"
-        params="{module: 'API', action: 'get', columns: $ctrl.metric}"
+        params="$ctrl.sparklineParams"
     >
     </piwik-sparkline>
     <div class="metric-value">

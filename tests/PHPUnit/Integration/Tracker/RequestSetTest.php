@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -21,6 +22,11 @@ class TestRequestSet extends RequestSet {
     public function setRedirectUrl($url)
     {
         $this->redirectUrl = $url;
+    }
+
+    public function getAllSiteIdsWithinRequest()
+    {
+        return parent::getAllSiteIdsWithinRequest();
     }
 
     public function getRedirectUrl()
@@ -41,6 +47,7 @@ class RequestSetTest extends IntegrationTestCase
     private $requestSet;
     private $get;
     private $post;
+    private $time;
 
     public function setUp()
     {
@@ -49,11 +56,17 @@ class RequestSetTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00', 0, false, 'http://www.example.com');
 
+        foreach (range(3,10) as $idSite) {
+            Fixture::createWebsite('2014-01-01 00:00:00');
+        }
+
         $this->requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
         $this->requestSet->setRequests(array(array('idsite' => 1), array('idsite' => 2)));
 
         $this->get  = $_GET;
         $this->post = $_POST;
+
+        $this->time = time();
 
         $_GET  = array();
         $_POST = array();
@@ -65,6 +78,54 @@ class RequestSetTest extends IntegrationTestCase
         $_POST = $this->post;
 
         parent::tearDown();
+    }
+
+    public function test_getAllSiteIdsWithinRequest_ShouldReturnEmptyArray_IfNoRequestsSet()
+    {
+        $this->requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
+        $this->assertEquals(array(), $this->requestSet->getAllSiteIdsWithinRequest());
+    }
+
+    public function test_getAllSiteIdsWithinRequest_ShouldReturnTheSiteIds_FromRequests()
+    {
+        $this->requestSet->setRequests($this->buildRequests(3));
+
+        $this->assertEquals(array(1, 2, 3), $this->requestSet->getAllSiteIdsWithinRequest());
+    }
+
+    public function test_getAllSiteIdsWithinRequest_ShouldReturnUniqueSiteIds_Unordered()
+    {
+        $this->requestSet->setRequests(array(
+            $this->buildRequest(1),
+            $this->buildRequest(5),
+            $this->buildRequest(1),
+            $this->buildRequest(2),
+            $this->buildRequest(2),
+            $this->buildRequest(9),
+        ));
+
+        $this->assertEquals(array(1, 5, 2, 9), $this->requestSet->getAllSiteIdsWithinRequest());
+    }
+
+    /**
+     * @param int $numRequests
+     * @return Request[]
+     */
+    private function buildRequests($numRequests)
+    {
+        $requests = array();
+        for ($index = 1; $index <= $numRequests; $index++) {
+            $requests[] = $this->buildRequest($index);
+        }
+        return $requests;
+    }
+
+    private function buildRequest($idsite)
+    {
+        $request = new Request(array('idsite' => ('' . $idsite)));
+        $request->setCurrentTimestamp($this->time);
+
+        return $request;
     }
 
     public function test_shouldPerformRedirectToUrl_shouldNotRedirect_IfNoUrlIsSet()

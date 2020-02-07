@@ -12,6 +12,7 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 
 /**
  *
@@ -32,7 +33,23 @@ class Live extends \Piwik\Plugin
             'Live.renderActionTooltip'               => 'renderActionTooltip',
             'Live.renderVisitorDetails'              => 'renderVisitorDetails',
             'Live.renderVisitorIcons'                => 'renderVisitorIcons',
+            'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
         );
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'General_Visitors.Live_VisitorLog';
+        $pages[] = 'General_Visitors.General_RealTime';
+    }
+
+    public function addJsGlobalVariables(&$out)
+    {
+        $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
+        $out .= "
+        piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
+        ";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -50,6 +67,7 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/rowaction.js";
+        $jsFiles[] = "plugins/Live/angularjs/live-widget-refresh/live-widget-refresh.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -66,6 +84,7 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "Live_SegmentedVisitorLogTitle";
         $translationKeys[] = "General_Segment";
         $translationKeys[] = "General_And";
+        $translationKeys[] = 'Live_ClickToSeeAllContents';
     }
 
     public function renderAction(&$renderedAction, $action, $previousAction, $visitorDetails)

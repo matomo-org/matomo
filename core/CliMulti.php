@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik;
@@ -142,7 +142,7 @@ class CliMulti
             if ($shouldStart === Request::ABORT) {
                 // output is needed to ensure same order of url to response
                 $output = new Output($cmdId);
-                $output->write('Skipped');
+                $output->write(serialize(array('aborted' => '1')));
                 $this->outputs[] = $output;
             } else {
                 $this->executeUrlCommand($cmdId, $url);
@@ -239,7 +239,23 @@ class CliMulti
      */
     public function supportsAsync()
     {
-        return Process::isSupported() && !Common::isPhpCgiType() && $this->findPhpBinary();
+        $supportsAsync = Process::isSupported() && !Common::isPhpCgiType() && $this->findPhpBinary();
+
+        /**
+         * Triggered to allow plugins to force the usage of async cli multi execution or to disable it.
+         *
+         * **Example**
+         *
+         *     public function supportsAsync(&$supportsAsync)
+         *     {
+         *         $supportsAsync = false; // do not allow async climulti execution
+         *     }
+         *
+         * @param bool &$supportsAsync Whether async is supported or not.
+         */
+        Piwik::postEvent('CliMulti.supportsAsync', array(&$supportsAsync));
+
+        return $supportsAsync;
     }
 
     private function findPhpBinary()
@@ -446,5 +462,10 @@ class CliMulti
     {
         $minutes = floor($elapsed / 60);
         return self::BASE_WAIT_TIME + $minutes * 100000; // 100 * 1000 = 100ms
+    }
+
+    public static function isCliMultiRequest()
+    {
+        return Common::getRequestVar('pid', false) !== false;
     }
 }

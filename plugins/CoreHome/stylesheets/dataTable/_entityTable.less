@@ -9,7 +9,7 @@ table.entityTable {
         }
 
         text-transform: none;
-        background-color: @theme-color-background-tinyContrast;
+        background: @theme-color-background-base;
         vertical-align: middle !important;
         text-align: left !important;
         font-size: 15px;
@@ -19,7 +19,7 @@ table.entityTable {
         margin: 0;
         font-weight: normal;
         border-radius: 0;
-        color: @theme-color-text;
+        color: @theme-color-text-contrast;
       }
     }
   }
@@ -100,11 +100,13 @@ table.entityTable {
 .tableActionBar {
   a,
   button {
-    height: 54px;
-    line-height: 54px;
-    box-shadow: none;
-    background-color: rgba(0, 0, 0, 0);
-    color: @theme-color-text !important;
+    height: 36px;
+    line-height: 36px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12) !important;
+    background-color: @color-silver-l60;
+    color: @theme-color-text;
+    background-image: none !important;
+    font-size: 12px;
     cursor: pointer;
     text-decoration: none;
     background-color: inherit;
@@ -112,14 +114,20 @@ table.entityTable {
     letter-spacing: .5px;
     transition: .2s ease-out;
     border: none;
-    border-radius: 2px;
+    border-radius: 3px;
     display: inline-block;
     padding: 0 2rem;
+    margin-left: 16px;
     text-transform: uppercase;
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  button:first-child, a:first-child {
+    background-color: @theme-color-brand !important;
+    color: @color-white;
   }
 }

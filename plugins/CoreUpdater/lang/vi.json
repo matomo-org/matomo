@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Click vào đây để xem và sao chép danh sách các truy vấn SQL sẽ được thực hiện.",
         "CriticalErrorDuringTheUpgradeProcess": "Lỗi nghiêm trọng trong quá trình cập nhạt:",
         "DatabaseUpgradeRequired": "Nâng cấp cơ sở dữ liệu",
         "DownloadingUpdateFromX": "Đang download để update từ %s",
@@ -37,12 +36,14 @@
         "UpdateHasBeenCancelledExplanation": "Matomo One Click Update đã bị thoát. Nếu bạn không thể sửa được thông điệp lỗi ở trên, bạn có thể update Matomo bằng tay. %1$s Vui lòng xem %2$stài liệu cập nhật %3$s để bắt đầu!",
         "UpdateTitle": "Cập nhật",
         "UpdateSuccessTitle": "Matomo vừa được cập nhật thành công!",
+        "Updating": "Đang cập nhật",
         "UpgradeComplete": "Cập nhật xong!",
         "UpgradePiwik": "Cập nhật Matomo!",
         "VerifyingUnpackedFiles": "Xác minh các tập tin giải nén",
         "WarningMessages": "Cảnh báo:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Chúng tôi tự động tắt các plugin sau: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Bạn có thể cập nhật tự động phiên bản %s hoặc tải về gói cập nhật và tự cài dặt.",
-        "YourDatabaseIsOutOfDate": "Cơ sở dữ liệu Matomo của bạn đã lỗi thời, và phải được nâng cấp trước khi bạn có thể tiếp tục."
+        "YourDatabaseIsOutOfDate": "Cơ sở dữ liệu Matomo của bạn đã lỗi thời, và phải được nâng cấp trước khi bạn có thể tiếp tục.",
+        "ViewVersionChangelog": "Xem thay đổi cho phiên bản này:"
     }
 }

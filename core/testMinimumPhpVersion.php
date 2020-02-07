@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -21,7 +21,7 @@ $piwik_errorMessage = '';
 // 2) tests/travis/generator/Generator.php
 // 3) composer.json (in two places)
 // 4) tests/PHPUnit/Integration/ReleaseCheckListTest.php
-$piwik_minimumPHPVersion = '5.5.9';
+$piwik_minimumPHPVersion = '7.2.0';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
@@ -84,6 +84,12 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
+        if (\Piwik\SettingsServer::isArchivePhpTriggered()
+            && \Piwik\Common::isPhpCliMode()
+        ) {
+            return true;
+        }
+
         $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
                 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
 
@@ -110,6 +116,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
+            header('Cache-Control: private, no-cache, no-store');
 
             $isInternalServerError = preg_match('/(sql|database|mysql)/i', $message);
             if ($isInternalServerError) {
@@ -143,10 +150,10 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         if ($optionalLinks) {
             $optionalLinks = '<ul>
                             <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org">Matomo.org homepage</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/">Matomo Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/">Matomo Documentation</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/">Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/">User Guides</a></li>
                             <li><a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">Matomo Forums</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Matomo</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Matomo_App&pk_medium=ProfessionalServicesLink">Professional Support for Matomo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {

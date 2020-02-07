@@ -1,0 +1,12 @@
+{
+    "GeoIp2": {
+        "CannotUnzipGeoIPFile": "无法在%1$s中解压缩GeoIP 文件：%2$s",
+        "LocationProviderDesc_Php_WithExtension": "安装的%1$sMaxMindDB%2$s扩展加快了此位置提供程序的速度。",
+        "LocationProviderDesc_ServerModule": "该位置提供者使用HTTP服务器中已安装的GeoIP 2模块。 此提供程序快速准确，但是%1$s只能与正常的浏览器跟踪一起使用。%2$s",
+        "LocationProviderDesc_ServerModule2": "如果您必须导入日志文件或执行其他需要设置IP地址的操作，请使用%3$sPHP GeoIP 2实现%4$s并安装%1$smaxminddb extension%2$s。",
+        "ServerBasedVariablesConfiguration": "配置GeoIP 2服务器模块使用的服务器变量",
+        "GeoIPVariablesConfigurationHere": "您可以在此处%2$s配置使用的服务器变量%1$s。",
+        "ShowCustomServerVariablesConfig": "我使用Geoip2服务器模块（Nginx，Apache ...），并希望配置服务器变量",
+        "ServerVariableFor": "服务器变量为%s"
+    }
+}

@@ -34,7 +34,7 @@ class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends
 
     public function getApiForTesting()
     {
-        $apiToCall = array('VisitsSummary.get', 'Referrers.getCampaigns', 'Referrers.getWebsites');
+        $apiToCall = array('VisitsSummary.get', 'Referrers.getCampaigns', 'Referrers.getWebsites', 'Live.getLastVisitsDetails');
 
         return array(
             // TOTAL should be: 1 visit, 1 converted goal, 1 page view

@@ -26,7 +26,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s a changé de %2$s à %3$s comparé à %4$s. Sur cette base une évolution de %5$s%% de chaque enregistrement est prévue.",
         "TitleRowChangeDetails": "'%1$s' a changé de %2$s (%3$s) à %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' a diminué de %2$s et disparu en %3$s comparé à %4$s.",
-        "TitleRowMoverAndShaker": "Cet enregistrement a un impact supérieur à la moyenne.",
+        "TitleRowMoverAndShaker": "Cet enregistrement a eu un impact supérieur à la moyenne.",
         "TitleRowNewDetails": "'%1$s' augmenté de %2$s et est nouveau comparé à %3$s.",
         "WeekComparedToPreviousWeek": "semaine précédente",
         "WidgetCategory": "Idées",

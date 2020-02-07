@@ -1,0 +1,26 @@
+<p>{{ 'ScheduledReports_EmailHello'|translate }}</p>
+<p>{{ 'CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate'|translate }}</p>
+
+<ul>
+{% for plugin in pluginsToBeNotified %}
+<li>{{ plugin.name }} {{ plugin.latestVersion }}</li>
+{% endfor %}
+</ul>
+
+{% if hasThemeUpdate %}
+<p>
+{{ 'CoreUpdater_NotificationClickToUpdateThemes'|translate }}<br/>
+{{ host }}index.php?module=CorePluginsAdmin&action=themes
+</p>
+{% endif %}
+
+{% if hasPluginUpdate %}
+<p>
+{{ 'CoreUpdater_NotificationClickToUpdatePlugins'|translate }}<br/>
+{{ host }}index.php?module=CorePluginsAdmin&action=plugins
+</p>
+{% endif %}
+
+<p>
+{{ 'Installation_HappyAnalysing'|translate }}
+</p>

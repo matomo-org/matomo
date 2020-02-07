@@ -1,0 +1,32 @@
+{
+    "TwoFactorAuth": {
+        "TwoFactorAuthentication": "المصادقة الثنائية",
+        "TwoFAShort": "مث",
+        "TwoFactorAuthenticationIsEnabled": "المصادقة الثنائية ممكنة حالياً.",
+        "TwoFactorAuthenticationIsDisabled": "المصادقة الثنائية معطلة حالياً.",
+        "ConfigureDifferentDevice": "ضبط جهاز مختلف",
+        "SetUpTwoFactorAuthentication": "إعداد المصادقة الثنائية (مث)",
+        "RequiredToSetUpTwoFactorAuthentication": "مطلوب منك إعداد المصادقة الثنائية قبل أن تتمكن من الدخول",
+        "AuthenticationCode": "رمز المصادقة",
+        "Verify": "تحقق",
+        "StepX": "الخطوة %s",
+        "MissingAuthCodeAPI": "فضلاً حدّد رمز المصادقة الثنائية.",
+        "InvalidAuthCode": "رمز المصادقة الثنائية غير صحيح.",
+        "RequiredAuthCodeNotConfiguredAPI": "إعداد المصادقة الثنائية مطلوب. فضلاًسجّل الدخول إلى حسابك.",
+        "DontHaveYourMobileDevice": "هاتفك ليس لديك ؟",
+        "EnterRecoveryCodeInstead": "أدخل أياً من رموز الاستعادة الخاصة بك",
+        "AskSuperUserResetAuthenticationCode": "أطلب من المستخدم الفائق إعادة ضبط رمز المصادقة الخاص بك",
+        "SetupIntroFollowSteps": "فضلاً اتبع الخطوات التالية لإعداد المصادقة الثنائية:",
+        "SetupFinishedTitle": "مبارك! حسابك الآن أكثر أماناً.",
+        "ShowRecoveryCodes": "عرض رموز الاستعادة",
+        "ConfirmSetup": "تأكيد الإعداد",
+        "NotPossibleToLogIn": "لايمكن الدخول إلى تحليلات Matomo",
+        "WrongAuthCodeTryAgain": "أدخلت رمز مصادقة ثنائية خاطئ. حاول مرة أخرى.",
+        "DisableTwoFA": "تعطيل المصادقة الثنائية",
+        "EnableTwoFA": "تمكين المصادقة الثنائية",
+        "RecoveryCodesSecurity": "فضلاً التعامل مع رموز الاستعادة بذات المستوى من الأمن الذي تعامل به كلمة المرور الخاصة بك!",
+        "RecoveryCodesAllUsed": "لقد استخدمت جميع رموز الاستعادة، نوصي بشدة بإعادة توليد رموز الاستعادة لديك.",
+        "RecoveryCodesRegenerated": "تمت إعادة توليد رموز الاستعادة. تأكد من تنزيل رموز الاستعادة الجديدة أو طباعتها.",
+        "GenerateNewRecoveryCodes": "توليد رموز استعادة جديدة"
+    }
+}

@@ -18,6 +18,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252F0</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -40,6 +41,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/0/</url>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F0%252F</segment>
 			</row>
 			<row>
 				<label>Others</label>

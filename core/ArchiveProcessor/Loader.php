@@ -2,21 +2,18 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Archive;
 use Piwik\Cache;
-use Piwik\CacheId;
-use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Piwik;
 
 /**
@@ -24,13 +21,6 @@ use Piwik\Piwik;
  */
 class Loader
 {
-    /**
-     * Is the current archive temporary. ie.
-     * - today
-     * - current week / month / year
-     */
-    protected $temporaryArchive;
-
     /**
      * Idarchive in the DB for the requested archive
      *
@@ -80,12 +70,21 @@ class Loader
             return $idArchive;
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $archivingStatus->archiveStarted($this->params);
+
+        try {
+            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        } finally {
+            $archivingStatus->archiveFinished();
+        }
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
             return $idArchive;
         }
+
         return false;
     }
 
@@ -105,7 +104,7 @@ class Loader
 
             $this->params->setRequestedPlugin('VisitsSummary');
 
-            $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+            $pluginsArchiver = new PluginsArchiver($this->params);
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $pluginsArchiver->finalizeArchive();
 
@@ -120,7 +119,7 @@ class Loader
 
     protected function prepareAllPluginsArchive($visits, $visitsConverted)
     {
-        $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+        $pluginsArchiver = new PluginsArchiver($this->params);
 
         if ($this->mustProcessVisitCount($visits)
             || $this->doesRequestedPluginIncludeVisitsSummary()
@@ -165,19 +164,19 @@ class Loader
      * Returns the idArchive if the archive is available in the database for the requested plugin.
      * Returns false if the archive needs to be processed.
      *
+     * (public for tests)
+     *
      * @return array
      */
-    protected function loadExistingArchiveIdFromDb()
+    public function loadExistingArchiveIdFromDb()
     {
         $noArchiveFound = array(false, false, false);
-
-        // see isArchiveTemporary()
-        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
 
         if ($this->isArchivingForcedToTrigger()) {
             return $noArchiveFound;
         }
 
+        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
         $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
 
         if (!$idAndVisits) {
@@ -195,21 +194,16 @@ class Loader
     protected function getMinTimeArchiveProcessed()
     {
         $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
-        $isArchiveTemporary = ($endDateTimestamp === false);
-        $this->temporaryArchive = $isArchiveTemporary;
-
         if ($endDateTimestamp) {
-            // Permanent archive
+            // past archive
             return $endDateTimestamp;
         }
-
         $dateStart = $this->params->getDateStart();
         $period    = $this->params->getPeriod();
         $segment   = $this->params->getSegment();
         $site      = $this->params->getSite();
-
-        // Temporary archive
-        return Rules::getMinTimeProcessedForTemporaryArchive($dateStart, $period, $segment, $site);
+        // in-progress archive
+        return Rules::getMinTimeProcessedForInProgressArchive($dateStart, $period, $segment, $site);
     }
 
     protected static function determineIfArchivePermanent(Date $dateEnd)
@@ -224,15 +218,6 @@ class Loader
         }
 
         return false;
-    }
-
-    protected function isArchiveTemporary()
-    {
-        if (is_null($this->temporaryArchive)) {
-            throw new \Exception("getMinTimeArchiveProcessed() should be called prior to isArchiveTemporary()");
-        }
-
-        return $this->temporaryArchive;
     }
 
     private function shouldArchiveForSiteEvenWhenNoVisits()

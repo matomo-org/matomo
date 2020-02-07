@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Tikrinama ar yra naujų atnaujinimų papildiniams",
-        "ClickHereToViewSqlQueries": "Spauskite čia SQL užklausų, kurias reikia įvykdyti, sąrašui gauti.",
         "CriticalErrorDuringTheUpgradeProcess": "Kritinė klaida atnaujinimo metu:",
         "DatabaseUpgradeRequired": "Reikalingas duombazės atnaujinimas",
         "DisablingIncompatiblePlugins": "Išjungiami nesuderinami papildiniai: %s",
@@ -24,9 +23,11 @@
         "HelpMessageIntroductionWhenWarning": "Matomo atnaujinta, tačiau su išlygomis. Prašome perskaityti aukščiau pateikiamą aprašymą. Jei reikia daugiau pagalbos:",
         "InstallingTheLatestVersion": "Įdiegiama naujausia versija",
         "MajorUpdateWarning1": "Tai yra didesnis atnaujinimas! Jis užtruks ilgiau nei įprasta.",
+        "NeedHelpUpgrading": "Reikia pagalbos naujinant Matomo?",
         "NoteForLargePiwikInstances": "Svarbi pastaba apie didelius Matomo diegimus",
         "NotificationClickToUpdatePlugins": "Spustelėkite čia, kad atnaujintumėte savo papildinius dabar:",
         "NotificationClickToUpdateThemes": "Spustelėkite čia, kad atnaujintumėte savo temas dabar:",
+        "NotificationSubjectAvailableCoreUpdate": "Yra prieinama nauja Matomo %s",
         "NotificationSubjectAvailablePluginUpdate": "Jūsų Matomo papildiniams yra atnaujinimų",
         "PiwikHasBeenSuccessfullyUpgraded": "Matomo sėkmingai atnaujinta!",
         "PiwikUpdatedSuccessfully": "Matomo sėkmingai atnaujinta!",
@@ -45,6 +46,7 @@
         "UpdateErrorTitle": "Atnaujinimo klaida",
         "UpgradeComplete": "Naujinimas baigtas!",
         "UpgradePiwik": "Naujinti Matomo",
+        "ConsoleParameterDescription": "Tiesiogiai įvykdyti atnaujinimą neklausiant patvirtinimo",
         "VerifyingUnpackedFiles": "Tikrinami išskleisti failai",
         "WarningMessages": "Įspėjamieji pranešimai:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automatiškai pasyvinome šiuos papildinius: %s",

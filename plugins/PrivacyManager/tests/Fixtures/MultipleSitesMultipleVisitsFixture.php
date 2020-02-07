@@ -8,9 +8,15 @@
 namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
 
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Period\Day;
+use Piwik\Period\Month;
+use Piwik\Period\Week;
+use Piwik\Period\Year;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
@@ -152,8 +158,9 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     public $dateTime = '2017-01-02 03:04:05';
     public $trackingTime = '2017-01-02 03:04:05';
     public $idSite = 1;
+    public $numVisitsPerIteration = 32;
     /**
-     * @var \PiwikTracker
+     * @var \MatomoTracker
      */
     private $tracker;
 
@@ -318,10 +325,53 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         $logFooBar->insertEntry(52 + $toAddToId, 36 + $toAddToId);
     }
 
+    public function insertArchiveRows($idSite, $numVisits)
+    {
+        for ($day = 0; $day < $numVisits; $day++) {
+            $archiveDate = Date::factory($this->dateTime);
+            if ($day > 0) {
+                $archiveDate = $archiveDate->addDay($day * 3);
+            }
+            $doneRow = array(
+                'idarchive' => ($idSite * 100) + ($day * 10) + 1,
+                'idsite' => $idSite,
+                'name' => 'done',
+                'value' => ArchiveWriter::DONE_OK,
+                'date1' => $archiveDate->toString('Y-m-d'),
+                'date2' => $archiveDate->toString('Y-m-d'),
+                'period' => 1,
+                'ts_archived' => $archiveDate->getDatetime()
+            );
+            $this->insertArchiveRow($archiveDate, $doneRow);
+        }
+    }
+
+    private function insertArchiveRow($date, $row)
+    {
+        $table = ArchiveTableCreator::getNumericTable($date);
+        $sql = "INSERT INTO %s (idarchive, idsite, name, value, date1, date2, period, ts_archived) VALUES ('%s')";
+
+        $row['period'] = Day::PERIOD_ID;
+        Db::exec(sprintf($sql, $table, implode("','", $row)));
+
+        $row['period'] = Week::PERIOD_ID;
+        $row['idarchive']++;
+        Db::exec(sprintf($sql, $table, implode("','", $row)));
+
+        $row['period'] = Month::PERIOD_ID;
+        $row['idarchive']++;
+        Db::exec(sprintf($sql, $table, implode("','", $row)));
+
+        $row['period'] = Year::PERIOD_ID;
+        $row['idarchive']++;
+        Db::exec(sprintf($sql, $table, implode("','", $row)));
+    }
+
     public function trackVisits($idSite, $numIterations)
     {
         for ($day = 0; $day < $numIterations; $day++) {
             // we track over several days to make sure we have some data to aggregate in week reports
+            // NOTE: some action times are out of order in visits on purpose
 
             if ($day > 0) {
                 $this->trackingTime = Date::factory($this->dateTime)->addDay($day * 3)->getDatetime();
@@ -401,6 +451,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         $this->tracker->setForceNewVisit();
         $this->tracker->setIp('156.5.3.' . $userId);
         $this->tracker->setUserId('userId' . $userId);
+        $this->tracker->setVisitorId(substr(md5('userId' . $userId), 0, 16)); // predictable visitor ID for tests
         $this->tracker->setForceVisitDateTime($time);
         $this->tracker->setCustomVariable(1, 'myCustomUserId', $userId, 'visit');
         $this->tracker->setTokenAuth(Fixture::getTokenAuth());

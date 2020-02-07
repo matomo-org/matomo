@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreatePull extends TranslationBase
 {
-    const GIT_BASE_BRANCH = '3.x-dev';
+    const GIT_BASE_BRANCH = '4.x-dev';
 
     protected function configure()
     {
@@ -214,7 +214,7 @@ class CreatePull extends TranslationBase
             switch ($returnCode) {
                 case 401:
                     $output->writeln("Pull request failed. Bad credentials... Please try again");
-                    continue;
+                    continue 2;
 
                 case 422:
                     $output->writeln("Pull request failed. Unprocessable Entity. Maybe a pull request was already created before.");

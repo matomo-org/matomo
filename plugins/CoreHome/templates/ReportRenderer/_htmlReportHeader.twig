@@ -1,38 +1,5 @@
-{% set fontStyle %}color:{{ themeStyles.colorText }};font-family:{{ themeStyles.fontFamilyBase }};{% endset %}
-{% set styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;' %}
+{% include "@CoreHome/_htmlEmailHeader.twig" %}
 
-<html style="background-color:#edecec">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="robots" content="noindex,nofollow">
-    <meta name="generator" content="Matomo Analytics">
-</head>
-
-<body style="{{fontStyle}} line-height: 24px; margin:0 auto; max-width:1000px; background-color:rgb(255, 255, 255);box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);">
-
-  <a name="reportTop"></a>
-
-  <table style="width:100%; background-color: {{ themeStyles.colorHeaderBackground }}; color: {{ themeStyles.colorHeaderText }}; padding:10px 0; margin: 0 0 25px 0; height:64px;">
-    <tr>
-      <td>
-          <a style="{{ fontStyle }}; font-size:16px;padding:0 15px;color: {{ themeStyles.colorHeaderText }};height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="{{ piwikUrl }}" style="lineheight:17px">
-              {% if isCustomLogo and logoHeader %}
-                <img src="{{ logoHeader }}" height="20px" width="auto" />
-              {% else %}
-                  <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" height="20px" width="auto" alt="{{ emailStyles.brandNameLong }}" />
-              {% endif %}
-          </a>
-      </td>
-      <td align="right">
-          <a style="{{ fontStyle }}; font-size:16px; padding:0 15px; color: {{ themeStyles.colorHeaderText }}" title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}" target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'index', 'idSite': idSite, 'period': period, 'date': date, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
-              {{ 'Dashboard_Dashboard'|translate }}
-          </a>
-      </td>
-    </tr>
-  </table>
-
-  <div style="margin:0 20px;">
     <h2 style='{{fontStyle}} color:#37474f; line-height:30px; margin:25px 0 15px 0;'>
         {{'ScheduledReports_EmailHello'|translate}}
     </h2>
@@ -60,7 +27,7 @@
         </h2>
         <ul>
             {% for metadata in reportMetadata %}
-                <li>
+                <li style="{{ styleParagraphText }}">
                     <a href="#{{ metadata.uniqueId }}" style="text-decoration:none; color: {{ emailStyles.reportTextColor }};">
                         {{ metadata.name }}
                     </a>

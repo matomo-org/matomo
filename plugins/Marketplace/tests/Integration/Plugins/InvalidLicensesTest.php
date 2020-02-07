@@ -2,14 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Plugins;
 
-use Piwik\Cache\Backend\ArrayCache;
-use Piwik\Cache\Eager;
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Eager;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Marketplace\Consumer;
 use Piwik\Plugins\Marketplace\Plugins;
@@ -26,7 +26,7 @@ class CustomInvalidLicenses extends InvalidLicenses {
         $this->isActivated = $isActivated;
     }
 
-    public function isPluginActivated($pluginName)
+    public function isPluginInActivatedPluginsList($pluginName)
     {
         return $this->isActivated;
     }

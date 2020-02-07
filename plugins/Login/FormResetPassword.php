@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -31,7 +31,7 @@ class FormResetPassword extends QuickForm2
 
         $passwordBis = $this->addElement('password', 'form_password_bis');
         $passwordBis->addRule('required', Piwik::translate('General_Required', Piwik::translate('Login_PasswordRepeat')));
-        $passwordBis->addRule('eq', Piwik::translate('Login_PasswordsDoNotMatch'), $password);
+        $passwordBis->addRule('eq', Piwik::translate('Login_PasswordsDoNotMatch'), ['operand' => $password]);
 
         $this->addElement('hidden', 'form_nonce');
 

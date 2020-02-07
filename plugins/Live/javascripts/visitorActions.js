@@ -35,58 +35,160 @@ function initializeVisitorActions(elem) {
         close: function() { tooltipIsOpened = false; }
     });
 
-    // show refresh icon for duplicate page views in a row
+    // collapse adjacent content interactions
     $("ol.visitorLog", elem).each(function () {
-        var prevelement;
-        var prevhtml;
-        var counter = 0, duplicateCounter = 0;
-        $(this).find("> li").each(function () {
-            counter++;
-            $(this).val(counter);
-            var current = $(this).html();
-
-            if (current == prevhtml) {
-                duplicateCounter++;
-                $(this).find('>div').prepend($("<span>"+(duplicateCounter+1)+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
-                prevelement.addClass('duplicate');
-
-            } else {
-                duplicateCounter = 0;
+        var $actions = $(this).find("li");
+        $actions.each(function (index) {
+            var $li = $(this);
+            if (!$li.is('.content')) {
+                return;
             }
 
-            prevhtml = current;
-            prevelement = $(this);
+            if (!$actions[index - 1]
+                || !$($actions[index - 1]).is('.content')
+                || !$actions[index - 2]
+                || !$($actions[index - 2]).is('.content')
+            ) {
+                return;
+            }
 
-            var $this = $(this);
-            var tooltipIsOpened = false;
+            var $collapsedContents = $li;
+            while ($collapsedContents.prev().is('.content')) {
+                $collapsedContents = $collapsedContents.prev();
+            }
 
-            $('a', $this).on('focus', function () {
-                // see https://github.com/piwik/piwik/issues/4099
-                if (tooltipIsOpened) {
-                    $this.tooltip('close');
+            if (!$collapsedContents.is('.collapsed-contents')) {
+                $collapsedContents = makeCollapsedContents();
+                $collapsedContents.insertBefore($($actions[index - 2]));
+
+                addContentItem($collapsedContents, $($actions[index - 2]));
+                addContentItem($collapsedContents, $($actions[index - 1]));
+            }
+
+            addContentItem($collapsedContents, $li);
+
+            function makeCollapsedContents() {
+                var $li = $('<li/>')
+                    .attr('class', 'content collapsed-contents')
+                    .attr('title', _pk_translate('Live_ClickToSeeAllContents'));
+
+                $('<div>')
+                    .html('<img src="plugins/Morpheus/images/contentimpression.svg" class="action-list-action-icon"/>' +
+                        ' <span class="content-impressions">0</span> content impressions <span class="content-interactions">0</span> interactions')
+                    .appendTo($li);
+
+                return $li;
+            }
+
+            function addContentItem($collapsedContents, $otherLi) {
+                if ($otherLi.find('.content-interaction').length) {
+                    var $interactions = $collapsedContents.find('.content-interactions');
+                    $interactions.text(parseInt($interactions.text()) + 1);
+                } else {
+                    var $impressions = $collapsedContents.find('.content-impressions');
+                    $impressions.text(parseInt($impressions.text()) + 1);
                 }
-            });
 
+                $otherLi.addClass('duplicate').addClass('collapsed-content-item').val('').attr('style', '');
+            }
         });
     });
 
-    $("ol.visitorLog > li:not(.duplicate)", elem).each(function(){
-        if (!$('.icon-refresh', $(this)).length) {
+    // show refresh icon for duplicate page views in a row
+    $("li.pageviewActions", elem).each(function () {
+        var $divider = $(this).find('.refresh-divider');
+        $divider.prevUntil().addClass('duplicate');
+        $divider.remove();
+
+        var viewCount = +$(this).attr('data-view-count');
+        if (viewCount <= 1
+            || isNaN(viewCount)
+        ) {
             return;
         }
-        $(this).attr('origtitle', $(this).attr('title'));
-        $(this).attr('title', _pk_translate('Live_ClickToViewAllActions'));
-        $(this).click(function(e){
+
+        var $pageviewAction = $(this).prev();
+        $pageviewAction.find('>div').prepend($("<span>"+viewCount+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
+
+        var actionsCount = +$(this).attr('data-actions-on-page');
+        if (actionsCount === 0) {
+            $pageviewAction.addClass('noPageviewActions');
+        }
+
+        $('a', $(this)).on('focus', function () {
+            // see https://github.com/piwik/piwik/issues/4099
+            if (tooltipIsOpened) {
+                $(this).tooltip('close');
+            }
+        });
+
+        var $this = $(this);
+        $pageviewAction.attr('origtitle', $pageviewAction.attr('title'));
+        $pageviewAction.attr('title', _pk_translate('Live_ClickToViewAllActions'));
+        $pageviewAction.click(function (e) {
             e.preventDefault();
-            $(this).prevUntil('li:not(.duplicate)').removeClass('duplicate').find('.icon-refresh').hide();
-            var elem = $(this);
+            e.stopPropagation();
+
+            $pageviewAction.addClass('refreshesExpanded');
+            $this.children('.actionList').children().first().removeClass('duplicate').nextUntil('li:not(.duplicate)').removeClass('duplicate');
+
             window.setTimeout(function() {
-                elem.attr('title', elem.attr('origtitle'));
-                elem.attr('origtitle', null);
+                $pageviewAction.attr('title', $pageviewAction.attr('origtitle'));
+                $pageviewAction.attr('origtitle', null);
             }, 150);
-            $(this).off('click').find('.icon-refresh').hide();
-            return false;
+
+            $pageviewAction.off('click').find('.icon-refresh').hide();
+            $pageviewAction.triggerHandler('mouseleave'); // close tooltip so the title will replace
         });
     });
+
+    // hide expanders if content collapsing removed enough items
+    $("ol.actionList", elem).each(function () {
+        var actionsToDisplayCollapsed = +piwik.visitorLogActionsToDisplayCollapsed;
+
+        var $items = $(this).find("li:not(.pageviewActions):not(.actionsForPageExpander):not(.duplicate)");
+        var hasMoreItemsThanLimit = $items.length > actionsToDisplayCollapsed;
+
+        $(this).children('.actionsForPageExpander')
+            .toggle(hasMoreItemsThanLimit)
+            .find('.show-actions-count').text($items.length - actionsToDisplayCollapsed);
+
+        // add last-action class to the last action in each list
+        setLastActionClass($(this));
+    });
+
+    // event handler for content expander/collapser
+    elem.on('click', '.collapsed-contents', function () {
+        $(this).nextUntil(':not(.content)').toggleClass('duplicate');
+        setLastActionClass($(this).closest('ol.actionList'));
+    });
+
+    // event handler for action expander/collapser
+    elem.on('click', '.show-less-actions,.show-more-actions', function (e) {
+        e.preventDefault();
+
+        var actionsToDisplayCollapsed = +piwik.visitorLogActionsToDisplayCollapsed;
+
+        var $actions = $(e.target).closest('.actionList').find('li:not(.duplicate):not(.actionsForPageExpander)');
+        $actions.each(function () {
+            if ($actions.index(this) >= actionsToDisplayCollapsed) {
+                $(this).toggle({
+                    duration: 250
+                });
+            }
+         });
+
+        $(e.target)
+            .parent().find('.show-less-actions,.show-more-actions').toggle();
+        $(e.target)
+            .closest('li')
+            .toggleClass('expanded collapsed');
+    });
+
+    elem.find('.show-less-actions:visible').click();
+
+    function setLastActionClass($list) {
+        $list.children(':not(.actionsForPageExpander):not(.duplicate)').removeClass('last-action').last().addClass('last-action');
+    }
 }
 

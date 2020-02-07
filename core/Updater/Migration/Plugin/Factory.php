@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Updater\Migration\Plugin;
@@ -40,6 +40,21 @@ class Factory
     public function activate($pluginName)
     {
         return $this->container->make('Piwik\Updater\Migration\Plugin\Activate', array(
+            'pluginName' => $pluginName
+        ));
+    }
+
+    /**
+     * Deactivates the given plugin during an update.
+     *
+     * If the plugin is already deactivated or if any other error occurs it will be ignored.
+     *
+     * @param string $pluginName
+     * @return Deactivate
+     */
+    public function deactivate($pluginName)
+    {
+        return $this->container->make('Piwik\Updater\Migration\Plugin\Deactivate', array(
             'pluginName' => $pluginName
         ));
     }

@@ -2,14 +2,17 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -17,6 +20,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Diagnostics\Diagnostics;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -89,6 +93,15 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
+        // when browser archiving is enabled, the archiving process can be triggered for an API request.
+        // for non-day periods, this means the Archive class will be used for smaller periods to build the
+        // non-day period (eg, requesting a week period can result in archiving of day periods). in this case
+        // Archive can report there is no data for a day, triggering this event, but there may be data for other
+        // days in the week. in this case, we don't want to throw an exception.
+        if (PluginsArchiver::isArchivingProcessActive()) {
+            return null;
+        }
+
         // don't do check unless this is the root API request and it is an HTTP API request
         if (!Request::isCurrentApiRequestTheRootApiRequest()
             || !Request::isRootRequestApiRequest()
@@ -97,7 +110,9 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // don't do check during cron archiving
-        if (SettingsServer::isArchivePhpTriggered()) {
+        if (SettingsServer::isArchivePhpTriggered()
+            || Common::isPhpCliMode()
+        ) {
             return null;
         }
 
@@ -113,6 +128,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoData(View $dataTableView)
     {
+        // if the archiving hasn't run in a while notification is up, don't display this one
+        if (isset($dataTableView->notifications[Diagnostics::NO_DATA_ARCHIVING_NOT_RUN_NOTIFICATION_ID])) {
+            return;
+        }
+
         $segmentInfo = $this->getSegmentIfIsUnprocessed();
         if (empty($segmentInfo)) {
             return;
@@ -199,7 +219,13 @@ class SegmentEditor extends \Piwik\Plugin
         // data does not exist. this means the data will be processed later. we let the user know so they will not
         // be confused.
         $model = new Model();
-        $storedSegment = $model->getSegmentByDefinition($segment->getString()) ?: null;
+        $storedSegment = $model->getSegmentByDefinition($segment->getString());
+        if (empty($storedSegment)) {
+            $storedSegment = $model->getSegmentByDefinition(urldecode($segment->getString()));
+        }
+        if (empty($storedSegment)) {
+            $storedSegment = null;
+        }
 
         return [$segment, $storedSegment, $isSegmentToPreprocess];
     }
@@ -243,6 +269,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_OperatorAND';
         $translationKeys[] = 'SegmentEditor_OperatorOR';
         $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
+        $translationKeys[] = 'SegmentEditor_DefaultAllVisits';
         $translationKeys[] = 'General_OperationEquals';
         $translationKeys[] = 'General_OperationNotEquals';
         $translationKeys[] = 'General_OperationAtMost';
@@ -255,5 +282,26 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'General_OperationDoesNotContain';
         $translationKeys[] = 'General_OperationStartsWith';
         $translationKeys[] = 'General_OperationEndsWith';
+        $translationKeys[] = 'General_Unknown';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsCompared';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsSelectedAndCannotBeCompared';
+        $translationKeys[] = 'SegmentEditor_CompareThisSegment';
+        $translationKeys[] = 'Live_VisitsLog';
+    }
+
+    public static function getAllSegmentsForSite($idSite)
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKey = CacheId::siteAware('SegmentEditor_getAll', [$idSite]);
+
+        $segments = $cache->fetch($cacheKey);
+        if (!is_array($segments)) {
+            $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
+            usort($segments, function ($lhs, $rhs) {
+                return strcmp($lhs['name'], $rhs['name']);
+            });
+            $cache->save($cacheKey, $segments);
+        }
+        return $segments;
     }
 }

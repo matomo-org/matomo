@@ -1,8 +1,18 @@
 {
     "Ecommerce": {
-        "PluginDescription": "E-handel lader dig registrere når en kunde tilføjer en vare til kurven og når de udfører et køb. Man kan også registrere når der bliver set på varer og kategorier og når en handel afbrydes.",
+        "PluginDescription": "E-handel giver dig mulighed for at tracke når brugere tilføjer produkter til indkøbskurve og når de konvertere til et e-handel salg. Track tillige visning af produktkategorier og efterladte indkøbskurve.",
         "Sales": "Salg",
+        "Order": "Ordre",
+        "OrderId": "Ordre ID",
+        "Orders": "Ordrer",
         "SalesBy": "Salg af %s",
-        "SalesAdjective": "Salg %s"
+        "SalesAdjective": "Salg %s",
+        "NumberOfItems": "Antal elementer i indkøbskurv",
+        "OrderValue": "Ordreværdi",
+        "LifeTimeValue": "E-handel livstidsværdi",
+        "LifeTimeValueDescription": "Den totale e-handel omsætning tilskrevet denne kunde på tværs af alle besøg: Summen af omsætningen af alle e-handelordrer for Besøg ID %s",
+        "VisitorProfileLTV": "Genererede en livstidsomsætning på %1$s.",
+        "VisitorProfileItemsAndOrders": "Købt %1$s varer i %2$s e-handelordrer.",
+        "VisitorProfileAbandonedCartSummary": "Forladte %1$s indkøbskurve inkusiv %2$s varer til en værdi på i alt %3$s."
     }
 }

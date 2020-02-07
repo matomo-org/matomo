@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -60,6 +60,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded, $flat, $idSubtable = null);
 
         if ($dataTable instanceof DataTable
@@ -105,6 +107,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false, $_leavePriceViewedColumn = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
 
         if (!$_leavePriceViewedColumn) {

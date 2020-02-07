@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<id>live</id>
+		<name>Live</name>
+	</row>
+	<row>
+		<id>dev</id>
+		<name>Dev</name>
+	</row>
+	<row>
+		<id>staging</id>
+		<name>Staging</name>
+	</row>
+</result>

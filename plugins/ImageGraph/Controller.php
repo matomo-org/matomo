@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -23,7 +23,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $idSite = Common::getRequestVar('idSite', 1, 'int');
+        $idSite = $this->idSite ?: 1;
         $period = Common::getRequestVar('period', 'day', 'string');
         $date = Common::getRequestVar('date', 'today', 'string');
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();

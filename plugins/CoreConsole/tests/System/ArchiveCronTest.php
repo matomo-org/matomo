@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Interop\Container\ContainerInterface;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -64,17 +65,21 @@ class ArchiveCronTest extends SystemTestCase
         $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
-        foreach($segments as $segment) {
+        foreach($segments as $index => $segment) {
             // Test with a pre-processed segment
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
                                      'date'       => '2012-08-09',
                                      'periods'    => array('day', 'year'),
                                      'segment'    => $segment,
-                                     'testSuffix' => '_preArchivedSegment',
+                                     'testSuffix' => '_preArchivedSegment' . $index,
                                      'otherRequestParameters' => array(
                                         'hideColumns' => 'latitude,longitude'
-                                     ))
+                                     ),
+                                     'xmlFieldsToRemove' => array(
+                                         'fingerprint'
+                                     )
+                               )
             );
         }
 
@@ -104,6 +109,31 @@ class ArchiveCronTest extends SystemTestCase
                 var_dump($output);
             }
         }
+    }
+
+    public function testArchivePhpCronArchivesFullRanges()
+    {
+        $this->setLastRunArchiveOptions();
+
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_custom_ranges', ['2012-08-09,2012-08-13']);
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['archiving_range_force_on_browser_request'] = 0;
+        Config::getInstance()->General['archiving_custom_ranges'][] = '';
+
+        $output = $this->runArchivePhpCron(['--force-periods' => 'range', '--force-idsites' => 1]);
+
+        $this->runApiTests(array(
+            'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
+            array('idSite'     => '1',
+                'date'       => '2012-08-09,2012-08-13',
+                'periods'    => array('range'),
+                'testSuffix' => '_range_archive'
+            )
+        );
     }
 
     public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
@@ -139,7 +169,7 @@ class ArchiveCronTest extends SystemTestCase
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
-        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\"";
+        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" --force-date-last-n=10";
         foreach ($options as $name => $value) {
             $cmd .= " $name";
             if ($value !== null) {

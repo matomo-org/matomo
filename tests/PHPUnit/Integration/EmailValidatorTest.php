@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -60,7 +60,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
             if (strpos(mb_strtolower($tld), 'xn--') !== 0) {
                 $tld = mb_strtolower($tld);
             }
-            $domainNameExtension = idn_to_utf8($tld);
+            $domainNameExtension = idn_to_ascii($tld, 0, INTL_IDNA_VARIANT_UTS46);
             $email = 'test@example.' . $domainNameExtension;
 
             if(!$this->isValid($email)) {
@@ -101,7 +101,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
                 $tld = mb_strtolower($tld);
             }
             $this->assertFalse(
-                $this->isValid('test@example.' . idn_to_utf8($tld))
+                $this->isValid('test@example.' . idn_to_utf8($tld, 0, INTL_IDNA_VARIANT_UTS46))
             );
         }
     }
@@ -141,11 +141,6 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->isValid('t*est@example.com'));
         $this->assertTrue($this->isValid('+1~1+@example.com'));
         $this->assertTrue($this->isValid('{_test_}@example.com'));
-    }
-
-    public function test_isValid_validQuotedLocalPart()
-    {
-        $this->assertTrue($this->isValid('"[[ test ]]"@example.com'));
     }
 
     public function test_isValid_validAtomisedLocalPart()

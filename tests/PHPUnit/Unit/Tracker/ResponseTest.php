@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -127,7 +127,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $tracker->setCountOfLoggedRequests(0);
         $this->response->outputResponse($tracker);
 
-        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.",
+        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.",
             $this->response->getOutput());
     }
 

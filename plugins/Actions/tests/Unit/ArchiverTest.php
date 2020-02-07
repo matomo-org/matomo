@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests\Unit;
+namespace Piwik\Plugins\Actions\tests\Unit;
 
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;
@@ -80,19 +80,19 @@ class ArchiverTests extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'params'   => array('name' => 'Category / Subcategory', 'type' => Action::TYPE_PAGE_TITLE),
-                'expected' => array('Category', ' Subcategory'),
+                'expected' => array(' Category / Subcategory'),
             ),
             array(
                 'params'   => array('name' => '/path/index.php?var=test', 'type' => Action::TYPE_PAGE_TITLE),
-                'expected' => array('path', ' index.php?var=test'),
+                'expected' => array(' /path/index.php?var=test'),
             ),
             array(
                 'params'   => array('name' => 'http://example.org/path/Default.aspx#anchor', 'type' => Action::TYPE_PAGE_TITLE),
-                'expected' => array('path', ' Default.aspx#anchor'),
+                'expected' => array(' http://example.org/path/Default.aspx#anchor'),
             ),
             array(
                 'params'   => array('name' => '', 'type' => Action::TYPE_PAGE_TITLE),
-                'expected' => array('Page Name not defined'),
+                'expected' => array(' Page Name not defined'),
             ),
             array(
                 'params'   => array('name' => '', 'type' => Action::TYPE_PAGE_URL),

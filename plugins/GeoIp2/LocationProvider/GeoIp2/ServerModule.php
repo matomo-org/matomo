@@ -26,7 +26,7 @@ use Piwik\Url;
 class ServerModule extends GeoIp2
 {
     const ID = 'geoip2server';
-    const TITLE = 'GeoIP 2 (%s)';
+    const TITLE = 'DBIP / GeoIP 2 (%s)';
 
     public static $defaultGeoIpServerVars = array(
         parent::CONTINENT_CODE_KEY => 'MM_CONTINENT_CODE',

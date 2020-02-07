@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Dieser User-Agent wird als %1$s erkannt. Besuche mit diesem Benutzer-Agenten werden in Matomo standardmäßig nicht protokolliert.",
         "BrowserEngine": "Browser-Engine",
         "BrowserEngineDocumentation": "Dieser Bericht zeigt Ihnen die Browser Ihrer Besucher aufgeteilt nach Browserfamilien. %s Die wichtigste Information für Webentwickler ist, welche Rendering-Engine ihre Besucher verwenden. Die Beschriftungen enthalten den Namen der Engine und in Klammern den Namen des bekanntesten Browsers, der diese verwendet.",
         "BrowserEngines": "Browser-Engines",
@@ -11,6 +12,7 @@
         "CarBrowser": "PKW-Browser",
         "Software": "Software",
         "ColumnBrowser": "Browser",
+        "BrowserCode": "Browser-Code",
         "ColumnOperatingSystem": "Betriebssystem",
         "ColumnOperatingSystemVersion": "Betriebssystem-Version",
         "Console": "Spielekonsole",
@@ -30,11 +32,13 @@
         "FeaturePhone": "Feature-Phone",
         "OperatingSystemFamilies": "Betriebssystem-Familien",
         "OperatingSystemFamily": "Betriebssystem-Familie",
+        "OperatingSystemCode": "Betriebssystem-Code",
         "OperatingSystems": "Betriebssysteme",
         "OperatingSystemVersions": "Betriebssystem-Versionen",
         "PluginDescription": "Unterstützt erweiterte Informationen über Benutzergeräte, wie Marke (Hersteller), Modell (Geräteversion), Gerätetyp (Fernseher, Konsolen, Smartphones, Desktops, usw.) und mehr.",
         "SmartDisplay": "Smart Display",
         "Smartphone": "Smartphone",
+        "SmartSpeaker": "Smarter Lautsprecher",
         "PortableMediaPlayer": "Portable Mediengeräte",
         "Devices": "Geräte",
         "GenericDevice": "Allgemeines %s",

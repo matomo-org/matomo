@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -16,10 +16,12 @@ class HtmlEmailFooterView extends View
 {
     const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportFooter';
 
-    public function __construct()
+    public function __construct($unsubscribeLink = null)
     {
         parent::__construct(self::TEMPLATE_FILE);
 
-        $this->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
+        HtmlReportEmailHeaderView::assignCommonParameters($this);
+
+        $this->unsubscribeLink = $unsubscribeLink;
     }
 }

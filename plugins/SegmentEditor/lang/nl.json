@@ -1,13 +1,13 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Maak en hergebruik aangepaste Bezoeker segmenten met de Segment Editor.",
+        "PluginDescription": "Een segment is een set criteria die wordt gebruikt om slechts een deel van de hele set bezoeken te selecteren. Met behulp van segmenten kan je willekeurige context terug in uw rapporten injecteren.",
         "AddANDorORCondition": "%s-voorwaarde toevoegen",
         "AddNewSegment": "Nieuw segment toevoegen",
         "AreYouSureDeleteSegment": "Weet u zeker dat u dit segment wilt verwijderen?",
         "AutoArchivePreProcessed": "gesegmenteerde rapporten worden voor verwerkt (sneller, vereist archive.php cron)",
         "AutoArchiveRealTime": "gesegmenteerde rapporten worden realtime verwerkt",
-        "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Je staat op het punt het segment te wijzijgen. Het bijbehorende rapport zal niet beschikbaar zijn, totdat deze opnieuw door het proces is gegaan. Het kan een paar uur duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
-        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Je staat op het punt het segment te wijzijgen. Het bijbehorende rapport voor dit nieuwe rapport zal op verzoek gegenereerd worden, wanneer deze de volgende keer opgevraagd wordt. Het kan een paar minuten duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
+        "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Je staat op het punt het segment te wijzigen. Het bijbehorende rapport zal niet beschikbaar zijn, totdat deze opnieuw door het proces is gegaan. Het kan een paar uur duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
+        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Je staat op het punt het segment te wijzigen. Het bijbehorende rapport voor dit nieuwe rapport zal op verzoek gegenereerd worden, wanneer deze de volgende keer opgevraagd wordt. Het kan een paar minuten duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
         "ChooseASegment": "Kies een segment",
         "CurrentlySelectedSegment": "Geselecteerd segment: %s",
         "DataAvailableAtLaterDate": "De gesegmenteerde analyse rapporten zullen op een later tijdstip beschikbaar komen. Excuses voor het ongemak.",
@@ -35,6 +35,15 @@
         "SegmentXIsAUnionOf": "%s is een combinatie van deze segmenten:",
         "CustomSegment": "Aangepast segment",
         "SegmentOperatorIsNullOrEmpty": "is null of leeg",
-        "SegmentOperatorIsNotNullNorEmpty": "is niet null of leeg"
+        "SegmentOperatorIsNotNullNorEmpty": "is niet null of leeg",
+        "UnprocessedSegmentNoData1": "Deze rapporten hebben geen data omdat het opgevraagde segment %1$s nog niet is verwerkt door het systeem.",
+        "UnprocessedSegmentNoData2": "Gegevens voor dit segment zouden binnen enkele uren beschikbaar moeten zijn wanneer de verwerking is voltooid. (Als dit niet het geval is, is er mogelijk een probleem.)",
+        "UnprocessedSegmentInVisitorLog2": "Wanneer toegepast, kan je direct zien welke bezoeken en acties zijn gekoppeld aan uw segment.",
+        "UnprocessedSegmentInVisitorLog3": "Dit kan helpen te bevestigen dat het segment overeenkomt met de gebruikers en acties die ervan verwacht worden.",
+        "CustomUnprocessedSegmentApiError6": "Wanneer deze API-methode wordt gebruikt, zie je welke gebruikers en acties zijn gekoppeld aan uw & segment = parameter.",
+        "AddThisToMatomo": "Voeg dit segment toe aan Matomo",
+        "ThisSegmentIsCompared": "Dit segment wordt momenteel vergeleken.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Dit segment is momenteel geselecteerd en kan niet geselecteerd worden om te vergelijken.",
+        "Test": "Testen"
     }
 }

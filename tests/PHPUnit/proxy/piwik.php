@@ -33,9 +33,7 @@ try {
 
     Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables(), $globalObservers));
 
-    \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
-    include PIWIK_INCLUDE_PATH . '/piwik.php';
+    include PIWIK_INCLUDE_PATH . '/matomo.php';
 } catch (Exception $ex) {
     echo "Unexpected error during tracking: " . $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n";
 }

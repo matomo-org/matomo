@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<id>unlimited</id>
+		<name>Unlimited</name>
+	</row>
+	<row>
+		<id>once_page</id>
+		<name>Once per pageview</name>
+	</row>
+	<row>
+		<id>once_24hours</id>
+		<name>Once per 24 hours</name>
+	</row>
+	<row>
+		<id>once_lifetime</id>
+		<name>Once in lifetime</name>
+	</row>
+</result>

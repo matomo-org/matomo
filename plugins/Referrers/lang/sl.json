@@ -7,7 +7,6 @@
         "ColumnWebsite": "Spletna stran",
         "ColumnWebsitePage": "Spletna stran",
         "DirectEntry": "Neposreden obisk",
-        "Distinct": "Različnih napotiteljev po tipu",
         "DistinctCampaigns": "različne kampanje",
         "DistinctKeywords": "različne ključne besede",
         "DistinctSearchEngines": "različni brskalniki",
@@ -19,10 +18,7 @@
         "SearchEngines": "Spletni iskalniki",
         "SubmenuSearchEngines": "Brskalniki & ključne besede",
         "SubmenuWebsitesOnly": "Spletne strani",
-        "Type": "Tip napotitelja",
-        "TypeReportDocumentation": "Ta tabela vsebuje informacije o porazdelitvi tipov napotiteljev",
         "Websites": "Spletne strani",
-        "WidgetExternalWebsites": "Seznam zunanjih spletnih strani",
-        "WidgetGetAll": "Vsi napotitelji"
+        "WidgetExternalWebsites": "Seznam zunanjih spletnih strani"
     }
 }

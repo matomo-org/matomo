@@ -35,9 +35,9 @@ class VisitorDetails extends VisitorDetailsAbstract
         $status = $this->getVisitEcommerceStatus();
 
         if (in_array($status, array('ordered', 'orderedThenAbandonedCart'))) {
-            return "plugins/Morpheus/images/ecommerceOrder.png";
+            return "plugins/Morpheus/images/ecommerceOrder.svg";
         } elseif ($status == 'abandonedCart') {
-            return "plugins/Morpheus/images/ecommerceAbandonedCart.png";
+            return "plugins/Morpheus/images/ecommerceAbandonedCart.svg";
         }
         // Note: it is important that there is no icon when there was no ecommerce conversion
         return null;
@@ -56,7 +56,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function getVisitorGoalConvertedIcon()
     {
         return $this->isVisitorGoalConverted()
-            ? "plugins/Morpheus/images/goal.png"
+            ? "plugins/Morpheus/images/goal.svg"
             : null;
     }
 

@@ -9,6 +9,11 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
+		<dimensions>
+			<Events_EventName>Event Name</Events_EventName>
+			<Events_EventAction>Event Action</Events_EventAction>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -63,12 +68,12 @@
 			</row>
 			<row>
 				<label>Event Name not defined</label>
-				<nb_events>7</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
+				<nb_events>9</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>23</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
+				<max_event_value>23</max_event_value>
+				<avg_event_value>11.5</avg_event_value>
 			</row>
 			<row>
 				<label>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
@@ -183,72 +188,72 @@
 			<row>
 				
 				<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
-				<idsubdatatable>1715</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
-				<idsubdatatable>1714</idsubdatatable>
+				
 			</row>
 			<row>
 				
-				<idsubdatatable>1713</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1719</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
-				<idsubdatatable>1717</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
-				<idsubdatatable>1716</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==Search+query+here</segment>
-				<idsubdatatable>1718</idsubdatatable>
+				
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				
 				<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
-				<idsubdatatable>1723</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
-				<idsubdatatable>1722</idsubdatatable>
+				
 			</row>
 			<row>
 				
-				<idsubdatatable>1721</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1727</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
-				<idsubdatatable>1725</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
-				<idsubdatatable>1724</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventName==Search+query+here</segment>
-				<idsubdatatable>1726</idsubdatatable>
+				
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -258,7 +263,12 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>64</nb_visits>
 		<nb_uniq_visitors>61</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_events>69</nb_events>
+		<nb_events_with_value>14</nb_events_with_value>
+		<sum_event_value>137.96</sum_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>52.32</max_event_value>
 	</reportTotal>
 </result>

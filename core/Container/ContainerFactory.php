@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -72,7 +72,7 @@ class ContainerFactory
         $builder->addDefinitions(new IniConfigDefinitionSource($this->settings));
 
         // Global config
-        $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
+        $builder->addDefinitions(PIWIK_DOCUMENT_ROOT . '/config/global.php');
 
         // Plugin configs
         $this->addPluginConfigs($builder);
@@ -121,7 +121,7 @@ class ContainerFactory
         // add plugin environment configs
         $plugins = $this->pluginList->getActivatedPlugins();
         foreach ($plugins as $plugin) {
-            $baseDir = Manager::getPluginsDirectory() . $plugin;
+            $baseDir = Manager::getPluginDirectory($plugin);
 
             $environmentFile = $baseDir . '/config/' . $environment . '.php';
             if (file_exists($environmentFile)) {
@@ -135,7 +135,7 @@ class ContainerFactory
         $plugins = $this->pluginList->getActivatedPlugins();
 
         foreach ($plugins as $plugin) {
-            $baseDir = Manager::getPluginsDirectory() . $plugin;
+            $baseDir = Manager::getPluginDirectory($plugin);
 
             $file = $baseDir . '/config/config.php';
             if (file_exists($file)) {

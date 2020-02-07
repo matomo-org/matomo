@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -159,12 +159,18 @@ class ColumnDelete extends BaseFilter
             if(!$this->isArrayAccess($row)) {
                 continue;
             }
+           
             foreach ($this->columnsToRemove as $column) {
-
-                if (!array_key_exists($column, $row)) {
+                
+                if (is_array($row)) {	
+                    if (!array_key_exists($column, $row)) {
+                        continue;
+                    }
+                } elseif ($table instanceof \ArrayAccess) {
+                    if (!$row->offsetExists($column)) {
                     continue;
+                    }
                 }
-
                 if ($this->deleteIfZeroOnly) {
                     $value = $row[$column];
                     if ($value === false || !empty($value)) {

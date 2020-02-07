@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
@@ -91,7 +91,7 @@ class WriteAccessCheck implements Diagnostic
 
         if (! DbHelper::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
-            $directoriesToCheck[] = '/config/';
+            $directoriesToCheck[] = PIWIK_USER_PATH . '/config/';
         }
 
         return $directoriesToCheck;

@@ -2,14 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\DataAccess;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 
 /**
@@ -71,7 +70,8 @@ class ArchiveTableDao
 
         // query blob table & manually merge results (no FULL OUTER JOIN in mysql)
         $sql = "SELECT CONCAT_WS('.', idsite, date1, date2, period) AS label,
-                       COUNT(*) AS count_blob_rows
+                       COUNT(*) AS count_blob_rows,
+                       SUM(OCTET_LENGTH(value)) AS sum_blob_length
                   FROM `$blobTable`
               GROUP BY idsite, date1, date1, period";
 

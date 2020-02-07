@@ -21,6 +21,7 @@
         "VisibleToMe": "saya",
         "SharedWithYou": "Berbagi dengan Anda",
         "YouMustBeLoggedInToCreateSegments": "Anda harus masuk-log untuk membuat dan menyunting pecahan pengunjung kustom.",
-        "SegmentOperatorIsNotNullNorEmpty": "tidak boleh null atau kosong"
+        "SegmentOperatorIsNotNullNorEmpty": "tidak boleh null atau kosong",
+        "Test": "Percobaan"
     }
 }

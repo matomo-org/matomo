@@ -35,12 +35,22 @@
         vm.metricDocumentation = null;
         vm.selectableColumns = [];
         vm.responses = null;
+        vm.sparklineParams = {};
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.$onDestroy = $onDestroy;
         vm.getCurrentPeriod = getCurrentPeriod;
         vm.getMetricTranslation = getMetricTranslation;
         vm.setMetric = setMetric;
+
+        function setSparklineParams() {
+            var params = { module: 'API', action: 'get', columns: vm.metric };
+            if (isIdGoalSet()) {
+                params.idGoal = vm.idGoal;
+                params.module = 'Goals';
+            }
+            vm.sparklineParams = params;
+        }
 
         function $onInit() {
             vm.selectedColumns = [vm.metric];
@@ -55,6 +65,8 @@
             $element.closest('.widgetContent')
                 .on('widget:destroy', function() { $scope.$parent.$destroy(); })
                 .on('widget:reload', function() { $scope.$parent.$destroy(); });
+
+            setSparklineParams();
         }
 
         function $onChanges(changes) {
@@ -69,10 +81,6 @@
         }
 
         function fetchData() {
-            if (vm.responses && vm.responses.length && typeof vm.idGoal === 'undefined') {
-                return $q.resolve();
-            }
-
             vm.isLoading = true;
 
             var promises = [];
@@ -81,7 +89,7 @@
             var apiAction = 'get';
 
             var extraParams = {};
-            if (vm.idGoal) {
+            if (isIdGoalSet()) {
                 extraParams.idGoal = vm.idGoal;
                 // the conversion rate added by the AddColumnsProcessedMetrics filter conflicts w/ the goals one, so don't run it
                 extraParams.filter_add_columns_when_show_all_columns = 0;
@@ -156,12 +164,12 @@
         function getLastPeriodDate() {
             var RangePeriod = piwikPeriods.get('range');
             var result = RangePeriod.getLastNRange(piwik.period, 2, piwik.currentDateString).startDate;
-            return $.datepicker.formatDate('yy-mm-dd', result);
+            return piwikPeriods.format(result);
         }
 
         function setWidgetTitle() {
             var title = vm.getMetricTranslation();
-            if (vm.idGoal) {
+            if (isIdGoalSet()) {
                 var goalName = vm.goals[vm.idGoal].name;
                 title = goalName + ' - ' + title;
             }
@@ -234,6 +242,8 @@
         }
 
         function onMetricChanged() {
+            setSparklineParams();
+
             fetchData().then(recalculateValues);
 
             // notify widget of parameter change so it is replaced
@@ -241,22 +251,29 @@
         }
 
         function setMetric(newColumn) {
-            var m = newColumn.match(/^goal([0-9])_(.*)/);
+            var idGoal;
+
+            var m = newColumn.match(/^goal([0-9]+)_(.*)/);
             if (m) {
-                vm.idGoal = m[1];
+                idGoal = +m[1];
                 newColumn = m[2];
-            } else {
-                vm.idGoal = undefined;
             }
 
-            vm.metric = newColumn;
-            onMetricChanged();
+            if (vm.metric !== newColumn || idGoal !== vm.idGoal) {
+                vm.metric = newColumn;
+                vm.idGoal = idGoal;
+                onMetricChanged();
+            }
         }
 
         function getPastPeriodStr() {
             var startDate = piwikPeriods.get('range').getLastNRange(piwik.period, 2, piwik.currentDateString).startDate;
             var dateRange = piwikPeriods.get(piwik.period).parse(startDate).getDateRange();
-            return $.datepicker.formatDate('yy-mm-dd', dateRange[0]) + ',' + $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+            return piwikPeriods.format(dateRange[0]) + ',' + piwikPeriods.format(dateRange[1]);
+        }
+
+        function isIdGoalSet() {
+            return vm.idGoal || vm.idGoal === 0;
         }
     }
 })();

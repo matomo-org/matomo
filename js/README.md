@@ -16,11 +16,11 @@ The js/ folder contains:
     * it supports deflate/gzip compression if your web server (e.g., Apache
       without mod_deflate or mod_gzip), shrinking the data transfer to 8K
 
-* js/index.php (or implicitly as "js/") can also act as a proxy to piwik.php
+* js/index.php (or implicitly as "js/") can also act as a proxy to matomo.php
 
 * If you are concerned about the impact of browser-based privacy filters which
   attempt to block tracking, you can change your tracking code to use "js/"
-  instead of "piwik.js" and "piwik.php", respectively.
+  instead of "piwik.js" and "matomo.php", respectively.
 
   Note that in order for [Page Overlay](https://matomo.org/docs/page-overlay/) to work, the Piwik tracker method `setAPIUrl()` needs to be called with its parameter pointing to the root directory of Piwik. E.g.:
 
@@ -44,7 +44,7 @@ The js/ folder contains:
 
   ```bash
   $ cd /path/to/piwik/js/
-  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik.min.js && cp piwik.min.js ../piwik.js
+  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik.min.js && cp piwik.min.js ../piwik.js && cp piwik.min.js ../matomo.js
   ```
 
   This will generate the minify /path/to/piwik/js/piwik.min.js and copy it to

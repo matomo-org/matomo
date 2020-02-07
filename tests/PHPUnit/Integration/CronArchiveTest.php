@@ -2,19 +2,17 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\CliMulti;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
+use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -65,6 +63,54 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertEquals($expectedSegments, array_values($cronarchive->segmentsToForce));
     }
 
+    public function test_wasSegmentCreatedRecently()
+    {
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+
+        $segments = new Model();
+        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+
+        $allSegments = $segments->getSegmentsToAutoArchive(1);
+
+        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        $this->assertTrue($cronarchive->wasSegmentChangedRecently('actions>=1', $allSegments));
+
+        // created 30 hours ago...
+        $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=2', $allSegments));
+
+        // not configured segment
+        $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=999', $allSegments));
+    }
+
+    public function test_skipSegmentsToday()
+    {
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
+            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+        );
+        
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+
+        $segments = new Model();
+        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+
+        $logger = new FakeLogger();
+
+        $archiver = new CronArchive(null, $logger);
+        $archiver->skipSegmentsToday = true;
+        $archiver->shouldArchiveAllSites = true;
+        $archiver->shouldArchiveAllPeriodsSince = true;
+        $archiver->init();
+        $archiver->run();
+
+        $this->assertContains('Will skip segments archiving for today unless they were created recently', $logger->output);
+        $this->assertContains('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
+        $this->assertNotContains('Segment "actions>=2" was created recently', $logger->output);
+    }
+
     public function test_output()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
@@ -92,6 +138,7 @@ Running Matomo %s as Super User
 NOTES
 - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
   See the doc at: https://matomo.org/docs/setup-auto-archiving/
+- Async process archiving supported, using CliMulti.
 - Reports for today will be processed at most every %s seconds. You can change this value in Matomo UI > Settings > General Settings.
 - Reports for the current week/month/year will be requested at most every %s seconds.
 - Will process all 1 websites
@@ -104,22 +151,22 @@ Starting Matomo reports archiving...
 Will pre-process for website id = 1, period = day, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last52]
 Archived website id = 1, period = day, 1 segments, 1 visits in last %s days, 1 visits today, Time elapsed: %s
+- skipping segment archiving for 'actions>=4'.
 Will pre-process for website id = 1, period = week, date = last%s
 - pre-processing all visits
-- skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last260]
 Archived website id = 1, period = week, 1 segments, 1 visits in last %s weeks, 1 visits this week, Time elapsed: %s
+- skipping segment archiving for 'actions>=4'.
 Will pre-process for website id = 1, period = month, date = last%s
 - pre-processing all visits
-- skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last52]
 Archived website id = 1, period = month, 1 segments, 1 visits in last %s months, 1 visits this month, Time elapsed: %s
+- skipping segment archiving for 'actions>=4'.
 Will pre-process for website id = 1, period = year, date = last%s
 - pre-processing all visits
-- skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last7]
 Archived website id = 1, period = year, 1 segments, 1 visits in last %s years, 1 visits this year, Time elapsed: %s
 Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]
 Done archiving!
@@ -130,7 +177,7 @@ Archived today's reports for 1 websites
 Archived week/month/year for 1 websites
 Skipped 0 websites
 - 0 skipped because no new visit since the last script execution
-- 0 skipped because existing daily reports are less than 150 seconds old
+- 0 skipped because existing daily reports are less than 900 seconds old
 - 0 skipped because existing week/month/year periods reports are less than 3600 seconds old
 Total API requests: %s
 done: 1/1 100%, 1 vtoday, 1 wtoday, 1 wperiods, %s req, %s ms, no error
@@ -184,5 +231,10 @@ class TestCronArchive extends CronArchive
 
     protected function initPiwikHost($piwikUrl = false)
     {
+    }
+
+    public function wasSegmentChangedRecently($definition, $allSegments)
+    {
+        return parent::wasSegmentChangedRecently($definition, $allSegments);
     }
 }

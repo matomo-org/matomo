@@ -40,7 +40,6 @@
         "DaysToConv": "일별 전환",
         "Details": "목표 상세",
         "DefaultGoalConvertedOncePerVisit": "(기본) 목표 달성은 방문할 때 마다 한번만 계산",
-        "DefaultRevenue": "목표의 기본 수익은",
         "DefaultRevenueHelp": "예를 들어 방문자가 전송된 연락처 양식이 평균적으로 10원의 가치가 있을지도 모릅니다. Matomo은 방문자 세그먼트가 얼마나 잘 수행하고 있는지를 이해하는 것을 돕고 있습니다.",
         "DeleteGoalConfirm": "%s 목표를 정말로 삭제 하시겠습니까?",
         "DocumentationRevenueGeneratedByProductSales": "제품 판매. 세금, 배송비, 할인 제외.",

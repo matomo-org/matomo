@@ -21,30 +21,30 @@
 
 #periodString td {
   vertical-align: top;
-  border-radius: 0
+  border-radius: 0;
 }
 
 #periodString {
   .ui-widget-header,
   .ui-datepicker {
-    &.ui-helper-clearfix:before, &.ui-helper-clearfix:after {
+    &.ui-helper-clearfix::before,
+ &.ui-helper-clearfix::after {
       display: inline;
       clear: none;
       content: none !important;
     }
   }
-
 }
 
 #periodString .calendar-icon {
   width: 13px;
   height: 15px;
-  display:inline-block;
-  position:absolute;
+  display: inline-block;
+  position: absolute;
   right: 19px;
   top: 9px;
   background: url("plugins/Morpheus/images/icon-calendar.png") no-repeat scroll;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 #periodString strong {
@@ -54,10 +54,6 @@
 #periodString h6 {
   font-size: 14px;
   padding: 0 0 4px 0;
-}
-
-#periodMore {
-  overflow: hidden;
 }
 
 #periodString .period-date,
@@ -71,8 +67,22 @@
 
 #periodString .period-type label {
   font-size: 13px;
+  white-space: nowrap;
 }
 
 #periodString label.selected-period-label {
   text-decoration: underline;
+}
+
+#periodString .compareCheckbox {
+  transform: scale(.8);
+  margin-left: -29px;
+
+  .form-group {
+    margin: 15px 0 0;
+  }
+
+  label {
+    padding-left: 25px;
+  }
 }

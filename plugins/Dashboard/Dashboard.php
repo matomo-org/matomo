@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Dashboard;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -47,7 +48,7 @@ class Dashboard extends \Piwik\Plugin
         if (Piwik::isUserIsAnonymous()) {
             $this->addDefaultDashboard($widgets);
         } else {
-            $dashboards = API::getInstance()->getDashboards();
+            $dashboards = $this->getDashboards();
 
             if (empty($dashboards)) {
                 $this->addDefaultDashboard($widgets);
@@ -64,6 +65,14 @@ class Dashboard extends \Piwik\Plugin
                 }
             }
         }
+    }
+
+    private function getDashboards()
+    {
+        return Request::processRequest('Dashboard.getDashboards',
+            ['filter_limit' => '-1', 'filter_offset' => 0],
+            []
+        );
     }
 
     private function addDefaultDashboard(&$widgets)
@@ -83,7 +92,7 @@ class Dashboard extends \Piwik\Plugin
         if (Piwik::isUserIsAnonymous()) {
             $this->addDefaultSubcategory($subcategories);
         } else {
-            $dashboards = API::getInstance()->getDashboards();
+            $dashboards = $this->getDashboards();
 
             if (empty($dashboards)) {
                 $this->addDefaultSubcategory($subcategories);
@@ -267,7 +276,6 @@ class Dashboard extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/Dashboard/angularjs/common/services/dashboards-model.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/widgetMenu.js";
-        $jsFiles[] = "libs/javascript/json2.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboardObject.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboardWidget.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboard.js";
@@ -308,6 +316,7 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_Dashboard';
         $translationKeys[] = 'Dashboard_RemoveDefaultDashboardNotPossible';
         $translationKeys[] = 'General_Close';
+        $translationKeys[] = 'General_HelpResources';
         $translationKeys[] = 'General_Refresh';
     }
 }

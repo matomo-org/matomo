@@ -14,6 +14,7 @@
 		<avg_time_on_page>78</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==Search+1</segment>
 	</row>
 	<row>
 		<label>Search 2</label>
@@ -30,6 +31,7 @@
 		<avg_time_on_page>36</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>50%</exit_rate>
+		<segment>siteSearchKeyword==Search+2</segment>
 	</row>
 	<row>
 		<label>No Result Keyword!</label>
@@ -45,5 +47,6 @@
 		<avg_time_on_page>36</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 	</row>
 </result>

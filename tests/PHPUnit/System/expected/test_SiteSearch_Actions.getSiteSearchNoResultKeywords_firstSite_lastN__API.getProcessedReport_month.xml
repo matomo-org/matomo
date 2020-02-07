@@ -10,6 +10,7 @@
 		<action>getSiteSearchNoResultKeywords</action>
 		<dimension>Keyword with No Search Result</dimension>
 		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 		</metrics>
@@ -45,7 +46,11 @@
 		<result prettyDate="July 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="January 2010" />
+		<result prettyDate="January 2010">
+			<row>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
+			</row>
+		</result>
 		<result prettyDate="February 2010" />
 		<result prettyDate="March 2010" />
 		<result prettyDate="April 2010" />
@@ -56,5 +61,9 @@
 	<reportTotal>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
+		<sum_time_spent>288</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<nb_pages_per_search>1</nb_pages_per_search>
 	</reportTotal>
 </result>

@@ -26,7 +26,6 @@
         "Organization": "Organisatsioon",
         "OrgDatabase": "Organisatsiooni andmebaas",
         "Region": "Regioon",
-        "SetupAutomaticUpdatesOfGeoIP": "Seadista GeoIP andmebaaside automaatsed uuendused",
         "SubmenuLocations": "Asukohad",
         "UpdaterWasLastRun": "Uuendaja käivitus viimati %s.",
         "WidgetLocation": "Külastajate asukohad"

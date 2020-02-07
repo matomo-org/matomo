@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -98,7 +98,13 @@ class UserId extends VisitDimension
 
     private function isUsedInSite($idSite, $period, $date)
     {
-        $result = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, false, 'nb_users');
+        $result = \Piwik\API\Request::processRequest('VisitsSummary.get', [
+            'columns' => 'nb_users',
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => false,
+        ], $default = []);
 
         return $this->hasDataTableUsers($result);
     }

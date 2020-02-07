@@ -9,6 +9,11 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
+		<dimensions>
+			<Events_EventName>Event Name</Events_EventName>
+			<Events_EventAction>Event Action</Events_EventAction>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -225,12 +230,12 @@
 			</row>
 			<row>
 				<label>Event Name not defined - This is an event without a URL</label>
-				<nb_events>1</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>23</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
+				<max_event_value>23</max_event_value>
+				<avg_event_value>11.5</avg_event_value>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -422,8 +427,174 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventName>
+				<Events_EventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Purchase</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Ponyo (崖の上のポニョ)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Princess Mononoke (もののけ姫)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Search query here</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>clickBuyNow</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playStart</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>This is an event without a URL</Events_EventAction>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventName>
+				<Events_EventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Purchase</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Ponyo (崖の上のポニョ)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Princess Mononoke (もののけ姫)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Search query here</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>clickBuyNow</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playStart</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -431,7 +602,12 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>64</nb_visits>
 		<nb_uniq_visitors>61</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_events>69</nb_events>
+		<nb_events_with_value>14</nb_events_with_value>
+		<sum_event_value>137.96</sum_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>52.32</max_event_value>
 	</reportTotal>
 </result>

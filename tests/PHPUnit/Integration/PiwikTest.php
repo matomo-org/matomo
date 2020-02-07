@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -32,11 +32,6 @@ class PiwikTest extends IntegrationTestCase
             '-1', '0', '1', '1.5', '-1.5', '21111', '89898', '99999999999', '-4565656',
             '1e3', 0x123, "-1e-2",
         );
-
-        if (!self::isPhp7orLater()) {
-            // this seems to be no longer considered valid in PHP 7+
-            $value[] = '0x123';
-        }
 
         foreach ($valid as $key => $value) {
             $valid[$key] = array($value);

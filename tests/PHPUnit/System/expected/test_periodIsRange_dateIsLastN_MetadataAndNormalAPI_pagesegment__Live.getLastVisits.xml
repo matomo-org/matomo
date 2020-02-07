@@ -5,6 +5,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>d5089722a4391cf9</fingerprint>
 		<actionDetails>
 			<row>
 				<type>outlink</type>
@@ -17,6 +18,9 @@
 				<bandwidth />
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
+				<title>Outlink</title>
+				<subtitle>http://test.com</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -27,8 +31,8 @@
 		
 		<siteName>Piwik test</siteName>
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -122,16 +126,21 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>d5089722a4391cf9</fingerprint>
 		<actionDetails>
 			<row>
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>1000</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>triggered js ($1,000 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -144,7 +153,10 @@
 				<pageId>4</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>Homepage</title>
+				<subtitle>http://example.org/homepage</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -158,7 +170,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -250,16 +262,21 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>goal</type>
 				<goalName>second goal</goalName>
 				<goalId>2</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>second goal</subtitle>
 				
 			</row>
 			<row>
@@ -274,7 +291,10 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Homepage</title>
+				<subtitle>http://example.org/homepage</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -282,11 +302,15 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/user/profile</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>triggered js</subtitle>
 				
 			</row>
 			<row>
@@ -301,7 +325,10 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
+				<title>Profile page</title>
+				<subtitle>http://example.org/user/profile</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -325,7 +352,10 @@
 				<pageId>3</pageId>
 				<bandwidth />
 				<interactionPosition>3</interactionPosition>
+				<title>Profile page for user *_)%</title>
+				<subtitle>http://example.org/user/profile</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -353,7 +383,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />

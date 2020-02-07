@@ -78,15 +78,15 @@
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/index.htm?gkwd=SHOULD be a PageView, NOT a search</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fgkwd%3DSHOULD+be+a+PageView%2C+NOT+a+search</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm%253Fgkwd%253DSHOULD%2Bbe%2Ba%2BPageView%252C%2BNOT%2Ba%2Bsearch</segment>
 			</row>
 			<row>
 				<url>http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Frandom%3DPAGEVIEW%2C+NOT+SEARCH%26mykwd%3D%26IS_FOLLOWING_SEARCH+ONCE</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm%253Frandom%253DPAGEVIEW%252C%2BNOT%2BSEARCH%2526mykwd%253D%2526IS_FOLLOWING_SEARCH%2BONCE</segment>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />
@@ -100,7 +100,11 @@
 		<nb_visits>3</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
-		<exit_nb_visits>1</exit_nb_visits>
+		<sum_time_spent>252</sum_time_spent>
+		<nb_hits_following_search>2</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
 	</reportTotal>
 </result>

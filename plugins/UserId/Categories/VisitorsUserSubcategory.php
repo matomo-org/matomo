@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,6 @@ class VisitorsUserSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
     protected $id = 'UserId_UserReportTitle';
-    protected $order = 37;
+    protected $order = 40;
 
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -42,7 +42,6 @@ class APITest extends IntegrationTestCase
 
     public function test_setLocationProvider()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         $locationProvider = GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());
@@ -81,5 +80,38 @@ class APITest extends IntegrationTestCase
 
         $locationProvider = LocationProvider\GeoIp\Php::ID;
         $this->api->setLocationProvider($locationProvider);
+    }
+
+    /**
+     * @dataProvider getTestDataForGetLocationFromIP
+     */
+    public function test_getLocationFromIP($ipAddress, $expected, $ipAddressHeader = null)
+    {
+        if (!empty($ipAddressHeader)) {
+            $_SERVER['REMOTE_ADDR'] = $ipAddressHeader;
+        }
+
+        $location = $this->api->getLocationFromIP($ipAddress);
+        $this->assertEquals($expected, $location);
+    }
+
+    public function getTestDataForGetLocationFromIP()
+    {
+        return [
+            ['113.62.1.1', [
+                'country_code' => 'us',
+                'continent_code' => 'amn',
+                'continent_name' => 'Intl_Continent_amn',
+                'country_name' => 'General_Unknown',
+                'ip' => '113.62.1.1',
+            ]],
+            [null, [
+                'country_code' => 'us',
+                'continent_code' => 'amn',
+                'continent_name' => 'Intl_Continent_amn',
+                'country_name' => 'General_Unknown',
+                'ip' => '151.100.101.92',
+            ], '151.100.101.92'],
+        ];
     }
 }

@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
+use Piwik\API\Request;
 use Piwik\Archive as PiwikArchive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
@@ -286,6 +287,7 @@ class ArchiveTest extends IntegrationTestCase
         // directly trigger specific archiver for existing archive
         $archiver = new UserLanguage\Archiver($archiveProcessor);
         $archiver->aggregateDayReport();
+        $archiveWriter->finalizeArchive();
 
         // report should be updated
         $userLanguageReport = Proxy::getInstance()->call('\\Piwik\\Plugins\\UserLanguage\\API', 'getLanguage', array(
@@ -299,6 +301,31 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals('UserLanguage_LanguageCode pt', $userLanguageReport->getLastRow()->getColumn('label'));
     }
 
+    public function testNoFutureArchiveTablesAreCreatedWithoutArchiving()
+    {
+        $dateTime = '2066-01-01';
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+
+        // request API which should not trigger archiving due to config and shouldn't create any archive tables
+        Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $numericTables = Db::get()->fetchAll('SHOW TABLES like "%archive_numeric_2066_%"');
+
+        $this->assertEmpty($numericTables, 'Archive table for future date found');
+    }
+
+    public function testNoFutureArchiveTablesAreCreatedWithArchiving()
+    {
+        $dateTime = '2066-01-01';
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+
+        // request API which should not trigger archiving due to config and shouldn't create any archive tables
+        Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $numericTables = Db::get()->fetchAll('SHOW TABLES like "%archive_numeric_2066_%"');
+
+        $this->assertEmpty($numericTables, 'Archive table for future date found');
+    }
 
     private function createManyDifferentArchiveBlobs()
     {

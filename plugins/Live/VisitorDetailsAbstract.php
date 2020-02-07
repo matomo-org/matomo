@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\DataTable;
+use Piwik\Db;
 
 /**
  * Class VisitorDetailsAbstract
  *
- * This class can be implemented in a plugin to extend the Live reports, visitor log and profile
+ * This class can be implemented in a plugin to extend the Live reports, visit log and profile
  *
  * @api
  */
@@ -158,7 +159,7 @@ abstract class VisitorDetailsAbstract
     }
 
     /**
-     * Called when rendering the Icons in visitor log
+     * Called when rendering the Icons in visit log
      *
      * @param array $visitorDetails
      * @return string
@@ -168,7 +169,7 @@ abstract class VisitorDetailsAbstract
     }
 
     /**
-     * Called when rendering the visitor details in visitor log
+     * Called when rendering the visitor details in visit log
      * returned array needs to look like this:
      * array (
      *          20,   // order id
@@ -271,5 +272,14 @@ abstract class VisitorDetailsAbstract
      */
     public function finalizeProfile($visits, &$profile)
     {
+    }
+
+    /**
+     * @since Matomo 3.12
+     * @return Db|Db\AdapterInterface
+     */
+    public function getDb()
+    {
+        return Db::getReader();
     }
 }

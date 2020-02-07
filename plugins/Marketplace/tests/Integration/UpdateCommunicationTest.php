@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,6 +15,7 @@ use Piwik\Plugins\CoreUpdater\SystemSettings;
 use Piwik\Plugins\Marketplace\UpdateCommunication;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\View;
 
 /**
  * @group Plugins
@@ -117,23 +118,33 @@ class UpdateCommunicationTest extends IntegrationTestCase
     {
         $subject = 'CoreUpdater_NotificationSubjectAvailablePluginUpdate';
         $rootUrl = Fixture::getTestRootUrl();
-        $message = "ScheduledReports_EmailHello
+        $message = "<p>ScheduledReports_EmailHello</p>
+<p>CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate</p>
 
-CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate
+<ul>
+<li>MyTest1 33.0.0</li>
+<li>MyTest2 32.0.0</li>
+<li>MyTest3 31.0.0</li>
+</ul>
 
- * MyTest1 33.0.0
- * MyTest2 32.0.0
- * MyTest3 31.0.0
 
-CoreUpdater_NotificationClickToUpdatePlugins
+<p>
+CoreUpdater_NotificationClickToUpdatePlugins<br/>
 {$rootUrl}index.php?module=CorePluginsAdmin&action=plugins
+</p>
 
-Installation_HappyAnalysing";
+<p>
+Installation_HappyAnalysing
+</p>
+";
 
         $mock = $this->getCommunicationMockHavingManyUpdates();
 
         $mock->expects($this->once())->method('sendEmailNotification')
-             ->with($this->equalTo($subject), $this->equalTo($message));
+             ->with($this->equalTo($subject), $this->callback(function (View $view) use ($message) {
+                 $this->assertEquals($message, $view->render());
+                 return true;
+             }));
 
         $mock->sendNotificationIfUpdatesAvailable();
     }

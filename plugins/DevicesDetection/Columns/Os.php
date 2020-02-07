@@ -2,14 +2,17 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use DeviceDetector\Parser\OperatingSystem;
+use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Settings;
 use Piwik\Tracker\Visitor;
@@ -22,8 +25,37 @@ class Os extends Base
     protected $segmentName = 'operatingSystemCode';
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystem';
     protected $namePlural = 'DevicesDetection_OperatingSystems';
-    protected $acceptValues = 'WIN, MAC, LIN, AND, IPD, etc.';
+    protected $acceptValues = 'WIN, LIN, MAX, AND, IOS etc.';
     protected $type = self::TYPE_TEXT;
+
+    protected function configureSegments()
+    {
+        $segment = new Segment();
+        $segment->setName('DevicesDetection_OperatingSystemCode');
+        $this->addSegment($segment);
+
+        $segment = new Segment();
+        $segment->setSegment('operatingSystemName');
+        $segment->setName('DevicesDetection_ColumnOperatingSystem');
+        $segment->setAcceptedValues('Windows, Linux, Mac, Android, iOS etc.');
+        $segment->setSqlFilterValue(function ($val) {
+            $oss = OperatingSystem::getAvailableOperatingSystems();
+            $oss = array_map(function($val) {
+                return Common::mb_strtolower($val);
+            }, $oss);
+            $result   = array_search(Common::mb_strtolower($val), $oss);
+
+            if ($result === false) {
+                $result = 'UNK';
+            }
+
+            return $result;
+        });
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
+            return array_values(OperatingSystem::getAvailableOperatingSystems() + ['Unknown']);
+        });
+        $this->addSegment($segment);
+    }
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

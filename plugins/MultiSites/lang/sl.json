@@ -1,7 +1,6 @@
 {
     "MultiSites": {
         "Evolution": "Evolucija",
-        "LoadingWebsites": "Nalaganje strani",
-        "Pagination": "%1$s - %2$s od %3$s"
+        "LoadingWebsites": "Nalaganje strani"
     }
 }

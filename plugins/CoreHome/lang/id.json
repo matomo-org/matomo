@@ -27,7 +27,6 @@
         "MakeOneTimeDonation": "Buat satu kali sumbangan saja.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Anda masuk sebagai '%1$s' tetapi sepertinya Anda tidak memiliki izin apapun di Matomo. %2$s Tanyakan kepada pengelola Matomo Anda (klik untuk kirim surel)%3$s untuk memberikan akses 'Lihat' ke situs.",
-        "PageOf": "%1$s dari %2$s",
         "PeriodRange": "Rentang",
         "ReportGeneratedOn": "Laporan dibuat dalam %s",
         "ReportGeneratedXAgo": "Laporan dibuat %s lalu",

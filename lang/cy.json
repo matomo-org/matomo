@@ -113,7 +113,6 @@
         "HelloUser": "Helo, %s!",
         "HoursMinutes": "%1$s oriau %2$s isafswm",
         "Id": "Id",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Gan dybio fod y system archifo ar gyfer eich gosodiad yn gyflym, gallwch sefydlu'r crontab i redeg yn fwy aml.",
         "InvalidDateRange": "Amrediad Dyddiad Annilys, Ceisiwch Eto os Gwelwch yn Dda",
         "InvalidResponse": "Mae'r data a dderbyniwyd yn annilys.",
         "Language": "Iaith",

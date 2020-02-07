@@ -1,6 +1,10 @@
 {
     "Feedback": {
         "IWantTo": "Ma tahan:",
-        "SendFeedback": "Saada tagasisidet"
+        "SendFeedback": "Saada tagasisidet",
+        "CommunityHelp": "Kogukonna abi",
+        "ProfessionalHelp": "Proffesionaalne abi",
+        "ContactUs": "Võta meiega ühendust",
+        "Forums": "Foorumid"
     }
 }

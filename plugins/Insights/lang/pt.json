@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Fornece perspetivas sobre o seu tráfego. As perspetivas estão disponíveis como widgets nos painéis bem como um novo ícone nos relatórios para que possa ver as tendências mais importantes nos seus dados.",
+        "PluginDescription": "Disponibiliza perspetivas sobre o seu tráfego. As perspetivas encontram-se disponíveis como widgets nos painéis, bem como um novo ícone nos relatórios, para que possa analisar as tendências mais importantes nos seus dados.",
         "ControlComparedToDescription": "Crescimento comparado ao",
         "ControlFilterByDescription": "Mostrar tudo, apenas movidos, apenas novos ou apenas os que desapareceram",
         "DatePeriodCombinationNotSupported": "Não é possível gerar perspetivas para esta combinação de datas e de períodos.",

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Timer;
 use Symfony\Component\VarDumper\Cloner\Data;
 
@@ -43,6 +44,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
                  DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 200))
             )
         );
+        $table->setTotalsRow(new Row(array(Row::COLUMNS => array('label' => 'Total', 'count' => 200))));
         return $table;
     }
 
@@ -50,9 +52,11 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     {
         $table = $this->_getSimpleTestDataTable();
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('count'));
+        $this->assertEquals(200, $table->getTotalsRow()->getColumn('count'));
         $table->renameColumn('count', 'renamed');
         $this->assertEquals(array(false, false, false, false), $table->getColumn('count'));
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('renamed'));
+        $this->assertEquals(200, $table->getTotalsRow()->getColumn('renamed'));
     }
 
     public function testDeleteColumn()
@@ -61,6 +65,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('count'));
         $table->deleteColumn('count');
         $this->assertEquals(array(false, false, false, false), $table->getColumn('count'));
+        $this->assertEquals(false, $table->getTotalsRow()->getColumn('count'));
     }
 
     public function testDeleteRow()
@@ -668,7 +673,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
                 $subtableId = $row[Row::DATATABLE_ASSOCIATED];
 
-                if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW) {
+                if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW
+                    || $row[Row::COLUMNS]['label'] === DataTable::LABEL_ARCHIVED_METADATA_ROW
+                ) {
                     $this->assertNull($subtableId);
                 } else {
 
@@ -707,6 +714,38 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
             1 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
             2 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
         ), $tables);
+    }
+
+    public function test_serializationOfDataTableMetadata()
+    {
+        $table = new DataTable();
+        $table->addRow(new Row([
+            Row::COLUMNS => ['label' => 'abc', 'nb_visits' => 5],
+        ]));
+        $table->setAllTableMetadata([
+            'str' => 'str value',
+            'int' => 5,
+            'float' => 3.65,
+            'bool' => true,
+            'object' => Date::today(),
+        ]);
+
+        $serialized = $table->getSerialized();
+
+        $newTable = DataTable::fromSerializedArray(reset($serialized));
+
+        $this->assertEquals([
+            new Row([
+                Row::COLUMNS => ['label' => 'abc', 'nb_visits' => 5],
+            ]),
+        ], $newTable->getRows());
+
+        $this->assertEquals([
+            'str' => 'str value',
+            'int' => 5,
+            'float' => 3.65,
+            'bool' => true,
+        ], $newTable->getAllTableMetadata());
     }
 
     private function addManyRows(DataTable $table, $numRows)

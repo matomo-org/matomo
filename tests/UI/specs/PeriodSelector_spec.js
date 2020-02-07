@@ -8,91 +8,121 @@
  */
 
 describe("PeriodSelector", function () {
-    this.timeout(0);
-
     var generalParams = 'idSite=1&period=day&date=2012-01-01';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
     var selector = '#periodString,#periodString .dropdown';
-    
-    it("should load correctly", function (done) {
-        expect.screenshot("loaded").to.be.captureSelector(selector, function (page) {
-            page.load(url);
 
-            // disable broadcast.propagateNewPage & remove loading gif
-            page.evaluate(function () {
-                piwikHelper.isAngularRenderingThePage = function () {
-                    return false;
-                };
+    it("should load correctly", async function() {
+        await page.goto(url);
 
-                broadcast.propagateNewPage = function () {};
+        // disable broadcast.propagateNewPage & remove loading gif
+        await page.evaluate(function () {
+            piwikHelper.isAngularRenderingThePage = function () {
+                return false;
+            };
 
-                // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by angular)
-                $('head').append('<style type="text/css">#ajaxLoadingCalendar { display: none !important; }</style>');
-            });
-        }, done);
+            broadcast.propagateNewPage = function () {};
+
+            // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by angular)
+            $('head').append('<style type="text/css">#ajaxLoadingCalendar { display: none !important; }</style>');
+        });
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('loaded');
     });
 
-    it("should expand when clicked", function (done) {
-        expect.screenshot("expanded").to.be.captureSelector(selector, function (page) {
-            page.click('.periodSelector .title');
-        }, done);
+    it("should expand when clicked", async function() {
+        await page.click('.periodSelector .title');
+        expect(await page.screenshotSelector(selector)).to.matchImage('expanded');
     });
 
-    it("should select a date when a date is clicked in day-period mode", function (done) {
-        expect.screenshot("day_selected").to.be.captureSelector(selector, function (page) {
-            page.click('.period-date .ui-datepicker-calendar a:contains(12)');
-        }, done);
+    it("should select a date when a date is clicked in day-period mode", async function() {
+        const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(12)');
+        await element.click();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('day_selected');
     });
 
-    it("should change the month displayed when a month is selected in the month dropdown", function (done) {
-        expect.screenshot("month_changed").to.be.captureSelector(selector, function (page) {
-            page.evaluate(function () {
-                $('.ui-datepicker-month').val(1).trigger('change');
-            });
-        }, done);
+    it("should change the month displayed when a month is selected in the month dropdown", async function() {
+        await page.evaluate(function () {
+            $('.ui-datepicker-month').val(1).trigger('change');
+        });
+        await page.mouse.move(-10, -10);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('month_changed');
     });
 
-    it("should change the year displayed when a year is selected in the year dropdown", function (done) {
-        expect.screenshot("year_changed").to.be.captureSelector(selector, function (page) {
-            page.evaluate(function () {
-                $('.ui-datepicker-year').val(2013).trigger('change');
-            });
-        }, done);
+    it("should change the year displayed when a year is selected in the year dropdown", async function() {
+        await page.evaluate(function () {
+            $('.ui-datepicker-year').val(2013).trigger('change');
+        });
+        await page.mouse.move(-10, -10);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('year_changed');
     });
 
-    it("should change the date when a date is clicked in week-period mode", function (done) {
-        expect.screenshot("week_selected").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_week]');
-            page.click('.period-date .ui-datepicker-calendar a:contains(13)');
-        }, done);
+    it("should change the date when a date is clicked in week-period mode", async function() {
+        await page.click('label[for=period_id_week]');
+        await page.waitFor(250); // wait for animation
+
+        const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
+        await element.click();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('week_selected');
     });
 
-    it("should change the date when a date is clicked in month-period mode", function (done) {
-        expect.screenshot("month_selected").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_month]');
-            page.click('.period-date .ui-datepicker-calendar a:contains(14)');
-        }, done);
+    it("should change the date when a date is clicked in month-period mode", async function() {
+        await page.click('label[for=period_id_month]');
+        await page.waitFor(250); // wait for animation
+
+        const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(14)');
+        await element.click();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('month_selected');
     });
 
-    it("should change the date when a date is clicked in year-period mode", function (done) {
-        expect.screenshot("year_selected").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_year]');
-            page.click('.period-date .ui-datepicker-calendar a:contains(15)');
-        }, done);
+    it("should change the date when a date is clicked in year-period mode", async function() {
+        await page.click('label[for=period_id_year]');
+        await page.waitFor(250); // wait for animation
+
+        const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(15)');
+        await element.click();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('year_selected');
     });
 
-    it("should display the range picker when the range radio button is clicked", function (done) {
-        expect.screenshot("range_picker_displayed").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_range]');
-        }, done);
+    it("should display the range picker when the range radio button is clicked", async function() {
+        await page.click('label[for=period_id_range]');
+        await page.waitFor(250); // wait for animation
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('range_picker_displayed');
     });
 
-    it("should change from & to dates when range picker calendar dates are clicked", function (done) {
-        expect.screenshot("date_range_selected").to.be.captureSelector(selector, function (page) {
-            page.click('#calendarFrom .ui-datepicker-calendar a:contains(10)');
-            page.click('#calendarTo .ui-datepicker-calendar a:contains(18)');
-            page.mouseMove('#calendarApply');
-        }, done);
+    it("should change from & to dates when range picker calendar dates are clicked", async function() {
+        let element = await page.jQuery('#calendarFrom .ui-datepicker-calendar a:contains(10)');
+        await element.click();
+
+        element = await page.jQuery('#calendarTo .ui-datepicker-calendar a:contains(18)');
+        await element.click();
+
+        await page.hover('#calendarApply');
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('date_range_selected');
+    });
+
+    it("should enable the comparison dropdown when 'compare' is checked", async function () {
+        await page.click('label[for=comparePeriodTo]');
+        await page.waitFor(250); // wait for animation
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('comparison_checked');
+    });
+
+    it('should show range inputs when custom date range compare is selected', async function () {
+        await page.evaluate(function () {
+            $('#comparePeriodToDropdown select').val('string:custom').trigger('change');
+        });
+        await page.waitFor(250); // wait for animation
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('custom_comparison');
     });
 });

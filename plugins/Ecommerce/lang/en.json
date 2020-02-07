@@ -1,8 +1,9 @@
 {
     "Ecommerce": {
-        "PluginDescription": "Ecommerce lets you track when users add products to carts, and when they convert to a ecommerce sale. Also track products and product categories views and abandoned carts.",
+        "PluginDescription": "Ecommerce lets you track when users add products to carts, and when they convert to an ecommerce sale. Also track products and product categories views and abandoned carts.",
         "Sales": "Sales",
         "Order": "Order",
+        "OrderId": "Order ID",
         "Orders": "Orders",
         "SalesBy": "Sales by %s",
         "SalesAdjective": "Sales %s",

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -155,6 +155,7 @@ class DataTableGenericFilter
             return;
         }
 
+        $tableDisabledFilters = $datatable->getMetadata(DataTable::GENERIC_FILTERS_TO_DISABLE_METADATA_NAME) ?: [];
         $genericFilters = $this->getGenericFiltersHavingDefaultValues();
 
         $filterApplied = false;
@@ -164,7 +165,9 @@ class DataTableGenericFilter
             $filterParameters = array();
             $exceptionRaised = false;
 
-            if (in_array($filterName, $this->disabledFilters)) {
+            if (in_array($filterName, $this->disabledFilters)
+                || in_array($filterName, $tableDisabledFilters)
+            ) {
                 continue;
             }
 

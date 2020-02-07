@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -162,7 +162,7 @@ class RangeTest extends BasePeriodTest
         $range2 = new Range('week', $range2String);
 
         $correct = array(
-            array(
+            implode(',', array(
                 '2007-12-17',
                 '2007-12-18',
                 '2007-12-19',
@@ -170,8 +170,8 @@ class RangeTest extends BasePeriodTest
                 '2007-12-21',
                 '2007-12-22',
                 '2007-12-23',
-            ),
-            array(
+            )),
+            implode(',', array(
                 '2007-12-24',
                 '2007-12-25',
                 '2007-12-26',
@@ -179,8 +179,8 @@ class RangeTest extends BasePeriodTest
                 '2007-12-28',
                 '2007-12-29',
                 '2007-12-30',
-            ),
-            array(
+            )),
+            implode(',', array(
                 '2007-12-31',
                 '2008-01-01',
                 '2008-01-02',
@@ -188,7 +188,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-04',
                 '2008-01-05',
                 '2008-01-06',
-            )
+            )),
         );
 
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
@@ -204,7 +204,7 @@ class RangeTest extends BasePeriodTest
         $range = new Range('year', '2006-12-22,2007-01-03');
 
         $correct = array(
-            array(
+            implode(',', array(
                 0  => '2006-01-01',
                 1  => '2006-02-01',
                 2  => '2006-03-01',
@@ -217,9 +217,9 @@ class RangeTest extends BasePeriodTest
                 9  => '2006-10-01',
                 10 => '2006-11-01',
                 11 => '2006-12-01',
-            ),
+            )),
             1 =>
-            array(
+                implode(',', array(
                 0  => '2007-01-01',
                 1  => '2007-02-01',
                 2  => '2007-03-01',
@@ -232,7 +232,7 @@ class RangeTest extends BasePeriodTest
                 9  => '2007-10-01',
                 10 => '2007-11-01',
                 11 => '2007-12-01',
-            ),
+            )),
         );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
@@ -245,11 +245,11 @@ class RangeTest extends BasePeriodTest
         $range = new Range('month', '2006-12-22,2007-01-03');
 
         $correct = array(
-            array(
+            implode(',', array(
                 '2006-12-01',
                 '2006-12-02',
                 '2006-12-03',
-                array(
+                implode(',', array(
                     '2006-12-04',
                     '2006-12-05',
                     '2006-12-06',
@@ -257,8 +257,8 @@ class RangeTest extends BasePeriodTest
                     '2006-12-08',
                     '2006-12-09',
                     '2006-12-10'
-                ),
-                array(
+                )),
+                implode(',', array(
                     '2006-12-11',
                     '2006-12-12',
                     '2006-12-13',
@@ -266,8 +266,8 @@ class RangeTest extends BasePeriodTest
                     '2006-12-15',
                     '2006-12-16',
                     '2006-12-17'
-                ),
-                array(
+                )),
+                implode(',', array(
                     '2006-12-18',
                     '2006-12-19',
                     '2006-12-20',
@@ -275,8 +275,8 @@ class RangeTest extends BasePeriodTest
                     '2006-12-22',
                     '2006-12-23',
                     '2006-12-24'
-                ),
-                array(
+                )),
+                implode(',', array(
                     '2006-12-25',
                     '2006-12-26',
                     '2006-12-27',
@@ -284,10 +284,10 @@ class RangeTest extends BasePeriodTest
                     '2006-12-29',
                     '2006-12-30',
                     '2006-12-31'
-                ),
-            ),
-            array(
-                array(
+                )),
+            )),
+            implode(',', array(
+                implode(',', array(
                     '2007-01-01',
                     '2007-01-02',
                     '2007-01-03',
@@ -295,8 +295,8 @@ class RangeTest extends BasePeriodTest
                     '2007-01-05',
                     '2007-01-06',
                     '2007-01-07'
-                ),
-                array(
+                )),
+                implode(',', array(
                     '2007-01-08',
                     '2007-01-09',
                     '2007-01-10',
@@ -304,8 +304,8 @@ class RangeTest extends BasePeriodTest
                     '2007-01-12',
                     '2007-01-13',
                     '2007-01-14'
-                ),
-                array(
+                )),
+                implode(',', array(
                     '2007-01-15',
                     '2007-01-16',
                     '2007-01-17',
@@ -313,8 +313,8 @@ class RangeTest extends BasePeriodTest
                     '2007-01-19',
                     '2007-01-20',
                     '2007-01-21',
-                ),
-                array(
+                )),
+                implode(',', array(
                     '2007-01-22',
                     '2007-01-23',
                     '2007-01-24',
@@ -322,11 +322,11 @@ class RangeTest extends BasePeriodTest
                     '2007-01-26',
                     '2007-01-27',
                     '2007-01-28'
-                ),
+                )),
                 '2007-01-29',
                 '2007-01-30',
                 '2007-01-31',
-            ),
+            )),
         );
 
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
@@ -345,7 +345,7 @@ class RangeTest extends BasePeriodTest
             $date = $today->subDay($i * 7);
             $week = new Week($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
 
@@ -359,7 +359,7 @@ class RangeTest extends BasePeriodTest
         $range = new Range('week', 'last1');
         $currentWeek = new Week(Date::today());
         $this->assertEquals(1, $range->getNumberOfSubperiods());
-        $this->assertEquals(array($currentWeek->toString()), $range->toString());
+        $this->assertEquals(array(implode(',', $currentWeek->toString())), $range->toString());
     }
 
     // test range MONTH
@@ -373,7 +373,7 @@ class RangeTest extends BasePeriodTest
             $date = $today->subMonth($i);
             $week = new Month($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
 
@@ -387,7 +387,7 @@ class RangeTest extends BasePeriodTest
         $range = new Range('month', 'last1');
         $month = new Month(Date::today());
         $this->assertEquals(1, $range->getNumberOfSubperiods());
-        $this->assertEquals(array($month->toString()), $range->toString());
+        $this->assertEquals(array(implode(',', $month->toString())), $range->toString());
     }
 
     // test range PREVIOUS MONTH
@@ -402,7 +402,7 @@ class RangeTest extends BasePeriodTest
             $date = $end->subMonth($i);
             $week = new Month($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
 
@@ -421,7 +421,7 @@ class RangeTest extends BasePeriodTest
             $date = $end->subMonth($i);
             $week = new Month($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
 
@@ -439,7 +439,7 @@ class RangeTest extends BasePeriodTest
         for ($i = 0; $i < 2; $i++) {
             $date = $end->subWeek($i);
             $week = new Week($date);
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
         $this->assertEquals($correct, $range->toString());
@@ -456,7 +456,7 @@ class RangeTest extends BasePeriodTest
             $date = $end->subWeek($i);
             $week = new Week($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
         $this->assertEquals($correct, $range->toString());
@@ -472,7 +472,7 @@ class RangeTest extends BasePeriodTest
             $date = $end->subWeek($i);
             $week = new Week($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
         $this->assertEquals($correct, $range->toString());
@@ -488,7 +488,7 @@ class RangeTest extends BasePeriodTest
             $date = $end->subMonth($i);
             $week = new Month($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
 
@@ -544,7 +544,7 @@ class RangeTest extends BasePeriodTest
             $date = $today->subMonth(12 * $i);
             $week = new Year($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $week->toString());
         }
         $correct = array_reverse($correct);
 
@@ -558,7 +558,7 @@ class RangeTest extends BasePeriodTest
         $range = new Range('year', 'last1');
         $currentYear = new Year(Date::today());
         $this->assertEquals(1, $range->getNumberOfSubperiods());
-        $this->assertEquals(array($currentYear->toString()), $range->toString());
+        $this->assertEquals(array(implode(',', $currentYear->toString())), $range->toString());
     }
 
     public function testCustomRangeYearUsesYearIfPossible()
@@ -571,7 +571,7 @@ class RangeTest extends BasePeriodTest
         $correct = array(
             '2005-12-17',
             '2005-12-18',
-            array (
+            implode(',', array (
                 "2005-12-19",
                 "2005-12-20",
                 "2005-12-21",
@@ -579,16 +579,16 @@ class RangeTest extends BasePeriodTest
                 "2005-12-23",
                 "2005-12-24",
                 "2005-12-25"
-            ),
+            )),
             "2005-12-26",
             "2005-12-27",
             "2005-12-28",
             "2005-12-29",
             "2005-12-30",
             "2005-12-31",
-            $year2006->toString(),
-            $year2007->toString(),
-            $year2008->toString()
+            implode(',', $year2006->toString()),
+            implode(',', $year2007->toString()),
+            implode(',', $year2008->toString()),
         );
 
         $this->assertEquals(12, $range->getNumberOfSubperiods());
@@ -601,7 +601,7 @@ class RangeTest extends BasePeriodTest
         $year2011 = new Year(Date::factory('2011-02-02'));
 
         $correct = array(
-            $year2011->toString()
+            implode(',', $year2011->toString()),
         );
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
@@ -615,7 +615,7 @@ class RangeTest extends BasePeriodTest
         $year2013 = new Year(Date::factory('2013-02-02'));
 
         $correct = array(
-            $year2013->toString()
+            implode(',', $year2013->toString()),
         );
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
@@ -630,7 +630,7 @@ class RangeTest extends BasePeriodTest
         $year2013 = new Year(Date::factory('2013-01-01'));
 
         $correct = array(
-            $year2013->toString()
+            implode(',', $year2013->toString()),
         );
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
@@ -644,7 +644,7 @@ class RangeTest extends BasePeriodTest
         $correct = array(
             '2007-12-22',
             '2007-12-23',
-            array(
+            implode(',', array(
                 '2007-12-24',
                 '2007-12-25',
                 '2007-12-26',
@@ -652,8 +652,8 @@ class RangeTest extends BasePeriodTest
                 '2007-12-28',
                 '2007-12-29',
                 '2007-12-30',
-            ),
-            array(
+            )),
+            implode(',', array(
                 '2007-12-31',
                 '2008-01-01',
                 '2008-01-02',
@@ -661,7 +661,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-04',
                 '2008-01-05',
                 '2008-01-06',
-            )
+            )),
         );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
@@ -727,7 +727,7 @@ class RangeTest extends BasePeriodTest
             $correct = array(
                 '2007-12-22',
                 '2007-12-23',
-                array(
+                implode(',', array(
                     '2007-12-24',
                     '2007-12-25',
                     '2007-12-26',
@@ -735,7 +735,7 @@ class RangeTest extends BasePeriodTest
                     '2007-12-28',
                     '2007-12-29',
                     '2007-12-30',
-                ),
+                )),
                 '2007-12-31',
                 '2008-01-01',
                 '2008-01-02',
@@ -764,7 +764,7 @@ class RangeTest extends BasePeriodTest
         $range = new Range('range', '2007-12-31,2008-01-06');
 
         $correct = array(
-            array(
+            implode(',', array(
                 '2007-12-31',
                 '2008-01-01',
                 '2008-01-02',
@@ -772,7 +772,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-04',
                 '2008-01-05',
                 '2008-01-06',
-            )
+            )),
         );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
@@ -783,7 +783,7 @@ class RangeTest extends BasePeriodTest
         $range = new Range('range', '2007-12-31,2008-01-08');
 
         $correct = array(
-            array(
+            implode(',', array(
                 '2007-12-31',
                 '2008-01-01',
                 '2008-01-02',
@@ -791,7 +791,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-04',
                 '2008-01-05',
                 '2008-01-06',
-            ),
+            )),
             '2008-01-07',
             '2008-01-08',
         );
@@ -807,7 +807,7 @@ class RangeTest extends BasePeriodTest
             '2007-12-21',
             '2007-12-22',
             '2007-12-23',
-            array(
+            implode(',', array(
                 '2007-12-24',
                 '2007-12-25',
                 '2007-12-26',
@@ -815,8 +815,8 @@ class RangeTest extends BasePeriodTest
                 '2007-12-28',
                 '2007-12-29',
                 '2007-12-30',
-            ),
-            array(
+            )),
+            implode(',', array(
                 '2007-12-31',
                 '2008-01-01',
                 '2008-01-02',
@@ -824,7 +824,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-04',
                 '2008-01-05',
                 '2008-01-06',
-            ),
+            )),
         );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
@@ -837,7 +837,7 @@ class RangeTest extends BasePeriodTest
         $correct = array(
 
             '2011-09-18',
-            array(
+            implode(',', array(
                 '2011-09-19',
                 '2011-09-20',
                 '2011-09-21',
@@ -845,17 +845,17 @@ class RangeTest extends BasePeriodTest
                 '2011-09-23',
                 '2011-09-24',
                 '2011-09-25',
-            ),
+            )),
 
             '2011-09-26',
             '2011-09-27',
             '2011-09-28',
             '2011-09-29',
             '2011-09-30',
-            array(
+            implode(',', array(
                 "2011-10-01",
                 "2011-10-02",
-                array(
+                implode(',', array(
                     "2011-10-03",
                     "2011-10-04",
                     "2011-10-05",
@@ -863,8 +863,8 @@ class RangeTest extends BasePeriodTest
                     "2011-10-07",
                     "2011-10-08",
                     "2011-10-09"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-10-10",
                     "2011-10-11",
                     "2011-10-12",
@@ -872,8 +872,8 @@ class RangeTest extends BasePeriodTest
                     "2011-10-14",
                     "2011-10-15",
                     "2011-10-16"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-10-17",
                     "2011-10-18",
                     "2011-10-19",
@@ -881,8 +881,8 @@ class RangeTest extends BasePeriodTest
                     "2011-10-21",
                     "2011-10-22",
                     "2011-10-23"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-10-24",
                     "2011-10-25",
                     "2011-10-26",
@@ -890,9 +890,9 @@ class RangeTest extends BasePeriodTest
                     "2011-10-28",
                     "2011-10-29",
                     "2011-10-30"
-                ),
+                )),
                 "2011-10-31",
-            ),
+            )),
             "2011-11-01",
             "2011-11-02",
         );
@@ -917,8 +917,8 @@ class RangeTest extends BasePeriodTest
 
             $correct = array(
 
-                array(
-                    array(
+                implode(',', array(
+                    implode(',', array(
                         "2011-08-01",
                         "2011-08-02",
                         "2011-08-03",
@@ -926,8 +926,8 @@ class RangeTest extends BasePeriodTest
                         "2011-08-05",
                         "2011-08-06",
                         "2011-08-07"
-                    ),
-                    array(
+                    )),
+                    implode(',', array(
                         "2011-08-08",
                         "2011-08-09",
                         "2011-08-10",
@@ -935,8 +935,8 @@ class RangeTest extends BasePeriodTest
                         "2011-08-12",
                         "2011-08-13",
                         "2011-08-14"
-                    ),
-                    array(
+                    )),
+                    implode(',', array(
                         "2011-08-15",
                         "2011-08-16",
                         "2011-08-17",
@@ -944,8 +944,8 @@ class RangeTest extends BasePeriodTest
                         "2011-08-19",
                         "2011-08-20",
                         "2011-08-21"
-                    ),
-                    array(
+                    )),
+                    implode(',', array(
                         "2011-08-22",
                         "2011-08-23",
                         "2011-08-24",
@@ -953,17 +953,17 @@ class RangeTest extends BasePeriodTest
                         "2011-08-26",
                         "2011-08-27",
                         "2011-08-28"
-                    ),
+                    )),
                     "2011-08-29",
                     "2011-08-30",
                     "2011-08-31",
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-09-01",
                     "2011-09-02",
                     "2011-09-03",
                     "2011-09-04",
-                    array(
+                    implode(',', array(
                         "2011-09-05",
                         "2011-09-06",
                         "2011-09-07",
@@ -971,8 +971,8 @@ class RangeTest extends BasePeriodTest
                         "2011-09-09",
                         "2011-09-10",
                         "2011-09-11"
-                    ),
-                    array(
+                    )),
+                    implode(',', array(
                         "2011-09-12",
                         "2011-09-13",
                         "2011-09-14",
@@ -980,8 +980,8 @@ class RangeTest extends BasePeriodTest
                         "2011-09-16",
                         "2011-09-17",
                         "2011-09-18"
-                    ),
-                    array(
+                    )),
+                    implode(',', array(
                         "2011-09-19",
                         "2011-09-20",
                         "2011-09-21",
@@ -989,17 +989,17 @@ class RangeTest extends BasePeriodTest
                         "2011-09-23",
                         "2011-09-24",
                         "2011-09-25"
-                    ),
+                    )),
                     "2011-09-26",
                     "2011-09-27",
                     "2011-09-28",
                     "2011-09-29",
                     "2011-09-30",
-                ),
+                )),
                 "2011-10-01",
                 "2011-10-02",
 
-                array(
+                implode(',', array(
                     "2011-10-03",
                     "2011-10-04",
                     "2011-10-05",
@@ -1007,8 +1007,8 @@ class RangeTest extends BasePeriodTest
                     "2011-10-07",
                     "2011-10-08",
                     "2011-10-09",
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-10-10",
                     "2011-10-11",
                     "2011-10-12",
@@ -1016,7 +1016,7 @@ class RangeTest extends BasePeriodTest
                     "2011-10-14",
                     "2011-10-15",
                     "2011-10-16",
-                ),
+                )),
                 "2011-10-17",
             );
 
@@ -1030,12 +1030,12 @@ class RangeTest extends BasePeriodTest
         $range = new Range('range', '2011-09-01,2011-09-30');
 
         $correct = array(
-            array(
+            implode(',', array(
                 "2011-09-01",
                 "2011-09-02",
                 "2011-09-03",
                 "2011-09-04",
-                array(
+                implode(',', array(
                     "2011-09-05",
                     "2011-09-06",
                     "2011-09-07",
@@ -1043,8 +1043,8 @@ class RangeTest extends BasePeriodTest
                     "2011-09-09",
                     "2011-09-10",
                     "2011-09-11"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-09-12",
                     "2011-09-13",
                     "2011-09-14",
@@ -1052,8 +1052,8 @@ class RangeTest extends BasePeriodTest
                     "2011-09-16",
                     "2011-09-17",
                     "2011-09-18"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-09-19",
                     "2011-09-20",
                     "2011-09-21",
@@ -1061,13 +1061,14 @@ class RangeTest extends BasePeriodTest
                     "2011-09-23",
                     "2011-09-24",
                     "2011-09-25"
-                ),
+                )),
                 "2011-09-26",
                 "2011-09-27",
                 "2011-09-28",
                 "2011-09-29",
                 "2011-09-30",
-            ));
+            )),
+        );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }
@@ -1078,7 +1079,7 @@ class RangeTest extends BasePeriodTest
 
         $correct = array(
 
-            array(
+            implode(',', array(
                 '2011-07-25',
                 '2011-07-26',
                 '2011-07-27',
@@ -1086,9 +1087,9 @@ class RangeTest extends BasePeriodTest
                 '2011-07-29',
                 '2011-07-30',
                 '2011-07-31',
-            ),
-            array(
-                array(
+            )),
+            implode(',', array(
+                implode(',', array(
                 "2011-08-01",
                 "2011-08-02",
                 "2011-08-03",
@@ -1096,8 +1097,8 @@ class RangeTest extends BasePeriodTest
                 "2011-08-05",
                 "2011-08-06",
                 "2011-08-07"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-08-08",
                     "2011-08-09",
                     "2011-08-10",
@@ -1105,8 +1106,8 @@ class RangeTest extends BasePeriodTest
                     "2011-08-12",
                     "2011-08-13",
                     "2011-08-14"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-08-15",
                     "2011-08-16",
                     "2011-08-17",
@@ -1114,8 +1115,8 @@ class RangeTest extends BasePeriodTest
                     "2011-08-19",
                     "2011-08-20",
                     "2011-08-21"
-                ),
-                array(
+                )),
+                implode(',', array(
                     "2011-08-22",
                     "2011-08-23",
                     "2011-08-24",
@@ -1123,11 +1124,12 @@ class RangeTest extends BasePeriodTest
                     "2011-08-26",
                     "2011-08-27",
                     "2011-08-28"
-                ),
+                )),
                 "2011-08-29",
                 "2011-08-30",
                 "2011-08-31",
-            ));
+            )),
+        );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }

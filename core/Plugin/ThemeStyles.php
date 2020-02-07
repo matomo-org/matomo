@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -55,7 +55,7 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $colorBrand = '#d4291f';
+    public $colorBrand = '#43a047';
 
     /**
      * @var string
@@ -65,7 +65,7 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $colorText = '#0d0d0d';
+    public $colorText = '#212121';
 
     /**
      * @var string
@@ -80,12 +80,12 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $colorTextContrast = '#777';
+    public $colorTextContrast = '#37474f';
 
     /**
      * @var string
      */
-    public $colorLink = '#4183C4';
+    public $colorLink = '#1976D2';
 
     /**
      * @var string
@@ -100,7 +100,7 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $colorHeaderBackground = '#37474f';
+    public $colorHeaderBackground = '#3450A3';
 
     /**
      * @var string
@@ -120,7 +120,7 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $colorMenuContrastTextActive;
+    public $colorMenuContrastTextActive = '#3450A3';
 
     /**
      * @var string
@@ -145,7 +145,7 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $colorBackgroundBase = '#edecec';
+    public $colorBackgroundBase = '#eff0f1';
 
     /**
      * @var string
@@ -196,7 +196,6 @@ class ThemeStyles
     {
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
-        $this->colorMenuContrastTextActive = $this->colorBrand;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;
         $this->colorWidgetExportedBackgroundBase = $this->colorBackgroundContrast;
         $this->colorWidgetTitleText = $this->colorText;

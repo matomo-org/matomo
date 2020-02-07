@@ -46,6 +46,18 @@ class OneVisitorTwoVisitsWithCookieSupportTest extends SystemTestCase
     {
         return 'OneVisitorTwoVisits_withCookieSupport';
     }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Config' => \DI\decorate(function ($previous) {
+                $general = $previous->General;
+                $general['action_title_category_delimiter'] = "/";
+                $previous->General = $general;
+                return $previous;
+            }),
+        );
+    }
 }
 
 OneVisitorTwoVisitsWithCookieSupportTest::$fixture = new OneVisitorTwoVisits();

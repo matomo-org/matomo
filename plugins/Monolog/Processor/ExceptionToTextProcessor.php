@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\Processor;
 
 use Piwik\ErrorHandler;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Log;
 
 /**
@@ -25,13 +26,25 @@ class ExceptionToTextProcessor
         /** @var \Exception $exception */
         $exception = $record['context']['exception'];
 
-        $record['message'] = sprintf(
+        if ($exception instanceof InvalidRequestParameterException) {
+            return $record;
+        }
+
+        $exceptionStr = sprintf(
             "%s(%d): %s\n%s",
-            $exception->getFile(),
-            $exception->getLine(),
+            $exception instanceof \Exception ? $exception->getFile() : $exception['file'],
+            $exception instanceof \Exception ? $exception->getLine() : $exception['line'],
             $this->getMessage($exception),
             $this->getStackTrace($exception)
         );
+
+        if (!isset($record['message'])
+            || strpos($record['message'], '{exception}') === false
+        ) {
+            $record['message'] = $exceptionStr;
+        } else {
+            $record['message'] = str_replace('{exception}', $exceptionStr, $record['message']);
+        }
 
         return $record;
     }
@@ -39,20 +52,53 @@ class ExceptionToTextProcessor
     private function contextContainsException($record)
     {
         return isset($record['context']['exception'])
-            && $record['context']['exception'] instanceof \Exception;
+            && ($record['context']['exception'] instanceof \Exception
+                || $this->isLooksLikeFatalErrorArray($record['context']['exception']));
     }
 
-    private function getMessage(\Exception $exception)
+    private function isLooksLikeFatalErrorArray($exception)
+    {
+        return is_array($exception) && isset($exception['message']) && isset($exception['file']) && isset($exception['line']);
+    }
+
+    private function getMessage($exception)
     {
         if ($exception instanceof \ErrorException) {
             return ErrorHandler::getErrNoString($exception->getSeverity()) . ' - ' . $exception->getMessage();
         }
 
+        if (is_array($exception) && isset($exception['message'])) {
+            return $exception['message'];
+        }
+
         return $exception->getMessage();
     }
 
-    private function getStackTrace(\Exception $exception)
+    private function getStackTrace($exception)
     {
-        return Log::$debugBacktraceForTests ?: $exception->getTraceAsString();
+        if (is_array($exception) && isset($exception['backtrace'])) {
+            return $exception['backtrace'];
+        }
+
+        return Log::$debugBacktraceForTests ?: self::getWholeBacktrace($exception);
+    }
+
+    public static function getWholeBacktrace(\Exception $exception, $shouldPrintBacktrace = true)
+    {
+        $message = "";
+
+        $e = $exception;
+        do {
+            if ($e !== $exception) {
+                $message .= ",\ncaused by: ";
+            }
+
+            $message .= $e->getMessage();
+            if ($shouldPrintBacktrace) {
+                $message .= "\n" . $e->getTraceAsString();
+            }
+        } while ($e = $e->getPrevious());
+
+        return $message;
     }
 }

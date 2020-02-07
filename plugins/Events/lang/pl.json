@@ -4,6 +4,7 @@
         "AvgEventValue": "Średnia wartość zdarzenia: %s",
         "AvgValue": "Średnia wartość",
         "AvgValueDocumentation": "Średnia wszystkich wartości w tym przypadku",
+        "Category": "Kategoria",
         "Event": "Zdarzenie",
         "EventAction": "Akcja zdarzenia",
         "EventActions": "Akcje zdarzeń",

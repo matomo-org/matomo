@@ -51,8 +51,8 @@ class InvalidVisits extends Fixture
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
 
-        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
         API::getInstance()->setGlobalExcludedUserAgents('globalexcludeduseragent');
+        Cache::regenerateCacheWebsiteAttributes([1]);
 
         // Trigger empty request
         $trackerUrl = self::getTrackerUrl();
@@ -69,6 +69,7 @@ class InvalidVisits extends Fixture
         foreach (array(false, true) as $enable) {
             $excludedIp = '154.1.12.34';
             API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4', $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = 'excludeduseragentstring');
+            Cache::regenerateCacheWebsiteAttributes([1]);
 
             // Enable IP Anonymization
             $t->DEBUG_APPEND_URL = '&forceIpAnonymization=' . (int)$enable;
@@ -105,6 +106,7 @@ class InvalidVisits extends Fixture
             $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParams = null,
             $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
             $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = 1);
+        Cache::regenerateCacheWebsiteAttributes([1]);
 
         $t->setIp("125.4.5.6");
 
@@ -114,11 +116,13 @@ class InvalidVisits extends Fixture
         $t->setUrl("http://their.stuff.com/back/to/the/future");
         $t->doTrackPageView("ignored, not from my.stuff.com");
 
+
         // undo exclude unknown urls change (important when multiple fixtures are setup together, as is done in OmniFixture)
         API::getInstance()->updateSite($idSite, $siteName = null, $urls, $ecommerce = null, $siteSearch = null,
             $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParams = null,
             $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
             $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = 0);
+        Cache::regenerateCacheWebsiteAttributes([1]);
 
         try {
             @$t->setAttributionInfo(array());

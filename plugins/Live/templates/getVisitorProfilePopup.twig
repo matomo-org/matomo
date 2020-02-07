@@ -32,7 +32,7 @@
                                 {%- if visitorData.userId is empty %}
                                     {{ 'Live_VisitorProfile'|translate }}
                                 {%- else %}
-                                    <span title="{{ 'General_UserId'|translate }}: {{ visitorData.userId|raw }}">{{ visitorData.userId|raw }}</span>
+                                    <span title="{{ 'General_UserId'|translate }}: {{ visitorData.userId|rawSafeDecoded }}">{{ visitorData.userId|rawSafeDecoded }}</span>
                                 {% endif -%}
                             </h1>
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor"

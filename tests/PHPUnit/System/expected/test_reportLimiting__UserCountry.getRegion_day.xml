@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Ontario, Canada</label>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
-		<nb_visits>20</nb_visits>
-		<nb_actions>20</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>20</bounce_count>
+		<nb_uniq_visitors>7</nb_uniq_visitors>
+		<nb_visits>35</nb_visits>
+		<nb_actions>35</nb_actions>
+		<nb_users>7</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>20</sum_visit_length>
+		<bounce_count>25</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>regionCode==ON;countryCode==ca</segment>
 		<region>ON</region>
@@ -18,31 +18,31 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Provence-Alpes-Côte-d’Azur, France</label>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
-		<nb_visits>20</nb_visits>
-		<nb_actions>20</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
+		<label>Kanagawa, Japan</label>
+		<nb_uniq_visitors>6</nb_uniq_visitors>
+		<nb_visits>30</nb_visits>
+		<nb_actions>35</nb_actions>
+		<nb_users>6</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>10</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>regionCode==PAC;countryCode==fr</segment>
-		<region>PAC</region>
-		<country>fr</country>
-		<country_name>France</country_name>
-		<region_name>Provence-Alpes-Côte-d’Azur</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>regionCode==14;countryCode==jp</segment>
+		<region>14</region>
+		<country>jp</country>
+		<country_name>Japan</country_name>
+		<region_name>Kanagawa</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
 	</row>
 	<row>
 		<label>Others</label>
-		<nb_uniq_visitors>7</nb_uniq_visitors>
-		<nb_visits>35</nb_visits>
-		<nb_actions>35</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>35</bounce_count>
+		<nb_uniq_visitors>12</nb_uniq_visitors>
+		<nb_visits>60</nb_visits>
+		<nb_actions>80</nb_actions>
+		<nb_users>12</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>35</sum_visit_length>
+		<bounce_count>30</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>

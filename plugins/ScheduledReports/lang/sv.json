@@ -46,6 +46,13 @@
         "TopLinkTooltip": "Skapa e-postrapporter för att få statistik från Matomo skickat till din e-post eller dina kunders adresser automatiskt!",
         "TopOfReport": "Tillbaka till toppen",
         "UpdateReport": "Uppdatera rapport",
-        "WeeklyScheduleHelp": "Veckans schema: rapporten kommer att skickas ut den första måndagen i varje vecka."
+        "WeeklyScheduleHelp": "Veckans schema: rapporten kommer att skickas ut den första måndagen i varje vecka.",
+        "Unsubscribe": "Avprenumerera",
+        "ReportUnsubscribe": "Avsluta prenumeration på en rapport",
+        "UnsubscribeReportConfirmation": "Är du säker på att du vill avsluta prenumerationen från rapporten %1$s?",
+        "SuccessfullyUnsubscribed": "Du har nu avslutat prenumerationen från rapporten %1$s.",
+        "UnsubscribeFooter": "För att avsluta prenumerationen från denna rapport vänligen följ denna länk: %1$s",
+        "NoTokenProvided": "Ingen token skickades med i webbadressen",
+        "NoSubscriptionFound": "Ingen prenumeration hittades. Kanske var prenumerationen redan avslutad eller rapporten borttagen."
     }
 }

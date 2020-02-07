@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Session\SaveHandler\DbTable;
+use Psr\Log\LoggerInterface;
 use Zend_Session;
 
 /**
@@ -19,7 +20,9 @@ use Zend_Session;
  */
 class Session extends Zend_Session
 {
-    const SESSION_NAME = 'PIWIK_SESSID';
+    const SESSION_NAME = 'MATOMO_SESSID';
+
+    public static $sessionName = self::SESSION_NAME;
 
     protected static $sessionStarted = false;
 
@@ -28,11 +31,11 @@ class Session extends Zend_Session
      *
      * @return bool  True if file-based; false otherwise
      */
-    public static function isFileBasedSessions()
+    public static function isSessionHandler($handler)
     {
         $config = Config::getInstance();
         return !isset($config->General['session_save_handler'])
-        || $config->General['session_save_handler'] === 'files';
+        || $config->General['session_save_handler'] === $handler;
     }
 
     /**
@@ -47,10 +50,15 @@ class Session extends Zend_Session
         if (headers_sent()
             || self::$sessionStarted
             || (defined('PIWIK_ENABLE_SESSION_START') && !PIWIK_ENABLE_SESSION_START)
+            || session_status() == PHP_SESSION_ACTIVE
         ) {
             return;
         }
         self::$sessionStarted = true;
+    
+        if (defined('PIWIK_SESSION_NAME')) {
+            self::$sessionName = PIWIK_SESSION_NAME;
+        }
 
         $config = Config::getInstance();
 
@@ -69,7 +77,7 @@ class Session extends Zend_Session
         @ini_set('session.cookie_httponly', '1');
 
         // don't use the default: PHPSESSID
-        @ini_set('session.name', self::SESSION_NAME);
+        @ini_set('session.name', self::$sessionName);
 
         // proxies may cause the referer check to fail and
         // incorrectly invalidate the session
@@ -79,9 +87,11 @@ class Session extends Zend_Session
         // the session data won't be deleted until the cookie expires.
         @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
 
+        @ini_set('session.cookie_path', empty($config->General['login_cookie_path']) ? '/' : $config->General['login_cookie_path']);
+
         $currentSaveHandler = ini_get('session.save_handler');
 
-        if (self::isFileBasedSessions()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             // Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
             // for "files", use our own folder to prevent local session file hijacking
@@ -91,15 +101,22 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } elseif ($config->General['session_save_handler'] === 'dbtable'
+        } elseif (self::isSessionHandler('dbtable')
+            || self::isSessionHandler('files')
             || in_array($currentSaveHandler, array('user', 'mm'))
         ) {
+            // as of Matomo 3.7.0 we only support files session handler during installation
+
             // We consider these to be misconfigurations, in that:
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
+            if (@ini_get('session.serialize_handler') !== 'php_serialize') {
+                @ini_set('session.serialize_handler', 'php_serialize');
+            }
+
             $config = array(
-                'name'           => Common::prefixTable('session'),
+                'name'           => Common::prefixTable(DbTable::TABLE_NAME),
                 'primary'        => 'id',
                 'modifiedColumn' => 'modified',
                 'dataColumn'     => 'data',
@@ -121,19 +138,20 @@ class Session extends Zend_Session
             parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
-            Log::error('Unable to start session: ' . $e->getMessage());
+            StaticContainer::get(LoggerInterface::class)->error('Unable to start session: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
-            $enableDbSessions = '';
-            if (DbHelper::isInstalled()) {
-                $enableDbSessions = "<br/>If you still experience issues after trying these changes,
-			            			we recommend that you <a href='https://matomo.org/faq/how-to-install/#faq_133' rel='noreferrer noopener' target='_blank'>enable database session storage</a>.";
+            if (SettingsPiwik::isMatomoInstalled()) {
+                $pathToSessions = '';
+            } else {
+                $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             }
-
-            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
-            $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
+            
+            $message = sprintf("Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
-                $enableDbSessions,
                 $e->getMessage()
             );
 
@@ -156,11 +174,52 @@ class Session extends Zend_Session
 
     public static function close()
     {
-        parent::writeClose();
+        if (self::isSessionStarted()) {
+            // only write/close session if the session was actually started by us
+            // otherwise we will set the session values to base64 encoded and whoever the session started might not expect the values in that way
+            parent::writeClose();
+        }
     }
 
     public static function isSessionStarted()
     {
         return self::$sessionStarted;
+    }
+
+    /**
+     * Write cookie header.  Similar to the native setcookie() function but also supports
+     * the SameSite cookie property.
+     * @param $name
+     * @param $value
+     * @param int $expires
+     * @param string $path
+     * @param string $domain
+     * @param bool $secure
+     * @param bool $httpOnly
+     * @param string $sameSite
+     * @return string
+     */
+    public static function writeCookie($name, $value, $expires = 0, $path = '/', $domain = '/', $secure = false, $httpOnly = false, $sameSite = 'lax')
+    {
+        $headerStr = 'Set-Cookie: ' . rawurlencode($name) . '=' . rawurlencode($value);
+        if ($expires) {
+            $headerStr .= '; expires=' . rawurlencode($expires);
+        }
+        if ($path) {
+            $headerStr .= '; path=' . rawurlencode($path);
+        }
+        if ($domain) {
+            $headerStr .= '; domain=' . rawurlencode($domain);
+        }
+        if ($secure) {
+            $headerStr .= '; secure';
+        }
+        if ($httpOnly) {
+            $headerStr .= '; httponly';
+        }
+        if ($sameSite) {
+            $headerStr .= '; SameSite=' . rawurlencode($sameSite);
+        }
+        return $headerStr;
     }
 }

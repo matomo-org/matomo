@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -124,6 +124,8 @@ class ApiTest extends IntegrationTestCase
         $this->assertTrue(Site::isSiteSearchEnabledFor($idsite));
         $this->assertEquals($expectedWebsiteType, $siteInfo['type']);
         $this->assertEquals($expectedWebsiteType, Site::getTypeFor($idsite));
+        $this->assertEquals('superUserLogin', $siteInfo['creator_login']);
+        $this->assertEquals('superUserLogin', Site::getCreatorLoginFor($idsite));
 
         $this->assertEquals($searchKeywordParameters, $siteInfo['sitesearch_keyword_parameters']);
         $this->assertEquals($searchCategoryParameters, $siteInfo['sitesearch_category_parameters']);

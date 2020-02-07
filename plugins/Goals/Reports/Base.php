@@ -2,13 +2,15 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Goals\Reports;
 
+use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Goals;
 
@@ -19,9 +21,10 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function init()
     {
         $this->categoryId = 'Goals_Goals';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/tracking-goals-web-analytics/';
     }
 
-    protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter)
+    protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter, $isGoalSummaryReport = false)
     {
         $idSite = $this->getIdSiteFromInfos($infos);
         $goals  = $this->getGoalsForIdSite($idSite);
@@ -35,6 +38,16 @@ abstract class Base extends \Piwik\Plugin\Report
 
             $availableReports[] = $this->buildReportMetadata();
         }
+
+        // for goal overview
+        if ($isGoalSummaryReport) {
+            $this->name = Piwik::translate('Goals_GoalsOverview');
+        } else {
+            $this->name = $goalNameFormatter(['name' => Piwik::translate('Goals_GoalsOverview')]);
+        }
+        $this->parameters = ['idGoal' => 0];
+        $this->order = $this->orderGoal;
+        $availableReports[] = $this->buildReportMetadata();
 
         $this->init();
     }
@@ -56,6 +69,6 @@ abstract class Base extends \Piwik\Plugin\Report
             return array();
         }
 
-        return API::getInstance()->getGoals($idSite);
+        return Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
     }
 }

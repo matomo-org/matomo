@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -20,7 +20,8 @@ final class Version
      * The current Matomo version.
      * @var string
      */
-    const VERSION = '3.6.0-b5';
+    const VERSION = '4.0.0-b1';
+    const MAJOR_VERSION = 4;
 
     public function isStableVersion($version)
     {

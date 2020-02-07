@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -90,6 +90,23 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Get PHP version
+     * @return array
+     */
+    public function getPhpVersion()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        return array(
+            'version' => PHP_VERSION,
+            'major' => PHP_MAJOR_VERSION,
+            'minor' => PHP_MINOR_VERSION,
+            'release' => PHP_RELEASE_VERSION,
+            'versionId' => PHP_VERSION_ID,
+            'extra' => PHP_EXTRA_VERSION,
+        );
+    }
+
+    /**
      * Get Matomo version
      * @return string
      * @deprecated
@@ -164,7 +181,7 @@ class API extends \Piwik\Plugin\API
         return $available;
     }
 
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
+    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false)
     {
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
@@ -177,7 +194,7 @@ class API extends \Piwik\Plugin\API
 
         $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
         $cache   = Cache::getTransientCache();
-        $cacheKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
+        $cacheKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous . '_' . (int) $_showAllSegments;
         $cacheKey = CacheId::pluginAware($cacheKey);
 
         if ($cache->contains($cacheKey)) {
@@ -185,7 +202,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $metadata = new SegmentMetadata();
-        $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous);
+        $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous, $_showAllSegments);
 
         $cache->save($cacheKey, $segments);
 
@@ -206,6 +223,18 @@ class API extends \Piwik\Plugin\API
         // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
         $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
+
+        // Select values from the action details if needed for this particular segment
+        if (empty(array_filter($values)) && $this->doesSegmentNeedActionsData($segmentName)) {
+            foreach ($table->getRows() as $row) {
+                foreach ($row->getColumn('actionDetails') as $actionRow) {
+                    if (isset($actionRow[$segmentName])) {
+                        $values[] = $actionRow[$segmentName];
+                    }
+                }
+            }
+        }
+
         return $values;
     }
 
@@ -398,7 +427,7 @@ class API extends \Piwik\Plugin\API
         krsort($columnsByPlugin);
 
         $mergedDataTable = false;
-        $params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
+        $params = compact('idSite', 'period', 'date', 'segment');
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
             $className = Request::getClassNameAPI($plugin);
@@ -447,8 +476,12 @@ class API extends \Piwik\Plugin\API
      * @param bool|int $idDimension
      * @return array
      */
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false)
     {
+        // check if site exists
+        $idSite = (int) $idSite;
+        $site = new Site($idSite);
+
         Piwik::checkUserHasViewAccess($idSite);
 
         $apiParameters = array();
@@ -471,7 +504,7 @@ class API extends \Piwik\Plugin\API
 
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl);
+            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries);
     }
 
     /**
@@ -492,6 +525,10 @@ class API extends \Piwik\Plugin\API
         $result = array();
         foreach ($urls as $url) {
             $params = Request::getRequestArrayFromString($url . '&format=php&serialize=0');
+
+            if (!empty($params['method']) && $params['method'] === 'API.getBulkRequest') {
+                continue;
+            }
 
             if (isset($params['urls']) && $params['urls'] == $urls) {
                 // by default 'urls' is added to $params as Request::getRequestArrayFromString adds all $_GET/$_POST
@@ -560,7 +597,7 @@ class API extends \Piwik\Plugin\API
         if (!empty($segment['unionOfSegments'])) {
             $values = array();
             foreach ($segment['unionOfSegments'] as $unionSegmentName) {
-                $unionSegment = $this->findSegment($unionSegmentName, $idSite);
+                $unionSegment = $this->findSegment($unionSegmentName, $idSite, $_showAllSegments = true);
 
                 try {
                     $result = $this->getSuggestedValuesForSegmentName($idSite, $unionSegment, $maxSuggestionsToReturn);
@@ -587,9 +624,40 @@ class API extends \Piwik\Plugin\API
         return $values;
     }
 
-    private function findSegment($segmentName, $idSite)
+    /**
+     * Returns category/subcategory pairs as "CategoryId.SubcategoryId" for whom comparison features should
+     * be disabled.
+     *
+     * @return string[]
+     */
+    public function getPagesComparisonsDisabledFor()
     {
-        $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
+        $pages = [];
+
+        /**
+         * If your plugin has pages where you'd like comparison features to be disabled, you can add them
+         * via this event. Add the pages as "CategoryId.SubcategoryId".
+         *
+         * **Example**
+         *
+         * ```
+         * public function getPagesComparisonsDisabledFor(&$pages)
+         * {
+         *     $pages[] = "General_Visitors.MyPlugin_MySubcategory";
+         *     $pages[] = "MyPlugin.myControllerAction"; // if your plugin defines a whole page you want comparison disabled for
+         * }
+         * ```
+         *
+         * @param string[] &$pages
+         */
+        Piwik::postEvent('API.getPagesComparisonsDisabledFor', [&$pages]);
+
+        return $pages;
+    }
+
+    private function findSegment($segmentName, $idSite, $_showAllSegments = false)
+    {
+        $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false, $_showAllSegments);
 
         $segmentFound = false;
         foreach ($segmentsMetadata as $segmentMetadata) {
@@ -682,7 +750,7 @@ class API extends \Piwik\Plugin\API
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
             'pageUrl', 'pageTitle', 'siteSearchKeyword',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
-            'outlinkUrl', 'downloadUrl', 'eventUrl'
+            'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId'
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
@@ -693,7 +761,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param $values
-     * @param $value
+     *
      * @return array
      */
     private function getMostFrequentValues($values)
@@ -710,9 +778,25 @@ class API extends \Piwik\Plugin\API
         // we have a list of all values. let's show the most frequently used first.
         $values = array_count_values($values);
 
-        arsort($values);
-        $values = array_keys($values);
-        return $values;
+        // Sort this list by converting and sorting the array with custom method, so the result doesn't differ between PHP versions
+        $sortArray = [];
+
+        foreach ($values as $value => $count) {
+            $sortArray[] = [
+                'value' => $value,
+                'count' => $count
+            ];
+        }
+
+        usort($sortArray, function($a, $b) {
+            if ($a['count'] == $b['count']) {
+                return strcmp($a['value'], $b['value']);
+            }
+
+            return $a['count'] > $b['count'] ? -1 : 1;
+        });
+
+        return array_column($sortArray, 'value');
     }
 
     private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)

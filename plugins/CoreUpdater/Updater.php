@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -198,11 +198,13 @@ class Updater
     {
         $extractionPath = $this->tmpPath . self::PATH_TO_EXTRACT_LATEST_VERSION;
 
-        $extractedArchiveDirectory = $extractionPath . 'piwik';
+        foreach (['piwik', 'matomo'] as $flavor) {
+            $extractedArchiveDirectory = $extractionPath . $flavor;
 
-        // Remove previous decompressed archive
-        if (file_exists($extractedArchiveDirectory)) {
-            Filesystem::unlinkRecursive($extractedArchiveDirectory, true);
+            // Remove previous decompressed archive
+            if (file_exists($extractedArchiveDirectory)) {
+                Filesystem::unlinkRecursive($extractedArchiveDirectory, true);
+            }
         }
 
         $archive = Unzip::factory('PclZip', $archiveFile);
@@ -218,7 +220,14 @@ class Updater
 
         unlink($archiveFile);
 
-        return $extractedArchiveDirectory;
+        foreach (['piwik', 'matomo'] as $flavor) {
+            $extractedArchiveDirectory = $extractionPath . $flavor;
+            if (file_exists($extractedArchiveDirectory)) {
+                return $extractedArchiveDirectory;
+            }
+        }
+
+        throw new \Exception('Could not find matomo or piwik directory in downloaded archive!');
     }
 
     private function verifyDecompressedArchive($extractedArchiveDirectory)
@@ -228,6 +237,7 @@ class Updater
             '/index.php',
             '/core/Piwik.php',
             '/piwik.php',
+            '/matomo.php',
             '/plugins/API/API.php'
         );
         foreach ($someExpectedFiles as $file) {
@@ -286,11 +296,6 @@ class Updater
             // Copy the non-PHP files (e.g., images, css, javascript)
             Filesystem::copyRecursive($extractedArchiveDirectory, PIWIK_DOCUMENT_ROOT, true);
             $model->removeGoneFiles($extractedArchiveDirectory, PIWIK_DOCUMENT_ROOT);
-        }
-
-        // Config files may be user (account) specific
-        if (PIWIK_INCLUDE_PATH !== PIWIK_USER_PATH) {
-            Filesystem::copyRecursive($extractedArchiveDirectory . '/config', PIWIK_USER_PATH . '/config');
         }
 
         Filesystem::unlinkRecursive($extractedArchiveDirectory, true);

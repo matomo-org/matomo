@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -53,6 +53,7 @@ class Segment
     private $permission;
     private $suggestedValuesCallback;
     private $unionOfSegments;
+    private $isInternalSegment = false;
 
     /**
      * If true, this segment will only be visible to the user if the user has view access
@@ -371,6 +372,28 @@ class Segment
     public function setRequiresAtLeastViewAccess($requiresAtLeastViewAccess)
     {
         $this->requiresAtLeastViewAccess = $requiresAtLeastViewAccess;
+    }
+
+    /**
+     * Sets whether the segment is for internal use only and should not be visible in the UI or in API metadata output.
+     * These types of segments are, for example, used in unions for other segments, but have no value to users.
+     *
+     * @param bool $value
+     */
+    public function setIsInternal($value)
+    {
+        $this->isInternalSegment = $value;
+    }
+
+    /**
+     * Gets whether the segment is for internal use only and should not be visible in the UI or in API metadata output.
+     * These types of segments are, for example, used in unions for other segments, but have no value to users.
+     *
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return $this->isInternalSegment;
     }
 
     private function check()

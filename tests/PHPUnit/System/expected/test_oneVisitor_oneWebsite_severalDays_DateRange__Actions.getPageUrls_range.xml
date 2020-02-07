@@ -20,7 +20,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/homepage</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fhomepage</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fhomepage</segment>
 	</row>
 	<row>
 		<label>/news</label>
@@ -44,7 +44,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/news</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fnews</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fnews</segment>
 	</row>
 	<row>
 		<label>sub1</label>
@@ -60,5 +60,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fsub1</segment>
 	</row>
 </result>

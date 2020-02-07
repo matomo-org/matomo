@@ -1,6 +1,10 @@
 {
     "UsersManager": {
         "AddUser": "Pridėti naują naudotoją",
+        "AddExistingUser": "Pridėti esamą naudotoją",
+        "AddNewUser": "Pridėti naują naudotoją",
+        "EditUser": "Taisyti naudotoją",
+        "CreateUser": "Sukurti naudotoją",
         "Alias": "Alternatyvus vardas",
         "AllWebsites": "Visos svetainės",
         "AnonymousUser": "Anoniminis naudotojas",
@@ -25,7 +29,9 @@
         "ExceptionUserDoesNotExist": "Naudotojas '%s' neegzistuoja.",
         "ExceptionUserHasViewAccessAlready": "Šis naudotojas jau turi prieigą prie šios svetainės.",
         "ExcludeVisitsViaCookie": "Neįtraukite savo apsilankymų pasinaudoję slapuku",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jei norite pakeisti slaptažodį, įrašykite naują. Jei ne, palikite laukelį tuščią.",
+        "YourCurrentPassword": "Jūsų dabartinis slaptažodis",
+        "CurrentPasswordNotCorrect": "Jūsų įvestas dabartinis slaptažodis yra neteisingas.",
+        "ConfirmWithPassword": "Norėdami patvirtinti šį pakeitimą, įveskite savo slaptažodį.",
         "ManageAccess": "Administruoti teises",
         "MenuAnonymousUserSettings": "Anoniminio naudotojo nustatymai",
         "MenuUsers": "Naudotojai",
@@ -41,11 +47,18 @@
         "User": "Naudotojas",
         "UsersManagement": "Naudotojų valdymas",
         "UsersManagementMainDescription": "Kurkite naujus naudotojus arba keiskite jau esančius. Po to aukščiau galite parinkti jiems leidimus.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kai naudotojai neprisijungę apsilanko Matomo, jie turi pasiekti",
         "YourUsernameCannotBeChanged": "Jūsų naudotojo vardas negali būti pakeistas.",
         "YourVisitsAreIgnoredOnDomain": "%1$sJūsų apsilankymai yra ignoruojami Matomo %2$s %3$s (Matomo ignoravimo slapukas buvo aptiktas Jūsų naršyklėje).",
         "YourVisitsAreNotIgnored": "%1$sJūsų apsilankymai nėra ignoruojami Matomo%2$s (Matomo ignoravimo slapukas jūsų naršyklėje nebuvo aptiktas).",
-        "XtoYofN": "%1$s - %2$s iš %3$s",
-        "Username": "Naudotojo vardas"
+        "ManageUsers": "Tvarkyti naudotojus",
+        "BasicInformation": "Pagrindinė informacija",
+        "Permissions": "Leidimai",
+        "AreYouSure": "Ar esate tikri?",
+        "DeleteUsers": "Ištrinti naudotojus",
+        "Username": "Naudotojo vardas",
+        "EmailChangeNotificationSubject": "Ką tik buvo pakeistas jūsų Matomo paskyros el. pašto adresas",
+        "EmailChangedEmail2": "Šis pakeitimas buvo inicijuotas iš šio įrenginio: %1$s (IP adresas = %2$s).",
+        "PasswordChangeNotificationSubject": "Ką tik buvo pakeistas jūsų Matomo paskyros slaptažodis",
+        "PasswordChangedEmail": "Ką tik buvo pakeistas jūsų slaptažodis. Pakeitimą inicijavo šis įrenginys: %1$s (IP adresas = %2$s)."
     }
 }

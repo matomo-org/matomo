@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,7 +11,6 @@ namespace Piwik\Plugin;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Exception;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetContainerConfig;

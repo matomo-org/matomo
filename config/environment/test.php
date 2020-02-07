@@ -8,9 +8,28 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 return array(
 
     // Disable logging
-    'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
+    'Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
+        $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
+        if ($enableLogging) {
+            return $previous;
+        } else {
+            return $c->get(\Psr\Log\NullLogger::class);
+        }
+    }),
 
-    'Piwik\Cache\Backend' => function () {
+    'Tests.log.allowAllHandlers' => false,
+
+    'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+        if ($c->get('Tests.log.allowAllHandlers')) {
+            return $previous;
+        }
+
+        return [
+            $c->get('Piwik\Plugins\Monolog\Handler\FileHandler'),
+        ];
+    }),
+
+    'Matomo\Cache\Backend' => function () {
         return \Piwik\Cache::buildBackend('file');
     },
     'cache.eager.cache_id' => 'eagercache-test-',
@@ -103,7 +122,7 @@ return array(
 
         array('Test.Mail.send', function (\Zend_Mail $mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
-            $outputContent = str_replace("=\n", "", $mail->getBodyText($textOnly = true));
+            $outputContent = str_replace("=\n", "", $mail->getBodyHtml($textOnly = true) ?: $mail->getBodyText($textOnly = true));
             $outputContent = str_replace("=0A", "\n", $outputContent);
             $outputContent = str_replace("=3D", "=", $outputContent);
             $outputContents = array(

@@ -2,13 +2,12 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Updater\Migration\Db;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Updater\Migration as MigrationInterface;
 use Piwik\Updater\Migration\Db as DbMigration;
 
 /**

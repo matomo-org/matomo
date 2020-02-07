@@ -1,0 +1,34 @@
+<html style="background-color:#edecec">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="generator" content="Matomo Analytics">
+</head>
+
+<body style="{{fontStyle|raw}} line-height: 24px; margin:0 auto; max-width:1000px; background-color:rgb(255, 255, 255);box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);">
+
+<a name="reportTop"></a>
+
+<table style="width:100%; background-color: {{ themeStyles.colorHeaderBackground|e('html_attr') }}; color: {{ themeStyles.colorHeaderText|e('html_attr') }}; padding:10px 0; margin: 0 0 25px 0; height:64px;">
+    <tr>
+        <td>
+            <a style="{{ fontStyle|raw }}; font-size:16px;padding:0 15px;{% if not isCustomLogo or not logoHeader %}padding-bottom: 8px;{% endif %}color: {{ themeStyles.colorHeaderText|e('html_attr') }};height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="{{ piwikUrl }}">
+                {% if isCustomLogo and logoHeader %}
+                    <img src="{{ logoHeader }}" height="20px" width="auto" />
+                {% else %}
+                    <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" height="30px" width="auto" alt="{{ emailStyles.brandNameLong|e('html_attr') }}" />
+                {% endif %}
+            </a>
+        </td>
+        <td align="right">
+            {% if idSite|default is not empty %}
+            <a style="{{ fontStyle|raw }}; font-size:16px; padding:0 15px; color: {{ themeStyles.colorHeaderText|e('html_attr') }}" {% if websiteName|default is not empty %}title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}"{% endif %} target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'redirectToCoreHomeIndex', 'idSite': idSite, 'period': period|default, 'date': date|default, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
+                {{ 'Dashboard_Dashboard'|translate }}
+            </a>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<div style="margin:0 20px;">

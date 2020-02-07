@@ -2,17 +2,23 @@
     "Transitions": {
         "BouncesInline": "%s のバウンス",
         "DirectEntries": "直接エントリー",
+        "Transitions": "トランジション",
         "ErrorBack": "前の操作に戻る",
         "ExitsInline": "%s 終了",
         "NumPageviews": "%s ページビュー",
         "NumDownloads": "%s ダウンロード",
         "NumOutlinks": "%s アウトリンク",
+        "TopX": "上位 %s のラベル",
+        "FeatureDescription": "トランジションでは、ビジターが特定のページを閲覧する前後に直接行ったことを示すレポートが表示されます。 このページでは、強力な移行レポートにアクセスし、理解し、使用する方法について説明します。",
+        "AvailableInOtherReports": "ご存知ですか？ トランジションは、次のレポートの行アクションとしても利用できます。",
+        "AvailableInOtherReports2": "これらのレポートのいずれかに行を移動し、遷移アイコン %s をクリックするだけで起動できます。",
         "FromCampaigns": "キャンペーンから",
         "FromPreviousPages": "内部ページから",
         "FromPreviousPagesInline": "内部ページからの %s",
         "FromPreviousSiteSearches": "内部検索から",
         "FromPreviousSiteSearchesInline": "内部検索からの %s",
         "FromSearchEngines": "検索エンジンから",
+        "FromSocialNetworks": "ソーシャルネットワークから",
         "FromWebsites": "ウェブサイトから",
         "IncomingTraffic": "受信トラフィック",
         "LoopsInline": "%s ページリロード",
@@ -26,6 +32,7 @@
         "ToFollowingSiteSearches": "内部検索",
         "ToFollowingSiteSearchesInline": "%s 内部検索",
         "XOfAllPageviews": "このページの全ビューの %s",
-        "XOutOfYVisits": "(%2$s の内の ) %1$s"
+        "XOutOfYVisits": "(%2$s の内の ) %1$s",
+        "PageURLTransitions": "ページURLのトランジション"
     }
 }

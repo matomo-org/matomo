@@ -52,7 +52,7 @@
                 $(clickElement).one('click', onClickHandler);
                 $(clickElement).css({
                     cursor: 'pointer'
-                })
+                });
             }
         };
     }

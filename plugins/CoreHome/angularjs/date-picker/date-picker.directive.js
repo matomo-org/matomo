@@ -164,9 +164,7 @@
                         || changesObj.highlightedDateStart
                         || changesObj.highlightedDateEnd;
 
-                    if (changesObj.viewDate
-                        && viewDateChanged()
-                    ) {
+                    if (changesObj.viewDate && viewDateChanged()) {
                         redraw = true;
                     }
 
@@ -202,9 +200,7 @@
                     // only change the datepicker date if the date is outside of the current month/year.
                     // this avoids a re-render in other cases.
                     var monthYear = getMonthYearDisplayed();
-                    if (monthYear[0] !== date.getMonth()
-                        || monthYear[1] !== date.getFullYear()
-                    ) {
+                    if (monthYear[0] !== date.getMonth() || monthYear[1] !== date.getFullYear()) {
                         element.datepicker('setDate', date);
                         return true;
                     }

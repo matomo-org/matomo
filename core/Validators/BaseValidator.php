@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -41,7 +41,7 @@ abstract class BaseValidator
             try {
                 $validator->validate($value);
             } catch (\Exception $e) {
-                throw new Exception(strip_tags($name) . ': ' . $e->getMessage(), $e->getCode(), $e);
+                throw new Exception(strip_tags($name) . ': ' . $e->getMessage(), $e->getCode());
             }
         }
     }

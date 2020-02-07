@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -83,7 +83,8 @@ class Month extends Period
     protected function processOptimalSubperiods($startDate, $endDate)
     {
         while ($startDate->isEarlier($endDate)
-            || $startDate == $endDate) {
+            || $startDate == $endDate
+        ) {
             $week        = new Week($startDate);
             $startOfWeek = $week->getDateStart();
             $endOfWeek   = $week->getDateEnd();

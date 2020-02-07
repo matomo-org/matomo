@@ -2,14 +2,16 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\CoreHome;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Container\StaticContainer;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
@@ -43,7 +45,20 @@ class CoreHome extends \Piwik\Plugin
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'AssetManager.addStylesheets' => 'addStylesheets',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
+            'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
         );
+    }
+
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
+    public function setTrackerCacheGeneral(&$cacheGeneral)
+    {
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $cacheGeneral[ArchiveInvalidator::TRACKER_CACHE_KEY] = $archiveInvalidator->getAllRememberToInvalidateArchivedReportsLater();
     }
 
     public function addStylesheets(&$mergedContent)
@@ -106,7 +121,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
-        $stylesheets[] = "plugins/CoreHome/stylesheets/jqplotColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/promo.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";
@@ -130,6 +144,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -146,9 +161,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
         $jsFiles[] = "libs/bower_components/mousetrap/mousetrap.min.js";
         $jsFiles[] = "libs/bower_components/angular/angular.min.js";
-        $jsFiles[] = "libs/bower_components/angular-sanitize/angular-sanitize.js";
-        $jsFiles[] = "libs/bower_components/angular-animate/angular-animate.js";
-        $jsFiles[] = "libs/bower_components/angular-cookies/angular-cookies.js";
+        $jsFiles[] = "libs/bower_components/angular-sanitize/angular-sanitize.min.js";
+        $jsFiles[] = "libs/bower_components/angular-animate/angular-animate.min.js";
+        $jsFiles[] = "libs/bower_components/angular-cookies/angular-cookies.min.js";
         $jsFiles[] = "libs/bower_components/ngDialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
@@ -279,6 +294,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.controller.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.js";
+
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
@@ -287,6 +305,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
@@ -301,6 +321,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-upload.directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.min.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.contentWindow.min.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -313,6 +334,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'General_Pagination';
         $translationKeys[] = 'General_RowsToDisplay';
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
@@ -324,8 +346,9 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ExcludeRowsWithLowPopulation';
         $translationKeys[] = 'CoreHome_DataTableIncludeAggregateRows';
         $translationKeys[] = 'CoreHome_DataTableExcludeAggregateRows';
+        $translationKeys[] = 'CoreHome_DataTableCombineDimensions';
+        $translationKeys[] = 'CoreHome_DataTableShowDimensions';
         $translationKeys[] = 'CoreHome_Default';
-        $translationKeys[] = 'CoreHome_PageOf';
         $translationKeys[] = 'CoreHome_FormatMetrics';
         $translationKeys[] = 'CoreHome_ShowExportUrl';
         $translationKeys[] = 'CoreHome_HideExportUrl';
@@ -334,6 +357,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'CoreHome_ClickToEditX';
         $translationKeys[] = 'CoreHome_Menu';
+        $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
@@ -455,5 +480,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
         $translationKeys[] = 'CoreHome_MacPageUp';
         $translationKeys[] = 'CoreHome_MacPageDown';
+        $translationKeys[] = 'General_ComputedMetricMax';
+        $translationKeys[] = 'General_XComparedToY';
+        $translationKeys[] = 'General_ComparisonCardTooltip1';
+        $translationKeys[] = 'General_ComparisonCardTooltip2';
+        $translationKeys[] = 'General_Comparisons';
+        $translationKeys[] = 'General_ClickToRemoveComp';
     }
 }

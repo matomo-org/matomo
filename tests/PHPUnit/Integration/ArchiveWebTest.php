@@ -13,6 +13,8 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Tests to call the archive.php script via web and check there is no error.
@@ -22,8 +24,6 @@ use Exception;
  */
 class ArchiveWebTest extends SystemTestCase
 {
-    public static $fixture = null; // initialized below class definition
-
     public function test_WebArchiving()
     {
         if (self::isMysqli() && self::isTravisCI()) {
@@ -37,20 +37,15 @@ class ArchiveWebTest extends SystemTestCase
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
 
         $url    = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token;
-        $output = Http::sendHttpRequest($url, 600);
+        $output = Http::sendHttpRequest($url, 6);
 
-        // ignore random build issues
-        if (empty($output) || strpos($output, \Piwik\CronArchive::NO_ERROR) === false) {
-            $this->fail("archive web failed: " . $output . "\n\nurl used: $url");
-        }
+        $this->assertEquals("- 1 ['0' => 'mock output'] [] [idsubtable = ]<br />", $output);
 
         if (!empty($urlTmp)) {
             Option::set('piwikUrl', $urlTmp);
         } else {
             Option::delete('piwikUrl');
         }
-
-        $this->assertWebArchivingDone($output);
 
     }
 
@@ -59,24 +54,7 @@ class ArchiveWebTest extends SystemTestCase
         list($returnCode, $output) = $this->runArchivePhpScriptWithPhpCgi();
 
         $this->assertEquals(0, $returnCode, "Output: " . $output);
-        $this->assertWebArchivingDone($output, $checkArchivedSite = false);
-    }
-
-    private function assertWebArchivingDone($output, $checkArchivedSite = true)
-    {
-        $this->assertContains('Starting Matomo reports archiving...', $output);
-        if ($checkArchivedSite) {
-            $this->assertContains('Archived website id = 1', $output);
-        }
-        $this->assertContains('Done archiving!', $output);
-
-        $this->assertNotContains('ERROR', $output);
-        $this->assertNotContains('WARNING', $output);
-
-        // Check there are enough lines in output
-        $minimumLinesInOutput = 30;
-        $linesInOutput = count( explode(PHP_EOL, $output) );
-        $this->assertGreaterThan($minimumLinesInOutput, $linesInOutput);
+        $this->assertStringStartsWith('mock output', $output);
     }
 
     private function runArchivePhpScriptWithPhpCgi()
@@ -93,10 +71,21 @@ class ArchiveWebTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Tests.log.allowAllHandlers' => true,
+            'observers.global' => [
+                ['API.Request.intercept', function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
+                    if ($pluginName == 'CoreAdminHome' && $methodName == 'runCronArchiving') {
+                        $returnedValue = 'mock output';
+                    }
+                }],
+                ['Console.doRun', function (&$exitCode, InputInterface $input, OutputInterface $output) {
+                    if ($input->getFirstArgument() == 'core:archive') {
+                        $output->writeln('mock output');
+                        $exitCode = 0;
+                    }
+                }],
+            ],
         );
     }
 }
-
-ArchiveWebTest::$fixture = new ManySitesImportedLogs();
-ArchiveWebTest::$fixture->addSegments = true;

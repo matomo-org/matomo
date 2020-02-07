@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -67,6 +67,10 @@ class CoreTranslations extends ValidateAbstract
 
         $allLanguages = $languageDataProvider->getLanguageList();
         $allCountries = $regionDataProvider->getCountryList();
+
+        if ('eo.UTF-8' === $translations['General']['Locale']) {
+            return true;
+        }
 
         if (!preg_match('/^([a-z]{2})_([A-Z]{2})\.UTF-8$/', $translations['General']['Locale'], $matches)) {
             $this->message = self::ERRORSTATE_LOCALEINVALID;

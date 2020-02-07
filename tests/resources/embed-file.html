@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Embed</title>
+    <style>
+        html, body {
+            height: calc(100%);
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100%);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        window.onload = function () {
+            try {
+                var url = decodeURIComponent(window.location.hash.substring(1));
+                var iframe = document.createElement('iframe');
+                iframe.name = 'embed';
+                iframe.sandbox = "allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation";
+                iframe.src = url;
+                document.body.appendChild(iframe);
+            } catch (e) {
+                console.log(e.stack || e.message);
+            }
+        };
+    </script>
+    <h1>Embedded Matomo</h1>
+</body>
+</html>

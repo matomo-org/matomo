@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -29,6 +29,7 @@ class Collection
         'Dashboard',
         'UsersManager',
         'SitesManager',
+        'TagManager',
         'ExampleUI',
         'Overlay',
         'Live',
@@ -48,6 +49,9 @@ class Collection
         'CustomAlerts',
         'Insights',
         'LogViewer',
+        'Referrers.getKeywordNotDefinedString',
+        'CorePluginsAdmin.getSystemSettings',
+        'API.getPagesComparisonsDisabledFor',
     );
 
     /**
@@ -251,7 +255,9 @@ class Collection
                 foreach ($formats as $format) {
                     $parametersToSet['format'] = $format;
                     $parametersToSet['hideIdSubDatable'] = 1;
-                    $parametersToSet['serialize'] = 1;
+                    if (!isset($parametersToSet['serialize'])) {
+                        $parametersToSet['serialize'] = 1;
+                    }
 
                     $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
                     if ($exampleUrl === false) {
@@ -338,6 +344,8 @@ class Collection
                 $this->apiNotToCall = array(
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',
+                                            'API.getPhpVersion',
+                                            'API.getPagesComparisonsDisabledFor',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {

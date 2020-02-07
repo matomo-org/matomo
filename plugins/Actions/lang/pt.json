@@ -1,8 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Média com base em %1$s acesso(s) %2$sentre %3$s e %4$s",
-        "ColumnClickedURL": "Endereço clicado",
-        "ColumnClickedURLs": "Endereços clicados",
+        "ColumnClickedURL": "Ligação de saída clicada",
+        "ColumnClickedURLs": "Ligações de saída clicadas",
         "ColumnActionURL": "Endereço da ação",
         "ColumnClicks": "Cliques",
         "ColumnClicksDocumentation": "O número de vezes que esta ligação foi clicada.",
@@ -40,7 +40,6 @@
         "ExitPagesReportDocumentation": "Este relatório contém informação sobre as páginas de saída que foram utilizadas durante o período especificado, Uma página de saída é a última página que um utilizador vê durante a sua visita. %s Os endereços de saída são apresentados numa estrutura de pastas.",
         "ExitPageTitles": "Títulos das páginas de saída",
         "ExitPageTitlesReportDocumentation": "Este relatório contém informações sobre os títulos de páginas de saída que ocorreram durante o período especificado.",
-        "LearnMoreAboutSiteSearchLink": "Saber mais sobre o Acompanhamento de como os seus visitantes utilizam o seu motor de pesquisa.",
         "OneSearch": "1 pesquisa",
         "OutlinkDocumentation": "Uma ligação de saída é uma ligação que encaminha um visitante para fora do seu site (para outro domínio).",
         "OutlinksReportDocumentation": "Este relatório mostra uma lista hierárquica de ligações de saída que foram clicadas pelos seus visitantes.",

@@ -1,0 +1,2 @@
+app.init();
+app.loadTestModules();

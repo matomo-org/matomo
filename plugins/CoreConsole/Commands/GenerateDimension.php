@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
 use Piwik\DbHelper;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -53,7 +54,7 @@ class GenerateDimension extends GeneratePluginBase
         $dimensionClassName      = $this->getDimensionClassName($dimensionName);
         $translatedDimensionName = $this->makeTranslationIfPossible($pluginName, ucfirst($dimensionName));
 
-        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleTracker';
+        $exampleFolder = Manager::getPluginDirectory('ExampleTracker');
         $replace       = array('example_action_dimension'  => strtolower($columnName),
                                'example_visit_dimension'   => strtolower($columnName),
                                'example_conversion_dimension'   => strtolower($columnName),

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -112,6 +112,14 @@ class OutputTest extends \PHPUnit_Framework_TestCase
         $this->output->write($anyContent);
 
         $this->assertEquals($anyContent, $this->output->get());
+    }
+
+    public function test_get_write_shouldRemoveHashBang()
+    {
+        $anyContent = "\n#!/usr/bin/env php {}";
+        $this->output->write($anyContent);
+
+        $this->assertEquals('{}', $this->output->get());
     }
 
     public function test_write_shouldNotAppend_IfWriteIsCalledTwice()

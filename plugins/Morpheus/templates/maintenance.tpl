@@ -11,8 +11,6 @@
 
 <div class="logo">
 	<img title="Matomo" alt="Matomo" style="height: 40px;" src="%logoUrl%" />
-	<br/>
-	<a href='https://matomo.org/'>%piwikTitle%</a>
 </div>
 
 <div class="box">

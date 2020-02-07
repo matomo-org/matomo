@@ -1,6 +1,6 @@
 {
     "Contents": {
-        "PluginDescription": "Gjurmimi i lëndës dhe i banner-ave ju lejon të matni punimin (parje, klikime, CTR) të çfarëdo pjese të lëndës në faqet tuaja (Banner ad, figurë, çfarëdo objekti).",
+        "PluginDescription": "Ndjekja e lëndës dhe e banderolave ju lejon të matni punimin (parje, klikime, CTR) të çfarëdo pjese të lëndës në faqet tuaja (banderolë reklame, figurë, çfarëdo objekti).",
         "Impressions": "Përshtypje",
         "ContentImpression": "Përshtypje Lënde",
         "ContentInteraction": "Ndërveprim Me Lëndën",
@@ -13,7 +13,7 @@
         "ContentTarget": "Synim Lënde",
         "ContentTargets": "Synime Lënde",
         "Contents": "Lëndë",
-        "InteractionsMetricDocumentation": "Numri i herëve kur për një bllok lënde ka patur ndërveprime (p.sh., një 'klikim' mbi një banderolë apo reklamë).",
+        "InteractionsMetricDocumentation": "Numri i herëve kur për një bllok lënde ka pasur ndërveprime (p.sh., një 'klikim' mbi një banderolë apo reklamë).",
         "ImpressionsMetricDocumentation": "Numri i herëve që një bllok lënde, i tillë si banderolë apo reklamë, është shfaqur në një faqe.",
         "InteractionRateMetricDocumentation": "Përpjesëtimi i përshtypjeve nga lënda kundrejt ndërveprimeve."
     }

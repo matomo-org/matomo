@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Omogućuje tzv. uvide u vaš saobraćaj. Uvidi su na raspolaganju u vidu vidžeta za konzolu i kao sličice u izveštajima i preko njih možete videti najbitnije trendove vaših podataka.",
         "ControlComparedToDescription": "Rast u poređenju sa",
         "ControlFilterByDescription": "Prikaži sve, samo movers, samo nove ili samo one koji su nestali",
         "DatePeriodCombinationNotSupported": "Nije moguće generisati uvid za datu kombinaciju datuma i perioda.",
@@ -26,7 +25,6 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s se promenio od %2$s do %3$s u poređenju sa %4$s. Na osnovu toga, očekuje se razvoj svakog reda od %5$s%%.",
         "TitleRowChangeDetails": "'%1$s' se promenio od %2$s (%3$s) do %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' je smanjen za %2$s i nestao je u %3$s u odnosu na %4$s.",
-        "TitleRowMoverAndShaker": "Ovaj red ima veći uticaj u odnosu na prosek.",
         "TitleRowNewDetails": "'%1$s' povećan za %2$s i predstavlja novinu u odnosu na %3$s.",
         "WeekComparedToPreviousWeek": "prethodna nedelja",
         "WidgetCategory": "Uvidi",

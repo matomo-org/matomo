@@ -1,0 +1,27 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Este plugin ofrece los widgets Visitor Map y Real-time Map. Nota: requiere que el plugin UserCountry esté habilitado.",
+        "AndNOthers": "y %s otros",
+        "Cities": "Ciudades",
+        "Countries": "Países",
+        "DaysAgo": "Hace %s días",
+        "GoalConversions": "%s conversiones de objetivo",
+        "HoursAgo": "Hace %s horas",
+        "map": "mapa",
+        "MinutesAgo": "Hace %s minutos",
+        "None": "Ninguno",
+        "NoVisit": "Ninguna visita",
+        "RealTimeMap": "Mapa en tiempo real",
+        "Regions": "Regiones",
+        "Searches": "%s búsquedas",
+        "SecondsAgo": "Hace %s segundos",
+        "ShowingVisits": "Visitas geolocalizadas de los últimos",
+        "Unlocated": "<b>%s<\/b> %p de las visitas desde %c no pudieron ser geolocalizadas.",
+        "VisitorMap": "Mapa de visitantes",
+        "WorldWide": "Mundial",
+        "WithUnknownRegion": "%s con región desconocida",
+        "WithUnknownCity": "%s con ciudad desconocida",
+        "NoVisitsInfo": "No hay visitas mostradas actualmente, porque ninguna visita en este período tiene información correcta de geolocalización (latitud y longitud).",
+        "NoVisitsInfo2": "Para resolver este problema, asegurate que estás usando un proveedor de geolocalización GeoIP con base de datos de ciudades GeoIP. Si esto no resuelve tu problema, entonces es posible (pero poco probable) que tus visitantes tengan direcciones IP que no puedan ser geolocalizadas."
+    }
+}

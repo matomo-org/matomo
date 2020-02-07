@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -76,7 +76,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $select = "
                 log_action_content_piece.name as contentPiece,
-                log_action_content_target.name as contentTarget,
                 log_action_content_name.name as contentName,
 
 				count(distinct log_link_visit_action.idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
@@ -111,14 +110,13 @@ class Archiver extends \Piwik\Plugin\Archiver
                     log_link_visit_action.idaction_content_target,
                     log_link_visit_action.idaction_content_name";
 
-        $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC";
+        $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC, `contentName`";
 
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
         $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
-            $rankingQuery->addLabelColumn(array('contentPiece', 'contentTarget', 'contentName'));
+            $rankingQuery->addLabelColumn(array('contentPiece', 'contentName'));
             $rankingQuery->addColumn(array(Metrics::INDEX_NB_UNIQ_VISITORS));
             $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_IMPRESSIONS, Metrics::INDEX_NB_VISITS), 'sum');
         }
@@ -173,7 +171,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('contentPiece', 'contentInteraction', 'contentName'));
             $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_INTERACTIONS), 'sum');
         }
@@ -260,7 +257,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             }
 
             $dataArray->sumMetricsImpressions($mainLabel, $row);
-            $this->rememberMetadataForRow($row, $mainLabel);
 
             $subDimension = $dimensions[1];
             $subLabel     = $row[$subDimension];
@@ -299,18 +295,4 @@ class Archiver extends \Piwik\Plugin\Archiver
             $dataArray->sumMetricsContentsInteractionPivot($mainLabel, $subLabel, $row);
         }
     }
-
-    private function rememberMetadataForRow($row, $mainLabel)
-    {
-        $this->metadata[$mainLabel] = array();
-
-        $target = $row['contentTarget'];
-        if (empty($target)) {
-            $target = Archiver::CONTENT_TARGET_NOT_SET;
-        }
-
-        // there can be many different targets
-        $this->metadata[$mainLabel]['contentTarget'] = $target;
-    }
-
 }

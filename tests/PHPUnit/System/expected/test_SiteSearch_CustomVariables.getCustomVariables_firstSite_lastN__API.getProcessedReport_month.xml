@@ -9,7 +9,12 @@
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/custom-variables/</onlineGuideUrl>
+		<dimensions>
+			<CustomVariables_CustomVariableName>Custom Variable name</CustomVariables_CustomVariableName>
+			<CustomVariables_CustomVariableValue>Custom Variable value</CustomVariables_CustomVariableValue>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
@@ -59,7 +64,7 @@
 				<nb_actions_per_visit>1.3</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 			<row>
 				<label>_pk_scat</label>
@@ -68,7 +73,7 @@
 				<nb_actions_per_visit>1.3</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />
@@ -89,7 +94,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3339</idsubdatatable>
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -100,7 +105,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3338</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />
@@ -113,5 +118,7 @@
 	<reportTotal>
 		<nb_visits>11</nb_visits>
 		<nb_actions>14</nb_actions>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<nb_actions_per_visit>1.3</nb_actions_per_visit>
 	</reportTotal>
 </result>

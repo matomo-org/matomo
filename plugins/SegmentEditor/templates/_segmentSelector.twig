@@ -4,7 +4,7 @@
         <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
                 <input class="segmentFilter browser-default" type="text" tabindex="4" value="{{ 'General_Search'|translate }}"/>
-                <span/>
+                <span></span>
             </div>
             <ul class="submenu">
                 <li>{{ 'SegmentEditor_SelectSegmentOfVisits'|translate }}
@@ -70,6 +70,7 @@
             <div piwik-rate-feature title="Segment Editor" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>
             <a class="btn-flat delete" href="#">{{ 'General_Delete'|translate }}</a>
             <a class="btn-flat close" href="#">{{ 'General_Close'|translate }}</a>
+            <a class="btn-flat testSegment">{{ 'SegmentEditor_Test'|translate }}</a>
             <button class="btn saveAndApply">{{ 'SegmentEditor_SaveAndApply'|translate }}</button>
         </div>
     </div>
@@ -99,10 +100,10 @@
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 <div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
-    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
+    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}</h2>
     {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
     <p class="description">
-        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|raw }}
+        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}
         <br/>
         {{ 'SegmentEditor_DataAvailableAtLaterDate'|translate }}
         {% if isSuperUser %}

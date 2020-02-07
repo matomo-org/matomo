@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -134,7 +134,7 @@ class Updates_3_0_0_b1 extends Updates
         foreach ($options as $option) {
             $name = $option['option_name'];
             $pluginName = str_replace(array('Plugin_', '_Settings'), '', $name);
-            $values = @unserialize($option['option_value']);
+            $values = Common::safe_unserialize($option['option_value']);
 
             if (empty($values)) {
                 continue;

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugin;
@@ -11,7 +11,6 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 
@@ -62,6 +61,11 @@ class ArchivedMetric extends Metric
         $this->setDimension($dimension);
         $this->setDbTable($dimension->getDbTableName());
         $this->aggregation = $aggregation;
+    }
+
+    public function getAggregation()
+    {
+        return $this->aggregation;
     }
 
     public function setDimension($dimension)

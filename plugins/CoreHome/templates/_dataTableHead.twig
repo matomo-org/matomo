@@ -1,14 +1,15 @@
+{% set dimensions = dataTable.getMetadata('dimensions')|default([]) %}
 <thead>
    <tr>
        {% for column in properties.columns_to_display %}
-           <th class="{% if properties.enable_sort %}sortable{% endif %} {% if loop.first %}first{% elseif loop.last %}last{% endif %}" id="{{ column }}">
+           <th class="{% if properties.enable_sort %}sortable{% endif %} {% if loop.first %}first{% elseif loop.last %}last{% endif %} {% if column == 'label' or column in dimensions %}label{% endif %}" id="{{ column }}">
                {% if properties.metrics_documentation[column]|default is not empty %}
                    <div class="columnDocumentation">
                        <div class="columnDocumentationTitle">
                            <span class="icon-help"></span>
                            {{ properties.translations[column]|default(column)|rawSafeDecoded }}
                        </div>
-                       {{ properties.metrics_documentation[column]|raw }}
+                       {{ properties.metrics_documentation[column]|rawSafeDecoded|raw }}
                    </div>
                {% endif %}
                <div id="thDIV" class="thDIV">{{ properties.translations[column]|default(column)|rawSafeDecoded }}</div>

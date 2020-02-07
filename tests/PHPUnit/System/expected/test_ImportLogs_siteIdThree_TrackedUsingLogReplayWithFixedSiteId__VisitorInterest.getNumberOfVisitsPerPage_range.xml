@@ -3,41 +3,51 @@
 	<row>
 		<label>1 page</label>
 		<nb_visits>11</nb_visits>
+		<segment>actions==1</segment>
 	</row>
 	<row>
 		<label>2 pages</label>
 		<nb_visits>2</nb_visits>
+		<segment>actions==2</segment>
 	</row>
 	<row>
 		<label>3 pages</label>
 		<nb_visits>2</nb_visits>
+		<segment>actions==3</segment>
 	</row>
 	<row>
 		<label>4 pages</label>
 		<nb_visits>0</nb_visits>
+		<segment>actions==4</segment>
 	</row>
 	<row>
 		<label>5 pages</label>
 		<nb_visits>0</nb_visits>
+		<segment>actions==5</segment>
 	</row>
 	<row>
 		<label>6-7 pages</label>
 		<nb_visits>0</nb_visits>
+		<segment>actions&gt;=6;actions&lt;=7</segment>
 	</row>
 	<row>
 		<label>8-10 pages</label>
 		<nb_visits>0</nb_visits>
+		<segment>actions&gt;=8;actions&lt;=10</segment>
 	</row>
 	<row>
 		<label>11-14 pages</label>
 		<nb_visits>0</nb_visits>
+		<segment>actions&gt;=11;actions&lt;=14</segment>
 	</row>
 	<row>
 		<label>15-20 pages</label>
 		<nb_visits>0</nb_visits>
+		<segment>actions&gt;=15;actions&lt;=20</segment>
 	</row>
 	<row>
 		<label>21+ pages</label>
 		<nb_visits>0</nb_visits>
+		<segment>actions&gt;=21</segment>
 	</row>
 </result>

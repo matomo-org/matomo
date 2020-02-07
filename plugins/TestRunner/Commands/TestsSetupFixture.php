@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,6 +10,7 @@ namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Application\Environment;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Tests\Framework\TestingEnvironmentManipulator;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -87,12 +88,17 @@ class TestsSetupFixture extends ConsoleCommand
             "Used by UI tests. Sets the \$_SERVER global variable from a JSON string.");
         $this->addOption('plugins', null, InputOption::VALUE_REQUIRED,
             "Used by UI tests. Comma separated list of plugin names to activate and install when setting up a fixture.");
+        $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'If enabled, tests will log to the configured log file.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!defined('PIWIK_TEST_MODE')) {
             define('PIWIK_TEST_MODE', true);
+        }
+
+        if ($input->getOption('enable-logging')) {
+            putenv("MATOMO_TESTS_ENABLE_LOGGING=1");
         }
 
         Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
@@ -102,13 +108,17 @@ class TestsSetupFixture extends ConsoleCommand
             $_SERVER = json_decode($serverGlobal, true);
         }
 
+        // Tear down any DB that already exists
+        Db::destroyDatabaseObject();
+
         if(Config::getInstance()->database_tests['tables_prefix'] !== '') {
             throw new \Exception("To generate OmniFixture for the UI tests, you must set an empty tables_prefix in [database_tests]");
         }
+
         $this->requireFixtureFiles($input);
         $this->setIncludePathAsInTestBootstrap();
 
-        $host = Url::getHost();
+        $host = Config::getHostname();
         if (empty($host)) {
             $host = 'localhost';
             Url::setHost('localhost');
@@ -154,7 +164,7 @@ class TestsSetupFixture extends ConsoleCommand
     private function createSymbolicLinksForUITests()
     {
         // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-        foreach (array('libs', 'plugins', 'tests', 'misc', 'piwik.js') as $linkName) {
+        foreach (array('libs', 'plugins', 'tests', 'misc', 'piwik.js', 'matomo.js') as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
                 $target = PIWIK_INCLUDE_PATH . '/' . $linkName;
@@ -235,7 +245,8 @@ class TestsSetupFixture extends ConsoleCommand
 
         $extraPluginsToLoad = $input->getOption('plugins');
         if ($extraPluginsToLoad) {
-            $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
+            $fixture->extraPluginsToLoad = array_merge($fixture->extraPluginsToLoad, explode(',', $extraPluginsToLoad));
+            $fixture->extraPluginsToLoad = array_unique($fixture->extraPluginsToLoad);
         }
 
         $fixture->extraDiEnvironments = array('ui-test');
@@ -245,8 +256,6 @@ class TestsSetupFixture extends ConsoleCommand
 
     private function requireFixtureFiles(InputInterface $input)
     {
-        require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
         $file = $input->getOption('file');
         if ($file) {
             if (is_file($file)) {

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -34,25 +34,27 @@ class Pie extends JqplotGraph
     {
         parent::beforeRender();
 
+        $this->checkRequestIsNotForMultiplePeriods();
+
         $this->config->show_all_ticks = true;
         $this->config->datatable_js_type = 'JqplotPieGraphDataTable';
     }
 
-    public function afterAllFiltersAreApplied()
+    protected function ensureValidColumnsToDisplay()
     {
-        parent::afterAllFiltersAreApplied();
+        parent::ensureValidColumnsToDisplay();
 
-        $metricColumn = reset($this->config->columns_to_display);
+        $columnsToDisplay = $this->config->columns_to_display;
 
-        if ($metricColumn == 'label') {
-            $metricColumn = next($this->config->columns_to_display);
-        }
+        // Ensure only one column_to_display - it is a pie graph after all!
+        $metricColumn = reset($columnsToDisplay);
 
+        // Set to a sensible default if no suitable value was found
         $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('pie', $properties);
+        return JqplotDataGenerator::factory('pie', $properties, $this);
     }
 }

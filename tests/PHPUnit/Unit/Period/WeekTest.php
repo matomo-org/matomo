@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -127,7 +127,7 @@ class WeekTest extends BasePeriodTest
     {
         return array(
             array('en', array('Oct 7 – 13, 2024', 'Nov 25 – Dec 1, 2024', 'Dec 30, 2024 – Jan 5, 2025')),
-            array('lt', array('2024 Spal. 7–13', '2024 Lapkr. 25 – Gruod. 1', '2024 Gruod. 30 – 2025 Saus. 5')),
+            array('lt', array('2024 spal. 7–13', '2024 lapkr. 25 – gruod. 1', '2024 gruod. 30 – 2025 saus. 5')),
             array('zh-cn', array('2024年10月7日至13日', '2024年11月25日至12月1日', '2024年12月30日至2025年01月5日')),
         );
     }
@@ -156,8 +156,8 @@ class WeekTest extends BasePeriodTest
     {
         return array(
             array('en', array('week October 7 – 13, 2024', 'week November 25 – December 1, 2024', 'week December 30, 2024 – January 5, 2025')),
-            array('es', array('semana 7–13 de Octubre de 2024', 'semana 25 de Noviembre–1 de Diciembre de 2024', 'semana 30 de Diciembre de 2024–5 de Enero de 2025')),
-            array('lt', array('savaitė 2024 Spalio 7–13', 'savaitė 2024 Lapkričio 25 – Gruodžio 1', 'savaitė 2024 Gruodžio 30 – 2025 Sausio 5')),
+            array('es', array('semana 7–13 de octubre de 2024', 'semana 25 de noviembre–1 de diciembre de 2024', 'semana 30 de diciembre de 2024–5 de enero de 2025')),
+            array('lt', array('savaitė 2024 spalio 7–13', 'savaitė 2024 lapkričio 25 – gruodžio 1', 'savaitė 2024 gruodžio 30 – 2025 sausio 5')),
             array('zh-cn', array('周 2024年10月7日至13日', '周 2024年11月25日至12月1日', '周 2024年12月30日至2025年01月5日')),
         );
     }

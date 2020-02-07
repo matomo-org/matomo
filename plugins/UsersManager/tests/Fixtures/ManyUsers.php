@@ -9,6 +9,7 @@ namespace Piwik\Plugins\UsersManager\tests\Fixtures;
 
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -121,7 +122,8 @@ class ManyUsers extends Fixture
                     }
 
                     if ($access == 'superuser') {
-                        $api->setSuperUserAccess($login, true);
+                        $userUpdater = new UserUpdater();
+                        $userUpdater->setSuperUserAccessWithoutCurrentPassword($login, true);
                     } else {
                         $api->setUserAccess($login, $access, $idSites);
                     }

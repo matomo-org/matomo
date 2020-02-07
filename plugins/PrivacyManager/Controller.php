@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -58,15 +58,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // delete reports settings
         $settings['delete_reports_enable'] = Common::getRequestVar("enableDeleteReports", 0);
         $deleteReportsOlderThan = Common::getRequestVar("deleteReportsOlderThan", 3);
-        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 3 ? 3 : $deleteReportsOlderThan;
-        $settings['delete_reports_keep_basic_metrics']   = Common::getRequestVar("keepBasic", 0);
-        $settings['delete_reports_keep_day_reports']     = Common::getRequestVar("keepDay", 0);
-        $settings['delete_reports_keep_week_reports']    = Common::getRequestVar("keepWeek", 0);
-        $settings['delete_reports_keep_month_reports']   = Common::getRequestVar("keepMonth", 0);
-        $settings['delete_reports_keep_year_reports']    = Common::getRequestVar("keepYear", 0);
-        $settings['delete_reports_keep_range_reports']   = Common::getRequestVar("keepRange", 0);
-        $settings['delete_reports_keep_segment_reports'] = Common::getRequestVar("keepSegments", 0);
-        $settings['delete_logs_max_rows_per_query']      = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
+        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 2 ? 2 : $deleteReportsOlderThan;
+        $settings['delete_reports_keep_basic_metrics']             = Common::getRequestVar("keepBasic", 0);
+        $settings['delete_reports_keep_day_reports']               = Common::getRequestVar("keepDay", 0);
+        $settings['delete_reports_keep_week_reports']              = Common::getRequestVar("keepWeek", 0);
+        $settings['delete_reports_keep_month_reports']             = Common::getRequestVar("keepMonth", 0);
+        $settings['delete_reports_keep_year_reports']              = Common::getRequestVar("keepYear", 0);
+        $settings['delete_reports_keep_range_reports']             = Common::getRequestVar("keepRange", 0);
+        $settings['delete_reports_keep_segment_reports']           = Common::getRequestVar("keepSegments", 0);
+        $settings['delete_logs_max_rows_per_query']                = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
+        $settings['delete_logs_unused_actions_max_rows_per_query'] = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
 
         return $settings;
     }
@@ -233,7 +234,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($settings['delete_logs_enable']) {
             /** @var LogDataPurger $logDataPurger */
             $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-            $logDataPurger->purgeData($settings['delete_logs_older_than']);
+            $logDataPurger->purgeData($settings['delete_logs_older_than'], true);
         }
         if ($settings['delete_reports_enable']) {
             $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());

@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
+use Piwik\API\Request;
 use Piwik\Piwik;
 
 /**
@@ -112,7 +113,21 @@ class API extends \Piwik\Plugin\API
      */
     public function copyDashboardToUser($idDashboard, $copyToUser, $dashboardName = '')
     {
-        Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkUserHasSomeAdminAccess();
+
+        // get users only returns users of sites the current user has at least admin access to
+        $users = Request::processRequest('UsersManager.getUsers', ['filter_limit' => -1]);
+        $userFound = false;
+        foreach ($users as $user) {
+            if ($user['login'] === $copyToUser) {
+                $userFound = true;
+                break;
+            }
+        }
+
+        if (!$userFound) {
+            throw new \Exception(sprintf('Cannot copy dashboard to user %s, user not found.', $copyToUser));
+        }
 
         $login  = Piwik::getCurrentUserLogin();
         $layout = $this->dashboard->getLayoutForUser($login, $idDashboard);

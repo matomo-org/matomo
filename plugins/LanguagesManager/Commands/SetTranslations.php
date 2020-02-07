@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -42,7 +42,7 @@ class SetTranslations extends TranslationBase
         $languageCode = $input->getOption('code');
         $filename     = $input->getOption('file');
 
-        $languageCodes = API::getInstance()->getAvailableLanguages();
+        $languageCodes = (new API())->getAvailableLanguages();
 
         if (empty($languageCode) || !in_array($languageCode, $languageCodes)) {
             $languageCode = $dialog->askAndValidate($output, 'Please provide a valid language code: ', function ($code) use ($languageCodes) {

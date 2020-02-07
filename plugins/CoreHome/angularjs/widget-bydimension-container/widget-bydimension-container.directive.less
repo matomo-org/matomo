@@ -1,13 +1,20 @@
 .reportsByDimensionView {
 
+    float: left;
+    width: 100%;
+
     .dimensionCategory {
         color: @theme-color-text-contrast;
     }
 
     .reportContainer {
-        position: absolute;
-        margin-left: 230px;
+        padding-left: 230px;
         min-width: 500px;
+        width: 100%;
+
+        .dimensionReport {
+            float: left;
+        }
 
         table.dataTable tr td.label {
             max-width: 380px;

@@ -64,7 +64,7 @@
             var getDashboard = dashboardsModel.getDashboard(dashboardId);
             var getLayout = dashboardsModel.getDashboardLayout(dashboardId);
 
-            $q.all([getDashboard, getLayout]).then(function (response) {
+            return $q.all([getDashboard, getLayout]).then(function (response) {
                 var dashboard = response[0];
                 var layout = response[1];
 
@@ -89,7 +89,7 @@
 
                 scope.$parent.fetchDashboard = function (dashboardId) {
                     scope.dashboardId = dashboardId;
-                    fetchDashboard(dashboardId)
+                    return fetchDashboard(dashboardId)
                 };
 
                 fetchDashboard(scope.dashboardid);

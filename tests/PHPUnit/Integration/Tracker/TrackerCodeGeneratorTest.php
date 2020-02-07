@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -39,7 +39,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   _paq.push([\"setCookieDomain\", \"*.localhost\"]);
@@ -57,13 +57,13 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;//piwik-server/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/piwik.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
+&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/matomo.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
 &lt;!-- End Matomo Code --&gt;
 ";
 
@@ -78,16 +78,16 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;//localhost/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -116,7 +116,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -131,10 +131,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;https://localhost/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -163,7 +163,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -179,10 +179,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   (function() {
     var u=&quot;//localhost/piwik/&quot;;
     _paq.push(['setAPIUrl', 'http://localhost/statistics']);
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -207,19 +207,19 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;//localhost/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     
   })();
 &lt;/script&gt;
-&lt;script type='text/javascript' src=&quot;//localhost/piwik/piwik.js&quot;&gt;&lt;/script&gt;
+&lt;script type='text/javascript' src=&quot;//localhost/piwik/matomo.js&quot;&gt;&lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
 ";
 
@@ -244,7 +244,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = '&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -257,10 +257,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\'enableLinkTracking\']);
   (function() {
     var u=&quot;//abc&quot;def/&quot;;
-    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
+    _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
     _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
+    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -278,16 +278,16 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = '&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\'trackPageView\']);
   _paq.push([\'enableLinkTracking\']);
   (function() {
     var u=&quot;https://localhost/piwik/&quot;;
-    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
+    _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
     _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
+    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;

@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Cache;
+use Matomo\Cache\Lazy;
 
 /**
  * Caches another provider.
@@ -21,7 +22,7 @@ class ProviderCache implements MetricsProvider
     private $provider;
 
     /**
-     * @var Cache\Lazy
+     * @var Lazy
      */
     private $cache;
 

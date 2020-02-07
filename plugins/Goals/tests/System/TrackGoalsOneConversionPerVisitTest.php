@@ -38,6 +38,23 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
                 'idSite'       => self::$fixture->idSite,
                 'date'         => self::$fixture->dateTime,
                 'periods'      => array('day'))),
+            array($apiToCall, array(
+                'otherRequestParameters' => array(
+                    'showAllGoalSpecificMetrics' =>1
+                ),
+                'testSuffix' => 'showAllGoalSpecificMetrics',
+                'idSite'       => self::$fixture->idSite,
+                'date'         => self::$fixture->dateTime,
+                'periods'      => array('day'))),
+            array($apiToCall, array(
+                'otherRequestParameters' => array(
+                    'showAllGoalSpecificMetrics' =>1,
+                    'columns' => 'goal_1_conversion_rate'
+                ),
+                'testSuffix' => 'showAllGoalSpecificMetrics_requestedColumns',
+                'idSite'       => self::$fixture->idSite,
+                'date'         => self::$fixture->dateTime,
+                'periods'      => array('day'))),
             // test for https://github.com/piwik/piwik/issues/9194 requesting log_conversion with log_link_visit_action segment
             array($apiToCall, array(
                 'idSite' => self::$fixture->idSite,

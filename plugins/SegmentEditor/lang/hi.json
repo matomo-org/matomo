@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "बनाएँ और खंड संपादक के साथ कस्टम विज़िटर सेगमेंट का पुन: उपयोग।",
         "AddANDorORCondition": "शर्त %s जोड़ें",
         "AddNewSegment": "नया खंड जोड़ें",
         "AreYouSureDeleteSegment": "क्या आप इस खंड को हटाना चाहते हैं?",
@@ -20,6 +19,7 @@
         "ThisSegmentIsVisibleTo": "इस खंड के लिए दिख रहा है:",
         "VisibleToAllUsers": "सभी उपयोगकर्ताओं",
         "VisibleToMe": "मुझे",
-        "YouMustBeLoggedInToCreateSegments": "आपको कस्टम आगंतुक खंड बनाने और संपादित करने के लिए लॉग इन करना होगा."
+        "YouMustBeLoggedInToCreateSegments": "आपको कस्टम आगंतुक खंड बनाने और संपादित करने के लिए लॉग इन करना होगा.",
+        "Test": "परीक्षण"
     }
 }

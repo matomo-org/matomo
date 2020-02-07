@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Ce User-Agent est détecté comme %1$s. Les visites avec ce user agent ne seront pas traquées par défaut dans Matomo.",
         "BrowserEngine": "Moteur de rendu HTML",
         "BrowserEngineDocumentation": "Ce rapport affiche les navigateurs de vos visiteurs divisés par moteurs. %s L'information la plus importante pour des développeurs web est quelle sorte de moteur de rendu utilisent les visiteurs. Les labels contiennent le nom du moteur suivi par le navigateur le plus commun utilisant ce moteur entre parenthèses.",
         "BrowserEngines": "Moteurs de rendu HTML",
@@ -11,6 +12,7 @@
         "CarBrowser": "Navigateur de voiture",
         "Software": "Logiciel",
         "ColumnBrowser": "Navigateur",
+        "BrowserCode": "Code navigateur",
         "ColumnOperatingSystem": "Système d'exploitation",
         "ColumnOperatingSystemVersion": "Version du système d'exploitation",
         "Console": "Console",
@@ -30,11 +32,13 @@
         "FeaturePhone": "Fonctionnalité téléphone",
         "OperatingSystemFamilies": "Familles de systèmes d'exploitations",
         "OperatingSystemFamily": "Famille de systèmes d'exploitations",
+        "OperatingSystemCode": "Code système d'exploitation",
         "OperatingSystems": "Système d'exploitation",
         "OperatingSystemVersions": "Versions de système d'exploitation",
         "PluginDescription": "Fournit des informations détaillés à propos des périphériques de l'utilisateur telles que la Marque (fabriquant), le Modèle (version pérhip.), type de périph. (tv, consoles, téléphone intelligent, ordinateur, etc) et plus.",
         "SmartDisplay": "Affichage intelligent",
         "Smartphone": "Téléphone intelligent (smartphone)",
+        "SmartSpeaker": "Haut-parleur intelligent",
         "PortableMediaPlayer": "Lecteur de medias portable",
         "Devices": "Périphériques",
         "GenericDevice": "Générique %s",

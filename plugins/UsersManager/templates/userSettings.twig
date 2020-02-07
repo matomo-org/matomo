@@ -14,25 +14,21 @@
     <form id="userSettingsTable" piwik-form ng-controller="PersonalSettingsController as personalSettings">
 
         <div piwik-field uicontrol="text" name="username"
-             title="{{ 'General_Username'|translate|e('html_attr') }}"
-             value="{{ userLogin }}" disabled="true"
+             data-title="{{ 'General_Username'|translate|e('html_attr') }}"
+             value="{{ userLogin }}" data-disabled="true"
              ng-model="personalSettings.username"
              inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
         </div>
 
-        <div piwik-field uicontrol="text" name="alias"
-             ng-model="personalSettings.alias"
-             maxlength="45"
-             title="{{ 'UsersManager_Alias'|translate|e('html_attr') }}"
-             value="{{ userAlias|raw }}">
-        </div>
-
+        {% if isUsersAdminEnabled %}
         <div piwik-field uicontrol="text" name="email"
              ng-model="personalSettings.email"
+             ng-change="personalSettings.requirePasswordConfirmation()"
              maxlength="100"
-             title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
+             data-title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
              value="{{ userEmail }}">
         </div>
+        {% endif %}
 
         <div id="languageHelp" class="inline-help-node">
             <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/translations/">
@@ -41,7 +37,7 @@
 
         <div piwik-field uicontrol="select" name="language"
              ng-model="personalSettings.language"
-             title="{{ 'General_Language'|translate|e('html_attr') }}"
+             data-title="{{ 'General_Language'|translate|e('html_attr') }}"
              options="{{ languageOptions|json_encode }}"
              inline-help="#languageHelp"
              value="{{ currentLanguageCode }}">
@@ -49,14 +45,14 @@
 
         <div piwik-field uicontrol="select" name="timeformat"
              ng-model="personalSettings.timeformat"
-             title="{{ 'General_TimeFormat'|translate|e('html_attr') }}"
+             data-title="{{ 'General_TimeFormat'|translate|e('html_attr') }}"
              value="{{ currentTimeformat }}" options="{{ timeFormats|json_encode }}">
         </div>
 
         <div piwik-field uicontrol="radio" name="defaultReport"
              ng-model="personalSettings.defaultReport"
              introduction="{{ 'UsersManager_ReportToLoadByDefault'|translate|e('html_attr') }}"
-             title="{{ 'General_AllWebsitesDashboard'|translate|e('html_attr') }}"
+             data-title="{{ 'General_AllWebsitesDashboard'|translate|e('html_attr') }}"
              value="{{ defaultReport }}" options="{{ defaultReportOptions|json_encode }}">
         </div>
 
@@ -65,7 +61,7 @@
              show-selected-site="true"
              class="sites_autocomplete"
              siteid="{{ defaultReportIdSite }}"
-             sitename="{{ defaultReportSiteName }}"
+             sitename="{{ defaultReportSiteName|rawSafeDecoded }}"
              switch-site-on-select="false"
              show-all-sites-item="false"
              showselectedsite="true"
@@ -78,18 +74,20 @@
              value="{{ defaultDate }}" options="{{ availableDefaultDates|json_encode }}">
         </div>
 
-        {% if isValidHost is defined and isValidHost %}
+        {% if isValidHost is defined and isValidHost and isUsersAdminEnabled %}
 
             <div piwik-field uicontrol="password" name="password" autocomplete="off"
                  ng-model="personalSettings.password"
+                 ng-change="personalSettings.requirePasswordConfirmation()"
                  introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
-                 title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
+                 data-title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
             </div>
 
             <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
                  ng-model="personalSettings.passwordBis"
-                 title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
+                 ng-change="personalSettings.requirePasswordConfirmation()"
+                 data-title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
             </div>
         {% endif %}
@@ -104,18 +102,59 @@
         <div piwik-save-button onconfirm="personalSettings.save()"
              saving="personalSettings.loading"></div>
 
+        <div class="modal" id="confirmChangesWithPassword">
+            <div class="modal-content">
+                <h2>{{ 'UsersManager_ConfirmWithPassword'|translate }}</h2>
+
+                <div piwik-field uicontrol="password" name="currentPassword" autocomplete="off"
+                     ng-model="personalSettings.passwordCurrent"
+                     full-width="true"
+                     data-title="{{ 'UsersManager_YourCurrentPassword'|translate|e('html_attr') }}"
+                     value="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-action btn" ng-click="personalSettings.save()">{{ 'General_Ok'|translate }}</a>
+                <a href="javascript:void(0)" class="modal-action modal-close modal-no"  ng-click="personalSettings.cancelSave()">{{ 'General_Cancel'|translate }}</a>
+            </div>
+        </div>
+
     </form>
 </div>
+
+{% if showNewsletterSignup %}
+<div ng-controller="PersonalSettingsController as personalSettings">
+    <div piwik-content-block id="newsletterSignup"
+         ng-show="personalSettings.showNewsletterSignup"
+         content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
+
+        <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox"
+             ng-model="personalSettings.newsletterSignupCheckbox"
+             full-width="true"
+             data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"
+             >
+        </div>
+
+        <div piwik-save-button id="newsletterSignupBtn"
+             onconfirm="personalSettings.signupForNewsletter()"
+             data-disabled="!personalSettings.newsletterSignupCheckbox"
+             value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
+             saving="personalSettings.isProcessingNewsletterSignup">
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div piwik-content-block
      content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
     <pre piwik-select-on-focus id="token_auth_user" piwik-show-sensitive-data="{{ userTokenAuth }}"></pre>
 
-    <p>{{ 'UsersManager_TokenRegenerateLogoutWarning'|translate }}</p>
     <button class="btn btn-link"
             ng-controller="PersonalSettingsController as personalSettings"
             ng-click="personalSettings.regenerateTokenAuth()">{{ 'UsersManager_TokenRegenerateTitle'|translate }}</button>
 </div>
+
+{{ postEvent('Template.userSettings.afterTokenAuth') }}
 
 <div piwik-plugin-settings mode="user"></div>
 

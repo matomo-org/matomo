@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -104,13 +104,12 @@ class UserTableFilter
             case 'some':
                 $sql = "(a.access IS NOT NULL OR u.superuser_access = 1)";
                 break;
-            case 'view':
-            case 'admin':
-                $sql = "a.access = ?";
-                $bind[] = $this->filterByRole;
-                break;
             case 'superuser':
                 $sql = "u.superuser_access = 1";
+                break;
+            default:
+                $sql = "a.access = ?";
+                $bind[] = $this->filterByRole;
                 break;
         }
 

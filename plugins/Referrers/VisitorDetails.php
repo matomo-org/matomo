@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers;
 
+use Piwik\Common;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\UrlHelper;
 use Piwik\View;
@@ -53,7 +54,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getKeyword()
     {
-        $keyword = $this->details['referer_keyword'];
+        $keyword = Common::unsanitizeInputValue($this->details['referer_keyword']);
 
         if ($this->getReferrerType() == 'search') {
             $keyword = API::getCleanKeyword($keyword);

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -822,7 +822,7 @@ abstract class Dimension
      *                        $dimensionId or if the plugin that contains the Dimension is
      *                        not loaded.
      * @api
-     * @deprecated Please use DimensionProvider::factory instead
+     * @deprecated Please use DimensionsProvider::factory instead
      */
     public static function factory($dimensionId)
     {

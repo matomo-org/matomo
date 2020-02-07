@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Contents\tests\Fixtures;
@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Contents\tests\Fixtures;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Tests\Framework\Fixture;
-use PiwikTracker;
+use MatomoTracker;
 
 /**
  * Tracks contents
@@ -56,13 +56,13 @@ class TwoVisitsWithContents extends Fixture
         $this->trackContentImpressionsAndInteractions($vis2);
     }
 
-    private function moveTimeForward(PiwikTracker $vis, $minutes)
+    private function moveTimeForward(MatomoTracker $vis, $minutes)
     {
         $hour = $minutes / 60;
         $vis->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hour)->getDatetime());
     }
 
-    protected function trackContentImpressionsAndInteractions(PiwikTracker $vis)
+    protected function trackContentImpressionsAndInteractions(MatomoTracker $vis)
     {
         $vis->setUrl('http://www.example.org/page');
         $vis->setGenerationTime(333);
@@ -83,6 +83,10 @@ class TwoVisitsWithContents extends Fixture
         $this->moveTimeForward($vis, 4);
         self::checkResponse($vis->doTrackContentImpression('Text Ad', 'Click to download Piwik now', ''));
 
+        $this->moveTimeForward($vis, 4.5);
+        self::checkResponse($vis->doTrackContentImpression('Video Ad', 'movie.mov'));
+
+        $vis->setUrl('http://www.example.com/de/suche?q=foo');
         $this->moveTimeForward($vis, 4.5);
         self::checkResponse($vis->doTrackContentImpression('Video Ad', 'movie.mov'));
     }

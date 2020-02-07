@@ -2,12 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SitesManager\tests\System;
 
+use Piwik\Db\Schema\Mysql;
+use Piwik\Option;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -66,6 +68,39 @@ class ApiTest extends SystemTestCase
         );
 
         return $apiToTest;
+    }
+
+    public function test_InstalledBeforeMatomo37()
+    {
+        $this->setInstallVersion('3.6.0');
+        $this->runApiTests(array('SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'), array(
+            'idSite' => 1,
+            'testSuffix' => '_prior3_7_0'
+        ));
+    }
+
+    public function test_InstalledBeforeMatomo37ButForced()
+    {
+        $this->setInstallVersion('3.6.0');
+        $this->runApiTests(array('SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'), array(
+            'idSite' => 1,
+            'otherRequestParameters' => array('forceMatomoEndpoint' => 1),
+            'testSuffix' => '_prior3_7_0_but_forced'
+        ));
+    }
+
+    public function test_InstalledAfterMatomo37()
+    {
+        $this->setInstallVersion('3.7.0');
+        $this->runApiTests(array('SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'), array(
+            'idSite' => 1,
+            'testSuffix' => '_after3_7_0'
+        ));
+    }
+
+    private function setInstallVersion($installVersion)
+    {
+        Option::set(Mysql::OPTION_NAME_MATOMO_INSTALL_VERSION, $installVersion);
     }
 
     public static function getOutputPrefix()

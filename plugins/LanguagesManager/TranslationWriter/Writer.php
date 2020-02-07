@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\FilterAbstract;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\ValidateAbstract;
 
@@ -201,7 +202,7 @@ class Writer
             if ($base == 'tmp') {
                 return sprintf('%s/plugins/%s/lang/%s.json', StaticContainer::get('path.tmp'), $this->pluginName, $lang);
             } else {
-                return sprintf('%s/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->pluginName, $lang);
+                return sprintf('%s/lang/%s.json', Manager::getPluginDirectory($this->pluginName), $lang);
             }
         }
 

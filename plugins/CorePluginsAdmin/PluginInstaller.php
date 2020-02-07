@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,8 @@ use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Dependency as PluginDependency;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Unzip;
 use Piwik\Plugins\Marketplace\Api\Client;
@@ -25,7 +27,6 @@ use Piwik\Plugins\Marketplace\Api\Client;
 class PluginInstaller
 {
     const PATH_TO_DOWNLOAD = '/latest/plugins/';
-    const PATH_TO_EXTRACT = '/plugins/';
 
     private $pluginName;
 
@@ -129,10 +130,13 @@ class PluginInstaller
 
     private function makeSureFoldersAreWritable()
     {
-        Filechecks::dieIfDirectoriesNotWritable(array(
+        $dirs = array(
             StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD,
-            self::PATH_TO_EXTRACT
-        ));
+            Manager::getPluginsDirectory()
+        );
+        // we do not require additional plugin directories to be writeable ({@link Manager::getPluginsDirectories()})
+        // as we only upload to core plugins directory anyway
+        Filechecks::dieIfDirectoriesNotWritable($dirs);
     }
 
     /**
@@ -194,7 +198,7 @@ class PluginInstaller
         }
 
         $dependency = new PluginDependency();
-        $dependency->setEnvironment($this->marketplaceClient->getEnvironment());
+        $dependency->setEnvironment($this->getEnvironment());
         $missingDependencies = $dependency->getMissingDependencies($requires);
 
         if (!empty($missingDependencies)) {
@@ -294,11 +298,16 @@ class PluginInstaller
 
     private function copyPluginToDestination($tmpPluginFolder)
     {
-        $pluginTargetPath = PIWIK_USER_PATH . self::PATH_TO_EXTRACT . $this->pluginName;
+        $pluginsDir = Manager::getPluginsDirectory();
+
+        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])) {
+            $pluginsDir = $GLOBALS['MATOMO_PLUGIN_COPY_DIR'];
+        }
+        $pluginTargetPath = $pluginsDir . $this->pluginName;
 
         $this->removeFolderIfExists($pluginTargetPath);
 
-        Filesystem::copyRecursive($tmpPluginFolder, PIWIK_USER_PATH . self::PATH_TO_EXTRACT);
+        Filesystem::copyRecursive($tmpPluginFolder, $pluginsDir);
     }
 
     /**
@@ -337,6 +346,15 @@ class PluginInstaller
     {
         if (!isset($this->marketplaceClient)) {
             throw new PluginInstallerException('Marketplace plugin needs to be enabled to perform this action.');
+        }
+    }
+
+    private function getEnvironment()
+    {
+        if ($this->marketplaceClient) {
+            return $this->marketplaceClient->getEnvironment();
+        } else {
+            return StaticContainer::get(Environment::class);
         }
     }
 

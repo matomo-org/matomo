@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Giver indsigt i din trafik. Indsigt findes som kontrolpanel widgets og som nyt ikon i rapporter for at lade dig se de vigtigste tendenser i dine data.",
+        "PluginDescription": "Få indsigt om din trafik. Indsigt er tilgængelig som dashboardwidgets såvel som et nyt ikon i rapporter, som giver dig mulighed for at se tendenser i dine data.",
         "ControlComparedToDescription": "Vækst i forhold til",
         "ControlFilterByDescription": "Vis alle, kun ændringer, kun nye eller kun forsvundne",
         "DatePeriodCombinationNotSupported": "Det er ikke muligt at generere rapporter til disse datoer og kombination af perioder.",
@@ -26,7 +26,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s ændret fra %2$s til %3$s i forhold til %4$s. Baseret på dette forventes en videreudvikling for hver række på %5$s%%.",
         "TitleRowChangeDetails": "'%1$s' ændres fra %2$s (%3$s) til %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' faldt med %2$s og er forsvand i %3$s i forhold til %4$s.",
-        "TitleRowMoverAndShaker": "Denne række havde en større effekt end gennemsnittet.",
+        "TitleRowMoverAndShaker": "Denne række havde en højere effekt end gennemsnittet.",
         "TitleRowNewDetails": "'%1$s' øget med %2$s og er ny i forhold til %3$s.",
         "WeekComparedToPreviousWeek": "forrige uge",
         "WidgetCategory": "Indsigt",

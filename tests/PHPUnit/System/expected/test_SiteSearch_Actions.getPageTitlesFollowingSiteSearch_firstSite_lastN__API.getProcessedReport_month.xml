@@ -10,6 +10,7 @@
 		<action>getPageTitlesFollowingSiteSearch</action>
 		<dimension>Destination Page</dimension>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 			<nb_hits>Pageviews</nb_hits>
@@ -66,5 +67,10 @@
 	<reportTotal>
 		<nb_visits>2</nb_visits>
 		<nb_hits>3</nb_hits>
+		<sum_time_spent>252</sum_time_spent>
+		<nb_hits_following_search>2</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 	</reportTotal>
 </result>

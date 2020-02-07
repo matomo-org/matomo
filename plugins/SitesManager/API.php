@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,7 +14,8 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Network\IPUtils;
+use Piwik\Intl\Data\Provider\CurrencyDataProvider;
+use Matomo\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -60,7 +61,6 @@ class API extends \Piwik\Plugin\API
     const OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchKeywordParameters';
     const OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchCategoryParameters';
     const OPTION_EXCLUDED_USER_AGENTS_GLOBAL = 'SitesManager_ExcludedUserAgentsGlobal';
-    const OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE = 'SitesManager_EnableSiteSpecificUserAgentExclude';
     const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
 
     /**
@@ -101,13 +101,14 @@ class API extends \Piwik\Plugin\API
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @param bool $trackNoScript
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
                                      $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
-                                     $crossDomain = false)
+                                     $crossDomain = false, $forceMatomoEndpoint = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -124,6 +125,10 @@ class API extends \Piwik\Plugin\API
         $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
 
         $generator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $generator->forceMatomoEndpoint();
+        }
+
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
@@ -139,9 +144,10 @@ class API extends \Piwik\Plugin\API
      * @param string $piwikUrl The domain and URL path to the Matomo installation.
      * @param int $idGoal An ID for a goal to trigger a conversion for.
      * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The HTML tracking code.
      */
-    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false)
+    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false, $forceMatomoEndpoint = false)
     {
         $urlParams = array('idsite' => $idSite, 'rec' => 1);
 
@@ -168,7 +174,13 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
 
-        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php?' . Url::getQueryStringFromParameters($urlParams);
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $trackerCodeGenerator->forceMatomoEndpoint();
+        }
+        $matomoPhp = $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/'.$matomoPhp.'?' . Url::getQueryStringFromParameters($urlParams);
         $html = "<!-- Matomo Image Tracker-->
 <img src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
@@ -191,7 +203,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -272,7 +284,7 @@ class API extends \Piwik\Plugin\API
             $return[$site['idsite']] = $site;
         }
 
-        Site::setSitesFromArray($return);
+        $return = Site::setSitesFromArray($return);
 
         return $return;
     }
@@ -343,7 +355,7 @@ class API extends \Piwik\Plugin\API
                 $this->enrichSite($site);
             }
 
-            Site::setSitesFromArray($sites);
+            $sites = Site::setSitesFromArray($sites);
         }
 
         if ($fetchAliasUrls) {
@@ -472,7 +484,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }
@@ -547,6 +559,11 @@ class API extends \Piwik\Plugin\API
         $name = Piwik::translate($key);
 
         $site['currency_name'] = ($key === $name) ? $site['currency'] : $name;
+
+        // don't want to expose other user logins here
+        if (!Piwik::hasUserSuperUserAccess()) {
+            unset($site['creator_login']);
+        }
     }
 
     /**
@@ -598,6 +615,7 @@ class API extends \Piwik\Plugin\API
                             $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasSuperUserAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $this->checkName($siteName);
 
@@ -647,6 +665,8 @@ class API extends \Piwik\Plugin\API
         } else {
             $bind['group'] = "";
         }
+
+        $bind['creator_login'] = Piwik::getCurrentUserLogin();
 
         $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
 
@@ -776,6 +796,7 @@ class API extends \Piwik\Plugin\API
     public function deleteSite($idSite)
     {
         Piwik::checkUserHasSuperUserAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $idSites = $this->getSitesId();
         if (!in_array($idSite, $idSites)) {
@@ -1045,11 +1066,11 @@ class API extends \Piwik\Plugin\API
      * only the global user agent substrings (see @setGlobalExcludedUserAgents) will be used.
      *
      * @return bool
+     * @deprecated Will be removed in Matomo 4.0
      */
     public function isSiteSpecificUserAgentExcludeEnabled()
     {
-        Piwik::checkUserHasSomeAdminAccess();
-        return (bool)Option::get(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE);
+        return true;
     }
 
     /**
@@ -1057,16 +1078,10 @@ class API extends \Piwik\Plugin\API
      * websites.
      *
      * @param bool $enabled
+     * @deprecated Will be removed in Matomo 4.0
      */
     public function setSiteSpecificUserAgentExcludeEnabled($enabled)
     {
-        Piwik::checkUserHasSuperUserAccess();
-
-        // update option
-        Option::set(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE, $enabled);
-
-        // make sure tracker cache will reflect change
-        Cache::deleteTrackerCache();
     }
 
     /**
@@ -1236,6 +1251,7 @@ class API extends \Piwik\Plugin\API
                                $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $idSites = $this->getSitesId();
 
@@ -1356,10 +1372,12 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currency = Site::getCurrencyList();
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        $currency = $dataProvider->getCurrencyList();
 
         $return = array();
-        foreach (array_keys(Site::getCurrencyList()) as $currencyCode) {
+        foreach (array_keys($currency) as $currencyCode) {
             $return[$currencyCode] = Piwik::translate('Intl_Currency_' . $currencyCode) .
               ' (' . Piwik::translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
         }
@@ -1376,7 +1394,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencySymbols()
     {
-        $currencies = Site::getCurrencyList();
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        $currencies =  $dataProvider->getCurrencyList();
+
         return array_map(function ($a) {
             return $a[0];
         }, $currencies);
@@ -1621,6 +1642,12 @@ class API extends \Piwik\Plugin\API
         }
 
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
+
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }

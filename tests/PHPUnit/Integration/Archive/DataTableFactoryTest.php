@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Db;
 use Piwik\Period;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -51,6 +52,8 @@ class DataTableFactoryTest extends IntegrationTestCase
         for ($i = 0; $i < $this->site2; $i++) {
             Fixture::createWebsite('2015-01-01 00:00:00');
         }
+
+        API::getInstance()->add('TEST SEGMENT', 'browserCode==ff');
     }
 
     public function test_makeMerged_numeric_noIndices_shouldContainDefaultRow_IfNoDataGiven()
@@ -273,7 +276,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $dataType  = 'blob';
         $dataNames = array('nb_visits');
 
-        $factory = new DataTableFactory($dataNames, $dataType, array($this->site1), $periods = array(), $this->defaultRow);
+        $factory = new DataTableFactory($dataNames, $dataType, array($this->site1), $periods = array(), new Segment('browserCode==ff', []), $this->defaultRow);
         $factory->makeMerged(array(), array());
     }
 
@@ -284,6 +287,12 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertFalse($dataTable->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX));
         $this->assertTrue($period instanceof Period);
         $this->assertSame($expectedPeriod, $period->toString());
+
+        $segment = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_SEGMENT_INDEX);
+        $this->assertEquals('browserCode==ff', $segment);
+
+        $segmentPretty = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_SEGMENT_PRETTY_INDEX);
+        $this->assertEquals('TEST SEGMENT', $segmentPretty);
     }
 
     private function assertRowCountEquals($expectedCount, $tableOrMap)
@@ -333,7 +342,7 @@ class DataTableFactoryTest extends IntegrationTestCase
             $siteIds = array($siteIds[0]);
         }
 
-        return new DataTableFactory($dataNames, $dataType, $siteIds, $periods, $defaultRow);
+        return new DataTableFactory($dataNames, $dataType, $siteIds, $periods, new Segment('browserCode==ff', []), $defaultRow);
     }
 
     private function getResultIndices($periodIndex = false, $siteIndex = false)

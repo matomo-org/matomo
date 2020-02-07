@@ -8,6 +8,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+function rowEvolutionGetMetricNameFromRow(tr)
+{
+    return $(tr).find('td [data-name]').text().trim();
+}
+
 (function ($, require) {
 
     var exports = require('piwik/UI'),
@@ -20,7 +25,7 @@
 
             return window.piwik.jqplotLabelFont || 'Arial';
         }
-        ;
+    ;
 
     exports.getLabelFontFamily = getLabelFontFamily;
 
@@ -161,9 +166,9 @@
             target.on('jqplotDataHighlight', function (e, seriesIndex, valueIndex) {
                 self._showDataPointTooltip(this, seriesIndex, valueIndex);
             })
-            .on('jqplotDataUnhighlight', function () {
-                self._destroyDataPointTooltip($(this));
-            });
+                .on('jqplotDataUnhighlight', function () {
+                    self._destroyDataPointTooltip($(this));
+                });
 
             // handle window resize
             this._plotWidth = target.innerWidth();
@@ -471,11 +476,47 @@
 
         /** Generate ticks in y direction */
         setYTicks: function () {
+            var $tempAxisElement = $('<div>').attr('class', 'jqplot-axis jqplot-y2axis').css({'visibility': 'hidden', 'display': 'inline-block'});
+            $('<span>')
+                .css('font-size', this.jqplotParams.axesDefaults.fontSize)
+                .css('font-family', this.jqplotParams.axesDefaults.fontFamily)
+                .appendTo($tempAxisElement);
+            $('body').append($tempAxisElement);
+
             // default axis
             this.setYTicksForAxis('yaxis', this.jqplotParams.axes.yaxis);
+
             // other axes: y2axis, y3axis...
+            var axisLength = 10;
             for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
                 this.setYTicksForAxis('y' + i + 'axis', this.jqplotParams.axes['y' + i + 'axis']);
+
+                axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
+            }
+
+            var axesShown = {};
+            this.jqplotParams.series.forEach(function (series) {
+                axesShown[series.yaxis] = true;
+            });
+            var hasMultipleAxes = Object.keys(axesShown).length > 1;
+
+            // only adjust width if more than one axis exists AND more than one series shown
+            if (hasMultipleAxes) {
+                $('.piwik-graph', this.$element).css('width', 'calc(100% - ' + axisLength + 'px)');
+            } else {
+                $('.piwik-graph', this.$element).css('width', '');
+            }
+
+            $tempAxisElement.remove();
+
+            function getAxisWidth(axis) {
+                var maxWidth = 0;
+                axis.ticks.forEach(function (tick) {
+                    var tickFormatted = $.jqplot.NumberFormatter(axis.tickOptions.formatString || '%s', tick);
+                    $tempAxisElement.find('span').text(tickFormatted);
+                    maxWidth = Math.max(maxWidth, $tempAxisElement.width());
+                });
+                return maxWidth;
             }
         },
 
@@ -549,9 +590,42 @@
             new seriesPickerClass(this.targetDivId, this, initiallyShowAll);
 
             if (!initiallyShowAll) {
-                // initially, show only the first series
-                this.data = [this.data[0]];
-                this.jqplotParams.series = [this.jqplotParams.series[0]];
+
+                var initialMetrics = 0;
+                var $rowEvolution = $('#'+this.targetDivId).closest('.rowevolution');
+
+                var newData = [];
+                var newSeries = [];
+                if ($rowEvolution.data('initialMetrics')) {
+                    initialMetrics = $rowEvolution.data('initialMetrics');
+
+                    if (angular.isArray(initialMetrics)) {
+                        for (var j = 0; j < initialMetrics.length; j++) {
+                            // find index of series and data
+                            for (var k = 0; k < this.jqplotParams.series.length; k++) {
+                                if (this.jqplotParams.series[k]
+                                    && this.jqplotParams.series[k].label
+                                    && this.jqplotParams.series[k].label === initialMetrics[j]) {
+
+                                    newData.push(this.data[k]);
+                                    newSeries.push(this.jqplotParams.series[k]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (newData.length) {
+                    // restore original selection
+                    this.data = newData;
+                    this.jqplotParams.series = newSeries;
+                } else {
+                    // initially, show only the first series
+                    this.data = [this.data[0]];
+                    this.jqplotParams.series = [this.jqplotParams.series[0]];
+                }
+
                 this.setYTicks();
             }
         },
@@ -560,9 +634,7 @@
          * Sets the colors used to render this graph.
          */
         _setColors: function () {
-            var colorManager = piwik.ColorManager,
-                seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
-                                    'series6', 'series7', 'series8', 'series9', 'series10'];
+            var colorManager = piwik.ColorManager;
 
             var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
 
@@ -577,11 +649,31 @@
 
             var namespace = graphType + '-graph-colors';
 
-            this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
+            this._setSeriesColors(namespace);
+
             this.jqplotParams.grid.background = colorManager.getColor(namespace, 'grid-background');
             this.jqplotParams.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
             this.tickColor = colorManager.getColor(namespace, 'ticks');
             this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label')
+        },
+
+        _setSeriesColors: function (namespace) {
+            var colorManager = piwik.ColorManager,
+                seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
+                    'series6', 'series7', 'series8', 'series9', 'series10'];
+
+            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
+                namespace = 'comparison-series-color';
+
+                seriesColorNames = [];
+                this.jqplotParams.series.forEach(function (s) {
+                    var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
+                    seriesColorNames.push(seriesColorName);
+                });
+            }
+
+            this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
         }
     });
 
@@ -623,26 +715,21 @@ JQPlotExternalSeriesToggle.prototype = {
 
     // show a single series
     showSeries: function (i) {
-        for (var j = 0; j < this.activated.length; j++) {
-            this.activated[j] = (i == j);
-        }
+        this.activated = [i];
         this.replot();
     },
 
     // toggle a series (make plotting multiple series possible)
     toggleSeries: function (i) {
-        var activatedCount = 0;
-        for (var k = 0; k < this.activated.length; k++) {
-            if (this.activated[k]) {
-                activatedCount++;
+        if (this.activated.indexOf(i) > -1) {
+            // need to remove the metric
+            if (this.activated.length > 1) {
+                // prevent removing the only visible metric
+                this.activated.splice(this.activated.indexOf(i), 1);
             }
+        } else {
+            this.activated.push(i);
         }
-        if (activatedCount == 1 && this.activated[i]) {
-            // prevent removing the only visible metric
-            return;
-        }
-
-        this.activated[i] = !this.activated[i];
         this.replot();
     },
 
@@ -656,17 +743,24 @@ JQPlotExternalSeriesToggle.prototype = {
         config.params.series = [];
         config.params.axes = {xaxis: this.originalAxes.xaxis};
         config.params.seriesColors = [];
+
         for (var j = 0; j < this.activated.length; j++) {
-            if (!this.activated[j]) {
-                continue;
-            }
-            config.data.push(this.originalData[j]);
-            config.params.seriesColors.push(this.originalSeriesColors[j]);
-            config.params.series.push($.extend(true, {}, this.originalSeries[j]));
-            // build array of used axes
-            var axis = this.originalSeries[j].yaxis;
-            if ($.inArray(axis, usedAxes) == -1) {
-                usedAxes.push(axis);
+            // find index of series and data
+            for (var k = 0; k < this.originalSeries.length; k++) {
+                if (this.originalSeries[k]
+                    && this.originalSeries[k].label
+                    && this.originalSeries[k].label === this.activated[j]) {
+
+                    config.data.push(this.originalData[k]);
+                    config.params.seriesColors.push(this.originalSeriesColors[k]);
+                    config.params.series.push($.extend(true, {}, this.originalSeries[k]));
+                    // build array of used axes
+                    var axis = this.originalSeries[k].yaxis;
+                    if ($.inArray(axis, usedAxes) == -1) {
+                        usedAxes.push(axis);
+                    }
+                    break;
+                }
             }
         }
 
@@ -706,29 +800,73 @@ RowEvolutionSeriesToggle.prototype = JQPlotExternalSeriesToggle.prototype;
 
 RowEvolutionSeriesToggle.prototype.attachEvents = function () {
     var self = this;
-    this.seriesPickers = this.target.closest('.rowevolution').find('table.metrics tr');
+
+    var $rowEvolution = this.target.closest('.rowevolution');
+    this.seriesPickers = $rowEvolution.find('table.metrics tr');
+
+    var initialMetrics = [];
+
+    if ($rowEvolution.data('initialMetrics')) {
+        initialMetrics = [];
+        var savedMetrics = $rowEvolution.data('initialMetrics');
+        var existingMetricsInSeries = [];
+        var m = 0;
+        for (m = 0; m < this.originalSeries.length; m++) {
+            existingMetricsInSeries.push(this.originalSeries[m].label);
+        }
+        for (m = 0; m < savedMetrics.length; m++) {
+            if (existingMetricsInSeries.indexOf(savedMetrics[m]) > -1) {
+                // only if it exists... for example unique visitors etc might not be available for some metrics,
+                // then we need to make sure to highlight the default first metric for example
+                initialMetrics.push(savedMetrics[m]);
+            }
+        }
+    }
 
     this.seriesPickers.each(function (i) {
         var el = $(this);
-        el.off('click').on('click', function (e) {
-            if (e.shiftKey) {
-                self.toggleSeries(i);
 
+        el.off('click').on('click', function (e) {
+            var metricName = rowEvolutionGetMetricNameFromRow(this);
+            // we are storing this info on the element as the series picker and the jqplot object gets recreated whenever
+            // we change a period so we cannot persist the selection there.
+            if (e.shiftKey) {
+                self.toggleSeries(metricName);
                 document.getSelection().removeAllRanges(); // make sure chrome doesn't select text
             } else {
-                self.showSeries(i);
+                self.showSeries(metricName);
             }
+            $rowEvolution.data('initialMetrics', self.activated);
             return false;
         });
 
-        if (i == 0 || self.initiallyShowAll) {
+        var label = rowEvolutionGetMetricNameFromRow(el);
+        var metricExists = false;
+        for (var k = 0; k < self.originalSeries.length; k++) {
+            if (self.originalSeries[k] && labelMatches(self.originalSeries[k].label, label)) {
+                metricExists = true;
+            }
+        }
+
+        if (!metricExists) {
+            el.hide();
+        } else if (
+            (initialMetrics.length === 0 && i == 0)
+            || (initialMetrics.length > 0 && initialMetrics.indexOf(label) > -1)
+            || self.initiallyShowAll) {
             // show the active series
             // if initiallyShowAll, all are active; otherwise only the first one
-            self.activated.push(true);
+            if (!el.hasClass('hiddenByDefault')) {
+                el.show();
+            }
+            el.find('td').css('opacity', '');
+            self.activated.push(rowEvolutionGetMetricNameFromRow(el));
         } else {
+            if (!el.hasClass('hiddenByDefault')) {
+                el.show();
+            }
             // fade out the others
             el.find('td').css('opacity', .5);
-            self.activated.push(false);
         }
 
         // prevent selecting in ie & opera (they don't support doing this via css)
@@ -738,18 +876,25 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
         } else if ($.browser.opera) {
             $(this).attr('unselectable', 'on');
         }
+
+        // the API outputs the label double encoded when it shouldn't. so when looking for a matching label we have
+        // to check if one is double encoded.
+        function labelMatches(lhs, rhs) {
+            return lhs === rhs || piwikHelper.htmlDecode(lhs) === rhs || lhs === piwikHelper.htmlDecode(rhs);
+        }
     });
 };
 
 RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
+    var self = this;
     // fade out if not activated
-    for (var i = 0; i < this.activated.length; i++) {
-        if (this.activated[i]) {
-            this.seriesPickers.eq(i).find('td').css('opacity', 1);
-        } else {
-            this.seriesPickers.eq(i).find('td').css('opacity', .5);
+    this.seriesPickers.find('td').css('opacity', .5);
+    this.seriesPickers.each(function (i) {
+        var name = rowEvolutionGetMetricNameFromRow(this);
+        if (self.activated.indexOf(name) > -1) {
+            $(this).find('td').css('opacity', 1);
         }
-    }
+    });
 };
 
 // ------------------------------------------------------------
@@ -913,7 +1058,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             c.markerRenderer.init();
 
             var position = series.gridData[tick];
-            c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+            if (typeof position !== 'undefined') {
+                c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+            }
         }
     }
 
@@ -1043,7 +1190,8 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // handle placeSeriesPicker event
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
-            this.domElem.css('margin-left', (plot._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
+            this.domElem.css('margin-left', plot._gridPadding.left + 'px');
+            $('.jqplot-legend-canvas').css({paddingLeft: '34px'});
             plot.baseCanvas._elem.before(this.domElem);
         });
 
@@ -1143,7 +1291,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             // move close labels
             if (lastY2 !== false && lastRight == right && (
                 (right && y2 - lastY2 < 13) ||
-                    (!right && lastY2 - y2 < 13))) {
+                (!right && lastY2 - y2 < 13))) {
 
                 if (x1 > center[0]) {
                     // move down if the label is in the right half of the graph

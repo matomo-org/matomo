@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -91,6 +91,31 @@ class DbHelper
     public static function createAnonymousUser()
     {
         Schema::getInstance()->createAnonymousUser();
+    }
+
+    /**
+     * Records the Matomo version a user used when installing this Matomo for the first time
+     */
+    public static function recordInstallVersion()
+    {
+        Schema::getInstance()->recordInstallVersion();
+    }
+
+    /**
+     * Returns which Matomo version was used to install this Matomo for the first time.
+     */
+    public static function getInstallVersion()
+    {
+        return Schema::getInstance()->getInstallVersion();
+    }
+
+    public static function wasMatomoInstalledBeforeVersion($version)
+    {
+        $installVersion = self::getInstallVersion();
+        if (empty($installVersion)) {
+            return true; // we assume yes it was installed
+        }
+        return true === version_compare($version, $installVersion, '>');
     }
 
     /**

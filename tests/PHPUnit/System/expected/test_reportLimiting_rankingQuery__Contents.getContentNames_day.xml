@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>content name 20</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>5</nb_interactions>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentName==content+name+20</segment>
+	</row>
+	<row>
+		<label>content name 21</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentName==content+name+21</segment>
+	</row>
+	<row>
+		<label>content name 22</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>5</nb_interactions>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentName==content+name+22</segment>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<interaction_rate>0%</interaction_rate>
+	</row>
+</result>

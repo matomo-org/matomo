@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -102,7 +102,8 @@ class Auth implements \Piwik\Auth
 
         if (!empty($user['token_auth'])
             // authenticate either with the token or the "hash token"
-            && $user['token_auth'] === $token
+            && ((SessionInitializer::getHashTokenAuth($login, $user['token_auth']) === $token)
+                || $user['token_auth'] === $token)
         ) {
             return $this->authenticationSuccess($user);
         }
@@ -190,5 +191,11 @@ class Auth implements \Piwik\Auth
         UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
 
         $this->hashedPassword = $passwordHash;
+    }
+
+    // for tests
+    public function getTokenAuth()
+    {
+        return $this->token_auth;
     }
 }

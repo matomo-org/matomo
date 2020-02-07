@@ -12,5 +12,6 @@
 		<allow_multiple>0</allow_multiple>
 		<revenue>5</revenue>
 		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
 	</row>
 </result>

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
+use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
@@ -179,9 +180,11 @@ class Twig
         $this->addFilter_nonce();
         $this->addFilter_md5();
         $this->addFilter_onlyDomain();
+        $this->addFilter_safelink();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
+        $this->twig->addFilter(new Twig_SimpleFilter('ucfirst', 'ucfirst'));
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
@@ -195,6 +198,7 @@ class Twig
         $this->addTest_false();
         $this->addTest_true();
         $this->addTest_emptyString();
+        $this->addTest_isNumeric();
 
         $this->twig->addExtension(new PiwikTwigFilterExtension());
     }
@@ -311,9 +315,8 @@ class Twig
      */
     private function getDefaultThemeLoader()
     {
-        $themeLoader = new Twig_Loader_Filesystem(array(
-                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\Plugin\Manager::DEFAULT_THEME)
-                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
+        $themeDir = Manager::getPluginDirectory(\Piwik\Plugin\Manager::DEFAULT_THEME) . '/templates/';
+        $themeLoader = new Twig_Loader_Filesystem(array($themeDir), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
@@ -325,12 +328,13 @@ class Twig
      */
     protected function getCustomThemeLoader(Plugin $theme)
     {
-        if (!file_exists(sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName()))) {
+        $pluginsDir = Manager::getPluginDirectory($theme->getPluginName());
+        $themeDir = $pluginsDir . '/templates/';
+
+        if (!file_exists($themeDir)) {
             return false;
         }
-        $themeLoader = new Twig_Loader_Filesystem(array(
-                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName())
-                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
+        $themeLoader = new Twig_Loader_Filesystem(array($themeDir), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
@@ -518,10 +522,12 @@ class Twig
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginManager->getAllPluginsNames();
+
         foreach ($plugins as $name) {
-            $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
+            $pluginsDir = Manager::getPluginDirectory($name);
+            $path = sprintf("%s/templates/", $pluginsDir);
             if (is_dir($path)) {
-                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);
+                $loader->addPath(rtrim($path, '/'), $name);
             }
         }
     }
@@ -535,10 +541,13 @@ class Twig
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginManager->getAllPluginsNames();
+
+        $pluginsDir = Manager::getPluginDirectory($pluginName);
+
         foreach ($plugins as $name) {
-            $path = sprintf("%s/plugins/%s/templates/plugins/%s/", PIWIK_INCLUDE_PATH, $pluginName, $name);
+            $path = sprintf("%s/templates/plugins/%s/", $pluginsDir, $name);
             if (is_dir($path)) {
-                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/templates/plugins/'. $name, $name);
+                $loader->addPath(rtrim($path, '/'), $name);
             }
         }
     }
@@ -555,5 +564,27 @@ class Twig
         if ($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR) {
             $value = $path . "/$value";
         }
+    }
+
+    private function addFilter_safelink()
+    {
+        $safelink = new Twig_SimpleFilter('safelink', function ($url) {
+            if (!UrlHelper::isLookLikeSafeUrl($url)) {
+                return '';
+            }
+            return $url;
+        });
+        $this->twig->addFilter($safelink);
+    }
+
+    private function addTest_isNumeric()
+    {
+        $test = new Twig_SimpleTest(
+            'numeric',
+            function ($value) {
+                return is_numeric($value);
+            }
+        );
+        $this->twig->addTest($test);
     }
 }

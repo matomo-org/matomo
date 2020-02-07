@@ -51,7 +51,7 @@
                     {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
                 </h3>
                 <div class="input-field col s12 m6">
-                    <input  type="text" value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
+                    <input  type="text" value='{{ todayArchiveTimeToLive|e('html_attr') }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
                     <span class="form-description">
                         {{ 'General_RearchiveTimeIntervalOnlyForTodayReports'|translate }}
                     </span>
@@ -82,7 +82,7 @@
         <div piwik-form ng-controller="MailSmtpController as mailSettings">
             <div piwik-field uicontrol="checkbox" name="mailUseSmtp"
                  ng-model="mailSettings.enabled"
-                 title="{{ 'General_UseSMTPServerForEmail'|translate|e('html_attr') }}"
+                 data-title="{{ 'General_UseSMTPServerForEmail'|translate|e('html_attr') }}"
                  value="{% if mail.transport == 'smtp' %}1{% endif %}"
                  inline-help="{{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate|e('html_attr') }}">
             </div>
@@ -92,27 +92,27 @@
 
                 <div piwik-field uicontrol="text" name="mailHost"
                      ng-model="mailSettings.mailHost"
-                     title="{{ 'General_SmtpServerAddress'|translate|e('html_attr') }}"
-                     value="{{ mail.host }}">
+                     data-title="{{ 'General_SmtpServerAddress'|translate|e('html_attr') }}"
+                     value="{{ mail.host|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="text" name="mailPort"
                      ng-model="mailSettings.mailPort"
-                     title="{{ 'General_SmtpPort'|translate|e('html_attr') }}"
-                     value="{{ mail.port }}" inline-help="{{ 'General_OptionalSmtpPort'|translate|e('html_attr') }}">
+                     data-title="{{ 'General_SmtpPort'|translate|e('html_attr') }}"
+                     value="{{ mail.port|e('html_attr') }}" inline-help="{{ 'General_OptionalSmtpPort'|translate|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="select" name="mailType"
                      ng-model="mailSettings.mailType"
-                     title="{{ 'General_AuthenticationMethodSmtp'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_AuthenticationMethodSmtp'|translate|e('html_attr') }}"
                      options="{{ mailTypes|json_encode }}"
-                     value="{{ mail.type }}" inline-help="{{ 'General_OnlyUsedIfUserPwdIsSet'|translate|e('html_attr') }}">
+                     value="{{ mail.type|e('html_attr') }}" inline-help="{{ 'General_OnlyUsedIfUserPwdIsSet'|translate|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="text" name="mailUsername"
                      ng-model="mailSettings.mailUsername"
-                     title="{{ 'General_SmtpUsername'|translate|e('html_attr') }}"
-                     value="{{ mail.username }}" inline-help="{{ 'General_OnlyEnterIfRequired'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpUsername'|translate|e('html_attr') }}"
+                     value="{{ mail.username|e('html_attr') }}" inline-help="{{ 'General_OnlyEnterIfRequired'|translate|e('html_attr') }}"
                      autocomplete="off">
                 </div>
 
@@ -124,16 +124,30 @@
                 <div piwik-field uicontrol="password" name="mailPassword"
                      ng-model="mailSettings.mailPassword"
                      ng-change="mailSettings.passwordChanged = true"
-                     title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
                      value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}"
+                     autocomplete="off">
+                </div>
+
+                <div piwik-field uicontrol="text" name="mailFromAddress"
+                     ng-model="mailSettings.mailFromAddress"
+                     title="{{ 'General_SmtpFromAddress'|translate|e('html_attr') }}"
+                     value="{{ mail.noreply_email_address|e('html_attr') }}" inline-help="{{ 'General_SmtpFromEmailHelp'|translate(mailHost)|e('html_attr') }}"
+                     autocomplete="off">
+                </div>
+
+                <div piwik-field uicontrol="text" name="mailFromName"
+                     ng-model="mailSettings.mailFromName"
+                     title="{{ 'General_SmtpFromName'|translate|e('html_attr') }}"
+                     value="{{ mail.noreply_email_name|e('html_attr') }}" inline-help="{{ 'General_NameShownInTheSenderColumn'|translate|e('html_attr') }}"
                      autocomplete="off">
                 </div>
 
                 <div piwik-field uicontrol="select" name="mailEncryption"
                      ng-model="mailSettings.mailEncryption"
-                     title="{{ 'General_SmtpEncryption'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpEncryption'|translate|e('html_attr') }}"
                      options="{{ mailEncryptions|json_encode }}"
-                     value="{{ mail.encryption }}" inline-help="{{ 'General_EncryptedSmtpTransport'|translate|e('html_attr') }}">
+                     value="{{ mail.encryption|e('html_attr') }}" inline-help="{{ 'General_EncryptedSmtpTransport'|translate|e('html_attr') }}">
                 </div>
             </div>
 
@@ -141,6 +155,8 @@
         </div>
     </div>
 {% endif %}
+
+{% if customLogoEnabled %}
 <div piwik-content-block content-title="{{ 'CoreAdminHome_BrandingSettings'|translate|e('html_attr') }}">
 
     <div piwik-form ng-controller="BrandingController as brandingSettings">
@@ -155,8 +171,9 @@
         <div piwik-field uicontrol="checkbox" name="useCustomLogo"
              ng-model="brandingSettings.enabled"
              ng-change="brandingSettings.toggleCustomLogo()"
-             title="{{ 'CoreAdminHome_UseCustomLogo'|translate|e('html_attr') }}"
-             value="{% if branding.use_custom_logo == 1 %}1{% endif %}" inline-help="{{ help|e('html_attr') }}">
+             data-title="{{ 'CoreAdminHome_UseCustomLogo'|translate|e('html_attr') }}"
+             value="{% if branding.use_custom_logo == 1 %}1{% endif %}"
+             {% if isPluginsAdminEnabled %}inline-help="{{ help|e('html_attr') }}"{% endif %}>
         </div>
 
         <div id="logoSettings" ng-show="brandingSettings.enabled">
@@ -172,7 +189,7 @@
                         <div piwik-field uicontrol="file" name="customLogo"
                              ng-change="brandingSettings.updateLogo()"
                              ng-model="brandingSettings.customLogo"
-                             title="{{ 'CoreAdminHome_LogoUpload'|translate|e('html_attr') }}"
+                             data-title="{{ 'CoreAdminHome_LogoUpload'|translate|e('html_attr') }}"
                              inline-help="{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110)|e('html_attr') }}">
                         </div>
 
@@ -186,7 +203,7 @@
                         <div piwik-field uicontrol="file" name="customFavicon"
                              ng-change="brandingSettings.updateLogo()"
                              ng-model="brandingSettings.customFavicon"
-                             title="{{ 'CoreAdminHome_FaviconUpload'|translate|e('html_attr') }}"
+                             data-title="{{ 'CoreAdminHome_FaviconUpload'|translate|e('html_attr') }}"
                              inline-help="{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 16)|e('html_attr') }}">
                         </div>
 
@@ -214,10 +231,11 @@
         <div onconfirm="brandingSettings.save()" saving="brandingSettings.isLoading" piwik-save-button></div>
     </div>
 </div>
+{% endif %}
 
 {% if isDataPurgeSettingsEnabled %}
     <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
+        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
         <p>
             <a href='{{ linkTo({'module':"PrivacyManager", 'action':"privacySettings"}) }}#deleteLogsAnchor'>
                 {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ 'PrivacyManager_DeleteDataSettings'|translate ~ "'") }}

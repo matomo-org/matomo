@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -25,7 +25,7 @@ class Response
     {
         ob_start(); // we use ob_start only because of Common::printDebug, we should actually not really use ob_start
 
-        if ($tracker->isDebugModeEnabled()) {
+        if ($tracker->isDebugModeEnabled() && TrackerConfig::getConfigValue('enable_sql_profiler')) {
             $this->timer = new Timer();
 
             TrackerDb::enableProfiling();
@@ -79,7 +79,7 @@ class Response
                 Common::sendResponseCode(400);
             }
             Common::printDebug("Empty request => Matomo page");
-            echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
+            echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
         } else {
             $this->outputApiResponse($tracker);
             Common::printDebug("Nothing to notice => default behaviour");

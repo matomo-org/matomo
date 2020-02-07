@@ -25,49 +25,51 @@ describe("CoreUpdaterDb", function () {
     });
 
     function apiUpgradeTest(format) {
-        it("should start the updater when an old version of Piwik is detected in the DB with format " + format, function (done) {
-            expect.file('CoreUpdater.API.ErrorMessage' + format + '.txt').to.be.pageContents(function (page) {
-                page.load('');
-                page.downloadUrl('?module=API&method=API.getPiwikVersion&format=' + format);
-            }, done);
+        it("should start the updater when an old version of Piwik is detected in the DB with format " + format, async function() {
+            await page.goto(""); // page.downloadUrl needs jQuery loaded, so load a page
+            const url = '?module=API&method=API.getPiwikVersion&format=' + format;
+            var pageContents = await page.downloadUrl(url);
+
+            expect.file('CoreUpdater.API.ErrorMessage' + format + '.txt').to.equal(pageContents);
         });
     }
 
     var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
     formats.forEach(apiUpgradeTest);
 
-    it("should start the updater when an old version of Piwik is detected in the DB", function (done) {
-        expect.screenshot("main").to.be.capture(function (page) {
-            page.load("");
-            page.evaluate(function () {
-                $('p').each(function () {
-                    var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
-                    $(this).html(replace);
-                });
+    it("should start the updater when an old version of Piwik is detected in the DB", async function() {
+        await page.goto("");
+        await page.evaluate(function () {
+            $('p').each(function () {
+                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
+                $(this).html(replace);
             });
-        }, done);
+        });
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('main');
     });
 
-    it("should show instance id in updating screen", function (done) {
-        expect.screenshot("main_instance").to.be.capture(function (page) {
-            testEnvironment.configOverride.General = {
-                instance_id: 'custom.instance'
-            };
-            testEnvironment.save();
+    it("should show instance id in updating screen", async function() {
+        testEnvironment.configOverride.General = {
+            instance_id: 'custom.instance'
+        };
+        testEnvironment.save();
 
-            page.load("");
-            page.evaluate(function () {
-                $('p').each(function () {
-                    var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
-                    $(this).html(replace);
-                });
+        await page.goto("");
+        await page.evaluate(function () {
+            $('p').each(function () {
+                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
+                $(this).html(replace);
             });
-        }, done);
+        });
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('main_instance');
     });
 
-    it("should show the donation form when the update process is complete", function (done) {
-        expect.screenshot("updated").to.be.capture(function (page) {
-            page.click('.btn');
-        }, done);
+    it("should show the donation form when the update process is complete", async function() {
+        await page.click('.btn');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('updated');
     });
 });

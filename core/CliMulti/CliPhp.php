@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\CliMulti;
@@ -32,6 +32,11 @@ class CliPhp
 
         if (empty($bin) && !empty($_SERVER['argv'][0]) && Common::isPhpCliMode()) {
             $bin = $this->getPhpCommandIfValid($_SERVER['argv'][0]);
+        }
+
+        if (empty($bin)) {
+            $possiblePhpPath = PHP_BINDIR . ('\\' === \DIRECTORY_SEPARATOR ? '\\php.exe' : '/php');
+            $bin = $this->getPhpCommandIfValid($possiblePhpPath);
         }
 
         if (!$this->isValidPhpType($bin)) {
@@ -75,7 +80,8 @@ class CliPhp
         return !empty($path)
         && false === strpos($path, 'fpm')
         && false === strpos($path, 'cgi')
-        && false === strpos($path, 'phpunit');
+        && false === strpos($path, 'phpunit')
+        && false === strpos($path, 'lsphp');
     }
 
     private function getPhpCommandIfValid($path)

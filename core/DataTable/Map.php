@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -155,6 +155,15 @@ class Map implements DataTableInterface
     public function getTable($label)
     {
         return $this->array[$label];
+    }
+
+    /**
+     * @param string $label
+     * @return bool
+     */
+    public function hasTable($label)
+    {
+        return isset($this->array[$label]);
     }
 
     /**

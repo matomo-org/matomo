@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -38,7 +38,6 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         self::$idSite = Fixture::createWebsite('2016-01-01');
         Fixture::createSuperUser(true);
 
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider('geoip2php');
     }

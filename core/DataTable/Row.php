@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -23,6 +23,8 @@ use Piwik\Metrics;
  */
 class Row extends \ArrayObject
 {
+    const COMPARISONS_METADATA_NAME = 'comparisons';
+
     /**
      * List of columns that cannot be summed. An associative array for speed.
      *
@@ -87,9 +89,11 @@ class Row extends \ArrayObject
      */
     public function export()
     {
+        $metadataToPersist = $this->metadata;
+        unset($metadataToPersist[self::COMPARISONS_METADATA_NAME]);
         return array(
             self::COLUMNS => $this->getArrayCopy(),
-            self::METADATA => $this->metadata,
+            self::METADATA => $metadataToPersist,
             self::DATATABLE_ASSOCIATED => $this->subtableId,
         );
     }
@@ -478,7 +482,7 @@ class Row extends \ArrayObject
                 throw new Exception("Unknown aggregation operation for column $columnToSumName.");
             }
 
-            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum);
+            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum, $columnToSumName);
 
             $this->setColumn($columnToSumName, $newValue);
         }
@@ -490,7 +494,7 @@ class Row extends \ArrayObject
 
     /**
      */
-    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum)
+    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum, $columnName = null)
     {
         switch ($operation) {
             case 'skip':
@@ -509,7 +513,7 @@ class Row extends \ArrayObject
                 }
                 break;
             case 'sum':
-                $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+                $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue, $columnName);
                 break;
             case 'uniquearraymerge':
                 if (is_array($thisColumnValue) && is_array($columnToSumValue)) {
@@ -549,15 +553,15 @@ class Row extends \ArrayObject
 
             if (is_array($aggregationOperations)) {
                 // we need to aggregate value before value is overwritten by maybe another row
-                foreach ($aggregationOperations as $columnn => $operation) {
-                    $thisMetadata = $this->getMetadata($columnn);
-                    $sumMetadata  = $rowToSum->getMetadata($columnn);
+                foreach ($aggregationOperations as $column => $operation) {
+                    $thisMetadata = $this->getMetadata($column);
+                    $sumMetadata  = $rowToSum->getMetadata($column);
 
                     if ($thisMetadata === false && $sumMetadata === false) {
                         continue;
                     }
 
-                    $aggregatedMetadata[$columnn] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata, $this, $rowToSum);
+                    $aggregatedMetadata[$column] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata, $this, $rowToSum, $column);
                 }
             }
 
@@ -591,20 +595,50 @@ class Row extends \ArrayObject
     }
 
     /**
+     * Returns the associated comparisons DataTable, if any.
+     *
+     * @return DataTable|null
+     */
+    public function getComparisons()
+    {
+        $dataTableId = $this->getMetadata(self::COMPARISONS_METADATA_NAME);
+        if (empty($dataTableId)) {
+            return null;
+        }
+        return Manager::getInstance()->getTable($dataTableId);
+    }
+
+    /**
+     * Associates the supplied table with this row as the comparisons table.
+     *
+     * @param DataTable $table
+     */
+    public function setComparisons(DataTable $table)
+    {
+        $this->setMetadata(self::COMPARISONS_METADATA_NAME, $table->getId());
+    }
+
+    /**
      * Helper function: sums 2 values
      *
      * @param number|bool $thisColumnValue
      * @param number|array $columnToSumValue
+     * @param string|null $columnName for error reporting.
      *
      * @throws Exception
      * @return array|int
      */
-    protected function sumRowArray($thisColumnValue, $columnToSumValue)
+    protected function sumRowArray($thisColumnValue, $columnToSumValue, $columnName = null)
     {
         if (is_numeric($columnToSumValue)) {
             if ($thisColumnValue === false) {
                 $thisColumnValue = 0;
+            } else if (!is_numeric($thisColumnValue)) {
+                $label = $this->getColumn('label');
+                throw new \Exception(sprintf('Trying to sum unsupported operands for column %s in row with label = %s: %s + %s',
+                    $columnName, $label, gettype($thisColumnValue), gettype($columnToSumValue)));
             }
+
             return $thisColumnValue + $columnToSumValue;
         }
 
@@ -622,12 +656,12 @@ class Row extends \ArrayObject
                 if (!isset($newValue[$arrayIndex])) {
                     $newValue[$arrayIndex] = false;
                 }
-                $newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue);
+                $newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue, $columnName);
             }
             return $newValue;
         }
 
-        $this->warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue);
+        $this->warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue, $columnName);
 
         return 0;
     }
@@ -723,13 +757,14 @@ class Row extends \ArrayObject
         }
     }
 
-    protected function warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue)
+    protected function warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue, $columnName = null)
     {
         if (is_string($columnToSumValue)) {
             Log::warning(
-                "Trying to add two strings in DataTable\Row::sumRowArray: %s + %s for row %s",
+                "Trying to add two strings in DataTable\Row::sumRowArray: %s + %s for column %s in row %s",
                 $thisColumnValue,
                 $columnToSumValue,
+                $columnName,
                 $this->__toString()
             );
         }

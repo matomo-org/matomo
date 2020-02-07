@@ -57,6 +57,24 @@
         "TeaserExtendPiwikByPlugin": "Zgjerojeni Matomo-n duke %1$sinstaluar shtojca prej Marketplace-it%2$s ose %3$sduke ngarkuar një shtojcë në formatin .zip%4$s.",
         "TeaserExtendPiwikByTheme": "Shijoni pamje & ndjesi të reja përmes %1$sinstalimit të një teme të re%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Shtojca mund të instaloni vetvetiu që prej Marketplace-it ose %1$sta ngarkoni një shtojcë%2$s në formatin .zip.",
+        "TagManagerNowAvailableTitle": "Përgjegjësi Matomo i Etiketave tashmë është gati",
+        "TagManagerNowAvailableSubtitle": "Administroni krejt etiketat tuaja përmes një platforme, që të njihni prirjet që doni, mundësitë janë pa fund!",
+        "ActivateTagManagerNow": "Aktivizoje Përgjegjësin e Etiketave që tani",
+        "TagManagerEmailSuperUserToActivate": "Dërgojuni Superpërdoruesve email që ta aktivizojnë këtë veçori të re",
+        "TagManagerTeaserHideSuperUser": "Mos ia shfaq këtë faqe ndonjë përdoruesi",
+        "TagManagerTeaserHideNonSuperUser": "S’më intereson, mos e shfaq sërish këtë faqe",
+        "TagManagerTeaserEmailSuperUserBody": "Njatjeta,%1$sPërgjegjësi Matomo i Etiketave është tashmë i gatshëm brenda Matomo-s dhe do të doja ta përdorja këtë veçori të re. Meqë jeni Superpërdorues, a mundeni ta aktivizoni këtë veçori që nga faqja Përgjegjës Etiketash te menuja kryesore?%2$sURL-ja e instalimit Matomo është %3$s.%4$sFaleminderit",
+        "WhatIsTagManager": "Ç’është Përgjegjësi i Etiketave?",
+        "WhatIsTagManagerDetails1": "Në ngjashmëri me mënyrën se si një Sistem Administrimi Lënde (CMS) ju ofron krejt zhdërvjelltësinë për të botuar lëndë për sajtin tuaj pa pasur njohuri teknike në HTML\/CSS, një Sistem Administrimi Etiketash (TMS) është rruga juaj për të thjeshtuar procesin e trupëzimit në sajtin tuaj të etiketave të vetë aplikacionit apo prej aplikacionesh palë të treta (të njohura edhe si copëza ose piksel).",
+        "WhatIsTagManagerDetails2": "Le të themi se doni të shihni përfundimet e shndërrimeve\/synimeve tuaja, regjistrimet për te buletini, widget-e mediash shoqërore, flluska daljesh dhe fushata rimarketingu; ai që dikur qe një proces shumë teknik dhe shumë i gjatë në kohë, tani bëhet lehtësisht brenda TMS-së dhe ha vetëm pak klikime për ta sendërtuar.",
+        "TagManagerLearnMoreInUserGuide": "Mësoni më tepër, te Udhërrëfyesi i Përdoruesit të Përgjegjësit të Etiketave",
+        "WhyUsingATagManager": "Pse duhet një Përgjegjës Etiketash?",
+        "WhyUsingATagManagerDetails1": "Një Përgjegjës Etiketash jua bën jetën më të lehtë! Nuk ju duhet më të prisni që një programues të modifikojë copëza të sajtit tuaj tuajat apo nga palë të treta, ngaqë Përgjegjësi i Etiketave ju lejon t’i bëni këto ndryshime dhe t’i kaloni në sajtin tuaj ju vetë, pa mundim.",
+        "WhyUsingATagManagerDetails2": "Më e volitshme se ka, s’bëhet dhe jo vetëm që ju lejon të sillni ndryshime në treg më shpejt, ul gjithashtu edhe kostot.",
+        "WhyUsingATagManagerDetails3": "Kjo kënaq ekipet e marketingut, ato të lëndës dixhitale dhe personelin TI… Është me përfitim për këdo!",
+        "AreThereAnyRisks": "A ka rreziqe?",
+        "AreThereAnyRisksDetails1": "Kur aktivizoni Përgjegjësin e Etiketave, përdoruesit me leje hyrjeje përgjegjësi do të jenë në gjendje të krijojnë etiketa vetjake HTML, shkaktues dhe ndryshore që mund të ekzekutojnë në sajtin tuaj kod JavaScript. Këto gjedhe vetjake mund të përdoren për të vjedhur, për shembull, të dhëna me spec të vizitorëve të sajtit tuaj (të njohura si %1$sXSS%2$s).",
+        "AreThereAnyRisksDetails2": "Këto gjedhe vetjake mund t’i çaktivizoni që nga \"Administrim => Rregullime të Përgjithshme\", pasi të keni aktivizuar Përgjegjësin e Etiketave. Përndryshe, mundeni edhe të kufizoni përdorimin e këtyre gjedheve vetëm nga përdorues apo superpërdorues të caktuar.",
         "Theme": "Temë",
         "Themes": "Tema",
         "ThemesDescription": "Temat mund të ndryshojnë pamjen e ndërfaqes së përdoruesit të Matomo-s, dhe të sjellin një pamje të re për shijimin e raporteve tuaja analitike.",
@@ -65,6 +83,7 @@
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Shihni krejt shtojcat e Marketplace-it",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Shtojca %1$s s’u ngarkua dot, ngaqë ka varësi të paplotësuara: %2$s",
-        "Websites": "Sajte"
+        "Websites": "Sajte",
+        "UpdateSelected": "Përditëso të Përzgjedhurat"
     }
 }

@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Создать и повторно использовать пользовательские Сегменты посетителей с помощью Редактора сегментов.",
         "AddANDorORCondition": "Добавить условие %s",
         "AddNewSegment": "Добавить новый сегмент",
         "AreYouSureDeleteSegment": "Вы уверены, что хотите удалить этот сегмент?",
@@ -16,6 +15,7 @@
         "ThisSegmentIsVisibleTo": "Этот сегмент видим для:",
         "VisibleToAllUsers": "все пользователи",
         "VisibleToMe": "меня",
-        "AddingSegmentForAllWebsitesDisabled": "Добавление сегментов для всех веб-сайтов было отключено."
+        "AddingSegmentForAllWebsitesDisabled": "Добавление сегментов для всех веб-сайтов было отключено.",
+        "Test": "Тест"
     }
 }

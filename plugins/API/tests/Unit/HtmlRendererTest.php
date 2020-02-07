@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -275,6 +275,10 @@ message', $response);
 
         $response = $this->builder->renderDataTable($dataTable);
 
+        $stdClass = version_compare(PHP_VERSION, 7.3, '>=') ?
+            "(object) array(\n  )," :
+            "stdClass::__set_state(array(\n  )),";
+
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
 	<tr>
@@ -292,8 +296,7 @@ message', $response);
   Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite::__set_state(array(
   )),
   1 =&gt; 
-  stdClass::__set_state(array(
-  )),
+  ' . $stdClass . '
   2 =&gt; 
   Piwik\Date::__set_state(array(
      \'timestamp\' =&gt; 1451606400,

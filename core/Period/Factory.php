@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -75,12 +75,14 @@ abstract class Factory
 
         if (is_string($date)) {
             if (Period::isMultiplePeriod($date, $period)
-                || $period == 'range') {
+                || $period == 'range'
+            ) {
+
                 return new Range($period, $date, $timezone);
             }
 
             $dateObject = Date::factory($date);
-        } else if (!empty($date)) {
+        } else if ($date instanceof Date) {
             $dateObject = $date;
         } else {
             throw new \Exception("Invalid date supplied to Period\Factory::build(): " . gettype($date));

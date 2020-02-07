@@ -19,10 +19,10 @@
 		<exit_nb_visits>7</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>0</avg_time_on_page>
-		<bounce_rate>100%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<bounce_rate>100 %</bounce_rate>
+		<exit_rate>100 %</exit_rate>
 		<url>http://example.org/contact.htm</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcontact.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcontact.htm</segment>
 	</row>
 	<row>
 		<label>category</label>
@@ -39,8 +39,9 @@
 		<entry_bounce_count>0</entry_bounce_count>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>0</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
+		<bounce_rate>0 %</bounce_rate>
+		<exit_rate>0 %</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcategory</segment>
 		<subtable>
 			<row>
 				<label>/Page1</label>
@@ -58,9 +59,10 @@
 				<entry_sum_visit_length>1</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
+				<bounce_rate>0 %</bounce_rate>
+				<exit_rate>0 %</exit_rate>
 				<url>http://example.org/category/Page1</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage1</segment>
 			</row>
 			<row>
 				<label>/Page2</label>
@@ -73,9 +75,10 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
+				<bounce_rate>0 %</bounce_rate>
+				<exit_rate>0 %</exit_rate>
 				<url>http://example.org/category/Page2</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage2</segment>
 			</row>
 			<row>
 				<label>Autres</label>
@@ -88,8 +91,8 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
+				<bounce_rate>0 %</bounce_rate>
+				<exit_rate>0 %</exit_rate>
 			</row>
 		</subtable>
 	</row>
@@ -105,7 +108,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>0</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
+		<bounce_rate>0 %</bounce_rate>
+		<exit_rate>0 %</exit_rate>
 	</row>
 </result>

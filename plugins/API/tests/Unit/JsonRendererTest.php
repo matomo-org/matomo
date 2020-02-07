@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -76,12 +76,12 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderException_shouldRemoveWhitespace()
+    public function test_renderException_shouldRemoveNewlines()
     {
         $response = $this->jsonBuilder->renderException("The\nerror\r\nmessage", new \Exception());
 
-        $this->assertEquals('{"result":"error","message":"Theerrormessage"}', $response);
-        $this->assertEquals((array) array('result' => 'error', 'message' => 'Theerrormessage'), json_decode($response, true));
+        $this->assertEquals('{"result":"error","message":"The error message"}', $response);
+        $this->assertEquals((array) array('result' => 'error', 'message' => 'The error message'), json_decode($response, true));
         $this->assertNoJsonError($response);
     }
 

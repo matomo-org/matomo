@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,8 +11,10 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Context;
 use Piwik\Piwik;
-use Piwik\Singleton;
+use Piwik\Plugin\Manager;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -23,15 +25,13 @@ use ReflectionMethod;
  * object, with the parameters in the right order.
  *
  * It will also log the performance of API calls (time spent, parameter values, etc.) if logger available
- *
- * @method static Proxy getInstance()
  */
-class Proxy extends Singleton
+class Proxy
 {
     // array of already registered plugins names
     protected $alreadyRegistered = array();
 
-    private $metadataArray = array();
+    protected $metadataArray = array();
     private $hideIgnoredFunctions = true;
 
     // when a parameter doesn't have a default value we use this
@@ -40,6 +40,11 @@ class Proxy extends Singleton
     public function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
+    }
+
+    public static function getInstance()
+    {
+        return StaticContainer::get(self::class);
     }
 
     /**
@@ -137,16 +142,10 @@ class Proxy extends Singleton
      */
     public function call($className, $methodName, $parametersRequest)
     {
-        $returnedValue = null;
-
         // Temporarily sets the Request array to this API call context
-        $saveGET = $_GET;
-        $saveQUERY_STRING = @$_SERVER['QUERY_STRING'];
-        foreach ($parametersRequest as $param => $value) {
-            $_GET[$param] = $value;
-        }
+        return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, $parametersRequest) {
+            $returnedValue = null;
 
-        try {
             $this->registerClass($className);
 
             // instanciate the object
@@ -220,8 +219,9 @@ class Proxy extends Singleton
              * @param array &$finalParameters List of parameters that will be passed to the API method.
              * @param string $pluginName The name of the plugin the API method belongs to.
              * @param string $methodName The name of the API method that will be called.
+             * @param array $parametersRequest The query parameters for this request.
              */
-            Piwik::postEvent(sprintf('API.Request.intercept'), [&$returnedValue, $finalParameters, $pluginName, $methodName]);
+            Piwik::postEvent('API.Request.intercept', [&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest]);
 
             $apiParametersInCorrectOrder = array();
 
@@ -239,9 +239,9 @@ class Proxy extends Singleton
             $endHookParams = array(
                 &$returnedValue,
                 array('className'  => $className,
-                      'module'     => $pluginName,
-                      'action'     => $methodName,
-                      'parameters' => $finalParameters)
+                    'module'     => $pluginName,
+                    'action'     => $methodName,
+                    'parameters' => $finalParameters)
             );
 
             /**
@@ -323,15 +323,8 @@ class Proxy extends Singleton
              */
             Piwik::postEvent('API.Request.dispatch.end', $endHookParams);
 
-            // Restore the request
-            $_GET = $saveGET;
-            $_SERVER['QUERY_STRING'] = $saveQUERY_STRING;
-        } catch (Exception $e) {
-            $_GET = $saveGET;
-            throw $e;
-        }
-
-        return $returnedValue;
+            return $returnedValue;
+        });
     }
 
     /**
@@ -448,7 +441,7 @@ class Proxy extends Singleton
     private function includeApiFile($fileName)
     {
         $module = self::getModuleNameFromClassName($fileName);
-        $path = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/API.php';
+        $path = Manager::getPluginDirectory($module) . '/API.php';
 
         if (is_readable($path)) {
             require_once $path; // prefixed by PIWIK_INCLUDE_PATH

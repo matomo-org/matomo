@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "このユーザーエージェントは %1$s として検出されます。このユーザーエージェントによるビジットは、デフォルトでは Matomo で追跡されません。",
         "BrowserEngine": "ブラウザ エンジン",
         "BrowserEngineDocumentation": "このチャートは、ビジターのブラウザをブラウザファミリー別に表示します。 %s Web開発者にとって最も重要な情報は、ビジターが使用しているレンダリングエンジンの種類です。ラベルはエンジンの名前で、括弧内にそのエンジンを使う最も一般的なブラウザ名を表示しています。",
         "BrowserEngines": "ブラウザ エンジン",
@@ -11,6 +12,7 @@
         "CarBrowser": "車載ブラウザ",
         "Software": "ソフトウェア",
         "ColumnBrowser": "ブラウザ",
+        "BrowserCode": "ブラウザコード",
         "ColumnOperatingSystem": "オペレーティングシステム",
         "ColumnOperatingSystemVersion": "オペレーティングシステムのバージョン",
         "Console": "コンソール",
@@ -19,7 +21,7 @@
         "dataTableLabelSystemVersion": "オペレーティングシステムのバージョン",
         "dataTableLabelTypes": "タイプ",
         "Device": "デバイス",
-        "DeviceBrand": "デバイスのブランド",
+        "DeviceBrand": "デバイスブランド",
         "DeviceBrands": "デバイスブランド",
         "DeviceDetection": "デバイス検出",
         "DeviceModel": "デバイスのモデル",
@@ -27,22 +29,26 @@
         "DevicesDetection": "ビジターのデバイス",
         "DeviceType": "デバイスタイプ",
         "DeviceTypes": "デバイスタイプ",
-        "FeaturePhone": "携帯電話",
+        "FeaturePhone": "フィーチャーフォン",
         "OperatingSystemFamilies": "オペレーティングシステムファミリー",
         "OperatingSystemFamily": "オペレーティングシステムファミリー",
+        "OperatingSystemCode": "オペレーティングシステムコード",
         "OperatingSystems": "オペレーティングシステム",
         "OperatingSystemVersions": "オペレーティングシステムのバージョン",
         "PluginDescription": "ブランド ( メーカー ) 、モデル ( デバイス バージョン ) 、デバイスの種類 ( テレビ、コンソール、スマート フォン、デスクトップ ) など、ユーザー デバイスに関する拡張情報を提供します。",
         "SmartDisplay": "スマートディスプレイ",
         "Smartphone": "スマートフォン",
+        "SmartSpeaker": "スマートスピーカー",
         "PortableMediaPlayer": "ポータブルメディアプレーヤー",
         "Devices": "デバイス",
+        "GenericDevice": "ジェネリック %s",
+        "MobileDevice": "モバイルデバイス",
         "Tablet": "タブレット",
         "Phablet": "ファブレット",
         "TV": "TV",
         "UserAgent": "ユーザーエージェント",
         "XVisitsFromDevices": "%2$s デバイスからの %1$s ビジット",
         "WidgetBrowsers": "ブラウザ",
-        "WidgetBrowsersDocumentation": "ビジターがどのブラウザを使っているかについてのリポートです。各ブラウザのバージョンは別途記載されています。"
+        "WidgetBrowsersDocumentation": "ビジターが使用しているブラウザについてのリポートです。各ブラウザのバージョンは別途記載されています。"
     }
 }

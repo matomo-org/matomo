@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Installation\Widgets;
 
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\DiagnosticReport;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
@@ -34,7 +35,9 @@ class GetSystemCheck extends Widget
         $config->setName('Installation_SystemCheck');
         $config->setOrder(16);
 
-        $config->setIsEnabled(Piwik::hasUserSuperUserAccess());
+        $config->setIsEnabled(Piwik::hasUserSuperUserAccess() 
+            && Manager::getInstance()->isPluginActivated('Diagnostics')
+        );
     }
 
     public function render()

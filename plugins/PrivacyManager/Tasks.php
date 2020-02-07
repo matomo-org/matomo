@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -40,7 +40,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function schedule()
     {
         $this->daily('deleteReportData', null, self::LOW_PRIORITY);
-        $this->daily('deleteLogData', null, self::LOW_PRIORITY);
+        $this->hourly('deleteLogData', null, self::LOW_PRIORITY);
         $this->hourly('anonymizePastData', null, self::LOW_PRIORITY);
         $this->weekly('deleteLogDataForDeletedSites', null, self::LOW_PRIORITY);
     }
@@ -64,6 +64,10 @@ class Tasks extends \Piwik\Plugin\Tasks
         $privacyManager->deleteReportData();
     }
 
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\PrivacyManager\Tasks.deleteLogData"`
+     */
     public function deleteLogData()
     {
         $privacyManager = new PrivacyManager();
