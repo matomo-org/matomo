@@ -228,7 +228,7 @@ class HtmlTable extends Visualization
                 // Try to check the column by it's index (not possible for all metrics, like custom columns)
                 $indexColumn = !empty($columnNamesToIndices[$column]) ? $columnNamesToIndices[$column] : null;
 
-                $value = ($indexColumn && $row->getColumn($indexColumn)) ? $row->getColumn($indexColumn) : $row->getColumn($column) ?: 0;
+                $value = (($indexColumn && $row->getColumn($indexColumn)) ? $row->getColumn($indexColumn) : $row->getColumn($column)) ?: 0;
                 if ($column == 'label') {
                     continue;
                 }
