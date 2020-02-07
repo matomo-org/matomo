@@ -22,7 +22,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2 AS LocationProviderGeoIp2;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\Php;
-use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
@@ -416,9 +415,6 @@ class GeoIP2AutoUpdater extends Task
 
             $scheduler->rescheduleTaskAndRunTomorrow(new GeoIP2AutoUpdater());
         }
-
-        // clear option for GeoIP as not needed if GeoIP2 is set up
-        GeoIPAutoUpdater::clearOptions();
     }
 
     /**

@@ -51,8 +51,6 @@ class UserCountry extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-selection/location-provider-selection.controller.js";
         $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-selection/location-provider-selection.directive.js";
-        $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-updater/location-provider-updater.controller.js";
-        $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-updater/location-provider-updater.directive.js";
     }
 
     /**
@@ -88,15 +86,6 @@ class UserCountry extends \Piwik\Plugin
         return $provider instanceof GeoIp2
         && $provider->isAvailable() === true
         && $provider->isWorking() === true;
-    }
-
-    public function getClientSideTranslationKeys(&$translationKeys)
-    {
-        $translationKeys[] = "UserCountry_FatalErrorDuringDownload";
-        $translationKeys[] = "UserCountry_SetupAutomaticUpdatesOfGeoIP";
-        $translationKeys[] = "General_Done";
-        $translationKeys[] = "General_Save";
-        $translationKeys[] = "General_Continue";
     }
 
     public static function isGeoLocationAdminEnabled()

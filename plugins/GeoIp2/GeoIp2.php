@@ -15,6 +15,14 @@ use Piwik\Plugins\UserCountry\LocationProvider;
  */
 class GeoIp2 extends \Piwik\Plugin
 {
+    public function registerEvents()
+    {
+        return array(
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+        );
+    }
+
     public function isTrackerPlugin()
     {
         return true;
@@ -26,5 +34,20 @@ class GeoIp2 extends \Piwik\Plugin
         if (LocationProvider::getCurrentProvider() instanceof \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2) {
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/GeoIp2/angularjs/geoip2-updater/geoip2-updater.controller.js";
+        $jsFiles[] = "plugins/GeoIp2/angularjs/geoip2-updater/geoip2-updater.directive.js";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = "UserCountry_FatalErrorDuringDownload";
+        $translationKeys[] = "UserCountry_SetupAutomaticUpdatesOfGeoIP";
+        $translationKeys[] = "General_Done";
+        $translationKeys[] = "General_Save";
+        $translationKeys[] = "General_Continue";
     }
 }

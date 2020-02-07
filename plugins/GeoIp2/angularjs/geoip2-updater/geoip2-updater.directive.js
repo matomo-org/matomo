@@ -7,19 +7,19 @@
 
 /**
  * Usage:
- * <div piwik-location-provider-selection>
+ * <div piwik-geoip2-updater>
  */
 (function () {
-    angular.module('piwikApp').directive('piwikLocationProviderUpdater', piwikLocationProviderUpdater);
+    angular.module('piwikApp').directive('piwikGeoip2Updater', piwikGeoip2Updater);
 
-    piwikLocationProviderUpdater.$inject = ['piwik'];
+    piwikGeoip2Updater.$inject = ['piwik'];
 
-    function piwikLocationProviderUpdater(piwik){
+    function piwikGeoip2Updater(piwik){
 
         return {
             restrict: 'A',
             transclude: true,
-            controller: 'LocationProviderUpdaterController',
+            controller: 'Geoip2UpdaterController',
             controllerAs: 'locationUpdater',
             template: '<div ng-transclude></div>',
             compile: function (element, attrs) {

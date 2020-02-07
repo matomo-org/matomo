@@ -11,11 +11,17 @@ namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
+use Piwik\Date;
 use Piwik\Common;
 use Piwik\Log;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Marketplace\Api\Exception;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\SettingsPiwik;
+use Piwik\View;
 
 /**
  * A LocationProvider that uses the PHP implementation of GeoIP 2.
@@ -409,6 +415,67 @@ class Php extends GeoIp2
             'install_docs'  => $installDocs,
             'extra_message' => $extraMessage,
             'order'         => 2);
+    }
+
+    public function renderConfiguration()
+    {
+        $view = new View('@GeoIp2/configuration.twig');
+        $today = Date::today();
+
+        $urls = GeoIP2AutoUpdater::getConfiguredUrls();
+        $view->geoIPLocUrl = $urls['loc'];
+        $view->geoIPIspUrl = $urls['isp'];
+        $view->geoIPUpdatePeriod = GeoIP2AutoUpdater::getSchedulePeriod();
+
+        $view->hasGeoIp2Provider = Manager::getInstance()->isPluginActivated('GeoIp2');
+
+        $geoIPDatabasesInstalled = $view->hasGeoIp2Provider ? GeoIp2::isDatabaseInstalled() : false;
+
+        $view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
+        $view->updatePeriodOptions = [
+            'month' => Piwik::translate('Intl_PeriodMonth'),
+            'week' => Piwik::translate('Intl_PeriodWeek')
+        ];
+
+
+        // if using a server module, they are working and there are no databases
+        // in misc, then the databases are located outside of Matomo, so we cannot update them
+        $view->showGeoIPUpdateSection = true;
+        $currentProviderId = LocationProvider::getCurrentProviderId();
+        if (!$geoIPDatabasesInstalled
+            && in_array($currentProviderId, [GeoIp2\ServerModule::ID])
+            && LocationProvider::getCurrentProvider()->isWorking()
+            && LocationProvider::getCurrentProvider()->isAvailable()
+        ) {
+            $view->showGeoIPUpdateSection = false;
+        }
+
+        $view->isInternetEnabled = SettingsPiwik::isInternetEnabled();
+
+
+        $view->dbipLiteUrl = GeoIp2::getDbIpLiteUrl();
+        $view->dbipLiteFilename = "dbip-city-lite-{$today->toString('Y-m')}.mmdb";
+        $view->dbipLiteDesiredFilename = "DBIP-City.mmdb";
+        $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
+
+        $lastRunTime = GeoIP2AutoUpdater::getLastRunTime();
+
+        if ($lastRunTime !== false) {
+            $view->lastTimeUpdaterRun = '<strong>' . $lastRunTime->toString() . '</strong>';
+        }
+        return $view->render();
+    }
+
+    public function renderSetUpGuide()
+    {
+        $today = Date::today();
+        $view = new View('@GeoIp2/setupguide.twig');
+
+        $view->dbipLiteUrl = GeoIp2::getDbIpLiteUrl();
+        $view->dbipLiteFilename = "dbip-city-lite-{$today->toString('Y-m')}.mmdb";
+        $view->dbipLiteDesiredFilename = "DBIP-City.mmdb";
+
+        return $view->render();
     }
 
     /**

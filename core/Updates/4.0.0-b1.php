@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
@@ -53,6 +54,9 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             // activate GeoIp2 plugin for users still using GeoIp2 Legacy (others might have it disabled on purpose)
             $migrations[] = $this->migration->plugin->activate('GeoIp2');
         }
+
+        // remove old options
+        $migrations[] = $this->migration->db->sql('DELETE FROM ' . Common::prefixTable('option') . ' WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
         return $migrations;
     }
