@@ -9,7 +9,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -32,46 +31,28 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $migration1 = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
-        $migration2 = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
+        $migrations = [];
+        $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
+        $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
 
-        $migration3 = $this->migration->plugin->activate('BulkTracking');
+        $customTrackerPluginActive = false;
+        if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {
+            $customTrackerPluginActive = true;
+        }
 
-        return array(
-            $migration1,
-            $migration2,
-            $migration3
-        );
+        $migrations[] = $this->migration->plugin->activate('BulkTracking');
+        $migrations[] = $this->migration->plugin->deactivate('CustomPiwikJs');
+        $migrations[] = $this->migration->plugin->uninstall('CustomPiwikJs');
+
+        if ($customTrackerPluginActive) {
+            $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
+        }
+
+        return $migrations;
     }
 
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
-
-        $this->renameTrackerJsPluginInConfig();
-
-        Cache::flushAll();
-    }
-
-    protected function renameTrackerJsPluginInConfig()
-    {
-        $updater = new Updater();
-        $updater->markComponentSuccessfullyUninstalled('CustomPiwikJs');
-
-        $config = Config::getInstance();
-
-        foreach ($config->Plugins['Plugins'] as $index => $plugin) {
-            if ($plugin === 'CustomPiwikJs') {
-                $config->Plugins['Plugins'][$index] = 'CustomJsTracker';
-            }
-        }
-
-        foreach ($config->PluginsInstalled['PluginsInstalled'] as $index => $plugin) {
-            if ($plugin === 'CustomPiwikJs') {
-                $config->PluginsInstalled['PluginsInstalled'][$index] = 'CustomJsTracker';
-            }
-        }
-
-        $config->forceSave();
     }
 }

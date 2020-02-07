@@ -17,13 +17,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * plugin:deactivate console command.
  */
-class DeactivatePlugin extends ConsoleCommand
+class UninstallPlugin extends ConsoleCommand
 {
     protected function configure()
     {
-        $this->setName('plugin:deactivate');
-        $this->setDescription('Deactivate a plugin.');
-        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to deactivate. Multiple plugin names can be specified separated by a space.');
+        $this->setName('plugin:uninstall');
+        $this->setDescription('Uninstall a plugin.');
+        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to uninstall. Multiple plugin names can be specified separated by a space.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -33,14 +33,14 @@ class DeactivatePlugin extends ConsoleCommand
         $plugins = $input->getArgument('plugin');
 
         foreach ($plugins as $plugin) {
-            if (!$pluginManager->isPluginActivated($plugin)) {
-                $output->writeln(sprintf('<comment>The plugin %s is already deactivated.</comment>', $plugin));
+            if ($pluginManager->isPluginLoaded($plugin)) {
+                $output->writeln(sprintf('<comment>The plugin %s is still active.</comment>', $plugin));
                 continue;
             }
 
-            $pluginManager->deactivatePlugin($plugin);
+            $pluginManager->uninstallPlugin($plugin);
 
-            $output->writeln("Deactivated plugin <info>$plugin</info>");
+            $output->writeln("Uninstalled plugin <info>$plugin</info>");
         }
     }
 }
