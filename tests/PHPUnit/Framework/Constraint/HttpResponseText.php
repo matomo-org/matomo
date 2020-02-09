@@ -10,9 +10,10 @@ namespace Piwik\Tests\Framework\Constraint;
 /**
  * @deprecated
  */
-class HttpResponseText extends \PHPUnit_Framework_Constraint
+class HttpResponseText extends \PHPUnit\Framework\Constraint\Constraint
 {
     private $actualCode;
+    private $value;
 
     /**
      * @param string $value Expected response text.
@@ -47,7 +48,7 @@ class HttpResponseText extends \PHPUnit_Framework_Constraint
      * @param mixed $other Value or object to evaluate.
      * @return bool
      */
-    public function matches($other)
+    public function matches($other): bool
     {
         $this->actualCode = $this->getResponse($other);
 
@@ -59,8 +60,8 @@ class HttpResponseText extends \PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
-        return 'does not return response text ' . $this->exporter->export($this->value) . ' it is ' . $this->actualCode;
+        return 'does not return response text ' . $this->exporter()->export($this->value) . ' it is ' . $this->actualCode;
     }
-}?>
+}

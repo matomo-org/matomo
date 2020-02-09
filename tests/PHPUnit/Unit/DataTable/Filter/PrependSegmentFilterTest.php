@@ -25,7 +25,7 @@ class PrependSegmentTest extends \PHPUnit\Framework\TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable();
         $this->addRowWithMetadata(array('test' => '1'));

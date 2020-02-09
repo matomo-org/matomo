@@ -25,7 +25,7 @@ class RssRendererTest extends IntegrationTestCase
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -64,51 +64,42 @@ class RssRendererTest extends IntegrationTestCase
         $this->assertEquals('Error: The API cannot handle this data structure.', $response);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderScalar_shouldFailForBooleanScalar()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
         $this->builder->renderScalar(true);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderScalar_shouldFailForIntegerScalar()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
         $this->builder->renderScalar(5);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderScalar_shouldFailForStringScalar()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
         $this->builder->renderScalar('string');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderDataTable_shouldFailForDataTable()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
 
         $this->builder->renderDataTable($dataTable);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderDataTable_shouldFailForSubtables()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
+
         $subtable = new DataTable();
         $subtable->addRowFromSimpleArray(array('nb_visits' => 2, 'nb_random' => 6));
 
@@ -119,12 +110,11 @@ class RssRendererTest extends IntegrationTestCase
         $this->builder->renderDataTable($dataTable);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderDataTable_shouldFail_IfKeynameIsNotDate()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
+
         $map = new DataTable\Map();
 
         $dataTable = new DataTable();
@@ -161,24 +151,22 @@ class RssRendererTest extends IntegrationTestCase
 </rss>', $response);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderDataTable_shouldFailForSimpleDataTable()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
+
         $dataTable = new DataTable\Simple();
         $dataTable->addRowsFromArray(array('nb_visits' => 3, 'nb_random' => 6));
 
         $this->builder->renderDataTable($dataTable);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage RSS feeds can be generated for one specific website
-     */
     public function test_renderArray_ShouldFailForArrays()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('RSS feeds can be generated for one specific website');
+
         $input = array(1, 2, 5, 'string', 10);
 
         $this->builder->renderArray($input);

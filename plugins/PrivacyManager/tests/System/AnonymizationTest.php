@@ -31,7 +31,7 @@ class AnonymizationTest extends SystemTestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();

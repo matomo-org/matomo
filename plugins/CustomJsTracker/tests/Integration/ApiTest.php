@@ -26,7 +26,7 @@ class ApiTest extends IntegrationTestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -35,22 +35,20 @@ class ApiTest extends IntegrationTestCase
         $this->api = API::getInstance();
     }
 
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage checkUserHasSomeAdminAccess
-     */
     public function test_doesIncludePluginTrackersAutomatically_failsIfNotEnoughPermission()
     {
+        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
+
         $this->setUser();
         $this->api->doesIncludePluginTrackersAutomatically();
     }
 
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage checkUserHasSomeAdminAccess
-     */
     public function test_doesIncludePluginTrackersAutomatically_failsIfNotEnoughPermissionAnonymous()
     {
+        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
+
         $this->setAnonymousUser();
         $this->api->doesIncludePluginTrackersAutomatically();
     }

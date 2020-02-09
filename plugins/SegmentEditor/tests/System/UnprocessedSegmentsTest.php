@@ -37,7 +37,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertNotContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'customSegmentUnprocessed', [
             'idSite' => self::$fixture->idSite,
@@ -57,7 +57,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertNotContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(!in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'realTimeSegmentUnprocessed', [
             'idSite' => self::$fixture->idSite,
@@ -77,7 +77,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'autoArchiveSegmentUnprocessed', [
             'idSite' => self::$fixture->idSite,
@@ -97,7 +97,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'autoArchiveSegmentUnprocessedEncoded', [
             'idSite' => self::$fixture->idSite,
@@ -120,7 +120,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'autoArchiveSegmentPreprocessed', [
             'idSite' => self::$fixture->idSite,
@@ -138,7 +138,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertNotContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(!in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'customSegmentPreprocessed', [
             'idSite' => self::$fixture->idSite,
@@ -163,7 +163,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'autoArchiveSegmentNoDataPreprocessed', [
             'idSite' => self::$fixture->idSite,
@@ -185,7 +185,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'noLogDataSegmentUnprocessed', [
             'idSite' => self::$fixture->idSite,
@@ -205,7 +205,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        $this->assertContains(self::TEST_SEGMENT, $segments);
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'noLogDataSegmentUnprocessedMultiSite', [
             'idSite' => 'all',

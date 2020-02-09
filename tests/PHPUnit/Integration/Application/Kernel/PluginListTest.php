@@ -22,7 +22,7 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
      */
     private $pluginList = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->pluginList = $this->makePluginList();

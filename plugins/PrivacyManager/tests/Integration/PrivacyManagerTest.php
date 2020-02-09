@@ -28,7 +28,7 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     private $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +38,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         \Piwik\Option::set('delete_reports_keep_week_reports', 1);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['date']);
         unset($_GET['period']);

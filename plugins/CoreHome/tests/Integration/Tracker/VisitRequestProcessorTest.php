@@ -141,7 +141,7 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $dimensions = array();
         foreach ($dimensionOnNewVisitResults as $onNewVisitResult) {
             $dim = $this->getMockBuilder('Piwik\\Plugin\\Dimension')
-                        ->setMethods(array('shouldForceNewVisit', 'getColumnName'))
+                        ->onlyMethods(array('shouldForceNewVisit', 'getColumnName'))
                         ->getMock();
             $dim->expects($this->any())->method('shouldForceNewVisit')->will($this->returnValue($onNewVisitResult));
             $dimensions[] = $dim;

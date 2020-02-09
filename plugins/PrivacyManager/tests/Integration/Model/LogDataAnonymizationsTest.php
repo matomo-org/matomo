@@ -27,7 +27,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
 
     private $tableName;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -42,12 +42,11 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->assertEquals(array('idlogdata_anonymization', 'idsites', 'date_start', 'date_end', 'anonymize_ip', 'anonymize_location', 'anonymize_userid', 'unset_visit_columns', 'unset_link_visit_action_columns', 'output', 'scheduled_date', 'job_start_date', 'job_finish_date', 'requester'), $columns);
     }
 
-    /**
-     * @expectedException \Zend_Db_Statement_Exception
-     * @expectedExceptionMessage privacy_logdata_anonymizations
-     */
     public function test_shouldBeAbleToUninstallTable()
     {
+        $this->expectException(\Zend_Db_Statement_Exception::class);
+        $this->expectExceptionMessage('privacy_logdata_anonymizations');
+
         $this->dao->uninstall();
 
         try {
@@ -61,48 +60,43 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->dao->install();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ValidatorErrorEmptyValue
-     */
     public function test_scheduleEntry_fails_whenNoDateGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
+
         $this->scheduleEntry(null, null);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidDateFormat
-     */
     public function test_scheduleEntry_fails_whenInvalidDateGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
+
         $this->scheduleEntry(null, 'foobar');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The column "visitor_foobar_Baz" seems to not exist in log_visit
-     */
     public function test_scheduleEntry_fails_whenInvalidVisitColumnsGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The column "visitor_foobar_Baz" seems to not exist in log_visit');
+
         $this->scheduleEntry(null, '2018-01-02', false, false, false, ['visitor_localtime', 'visitor_foobar_Baz', 'config_device_type']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The column "idaction_foobar_baz" seems to not exist in log_link_visit_action
-     */
     public function test_scheduleEntry_fails_whenInvalidLinkVisitActionColumnsGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The column "idaction_foobar_baz" seems to not exist in log_link_visit_action');
+
         $this->scheduleEntry(null, '2018-01-02', false, false, false, [], ['idaction_event_category', 'idaction_foobar_baz']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Nothing is selected to be anonymized
-     */
     public function test_scheduleEntry_fails_whenNoWorkScheduled()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Nothing is selected to be anonymized');
+
         $this->scheduleEntry(null, '2018-01-02', false, false, false, [], []);
     }
 
@@ -159,12 +153,11 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         ), $entry);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Specified date range is invalid.
-     */
     public function test_scheduleEntry_failsInvalidDateRange()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Specified date range is invalid.');
+
         $this->scheduleStartedEntry(null, '2018-04-06,2017-03-01', false, true, [], false, 'mylogin2');
     }
 

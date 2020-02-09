@@ -43,7 +43,7 @@ class FactoryTest extends IntegrationTestCase
     private $testTable = 'tablename';
     private $testTablePrefixed = '';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         

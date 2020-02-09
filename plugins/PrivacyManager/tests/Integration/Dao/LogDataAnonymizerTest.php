@@ -36,7 +36,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
      */
     private $theFixture;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -49,7 +49,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->theFixture->setUpLocation();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->theFixture->tearDownLocation();
     }
@@ -64,30 +64,27 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->assertNull($this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'location_region')));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  The column "foobarbaz" seems to not exist in log_visit or cannot be unset
-     */
     public function test_checkAllVisitColumns_notExistingColumnGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The column "foobarbaz" seems to not exist in log_visit or cannot be unset');
+
         $this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'foobarbaz'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  The column "idsite" seems to not exist in log_visit or cannot be unset
-     */
     public function test_checkAllVisitColumns_blacklistedColumnGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The column "idsite" seems to not exist in log_visit or cannot be unset');
+
         $this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'idsite'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  The column "visit_total_time" seems to not exist in log_visit or cannot be unset
-     */
     public function test_checkAllVisitColumns_columnWithoutDefaultValueGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The column "visit_total_time" seems to not exist in log_visit or cannot be unset');
+
         $this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'visit_total_time'));
     }
 
@@ -101,21 +98,19 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->assertNull($this->anonymizer->checkAllLinkVisitActionColumns(array('time_spent_ref_action', 'idaction_content_piece')));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  The column "foobarbaz" seems to not exist in log_link_visit_action or cannot be unset
-     */
     public function test_checkAllLinkVisitActionColumns_notExistingColumnGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The column "foobarbaz" seems to not exist in log_link_visit_action or cannot be unset');
+
         $this->anonymizer->checkAllLinkVisitActionColumns(array('time_spent_ref_action', 'foobarbaz'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  The column "idsite" seems to not exist in log_link_visit_action or cannot be unset
-     */
     public function test_checkAllLinkVisitActionColumns_blacklistedColumnGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The column "idsite" seems to not exist in log_link_visit_action or cannot be unset');
+
         $this->anonymizer->checkAllLinkVisitActionColumns(array('time_spent_ref_action', 'idsite'));
     }
 

@@ -22,7 +22,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SessionInitializerTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -69,7 +69,7 @@ class SessionInitializerTest extends IntegrationTestCase
 
     private function assertAuthCookieIsCreated(Cookie $cookie)
     {
-        $this->assertContains('login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==',
+        self::assertStringContainsString('login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==',
             $cookie->generateContentString());
     }
 

@@ -33,7 +33,7 @@ class ChunksTest extends IntegrationTestCase
 {
     private $date = '2015-01-01';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

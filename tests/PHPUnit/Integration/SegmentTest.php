@@ -33,7 +33,7 @@ class SegmentTest extends IntegrationTestCase
 
     private $exampleSegment = 'visitCount>=1';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

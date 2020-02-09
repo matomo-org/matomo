@@ -53,7 +53,7 @@ class ActionDimensionTest extends IntegrationTestCase
      */
     private $dimension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

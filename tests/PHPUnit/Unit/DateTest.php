@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class DateTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,7 +26,7 @@ class DateTest extends \PHPUnit\Framework\TestCase
         date_default_timezone_set('UTC');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Date::$now = null;
         date_default_timezone_set('UTC');
@@ -77,12 +77,8 @@ class DateTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidDateThrowsException()
     {
-        try {
-            Date::factory('0001-01-01');
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        Date::factory('0001-01-01');
     }
 
     public function getTimezoneOffsets()
@@ -466,21 +462,19 @@ class DateTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
-     */
     public function test_factoryInTimezone_doesNotWorkWithNormalDates()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Date::factoryInTimezone() should not be used with');
+
         Date::factoryInTimezone('2012-02-03', 'America/Toronto');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
-     */
     public function test_factoryInTimezone_doesNotWorkWithTimestamps()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Date::factoryInTimezone() should not be used with');
+
         Date::factoryInTimezone(time(), 'America/Toronto');
     }
 }

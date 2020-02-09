@@ -24,7 +24,7 @@ class TrackerLoggingTest extends SystemTestCase
 {
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

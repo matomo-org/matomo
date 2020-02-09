@@ -32,14 +32,14 @@ class MigrationsTest extends IntegrationTestCase
     private $testTable = 'tablename';
     private $testTablePrefixed = '';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         self::dropTestTableIfNeeded();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::dropTestTableIfNeeded();
 
@@ -52,7 +52,7 @@ class MigrationsTest extends IntegrationTestCase
         Db::exec("DROP TABLE IF EXISTS `$table`");
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -156,6 +156,7 @@ class MigrationsTest extends IntegrationTestCase
     public function test_changeColumnType()
     {
         $this->factory->changeColumnType($this->testTable, 'column2', 'SMALLINT(4) NOT NULL')->exec();
+        $this->assertTrue(true);
     }
 
     /**

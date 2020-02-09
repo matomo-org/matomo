@@ -28,7 +28,7 @@ class WidgetsProviderTest extends IntegrationTestCase
      */
     private $widgets;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -40,7 +40,7 @@ class WidgetsProviderTest extends IntegrationTestCase
         $this->widgets = new WidgetsProvider(StaticContainer::get('Piwik\Plugin\Manager'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($_GET['idSite']);

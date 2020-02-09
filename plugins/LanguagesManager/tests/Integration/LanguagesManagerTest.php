@@ -87,12 +87,13 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         $translations = $translationWriter->getTranslations($language);
 
         if (empty($translations)) {
+            self::assertTrue(true);
             return; // skip language / plugin combinations that aren't present
         }
 
         $translationWriter->setTranslations($translations);
 
-        $this->assertTrue($translationWriter->isValid(), $translationWriter->getValidationMessage());
+        $this->assertTrue($translationWriter->isValid(), $translationWriter->getValidationMessage() ?: '');
 
         if ($translationWriter->wasFiltered()) {
 
@@ -116,11 +117,11 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
      * test language when it's not defined
      *
      * @group Plugins
-     *
-     * @expectedException Exception
      */
     function testWriterInvalidPlugin()
     {
+        $this->expectException(\Exception::class);
+
         new Writer('de', 'iNvaLiDPluGin'); // invalid plugin throws exception
     }
 

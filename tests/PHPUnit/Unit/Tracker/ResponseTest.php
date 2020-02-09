@@ -40,7 +40,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     private $response;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->response = new TestResponse();
@@ -65,8 +65,8 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
 
         $content = $this->response->getOutput();
 
-        $this->assertContains('<title>Matomo &rsaquo; Error</title>', $content);
-        $this->assertContains('<p>My Custom Message', $content);
+        self::assertStringContainsString('<title>Matomo &rsaquo; Error</title>', $content);
+        self::assertStringContainsString('<p>My Custom Message', $content);
     }
 
     public function test_outputResponse_shouldOutputStandardApiResponse()
@@ -143,7 +143,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     public function test_getMessageFromException_ShouldReturnMessageAndTrace_InCaseIsCli()
     {
         $message = $this->response->getMessageFromException(new Exception('Test Message', 8150));
-        $this->assertStringStartsWith("Test Message\n#0 [internal function]", $message);
+        $this->assertStringStartsWith("Test Message\n#0 ", $message);
     }
 
     public function test_getMessageFromException_ShouldOnlyReturnMessage_InCaseIsNotCli()

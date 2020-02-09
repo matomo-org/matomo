@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserCountry\tests\Integration;
 
-use PHPUnit_Framework_MockObject_MockObject;
 use Piwik\Common;
 use Piwik\Db;
 use Matomo\Network\IPUtils;
@@ -34,7 +33,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
      */
     private $logInserter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -359,7 +358,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|LocationProvider
+     * @return \PHPUnit\Framework\MockObject\MockObject|LocationProvider
      */
     protected function getProviderMock()
     {

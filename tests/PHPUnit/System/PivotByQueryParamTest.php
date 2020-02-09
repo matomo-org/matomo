@@ -23,7 +23,7 @@ class PivotByQueryParamTest extends SystemTestCase
      */
     public static $fixture = null;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 

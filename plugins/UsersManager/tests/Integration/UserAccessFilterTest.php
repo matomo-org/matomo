@@ -56,7 +56,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         'login8' => array('view' => array(4,7),     'admin' => array(2,5)), // access to a couple of sites with admin and view
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

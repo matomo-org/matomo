@@ -47,7 +47,7 @@ class InvalidLicensesTest extends IntegrationTestCase
 
     private $cacheKey = 'Marketplace_ExpiredPlugins';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -56,7 +56,7 @@ class InvalidLicensesTest extends IntegrationTestCase
         $this->cache = new Eager(new ArrayCache(), 'test');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
         parent::tearDown();

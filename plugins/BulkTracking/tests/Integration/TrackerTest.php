@@ -36,7 +36,7 @@ class TrackerTest extends BulkTrackingTestCase
      */
     private $tracker;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -51,10 +51,10 @@ class UserCountryTest extends \PHPUnit\Framework\TestCase
         // Get list of countries
         foreach ($countries as $country => $continent) {
             // test continent
-            $this->assertContains($continent, $continents);
+            self::assertTrue(in_array($continent, $continents));
 
             // test flag
-            $this->assertContains($country . '.png', $flags);
+            self::assertTrue(in_array($country . '.png', $flags));
         }
 
         foreach ($flags as $filename) {

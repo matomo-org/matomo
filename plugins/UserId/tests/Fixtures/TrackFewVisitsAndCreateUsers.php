@@ -19,7 +19,7 @@ class TrackFewVisitsAndCreateUsers extends Fixture
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::siteCreated($idSite = 1)) {
             self::createWebsite($this->dateTime);

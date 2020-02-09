@@ -24,7 +24,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
      */
     private $testInstance;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -54,8 +54,8 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
 
         $this->assertStringStartsWith('<html', $mail->getBodyHtml()->getContent());
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertContains('ScheduledReports_PleaseFindAttachedFile', $mailContent);
-        $this->assertContains('ScheduledReports_SentFromX', $mailContent);
+        self::assertStringContainsString('ScheduledReports_PleaseFindAttachedFile', $mailContent);
+        self::assertStringContainsString('ScheduledReports_SentFromX', $mailContent);
         $this->assertEquals('Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
@@ -100,7 +100,7 @@ Content-Disposition: inline; filename="General_Report report - pretty date.thing
         $mailContent = $this->getMailContent($mail);
 
         $this->assertStringStartsWith('<html', $mailContent);
-        $this->assertContains('ScheduledReports_PleaseFindAttachedFile', $mailContent);
+        self::assertStringContainsString('ScheduledReports_PleaseFindAttachedFile', $mailContent);
         $this->assertEquals('Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
@@ -130,9 +130,9 @@ Content-Disposition: inline
         $mailContent = $this->getMailContent($mail);
 
         $this->assertStringStartsWith('<html', $mailContent);
-        $this->assertContains("ScheduledReports_PleaseFindAttachedFile", $mailContent);
-        $this->assertContains('ScheduledReports_SentFromX=', $mailContent);
-        $this->assertContains('ScheduledReports_CustomVisitorSegment', $mailContent);
+        self::assertStringContainsString("ScheduledReports_PleaseFindAttachedFile", $mailContent);
+        self::assertStringContainsString('ScheduledReports_SentFromX=', $mailContent);
+        self::assertStringContainsString('ScheduledReports_CustomVisitorSegment', $mailContent);
         $this->assertEquals('Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline

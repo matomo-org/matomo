@@ -38,7 +38,7 @@ class ArchiveWriterTest extends IntegrationTestCase
 {
     private $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         Access::getInstance()->setSuperUserAccess(true);
         $this->idSite = Fixture::createWebsite('2019-08-29');

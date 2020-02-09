@@ -40,7 +40,7 @@ class TrackerTest extends IntegrationTestCase
 
     private $iniTimeZone;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class TrackerTest extends IntegrationTestCase
         $this->iniTimeZone = ini_get('date.timezone');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->restoreConfigFile();
         

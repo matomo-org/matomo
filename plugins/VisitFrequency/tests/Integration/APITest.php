@@ -19,7 +19,7 @@ class APITest extends IntegrationTestCase
 
     private $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();

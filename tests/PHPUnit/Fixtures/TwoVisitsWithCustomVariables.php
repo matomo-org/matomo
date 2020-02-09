@@ -28,13 +28,13 @@ class TwoVisitsWithCustomVariables extends Fixture
     public $resolutionWidthToUse = 1111;
     public $resolutionHeightToUse = 222;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

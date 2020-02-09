@@ -41,12 +41,11 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals($params['params'], $storedParams);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Setting parameters translations is not allowed. Please report this bug to the Matomo team.
-     */
     public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Setting parameters translations is not allowed. Please report this bug to the Matomo team.');
+
         $login  = 'mylogin';
         $method = 'API.get';
         $params = array(
@@ -58,12 +57,11 @@ class ManagerTest extends IntegrationTestCase
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Setting parameters filters is not allowed. Please report this bug to the Matomo team.
-     */
     public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams_bis()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Setting parameters filters is not allowed. Please report this bug to the Matomo team.');
+
         $login  = 'mylogin';
         $method = 'API.get';
         $params = array(
@@ -75,12 +73,11 @@ class ManagerTest extends IntegrationTestCase
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Setting parameters apiMethodToRequestDataTable is not allowed. Please report this bug to the Matomo team.
-     */
     public function test_setViewDataTableParameters_inRequestConfigProperty_shouldOnlyAllowOverridableParams()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Setting parameters apiMethodToRequestDataTable is not allowed. Please report this bug to the Matomo team.');
+
         $login  = 'mylogin';
         $method = 'API.get';
         $params = array(

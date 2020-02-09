@@ -1165,16 +1165,13 @@ class RangeTest extends BasePeriodTest
 
     public function testCustomRangeBeforeIsAfterYearRight()
     {
-        try {
-            $range = new Range('range', '2007-02-09,2007-02-01');
-            $this->assertEquals(0, $range->getNumberOfSubperiods());
-            $this->assertEquals(array(), $range->toString());
+        $this->expectException(Exception::class);
 
-            $range->getPrettyString();
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $range = new Range('range', '2007-02-09,2007-02-01');
+        $this->assertEquals(0, $range->getNumberOfSubperiods());
+        $this->assertEquals(array(), $range->toString());
+
+        $range->getPrettyString();
     }
 
     public function testCustomRangeLastN()
@@ -1218,13 +1215,10 @@ class RangeTest extends BasePeriodTest
 
     public function testInvalidRangeThrows()
     {
-        try {
-            $range = new Range('range', '0001-01-01,today');
-            $range->getLocalizedLongString();
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $range = new Range('range', '0001-01-01,today');
+        $range->getLocalizedLongString();
     }
 
     public function testGetLocalizedShortString()

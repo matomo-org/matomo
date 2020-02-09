@@ -22,7 +22,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ArchivingStatusTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

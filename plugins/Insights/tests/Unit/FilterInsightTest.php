@@ -30,7 +30,7 @@ class FilterInsightTest extends BaseUnitTest
      */
     private $pastTable;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->currentTable = new DataTable();
         $this->currentTable->addRowsFromArray(array(

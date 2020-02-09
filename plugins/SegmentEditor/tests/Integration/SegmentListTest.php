@@ -29,7 +29,7 @@ class SegmentListTest extends IntegrationTestCase
 
     private $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +42,7 @@ class SegmentListTest extends IntegrationTestCase
         $segmentName = 'pageUrl';
 
         $segment = $this->list->findSegment($segmentName, $this->idSite);
-        $this->assertInternalType('array', $segment);
+        self::assertIsArray($segment);
         $this->assertSame($segmentName, $segment['segment']);
     }
 
@@ -52,12 +52,11 @@ class SegmentListTest extends IntegrationTestCase
         $this->assertNull($segment);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasViewAccess
-     */
     public function test_findSegment_ShouldThrowException_IfNotEnoughPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasViewAccess');
+
         FakeAccess::clearAccess($superUser = false, array(1));
 
         $segment = $this->list->findSegment('pageUrl', 999);

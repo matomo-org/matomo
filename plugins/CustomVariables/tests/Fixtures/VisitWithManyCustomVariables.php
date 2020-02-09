@@ -22,14 +22,14 @@ class VisitWithManyCustomVariables extends Fixture
     public $visitorId = '61e8cc2d51fea26d';
     private $numCustomVars = 8;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpCustomVars();
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

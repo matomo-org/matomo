@@ -27,7 +27,7 @@ class ModelTest extends IntegrationTestCase
 
     private $idSegment4;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->model = new Model();
@@ -53,7 +53,7 @@ class ModelTest extends IntegrationTestCase
         ));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         // Force a hard delete of segment

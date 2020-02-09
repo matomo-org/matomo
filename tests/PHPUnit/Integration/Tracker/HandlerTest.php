@@ -46,7 +46,7 @@ class HandlerTest extends IntegrationTestCase
      */
     private $requestSet;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -100,21 +100,19 @@ class FactoryTest extends IntegrationTestCase
         $this->assertInstanceOf(TestPeriod::class, $period);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidPeriod
-     */
     public function test_build_ThrowsIfPeriodIsUnrecognized()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidPeriod');
+
         Period\Factory::build('garbageperiod', '2015-01-01');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidPeriod
-     */
     public function test_build_ThrowsIfPeriodIsNotEnabledForApi()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidPeriod');
+
         Config::getInstance()->General['enabled_periods_API'] = 'day';
         Period\Factory::build('week', '2015-01-01');
     }

@@ -56,7 +56,7 @@ class ManyVisitsWithGeoIP extends Fixture
     protected $idGoal;
     protected $idGoal2;
 
-    public function setUp()
+    public function setUp(): void
     {
         // set option, so tracked data for the past won't get converted
         Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, 1);
@@ -78,7 +78,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $this->setLocationProvider('GeoIP2-City.mmdb');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->unsetLocationProvider();
     }

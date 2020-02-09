@@ -26,7 +26,7 @@ class GetTest extends \PHPUnit\Framework\TestCase
 
     private $column = 'nb_users';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->get = new Get();

@@ -35,7 +35,7 @@ class ApiTest extends SystemTestCase
     private $api;
     private $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ class ApiTest extends SystemTestCase
         $this->api = API::getInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -88,7 +88,7 @@ class ApiTest extends SystemTestCase
             'evolutionDifference' => -9
         );
 
-        $this->assertInternalType('array', $metadata['report']);
+        self::assertIsArray($metadata['report']);
         $this->assertEquals('Actions', $metadata['report']['module']);
         $this->assertEquals('getPageUrls', $metadata['report']['action']);
         unset($metadata['report']);

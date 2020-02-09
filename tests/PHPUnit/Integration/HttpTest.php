@@ -270,21 +270,21 @@ class HttpTest extends \PHPUnit\Framework\TestCase
      *      curl_exec: server certificate verification failed. CAfile: /home/travis/build/piwik/piwik/core/DataFiles/cacert.pem CRLfile: none. Hostname requested was: self-signed.badssl.com
      * or
      *      curl_exec: SSL certificate problem: self signed certificate. Hostname requested was: self-signed.badssl.com
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp /curl_exec: .*certificate.* /
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageRegExp('/curl_exec: .*certificate.* /');
+
         // use a domain from https://badssl.com/
         Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage failed to open stream
-     */
     public function testFopenHttpsFailsWithInvalidCertificate()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('failed to open stream');
+
         // use a domain from https://badssl.com/
         Http::sendHttpRequestBy('fopen', 'https://self-signed.badssl.com/', 10);
     }

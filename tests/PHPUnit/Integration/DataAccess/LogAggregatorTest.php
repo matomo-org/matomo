@@ -41,7 +41,7 @@ class LogAggregatorTest extends IntegrationTestCase
      */
     private $logAggregator;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

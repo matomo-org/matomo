@@ -33,7 +33,7 @@ class ResponseTest extends UnitTestCase
      */
     private $response;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -33,7 +33,7 @@ class FactoryTest extends IntegrationTestCase
      */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->factory = new Factory();
