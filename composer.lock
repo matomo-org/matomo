@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e193c668f0333637ac4b5a7f3bef0cc",
+    "content-hash": "ef319f0bec0c7988dd83727e05ac2b39",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1040,16 +1040,16 @@
         },
         {
             "name": "piwik/cache",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc"
+                "reference": "09274cb024c506ba5b182c0e72a71ff3b933b4c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/b000c45ce257b6949e2de4df7c094046986d85bc",
-                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/09274cb024c506ba5b182c0e72a71ff3b933b4c3",
+                "reference": "09274cb024c506ba5b182c0e72a71ff3b933b4c3",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1084,7 @@
                 "redis"
             ],
             "abandoned": "matomo/cache",
-            "time": "2019-07-14T20:55:33+00:00"
+            "time": "2020-02-09T20:54:22+00:00"
         },
         {
             "name": "piwik/decompress",
