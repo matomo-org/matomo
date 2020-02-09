@@ -180,7 +180,7 @@ class Access
         }
 
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
-        if (!$result || !$result->wasAuthenticationSuccessful()) {
+        if (!$result) {
             $result = $this->auth->authenticate();
         }
 
