@@ -166,6 +166,15 @@ class Access
                 $auth = StaticContainer::get(SessionAuth::class);
                 $auth->setTokenAuth($tokenAuth);
                 $result = $auth->authenticate();
+                if (!$result->wasAuthenticationSuccessful()) {
+
+                    /**
+                     * Ensures brute force logic to be executed
+                     * @ignore
+                     * @internal
+                     */
+                    Piwik::postEvent('API.Request.authenticate.failed');
+                }
                 // if not successful, we will fallback to regular auth
             }
         }
