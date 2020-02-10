@@ -58,27 +58,6 @@
                     hasAny = false;
                     return;
                 }
-                if ($scope.field1 && $scope.field2 && $scope.field3 && $scope.field4) {
-                    if (!table[$scope.field1.key] && !table[$scope.field2.key] && !table[$scope.field3.key] && !table[$scope.field4.key]) {
-                        hasAny = false;
-                    }
-                } else if ($scope.field1 && $scope.field2 && $scope.field3) {
-                    if (!table[$scope.field1.key] && !table[$scope.field2.key] && !table[$scope.field3.key]) {
-                        hasAny = false;
-                    }
-                } else if ($scope.field1 && $scope.field2) {
-                    if (!table[$scope.field1.key] && !table[$scope.field2.key]) {
-                        hasAny = false;
-                    }
-                } else if ($scope.field1) {
-                    if (!table[$scope.field1.key]) {
-                        hasAny = false;
-                    }
-                } else if ($scope.field2) {
-                    if (!table[$scope.field2.key]) {
-                        hasAny = false;
-                    }
-                }
 
                 var fieldCount = 0;
                 if ($scope.field1 && $scope.field2 && $scope.field3 && $scope.field4) {
@@ -87,10 +66,29 @@
                     fieldCount = 3;
                 } else if ($scope.field1 && $scope.field2) {
                     fieldCount = 2;
-                } else if ($scope.field1 || $scope.field2) {
+                } else if ($scope.field1) {
                     fieldCount = 1;
                 }
                 table.fieldCount = fieldCount;
+
+                if (fieldCount === 4) {
+                    if (!table[$scope.field1.key] && !table[$scope.field2.key] && !table[$scope.field3.key] && !table[$scope.field4.key]) {
+                        hasAny = false;
+                    }
+                } else if (fieldCount === 3) {
+                    if (!table[$scope.field1.key] && !table[$scope.field2.key] && !table[$scope.field3.key]) {
+                        hasAny = false;
+                    }
+                } else if (fieldCount === 2) {
+                    if (!table[$scope.field1.key] && !table[$scope.field2.key]) {
+                        hasAny = false;
+                    }
+                } else if (fieldCount === 1) {
+                    if (!table[$scope.field1.key]) {
+                        hasAny = false;
+                    }
+                }
+
 
             });
             if (hasAny) {
@@ -101,24 +99,18 @@
         this.addEntry = function () {
             if (angular.isArray($scope.formValue)) {
                 var obj = {};
-                var fieldCount = 0;
                 if ($scope.field1 && $scope.field1.key) {
                     obj[$scope.field1.key] = '';
-                    fieldCount++;
                 }
                 if ($scope.field2 && $scope.field2.key) {
                     obj[$scope.field2.key] = '';
-                    fieldCount++;
                 }
                 if ($scope.field3 && $scope.field3.key) {
                     obj[$scope.field3.key] = '';
-                    fieldCount++;
                 }
                 if ($scope.field4 && $scope.field4.key) {
                     obj[$scope.field4.key] = '';
-                    fieldCount++;
                 }
-                obj.fieldCount = fieldCount;
                 $scope.formValue.push(obj);
             }
         };
