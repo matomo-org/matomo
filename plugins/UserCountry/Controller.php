@@ -70,6 +70,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         $view->isThereWorkingProvider = $isThereWorkingProvider;
 
+        $view->notUsingGeoIpPlugin = !Manager::getInstance()->isPluginActivated('GeoIp2')
+            && !Manager::getInstance()->isPluginActivated('GeoIp');
+
         // if using either the Apache, Nginx or PECL module, they are working and there are no databases
         // in misc, then the databases are located outside of Piwik, so we cannot update them
         $view->showGeoIPUpdateSection = true;
@@ -78,6 +81,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             && in_array($currentProviderId, [GeoIp2\ServerModule::ID, GeoIp\ServerBased::ID, GeoIp\Pecl::ID])
             && $allProviderInfo[$currentProviderId]['status'] == LocationProvider::INSTALLED
         ) {
+            $view->showGeoIPUpdateSection = false;
+        }
+        if ($view->notUsingGeoIpPlugin) {
             $view->showGeoIPUpdateSection = false;
         }
 

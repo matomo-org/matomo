@@ -341,7 +341,7 @@ class Zend_Session extends Zend_Session_Abstract
         }
 
         if (stripos($cookieHeader, 'SameSite') === false) {
-            $cookieHeader .= '; SameSite=Lax';
+            $cookieHeader .= '; SameSite=' . \Piwik\Session::getSameSiteCookieValue();
             header($cookieHeader);
         }
     }
@@ -798,7 +798,7 @@ class Zend_Session extends Zend_Session_Abstract
                 $cookie_params['domain'],
                 $cookie_params['secure'],
                 false,
-                'lax'
+                \Piwik\Session::getSameSiteCookieValue()
             );
         }
     }

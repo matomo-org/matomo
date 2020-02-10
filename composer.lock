@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6436d84b7a1cbf44a996b4795723ce68",
+    "content-hash": "ef319f0bec0c7988dd83727e05ac2b39",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -626,16 +626,16 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "1.4.4",
+            "version": "3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3"
+                "reference": "80ab98ed17ea5b72730f4f4d96acc03847440103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
-                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/80ab98ed17ea5b72730f4f4d96acc03847440103",
+                "reference": "80ab98ed17ea5b72730f4f4d96acc03847440103",
                 "shasum": ""
             },
             "replace": {
@@ -647,7 +647,7 @@
                 "CC0-1.0"
             ],
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
-            "time": "2018-05-25T11:09:26+00:00"
+            "time": "2020-01-13T09:01:25+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -1236,16 +1236,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.12.2",
+            "version": "3.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "c352144e2ab1aff81e659aa38224be987b87855b"
+                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/c352144e2ab1aff81e659aa38224be987b87855b",
-                "reference": "c352144e2ab1aff81e659aa38224be987b87855b",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/22257883bd2c7c21d68112a907cdad7de4a2ba31",
+                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31",
                 "shasum": ""
             },
             "require": {
@@ -1287,7 +1287,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2019-12-22T21:23:31+00:00"
+            "time": "2020-01-13T16:15:20+00:00"
         },
         {
             "name": "psr/container",

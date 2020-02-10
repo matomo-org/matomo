@@ -225,9 +225,10 @@ class HtmlTable extends Visualization
 
         foreach ($this->dataTable->getRows() as $row) {
             foreach ($this->report->getMetrics() as $column => $translation) {
-                $indexColumn = $columnNamesToIndices[$column]; // TODO: This might fail for goal specific columns...
+                // Try to check the column by it's index (not possible for all metrics, like custom columns)
+                $indexColumn = !empty($columnNamesToIndices[$column]) ? $columnNamesToIndices[$column] : null;
 
-                $value = $row->getColumn($indexColumn) ?: $row->getColumn($column) ?: 0;
+                $value = (($indexColumn && $row->getColumn($indexColumn)) ? $row->getColumn($indexColumn) : $row->getColumn($column)) ?: 0;
                 if ($column == 'label') {
                     continue;
                 }
