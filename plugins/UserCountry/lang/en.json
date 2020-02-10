@@ -34,12 +34,12 @@
         "Longitudes": "Longitudes",
         "NoDataForGeoIPReport1": "There is no data for this report because there is either no location data available or visitor IP addresses cannot be geolocated.",
         "NoDataForGeoIPReport2": "To enable accurate geolocation, change the settings %1$shere%2$s and use a %3$scity level database%4$s.",
+        "NoProviders": "There are currently no additional geolocation providers available. Matomo recommends using the %1$sdbip%2$s databases, but this requires activating the GeoIp2 plugin. (Alternatively you can install a third party plugin that provides it's own geolocation functionality from the marketplace.)",
         "PluginDescription": "Reports the location of your visitors: country, region, city and geographic coordinates (latitude\/longitude).",
         "Region": "Region",
         "SubmenuLocations": "Locations",
         "TestIPLocatorFailed": "Matomo tried checking the location of a known IP address (%1$s), but your server returned no information. This provider may not be configured correctly (the geolocation database may be named incorrectly or located in the wrong directory, for instance).",
         "ToGeolocateOldVisits": "To get location data for your old visits, use the script described %1$shere%2$s.",
-        "WidgetLocation": "Visitor Location",
-        "InstallGeoIp2": "Matomo recommends using the %1$sdbip%2$s databases, but this requires using the GeoIp2 plugin. If you install and activate it (which will require a possibly long running update), you will be able to get started using %1$sdbip%2$s databases. (Ignore this if you are using a third party plugin that provides it's own geolocation functionality.)"
+        "WidgetLocation": "Visitor Location"
     }
 }

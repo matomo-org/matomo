@@ -85,6 +85,15 @@
     </div>
     {% endfor %}
 
+
+    {% if locationProviders|length == 1 %}
+    <div piwik-notification
+         noclear="true"
+         context="warning">
+        {{ 'UserCountry_NoProviders'|translate('<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm">','</a>')|raw }}
+    </div>
+    {% endif %}
+
     <div piwik-save-button onconfirm="locationSelector.save()" saving="locationSelector.isLoading"></div>
 
 </div>

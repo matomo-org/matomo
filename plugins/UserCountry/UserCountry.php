@@ -26,7 +26,6 @@ class UserCountry extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
             'Insights.addReportToOverview'           => 'addReportToInsightsOverview',
         );
