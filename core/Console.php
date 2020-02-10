@@ -90,7 +90,7 @@ class Console extends Application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         try {
-            $this->doRunImpl($input, $output);
+            return $this->doRunImpl($input, $output);
         } catch (\Exception $ex) {
             try {
                 FrontController::generateSafeModeOutputFromException($ex);
