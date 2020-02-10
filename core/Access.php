@@ -167,7 +167,6 @@ class Access
                 $auth->setTokenAuth($tokenAuth);
                 $result = $auth->authenticate();
                 if (!$result->wasAuthenticationSuccessful()) {
-
                     /**
                      * Ensures brute force logic to be executed
                      * @ignore
@@ -180,7 +179,7 @@ class Access
         }
 
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
-        if (!$result) {
+        if (!$result || !$result->wasAuthenticationSuccessful()) {
             $result = $this->auth->authenticate();
         }
 
