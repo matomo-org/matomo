@@ -16,7 +16,7 @@ use Piwik\Plugins\API\Renderer\Php;
  * @group API
  * @group PhpRendererTest
  */
-class PhpRendererTest extends \PHPUnit_Framework_TestCase
+class PhpRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Php

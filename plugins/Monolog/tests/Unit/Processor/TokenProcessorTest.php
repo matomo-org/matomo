@@ -14,7 +14,7 @@ use Piwik\Plugins\Monolog\Processor\TokenProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\TokenProcessor
  */
-class TokenProcessorTest extends \PHPUnit_Framework_TestCase
+class TokenProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

@@ -15,7 +15,7 @@ use Piwik\DataTable\Row;
  * @group DataTableTest
  * @group Core
  */
-class PatternTest extends \PHPUnit_Framework_TestCase
+class PatternTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for testFilterPattern

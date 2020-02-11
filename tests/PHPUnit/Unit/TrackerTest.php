@@ -17,7 +17,7 @@ use Piwik\Tracker;
  * @group TrackerTest
  * @group Tracker
  */
-class TrackerTest extends \PHPUnit_Framework_TestCase
+class TrackerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var TestTracker

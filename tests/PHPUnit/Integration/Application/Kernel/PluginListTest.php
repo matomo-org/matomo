@@ -14,7 +14,7 @@ use Piwik\Container\StaticContainer;
  * @group PluginListTest
  * @group Core
  */
-class PluginListTest extends \PHPUnit_Framework_TestCase
+class PluginListTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

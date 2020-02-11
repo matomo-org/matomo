@@ -16,7 +16,7 @@ use Piwik\Translation\Translator;
  * @group Core
  * @group NumberFormatter
  */
-class NumberFormatterTest extends \PHPUnit_Framework_TestCase
+class NumberFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Translator

@@ -16,7 +16,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 /**
  * @group Core
  */
-class FormatterTest extends \PHPUnit_Framework_TestCase
+class FormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Formatter

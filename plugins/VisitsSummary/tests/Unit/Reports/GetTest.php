@@ -17,7 +17,7 @@ use Piwik\Plugins\VisitsSummary\Reports\Get;
  * @group GetTest
  * @group Plugins
  */
-class GetTest extends \PHPUnit_Framework_TestCase
+class GetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Get

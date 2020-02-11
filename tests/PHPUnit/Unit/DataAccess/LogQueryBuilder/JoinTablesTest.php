@@ -15,7 +15,7 @@ use Piwik\Tracker\Visit;
 /**
  * @group Core
  */
-class JoinTablesTest extends \PHPUnit_Framework_TestCase
+class JoinTablesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var JoinTables

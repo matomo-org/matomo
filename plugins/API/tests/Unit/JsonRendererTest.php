@@ -18,7 +18,7 @@ use Piwik\Plugins\API\Renderer\Json2;
  * @group API_JsonRendererTest
  * @group JsonRenderer
  */
-class JsonRendererTest extends \PHPUnit_Framework_TestCase
+class JsonRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Json

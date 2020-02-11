@@ -17,7 +17,7 @@ use Piwik\Widget\WidgetsList;
  * @group WidgetsList
  * @group WidgetsListTest
  */
-class WidgetsListTest extends \PHPUnit_Framework_TestCase
+class WidgetsListTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var WidgetsList

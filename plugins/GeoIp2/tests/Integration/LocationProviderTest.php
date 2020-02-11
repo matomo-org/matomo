@@ -13,7 +13,7 @@ use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 /**
  * @group GeoIp2
  */
-class LocationProviderTest extends \PHPUnit_Framework_TestCase
+class LocationProviderTest extends \PHPUnit\Framework\TestCase
 {
     public function testGeoIP2City()
     {

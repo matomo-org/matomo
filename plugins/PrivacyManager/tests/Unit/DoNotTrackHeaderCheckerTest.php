@@ -16,7 +16,7 @@ use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
  * Class DoNotTrackHeaderCheckerTest
  * @group DoNotTrackHeaderCheckerTest
  */
-class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
+class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

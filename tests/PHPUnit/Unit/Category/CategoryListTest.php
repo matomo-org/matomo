@@ -16,7 +16,7 @@ use Piwik\Category\Category;
  * @group CategoryList
  * @group CategoryListTest
  */
-class CategoryListTest extends \PHPUnit_Framework_TestCase
+class CategoryListTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CategoryList

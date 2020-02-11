@@ -23,7 +23,7 @@ use Piwik\Validators\NumberRange;
  * @group Settings
  * @group Setting
  */
-class SettingTest extends \PHPUnit_Framework_TestCase
+class SettingTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {

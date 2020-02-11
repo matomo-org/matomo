@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Common;
 use Piwik\Plugins\Monolog\Processor\RequestIdProcessor;
 
@@ -16,7 +16,7 @@ use Piwik\Plugins\Monolog\Processor\RequestIdProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\RequestIdProcessor
  */
-class RequestIdProcessorTest extends \PHPUnit_Framework_TestCase
+class RequestIdProcessorTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

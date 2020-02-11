@@ -14,7 +14,7 @@ use Piwik\Segment\SegmentExpression;
  * @group SegmentExpressionTest
  * @group Segment
  */
-class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
+class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for testSegmentSqlSimpleNoOperation

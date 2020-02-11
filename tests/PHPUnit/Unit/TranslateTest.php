@@ -13,7 +13,7 @@ use Piwik\Translate;
 /**
  * @group Translation
  */
-class TranslateTest extends \PHPUnit_Framework_TestCase
+class TranslateTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for testClean

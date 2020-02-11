@@ -13,7 +13,7 @@ namespace Piwik\Tests\Unit\Archiver;
 use Piwik\Archiver\Request;
 use Piwik\Date;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends \PHPUnit\Framework\TestCase
 {
     protected function tearDown()
     {

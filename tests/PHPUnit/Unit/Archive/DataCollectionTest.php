@@ -17,7 +17,7 @@ use Piwik\Segment;
  * @group DataCollectionTest
  * @group Archive
  */
-class DataCollectionTest extends \PHPUnit_Framework_TestCase
+class DataCollectionTest extends \PHPUnit\Framework\TestCase
 {
     private $site1 = 1;
     private $site2 = 2;

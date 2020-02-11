@@ -16,7 +16,7 @@ use Piwik\Category\Subcategory;
  * @group Subcategory
  * @group SubcategoryTest
  */
-class SubcategoryTest extends \PHPUnit_Framework_TestCase
+class SubcategoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Subcategory

@@ -15,7 +15,7 @@ use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor
  */
-class ExceptionToTextProcessorTest extends \PHPUnit_Framework_TestCase
+class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
