@@ -50,13 +50,6 @@ class Lock
 
     public function execute($id, $callback)
     {
-        if (Common::mb_strlen($id) > self::MAX_KEY_LEN) {
-            // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
-            // to make it more readable
-            $md5Len = 32;
-            $id = Common::mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
-        }
-
         $i = 0;
         while (!$this->acquireLock($id)) {
             $i++;
@@ -75,6 +68,13 @@ class Lock
     public function acquireLock($id, $ttlInSeconds = 60)
     {
         $this->lockKey = $this->lockKeyStart . $id;
+
+        if (Common::mb_strlen($this->lockKey) > self::MAX_KEY_LEN) {
+            // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
+            // to make it more readable
+            $md5Len = 32;
+            $this->lockKey = Common::mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
+        }
 
         $lockValue = substr(Common::generateUniqId(), 0, 12);
         $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds);

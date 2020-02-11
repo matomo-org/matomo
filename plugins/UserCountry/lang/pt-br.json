@@ -98,6 +98,7 @@
         "UpdaterScheduledForNextRun": "Está programado para ser executado durante a próxima execução do cron job archive.php",
         "UpdaterWasLastRun": "O atualizador foi executado pela última vez em %s.",
         "UpdaterWillRunNext": "A próxima execução está programada para ser executada em %s.",
-        "WidgetLocation": "Localização dos visitantes"
+        "WidgetLocation": "Localização dos visitantes",
+        "InstallGeoIp2": "O Matomo recomenda usar as bases de dados %1$sdbip%2$s, mas isto requer usar o plugin GeoIp2. Se você instalá-lo e ativá-lo (o que deve possivelmente exigir uma atualização de longa duração), você poderá começar a usar bases de dados %1$sdbip%2$s. (Ignore isto se você estiver usando um plugin de terceiro que fornece sua própria funcionalidade de geolocalização.)"
     }
 }

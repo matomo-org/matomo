@@ -16,6 +16,7 @@
 
     {% if not isThereWorkingProvider %}
         <h3 style="margin-top:0;">{{ 'UserCountry_HowToSetupGeoIP'|translate }}</h3>
+        {% if dbipLiteUrl|default is not empty %}
         <p>{{ 'UserCountry_HowToSetupGeoIPIntro'|translate }}</p>
         <ul style="list-style:disc !important;margin-left:2em;">
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a rel="noreferrer noopener" href="'~dbipLiteUrl~'">','</a>','<a rel="noreferrer noopener" target="_blank" href="http://db-ip.com/?refid=mtm">','</a>')|raw }}</li>
@@ -23,6 +24,9 @@
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step3'|translate('<strong>','</strong>','<span style="color:green"><strong>','</strong></span>')|raw }}</li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step4'|translate }}</li>
         </ul>
+        {% else %}
+        <p>{{ 'UserCountry_InstallGeoIp2'|translate('<a rel="noreferrer noopener" target="_blank" href="http://db-ip.com/?refid=mtm">','</a>')|raw }}</p>
+        {% endif %}
         <p>&nbsp;</p>
     {% endif %}
 
@@ -127,7 +131,7 @@
     </div>
 {% endif %}
 
-{% if isInternetEnabled %}
+{% if isInternetEnabled and not notUsingGeoIpPlugin %}
     <div piwik-content-block
          content-title="{% if not geoIPDatabasesInstalled %}{{ 'UserCountry_GeoIPDatabases'|translate|e('html_attr') }}{% else %}{{ 'UserCountry_SetupAutomaticUpdatesOfGeoIP'|translate|e('html_attr') }}{% endif %}"
          id="geoip-db-mangement">
@@ -161,9 +165,14 @@
                                 </div>
                             </div>
                         </div>
+                        {% if dbipLiteUrl|default is not empty %}
+                        {% set downloadingDbLink %}<a href="{{ dbipLiteUrl|e('html_attr') }}">{{ dbipLiteFilename }}</a>{% endset %}
+                        {% else %}
+                        {% set downloadingDbLink = '' %}
+                        {% endif %}
                         <div id="geoipdb-screen2-download" ng-show="locationUpdater.showFreeDownload">
                             <div piwik-progressbar
-                                 label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~dbipLiteUrl~'">'~dbipLiteFilename~'</a>') ~ '...')|json_encode }}"
+                                 label="{{ ('UserCountry_DownloadingDb'|translate(downloadingDbLink) ~ '...')|json_encode }}"
                                  progress="locationUpdater.progressFreeDownload">
                             </div>
                         </div>

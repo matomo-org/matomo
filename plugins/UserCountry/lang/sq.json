@@ -98,6 +98,7 @@
         "UpdaterScheduledForNextRun": "Është vënë në plan të xhirojë gjatë përmbushjes së ardhshme të urdhrit cron core:archive.",
         "UpdaterWasLastRun": "Përditësuesi u xhirua së fundi më %s.",
         "UpdaterWillRunNext": "Është planifikuar të xhirojë sërish më %s.",
-        "WidgetLocation": "Vend Vizitori"
+        "WidgetLocation": "Vend Vizitori",
+        "InstallGeoIp2": "Matomo rekomandon përdorimin e bazave të të dhënave %1$sdbip%2$s, por kjo lyp përdorimin e shtojcës GeoIp2. Nëse e instaloni dhe e aktivizoni (çka ka shumë mundësi se do të kërkojë një përditësim që zgjat ca), do të jeni në gjendje të filloni të përdorni baza të dhënash %1$sdbip%2$s. (Shpërfilleni këtë , nëse përdorni një shtojcë pale të tretë që për gjeovendëzim sjell funksione të vetat.)"
     }
 }
