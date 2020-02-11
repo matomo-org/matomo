@@ -1,0 +1,7 @@
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsWritable": "Skribebla Sekvanta JavaSkripto (%s)",
+        "DiagnosticPiwikJsNotWritable": "La JavaSkriptan sekvanta dosiero %sne stas skriblebla. Pro tio aliaj kromprogramoj ne povas etendi la JavaSkriptan sekvanto. Estontece eĉ kelkaj kernaj funkcioj povus ne funkcii kiel atendite.",
+        "DiagnosticPiwikJsMakeWritable": "Ni rekomendas fari %1$sskribebla per funkciado de ĉi tiu komando: %2$s"
+    }
+}

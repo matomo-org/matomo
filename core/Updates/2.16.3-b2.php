@@ -21,7 +21,7 @@ class Updates_2_16_3_b2 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         try {
-            \Piwik\Plugin\Manager::getInstance()->activatePlugin('CustomPiwikJs');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('CustomJsTracker');
         } catch (\Exception $e) {
         }
     }

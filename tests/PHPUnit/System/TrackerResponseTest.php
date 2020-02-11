@@ -85,6 +85,15 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
     }
 
+    public function test_response_ShouldSend400ResponseCode_IfIdGoalIsInvalid()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idgoal=9999';
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+    }
+
     public function test_response_ShouldSend400ResponseCode_IfSiteIdIsNegative()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
