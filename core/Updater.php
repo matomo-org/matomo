@@ -241,7 +241,7 @@ class Updater
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
                 if (!class_exists($className, false)) {
-                    throw new \Exception("The class $className was not found in $file");
+                    throw new \Error("The class $className was not found in $file");
                 }
 
                 if (in_array($className, $classNames)) {
