@@ -1,9 +1,0 @@
-{
-    "Provider": {
-        "ColumnProvider": "Proveedor",
-        "PluginDescription": "Informa el proveedor de Internet de los visitantes.",
-        "ProviderReportDocumentation": "Este informe muestra qué proveedores de Internet (ISPs) usan tus visitantes para acceder al sitio web. Podés hacer clic en el nombre de un proveedor para más detalles. %s Si Matomo no puede determinar el proveedor de un visitante, se mostrará la IP.",
-        "WidgetProviders": "Proveedores",
-        "ProviderReportFooter": "Un proveedor desconocido significa que la dirección IP no pudo ser resuelta."
-    }
-}
