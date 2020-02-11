@@ -108,6 +108,7 @@ class TestingEnvironmentVariables
         $disabledPlugins[] = 'MarketingCampaignsReporting';
         $disabledPlugins[] = 'ExampleVisualization';
         $disabledPlugins[] = 'DeviceDetectorCache';
+        $disabledPlugins[] = 'Provider';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
