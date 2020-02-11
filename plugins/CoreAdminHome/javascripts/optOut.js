@@ -4,6 +4,20 @@ function getDomain(url)
     return url.replace(/^http[s]?:\/\//, '').replace(/\/.*/, '');
 }
 
+function addEventListener(element, eventType, eventHandler) {
+    if (element.addEventListener) {
+        element.addEventListener(eventType, eventHandler, false);
+
+        return true;
+    }
+
+    if (element.attachEvent) {
+        return element.attachEvent('on' + eventType, eventHandler);
+    }
+
+    element['on' + eventType] = eventHandler;
+}
+
 // Strips off protocol and trailing path and URL params
 function getHostName(url)
 {
@@ -72,7 +86,7 @@ function submitForm(e, form) {
     // Send a message to the parent window so that it can set a first-party cookie (a fallback in case
     // third-party cookies are not permitted by the browser).
     if (typeof parent === 'object' && typeof parent.postMessage !== 'undefined') {
-        window.addEventListener('message', function(e) {
+        addEventListener(window, 'message', function(e) {
             var data = getDataIfMessageIsForThisFrame(e);
             if (!data || typeof data.maq_confirm_opted_in === 'undefined') {
                 return;
@@ -172,7 +186,7 @@ function showWarningIfCookiesDisabled() {
 
 var initializationTimer = null;
 
-document.addEventListener('DOMContentLoaded', function() {
+addEventListener(document, 'DOMContentLoaded', function() {
     showWarningIfCookiesDisabled();
     
     var trackVisitsCheckbox = document.getElementById('trackVisits');
@@ -200,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Listener for initialization message from parent window
 // This will tell us the initial state the form should be in
 // based on the first-party cookie value (which we can't access directly)
-window.addEventListener('message', function(e) {
+addEventListener(window, 'message', function(e) {
     var data = getDataIfMessageIsForThisFrame(e);
     if (!data) {
         return;

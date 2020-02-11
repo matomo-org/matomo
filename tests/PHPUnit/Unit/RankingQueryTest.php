@@ -10,7 +10,7 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\RankingQuery;
 
-class RankingQueryTest extends \PHPUnit_Framework_TestCase
+class RankingQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @group Core

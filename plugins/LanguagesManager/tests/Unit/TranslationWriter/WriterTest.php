@@ -19,7 +19,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
 /**
  * @group LanguagesManager
  */
-class WriterTest extends \PHPUnit_Framework_TestCase
+class WriterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @group Core

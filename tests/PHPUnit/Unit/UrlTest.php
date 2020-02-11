@@ -15,7 +15,7 @@ use Piwik\Url;
  * @backupGlobals enabled
  * @group Core
  */
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllMethods()
     {

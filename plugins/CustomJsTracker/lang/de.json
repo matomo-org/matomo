@@ -1,0 +1,8 @@
+{
+    "CustomJsTracker": {
+        "PluginDescription": "Ermöglicht es jedem Plugin, die Matomo-JavaScript-Tracking-Datei (matomo.js) zu erweitern und neue Funktionalitäts- und Website-Messfunktionen hinzuzufügen.",
+        "DiagnosticPiwikJsWritable": "Schreibbarer JavaScript-Tracker (%s)",
+        "DiagnosticPiwikJsNotWritable": "Für die Matomo JavaScript-Tracker-Datei %s sind keine Schreibrechte vorhanden , das bedeutet, dass andere Plugins den JavaScript-Tracker nicht erweitern können. In Zukunft könnten sogar einige Kernfunktionen nicht wie erwartet funktionieren.",
+        "DiagnosticPiwikJsMakeWritable": "Wir empfehlen, %1$sbeschreibbar zu machen, indem Sie folgenden Befehl ausführen: %2$s"
+    }
+}

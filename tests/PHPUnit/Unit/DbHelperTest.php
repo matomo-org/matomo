@@ -16,7 +16,7 @@ use Piwik\DbHelper;
  * @group Core
  * @group Core_Unit
  */
-class DbHelperTest extends \PHPUnit_Framework_TestCase
+class DbHelperTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

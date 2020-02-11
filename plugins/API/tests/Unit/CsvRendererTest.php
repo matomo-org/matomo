@@ -15,7 +15,7 @@ use Piwik\Plugins\API\Renderer\Csv;
  * @group Plugin
  * @group API
  */
-class CsvRendererTest extends \PHPUnit_Framework_TestCase
+class CsvRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Csv

@@ -14,7 +14,7 @@ use Piwik\Plugins\Monolog\Processor\SprintfProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\SprintfProcessor
  */
-class SprintfProcessorTest extends \PHPUnit_Framework_TestCase
+class SprintfProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

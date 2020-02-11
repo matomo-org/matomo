@@ -25,7 +25,7 @@ use Piwik\Widget\WidgetContainerConfig;
  * @group WidgetMetadata
  * @group WidgetMetadataTest
  */
-class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
+class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var WidgetMetadata

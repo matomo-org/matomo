@@ -15,7 +15,7 @@ use Piwik\Translation\Loader\LoaderCache;
 /**
  * @group Translation
  */
-class LoaderCacheTest extends \PHPUnit_Framework_TestCase
+class LoaderCacheTest extends \PHPUnit\Framework\TestCase
 {
     public function test_shouldNotLoad_ifInCache()
     {

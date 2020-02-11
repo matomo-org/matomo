@@ -16,7 +16,7 @@ use Piwik\Widget\WidgetContainerConfig;
  * @group WidgetContainerConfig
  * @group WidgetContainerConfigTest
  */
-class WidgetContainerConfigTest extends \PHPUnit_Framework_TestCase
+class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var WidgetContainerConfig

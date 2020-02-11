@@ -12,7 +12,7 @@ use Piwik\DataTable\Row;
  * @group ManagerTest
  * @group Core
  */
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Manager

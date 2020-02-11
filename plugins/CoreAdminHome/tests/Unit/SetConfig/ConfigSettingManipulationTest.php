@@ -44,7 +44,7 @@ class DumbMockConfig extends \Piwik\Config
  * @group CoreAdminHome
  * @group CoreAdminHome_Unit
  */
-class ConfigSettingManipulationTest extends \PHPUnit_Framework_TestCase
+class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Config

@@ -12,7 +12,7 @@ namespace Piwik\Tests\Unit;
 use Piwik\Context;
 use Piwik\Tracker;
 
-class ContextTest extends \PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

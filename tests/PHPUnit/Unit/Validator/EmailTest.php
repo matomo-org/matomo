@@ -15,7 +15,7 @@ use Piwik\Validators\Email;
  * @group Email
  * @group EmailTest
  */
-class EmailTest extends \PHPUnit_Framework_TestCase
+class EmailTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getValidEmails

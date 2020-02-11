@@ -14,7 +14,7 @@ use Piwik\Scheduler\Schedule\Hourly;
 /**
  * @group Scheduler
  */
-class HourlyTest extends \PHPUnit_Framework_TestCase
+class HourlyTest extends \PHPUnit\Framework\TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
     private static $_JANUARY_01_1971_09_10_00;

@@ -14,7 +14,7 @@ use Piwik\Nonce;
 /**
  * @backupGlobals enabled
  */
-class NonceTest extends \PHPUnit_Framework_TestCase
+class NonceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for acceptable origins test

@@ -346,7 +346,7 @@ class Model
 
         list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_link_visit_action');
 
         $sqlQuery = "UPDATE $table SET $parts WHERE idlink_va = ?";

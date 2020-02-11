@@ -13,7 +13,7 @@ use Piwik\Scheduler\Schedule\Monthly;
 /**
  * @group Scheduler
  */
-class MonthlyTest extends \PHPUnit_Framework_TestCase
+class MonthlyTest extends \PHPUnit\Framework\TestCase
 {
     public static $_JANUARY_01_1971_09_00_00; // initialized below class definition
     public static $_JANUARY_02_1971_09_00_00;

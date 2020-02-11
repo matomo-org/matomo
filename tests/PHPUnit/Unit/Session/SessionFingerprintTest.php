@@ -13,7 +13,7 @@ namespace Piwik\Tests\Unit\Session;
 use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
 
-class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
+class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 {
     const TEST_TIME_VALUE = 4567;
 

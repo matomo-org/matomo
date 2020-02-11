@@ -14,7 +14,7 @@ use Piwik\Scheduler\Schedule\Weekly;
 /**
  * @group Scheduler
  */
-class WeeklyTest extends \PHPUnit_Framework_TestCase
+class WeeklyTest extends \PHPUnit\Framework\TestCase
 {
     public static $_JANUARY_01_1971_09_10_00; // initialized below class declaration
     public static $_JANUARY_04_1971_00_00_00;

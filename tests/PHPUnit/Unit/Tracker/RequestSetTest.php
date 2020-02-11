@@ -15,7 +15,7 @@ use Piwik\Tracker\RequestSet;
  * @group RequestSetTest
  * @group Tracker
  */
-class RequestSetTest extends \PHPUnit_Framework_TestCase
+class RequestSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var TestRequestSet

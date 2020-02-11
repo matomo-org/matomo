@@ -16,7 +16,7 @@ use Piwik\IP;
 /**
  * @group Core
  */
-class IPTest extends \PHPUnit_Framework_TestCase
+class IPTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for long2ip test

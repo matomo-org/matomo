@@ -6690,7 +6690,7 @@ if (typeof window.Piwik !== 'object') {
         // initialize the Piwik singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 
-        window.addEventListener('message', function(e) {
+        addEventListener(windowAlias,'message', function(e) {
             if (!e || !e.origin) {
                 return;
             }
@@ -6773,7 +6773,7 @@ if (typeof window.Piwik !== 'object') {
                     maq_optout_by_default: tracker.isConsentRequired()
                 });
             }
-        });
+        }, false);
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 

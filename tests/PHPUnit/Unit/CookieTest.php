@@ -10,7 +10,7 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Cookie;
 
-class CookieTest extends \PHPUnit_Framework_TestCase
+class CookieTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for testJsonSerialize

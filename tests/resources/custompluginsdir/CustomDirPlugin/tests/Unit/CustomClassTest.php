@@ -14,7 +14,7 @@ use Piwik\Plugins\CustomDirPlugin\CustomClass;
  * @group CustomClassTest
  * @group Plugins
  */
-class CustomClassTest extends \PHPUnit_Framework_TestCase
+class CustomClassTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

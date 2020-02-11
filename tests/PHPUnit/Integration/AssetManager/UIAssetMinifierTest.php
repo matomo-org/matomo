@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration\AssetManager;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetMinifier;
 
-class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
+class UIAssetMinifierTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var UIAssetMinifier

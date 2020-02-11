@@ -24,7 +24,7 @@ use RecursiveIteratorIterator;
  * @group Core
  * @group ReleaseCheckListTest
  */
-class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
+class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 {
     private $globalConfig;
 

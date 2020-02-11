@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
 /**
  * @group LanguagesManager
  */
-class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
+class EncodedEntitiesTest extends \PHPUnit\Framework\TestCase
 {
     public function getFilterTestData()
     {

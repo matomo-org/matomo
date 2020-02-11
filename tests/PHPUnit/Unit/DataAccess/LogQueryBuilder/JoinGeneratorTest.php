@@ -16,7 +16,7 @@ use Piwik\Tracker\Visit;
 /**
  * @group Core
  */
-class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
+class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var JoinGenerator

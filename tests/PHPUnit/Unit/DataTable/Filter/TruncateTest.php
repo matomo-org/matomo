@@ -15,7 +15,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
+class DataTable_Filter_TruncateTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testUnrelatedDataTableNotFiltered()

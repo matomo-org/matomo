@@ -649,10 +649,11 @@ class Archive implements ArchiveQuery
             foreach ($this->params->getIdSites() as $idSite) {
                 $site = new Site($idSite);
 
-                 if ($period->getLabel() === 'day'
+                if ($period->getLabel() === 'day'
                     && !$this->params->getSegment()->isEmpty()
                     && Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
-                    && $period->getDateStart()->toString() == Date::factory('now', $site->getTimezone())->toString()) {
+                    && $period->getDateStart()->toString() == Date::factory('now', $site->getTimezone())->toString()
+                ) {
 
                     Log::debug("Skipping archive %s for %s as segment today is disabled", $period->getLabel(), $period->getPrettyString());
                     continue;

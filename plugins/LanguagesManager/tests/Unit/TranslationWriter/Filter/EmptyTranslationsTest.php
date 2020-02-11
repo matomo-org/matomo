@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EmptyTranslations;
 /**
  * @group LanguagesManager
  */
-class EmptyTranslationsTest extends \PHPUnit_Framework_TestCase
+class EmptyTranslationsTest extends \PHPUnit\Framework\TestCase
 {
     public function getFilterTestData()
     {

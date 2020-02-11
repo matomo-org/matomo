@@ -15,7 +15,7 @@ use Spyc;
  * @group Social
  * @group Plugins
  */
-class SocialTest extends \PHPUnit_Framework_TestCase
+class SocialTest extends \PHPUnit\Framework\TestCase
 {
     public static function setUpBeforeClass()
     {

@@ -15,7 +15,7 @@ use ReflectionProperty;
 /**
  * @group CliMulti
  */
-class ProcessTest extends \PHPUnit_Framework_TestCase
+class ProcessTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Process

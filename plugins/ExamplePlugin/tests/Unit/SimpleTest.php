@@ -13,7 +13,7 @@ namespace Piwik\Plugins\ExamplePlugin\tests\Unit;
  * @group SimpleTest
  * @group Plugins
  */
-class SimpleTest extends \PHPUnit_Framework_TestCase
+class SimpleTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

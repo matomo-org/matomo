@@ -13,7 +13,7 @@ use Piwik\Translation\Loader\JsonFileLoader;
 /**
  * @group Translation
  */
-class JsonFileLoaderTest extends \PHPUnit_Framework_TestCase
+class JsonFileLoaderTest extends \PHPUnit\Framework\TestCase
 {
     public function test_shouldLoadJsonFile()
     {

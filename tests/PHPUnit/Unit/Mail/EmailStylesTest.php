@@ -12,7 +12,7 @@ namespace Piwik\Tests\Unit\Mail;
 
 use Piwik\Mail\EmailStyles;
 
-class EmailStylesTest extends \PHPUnit_Framework_TestCase
+class EmailStylesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getTestDataForRgbToHex

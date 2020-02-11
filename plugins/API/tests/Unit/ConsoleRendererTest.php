@@ -17,7 +17,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
  * @group Plugin
  * @group API
  */
-class ConsoleRendererTest extends \PHPUnit_Framework_TestCase
+class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Console

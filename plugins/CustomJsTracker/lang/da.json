@@ -1,0 +1,6 @@
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsWritable": "JavaScript-sporingsfiler (%s) skrivbare",
+        "DiagnosticPiwikJsMakeWritable": "Vi anbefaler at gøre %1$s skrivbare ved at køre denne kommando: %2$s"
+    }
+}
