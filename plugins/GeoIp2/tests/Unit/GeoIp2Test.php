@@ -14,7 +14,7 @@ use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Exception;
 
-class GeoIp2Test extends \PHPUnit_Framework_TestCase
+class GeoIp2Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test that redundant checks work.
@@ -71,7 +71,7 @@ class GeoIp2Test extends \PHPUnit_Framework_TestCase
 
     protected $backUpNames;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->backUpNames = GeoIp2::$dbNames;
 
@@ -81,7 +81,7 @@ class GeoIp2Test extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         GeoIp2::$dbNames = $this->backUpNames;
 

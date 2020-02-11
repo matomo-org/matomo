@@ -37,7 +37,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        self::assertTrue(in_array(self::TEST_SEGMENT, $segments));
+        self::assertTrue(!in_array(self::TEST_SEGMENT, $segments));
 
         $this->runAnyApiTest('VisitsSummary.get', 'customSegmentUnprocessed', [
             'idSite' => self::$fixture->idSite,

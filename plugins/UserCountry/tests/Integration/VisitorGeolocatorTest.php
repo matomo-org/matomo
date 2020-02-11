@@ -235,13 +235,13 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $geolocator = new VisitorGeolocator($mockLocationProvider);
         $valuesUpdated = $geolocator->attributeExistingVisit($visit, $useCache = false);
 
-        $this->assertEquals($expectedVisitProperties, $this->logInserter->getVisit($visit['idvisit']), $message = '', $delta = 0.001);
+        $this->assertEqualsWithDelta($expectedVisitProperties, $this->logInserter->getVisit($visit['idvisit']), $delta = 0.001);
 
         $expectedUpdateValues = $expectedUpdateValues === null ? $expectedVisitProperties : $expectedUpdateValues;
-        $this->assertEquals($expectedUpdateValues, $valuesUpdated, $message = '', $delta = 0.001);
+        $this->assertEqualsWithDelta($expectedUpdateValues, $valuesUpdated, $delta = 0.001);
 
         $conversions = $this->getConversions($visit);
-        $this->assertEquals(array($expectedVisitProperties, $expectedVisitProperties), $conversions, $message = '', $delta = 0.001);
+        $this->assertEqualsWithDelta(array($expectedVisitProperties, $expectedVisitProperties), $conversions, $delta = 0.001);
     }
 
     public function test_attributeExistingVisit_ReturnsNull_AndSkipsAttribution_IfIdVisitMissingFromInput()
