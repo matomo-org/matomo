@@ -12,7 +12,7 @@ namespace Piwik\Tests\Unit\API;
 use Piwik\API\DataTableGenericFilter;
 use Piwik\DataTable;
 
-class DataTableGenericFilterTest extends \PHPUnit_Framework_TestCase
+class DataTableGenericFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function test_genericFiltersToDisableMetadata_shouldBeRespected()
     {

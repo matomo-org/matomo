@@ -14,7 +14,7 @@ use Piwik\Piwik;
 /**
  * @group Core
  */
-class EmailValidatorTest extends \PHPUnit_Framework_TestCase
+class EmailValidatorTest extends \PHPUnit\Framework\TestCase
 {
     protected function isValid($email)
     {

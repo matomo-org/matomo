@@ -19,7 +19,7 @@ use Piwik\Plugins\Insights\Visualizations\Insight;
  * @group Unit
  * @group Core
  */
-class InsightReportTest extends \PHPUnit_Framework_TestCase
+class InsightReportTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var InsightReport

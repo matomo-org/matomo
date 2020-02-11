@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 /**
  * @group LanguagesManager
  */
-class NoScriptsTest extends \PHPUnit_Framework_TestCase
+class NoScriptsTest extends \PHPUnit\Framework\TestCase
 {
     public function getFilterTestDataValid()
     {

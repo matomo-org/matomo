@@ -15,7 +15,7 @@ use Piwik\Translation\Translator;
  * @group Translation
  * @group langfiles
  */
-class FilesTest extends \PHPUnit_Framework_TestCase
+class FilesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getTranslationFiles

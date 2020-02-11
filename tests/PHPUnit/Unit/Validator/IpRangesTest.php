@@ -15,7 +15,7 @@ use Piwik\Validators\IpRanges;
  * @group IpRanges
  * @group IpRangesTest
  */
-class IpRangesTest extends \PHPUnit_Framework_TestCase
+class IpRangesTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_success()
     {

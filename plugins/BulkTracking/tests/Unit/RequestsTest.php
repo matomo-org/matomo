@@ -16,7 +16,7 @@ use Piwik\Tracker\Request;
  * @group RequestsTest
  * @group Plugins
  */
-class RequestsTest extends \PHPUnit_Framework_TestCase
+class RequestsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Requests

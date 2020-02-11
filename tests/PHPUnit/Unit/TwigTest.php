@@ -13,7 +13,7 @@ require_once(PIWIK_INCLUDE_PATH . '/core/Twig.php');
 /**
  * @group Twig
  */
-class TwigTest extends \PHPUnit_Framework_TestCase
+class TwigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getTruncateTests

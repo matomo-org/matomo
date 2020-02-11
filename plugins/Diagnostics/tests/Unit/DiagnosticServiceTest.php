@@ -14,7 +14,7 @@ use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithError;
 use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithSuccess;
 use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithWarning;
 
-class DiagnosticServiceTest extends \PHPUnit_Framework_TestCase
+class DiagnosticServiceTest extends \PHPUnit\Framework\TestCase
 {
     public function test_runDiagnostics()
     {

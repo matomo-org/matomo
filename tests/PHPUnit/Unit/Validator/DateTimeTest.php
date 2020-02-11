@@ -15,7 +15,7 @@ use Piwik\Validators\DateTime;
  * @group DateTime
  * @group DateTimeTest
  */
-class DateTimeTest extends \PHPUnit_Framework_TestCase
+class DateTimeTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {

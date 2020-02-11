@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\Mock\Plugin\Manager;
  * @group Advertising
  * @group Integration
  */
-class AdvertisingTest extends \PHPUnit_Framework_TestCase
+class AdvertisingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Advertising

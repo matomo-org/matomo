@@ -13,7 +13,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 /**
  * @group Core
  */
-class ArchiveTableCreatorTest extends \PHPUnit_Framework_TestCase
+class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
 {
     private $tables;
 

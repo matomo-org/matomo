@@ -15,7 +15,7 @@ use Piwik\Scheduler\Schedule\Schedule;
 /**
  * @group Scheduler
  */
-class DailyTest extends \PHPUnit_Framework_TestCase
+class DailyTest extends \PHPUnit\Framework\TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
     private static $_JANUARY_01_1971_09_10_00;

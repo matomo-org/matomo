@@ -15,7 +15,7 @@ use Piwik\Validators\NotEmpty;
  * @group NotEmpty
  * @group NotEmptyTest
  */
-class NotEmptyTest extends \PHPUnit_Framework_TestCase
+class NotEmptyTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {

@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Unit;
 
 use Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Application\Environment;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -22,7 +22,7 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  * @backupGlobals enabled
  * @group Common
  */
-class CommonTest extends PHPUnit_Framework_TestCase
+class CommonTest extends TestCase
 {
     public function test_getProcessId()
     {

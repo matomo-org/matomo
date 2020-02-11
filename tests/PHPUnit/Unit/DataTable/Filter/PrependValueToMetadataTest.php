@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
  * @group DataTable
  * @group Filter
  */
-class PrependValueToMetadataTest extends \PHPUnit_Framework_TestCase
+class PrependValueToMetadataTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'PrependValueToMetadata';
 

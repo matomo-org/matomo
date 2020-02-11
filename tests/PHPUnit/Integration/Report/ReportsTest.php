@@ -14,7 +14,7 @@ use Piwik\Plugin\Manager as PluginManager;
 /**
  * @group Core
  */
-class ReportTest extends \PHPUnit_Framework_TestCase
+class ReportTest extends \PHPUnit\Framework\TestCase
 {
     public function test_getAllReports_shouldNotFindAReport_IfNoPluginLoaded()
     {

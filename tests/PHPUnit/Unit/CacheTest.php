@@ -13,7 +13,7 @@ use Piwik\Cache;
 /**
  * @group Cache
  */
-class CacheTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends \PHPUnit\Framework\TestCase
 {
     public function test_getLazyCache_shouldCreateAnInstanceOfLazy()
     {

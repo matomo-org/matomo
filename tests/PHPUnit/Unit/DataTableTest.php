@@ -21,7 +21,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
  * @group DataTable
  * @group Core
  */
-class DataTableTest extends \PHPUnit_Framework_TestCase
+class DataTableTest extends \PHPUnit\Framework\TestCase
 {
     public function testApplyFilter()
     {

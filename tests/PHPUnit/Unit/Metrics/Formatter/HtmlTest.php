@@ -16,7 +16,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 /**
  * @group Core
  */
-class HtmlTest extends \PHPUnit_Framework_TestCase
+class HtmlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Html

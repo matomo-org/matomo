@@ -15,7 +15,7 @@ use Piwik\Validators\UrlLike;
  * @group UrlLike
  * @group UrlLikeTest
  */
-class UrlLikeTest extends \PHPUnit_Framework_TestCase
+class UrlLikeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getValidUrls

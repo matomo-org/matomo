@@ -25,7 +25,7 @@ use Piwik\Translate;
 /**
  * @group LanguagesManager
  */
-class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
+class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
 {
     function getTestDataForLanguageFiles()
     {

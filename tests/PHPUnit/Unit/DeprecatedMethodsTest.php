@@ -16,7 +16,7 @@ use ReflectionClass;
  * @group DeprecatedMethodsTest
  * @group Core
  */
-class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
+class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
 {
     public function test_deprecations()
     {

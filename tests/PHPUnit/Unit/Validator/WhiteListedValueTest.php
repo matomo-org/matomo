@@ -15,7 +15,7 @@ use Piwik\Validators\WhitelistedValue;
  * @group WhiteListedValue
  * @group WhiteListedValueTest
  */
-class WhiteListedValueTest extends \PHPUnit_Framework_TestCase
+class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {

@@ -13,7 +13,7 @@ use Piwik\Version;
 /**
  * @group Console
  */
-class ConsoleTest extends \PHPUnit_Framework_TestCase
+class ConsoleTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsApplicationNameAndVersionCorrect()
     {

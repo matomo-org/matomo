@@ -13,7 +13,7 @@ use Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 
-class UrlsFromWebsiteIdTest extends \PHPUnit_Framework_TestCase
+class UrlsFromWebsiteIdTest extends \PHPUnit\Framework\TestCase
 {
     public function test_filter_ignoresDomainsPortssAndPortsInRecord()
     {

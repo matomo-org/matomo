@@ -15,7 +15,7 @@ use Piwik\Validators\CharacterLength;
  * @group CharacterLength
  * @group CharacterLengthTest
  */
-class CharacterLengthTest extends \PHPUnit_Framework_TestCase
+class CharacterLengthTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {

@@ -15,7 +15,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 /**
  * @group Core
  */
-class FilesystemTest extends \PHPUnit_Framework_TestCase
+class FilesystemTest extends \PHPUnit\Framework\TestCase
 {
     private $testPath;
 
