@@ -149,7 +149,13 @@
             orCondition.isLoading = true;
 
             this.updateSegmentDefinition();
-
+            
+            var inputElement = $('.orCondId' + orCondition.id + " .metricValueBlock input");
+            inputElement.autocomplete({
+                source: [],
+                minLength: 0
+            });
+            
             var resolved = false;
 
             var promise = piwikApi.fetch({
