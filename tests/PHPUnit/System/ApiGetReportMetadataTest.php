@@ -82,10 +82,6 @@ class ApiGetReportMetadataTest extends SystemTestCase
                 'testSuffix' => '_defaultFormatValue',
                 'format' => 'asldjkf',
             ]],
-
-            // test php renderer w/ array data
-            array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,
-                                                            'format' => 'php', 'testSuffix' => '_phpRenderer')),
         );
     }
 

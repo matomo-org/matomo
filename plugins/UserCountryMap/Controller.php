@@ -68,7 +68,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         // request visits summary
         $request = new Request(
-            'method=VisitsSummary.get&format=php'
+            'method=VisitsSummary.get&format=json'
             . '&idSite=' . $this->idSite
             . '&period=' . $period
             . '&date=' . $date
@@ -77,7 +77,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&filter_limit=-1'
         );
         $config = array();
-        $config['visitsSummary'] = Common::safe_unserialize($request->process());
+        $config['visitsSummary'] = json_decode($request->process(), true);
         $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
             $this->idSite, $period, $date, $token_auth, false, $segment);
         $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
@@ -274,7 +274,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function getMetrics($idSite, $period, $date, $token_auth)
     {
         $request = new Request(
-            'method=API.getMetadata&format=PHP'
+            'method=API.getMetadata&format=json'
             . '&apiModule=UserCountry&apiAction=getCountry'
             . '&idSite=' . $idSite
             . '&period=' . $period
@@ -282,7 +282,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $metaData = Common::safe_unserialize($request->process());
+        $metaData = json_decode($request->process(), true);
 
         $metrics = array();
         if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {

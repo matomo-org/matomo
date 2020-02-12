@@ -109,18 +109,6 @@ class Json extends Renderer
         Common::sendHeader('Content-Type: application/json; charset=utf-8');
     }
 
-    private function convertDataTableToArray($table)
-    {
-        $renderer = new Php();
-        $renderer->setTable($table);
-        $renderer->setRenderSubTables($this->isRenderSubtables());
-        $renderer->setSerialize(false);
-        $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
-        $array = $renderer->flatRender();
-
-        return $array;
-    }
-
     private function convertDataTableColumnMetadataValues(&$table)
     {
         if (empty($table)) {
