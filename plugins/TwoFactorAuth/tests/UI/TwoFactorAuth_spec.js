@@ -20,6 +20,7 @@ describe("TwoFactorAuth", function () {
     async function selectModalButton(button)
     {
         await (await page.jQuery('.modal.open .modal-footer a:contains('+button+')')).click();
+        await page.waitForNetworkIdle();
     }
 
     async function loginUser(username, doAuth)
