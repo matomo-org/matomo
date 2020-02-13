@@ -190,7 +190,14 @@ class Session extends Zend_Session
     {
         $config = Config::getInstance();
         $general = $config->General;
-        if (!empty($general['enable_framed_pages']) && ProxyHttp::isHttps()) {
+
+        $module = Common::getRequestVar('module', false);
+        $action = Common::getRequestVar('action', false);
+
+        $isOptOutRequest = $module == 'CoreAdminHome' && $action == 'optOut';
+        $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest;
+
+        if ($shouldUseNone && ProxyHttp::isHttps()) {
             return 'None';
         }
 
@@ -231,6 +238,7 @@ class Session extends Zend_Session
         if ($sameSite) {
             $headerStr .= '; SameSite=' . rawurlencode($sameSite);
         }
+        Common::sendHeader($headerStr);
         return $headerStr;
     }
 }
