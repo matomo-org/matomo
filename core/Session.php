@@ -191,8 +191,8 @@ class Session extends Zend_Session
         $config = Config::getInstance();
         $general = $config->General;
 
-        $module = Common::getRequestVar('module', false);
-        $action = Common::getRequestVar('action', false);
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
 
         $isOptOutRequest = $module == 'CoreAdminHome' && $action == 'optOut';
         $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest;
