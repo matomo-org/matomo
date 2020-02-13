@@ -149,6 +149,7 @@ describe("TwoFactorAuth", function () {
 
     it('should be possible to disable two factor step 2 confirmed', async function () {
         await selectModalButton('Yes');
+        await page.waitFor(150);
         expect(await page.screenshotSelector('.loginSection')).to.matchImage('usersettings_twofa_disable_step2');
     });
 
