@@ -28,6 +28,11 @@ describe("TwoFactorAuth", function () {
         // make sure to log out previous session
         await page.goto(logoutUrl);
 
+        var cookies = await page.cookies();
+        cookies.forEach(cookie => {
+            page.deleteCookie(cookie);
+        });
+
         if (typeof doAuth === 'undefined') {
             doAuth = true;
         }
