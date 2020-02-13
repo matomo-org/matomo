@@ -210,7 +210,10 @@ describe("UsersManager", function () {
         await page.click('.userEditForm .menuPermissions');
         await page.mouse.move(0, 0);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_edit');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_edit',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should select all sites in search when in table link is clicked', async function () {
@@ -226,7 +229,10 @@ describe("UsersManager", function () {
         await page.evaluate(() => $('.userPermissionsEdit tr.select-all-row a').click());
         await page.waitFor(500); // for angular to re-render
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_rows_in_search');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_all_rows_in_search',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should add access to all websites when bulk access is used on all websites in search', async function () {
@@ -239,14 +245,20 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_sites_access');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_all_sites_access',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should go to the next results page when the next button is clicked', async function () {
         await page.click('.sites-for-permission-pagination a.next');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_next');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_next',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should remove access to a single site when noaccess is selected', async function () {
@@ -258,7 +270,10 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_single');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_remove_single',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should select multiple rows when individual row selects are clicked', async function () {
@@ -287,7 +302,10 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_bulk_access_set',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should filter the permissions when the filters are used', async function () {
@@ -300,14 +318,20 @@ describe("UsersManager", function () {
         await page.waitFor('#sitesForPermission tr', { visible: true });
         await page.waitFor(1000);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_filters');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_filters',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should select all displayed rows when the select all checkbox is clicked', async function () {
         await page.click('.userPermissionsEdit th.select-cell label');
         await page.waitFor(250); // for checkbox animations
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_select_all');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_select_all',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should set access to all sites selected when set bulk access is used', async function () {
@@ -327,7 +351,10 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set_all');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_bulk_access_set_all',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should set access to single site when select in table is used', async function () {
@@ -340,7 +367,10 @@ describe("UsersManager", function () {
         await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_single_site_access');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_single_site_access',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should set a capability to single site when capability checkbox is clicked', async function () {
@@ -355,7 +385,10 @@ describe("UsersManager", function () {
 
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_capability_single_site');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_capability_single_site',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should remove access to displayed rows when remove bulk access is clicked', async function () {
