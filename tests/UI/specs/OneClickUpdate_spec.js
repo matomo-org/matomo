@@ -57,9 +57,6 @@ describe("OneClickUpdate", function () {
     });
 
     it('should login successfully after the update', async function () {
-        await page.click('.footer a');
-        await page.waitForNetworkIdle();
-
         // in case a db upgrade is required
         while (true) {
             const submitButton = await page.$('.content input[type=submit]');
@@ -71,6 +68,9 @@ describe("OneClickUpdate", function () {
                 break;
             }
         }
+
+        await page.click('.footer a');
+        await page.waitForNetworkIdle();
 
         await page.waitFor('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
