@@ -77,7 +77,7 @@ use ReflectionClass;
 class Fixture extends \PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '5.6';
+    const IMAGES_GENERATED_FOR_PHP = '7.2';
     const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
