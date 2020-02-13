@@ -10,6 +10,8 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
+use Piwik\Piwik;
 use Piwik\Profiler;
 use Piwik\Timer;
 use Piwik\Tracker;
@@ -89,7 +91,8 @@ class Response
 
         if ($tracker->isDebugModeEnabled()
             && $tracker->isDatabaseConnected()
-            && TrackerDb::isProfilingEnabled()) {
+            && TrackerDb::isProfilingEnabled()
+        ) {
             $db = Tracker::getDatabase();
             $db->recordProfiling();
             Profiler::displayDbTrackerProfile($db);
