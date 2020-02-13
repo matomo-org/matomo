@@ -57,6 +57,9 @@ describe("OneClickUpdate", function () {
     });
 
     it('should login successfully after the update', async function () {
+        await page.click('.footer a');
+        await page.waitForNetworkIdle();
+
         // in case a db upgrade is required
         while (true) {
             const submitButton = await page.$('.content input[type=submit]');
@@ -64,13 +67,13 @@ describe("OneClickUpdate", function () {
                 await submitButton.click();
                 await page.waitForNetworkIdle();
                 await page.waitFor(250);
+
+                await page.click('.footer a');
+                await page.waitForNetworkIdle();
             } else {
                 break;
             }
         }
-
-        await page.click('.footer a');
-        await page.waitForNetworkIdle();
 
         await page.waitFor('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
