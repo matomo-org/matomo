@@ -286,6 +286,7 @@ describe("UsersManager", function () {
         await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
+        await page.waitFor(100);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set');
     });
