@@ -70,7 +70,7 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
         $this->translator->setCurrentLanguage($language);
         $numberFormatter = new NumberFormatter($this->translator);
 
-        $this->assertEquals($expected, $numberFormatter->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits));
+        $this->assertSame($expected, $numberFormatter->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits));
     }
 
     public function getNumberFormattingTestData()
@@ -114,7 +114,7 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
             array('en', -5, 0, 3, '-5%'),
             array('en', 5.299, 0, 0, '5%'),
             array('en', 5.299, 3, 0, '5.299%'),
-            array('en', -50, 3, 3, '-50%'),
+            array('en', -50, 3, 3, '-50.000%'),
             array('en', -50.1, 3, 3, '-50.100%'),
             array('en', 5000, 0, 0, '5,000%'),
             array('en', +5000, 0, 0, '5,000%'),
