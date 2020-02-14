@@ -365,6 +365,7 @@ abstract class ViewDataTable implements ViewInterface
         $extraParams = [];
         if ($this->isComparing()) {
             $extraParams['compare'] = '1';
+            $extraParams['disable_root_datatable_post_processor'] = '1';
         }
 
         $this->dataTable = $this->request->loadDataTableFromAPI($extraParams);
