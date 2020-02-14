@@ -9,6 +9,7 @@
         "HideUnchanged": "If you want to see only changed values you can %1$shide all unchanged values%2$s.",
         "Sections": "Sections",
         "DatabaseReaderConnection": "Database Reader Connection",
+        "DatabaseUtf8mb4CharsetRecommended": "Your database doesn't support utf8mb4 charset. This is required to be able to store four byte UTF8 characters. Unless utf8mb4 is available those characters will be replaced.",
         "CronArchivingLastRunCheck": "Last Successful Archiving Completion",
         "CronArchivingHasNotRun": "Archiving has not yet run successfully.",
         "CronArchivingHasNotRunInAWhile": "Archiving last ran successfully on %1$s which is %2$s ago.",

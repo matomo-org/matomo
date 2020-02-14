@@ -97,7 +97,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $allTables = DbHelper::getTablesInstalled();
             $database = Config::getInstance()->database['dbname'];
 
-            $migrations[] = $this->migration->db->sql("ALTER DATABASE $database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;;");
+            $migrations[] = $this->migration->db->sql("ALTER DATABASE $database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;");
 
             foreach ($allTables as $table) {
                 $migrations[] = $this->migration->db->sql("ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Translation\Translator;
 
 /**
@@ -37,6 +38,8 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
         $result = new DiagnosticResult($this->translator->translate('Installation_DatabaseAbilities'));
 
+        $result->addItem($this->checkUtf8mb4Charset());
+
         if (Config::getInstance()->General['enable_load_data_infile']) {
             $result->addItem($this->checkLoadDataInfile());
         }
@@ -45,6 +48,15 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $result->addItem($this->checkTransactionLevel());
 
         return [$result];
+    }
+
+    protected function checkUtf8mb4Charset()
+    {
+        if (DbHelper::getDefaultCharset() === 'utf8mb4') {
+            return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, 'UTF8mb4 charset');
+        }
+
+        return new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' . $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetRecommended'));
     }
 
     protected function checkLoadDataInfile()
