@@ -263,11 +263,13 @@ describe("Dashboard", function () {
         await page.waitFor('#createDashboardName', { visible: true });
 
         // try to type the text a few times, as it sometimes doesn't get the full value
+        var name = 'newdash2';
         for (var i=0; i<5; i++) {
-            var name = 'newdash2';
-            await page.type('#createDashboardName', false); // clear input
+            await page.evaluate(function() {
+                $('#createDashboardName').val('');
+            });
             await page.type('#createDashboardName', name);
-            await page.waitFor(150); // sometimes the text doesn't seem to type fast enough
+            await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
 
             var value = await page.evaluate(function() {
                 return $('#createDashboardName').attr('value');
