@@ -20,7 +20,7 @@
     },
     "config":{
         "platform": {
-            "php": "7.2.0"
+            "php": "7.2.5"
         },
         "prepend-autoloader": false,
         "sort-packages": true
@@ -37,7 +37,7 @@
         "matomo/ini": "~2.0",
         "matomo/matomo-php-tracker": "~2.0",
         "matomo/network": "~2.0",
-        "matomo/referrer-spam-blacklist": "~3.0",
+        "matomo/referrer-spam-blacklist": "^3.11",
         "matomo/searchengine-and-social-list": "~3.0",
         "monolog/monolog": "~1.11",
         "mustangostang/spyc": "~0.6.0",
@@ -50,7 +50,7 @@
         "symfony/monolog-bridge": "~2.6.0",
         "szymach/c-pchart": "^2.0",
         "tecnickcom/tcpdf": "~6.0",
-        "twig/twig": "~1.0"
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",

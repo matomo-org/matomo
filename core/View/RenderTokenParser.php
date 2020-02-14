@@ -8,11 +8,11 @@
  */
 namespace Piwik\View;
 
-use Twig_Node_Expression_Array;
-use Twig_Node_Expression_MethodCall;
-use Twig_Node_Include;
-use Twig_Token;
-use Twig_TokenParser;
+use Twig\Node\Expression\ArrayExpression;
+use Twig\Node\Expression\MethodCallExpression;
+use Twig\Node\Node;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
 
 /**
  * Defines a new Twig tag that will render a Piwik View.
@@ -23,51 +23,51 @@ use Twig_TokenParser;
  *
  * where `theView` is a variable referencing a View instance.
  */
-class RenderTokenParser extends Twig_TokenParser
+class RenderTokenParser extends AbstractTokenParser
 {
     /**
      * Parses the Twig stream and creates a Twig_Node_Include instance that includes
      * the View's template.
      *
-     * @return Twig_Node_Include
+     * @return Node
      */
-    public function parse(Twig_Token $token)
+    public function parse(Token $token)
     {
         $parser = $this->parser;
         $stream = $parser->getStream();
 
         $view = $parser->getExpressionParser()->parseExpression();
 
-        $variablesOverride = new Twig_Node_Expression_Array(array(), $token->getLine());
-        if ($stream->test(Twig_Token::NAME_TYPE, 'with')) {
+        $variablesOverride = new ArrayExpression(array(), $token->getLine());
+        if ($stream->test(Token::NAME_TYPE, 'with')) {
             $stream->next();
 
             $variablesOverride->addElement($this->parser->getExpressionParser()->parseExpression());
         }
 
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(Token::BLOCK_END_TYPE);
 
-        $viewTemplateExpr = new Twig_Node_Expression_MethodCall(
+        $viewTemplateExpr = new MethodCallExpression(
             $view,
             'getTemplateFile',
-            new Twig_Node_Expression_Array(array(), $token->getLine()),
+            new ArrayExpression(array(), $token->getLine()),
             $token->getLine()
         );
 
-        $variablesExpr = new Twig_Node_Expression_MethodCall(
+        $variablesExpr = new MethodCallExpression(
             $view,
             'getTemplateVars',
             $variablesOverride,
             $token->getLine()
         );
 
-        return new Twig_Node_Include(
-            $viewTemplateExpr,
-            $variablesExpr,
-            $only = false,
-            $ignoreMissing = false,
-            $token->getLine()
-        );
+//        return new Node(
+//            $viewTemplateExpr,
+//            $variablesExpr,
+//            $only = false,
+//            $ignoreMissing = false,
+//            $token->getLine()
+//        );
     }
 
     /**

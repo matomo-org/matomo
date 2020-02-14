@@ -11,7 +11,8 @@
         {% set visualizationIcons %}
             <ul id='dropdownVisualizations{{ randomIdForDropdown }}' class='dropdown-content dataTableFooterIcons'>
                 {% for footerIconGroup in footerIcons %}
-                    {% for footerIcon in footerIconGroup.buttons if footerIcon.icon %}
+                    {% for footerIcon in footerIconGroup.buttons %}
+                        {% if footerIcon.icon %}
                         <li>
                             {% set numIcons = numIcons + 1 %}
                             {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
@@ -27,6 +28,7 @@
                                 {% if footerIcon.title is defined %}<span>{{ footerIcon.title }}</span>{% endif %}
                             </a>
                         </li>
+                        {% endif %}
                     {% endfor %}
                     <li class="divider"></li>
                 {% endfor %}
