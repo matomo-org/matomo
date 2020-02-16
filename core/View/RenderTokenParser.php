@@ -10,7 +10,7 @@ namespace Piwik\View;
 
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\MethodCallExpression;
-use Twig\Node\Node;
+use Twig\Node\IncludeNode;
 use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
 
@@ -60,14 +60,13 @@ class RenderTokenParser extends AbstractTokenParser
             $variablesOverride,
             $token->getLine()
         );
-
-//        return new Node(
-//            $viewTemplateExpr,
-//            $variablesExpr,
-//            $only = false,
-//            $ignoreMissing = false,
-//            $token->getLine()
-//        );
+        return new IncludeNode(
+            $viewTemplateExpr,
+            $variablesExpr,
+            $only = false,
+            $ignoreMissing = false,
+            $token->getLine()
+        );
     }
 
     /**
