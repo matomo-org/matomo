@@ -447,17 +447,8 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        return;
-        $twig = StaticContainer::get(Twig::class);
-        $environment = $twig->getTwigEnvironment();
-        $environment->clearTemplateCache();
-
-        $cacheDirectory = $environment->getCache();
-        if (!empty($cacheDirectory)
-            && is_dir($cacheDirectory)
-        ) {
-            $environment->clearCacheFiles();
-        }
+        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
+        Filesystem::unlinkRecursive($templatesCompiledPath);
     }
 
     /**
