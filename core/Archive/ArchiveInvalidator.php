@@ -192,7 +192,6 @@ class ArchiveInvalidator
         // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
         //  So this must be a deleteLike call to get all the entries, where there used to only be one.
         Option::deleteLike($id . '%');
-        Cache::clearCacheGeneral();
     }
 
     /**
@@ -268,6 +267,7 @@ class ArchiveInvalidator
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
             }
         }
+        Cache::clearCacheGeneral();
 
         return $invalidationInfo;
     }
@@ -309,6 +309,8 @@ class ArchiveInvalidator
                 $invalidationInfo->processedDates[] = $dateRange[0];
             }
         }
+
+        Cache::clearCacheGeneral();
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($invalidatedMonths);
