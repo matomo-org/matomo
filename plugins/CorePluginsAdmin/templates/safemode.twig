@@ -78,25 +78,29 @@
                 {% endif %}
             </p>
             <table>
-                {% for pluginName, plugin in plugins if plugin.uninstallable and plugin.activated %}
-                    <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
-                        <td style="min-width:200px;">
-                            {{ pluginName }}
-                        </td>
-                        <td>
-                            {{ plugin.info.version|default('') }}
-                        </td>
-                        <td>
-                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}{% if deactivateIAmSuperUserSalt is not empty %}&i_am_super_user={{ deactivateIAmSuperUserSalt }}{% endif %}"
-                               target="_blank">deactivate</a>
-                        </td>
-                    </tr>
+                {% for pluginName, plugin in plugins %}
+                    {% if plugin.uninstallable and plugin.activated %}
+                        <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
+                            <td style="min-width:200px;">
+                                {{ pluginName }}
+                            </td>
+                            <td>
+                                {{ plugin.info.version|default('') }}
+                            </td>
+                            <td>
+                                <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}{% if deactivateIAmSuperUserSalt is not empty %}&i_am_super_user={{ deactivateIAmSuperUserSalt }}{% endif %}"
+                                   target="_blank">deactivate</a>
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </table>
 
             {% set uninstalledPluginsFound = false %}
-            {% for pluginName, plugin in plugins if plugin.uninstallable and not plugin.activated %}
-                {% set uninstalledPluginsFound = true %}
+            {% for pluginName, plugin in plugins %}
+                {% if plugin.uninstallable and not plugin.activated %}
+                    {% set uninstalledPluginsFound = true %}
+                {% endif %}
             {% endfor %}
 
             {% if uninstalledPluginsFound %}
@@ -107,16 +111,18 @@
                 </p>
 
                 <table>
-                    {% for pluginName, plugin in plugins if plugin.uninstallable and not plugin.activated %}
-                        <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
-                            <td style="min-width:200px;">
-                                {{ pluginName }}
-                            </td>
-                            <td>
-                                <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
-                                   target="_blank" onclick="return confirm('{{ 'CorePluginsAdmin_UninstallConfirm'|translate(pluginName)|e('js') }}')">uninstall</a>
-                            </td>
-                        </tr>
+                    {% for pluginName, plugin in plugins %}
+                        {% if plugin.uninstallable and not plugin.activated %}
+                            <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
+                                <td style="min-width:200px;">
+                                    {{ pluginName }}
+                                </td>
+                                <td>
+                                    <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
+                                       target="_blank" onclick="return confirm('{{ 'CorePluginsAdmin_UninstallConfirm'|translate(pluginName)|e('js') }}')">uninstall</a>
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </table>
             {% endif %}
