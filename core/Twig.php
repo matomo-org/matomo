@@ -163,7 +163,6 @@ class Twig
             )
         );
         $this->twig->addExtension(new DebugExtension());
-//        $this->twig->clearTemplateCache();
 
         $this->addFilter_translate();
         $this->addFilter_urlRewriteWithParameters();
