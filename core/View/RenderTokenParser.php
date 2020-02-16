@@ -60,13 +60,13 @@ class RenderTokenParser extends AbstractTokenParser
             $variablesOverride,
             $token->getLine()
         );
-        return new IncludeNode(
-            $viewTemplateExpr,
-            $variablesExpr,
-            $only = false,
-            $ignoreMissing = false,
-            $token->getLine()
-        );
+//        return new IncludeNode(
+//            $viewTemplateExpr,
+//            $variablesExpr,
+//            $only = false,
+//            $ignoreMissing = false,
+//            $token->getLine()
+//        );
     }
 
     /**
