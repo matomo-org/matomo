@@ -11,11 +11,9 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\ErrorException;
 use Piwik\View\ViewInterface;
 use Twig\Environment;
 use Twig\Error\Error;
-use Twig\Error\SyntaxError;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -448,7 +446,7 @@ class View implements ViewInterface
     public static function clearCompiledTemplates()
     {
         $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
-        Filesystem::unlinkRecursive($templatesCompiledPath);
+        Filesystem::unlinkRecursive($templatesCompiledPath, false);
     }
 
     /**
