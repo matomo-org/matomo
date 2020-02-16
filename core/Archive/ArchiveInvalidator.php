@@ -125,7 +125,6 @@ class ArchiveInvalidator
 
         $generalCache = Cache::getCacheGeneral();
         if (empty($generalCache[$cacheKey][$idSite][$dateStr])) {
-            Cache::clearCacheGeneral();
             return [];
         }
 
