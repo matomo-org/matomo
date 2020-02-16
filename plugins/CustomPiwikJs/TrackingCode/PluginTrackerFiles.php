@@ -17,11 +17,6 @@ class PluginTrackerFiles
     const MIN_TRACKER_FILE = 'tracker.min.js';
 
     /**
-     * @var string
-     */
-    protected $dir;
-
-    /**
      * @var Plugin\Manager
      */
     private $pluginManager;
@@ -33,13 +28,24 @@ class PluginTrackerFiles
 
     public function __construct()
     {
-        $this->dir = PIWIK_DOCUMENT_ROOT . '/plugins/';
         $this->pluginManager = Plugin\Manager::getInstance();
     }
 
     public function ignoreMinified()
     {
         $this->ignoreMinified = true;
+    }
+
+    protected function getDirectoriesToLook()
+    {
+        $dirs = array();
+        $manager = Plugin\Manager::getInstance();
+        foreach ($manager->getPluginsLoadedAndActivated() as $pluginName => $plugin) {
+            if ($plugin->isTrackerPlugin()) {
+                $dirs[$pluginName] = rtrim(Plugin\Manager::getPluginDirectory($pluginName), '/') . '/';
+            }
+        }
+        return $dirs;
     }
 
     /**
@@ -49,25 +55,11 @@ class PluginTrackerFiles
     {
         $jsFiles = array();
 
-        if (!$this->ignoreMinified) {
-            $trackerFiles = \_glob($this->dir . '*/' . self::MIN_TRACKER_FILE);
-
-            foreach ($trackerFiles as $trackerFile) {
-                $plugin = $this->getPluginNameFromFile($trackerFile);
-                if ($this->isPluginActivated($plugin)) {
-                    $jsFiles[$plugin] = new File($trackerFile);
-                }
-            }
-        }
-
-        $trackerFiles = \_glob($this->dir . '*/' . self::TRACKER_FILE);
-
-        foreach ($trackerFiles as $trackerFile) {
-            $plugin = $this->getPluginNameFromFile($trackerFile);
-            if (!isset($jsFiles[$plugin])) {
-                if ($this->isPluginActivated($plugin)) {
-                    $jsFiles[$plugin] = new File($trackerFile);
-                }
+        foreach ($this->getDirectoriesToLook() as $pluginName => $pluginDir) {
+            if (!$this->ignoreMinified && file_exists($pluginDir . self::MIN_TRACKER_FILE)) {
+                $jsFiles[$pluginName] = new File($pluginDir . self::MIN_TRACKER_FILE);
+            } elseif (file_exists($pluginDir . self::TRACKER_FILE)) {
+                $jsFiles[$pluginName] = new File($pluginDir . self::TRACKER_FILE);
             }
         }
 
@@ -100,11 +92,5 @@ class PluginTrackerFiles
     protected function isPluginActivated($pluginName)
     {
         return $this->pluginManager->isPluginActivated($pluginName);
-    }
-
-    protected function getPluginNameFromFile($file)
-    {
-        $file = str_replace(array($this->dir, self::TRACKER_FILE, self::MIN_TRACKER_FILE), '', $file);
-        return trim($file, '/');
     }
 }
