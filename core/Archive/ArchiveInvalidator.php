@@ -184,6 +184,8 @@ class ArchiveInvalidator
 
     /**
      * @internal
+     * After calling this method, make sure to call Cache::clearCacheGeneral(); For performance reasons we don't call
+     * this here immediately in case there are multiple invalidations.
      */
     public function forgetRememberedArchivedReportsToInvalidate($idSite, Date $date)
     {
