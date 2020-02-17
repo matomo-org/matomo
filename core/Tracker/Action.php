@@ -358,11 +358,6 @@ abstract class Action
         return $this->actionIdsCached;
     }
 
-    protected function getExtraVisitActionFields()
-    {
-        return array();
-    }
-
     /**
      * Records in the DB the association between the visit and this action.
      *
