@@ -56,7 +56,7 @@ class ImageGraph extends \Piwik\Plugin
         $idSite = $info['idSite'];
 
         // If only one website is selected, we add the Graph URL
-        if (empty($idSite)) {
+        if (empty($idSite) || 'all' === $idSite) {
             return;
         }
         
