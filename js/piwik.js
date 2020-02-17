@@ -3291,7 +3291,7 @@ if (typeof window.Piwik !== 'object') {
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
-                    (isSecure ? ';SameSite=None' : ';SameSite=Lax');
+                    ';SameSite=Lax';
             }
 
             /*
