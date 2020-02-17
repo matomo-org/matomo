@@ -10,11 +10,10 @@ namespace Piwik\Plugins\UserCountry\tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Plugin;
 use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -109,7 +108,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         // if we do not load translations, a DataTable\Map containing multiple periods will contain only one DataTable having
         // the label `General_DateRangeFromTo` instead of many like `From 2010-01-04 to 2010-01-11`, ' `From 2010-01-11 to 2010-01-18`
         // As those data tables would all have the same prettyfied period label they would overwrite each other.
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
 
         $this->assertApiResponseEqualsExpected("UserCountry.getCountry", $queryParams);
         $this->assertApiResponseEqualsExpected("UserCountry.getContinent", $queryParams);

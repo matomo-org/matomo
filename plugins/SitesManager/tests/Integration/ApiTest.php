@@ -18,9 +18,9 @@ use Piwik\Plugins\SitesManager\Model;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Measurable\Measurable;
 use Piwik\Site;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 use Exception;
 use PHPUnit_Framework_Constraint_IsType;
 
@@ -47,7 +47,7 @@ class ApiTest extends IntegrationTestCase
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     /**
@@ -558,7 +558,7 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site2", array("http://piwik.com/test/"));
         API::getInstance()->addSite("site3", array("http://piwik.org"), null, null, null, null, null, null, 'Asia/Tokyo');
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
 
         $resultWanted = array(
             0 => array("idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'timezone_name' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'US Dollar'),

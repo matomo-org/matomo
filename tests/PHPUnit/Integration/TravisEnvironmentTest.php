@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Db;
-use Piwik\Translate;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

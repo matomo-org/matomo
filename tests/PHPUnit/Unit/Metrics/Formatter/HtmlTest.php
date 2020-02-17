@@ -9,8 +9,7 @@ namespace Piwik\Tests\Unit\Metrics\Formatter;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter\Html;
-use Piwik\NumberFormatter;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
@@ -36,13 +35,13 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $this->formatter = new Html();
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::reset();
+        Fixture::resetTranslations();
         $this->unsetSiteManagerApiMock();
     }
 

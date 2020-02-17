@@ -12,8 +12,6 @@ use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SegmentEditor\SegmentList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
-use Exception;
 
 /**
  * @group SegmentFormatterTest
@@ -37,12 +35,12 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->idSite = Fixture::createWebsite('2012-01-01 00:00:00');
         $this->formatter   = new SegmentFormatter(new SegmentList());
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
     public function tearDown()
     {
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function test_getHumanReadable_noSegmentGiven_ShouldReturnDefaultSegment()

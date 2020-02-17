@@ -12,9 +12,9 @@ use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Exception;
+use Piwik\Tests\Framework\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
@@ -110,7 +110,7 @@ class UserCountryTest extends \PHPUnit\Framework\TestCase
     public function testGeoIpDownloadInvalidUrl($url)
     {
         // unset translations, otherwise Exception message will be translated
-        StaticContainer::get('Piwik\Translation\Translator')->reset();
+        Fixture::resetTranslations();
 
         $updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictest();
         try {

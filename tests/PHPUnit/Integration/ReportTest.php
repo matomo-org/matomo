@@ -19,7 +19,6 @@ use Piwik\Plugins\ExampleTracker\Columns\ExampleDimension;
 use Piwik\Plugins\Referrers\Columns\Keyword;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -154,9 +153,9 @@ class ReportTest extends IntegrationTestCase
 
     public function test_getCategory_shouldReturnTranslatedCategory()
     {
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $this->assertEquals('Goals_Goals', $this->advancedReport->getCategoryId());
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function test_getMetrics_shouldUseDefaultMetrics()

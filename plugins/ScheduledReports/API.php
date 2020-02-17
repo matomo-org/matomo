@@ -30,7 +30,6 @@ use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Site;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Psr\Log\LoggerInterface;
 
@@ -323,13 +322,14 @@ class API extends \Piwik\Plugin\API
             $outputType = self::OUTPUT_DOWNLOAD;
         }
 
-        // load specified language
-        if (empty($language)) {
-            $language = Translate::getLanguageDefault();
-        }
-
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        // load specified language
+        if (empty($language)) {
+            $language = $translator->getDefaultLanguage();
+        }
+
         $translator->setCurrentLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
