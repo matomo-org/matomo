@@ -117,8 +117,13 @@ class VisitorDetails extends VisitorDetailsAbstract
         if ($action['type'] == Action::TYPE_SITE_SEARCH) {
             // Handle Site Search
             $action['siteSearchKeyword'] = $action['pageTitle'];
+            $action['siteSearchCategory'] = $action['search_cat'];
+            $action['siteSearchCount'] = $action['search_count'];
             unset($action['pageTitle']);
         }
+
+        unset($action['search_cat']);
+        unset($action['search_count']);
 
         // Generation time
         if ($this->shouldHandleAction($action) && empty($action['eventType']) && isset($action['custom_float']) && $action['custom_float'] > 0) {
@@ -262,7 +267,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float,
-					log_link_visit_action.interaction_position
+					log_link_visit_action.interaction_position,
+					log_link_visit_action.search_cat,
+					log_link_visit_action.search_count
 					" . $customActionDimensionFields . "
 				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
