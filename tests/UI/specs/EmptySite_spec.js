@@ -28,7 +28,9 @@ describe("EmptySite", function () {
     });
 
     it('should be possible to ignore this screen for one hour', async function () {
-        await page.click('.ignoreSitesWithoutData');
+        await page.evaluate(function() {
+            $('.ignoreSitesWithoutData').click();
+        });
         await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
