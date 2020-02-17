@@ -197,6 +197,13 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
+        $translationKeys[] = 'PrivacyManager_OptOutCustomize';
+        $translationKeys[] = 'PrivacyManager_FontColor';
+        $translationKeys[] = 'PrivacyManager_BackgroundColor';
+        $translationKeys[] = 'PrivacyManager_FontSize';
+        $translationKeys[] = 'PrivacyManager_FontFamily';
+        $translationKeys[] = 'PrivacyManager_OptOutHtmlCode';
+        $translationKeys[] = 'PrivacyManager_OptOutPreview';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
