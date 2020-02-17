@@ -246,7 +246,7 @@ class ApiTest extends SystemTestCase
         $this->assertTrue($this->api->canGenerateInsights('2012-12-12', 'month'));
 
         $this->assertFalse($this->api->canGenerateInsights('last10', 'day'));
-        $this->assertFalse($this->api->canGenerateInsights('2012-11-11,2012-12-12', 'range'));
+        $this->true($this->api->canGenerateInsights('2012-11-11,2012-12-12', 'range'));
     }
 
     private function requestInsights($requestParams)
