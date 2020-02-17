@@ -168,13 +168,13 @@ class Dashboard extends \Piwik\Plugin
             }
             $defaultLayout = '[
                 [
-                ' . $insightsWidget . '
                     {"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
                     ' . $piwikPromoWidget . '
                 ],
                 [
                     {"uniqueId":"widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution","parameters":{"forceView":"1","viewDataTable":"graphEvolution","module":"VisitsSummary","action":"getEvolutionGraph"}},
                     ' . $advertisingWidget . '
+                    ' . $insightsWidget . '
                     {"uniqueId":"widgetVisitsSummarygetforceView1viewDataTablesparklines","parameters":{"forceView":"1","viewDataTable":"sparklines","module":"VisitsSummary","action":"get"}}
                 ],
                 [
