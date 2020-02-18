@@ -212,6 +212,15 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['iconSVG'] = 'plugins/Morpheus/images/search.svg';
                 $action['title'] = Piwik::translate('Actions_SubmenuSitesearch');
                 $action['subtitle'] = $action['siteSearchKeyword'];
+
+                if (!empty($action['siteSearchCategory'])) {
+                    $action['subtitle'] .= ' - ' . Piwik::translate('Actions_ColumnSearchCategory') . ': ' . $action['siteSearchCategory'];
+                }
+
+                if (!empty($action['siteSearchCount'])) {
+                    $action['subtitle'] .= ' - ' . Piwik::translate('Actions_ColumnSearchResultsCount') . ': ' . $action['siteSearchCount'];
+                }
+
                 break;
             case Action::TYPE_PAGE_URL:
             case Action::TYPE_PAGE_TITLE:
