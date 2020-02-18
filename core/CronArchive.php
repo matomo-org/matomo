@@ -925,7 +925,12 @@ class CronArchive
                     $store->add($idSite);
                 }
 
-                $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                if (empty($content)) {
+                    $this->logError("Empty response for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                } else {
+                    $this->logError("Invalid json response '$content' (" . json_last_error_msg() . ") for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                }
+
                 $this->skippedDayOnApiError++;
                 $this->skipped++;
                 return false;
