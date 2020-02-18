@@ -21,6 +21,35 @@ use Piwik\Period\Year;
  */
 class RangeTest extends BasePeriodTest
 {
+    /**
+     * @dataProvider getDateXPeriodsAgoProvider
+     */
+    public function testGetDateXPeriodsAgo($expected, $subXPeriods, $date, $period)
+    {
+        $result = Range::getDateXPeriodsAgo($subXPeriods, $date, $period);
+        $day = [$expected,$expected];
+        if ($period === 'range') {
+            $day = [$expected, false];
+        }
+        $this->assertEquals($day, $result);
+    }
+
+    public function getDateXPeriodsAgoProvider()
+    {
+        return [
+            ['2019-05-14', '1', '2019-05-15', 'day'],
+            ['2018-05-15', '1', '2019-05-15', 'year'],
+            ['2019-05-08', '1', '2019-05-15', 'week'],
+            ['2019-04-15', '1', '2019-05-15', 'month'],
+            ['2019-02-15', '3', '2019-05-15', 'month'],
+            ['2018-05-15', '365', '2019-05-15', 'day'],
+            ['2018-05-15', '1', '2019-05-15', 'year'],
+            ['2017-05-15', '2', '2019-05-15', 'year'],
+            ['2019-06-04,2019-06-09', '1', '2019-06-10,2019-06-15', 'range'],
+            ['2019-06-10,2019-06-12', '1', '2019-06-13,2019-06-15', 'range'],
+        ];
+    }
+
     // test range 1
     public function testRangeToday()
     {

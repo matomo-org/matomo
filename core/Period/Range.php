@@ -463,14 +463,23 @@ class Range extends Period
             $period = Common::getRequestVar('period');
         }
 
-        if (365 == $subXPeriods && 'day' == $period && Date::today()->isLeapYear()) {
+        if (365 == $subXPeriods && 'day' == $period && Date::factory($date)->isLeapYear()) {
             $subXPeriods = 366;
+        }
+
+        if ($period === 'range') {
+            $rangePeriod = new Range($period, $date);
+            $daysDifference = self::getNumDaysDifference($rangePeriod->getDateStart(), $rangePeriod->getDateEnd());
+            $end = $rangePeriod->getDateStart()->subDay(1);
+            $from = $end->subDay($daysDifference);
+
+            return array("$from,$end", false);
         }
 
         // can't get the last date for range periods & dates that use lastN/previousN
         $strLastDate = false;
         $lastPeriod  = false;
-        if ($period != 'range' && !preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
+        if (!preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
             if (strpos($date, ',')) {
                 // date in the form of 2011-01-01,2011-02-02
 
@@ -487,6 +496,13 @@ class Range extends Period
         }
 
         return array($strLastDate, $lastPeriod);
+    }
+
+
+    private static function getNumDaysDifference(Date $date1, Date $date2)
+    {
+        $days = (abs($date1->getTimestamp() - $date2->getTimestamp())) / 60 / 60 / 24;
+        return (int) round($days);
     }
 
     /**
