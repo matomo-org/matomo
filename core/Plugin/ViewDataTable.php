@@ -8,17 +8,13 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Metrics\Formatter\Html;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
-use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
