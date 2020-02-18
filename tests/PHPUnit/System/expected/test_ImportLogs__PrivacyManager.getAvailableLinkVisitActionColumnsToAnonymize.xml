@@ -117,6 +117,14 @@
 		<default_value />
 	</row>
 	<row>
+		<column_name>search_cat</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>search_count</column_name>
+		<default_value />
+	</row>
+	<row>
 		<column_name>time_spent</column_name>
 		<default_value />
 	</row>

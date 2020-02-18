@@ -94,6 +94,8 @@
 				<pageId>352</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -1630,6 +1632,8 @@
 				<pageId>468</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -3166,6 +3170,8 @@
 				<pageId>584</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -5337,6 +5343,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -6283,6 +6291,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -7229,6 +7239,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -10360,6 +10372,8 @@
 				<pageId>409</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
@@ -10893,6 +10907,8 @@
 				<pageId>525</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
@@ -11426,6 +11442,8 @@
 				<pageId>641</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
@@ -18351,6 +18369,8 @@
 				<pageId>236</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -20522,6 +20542,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -21839,6 +21861,8 @@
 				<pageId>293</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
@@ -24398,6 +24422,8 @@
 				<pageId>120</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -25934,6 +25960,8 @@
 				<pageId>700</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -28105,6 +28133,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -29051,6 +29081,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -31246,6 +31278,8 @@
 				<pageId>177</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
@@ -31750,6 +31784,8 @@
 				<pageId>757</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
@@ -36492,6 +36528,8 @@
 				<pageId>4</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -38663,6 +38701,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -40038,6 +40078,8 @@
 				<pageId>61</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>

@@ -52,18 +52,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount />
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
