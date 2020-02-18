@@ -17,6 +17,8 @@ use Piwik\Tracker\Visitor;
 class SearchCount extends ActionDimension
 {
     protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'Actions_SiteSearchKeywordCount';
+    protected $namePlural = 'Actions_SiteSearchKeywordCounts';
     protected $columnName = 'search_count';
     protected $segmentName = 'siteSearchCount';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';

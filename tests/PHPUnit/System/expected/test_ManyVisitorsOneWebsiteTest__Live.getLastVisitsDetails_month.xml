@@ -190,12 +190,12 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
-				<siteSearchCount />
+				<siteSearchCount>48</siteSearchCount>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party - Search Category: CAT</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 48</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -961,12 +961,12 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
-				<siteSearchCount />
+				<siteSearchCount>36</siteSearchCount>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party - Search Category: CAT</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 36</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1732,12 +1732,12 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
-				<siteSearchCount />
+				<siteSearchCount>24</siteSearchCount>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party - Search Category: CAT</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 24</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>

@@ -101,9 +101,9 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      */
     public function test_checkArchiveRecords_whenPeriodIsRange()
     {
-        // we expect 5 blobs for Actions plugins, because flat=1 or expanded=1 was not set
+        // we expect 6 blobs for Actions plugins, because flat=1 or expanded=1 was not set
         // so we only archived the parent table
-        $expectedActionsBlobs = 5;
+        $expectedActionsBlobs = 6;
 
         // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;

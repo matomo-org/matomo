@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Segment;
 use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -30,5 +31,12 @@ class SearchCategory extends ActionDimension
         }
 
         return parent::onNewAction($request, $visitor, $action);
+    }
+
+    protected function addSegment(Segment $segment)
+    {
+        $this->nameSingular = 'Actions_SiteSearchCategory'; // use another name for segment
+
+        parent::addSegment($segment);
     }
 }
