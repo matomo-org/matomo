@@ -276,6 +276,10 @@ class Request
                 'ignoreInScreenWriter' => true,
             ]);
 
+            if (empty($response)) {
+               $response = new ResponseBuilder('console', $this->request);
+            }
+            
             $toReturn = $response->getResponseException($e);
         } finally {
             --self::$nestedApiInvocationCount;
