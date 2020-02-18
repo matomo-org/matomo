@@ -19,6 +19,7 @@ class SearchCategory extends ActionDimension
     protected $type = self::TYPE_TEXT;
     protected $nameSingular = 'Actions_ColumnSearchCategory';
     protected $namePlural = 'Actions_SiteSearchCategories';
+    protected $segmentName = 'siteSearchCategory';
     protected $columnName = 'search_cat';
     protected $columnType = 'VARCHAR(200) NULL';
 
