@@ -25,6 +25,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const OUTLINKS_RECORD_NAME = 'Actions_outlink';
     const PAGE_TITLES_RECORD_NAME = 'Actions_actions';
     const SITE_SEARCH_RECORD_NAME = 'Actions_sitesearch';
+    const SITE_SEARCH_CATEGORY_RECORD_NAME = 'Actions_SiteSearchCategories';
     const PAGE_URLS_RECORD_NAME = 'Actions_actions_url';
 
     const METRIC_PAGEVIEWS_RECORD_NAME = 'Actions_nb_pageviews';
@@ -181,7 +182,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $dataTable = $dataArray->asDataTable();
         $report = $dataTable->getSerialized();
-        $this->getProcessor()->insertBlobRecord('Actions_SiteSearchCategories', $report);
+        $this->getProcessor()->insertBlobRecord(self::SITE_SEARCH_CATEGORY_RECORD_NAME, $report);
     }
 
     protected function archiveDayActions($rankingQueryLimit, array $actionTypes, $includePageNotDefined)
@@ -548,6 +549,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::DOWNLOADS_RECORD_NAME,
             self::OUTLINKS_RECORD_NAME,
             self::SITE_SEARCH_RECORD_NAME,
+            self::SITE_SEARCH_CATEGORY_RECORD_NAME,
         );
         $aggregation = null;
         $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
