@@ -35,7 +35,7 @@ class SearchCategory extends ActionDimension
 
     protected function addSegment(Segment $segment)
     {
-        $this->nameSingular = 'Actions_SiteSearchCategory'; // use another name for segment
+        $segment->setName('Actions_SiteSearchCategory'); // use another name for segment
 
         parent::addSegment($segment);
     }
