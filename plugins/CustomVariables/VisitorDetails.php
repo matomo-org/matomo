@@ -41,6 +41,11 @@ class VisitorDetails extends VisitorDetailsAbstract
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (!empty($action['custom_var_k' . $i])) {
                 $cvarKey                 = $action['custom_var_k' . $i];
+
+                if (in_array($cvarKey, ['_pk_scat', '_pk_scount'])) {
+                    continue; // ignore old site search variables
+                }
+
                 $customVariablesPage[$i] = array(
                     'customVariablePageName' . $i  => $cvarKey,
                     'customVariablePageValue' . $i => $action['custom_var_v' . $i],
