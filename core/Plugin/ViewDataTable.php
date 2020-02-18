@@ -8,10 +8,12 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Metrics\Formatter\Html;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
@@ -365,7 +367,6 @@ abstract class ViewDataTable implements ViewInterface
         $extraParams = [];
         if ($this->isComparing()) {
             $extraParams['compare'] = '1';
-            $extraParams['disable_root_datatable_post_processor'] = '1';
         }
 
         $this->dataTable = $this->request->loadDataTableFromAPI($extraParams);
