@@ -75,6 +75,14 @@ class ApiGetReportMetadataTest extends SystemTestCase
             array('Actions.getPageTitles', array('idSite'     => $idSite, 'date' => $dateTime,
                                                  'testSuffix' => '_pageTitleZeroString')),
 
+            // Test w/ no format, should default to format=json
+            ['Actions.getPageTitles', [
+                'idSite'     => $idSite,
+                'date' => $dateTime,
+                'testSuffix' => '_defaultFormatValue',
+                'format' => 'asldjkf',
+            ]],
+
             // test php renderer w/ array data
             array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,
                                                             'format' => 'php', 'testSuffix' => '_phpRenderer')),
