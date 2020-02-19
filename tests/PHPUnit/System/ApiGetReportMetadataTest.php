@@ -80,7 +80,7 @@ class ApiGetReportMetadataTest extends SystemTestCase
                 'idSite'     => $idSite,
                 'date' => $dateTime,
                 'testSuffix' => '_defaultFormatValue',
-                'format' => '',
+                'format' => 'asldjkf',
             ]],
 
             // test php renderer w/ array data
