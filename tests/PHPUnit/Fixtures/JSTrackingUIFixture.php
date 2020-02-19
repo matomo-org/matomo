@@ -43,7 +43,7 @@ class JSTrackingUIFixture extends Fixture
 
         parent::performSetUp($setupEnvironmentOnly);
 
-        $this->testEnvironment->overlayUrl = UiTestFixture::getLocalTestSiteUrl();
+        $this->testEnvironment->overlayUrl = UITestFixture::getLocalTestSiteUrl();
         UITestFixture::createOverlayTestSite($idSite = 1);
 
         $this->testEnvironment->tokenAuth = self::getTokenAuth();

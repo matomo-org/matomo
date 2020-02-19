@@ -1,7 +1,7 @@
 /*!
  * Piwik - free/libre analytics platform
  *
- * Bar graph screenshot tests.
+ * JS tracker UI tests.
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
