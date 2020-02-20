@@ -177,7 +177,7 @@ class ArchiveInvalidator
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
     {
         $id = $this->buildRememberArchivedReportIdForSite($idSite) . '_%';
-        Option::deleteLike($id);
+        $this->deleteOptionLike($id);
         Cache::clearCacheGeneral();
     }
 
@@ -192,7 +192,18 @@ class ArchiveInvalidator
 
         // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
         //  So this must be a deleteLike call to get all the entries, where there used to only be one.
-        Option::deleteLike($id . '%');
+        $this->deleteOptionLike($id);
+        Cache::clearCacheGeneral();
+    }
+
+    private function deleteOptionLike($id)
+    {
+        // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
+        // we want to reduce number of rows scanned and only delete specific primary key
+        $keys = Option::getLike($id . '%');
+        foreach ( $keys as $key => $val) {
+            Option::delete($key);
+        }
     }
 
     /**
