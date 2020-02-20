@@ -16,6 +16,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\CliMulti\Process;
+use Piwik\Db;
 use Piwik\Option;
 use Piwik\Common;
 use Piwik\Piwik;
@@ -201,9 +202,17 @@ class ArchiveInvalidator
         // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
         // we want to reduce number of rows scanned and only delete specific primary key
         $keys = Option::getLike($id . '%');
-        foreach ( $keys as $key => $val) {
-            Option::delete($key);
+
+        if (empty($keys)) {
+            return;
         }
+
+        $keys = array_keys($keys);
+
+        $placeholders = Common::getSqlStringFieldsArray($keys);
+
+        $table = Common::prefixTable('option');
+        Db::query('DELETE FROM `' . $table . '` WHERE `option_name` IN (' . $placeholders . ')', $keys);
     }
 
     /**
