@@ -3290,7 +3290,8 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (isSecure ? ';secure' : '');
+                    (isSecure ? ';secure' : '') +
+                    ';SameSite=Lax';
             }
 
             /*

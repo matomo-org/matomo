@@ -190,7 +190,15 @@ class Session extends Zend_Session
     {
         $config = Config::getInstance();
         $general = $config->General;
-        if (!empty($general['enable_framed_pages']) && ProxyHttp::isHttps()) {
+
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        $isOptOutRequest = $module == 'CoreAdminHome' && $action == 'optOut';
+        $isOverlay = $module == 'Overlay';
+        $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || $isOverlay;
+
+        if ($shouldUseNone && ProxyHttp::isHttps()) {
             return 'None';
         }
 
@@ -231,6 +239,7 @@ class Session extends Zend_Session
         if ($sameSite) {
             $headerStr .= '; SameSite=' . rawurlencode($sameSite);
         }
+        Common::sendHeader($headerStr);
         return $headerStr;
     }
 }
