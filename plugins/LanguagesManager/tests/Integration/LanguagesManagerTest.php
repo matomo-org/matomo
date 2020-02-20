@@ -20,7 +20,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespac
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group LanguagesManager
@@ -145,7 +145,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         Cache::flushAll();
         $translator = StaticContainer::get('Piwik\Translation\Translator');
         $translator->reset();
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $translations = $translator->getAllTranslations();
         foreach ($translations AS $plugin => $pluginTranslations) {
             foreach ($pluginTranslations as $key => $pluginTranslation) {
@@ -166,7 +166,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         Cache::flushAll();
         $translator = StaticContainer::get('Piwik\Translation\Translator');
         $translator->reset();
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $translations = $translator->getAllTranslations();
         foreach ($translations AS $plugin => $pluginTranslations) {
             if ($plugin == 'Intl') {

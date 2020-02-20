@@ -14,9 +14,9 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Marketplace\Consumer;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
-use Piwik\Translate;
 
 class CustomInvalidLicenses extends InvalidLicenses {
     private $isActivated = true;
@@ -51,14 +51,14 @@ class InvalidLicensesTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         $this->cache = new Eager(new ArrayCache(), 'test');
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 
