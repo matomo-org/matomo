@@ -409,7 +409,10 @@ class Visit implements VisitInterface
 
         if ($wasInserted) {
             Common::printDebug('Updated existing visit: ' . var_export($valuesToUpdate, true));
-        } else {
+        } elseif (!$this->getModel()->hasVisit($idSite, $idVisit)) {
+            // mostly for WordPress. see https://github.com/matomo-org/matomo/pull/15587
+            // as WP doesn't set `MYSQLI_CLIENT_FOUND_ROWS` and therefore when the update succeeded but no value changed
+            // it would still return 0 vs OnPremise would return 1 or 2.
             throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
                 . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
