@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result period="1">
+	<result idSite="1">
 		<result date="2010">
 			<nb_visits_new>2</nb_visits_new>
 			<nb_actions_new>2</nb_actions_new>
@@ -28,7 +28,7 @@
 		<result date="2015" />
 		<result date="2016" />
 	</result>
-	<result period="2">
+	<result idSite="2">
 		<result date="2010">
 			<nb_visits_new>1</nb_visits_new>
 			<nb_actions_new>3</nb_actions_new>
