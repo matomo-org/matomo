@@ -89,7 +89,8 @@ class Response
 
         if ($tracker->isDebugModeEnabled()
             && $tracker->isDatabaseConnected()
-            && TrackerDb::isProfilingEnabled()) {
+            && TrackerDb::isProfilingEnabled()
+        ) {
             $db = Tracker::getDatabase();
             $db->recordProfiling();
             Profiler::displayDbTrackerProfile($db);
