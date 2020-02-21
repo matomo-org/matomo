@@ -95,7 +95,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>/?emoji=�l&amp;param=test</label>
+		<label>/?emoji=😎l&amp;param=test</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
@@ -109,8 +109,8 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<url>https://make.wordpress.org/?emoji=�l&amp;param=test</url>
-		<segment>pageUrl==https%253A%252F%252Fmake.wordpress.org%252F%253Femoji%253D%25EF%25BF%25BDl%2526param%253Dtest</segment>
+		<url>https://make.wordpress.org/?emoji=😎l&amp;param=test</url>
+		<segment>pageUrl==https%253A%252F%252Fmake.wordpress.org%252F%253Femoji%253D%25F0%259F%2598%258El%2526param%253Dtest</segment>
 	</row>
 	<row>
 		<label>/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ</label>

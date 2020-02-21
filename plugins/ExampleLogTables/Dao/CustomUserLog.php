@@ -25,7 +25,7 @@ class CustomUserLog
     public function install()
     {
         DbHelper::createTable($this->table, "
-                  `user_id` VARCHAR(200) NOT NULL,
+                  `user_id` VARCHAR(191) NOT NULL,
                   `gender` VARCHAR(30) NOT NULL,
                   `group` VARCHAR(30) NOT NULL,
                   PRIMARY KEY (user_id)");
