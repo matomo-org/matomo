@@ -18,7 +18,7 @@ use Piwik\Segment;
  * @group Archive
  * @group Core
  */
-class ArchiveWriterTest extends \PHPUnit_Framework_TestCase
+class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
 {
     private $recordName = 'Actions_Action_url';
 

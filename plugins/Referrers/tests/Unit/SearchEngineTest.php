@@ -14,7 +14,7 @@ use Spyc;
 /**
  * @group SearchEngine
  */
-class SearchEngineTest extends \PHPUnit_Framework_TestCase
+class SearchEngineTest extends \PHPUnit\Framework\TestCase
 {
     public static function setUpBeforeClass()
     {

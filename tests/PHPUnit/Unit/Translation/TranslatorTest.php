@@ -14,7 +14,7 @@ use Piwik\Translation\Translator;
 /**
  * @group Translation
  */
-class TranslatorTest extends \PHPUnit_Framework_TestCase
+class TranslatorTest extends \PHPUnit\Framework\TestCase
 {
     public function test_translate_shouldReturnTranslationId_ifNoTranslationFound()
     {

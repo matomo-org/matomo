@@ -12,7 +12,7 @@ use DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\IniConfigDefinitionSource;
 
-class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
+class IniConfigDefinitionSourceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

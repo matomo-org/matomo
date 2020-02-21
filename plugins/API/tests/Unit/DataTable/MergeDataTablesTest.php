@@ -13,7 +13,7 @@ namespace Piwik\Plugins\API\tests\Unit\DataTable;
 use Piwik\DataTable;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 
-class MergeDataTablesTest extends \PHPUnit_Framework_TestCase
+class MergeDataTablesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MergeDataTables

@@ -15,7 +15,7 @@ use Piwik\Plugins\API\Renderer\Xml;
  * @group Plugin
  * @group API
  */
-class XmlRendererTest extends \PHPUnit_Framework_TestCase
+class XmlRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Xml

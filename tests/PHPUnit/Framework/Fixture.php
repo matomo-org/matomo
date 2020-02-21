@@ -15,6 +15,7 @@ use Piwik\Auth;
 use Piwik\Auth\Password;
 use Matomo\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
+use Piwik\CliMulti\CliPhp;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -76,7 +77,7 @@ use ReflectionClass;
 class Fixture extends \PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '5.6';
+    const IMAGES_GENERATED_FOR_PHP = '7.2';
     const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
@@ -143,6 +144,20 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         return 'python';
+    }
+
+    public static function getCliCommandBase()
+    {
+        $cliPhp = new CliPhp();
+        $php = $cliPhp->findPhpBinary();
+
+        $command = $php . ' ' . PIWIK_INCLUDE_PATH .'/tests/PHPUnit/proxy/console ';
+
+        if (!empty($_SERVER['HTTP_HOST'])) {
+            $command .= '--matomo-domain=' . $_SERVER['HTTP_HOST'];
+        }
+
+        return $command;
     }
 
     public static function getTestRootUrl()

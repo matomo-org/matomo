@@ -16,7 +16,7 @@ use Piwik\DataTable;
  * @group Sparklines
  * @group Plugins
  */
-class GraphTest extends \PHPUnit_Framework_TestCase
+class GraphTest extends \PHPUnit\Framework\TestCase
 {
     public function testSelectableColumnsAlreadySet()
     {

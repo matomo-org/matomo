@@ -12,7 +12,7 @@ namespace Piwik\Tests\Unit;
  * @group Core
  * @group LegacyAutoLoader
  */
-class LegacyAutoLoaderTest extends \PHPUnit_Framework_TestCase
+class LegacyAutoLoaderTest extends \PHPUnit\Framework\TestCase
 {
     public function testPackageClassWorks()
     {

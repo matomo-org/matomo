@@ -13,7 +13,7 @@ use Piwik\CronArchive\FixedSiteIds;
 /**
  * @group Core
  */
-class FixedSiteIdsTest extends \PHPUnit_Framework_TestCase
+class FixedSiteIdsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FixedSiteIds

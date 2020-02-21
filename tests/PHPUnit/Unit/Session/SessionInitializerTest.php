@@ -14,7 +14,7 @@ use Piwik\AuthResult;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionInitializer;
 
-class SessionInitializerTest extends \PHPUnit_Framework_TestCase
+class SessionInitializerTest extends \PHPUnit\Framework\TestCase
 {
     private $oldUnitTestValue;
 

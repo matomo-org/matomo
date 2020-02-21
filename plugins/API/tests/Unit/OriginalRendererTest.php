@@ -15,7 +15,7 @@ use Piwik\Plugins\API\Renderer\Original;
  * @group Plugin
  * @group API
  */
-class OriginalRendererTest extends \PHPUnit_Framework_TestCase
+class OriginalRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Original

@@ -15,7 +15,7 @@ use Piwik\Validators\NumberRange;
  * @group NumberRange
  * @group NumberRangeTest
  */
-class NumberRangeTest extends \PHPUnit_Framework_TestCase
+class NumberRangeTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {

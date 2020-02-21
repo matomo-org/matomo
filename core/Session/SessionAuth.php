@@ -195,7 +195,7 @@ class SessionAuth implements Auth
             $sessionParams['domain'],
             $sessionParams['secure'],
             $sessionParams['httponly'],
-            'lax'
+            Session::getSameSiteCookieValue()
         );
 
         // ...and we also update the expiration time stored server side so we can prevent expired sessions from being reused

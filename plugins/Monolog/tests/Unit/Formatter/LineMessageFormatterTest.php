@@ -15,7 +15,7 @@ use Piwik\Plugins\Monolog\Formatter\LineMessageFormatter;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Formatter\LineMessageFormatter
  */
-class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
+class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

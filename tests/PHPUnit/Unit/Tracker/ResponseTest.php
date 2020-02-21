@@ -33,7 +33,7 @@ class TestResponse extends Response {
  * @group Plugins
  * @group Tracker
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var TestResponse

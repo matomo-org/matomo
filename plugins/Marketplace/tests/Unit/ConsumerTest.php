@@ -17,7 +17,7 @@ use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
  * @group Consumer
  * @group Plugins
  */
-class ConsumerTest extends \PHPUnit_Framework_TestCase
+class ConsumerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Service

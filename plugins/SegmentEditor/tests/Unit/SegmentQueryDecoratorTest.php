@@ -17,7 +17,7 @@ use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
  * @group SegmentEditor
  * @group SegmentEditor_Unit
  */
-class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
+class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 {
     public static $storedSegments = array(
         array('definition' => 'countryCode==abc', 'idsegment' => 1),

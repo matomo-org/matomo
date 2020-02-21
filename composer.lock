@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67420faa2591c5239b3769fa93239f84",
+    "content-hash": "ef319f0bec0c7988dd83727e05ac2b39",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -158,23 +158,30 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "dev-multiple-series",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/matomo-org/Sparkline.git",
-                "reference": "91268fa3b812729b230dabcd866771738e67315d"
+                "url": "https://github.com/davaxi/Sparkline.git",
+                "reference": "380d447fcfc6468f7d8e5c041e8c01b8ec969959"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/380d447fcfc6468f7d8e5c041e8c01b8ec969959",
+                "reference": "380d447fcfc6468f7d8e5c041e8c01b8ec969959",
+                "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
                 "ext-gd": "*",
                 "friendsofphp/php-cs-fixer": "^2.8",
                 "jakub-onderka/php-parallel-lint": "^0.9.2",
-                "php": ">=5.3.0",
+                "php": ">=5.4.0",
                 "phpro/grumphp": "^0.12.0",
+                "phpunit/phpunit": "^4.8.36",
                 "povils/phpmnd": "^1.1",
                 "sebastian/phpcpd": "^3.0",
                 "sensiolabs/security-checker": "^4.1",
@@ -187,6 +194,7 @@
                     "Davaxi\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -204,11 +212,7 @@
                 "picture",
                 "sparkline"
             ],
-            "support": {
-                "issues": "https://github.com/davaxi/Sparkline/issues",
-                "source": "https://github.com/davaxi/Sparkline/releases"
-            },
-            "time": "2019-11-12T23:40:23+00:00"
+            "time": "2020-02-05T13:40:09+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -622,16 +626,16 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "1.4.4",
+            "version": "3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3"
+                "reference": "80ab98ed17ea5b72730f4f4d96acc03847440103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
-                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/80ab98ed17ea5b72730f4f4d96acc03847440103",
+                "reference": "80ab98ed17ea5b72730f4f4d96acc03847440103",
                 "shasum": ""
             },
             "replace": {
@@ -643,7 +647,7 @@
                 "CC0-1.0"
             ],
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
-            "time": "2018-05-25T11:09:26+00:00"
+            "time": "2020-01-13T09:01:25+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -1232,16 +1236,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.12.2",
+            "version": "3.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "c352144e2ab1aff81e659aa38224be987b87855b"
+                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/c352144e2ab1aff81e659aa38224be987b87855b",
-                "reference": "c352144e2ab1aff81e659aa38224be987b87855b",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/22257883bd2c7c21d68112a907cdad7de4a2ba31",
+                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31",
                 "shasum": ""
             },
             "require": {
@@ -1283,7 +1287,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2019-12-22T21:23:31+00:00"
+            "time": "2020-01-13T16:15:20+00:00"
         },
         {
             "name": "psr/container",
@@ -1931,35 +1935,6 @@
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
-            "name": "facebook/xhprof",
-            "version": "master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phacility/xhprof",
-                "reference": "master"
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "xhprof_lib/utils/xhprof_lib.php",
-                    "xhprof_lib/utils/xhprof_runs.php"
-                ]
-            },
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "XHProf: A Hierarchical Profiler for PHP",
-            "homepage": "http://pecl.php.net/package/xhprof",
-            "keywords": [
-                "performance",
-                "profiling"
-            ],
-            "time": "2015-02-26T14:37:51+00:00"
-        },
-        {
             "name": "guzzle/guzzle",
             "version": "v3.9.3",
             "source": {
@@ -2054,6 +2029,45 @@
             ],
             "abandoned": "guzzlehttp/guzzle",
             "time": "2015-03-18T18:23:50+00:00"
+        },
+        {
+            "name": "lox/xhprof",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lox/xhprof.git",
+                "reference": "c64571f892bda1298bad9c5e94ede0bc3f0e4627"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lox/xhprof/zipball/c64571f892bda1298bad9c5e94ede0bc3f0e4627",
+                "reference": "c64571f892bda1298bad9c5e94ede0bc3f0e4627",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "bin": [
+                "bin/xhprofile"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "xhprof_lib/utils/xhprof_lib.php",
+                    "xhprof_lib/utils/xhprof_runs.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "XHProf: A Hierarchical Profiler for PHP",
+            "homepage": "http://pecl.php.net/package/xhprof",
+            "keywords": [
+                "performance",
+                "profiling"
+            ],
+            "time": "2015-08-31T22:07:48+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2736,6 +2750,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
@@ -3275,8 +3290,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "leafo/lessphp": 20,
-        "davaxi/sparkline": 20,
-        "facebook/xhprof": 20
+        "lox/xhprof": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

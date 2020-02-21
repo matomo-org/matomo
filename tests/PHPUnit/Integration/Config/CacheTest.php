@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\Integration\Config\Cache;
 
-use PHPUnit_Framework_TestCase;
 use Piwik\Config;
 use Piwik\Config\Cache;
 use Piwik\Config\IniFileChain;

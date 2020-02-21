@@ -14,7 +14,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class RowTest extends \PHPUnit_Framework_TestCase
+class RowTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Row

@@ -19,7 +19,7 @@ use Piwik\Translation\Translator;
 /**
  * @group Core
  */
-class PeriodTest extends \PHPUnit_Framework_TestCase
+class PeriodTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetId()
     {

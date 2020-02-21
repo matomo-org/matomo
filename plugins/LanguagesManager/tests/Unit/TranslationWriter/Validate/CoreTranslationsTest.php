@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 /**
  * @group LanguagesManager
  */
-class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
+class CoreTranslationsTest extends \PHPUnit\Framework\TestCase
 {
     public function getFilterTestDataValid()
     {

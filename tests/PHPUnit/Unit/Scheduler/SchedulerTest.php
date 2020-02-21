@@ -20,7 +20,7 @@ use ReflectionProperty;
 /**
  * @group Scheduler
  */
-class SchedulerTest extends \PHPUnit_Framework_TestCase
+class SchedulerTest extends \PHPUnit\Framework\TestCase
 {
     private static function getTestTimetable()
     {

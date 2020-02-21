@@ -14,7 +14,7 @@ use Piwik\Archive\Chunk;
  * @group ChunkTest
  * @group Archive
  */
-class ChunkTest extends \PHPUnit_Framework_TestCase
+class ChunkTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Chunk

@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/Referrers.php';
 /**
  * @group Plugin
  */
-class ReferrersTest extends \PHPUnit_Framework_TestCase
+class ReferrersTest extends \PHPUnit\Framework\TestCase
 {
     public function removeUrlProtocolTestData()
     {

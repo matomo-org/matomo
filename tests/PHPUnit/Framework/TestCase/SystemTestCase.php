@@ -29,7 +29,7 @@ use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
 use Piwik\Log;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Translation\Translator;
 use Piwik\Url;
@@ -41,7 +41,7 @@ use Piwik\Url;
  *
  * @since 2.8.0
  */
-abstract class SystemTestCase extends PHPUnit_Framework_TestCase
+abstract class SystemTestCase extends TestCase
 {
     /**
      * Identifies the last language used in an API/Controller call.

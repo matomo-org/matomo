@@ -15,6 +15,7 @@ describe("OptOutForm", function () {
     function expandIframe() {
         return page.evaluate(() => {
             const $iframe = $('iframe#optOutIframe');
+            $iframe.contents().find('#textError_https').hide();
             $iframe.width(350);
             $iframe.height($iframe.contents().outerHeight());
         });
@@ -44,6 +45,8 @@ describe("OptOutForm", function () {
         await page.waitFor(5000); // opt out iframe creates a new page, so we can't wait on it that easily
         await page.waitForNetworkIdle(); // safety
 
+        await expandIframe();
+
         const element = await page.jQuery('iframe#optOutIframe');
         expect(await element.screenshot()).to.matchImage('opted-out');
     });
@@ -55,7 +58,7 @@ describe("OptOutForm", function () {
         await expandIframe();
 
         const element = await page.jQuery('iframe#optOutIframe');
-        expect(await element.screenshot()).to.matchImage('opted-out');
+        expect(await element.screenshot()).to.matchImage('opted-out_reloaded');
     });
 
     it("should correctly show display opted-in form when cookies are cleared", async function () {

@@ -24,7 +24,7 @@ use RecursiveIteratorIterator;
  * @group Core
  * @group ReleaseCheckListTest
  */
-class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
+class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 {
     private $globalConfig;
 
@@ -221,7 +221,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             // Note: entries below are paths and any file within these paths will be automatically whitelisted
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
-            PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
+            PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
         );
 
