@@ -38,7 +38,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
 
         foreach ($plugins as $plugin) {
 
-            if (API::getInstance()->getPluginTranslationsForLanguage($plugin, 'en')) {
+            if ('Intl' !== $plugin && API::getInstance()->getPluginTranslationsForLanguage($plugin, 'en')) {
 
                 $pluginsWithTranslation[] = $plugin;
             }
