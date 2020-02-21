@@ -27,6 +27,12 @@ describe("JSTracker", function () {
         // visit visitor log for correct date
         await page.goto(visitorLogUrl);
 
+        await page.evaluate(function () {
+            $('.visitor-log-datetime').html('REMOVED');
+            var $e = $('.dataTableWrapper>.row>.column>strong');
+            $e.text($e.text().replace(/\d+s/, 'Ns'));
+        });
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visitor_log');
     });
 });
