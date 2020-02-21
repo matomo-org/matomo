@@ -599,9 +599,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config->General['installation_in_progress'] = 1;
 
         $config->database = $dbInfos;
-        if (!DbHelper::isDatabaseConnectionUTF8()) {
-            $config->database['charset'] = 'utf8';
-        }
+        $config->database['charset'] = DbHelper::getDefaultCharset();
 
         $config->forceSave();
 

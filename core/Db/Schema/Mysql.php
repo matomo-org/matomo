@@ -134,7 +134,7 @@ class Mysql implements SchemaInterface
 
             'site_url'    => "CREATE TABLE {$prefixTables}site_url (
                               idsite INTEGER(10) UNSIGNED NOT NULL,
-                              url VARCHAR(255) NOT NULL,
+                              url VARCHAR(190) NOT NULL,
                                 PRIMARY KEY(idsite, url)
                               ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
@@ -254,7 +254,7 @@ class Mysql implements SchemaInterface
             ",
 
             'option'        => "CREATE TABLE `{$prefixTables}option` (
-                                option_name VARCHAR( 255 ) NOT NULL,
+                                option_name VARCHAR( 191 ) NOT NULL,
                                 option_value LONGTEXT NOT NULL,
                                 autoload TINYINT NOT NULL DEFAULT '1',
                                   PRIMARY KEY ( option_name ),
@@ -263,7 +263,7 @@ class Mysql implements SchemaInterface
             ",
 
             'session'       => "CREATE TABLE {$prefixTables}session (
-                                id VARCHAR( 255 ) NOT NULL,
+                                id VARCHAR( 191 ) NOT NULL,
                                 modified INTEGER,
                                 lifetime INTEGER,
                                 data TEXT,
@@ -273,7 +273,7 @@ class Mysql implements SchemaInterface
 
             'archive_numeric'     => "CREATE TABLE {$prefixTables}archive_numeric (
                                       idarchive INTEGER UNSIGNED NOT NULL,
-                                      name VARCHAR(255) NOT NULL,
+                                      name VARCHAR(190) NOT NULL,
                                       idsite INTEGER UNSIGNED NULL,
                                       date1 DATE NULL,
                                       date2 DATE NULL,
@@ -288,7 +288,7 @@ class Mysql implements SchemaInterface
 
             'archive_blob'        => "CREATE TABLE {$prefixTables}archive_blob (
                                       idarchive INTEGER UNSIGNED NOT NULL,
-                                      name VARCHAR(255) NOT NULL,
+                                      name VARCHAR(190) NOT NULL,
                                       idsite INTEGER UNSIGNED NULL,
                                       date1 DATE NULL,
                                       date2 DATE NULL,

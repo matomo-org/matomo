@@ -216,7 +216,23 @@ class DbHelper
     {
         $result = Db::get()->fetchRow("SHOW CHARACTER SET LIKE 'utf8mb4'");
 
-        return empty($result) ? 'utf8' : 'utf8mb4';
+        if (empty($result)) {
+            return 'utf8'; // charset not available
+        }
+
+        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'character_set_database'");
+
+        if (!empty($result) && $result['Value'] === 'utf8mb4') {
+            return 'utf8mb4'; // database has utf8mb4 charset, so assume it can be used
+        }
+
+        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'innodb_file_per_table'");
+
+        if (empty($result) || $result['Value'] !== 'ON') {
+            return 'utf8'; // innodb_file_per_table is required for utf8mb4
+        }
+
+        return 'utf8mb4';
     }
 
     /**

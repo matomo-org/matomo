@@ -93,19 +93,30 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->plugin->deactivate('CustomPiwikJs');
         $migrations[] = $this->migration->plugin->uninstall('CustomPiwikJs');
 
+        if ($customTrackerPluginActive) {
+            $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
+        }
+
         if ('utf8mb4' === DbHelper::getDefaultCharset()) {
             $allTables = DbHelper::getTablesInstalled();
             $database = Config::getInstance()->database['dbname'];
 
+            $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
+            $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
+            $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
+
+            foreach ($allTables as $table) {
+                if (preg_match('/archive_/', $table) == 1) {
+                    $tableNameUnprefixed = Common::unprefixTable($table);
+                    $migrations[] = $this->migration->db->changeColumnType($tableNameUnprefixed, 'name', 'VARCHAR(190)');
+                }
+            }
+
             $migrations[] = $this->migration->db->sql("ALTER DATABASE $database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;");
 
             foreach ($allTables as $table) {
-                $migrations[] = $this->migration->db->sql("ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+                $migrations[] = $this->migration->db->sql("ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
             }
-        }
-
-        if ($customTrackerPluginActive) {
-            $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
         }
 
         // Move the site search fields of log_visit out of custom variables into their own fields
@@ -137,11 +148,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         // switch default charset to utf8mb4 in config if available
         $config = Config::getInstance();
-        if ('utf8mb4' === DbHelper::getDefaultCharset()) {
-            $config->database['charset'] = 'utf8mb4';
-        } else {
-            $config->database['charset'] = 'utf8';
-        }
+        $config->database['charset'] = DbHelper::getDefaultCharset();
         $config->forceSave();
     }
 
