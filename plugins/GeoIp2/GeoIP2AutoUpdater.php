@@ -130,7 +130,10 @@ class GeoIP2AutoUpdater extends Task
         $logger = StaticContainer::get(LoggerInterface::class);
 
         $url = trim($url);
-        if ($this->isDbIpUrl($url)) {
+
+        if ($this->isPaidDbIpUrl($url)) {
+            $url = $this->fetchPaidDbIpUrl($url);
+        } else if ($this->isDbIpUrl($url)) {
             $url = $this->getDbIpUrlWithLatestDate($url);
         }
 
@@ -741,4 +744,28 @@ class GeoIP2AutoUpdater extends Task
     {
         return !! preg_match('/db-ip\.com/', $url);
     }
+
+    private function isPaidDbIpUrl($url)
+    {
+        return !! preg_match('/db-ip\.com\/account\/[0-9a-z]+\/db/', $url);
+    }
+
+    private function fetchPaidDbIpUrl($url)
+    {
+        $content = Http::fetchRemoteFile($url);
+
+        if (0 === strpos($content, 'http')) {
+            return $content;
+        }
+
+        $content = json_decode($content, true);
+
+        if (!empty($content['mmdb']['url'])) {
+            return $content['mmdb']['url'];
+        }
+
+        throw new Exception('Unable to determine download url');
+    }
+
+
 }
