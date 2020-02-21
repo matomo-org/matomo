@@ -154,12 +154,13 @@ class ConsoleTest extends ConsoleCommandTestCase
 
         $expected = <<<END
 #!/usr/bin/env php
+PHP Fatal error:  Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 85
 
-Fatal error: Allowed memory size of 1073741824 bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 85
+Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 85
 *** IN SAFEMODE ***
-Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to allocate 1073741856 bytes) (which lead to: Error: array (
+Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) (which lead to: Error: array (
   'type' => 1,
-  'message' => 'Allowed memory size of X bytes exhausted (tried to allocate 1073741825 bytes)',
+  'message' => 'Allowed memory size of X bytes exhausted (tried to allocate X bytes)',
   'file' => '/tests/PHPUnit/System/ConsoleTest.php',
   'line' => 85,
   'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(85)
