@@ -752,7 +752,7 @@ class GeoIP2AutoUpdater extends Task
 
     private function fetchPaidDbIpUrl($url)
     {
-        $content = Http::fetchRemoteFile($url);
+        $content = trim(Http::fetchRemoteFile($url));
 
         if (0 === strpos($content, 'http')) {
             return $content;
