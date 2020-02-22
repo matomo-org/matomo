@@ -11,6 +11,7 @@ namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
+use Piwik\Common;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
@@ -238,9 +239,33 @@ class Php extends GeoIp2
         if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
             $subdivisions = $lookupResult->subdivisions;
             $subdivision = $this->determinSubdivision($subdivisions, $result[self::COUNTRY_CODE_KEY]);
-            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode);
+            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode) ?: $this->determineRegionIsoCodeByNameAndCountryCode($subdivision->name, $result[self::COUNTRY_CODE_KEY]);
             $result[self::REGION_NAME_KEY] = $subdivision->name;
         }
+    }
+
+    /**
+     * Try to determine the ISO region code based on the region name and country code
+     *
+     * @param string $regionName
+     * @param string $countryCode
+     * @return string
+     */
+    protected function determineRegionIsoCodeByNameAndCountryCode($regionName, $countryCode)
+    {
+        $regionNames = self::getRegionNames();
+
+        if (empty($regionNames[$countryCode])) {
+            return '';
+        }
+
+        foreach ($regionNames[$countryCode] as $isoCode => $name) {
+            if (Common::mb_strtolower($name) === Common::mb_strtolower($regionName)) {
+                return $isoCode;
+            }
+        }
+
+        return '';
     }
 
     protected function determinSubdivision($subdivisions, $countryCode)
