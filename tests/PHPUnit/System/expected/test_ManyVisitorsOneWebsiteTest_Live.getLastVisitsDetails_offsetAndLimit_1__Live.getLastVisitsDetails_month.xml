@@ -581,13 +581,13 @@
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Macedonia</country>
+		<country>North Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Gevgelija</region>
 		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, North Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>

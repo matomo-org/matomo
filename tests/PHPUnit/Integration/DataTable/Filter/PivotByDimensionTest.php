@@ -9,6 +9,7 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\DataTable;
@@ -16,7 +17,6 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
-use Piwik\Translate;
 
 /**
  * @group DataTableTest
@@ -43,7 +43,7 @@ class PivotByDimensionTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Translate::reset();
+        Fixture::resetTranslations();
         Cache::clearCacheGeneral();
         \Piwik\Cache::flushAll();
 

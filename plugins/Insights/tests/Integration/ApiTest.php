@@ -11,11 +11,10 @@ namespace Piwik\Plugins\Insights\tests\Integration;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Cache as PiwikCache;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Translate;
 
 /**
  * @group Insights
@@ -42,7 +41,7 @@ class ApiTest extends SystemTestCase
 
         PiwikCache::flushAll();
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $this->api = API::getInstance();
     }
 
@@ -50,7 +49,7 @@ class ApiTest extends SystemTestCase
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     /**

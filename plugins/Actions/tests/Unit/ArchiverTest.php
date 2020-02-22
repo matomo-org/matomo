@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\Actions\tests\Unit;
 
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Action;
-use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
 
@@ -23,12 +23,12 @@ class ArchiverTests extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
     public function tearDown()
     {
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function getActionNameTestData()

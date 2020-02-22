@@ -29,10 +29,8 @@ use Matomo\Ini\IniReader;
 use Piwik\Log;
 use Piwik\NumberFormatter;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
@@ -48,11 +46,11 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Singleton;
 use Piwik\Site;
+use Piwik\Tests;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
-use Piwik\Translate;
 use MatomoTracker;
 use Matomo_LocalTracker;
 use Piwik\Updater;
@@ -401,10 +399,21 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         Plugin\API::unsetAllInstances();
         $_GET = $_REQUEST = array();
-        Translate::reset();
+        self::resetTranslations();
 
         self::getConfig()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
+    }
+
+    public static function resetTranslations()
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->reset();
+    }
+
+    public static function loadAllTranslations()
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->addDirectory(PIWIK_INCLUDE_PATH . '/lang');
+        Manager::getInstance()->loadPluginTranslations();
     }
 
     protected static function resetPluginsInstalledConfig()

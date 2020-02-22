@@ -16,6 +16,9 @@ use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespaces;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -132,7 +135,11 @@ class GenerateIntl extends ConsoleCommand
 
             ksort($translations['Intl']);
 
-            file_put_contents(sprintf($writePath, $langCode), json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            $translationWriter = new Writer($langCode, 'Intl');
+            $translationWriter->setTranslations($translations);
+            $translationWriter->addFilter(new UnnecassaryWhitespaces());
+            $translationWriter->addFilter(new EncodedEntities());
+            $translationWriter->save();
         }
     }
 
