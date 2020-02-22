@@ -207,10 +207,10 @@ class Session extends Zend_Session
     {
         $headerStr = 'Set-Cookie: ' . rawurlencode($name) . '=' . rawurlencode($value);
         if ($expires) {
-            $headerStr .= '; expires=' . rawurlencode($expires);
+            $headerStr .= '; expires=' . $expires;
         }
         if ($path) {
-            $headerStr .= '; path=' . rawurlencode($path);
+            $headerStr .= '; path=' . $path;
         }
         if ($domain) {
             $headerStr .= '; domain=' . rawurlencode($domain);
@@ -222,8 +222,9 @@ class Session extends Zend_Session
             $headerStr .= '; httponly';
         }
         if ($sameSite) {
-            $headerStr .= '; SameSite=' . rawurlencode($sameSite);
+            $headerStr .= '; SameSite=' . $sameSite;
         }
+
         Common::sendHeader($headerStr);
         return $headerStr;
     }
