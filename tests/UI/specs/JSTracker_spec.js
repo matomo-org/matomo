@@ -16,6 +16,9 @@ describe("JSTracker", function () {
         visitorLogUrl = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog";
 
     it("run correctly on a website and correctly track visits in the visitor log", async function () {
+        testEnvironment.pluginsToLoad = ['ExampleTracker'];
+        testEnvironment.save();
+
         await page.goto(testWebsiteUrl);
 
         // view another page
