@@ -77,8 +77,12 @@ class CliPhp
 
     private function isValidPhpType($path)
     {
-        return !empty($path)
-        && false === strpos($path, 'fpm')
+        if (empty($path)) {
+            return false;
+        }
+        $path = basename($path);
+        
+        return false === strpos($path, 'fpm')
         && false === strpos($path, 'cgi')
         && false === strpos($path, 'phpunit')
         && false === strpos($path, 'lsphp');
