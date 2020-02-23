@@ -9,7 +9,6 @@ namespace Piwik\CliMulti;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 
 class CliPhp
 {
