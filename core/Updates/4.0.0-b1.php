@@ -33,15 +33,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     {
         $migration1 = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migration2 = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
-        $migration3 = $this->migration->db->changeColumnType('log_link_visit_action', 'custom_float', 'DOUBLE NULL DEFAULT NULL');
 
-        $migration4 = $this->migration->plugin->activate('BulkTracking');
+        $migration3 = $this->migration->plugin->activate('BulkTracking');
 
         return array(
             $migration1,
             $migration2,
-            $migration3,
-            $migration4
+            $migration3
         );
     }
 
