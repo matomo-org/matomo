@@ -8,6 +8,7 @@
  */
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -15,6 +16,7 @@ use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -33,10 +35,22 @@ class Loader
      */
     protected $params;
 
-    public function __construct(Parameters $params)
+    /**
+     * @var ArchiveInvalidator
+     */
+    private $invalidator;
+
+    /**
+     * @var \Piwik\Cache\Cache
+     */
+    private $cache;
+
+    public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {
         $this->params = $params;
-    }
+        $this->invalidateBeforeArchiving = $invalidateBeforeArchiving;
+        $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $this->cache = Cache::getTransientCache();    }
 
     /**
      * @return bool
@@ -68,6 +82,11 @@ class Loader
         list($idArchive, $visits, $visitsConverted) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchive)) {
             return $idArchive;
+        }
+
+        // no valid archive exists, make sure to invalidate existing archives
+        if ($this->invalidateBeforeArchiving) {
+            $this->invalidatedReportsIfNeeded();
         }
 
         /** @var ArchivingStatus $archivingStatus */
@@ -241,5 +260,63 @@ class Loader
         }
 
         return $cache->fetch($cacheKey);
+    }
+
+    private function invalidatedReportsIfNeeded()
+    {
+        $siteIdsRequested = $this->getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet();
+
+        if (empty($siteIdsRequested)) {
+            return; // all requested site ids were already handled
+        }
+
+        $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        foreach ($sitesPerDays as $date => $siteIds) {
+            if (empty($siteIds)) {
+                continue;
+            }
+
+            $siteIdsToActuallyInvalidate = array_intersect($siteIds, $siteIdsRequested);
+
+            if (empty($siteIdsToActuallyInvalidate)) {
+                continue; // all site ids that should be handled are already handled
+            }
+
+            try {
+                $this->invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, array(Date::factory($date)), false);
+            } catch (\Exception $e) {
+                Site::clearCache();
+                throw $e;
+            }
+        }
+
+        Site::clearCache();
+    }
+
+    private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
+    {
+        $id = 'Archive.SiteIdsOfRememberedReportsInvalidated';
+
+        if (!$this->cache->contains($id)) {
+            $this->cache->save($id, array());
+        }
+
+        $siteIdsAlreadyHandled = $this->cache->fetch($id);
+        $siteIdsRequested      = $this->params->getIdSites();
+
+        foreach ($siteIdsRequested as $index => $siteIdRequested) {
+            $siteIdRequested = (int) $siteIdRequested;
+
+            if (in_array($siteIdRequested, $siteIdsAlreadyHandled)) {
+                unset($siteIdsRequested[$index]); // was already handled previously, do not do it again
+            } else {
+                $siteIdsAlreadyHandled[] = $siteIdRequested; // we will handle this id this time
+            }
+        }
+
+        $this->cache->save($id, $siteIdsAlreadyHandled);
+
+        return $siteIdsRequested;
     }
 }
