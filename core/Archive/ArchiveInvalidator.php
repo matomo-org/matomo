@@ -207,6 +207,8 @@ class ArchiveInvalidator
     {
         $invalidationInfo = new InvalidationResult();
 
+        // TODO: need to handle empty period for day missing
+
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
         // to reprocess.
         $hasMoreThanJustToday = [];
@@ -267,6 +269,12 @@ class ArchiveInvalidator
     private function getAllPeriodsByYearMonth($period, $dates, $cascadeDown, &$result = [])
     {
         foreach ($dates as $date) {
+            if ($period === 'range'
+                && strpos($date, ',') === false
+            ) {
+                $date = $date . ',' . $date;
+            }
+
             $periodObj = Period\Factory::build($period, $date);
             $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
 
@@ -306,7 +314,7 @@ class ArchiveInvalidator
 
         $parentPeriod = Period\Factory::build($period->getParentPeriodLabel(), $period->getDateStart());
         $result[$this->getYearMonth($parentPeriod)][$this->getUniquePeriodId($parentPeriod)] = $parentPeriod;
-        $this->addParentPeriodsByYearMonth($result, $period);
+        $this->addParentPeriodsByYearMonth($result, $parentPeriod);
     }
 
     /**
@@ -324,22 +332,21 @@ class ArchiveInvalidator
 
         $ranges = array();
         foreach ($dates as $dateRange) {
-            $ranges[] = $dateRange[0] . ',' . $dateRange[1];
+            $ranges[] = Period\Factory::build('range', $dateRange[0] . ',' . $dateRange[1]);
         }
-        $periodsByType = array(Period\Range::PERIOD_ID => $ranges);
 
         $invalidatedMonths = array();
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
-            $result = $this->model->updateArchiveAsInvalidated($table, $idSites, $periodsByType, $segment);
-            $rowsAffected = $result->rowCount();
+            $rowsAffected = $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment);
             if ($rowsAffected > 0) {
                 $invalidatedMonths[] = $tableDate;
             }
         }
 
+        // TODO: don't need this either?
         foreach ($idSites as $idSite) {
             foreach ($dates as $dateRange) {
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $dateRange[0]);
@@ -458,7 +465,7 @@ class ArchiveInvalidator
                 continue;
             }
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment); // TODO
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
             }

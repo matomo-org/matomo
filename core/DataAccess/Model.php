@@ -107,27 +107,28 @@ class Model
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null)
     {
         // select all idarchive/name pairs we want to invalidate
-        $sql = "SELECT idarchive, idsite, date1, date2, `name`
+        $sql = "SELECT idarchive, idsite, period, date1, date2, `name`
                   FROM `$archiveTable`
-                 WHERE idsite IN (" . implode(',', $idSites) . ") AND (";
+                 WHERE idsite IN (" . implode(',', $idSites) . ")";
 
-        $isFirst = true;
-        foreach ($allPeriodsToInvalidate as $periods) {
+        if (!empty($allPeriodsToInvalidate)) {
+            $sql .= " AND (";
+
+            $isFirst = true;
             /** @var Period $period */
-            foreach ($periods as $period) {
+            foreach ($allPeriodsToInvalidate as $period) {
                 if ($isFirst) {
                     $isFirst = false;
                 } else {
                     $sql .= " OR ";
                 }
 
-                $sql .= "(period = " . (int)$period
-                    . " AND date1 = '" . $period->getDateStart()->getDatetime()
-                    . "' AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
+                $sql .= "(period = " . (int)$period->getId()
+                    . " AND date1 = '" . $period->getDateStart()->getDatetime() . "'"
+                    . " AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
             }
+            $sql .= ")";
         }
-
-        $sql .= ")";
 
         if ($segment) {
             $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
@@ -141,20 +142,37 @@ class Model
         $idArchives = array_column($archivesToInvalidate, 'idarchive');
 
         // update each archive as invalidated
-        $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-            . implode(',', $idArchives) . ") AND $nameCondition";
-        Db::query($sql);
+        if (!empty($idArchives)) {
+            $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
+                . implode(',', $idArchives) . ") AND $nameCondition";
+
+            Db::query($sql);
+        }
 
         // for every archive we need to invalidate, if one does not already exist, create a dummy archive so CronArchive
         // will pick it up
-        // TODO
+        // TODO: explain this later
+        $allArchivesFoundIndexed = [];
+        foreach ($archivesToInvalidate as $row) {
+            $allArchivesFoundIndexed[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
+        }
 
+        foreach ($idSites as $idSite) {
+            foreach ($allPeriodsToInvalidate as $period) {
+                $startDate = $period->getDateStart()->getDatetime();
+                $endDate = $period->getDateEnd()->getDatetime();
+                if (!empty($allArchivesFoundIndexed[$idSite][$period->getId()][$startDate][$endDate])) {
+                    continue;
+                }
+
+                $this->createDummyArchive($idSite, $period, $segment);
+            }
+        }
+
+        return count($idArchives);
+
+        // TODO: in archive.php, maybe only invalidate the first N elements in the list? need to check performance.
         // TODO: check about race conditions here between the select and update
-        /*
-        - select all idarchive,names for idsites/period/segment
-        - update each of those as invalidated
-        - for every permutation not in above, insert new record
-        */
     }
 
     /**
@@ -170,18 +188,18 @@ class Model
         $bind = array();
 
         $periodConditions = array();
-        foreach ($allPeriodsToInvalidate as $periods) {
-            $dateConditions = array();
+        if (!empty($allPeriodsToInvalidate)) {
+            foreach ($allPeriodsToInvalidate as $period) {
+                $dateConditions = array();
 
-            /** @var Period $period */
-            foreach ($periods as $period) {
+                /** @var Period $period */
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
                 $bind[] = $period->getDateStart();
                 $bind[] = $period->getDateEnd();
-            }
 
-            $dateConditionsSql = implode(" OR ", $dateConditions);
-            $periodConditions[] = "(period = 5 AND ($dateConditionsSql))";
+                $dateConditionsSql = implode(" OR ", $dateConditions);
+                $periodConditions[] = "(period = 5 AND ($dateConditionsSql))";
+            }
         }
 
         if ($segment) {
@@ -571,5 +589,23 @@ class Model
         }
 
         return $tables;
+    }
+
+    private function createDummyArchive($idSite, Period $period, Segment $segment = null)
+    {
+        $archiveTable = ArchiveTableCreator::getNumericTable($period->getDateStart());
+        $idArchive = $this->allocateNewArchiveId($archiveTable);
+        $sql = "INSERT INTO `$archiveTable` (idarchive, `name`, idsite, date1, date2, period, ts_archived, `value`)
+            VALUES (?, ?, ?, ?, ?, ?, NULL, ?)";
+
+        $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
+        Db::query($sql, [
+            $idArchive,
+            $doneFlag,
+            $idSite,
+            $period->getDateStart()->getDatetime(),
+            $period->getDateEnd()->getDatetime(),
+            $period->getId(), ArchiveWriter::DONE_INVALIDATED,
+        ]);
     }
 }

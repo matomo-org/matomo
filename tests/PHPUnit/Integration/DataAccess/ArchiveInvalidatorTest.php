@@ -747,8 +747,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $table = ArchiveTableCreator::getNumericTable($dateStart);
 
-        $idArchive = (int) Db::fetchOne("SELECT MAX(idarchive) FROM $table WHERE name LIKE 'done%'");
-        $idArchive = $idArchive + 1;
+        $model = new Model();
+        $idArchive = $model->allocateNewArchiveId($table);
 
         $periodId = Piwik::$idPeriods[$periodLabel];
 

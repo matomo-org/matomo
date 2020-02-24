@@ -108,7 +108,7 @@ abstract class Factory
             }
         }
 
-        throw new \Exception("Don't know how to create a '$period' period!");
+        throw new \Exception("Don't know how to create a '$period' period! (date = $date)");
     }
 
     public static function checkPeriodIsEnabled($period)
