@@ -273,6 +273,8 @@ class CronArchive
      */
     private $isArchiveProfilingEnabled = false;
 
+    private $lastDbReset = false;
+
     /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
@@ -304,6 +306,7 @@ class CronArchive
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
+        $this->lastDbReset = time();
     }
 
     private function isMaintenanceModeEnabled()
@@ -970,6 +973,8 @@ class CronArchive
 
     private function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
     {
+        $this->disconnectDb();
+
         if (Range::isMultiplePeriod($date, $period)) {
             $rangePeriod = Factory::build($period, $date, Site::getTimezoneFor($idSite));
             $periodsToCheck = $rangePeriod->getSubperiods();
@@ -1234,10 +1239,28 @@ class CronArchive
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }
+        $this->disconnectDb();
         if ($this->checkResponse($response, $url)) {
             return $response;
         }
         return false;
+    }
+
+    private function disconnectDb()
+    {
+        if (empty($this->lastDbReset)) {
+            $this->lastDbReset = time();
+            return;
+        }
+
+        $twoHoursInSeconds = 60 * 60 * 2;
+
+        if (time() > ($this->lastDbReset + $twoHoursInSeconds)) {
+            // we aim to through DB connections away only after 2 hours
+            $this->lastDbReset = time();
+            Db::destroyDatabaseObject();
+            Tracker::disconnectCachedDbConnection();
+        }
     }
 
     private function checkResponse($response, $url)
