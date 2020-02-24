@@ -194,6 +194,7 @@ class PrivacyManager extends Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'General_Visit';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
@@ -204,6 +205,22 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_FontFamily';
         $translationKeys[] = 'PrivacyManager_OptOutHtmlCode';
         $translationKeys[] = 'PrivacyManager_OptOutPreview';
+        $translationKeys[] = 'PrivacyManager_AnonymizeSites';
+        $translationKeys[] = 'PrivacyManager_AnonymizeRowDataFrom';
+        $translationKeys[] = 'PrivacyManager_AnonymizeRowDataTo';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIpHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeLocation';
+        $translationKeys[] = 'PrivacyManager_AnonymizeLocationHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeUserId';
+        $translationKeys[] = 'PrivacyManager_AnonymizeUserIdHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeProcessInfo';
+        $translationKeys[] = 'PrivacyManager_AnonymizeDataNow';
+        $translationKeys[] = 'PrivacyManager_AnonymizeDataConfirm';
+        $translationKeys[] = 'PrivacyManager_UnsetVisitColumns';
+        $translationKeys[] = 'PrivacyManager_UnsetVisitColumnsHelp';
+        $translationKeys[] = 'PrivacyManager_UnsetActionColumns';
+        $translationKeys[] = 'PrivacyManager_UnsetActionColumnsHelp';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
