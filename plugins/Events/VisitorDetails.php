@@ -24,7 +24,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $action['icon'] = 'plugins/Morpheus/images/event.png';
             $action['iconSVG'] = 'plugins/Morpheus/images/event.svg';
             $action['title'] = Piwik::translate('Events_Event');
-            $action['subtitle'] = Piwik::translate('Event_Category') . ': "' . $action['eventCategory'] . "'";
+            $action['subtitle'] = Piwik::translate('Events_Category') . ': "' . $action['eventCategory'] . "'";
 
             if (!empty($action['eventName'])) {
                 $action['subtitle'] .= ', ' . Piwik::translate('General_Name') . ': "' . $action['eventName'] . '"';
