@@ -523,6 +523,8 @@ class Zend_Session extends Zend_Session_Abstract
         self::$_sessionStarted = true;
         if (self::$_regenerateIdState === -1) {
             self::regenerateId();
+        } else {
+            self::rewriteSessionCookieWithSameSiteDirective();
         }
 
         if (isset($_SESSION['data']) && is_string($_SESSION['data'])) {
