@@ -392,21 +392,19 @@ class FrontController extends Singleton
 
         $loggedIn = false;
 
-        // user may already be logged in when init() is called, eg, in a CLI command
-        if (!Access::getInstance()->isUserLoggedIn()) {
-            // try authenticating w/ session first...
-            $sessionAuth = $this->makeSessionAuthenticator();
-            if ($sessionAuth) {
-                $loggedIn = Access::getInstance()->reloadAccess($sessionAuth);
-            }
+        // don't use sessionauth in cli mode
+        // try authenticating w/ session first...
+        $sessionAuth = $this->makeSessionAuthenticator();
+        if ($sessionAuth) {
+            $loggedIn = Access::getInstance()->reloadAccess($sessionAuth);
+        }
 
-            // ... if session auth fails try normal auth (which will login the anonymous user)
-            if (!$loggedIn) {
-                $authAdapter = $this->makeAuthenticator();
-                Access::getInstance()->reloadAccess($authAdapter);
-            } else {
-                $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
-            }
+        // ... if session auth fails try normal auth (which will login the anonymous user)
+        if (!$loggedIn) {
+            $authAdapter = $this->makeAuthenticator();
+            Access::getInstance()->reloadAccess($authAdapter);
+        } else {
+            $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
@@ -650,6 +648,10 @@ class FrontController extends Singleton
 
     private function makeSessionAuthenticator()
     {
+        if (Common::isPhpClimode()) { // don't use the session auth during CLI requests
+            return null;
+        }
+
         $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         $action = Common::getRequestVar('action', false);
 
