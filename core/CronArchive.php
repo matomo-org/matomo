@@ -1248,11 +1248,6 @@ class CronArchive
 
     private function disconnectDb()
     {
-        if (empty($this->lastDbReset)) {
-            $this->lastDbReset = time();
-            return;
-        }
-
         $twoHoursInSeconds = 60 * 60 * 2;
 
         if (time() > ($this->lastDbReset + $twoHoursInSeconds)) {
