@@ -785,8 +785,11 @@ class Archive implements ArchiveQuery
      */
     private function prepareArchive(array $archiveGroups, Site $site, Period $period)
     {
+        // if cron archiving is running, we will invalidate in CronArchive, not here
+        $invalidateBeforeArchiving = !SettingsServer::isArchivePhpTriggered();
+
         $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
-        $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving = true);
+        $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
 
         $periodString = $period->getRangeString();
 

@@ -215,7 +215,8 @@ class Model
         return $deletedRows;
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC,
+                                          $doneFlags, $doneFlagValues = null)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
@@ -231,6 +232,9 @@ class Model
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
+        $limit = count($doneFlags) + 2; // total number of rows we could get w/ a single ts_archived
+
+        // TODO: EXPLAIN it to check for performance
         $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
@@ -240,7 +244,8 @@ class Model
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
                          $timeStampWhere
-                     ORDER BY idarchive DESC";
+                     ORDER BY ts_archived DESC
+                     LIMIT $limit";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
         return $results;
@@ -428,7 +433,13 @@ class Model
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         // create the SQL to find archives that are DONE
-        return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
+        $result = "((name IN ($allDoneFlags))";
+
+        if (!empty($possibleValues)) {
+            $result .= " AND (value IN (" . implode(',', $possibleValues) . ")))";
+        }
+
+        return $result;
     }
 
 }

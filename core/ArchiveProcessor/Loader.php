@@ -79,13 +79,16 @@ class Loader
     {
         $this->params->setRequestedPlugin($pluginName);
 
-        list($idArchive, $visits, $visitsConverted) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchive)) {
+        list($idArchive, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
+        if (!empty($idArchive)) { // we have a usable idarchive (it's not invalidated and it's new enough)
             return $idArchive;
         }
 
-        // no valid archive exists, make sure to invalidate existing archives
-        if ($this->invalidateBeforeArchiving) {
+        // if there is an archive, but we can't use it for some reason, invalidate existing archives before
+        // we start archiving. if the archive is made invalid, we will correctly re-archive below.
+        if ($this->invalidateBeforeArchiving
+            && $isAnyArchiveExists
+        ) {
             $this->invalidatedReportsIfNeeded();
         }
 
@@ -189,20 +192,12 @@ class Loader
      */
     public function loadExistingArchiveIdFromDb()
     {
-        $noArchiveFound = array(false, false, false);
-
         if ($this->isArchivingForcedToTrigger()) {
-            return $noArchiveFound;
+            return [false, false, false, false]; // no usable archive found, no existing archive
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
-        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
-
-        if (!$idAndVisits) {
-            return $noArchiveFound;
-        }
-
-        return $idAndVisits;
+        return ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
     }
 
     /**
