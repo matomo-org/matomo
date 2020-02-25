@@ -4115,7 +4115,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;cloudfront_rtmp', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;cloudfront_rtmp', Action: &quot;play&quot;</subtitle>
 				<eventName>myvideo</eventName>
 				<customVariables>
 					<row>
@@ -4232,7 +4232,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;cloudfront_rtmp', Action: &quot;connect&quot;</subtitle>
+				<subtitle>Category: &quot;cloudfront_rtmp', Action: &quot;connect&quot;</subtitle>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>

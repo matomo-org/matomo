@@ -17,6 +17,7 @@ use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -144,8 +145,8 @@ class UITestFixture extends SqlDump
             . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
         $this->testEnvironment->forcedIdVisitor = $visitorIdDeterministic;
 
-        $this->testEnvironment->overlayUrl = $this->getLocalTestSiteUrl();
-        $this->createOverlayTestSite();
+        $this->testEnvironment->overlayUrl = self::getLocalTestSiteUrl();
+        self::createOverlayTestSite();
 
         $forcedNowTimestamp = Option::get("Tests.forcedNowTimestamp");
         if ($forcedNowTimestamp == false) {
@@ -237,11 +238,11 @@ class UITestFixture extends SqlDump
         self::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
-    private function createOverlayTestSite()
+    public static function createOverlayTestSite($idSite = 3)
     {
         $realDir = PIWIK_INCLUDE_PATH . "/tests/resources/overlay-test-site-real";
         if (is_dir($realDir)) {
-            return;
+            Filesystem::unlinkRecursive($realDir, true);
         }
 
         $files = array('index.html', 'page-1.html', 'page-2.html', 'page-3.html', 'page-4.html', 'page-5.html', 'page-6.html');
@@ -263,11 +264,12 @@ class UITestFixture extends SqlDump
 
             $contents = file_get_contents($path);
             $contents = str_replace("%trackerBaseUrl%", $url, $contents);
+            $contents = str_replace("%idSite%", $idSite, $contents);
             file_put_contents($path, $contents);
         }
     }
 
-    private function getLocalTestSiteUrl()
+    public static function getLocalTestSiteUrl()
     {
         return self::getRootUrl() . "tests/resources/overlay-test-site-real/";
     }

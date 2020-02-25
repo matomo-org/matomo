@@ -445,14 +445,11 @@ class Cookie
             $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
             $deviceDetector = $ddFactory->makeInstance($userAgent);
             $deviceDetector->parse();
-            $browser = $deviceDetector->getClient();
-            if (is_array($browser)) {
-                $browser = $browser['name'];
-            }
 
-            if ((!ProxyHttp::isHttps()) && $browser === 'Chrome') {
+            $browserFamily = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($deviceDetector->getClient('short_name'));
+            if ((!ProxyHttp::isHttps()) && $browserFamily === 'Chrome') {
                 $sameSite = 'Lax';
-            } else if ($browser === 'Safari') {
+            } else if ($browserFamily === 'Safari') {
                 $sameSite = '';
             }
         }

@@ -61,7 +61,7 @@ class CookieTest extends SystemTestCase
     {
         $headers = $this->setIgnoreCookie(self::USERAGENT_FIREFOX);
         $cookie = $this->findIgnoreCookie($headers);
-        $this->assertCookieSameSiteMatches('None', $cookie);
+        $this->assertCookieSameSiteMatches('Lax', $cookie);
     }
 
     public function testIgnoreCookieSameSiteSafari()

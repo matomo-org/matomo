@@ -2485,5 +2485,75 @@
         }
       ]
     }
+  },
+  {
+    "::99.99.99.99/128": {
+      "city": {
+        "geoname_id": 45645645,
+        "names": {
+          "de": "Englewood Cliffs",
+          "en": "Englewood Cliffs"
+        }
+      },
+      "continent": {
+        "code": "NA",
+        "geoname_id": 6255149,
+        "names": {
+          "de": "Nordamerika",
+          "en": "North America",
+          "es": "Norteamérica",
+          "fr": "Amérique du Nord",
+          "ja": "北アメリカ",
+          "pt-BR": "América do Norte",
+          "ru": "Северная Америка",
+          "zh-CN": "北美洲"
+        }
+      },
+      "country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      },
+      "location": {
+        "accuracy_radius": 3500,
+        "latitude": 40.892,
+        "longitude": -73.947,
+        "time_zone": "America\/New_York"
+      },
+      "registered_country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      },
+      "subdivisions": [
+        {
+          "geoname_id": 4567555,
+          "iso_code": "",
+          "names": {
+            "en": "New Jersey",
+            "es": "New Jersey",
+            "fr": "New Jersey"
+          }
+        }
+      ]
+    }
   }
 ]

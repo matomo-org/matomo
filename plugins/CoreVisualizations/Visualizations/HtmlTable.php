@@ -235,9 +235,11 @@ class HtmlTable extends Visualization
 
                 $reportTotal = isset($totals[$column]) ? $totals[$column] : 0;
 
-                $percentageColumnName = $column . '_row_percentage';
-                $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1), $precision);
-                $row->setMetadata($percentageColumnName, $rowPercentage);
+                if (is_numeric($value)) {
+                    $percentageColumnName = $column . '_row_percentage';
+                    $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1), $precision);
+                    $row->setMetadata($percentageColumnName, $rowPercentage);
+                }
 
                 if ($siteTotalRow) {
                     $siteTotal = $siteTotalRow->getColumn($column) ?: 0;

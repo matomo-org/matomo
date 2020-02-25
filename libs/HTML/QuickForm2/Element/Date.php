@@ -128,7 +128,7 @@ class HTML_QuickForm2_Element_Date extends HTML_QuickForm2_Container_Group
         $separator =  '';
 
         for ($i = 0, $length = strlen($this->data['format']); $i < $length; $i++) {
-            $sign = $this->data['format']{$i};
+            $sign = $this->data['format'][$i];
             if ($backslash) {
                 $backslash  = false;
                 $separator .= $sign;
