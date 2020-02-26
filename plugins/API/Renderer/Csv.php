@@ -23,7 +23,7 @@ class Csv extends ApiRenderer
 
     /**
      * @param $message
-     * @param Exception|\Throwable $exception
+     * @param \Exception|\Throwable $exception
      * @return string
      */
     public function renderException($message, $exception)
@@ -35,7 +35,11 @@ class Csv extends ApiRenderer
     public function renderDataTable($dataTable)
     {
         $convertToUnicode = Common::getRequestVar('convertToUnicode', true, 'int', $this->request);
-        $idSite = Common::getRequestVar('idSite', false, 'int', $this->request);
+        $idSite = Common::getRequestVar('idSite', 0, 'int', $this->request);
+
+        if (empty($idSite)) {
+            $idSite = 'all';
+        }
 
         /** @var \Piwik\DataTable\Renderer\Csv $tableRenderer */
         $tableRenderer = $this->buildDataTableRenderer($dataTable);
