@@ -2,6 +2,7 @@
 
 use Interop\Container\ContainerInterface;
 use Monolog\Logger;
+use Piwik\Plugins\Monolog\Handler\EchoHandler;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
@@ -10,10 +11,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 return array(
 
     // Log
-    'log.handlers' => array(
-        DI\get(FailureLogMessageDetector::class),
-        DI\get('Symfony\Bridge\Monolog\Handler\ConsoleHandler'),
-    ),
+    'log.handlers' => function (ContainerInterface $c) {
+        $result = [];
+
+        $logConfig = $c->get(\Piwik\Config::class)->log;
+        $enableFingersCrossed = isset($logConfig['enable_fingers_crossed_handler_cli']) && $logConfig['enable_fingers_crossed_handler_cli'] == 1;
+        if ($enableFingersCrossed) {
+            $handler = new EchoHandler();
+            $handler->setLevel(Logger::DEBUG);
+
+            $passthruLevel = Logger::WARNING;
+
+            $handler = new \Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
+                $bubble = true, false, $passthruLevel);
+
+            $result[] = $handler;
+        }
+
+        $result[] = $c->get(FailureLogMessageDetector::class);
+        $result[] = $c->get(ConsoleHandler::class);
+
+        return $result;
+    },
     'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => function (ContainerInterface $c) {
         // Override the default verbosity map to make it more verbose by default
         $verbosityMap = array(

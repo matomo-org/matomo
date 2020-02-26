@@ -122,6 +122,12 @@ logger_file_path = tmp/logs/matomo.log
 ; NOTE: this only has an effect when logging to a file or when running CLI commands.
 enable_fingers_crossed_handler = 1
 
+; whether to enable the "fingers crossed" logging handler during CLI commands. this will result in much more
+; output on errors, all of which will be identical to normal debug output. this is mostly useful if you run
+; commands in an automated manner (for example running core:archive on a cron) and would like debugging
+; information when an error occurs.
+enable_fingers_crossed_handler_cli = 0
+
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
 ; 'array' will cache data only during one request
