@@ -664,6 +664,11 @@ absolute_chroot_path =
 ; Defaults to ./tmp (the tmp/ folder inside the Matomo directory)
 tmp_path = "/tmp"
 
+; The absolute path to a PHP binary file in case Matomo cannot detect your PHP binary. If async CLI archiving cannot be
+; used on your server this may make it work. Ensure the configured PHP binary is of type CLI and not for example cgi or
+; litespeed. To find out the type of interface for a PHP binary execute this command: php -r "echo php_sapi_name();"
+php_binary_path = ""
+
 ; In some rare cases it may be useful to explicitely tell Matomo not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
