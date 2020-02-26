@@ -108,7 +108,7 @@ class MenuAdmin extends MenuAbstract
     /**
      * Triggers the Menu.MenuAdmin.addItems hook and returns the admin menu.
      *
-     * @return Array
+     * @return array
      */
     public function getMenu()
     {

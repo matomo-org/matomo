@@ -92,7 +92,6 @@ abstract class IntegrationTestCase extends SystemTestCase
 
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
-        MenuAbstract::clearMenus();
         Option::clearCache();
     }
 

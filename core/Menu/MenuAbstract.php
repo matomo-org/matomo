@@ -8,6 +8,7 @@
  */
 namespace Piwik\Menu;
 
+use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
@@ -32,13 +33,12 @@ abstract class MenuAbstract extends Singleton
     protected $renames = array();
     protected $orderingApplied = false;
     protected $menuIcons = array();
-    protected static $menus = array();
 
     /**
      * Builds the menu, applies edits, renames
      * and orders the entries.
      *
-     * @return Array
+     * @return array
      */
     public function getMenu()
     {
@@ -68,28 +68,23 @@ abstract class MenuAbstract extends Singleton
      */
     protected function getAllMenus()
     {
-        if (!empty(self::$menus)) {
-            return self::$menus;
+        $cacheId = 'Menus.all';
+        $cache = Cache::getTransientCache();
+
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
         $components = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
 
-        self::$menus = array();
+        $menus = array();
         foreach ($components as $component) {
-            self::$menus[] = StaticContainer::get($component);
+            $menus[] = StaticContainer::get($component);
         }
 
-        return self::$menus;
-    }
+        $cache->save($cacheId, $menus);
 
-    /**
-     * To use only for tests.
-     *
-     * @deprecated The whole $menus cache should be replaced by a real transient cache
-     */
-    public static function clearMenus()
-    {
-        self::$menus = array();
+        return $menus;
     }
 
     /**
