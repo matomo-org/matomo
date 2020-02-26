@@ -10,12 +10,12 @@
 describe("UserCountry", function () {
 
     afterEach(function () {
-        delete testEnvironment.unloadGeoIp2;
+        delete testEnvironment.pluginsToUnload;
         testEnvironment.save();
     });
 
     it('should show geolocation admin without additional providers', async function () {
-        testEnvironment.unloadGeoIp2 = 1;
+        testEnvironment.pluginsToUnload = ['GeoIp2'];
         testEnvironment.save();
 
         await page.goto("?module=UserCountry&action=adminIndex");
