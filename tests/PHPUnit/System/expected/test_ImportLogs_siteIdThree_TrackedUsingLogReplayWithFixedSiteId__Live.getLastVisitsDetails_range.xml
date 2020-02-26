@@ -4,7 +4,7 @@
 		<idSite>3</idSite>
 		<idVisit>56</idVisit>
 		<visitIp>174.97.139.63</visitIp>
-		
+
 		<fingerprint>8ca20e3b82c2cd8e</fingerprint>
 		<actionDetails>
 			<row>
@@ -12,8 +12,8 @@
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
-				
-				
+
+
 				<pageId>69</pageId>
 				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>292</generationTimeMilliseconds>
@@ -23,7 +23,7 @@
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -36,17 +36,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -142,7 +142,7 @@
 		<idSite>3</idSite>
 		<idVisit>49</idVisit>
 		<visitIp>206.190.75.8</visitIp>
-		
+
 		<fingerprint>cca042bdad090064</fingerprint>
 		<actionDetails>
 			<row>
@@ -150,8 +150,8 @@
 				<url>http://piwik.org/changelog/</url>
 				<pageTitle>Changelog Archive - Analytics - Piwik</pageTitle>
 				<pageIdAction>44</pageIdAction>
-				
-				
+
+
 				<pageId>60</pageId>
 				<bandwidth>43</bandwidth>
 				<timeSpent>79</timeSpent>
@@ -161,7 +161,7 @@
 				<subtitle>http://piwik.org/changelog/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -175,8 +175,8 @@
 				<url>http://piwik.org/contact/</url>
 				<pageTitle>Contact the Piwik team - Analytics - Piwik</pageTitle>
 				<pageIdAction>55</pageIdAction>
-				
-				
+
+
 				<pageId>68</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
@@ -184,7 +184,7 @@
 				<subtitle>http://piwik.org/contact/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -197,17 +197,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -286,7 +286,7 @@
 		<idSite>3</idSite>
 		<idVisit>55</idVisit>
 		<visitIp>193.159.20.129</visitIp>
-		
+
 		<fingerprint>812bd9b9728d78fb</fingerprint>
 		<actionDetails>
 			<row>
@@ -294,8 +294,8 @@
 				<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
 				<pageTitle>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</pageTitle>
 				<pageIdAction>53</pageIdAction>
-				
-				
+
+
 				<pageId>67</pageId>
 				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>413</generationTimeMilliseconds>
@@ -305,7 +305,7 @@
 				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -318,17 +318,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -436,7 +436,7 @@
 		<idSite>3</idSite>
 		<idVisit>53</idVisit>
 		<visitIp>50.244.17.130</visitIp>
-		
+
 		<fingerprint>3ac61952f99e2d53</fingerprint>
 		<actionDetails>
 			<row>
@@ -444,8 +444,8 @@
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
-				
-				
+
+
 				<pageId>64</pageId>
 				<bandwidth>43</bandwidth>
 				<timeSpent>32</timeSpent>
@@ -455,7 +455,7 @@
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -469,8 +469,8 @@
 				<url>http://piwik.org/what-is-piwisk/</url>
 				<pageTitle>What is Piwik? - Analytics - Piwik</pageTitle>
 				<pageIdAction>51</pageIdAction>
-				
-				
+
+
 				<pageId>66</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
@@ -478,7 +478,7 @@
 				<subtitle>http://piwik.org/what-is-piwisk/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -491,17 +491,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -601,7 +601,7 @@
 		<idSite>3</idSite>
 		<idVisit>54</idVisit>
 		<visitIp>84.194.72.21</visitIp>
-		
+
 		<fingerprint>01b5ae86be8c23a0</fingerprint>
 		<actionDetails>
 			<row>
@@ -609,8 +609,8 @@
 				<url>http://demo.piwik.org/</url>
 				<pageTitle />
 				<pageIdAction>49</pageIdAction>
-				
-				
+
+
 				<pageId>65</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition />
@@ -618,7 +618,7 @@
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
 				<subtitle>http://demo.piwik.org/</subtitle>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -631,17 +631,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -741,7 +741,7 @@
 		<idSite>3</idSite>
 		<idVisit>52</idVisit>
 		<visitIp>108.211.181.12</visitIp>
-		
+
 		<fingerprint>18feb08b734d8ada</fingerprint>
 		<actionDetails>
 			<row>
@@ -749,8 +749,8 @@
 				<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
 				<pageTitle>Integrate Piwik into your Rails Application - Analytics - Piwik</pageTitle>
 				<pageIdAction>48</pageIdAction>
-				
-				
+
+
 				<pageId>63</pageId>
 				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>391</generationTimeMilliseconds>
@@ -760,7 +760,7 @@
 				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -773,17 +773,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -891,7 +891,7 @@
 		<idSite>3</idSite>
 		<idVisit>51</idVisit>
 		<visitIp>219.101.46.222</visitIp>
-		
+
 		<fingerprint>119d38feb66b039a</fingerprint>
 		<actionDetails>
 			<row>
@@ -899,8 +899,8 @@
 				<url>http://piwik.org/log-analytics/</url>
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
-				
-				
+
+
 				<pageId>62</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
@@ -908,7 +908,7 @@
 				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -921,17 +921,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -1027,7 +1027,7 @@
 		<idSite>3</idSite>
 		<idVisit>50</idVisit>
 		<visitIp>80.136.160.65</visitIp>
-		
+
 		<fingerprint>4250ad6a1eb0d7d1</fingerprint>
 		<actionDetails>
 			<row>
@@ -1035,8 +1035,8 @@
 				<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
 				<pageTitle>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</pageTitle>
 				<pageIdAction>46</pageIdAction>
-				
-				
+
+
 				<pageId>61</pageId>
 				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>119</generationTimeMilliseconds>
@@ -1046,7 +1046,7 @@
 				<subtitle>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1059,17 +1059,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -1157,7 +1157,7 @@
 		<idSite>3</idSite>
 		<idVisit>48</idVisit>
 		<visitIp>188.107.238.9</visitIp>
-		
+
 		<fingerprint>589d8bdb92c383bd</fingerprint>
 		<actionDetails>
 			<row>
@@ -1165,8 +1165,8 @@
 				<url>http://piwik.org/log-analytics/</url>
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
-				
-				
+
+
 				<pageId>59</pageId>
 				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>145</generationTimeMilliseconds>
@@ -1176,7 +1176,7 @@
 				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1189,17 +1189,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -1307,7 +1307,7 @@
 		<idSite>3</idSite>
 		<idVisit>46</idVisit>
 		<visitIp>93.80.130.163</visitIp>
-		
+
 		<fingerprint>ea1589bc543ab4c0</fingerprint>
 		<actionDetails>
 			<row>
@@ -1315,8 +1315,8 @@
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
-				
-				
+
+
 				<pageId>55</pageId>
 				<bandwidth>43</bandwidth>
 				<timeSpent>2</timeSpent>
@@ -1328,7 +1328,7 @@
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1342,8 +1342,8 @@
 				<url>http://piwik.org/download/</url>
 				<pageTitle>Download - Analytics - Piwik</pageTitle>
 				<pageIdAction>39</pageIdAction>
-				
-				
+
+
 				<pageId>57</pageId>
 				<bandwidth>43</bandwidth>
 				<timeSpent>7</timeSpent>
@@ -1355,7 +1355,7 @@
 				<subtitle>http://piwik.org/download/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1369,8 +1369,8 @@
 				<url>http://builds.piwik.org/latest.zip</url>
 				<pageTitle />
 				<pageIdAction>40</pageIdAction>
-				
-				
+
+
 				<pageId>58</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
@@ -1378,7 +1378,7 @@
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
 				<subtitle>http://builds.piwik.org/latest.zip</subtitle>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1391,17 +1391,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -1493,7 +1493,7 @@
 		<idSite>3</idSite>
 		<idVisit>47</idVisit>
 		<visitIp>176.41.226.154</visitIp>
-		
+
 		<fingerprint>1a2817a163b2805e</fingerprint>
 		<actionDetails>
 			<row>
@@ -1501,8 +1501,8 @@
 				<url>http://piwik.org/docs/installation/</url>
 				<pageTitle>Hello Installing Piwik - Analytics - Piwik</pageTitle>
 				<pageIdAction>37</pageIdAction>
-				
-				
+
+
 				<pageId>56</pageId>
 				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>134</generationTimeMilliseconds>
@@ -1512,7 +1512,7 @@
 				<subtitle>http://piwik.org/docs/installation/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1525,17 +1525,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -1635,7 +1635,7 @@
 		<idSite>3</idSite>
 		<idVisit>45</idVisit>
 		<visitIp>84.194.72.21</visitIp>
-		
+
 		<fingerprint>01b5ae86be8c23a0</fingerprint>
 		<actionDetails>
 			<row>
@@ -1643,8 +1643,8 @@
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
-				
-				
+
+
 				<pageId>54</pageId>
 				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>58</generationTimeMilliseconds>
@@ -1654,7 +1654,7 @@
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1667,17 +1667,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -1777,7 +1777,7 @@
 		<idSite>3</idSite>
 		<idVisit>43</idVisit>
 		<visitIp>0.0.0.0</visitIp>
-		
+
 		<fingerprint>e8e54c258f211e0c</fingerprint>
 		<actionDetails>
 			<row>
@@ -1785,8 +1785,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>29</pageIdAction>
-				
-				
+
+
 				<pageId>50</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
@@ -1794,7 +1794,7 @@
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -1815,17 +1815,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -1917,7 +1917,7 @@
 		<idSite>3</idSite>
 		<idVisit>44</idVisit>
 		<visitIp>0.0.0.0</visitIp>
-		
+
 		<fingerprint>6e7df29fc80d00de</fingerprint>
 		<actionDetails>
 			<row>
@@ -1925,8 +1925,8 @@
 				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
 				<pageTitle>Piwik Forums</pageTitle>
 				<pageIdAction>31</pageIdAction>
-				
-				
+
+
 				<pageId>51</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
@@ -1934,7 +1934,7 @@
 				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1947,17 +1947,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
@@ -2029,7 +2029,7 @@
 			</row>
 		</customVariables>
 		<resolution>1280x800</resolution>
-		<plugins>cookie, director, flash, gears, java, pdf, windowsmedia</plugins>
+		<plugins>cookie, director, flash, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
@@ -2042,10 +2042,6 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/gears.png</pluginIcon>
-				<pluginName>gears</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
@@ -2065,7 +2061,7 @@
 		<idSite>3</idSite>
 		<idVisit>30</idVisit>
 		<visitIp>0.0.0.0</visitIp>
-		
+
 		<fingerprint>43c578fad9b1f13c</fingerprint>
 		<actionDetails>
 			<row>
@@ -2073,8 +2069,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
-				
-				
+
+
 				<pageId>33</pageId>
 				<bandwidth>43</bandwidth>
 				<timeSpent>0</timeSpent>
@@ -2084,7 +2080,7 @@
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
@@ -2098,8 +2094,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Another Product page with no category</pageTitle>
 				<pageIdAction>29</pageIdAction>
-				
-				
+
+
 				<pageId>52</pageId>
 				<bandwidth>43</bandwidth>
 				<timeSpent>0</timeSpent>
@@ -2109,7 +2105,7 @@
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -2127,8 +2123,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
-				
-				
+
+
 				<pageId>53</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>3</interactionPosition>
@@ -2136,7 +2132,7 @@
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
+
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
@@ -2149,17 +2145,17 @@
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
+
+
+
+
 		<siteName>Piwik test three</siteName>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
