@@ -116,6 +116,12 @@ log_level = WARN
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/matomo.log
 
+; whether to enable the "fingers crossed" logging handler. if enabled, this handler will capture all debug
+; logs without outputting them. then when an error occurs, the handler outputs all the saved logs providing greater
+; detail for this specific error alone. it is enabled by default due to it's usefulness in debugging errors.
+; NOTE: this only has an effect when logging to a file or when running CLI commands.
+enable_fingers_crossed_handler = 1
+
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
 ; 'array' will cache data only during one request
