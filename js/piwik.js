@@ -38,7 +38,7 @@
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
-    location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
@@ -50,7 +50,7 @@
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, gears, ag, showModalDialog,
+    pdf, qt, realp, wma, dir, fla, java, ag, showModalDialog,
     maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -3054,7 +3054,6 @@ if (typeof window.Piwik !== 'object') {
 
                         // RIA
                         java: 'application/x-java-vm',
-                        gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
                     };
 
@@ -3078,11 +3077,6 @@ if (typeof window.Piwik !== 'object') {
                         isDefined(navigatorAlias.javaEnabled) &&
                         navigatorAlias.javaEnabled()) {
                         browserFeatures.java = '1';
-                    }
-
-                    // Firefox
-                    if (isFunction(windowAlias.GearsFactory)) {
-                        browserFeatures.gears = '1';
                     }
 
                     // other browser features

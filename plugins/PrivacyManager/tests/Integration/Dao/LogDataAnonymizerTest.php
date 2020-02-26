@@ -223,7 +223,6 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'config_cookie' => null,
             'config_director' => null,
             'config_flash' => null,
-            'config_gears' => null,
             'config_java' => null,
             'config_pdf' => null,
             'config_quicktime' => null,
