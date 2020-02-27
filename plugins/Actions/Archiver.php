@@ -168,7 +168,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function archiveDaySearchCategoryActions()
     {
-        $where = "%s.search_cat != ''";
+        $where = "%s.search_cat != '' AND %s.search_cat IS NOT NULL";
         $dimensions = array('search_cat');
         $query = $this->getLogAggregator()->queryActionsByDimension(
             $dimensions, 

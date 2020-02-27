@@ -45,8 +45,7 @@ class Discriminator
 
     public function isValid()
     {
-        return isset($this->discriminatorColumn)
-            && (is_numeric($this->discriminatorValue));
+        return isset($this->discriminatorColumn) && is_numeric($this->discriminatorValue);
     }
 
     /**
