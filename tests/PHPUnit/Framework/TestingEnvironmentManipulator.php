@@ -253,6 +253,10 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             $plugins = $this->getPluginAndRequiredPlugins($pluginName, $plugins);
         }
 
+        $pluginsToUnload = $this->vars->pluginsToUnload ?? [];
+
+        $plugins = array_diff($plugins, $pluginsToUnload);
+
         return $plugins;
     }
 

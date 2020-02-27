@@ -10,11 +10,9 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Piwik\DataTable;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker\Visit;
 
 /**
@@ -118,20 +116,62 @@ function getElementFromStringArray($label, $separator, $index, $emptyValue = fal
  */
 function getRegionNameFromCodes($countryCode, $regionCode)
 {
-    if (!Manager::getInstance()->isPluginActivated('GeoIp2') ||
-        LocationProvider::getCurrentProvider() instanceof GeoIp) {
-        return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
-    }
-
     $name = GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
 
-    // fallback if no translation for with GeoIP2
+    // fallback if no translation with GeoIP2
     if ($name == Piwik::translate('General_Unknown')) {
-        $name = GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+        $name = getLegacyRegionNameFromCodes($countryCode, $regionCode);
     }
 
     return $name;
 }
+
+
+/**
+ * Returns a region name for a country code + region code.
+ *
+ * @param string $countryCode
+ * @param string $regionCode
+ * @return string The region name or 'Unknown' (translated).
+ */
+function getLegacyRegionNameFromCodes($countryCode, $regionCode)
+{
+    $regionNames = getRegionNames();
+
+    $countryCode = strtoupper($countryCode);
+    $regionCode = strtoupper($regionCode);
+
+    // ensure tibet is shown as region of china
+    if ($countryCode == 'TI' && $regionCode == '1') {
+        $regionCode = '14';
+        $countryCode = 'CN';
+    }
+
+    if (isset($regionNames[$countryCode][$regionCode])) {
+        return $regionNames[$countryCode][$regionCode];
+    } else {
+        return Piwik::translate('General_Unknown');
+    }
+}
+
+/**
+ * Returns an array of region names mapped by country code & region code.
+ *
+ * @return array
+ */
+function getRegionNames()
+{
+    static $regionNames;
+
+    if (is_null($regionNames)) {
+        $GEOIP_REGION_NAME = array();
+        require_once PIWIK_INCLUDE_PATH . '/libs/MaxMindGeoIP/geoipregionvars.php';
+        $regionNames = $GEOIP_REGION_NAME;
+    }
+
+    return $regionNames;
+}
+
 
 /**
  * Returns the region name using the label of a Visits by Region report.
