@@ -29,7 +29,7 @@ class RequestsTest extends IntegrationTestCase
      */
     private $requests;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +38,7 @@ class RequestsTest extends IntegrationTestCase
         $this->requests = new Requests();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // clean up your test here if needed
 
@@ -65,32 +65,29 @@ class RequestsTest extends IntegrationTestCase
         TrackerConfig::setConfigValue('bulk_requests_require_authentication', $oldConfig);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth must be specified when using Bulk Tracking Import
-     */
     public function test_authenticateRequests_shouldThrowAnException_IfTokenAuthIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
+
         $requests = array($this->buildDummyRequest());
         $this->requests->authenticateRequests($requests);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth must be specified when using Bulk Tracking Import
-     */
     public function test_authenticateRequests_shouldThrowAnException_IfAnyTokenAuthIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
+
         $requests = array($this->buildDummyRequest($this->getSuperUserToken()), $this->buildDummyRequest());
         $this->requests->authenticateRequests($requests);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth specified does not have Admin permission for idsite=1
-     */
     public function test_authenticateRequests_shouldThrowAnException_IfTokenIsNotValid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth specified does not have Admin permission for idsite=1');
+
         $dummyToken = API::getInstance()->createTokenAuth('test');
         $superUserToken = $this->getSuperUserToken();
 

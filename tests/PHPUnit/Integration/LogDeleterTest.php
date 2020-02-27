@@ -31,7 +31,7 @@ class LogDeleterTest extends IntegrationTestCase
      */
     private $logDeleter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

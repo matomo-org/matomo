@@ -79,7 +79,7 @@ class ColumnDimensionTest extends IntegrationTestCase
      */
     private $dimension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -93,7 +93,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->dimension = new CustomDimensionTest();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
         parent::tearDown();

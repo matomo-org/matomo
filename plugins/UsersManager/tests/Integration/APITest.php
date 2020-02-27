@@ -145,7 +145,7 @@ class APITest extends IntegrationTestCase
 
     private $email = 'userlogin@password.de';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -161,7 +161,7 @@ class APITest extends IntegrationTestCase
         $this->api->addUser($this->login, $this->password, $this->email);
     }
     
-    public function tearDown()
+    public function tearDown(): void
     {
         Config::getInstance()->General['enable_update_users_email'] = 1;
 
@@ -293,11 +293,10 @@ class APITest extends IntegrationTestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_setUserPreference_throws_whenPreferenceNameContainsUnderscore()
     {
+        $this->expectException(\Exception::class);
+
         $user2 = 'userLogin2';
         $this->api->addUser($user2, 'password', 'userlogin2@password.de');
         $this->api->setUserPreference($user2, 'ohOH_myPreferenceName', 'valueForUser2');
@@ -382,12 +381,11 @@ class APITest extends IntegrationTestCase
         $this->assertSame($userBefore['ts_password_modified'], $user['ts_password_modified']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionInvalidPasswordTooLong
-     */
     public function test_updateUser_failsIfPasswordTooLong()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionInvalidPasswordTooLong');
+
         $this->api->updateUser($this->login, str_pad('foo', UsersManager::PASSWORD_MAX_LENGTH + 1), 'email@example.com', 'newAlias', false, $this->password);
     }
 
@@ -759,75 +757,67 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionMultipleRoleSet
-     */
     public function test_setUserAccess_MultipleRolesCannotBeSet()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionMultipleRoleSet');
+
         $this->api->setUserAccess($this->login, array('view', 'admin'), array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionNoRoleSet
-     */
     public function test_setUserAccess_NeedsAtLeastOneRole()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionNoRoleSet');
+
         $this->api->setUserAccess($this->login, array(TestCap2::ID), array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function test_setUserAccess_NeedsAtLeastOneRoleAsString()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->setUserAccess($this->login, TestCap2::ID, array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function test_setUserAccess_InvalidCapability()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->setUserAccess($this->login, array('admin', 'foobar'), array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionNoRoleSet
-     */
     public function test_setUserAccess_NeedsAtLeastOneRoleNoneGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionNoRoleSet');
+
         $this->api->setUserAccess($this->login, array(), array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  UsersManager_ExceptionAnonymousAccessNotPossible
-     */
     public function test_setUserAccess_CannotSetAdminToAnonymous()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAnonymousAccessNotPossible');
+
         $this->api->setUserAccess('anonymous', 'admin', array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  UsersManager_ExceptionAnonymousAccessNotPossible
-     */
     public function test_setUserAccess_CannotSetWriteToAnonymous()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAnonymousAccessNotPossible');
+
         $this->api->setUserAccess('anonymous', 'write', array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function test_setUserAccess_UserDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->setUserAccess('foobar', Admin::ID, array(1));
     }
 
@@ -862,30 +852,27 @@ class APITest extends IntegrationTestCase
         $this->assertEquals(array(array('site' => '1', 'access' => 'view')), $access);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function test_addCapabilities_failsWhenNotCapabilityIsGivenAsString()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->addCapabilities($this->login, View::ID, array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function test_addCapabilities_failsWhenNotCapabilityIsGivenAsArray()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->addCapabilities($this->login, array(TestCap2::ID, View::ID), array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function test_addCapabilities_failsWhenUserDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->addCapabilities('foobar', array(TestCap2::ID), array(1));
     }
 
@@ -963,30 +950,27 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function test_removeCapabilities_failsWhenNotCapabilityIsGivenAsString()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->removeCapabilities($this->login, View::ID, array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function test_removeCapabilities_failsWhenNotCapabilityIsGivenAsArray()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->removeCapabilities($this->login, array(TestCap2::ID, View::ID), array(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function test_removeCapabilities_failsWhenUserDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->removeCapabilities('foobar', array(TestCap2::ID), array(1));
     }
 
@@ -1004,12 +988,11 @@ class APITest extends IntegrationTestCase
         $this->assertEquals(array(View::ID, TestCap1::ID), $access);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
-     */
     public function test_setSuperUserAccess_failsIfCurrentPasswordIsIncorrect()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
+
         $this->api->setSuperUserAccess($this->login, true, 'asldfkjds');
     }
 

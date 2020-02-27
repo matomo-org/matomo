@@ -29,7 +29,7 @@ class UserPreferencesTest extends IntegrationTestCase
      */
     private $userPreferences;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

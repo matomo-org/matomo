@@ -37,11 +37,12 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getFailedEmails
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage ValidatorErrorNotEmailLike
      */
     public function test_validate_failValueIsNotValidEmail($email)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('ValidatorErrorNotEmailLike');
+
         $this->validate($email);
     }
 

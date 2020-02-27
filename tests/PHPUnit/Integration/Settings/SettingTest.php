@@ -25,25 +25,24 @@ use Piwik\Validators\NumberRange;
  */
 class SettingTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    public function setUp(): void
     {
         $fixutre = new Fixture();
         $fixutre->createEnvironmentInstance();
     }
 
-    protected function tearDown()
+    public function tearDown(): void
     {
         $fixutre = new Fixture();
         $fixutre->clearInMemoryCaches();
         $fixutre->destroyEnvironment();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage setting name "myname-" in plugin "MyPluginName" is invalid
-     */
     public function test_constructor_shouldThrowException_IfTheSettingNameIsNotValid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('setting name "myname-" in plugin "MyPluginName" is invalid');
+
         $this->makeSetting('myname-');
     }
 
@@ -58,24 +57,22 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(FieldConfig::UI_CONTROL_CHECKBOX, $field->uiControl);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Type must be an array when using a multi select
-     */
     public function test_configureField_ShouldCheckThatTypeMakesActuallySenseForConfiguredUiControl()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Type must be an array when using a multi select');
+
         $setting = $this->makeSetting('myname', FieldConfig::TYPE_STRING, $default = '', function (FieldConfig $field) {
             $field->uiControl = FieldConfig::UI_CONTROL_MULTI_SELECT;
         });
         $setting->configureField();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Type does not exist
-     */
     public function test_configureField_ChecksTheGivenTypeIsKnown()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Type does not exist');
+
         $setting = $this->makeSetting('myname', 'unknOwnTyPe');
         $setting->configureField();
     }
@@ -93,19 +90,18 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         try {
             $setting->setValue('invAliDValue');
         } catch (Exception $e) {
-            $this->assertContains('CoreAdminHome_PluginSettingsValueNotAllowed', $e->getMessage());
+            self::assertStringContainsString('CoreAdminHome_PluginSettingsValueNotAllowed', $e->getMessage());
             return;
         }
 
         $this->fail('An expected exception has not been thrown');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingsValueNotAllowed
-     */
     public function test_setValue_shouldApplyValidationAndFail_IfOptionsAreSetAndValueIsAnArray()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingsValueNotAllowed');
+
         $setting = $this->makeSetting('myname', FieldConfig::TYPE_ARRAY, $default = '', function (FieldConfig $field) {
             $field->availableValues = array('allowedval' => 'DisplayName', 'allowedval2' => 'Name 2');
             $field->uiControl = FieldConfig::UI_CONTROL_MULTI_SELECT;
@@ -146,7 +142,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         try {
             $setting->setValue('invAliDValue');
         } catch (Exception $e) {
-            $this->assertContains('CoreAdminHome_PluginSettingsValueNotAllowed', $e->getMessage());
+            self::assertStringContainsString('CoreAdminHome_PluginSettingsValueNotAllowed', $e->getMessage());
             return;
         }
 
@@ -170,7 +166,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         try {
             $setting->setValue('1invalid');
         } catch (Exception $e) {
-            $this->assertContains('CoreAdminHome_PluginSettingsValueNotAllowed', $e->getMessage());
+            self::assertStringContainsString('CoreAdminHome_PluginSettingsValueNotAllowed', $e->getMessage());
             return;
         }
 
@@ -192,21 +188,21 @@ class SettingTest extends \PHPUnit\Framework\TestCase
             $setting->setValue('1invalid');
             $this->fail('An expected exception has not been thrown');
         } catch (Exception $e) {
-            $this->assertContains('General_ValidatorErrorNotANumber', $e->getMessage());
+            self::assertStringContainsString('General_ValidatorErrorNotANumber', $e->getMessage());
         }
 
         try {
             $setting->setValue('3');
             $this->fail('An expected exception has not been thrown');
         } catch (Exception $e) {
-            $this->assertContains('General_ValidatorErrorNumberTooLow', $e->getMessage());
+            self::assertStringContainsString('General_ValidatorErrorNumberTooLow', $e->getMessage());
         }
 
         try {
             $setting->setValue('');
             $this->fail('An expected exception has not been thrown');
         } catch (Exception $e) {
-            $this->assertContains('General_ValidatorErrorEmptyValue', $e->getMessage());
+            self::assertStringContainsString('General_ValidatorErrorEmptyValue', $e->getMessage());
         }
     }
 

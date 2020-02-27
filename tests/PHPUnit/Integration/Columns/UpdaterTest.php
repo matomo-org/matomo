@@ -59,7 +59,7 @@ class UpdaterTest extends IntegrationTestCase
      */
     private $columnsUpdater;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -189,7 +189,7 @@ class UpdaterTest extends IntegrationTestCase
 
     private function getMockUpdater($hasNewVersion = true)
     {
-        $result = $this->getMockBuilder("Piwik\\Updater")->setMethods(array('hasNewVersion'))->getMock();
+        $result = $this->getMockBuilder("Piwik\\Updater")->onlyMethods(array('hasNewVersion'))->getMock();
 
         $result->expects($this->any())->method('hasNewVersion')->will($this->returnCallback(function () use ($hasNewVersion) {
             return $hasNewVersion;

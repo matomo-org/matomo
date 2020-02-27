@@ -30,7 +30,7 @@ class CacheTest extends IntegrationTestCase
      */
     private $cacheBackend;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

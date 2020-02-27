@@ -35,7 +35,7 @@ class SitesManagerTest extends IntegrationTestCase
 
     private $siteId;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

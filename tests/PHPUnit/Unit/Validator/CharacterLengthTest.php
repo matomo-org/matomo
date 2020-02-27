@@ -24,32 +24,28 @@ class CharacterLengthTest extends \PHPUnit\Framework\TestCase
         $this->validate('mytest', 6, 6);
         $this->validate('', 0, 6);
         $this->validate('testwewe', 0, 10);
+
+        $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorCharacterTooShort
-     */
     public function test_validate_failValueIsTooShort()
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorCharacterTooShort');
         $this->validate('myte', 5);
     }
 
-    /**
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorCharacterTooLong
-     */
     public function test_validate_failValueIsTooLong()
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorCharacterTooLong');
         $this->validate('mytestfoo', null, 4);
     }
 
-    /**
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorCharacterTooLong
-     */
     public function test_validate_failValueIsTooNotInRange()
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorCharacterTooLong');
         $this->validate('mytestfoobar', 5, 8);
     }
 

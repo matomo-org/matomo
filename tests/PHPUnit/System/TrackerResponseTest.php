@@ -24,7 +24,7 @@ class TrackerResponseTest extends SystemTestCase
      */
     private $tracker;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -24,9 +24,9 @@ class FrontControllerTest extends SystemTestCase
         $header = $this->getResponseHeader($url);
 
         if ($redirection) {
-            $this->assertContains('Location: ' . Fixture::getRootUrl() . 'tests/PHPUnit/proxy/' . $redirection . "\r\n", $header);
+            self::assertStringContainsString('Location: ' . Fixture::getRootUrl() . 'tests/PHPUnit/proxy/' . $redirection . "\r\n", $header);
         } else {
-            $this->assertNotContains('Location: ', $header);
+            self::assertStringNotContainsString('Location: ', $header);
         }
     }
 

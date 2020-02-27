@@ -21,7 +21,7 @@ class AllWebsitesTest extends SystemTestCase
     public static $fixture = null; // initialized below class definition
     protected static $userTokenAuth = '34bcc4d2c330259d6f37bc3d98d425f4';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 

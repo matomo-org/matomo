@@ -23,7 +23,7 @@ class DependencyTest extends IntegrationTestCase
      */
     private $dependency;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->dependency = new Dependency();

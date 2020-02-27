@@ -18,7 +18,7 @@ class MultiSitesBenchmark extends BenchmarkTestCase
 {
     private $archivingLaunched = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         $archivingTables = ArchiveTableCreator::getTablesArchivesInstalled();
         if (empty($archivingTables)) {

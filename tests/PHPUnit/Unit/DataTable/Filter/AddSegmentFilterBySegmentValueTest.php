@@ -33,7 +33,7 @@ class AddSegmentBySegmentValueTest extends \PHPUnit\Framework\TestCase
 
     private $report;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

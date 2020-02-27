@@ -41,7 +41,7 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -87,7 +87,7 @@ class PluginsTest extends IntegrationTestCase
             'TreemapVisualization',
         );
         foreach ($expected as $name) {
-            $this->assertContains($name, $pluginNames);
+            self::assertTrue(in_array($name, $pluginNames));
         }
     }
 
@@ -398,9 +398,9 @@ class PluginsTest extends IntegrationTestCase
             }
 
             if ($plugin['owner'] === 'PiwikPRO') {
-                $this->assertContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringContainsString($piwikProCampaign, $plugin['homepage']);
             } else {
-                $this->assertNotContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringNotContainsString($piwikProCampaign, $plugin['homepage']);
             }
         }
     }

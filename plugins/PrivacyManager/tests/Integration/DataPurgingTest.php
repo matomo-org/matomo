@@ -95,7 +95,7 @@ class DataPurgingTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -138,7 +138,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->instance = new PrivacyManager();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

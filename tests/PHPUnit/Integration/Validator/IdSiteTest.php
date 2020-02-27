@@ -18,7 +18,7 @@ use Piwik\Validators\IdSite;
  */
 class IdSiteTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Fixture::createWebsite('2012-03-04 05:06:07');
@@ -34,27 +34,24 @@ class IdSiteTest extends IntegrationTestCase
         $this->validate(2);
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     */
     public function test_validate_failValueDoesNotExist()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+
         $this->validate(99);
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     */
     public function test_validate_failValueIsEmpty()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+
         $this->validate(0);
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     */
     public function test_validate_failValueIsFalse()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+
         $this->validate(false);
     }
 

@@ -27,14 +27,14 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
     const URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS = 'http://example.org/index.htm?pk_campaign=goal-matching-url-parameter';
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         self::setUpScheduledReports($this->idSite1);
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

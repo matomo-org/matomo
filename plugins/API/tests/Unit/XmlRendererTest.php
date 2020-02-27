@@ -22,13 +22,13 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array());
         DataTable\Manager::getInstance()->deleteAll();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         DataTable\Manager::getInstance()->deleteAll();
     }

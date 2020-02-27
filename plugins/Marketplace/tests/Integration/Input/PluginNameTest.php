@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PluginNameTest extends IntegrationTestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['pluginName']);
     }
@@ -32,12 +32,11 @@ class PluginNameTest extends IntegrationTestCase
         $this->assertSame('CoreFooBar', $pluginName->getPluginName());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid plugin name given
-     */
     public function test_throws_exception_ifInvalidName()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid plugin name given');
+
         $this->setPluginName('CoreFooBar-?4');
 
         $pluginName = new PluginName();

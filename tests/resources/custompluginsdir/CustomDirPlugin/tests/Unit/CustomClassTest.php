@@ -16,12 +16,12 @@ use Piwik\Plugins\CustomDirPlugin\CustomClass;
  */
 class CustomClassTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         // set up here if needed
     }
     
-    public function tearDown()
+    public function tearDown(): void
     {
         // tear down here if needed
     }

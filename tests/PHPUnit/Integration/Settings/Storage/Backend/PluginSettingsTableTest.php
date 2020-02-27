@@ -46,7 +46,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
      */
     private $allBackends = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -62,30 +62,27 @@ class PluginSettingsTableTest extends IntegrationTestCase
         return new PluginSettingsTable($plugin, $login);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No plugin name given
-     */
     public function test_construct_shouldThrowAnException_IfPluginNameIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No plugin name given');
+
         $this->createSettings('', '');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid user login name
-     */
     public function test_construct_shouldThrowAnException_IfUserLoginFalse()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid user login name');
+
         $this->createSettings('MyPlugin', false);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid user login name
-     */
     public function test_construct_shouldThrowAnException_IfUserLoginNull()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid user login name');
+
         $this->createSettings('MyPlugin', null);
     }
 
@@ -263,12 +260,11 @@ class PluginSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No userLogin specified
-     */
     public function test_removeAllUserSettingsForUser_shouldThrowAnExceptionIfLoginIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No userLogin specified');
+
         PluginSettingsTable::removeAllUserSettingsForUser('');
     }
 

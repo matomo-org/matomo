@@ -25,7 +25,7 @@ class AddSegmentByLabelInUTCTest extends \PHPUnit\Framework\TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable();
         $this->addRow(array('label' => '0'));

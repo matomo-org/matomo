@@ -31,18 +31,17 @@ class APITest extends SystemTestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No list of visits given
-     */
     public function test_exportDataSubjects_failsWhenNoVisitsGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No list of visits given');
+
         $this->assertNull($this->api->exportDataSubjects(false));
     }
 
@@ -65,12 +64,11 @@ class APITest extends SystemTestCase
         $this->assertJsonResponse('exportDataSubject_allVisits', $result);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No idsite key set for visit at index 1
-     */
     public function test_exportDataSubjects_failsWhenMissingIdSite()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No idsite key set for visit at index 1');
+
         $this->assertNull($this->api->exportDataSubjects([['idsite' => '9999', 'idvisit' => '9999'], []]));
     }
 

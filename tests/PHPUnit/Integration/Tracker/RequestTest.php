@@ -34,7 +34,7 @@ class RequestTest extends IntegrationTestCase
 
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,12 +50,11 @@ class RequestTest extends IntegrationTestCase
         $this->time = 1416795617;
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Custom timestamp is 86500 seconds old
-     */
     public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Custom timestamp is 86500 seconds old');
+
         $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
@@ -99,22 +98,20 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame(14, $request->getIdSite());
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '0'
-     */
     public function test_getIdSite_shouldNotThrowException_IfValueIsZero()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+        $this->expectExceptionMessage('Invalid idSite: \'0\'');
+
         $request = $this->buildRequest(array('idsite' => '0'));
         $request->getIdSite();
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '-1'
-     */
     public function test_getIdSite_shouldThrowException_IfValueIsLowerThanZero()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+        $this->expectExceptionMessage('Invalid idSite: \'-1\'');
+
         $request = $this->buildRequest(array('idsite' => '-1'));
         $request->getIdSite();
     }
@@ -472,12 +469,11 @@ class RequestTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage An unexpected website was found in the request: website id was set to '155'
-     */
     public function test_getIdSite_shouldTriggerExceptionWhenSiteNotExists()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+        $this->expectExceptionMessage('An unexpected website was found in the request: website id was set to \'155\'');
+
         $self = $this;
         Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
             $self->assertSame(14, $idSite);

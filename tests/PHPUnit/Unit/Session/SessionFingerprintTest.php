@@ -22,14 +22,14 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
      */
     private $testInstance;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->testInstance = new SessionFingerprint();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Date::$now = null;
 

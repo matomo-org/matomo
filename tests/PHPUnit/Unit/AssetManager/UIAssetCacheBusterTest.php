@@ -18,7 +18,7 @@ class UIAssetCacheBusterTest extends TestCase
      */
     private $cacheBuster;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->cacheBuster = UIAssetCacheBuster::getInstance();
     }

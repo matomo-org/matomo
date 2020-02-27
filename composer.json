@@ -56,7 +56,7 @@
         "aws/aws-sdk-php": "2.7.1",
         "lox/xhprof": "dev-master",
         "phpseclib/phpseclib": "~0.3.8",
-        "phpunit/phpunit": "~4.8",
+        "phpunit/phpunit": "~8.5",
         "symfony/var-dumper": "~2.6.0",
         "symfony/yaml": "~2.6.0"
     },

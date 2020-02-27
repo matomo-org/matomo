@@ -26,11 +26,11 @@ class FeedbackTest extends IntegrationTestCase
 
     private $now;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->feedback = $this->getMock(Feedback::class, ['isDisabledInTestMode']);
+        $this->feedback = $this->createPartialMock(Feedback::class, ['isDisabledInTestMode']);
         $this->feedback->method('isDisabledInTestMode')->willReturn(false);
 
         $this->userModel = new Model();
@@ -48,7 +48,7 @@ class FeedbackTest extends IntegrationTestCase
         $this->now = Date::$now;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Option::deleteLike('Feedback.nextFeedbackReminder.%');
         $this->userModel->deleteUserOnly('user1');

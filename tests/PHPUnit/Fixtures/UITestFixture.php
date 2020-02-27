@@ -66,7 +66,7 @@ class UITestFixture extends SqlDump
         $this->xssTesting = new XssTesting();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

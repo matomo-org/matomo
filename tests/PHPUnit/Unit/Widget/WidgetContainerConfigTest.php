@@ -25,7 +25,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
 
     private $id = 'MyTestContainer';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->config = new WidgetContainerConfig();
@@ -216,13 +216,14 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
     {
         $this->config->enable();
         $this->config->checkIsEnabled();
+
+        $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_checkIsEnabled_shouldThrowException_IfDisabled()
     {
+        $this->expectException(\Exception::class);
+
         $this->config->disable();
         $this->config->checkIsEnabled();
     }

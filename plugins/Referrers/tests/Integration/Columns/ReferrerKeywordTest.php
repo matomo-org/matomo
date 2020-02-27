@@ -32,7 +32,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
     private $idSite2 = 2;
     private $idSite3 = 3;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

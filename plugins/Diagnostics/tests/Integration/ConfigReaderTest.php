@@ -29,7 +29,7 @@ class ConfigReaderTest extends IntegrationTestCase
      */
     private $configReader;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

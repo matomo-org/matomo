@@ -142,7 +142,7 @@ class ArchiveCronTest extends SystemTestCase
         $output = implode("\n", $output);
 
         $this->assertRegExp('/Usage:\s*core:archive/', $output);
-        $this->assertNotContains("Starting Piwik reports archiving...", $output);
+        self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
     }
 
     private function setLastRunArchiveOptions()

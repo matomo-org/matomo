@@ -18,7 +18,7 @@ class SessionInitializerTest extends \PHPUnit\Framework\TestCase
 {
     private $oldUnitTestValue;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,40 +26,27 @@ class SessionInitializerTest extends \PHPUnit\Framework\TestCase
         \Zend_Session::$_unitTestEnabled = true;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         \Zend_Session::$_unitTestEnabled = $this->oldUnitTestValue;
 
         parent::tearDown();
     }
 
-    /**
-     * @dataProvider getTestDataForInitSession
-     * @expectedExceptionMessage Login_LoginPasswordNotCorrect
-     */
-    public function test_initSession_Throws_IfAuthenticationFailed($rememberMe)
+    public function test_initSession_Throws_IfAuthenticationFailed()
     {
+        $this->expectExceptionMessage('Login_LoginPasswordNotCorrect');
+
         $sessionInitializer = new TestSessionInitializer();
-        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS));
+        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::FAILURE));
     }
 
-    /**
-     * @dataProvider getTestDataForInitSession
-     */
-    public function test_initSession_InitializesTheSessionCorrectly_IfAuthenticationSucceeds($rememberMe)
+    public function test_initSession_InitializesTheSessionCorrectly_IfAuthenticationSucceeds()
     {
         $sessionInitializer = new TestSessionInitializer();
         $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS));
 
         $this->assertSessionCreatedCorrectly();
-    }
-
-    public function getTestDataForInitSession()
-    {
-        return [
-            [true],
-            [false],
-        ];
     }
 
     private function makeMockAuth($resultCode)

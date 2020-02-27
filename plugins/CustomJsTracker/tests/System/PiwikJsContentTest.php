@@ -33,7 +33,7 @@ class PiwikJsContentTest extends SystemTestCase
         $piwikMin = PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js';
         $content  = file_get_contents($piwikMin);
 
-        $this->assertContains(PiwikJsManipulator::HOOK, $content);
+        self::assertStringContainsString(PiwikJsManipulator::HOOK, $content);
     }
 
 }

@@ -44,7 +44,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider getJsonSerializeData
      */
-    public function testJsonSerialize($testData, $id)
+    public function testJsonSerialize($id, $testData)
     {
         $this->assertEquals($testData, json_decode(json_encode($testData), $assoc = true), $id);
     }

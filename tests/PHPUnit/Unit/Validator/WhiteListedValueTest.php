@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Translation\Loader;
+namespace Piwik\Tests\Unit\Validator;
 
 use Piwik\Validators\WhitelistedValue;
 
@@ -23,15 +23,17 @@ class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
         $this->validate('bar');
         $this->validate('baz');
         $this->validate('lorem');
+
+        $this->assertTrue(true);
     }
 
     /**
      * @dataProvider getInvalidValues
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorXNotWhitelisted
      */
     public function test_validate_failInvalidFormat($date)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorXNotWhitelisted');
         $this->validate($date);
     }
 
@@ -46,12 +48,10 @@ class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage The whitelisted values need to be an array
-     */
     public function test_construct_throwsExceptionIfParamIsNotAnArray()
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('The whitelisted values need to be an array');
         new WhitelistedValue('foobar');
     }
 

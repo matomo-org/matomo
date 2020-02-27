@@ -22,13 +22,13 @@ class ThreeSitesWithManyVisitsWithSiteSearch extends Fixture
     public $idSite3 = 3;
     public $dateTime = '2010-01-03 11:22:33';
 
-    public function setUp()
+    public function setUp(): void
     {
         self::setUpWebsites();
         self::trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

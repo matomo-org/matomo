@@ -36,7 +36,7 @@ class RequestProcessorTest extends IntegrationTestCase
      */
     private $requestProcessor;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

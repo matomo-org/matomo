@@ -30,14 +30,14 @@ class OneVisitorTwoVisits extends Fixture
     public $simulateIntegerOverflow = false;
     public $maxUnsignedIntegerValue = '4294967295';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->simulateIntegerOverflow();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

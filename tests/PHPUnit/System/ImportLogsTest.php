@@ -27,7 +27,7 @@ class ImportLogsTest extends SystemTestCase
     /** @var ManySitesImportedLogs */
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -132,8 +132,8 @@ class ImportLogsTest extends SystemTestCase
         $this->assertEquals(1, count($whateverDotCom));
 
         // make sure invalid requests are reported correctly
-        $this->assertContains('The Matomo tracker identified 2 invalid requests on lines: 10, 11', $output);
-        $this->assertContains("The following lines were not tracked by Matomo, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
+        self::assertStringContainsString('The Matomo tracker identified 2 invalid requests on lines: 10, 11', $output);
+        self::assertStringContainsString("The following lines were not tracked by Matomo, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
     }
 
     public function test_LogImporter_RetriesWhenServerFails()
@@ -153,12 +153,12 @@ class ImportLogsTest extends SystemTestCase
         $output = implode("\n", $output);
 
         for ($i = 2; $i != 6; ++$i) {
-            $this->assertContains("Retrying request, attempt number $i", $output);
+            self::assertStringContainsString("Retrying request, attempt number $i", $output);
         }
 
-        $this->assertNotContains("Retrying request, attempt number 6", $output);
+        self::assertStringNotContainsString("Retrying request, attempt number 6", $output);
 
-        $this->assertContains("Max number of attempts reached, server is unreachable!", $output);
+        self::assertStringContainsString("Max number of attempts reached, server is unreachable!", $output);
     }
 
     private function simulateTrackerFailure()

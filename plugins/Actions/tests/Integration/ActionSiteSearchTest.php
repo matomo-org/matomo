@@ -20,7 +20,7 @@ use Piwik\Tracker\Request;
  */
 class ActionSiteSearchTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

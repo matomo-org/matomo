@@ -36,7 +36,7 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
      */
     private $testInstance;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

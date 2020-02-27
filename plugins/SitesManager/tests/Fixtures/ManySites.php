@@ -19,7 +19,7 @@ class ManySites extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
 
-    public function setUp()
+    public function setUp(): void
     {
         for ($idSite = 1; $idSite < 64; $idSite++) {
             if (!self::siteCreated($idSite)) {

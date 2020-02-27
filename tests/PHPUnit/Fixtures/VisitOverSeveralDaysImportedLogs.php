@@ -19,13 +19,13 @@ class VisitOverSeveralDaysImportedLogs extends Fixture
     public $dateTime = '2013-04-07 19:00:00';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

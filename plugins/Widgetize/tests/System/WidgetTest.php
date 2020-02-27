@@ -28,7 +28,7 @@ class WidgetTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +38,7 @@ class WidgetTest extends SystemTestCase
         $_GET['date']   = '2013-01-23';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $_GET = array();
         parent::tearDown();

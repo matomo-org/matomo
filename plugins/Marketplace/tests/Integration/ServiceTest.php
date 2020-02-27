@@ -25,31 +25,29 @@ class ServiceTest extends IntegrationTestCase
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->service = new TestService();
     }
 
-    /**
-     * @expectedException \Piwik\Plugins\Marketplace\Api\Service\Exception
-     * @expectedExceptionCode 101
-     * @expectedExceptionMessage Requested plugin does not exist.
-     */
     public function test_fetch_throwsApiError_WhenMarketplaceReturnsAnError()
     {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionCode(101);
+        $this->expectExceptionMessage('Requested plugin does not exist.');
+
         $this->service->returnFixture('v2.0_plugins_CustomPlugin1_info-access_token-notexistingtoken.json');
         $this->service->fetch('plugins/CustomPlugin1/info', array());
     }
 
-    /**
-     * @expectedException \Piwik\Plugins\Marketplace\Api\Service\Exception
-     * @expectedExceptionCode 100
-     * @expectedExceptionMessage There was an error reading the response from the Marketplace
-     */
     public function test_fetch_throwsHttpError_WhenMarketplaceReturnsNoResultWhichMeansHttpError()
     {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionCode(100);
+        $this->expectExceptionMessage('There was an error reading the response from the Marketplace');
+
         $this->service->setOnDownloadCallback(function () {
             return null;
         });

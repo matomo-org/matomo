@@ -26,7 +26,7 @@ class SettingsTest extends IntegrationTestCase
      */
     protected $ip = '123.30.30.30';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

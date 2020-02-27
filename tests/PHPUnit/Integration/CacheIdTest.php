@@ -18,12 +18,12 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class CacheIdTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
     }

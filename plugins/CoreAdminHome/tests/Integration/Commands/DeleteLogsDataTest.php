@@ -38,7 +38,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains('Invalid date range supplied', $this->applicationTester->getDisplay());
+        self::assertStringContainsString('Invalid date range supplied', $this->applicationTester->getDisplay());
     }
 
     public function getTestDataForInvalidDateRangeTest()
@@ -64,7 +64,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains('Invalid site ID', $this->applicationTester->getDisplay());
+        self::assertStringContainsString('Invalid site ID', $this->applicationTester->getDisplay());
     }
 
     /**
@@ -83,7 +83,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains('Invalid row limit supplied', $this->applicationTester->getDisplay());
+        self::assertStringContainsString('Invalid row limit supplied', $this->applicationTester->getDisplay());
     }
 
     public function getTestDataForInvalidIterationStepTest()
@@ -128,7 +128,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         ), $options);
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Successfully deleted 19 visits", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Successfully deleted 19 visits", $this->applicationTester->getDisplay());
     }
 
     private function setCommandInput($value)

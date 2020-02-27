@@ -43,7 +43,7 @@ class DataSubjectsTest extends IntegrationTestCase
 
     private $originalTimezone;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -57,7 +57,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->originalTrackingTime = $this->theFixture->trackingTime;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->theFixture->uninstallLogTables();
         $this->theFixture->tearDownLocation();
