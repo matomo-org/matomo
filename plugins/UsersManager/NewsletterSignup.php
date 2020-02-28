@@ -24,7 +24,7 @@ class NewsletterSignup
     public static function signupForNewsletter($userLogin, $email, $matomoOrg = false, $professionalServices = false, $wordPress = false)
     {
         // Don't bother if they aren't signing up for at least one newsletter, or if we don't have internet access
-        $doSignup = ($matomoOrg || $professionalServices) && SettingsPiwik::isInternetEnabled();
+        $doSignup = ($matomoOrg || $professionalServices || $wordPress) && SettingsPiwik::isInternetEnabled();
         if (!$doSignup) {
             return false;
         }
