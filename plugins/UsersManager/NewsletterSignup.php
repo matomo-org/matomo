@@ -21,7 +21,7 @@ class NewsletterSignup
 {
     const NEWSLETTER_SIGNUP_OPTION = 'UsersManager.newsletterSignup.';
 
-    public static function signupForNewsletter($userLogin, $email, $matomoOrg = false, $professionalServices = false)
+    public static function signupForNewsletter($userLogin, $email, $matomoOrg = false, $professionalServices = false, $wordPress = false)
     {
         // Don't bother if they aren't signing up for at least one newsletter, or if we don't have internet access
         $doSignup = ($matomoOrg || $professionalServices) && SettingsPiwik::isInternetEnabled();
@@ -36,6 +36,7 @@ class NewsletterSignup
             'email'     => $email,
             'piwikorg'  => (int)$matomoOrg,
             'piwikpro'  => (int)$professionalServices,
+            'wordpress' => (int)$wordPress,
             'url'       => Url::getCurrentUrlWithoutQueryString(),
             'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
         );
