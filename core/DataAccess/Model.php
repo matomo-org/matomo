@@ -438,6 +438,7 @@ class Model
         if (!empty($possibleValues)) {
             $result .= " AND (value IN (" . implode(',', $possibleValues) . ")))";
         }
+        $result .= ')';
 
         return $result;
     }
