@@ -109,8 +109,6 @@ class CoreHome extends \Piwik\Plugin
     {
         $stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
         $stylesheets[] = "libs/bower_components/materialize/dist/css/materialize.min.css";
-        $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
-        $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
         $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog.min.css";
         $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog-theme-default.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/bootstrap.css";
@@ -155,9 +153,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js";
-        $jsFiles[] = "libs/bower_components/jScrollPane/script/jquery.jscrollpane.min.js";
-        $jsFiles[] = "libs/bower_components/jquery-mousewheel/jquery.mousewheel.min.js";
-        $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
         $jsFiles[] = "libs/bower_components/mousetrap/mousetrap.min.js";
         $jsFiles[] = "libs/bower_components/angular/angular.min.js";
