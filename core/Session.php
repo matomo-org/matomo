@@ -222,7 +222,7 @@ class Session extends Zend_Session
     {
         $headerStr = 'Set-Cookie: ' . rawurlencode($name) . '=' . rawurlencode($value);
         if ($expires) {
-            $headerStr .= '; expires=' . $expires;
+            $headerStr .= '; expires=' . gmdate('D, d-M-Y H:i:s', $expires) . ' GMT';
         }
         if ($path) {
             $headerStr .= '; path=' . $path;
