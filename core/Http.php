@@ -96,8 +96,13 @@ class Http
         // create output file
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
+        $acceptInvalidSslCertificate = false;
+        if (isset(Config::getInstance()->Development['accept_invalid_ssl'])) {
+            $acceptInvalidSslCertificate = Config::getInstance()->Development['accept_invalid_ssl'];
+        }
+
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
-        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod, $httpUsername, $httpPassword);
+        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage, $acceptInvalidSslCertificate, $byteRange, $getExtendedInfo, $httpMethod, $httpUsername, $httpPassword);
     }
 
     public static function ensureDestinationDirectoryExists($destinationPath)
