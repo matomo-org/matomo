@@ -235,7 +235,7 @@ class Model
         $limit = count($doneFlags) + 2; // total number of rows we could get w/ a single ts_archived
 
         // TODO: EXPLAIN it to check for performance
-        $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
+        $sqlQuery = "SELECT idarchive, value, name, ts_archived, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
                          AND date2 = ?
