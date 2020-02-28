@@ -91,6 +91,19 @@ abstract class GeoIp2 extends LocationProvider
     {
         foreach ($possibleFileNames as $filename) {
             $path = self::getPathForGeoIpDatabase($filename);
+
+            if (strpos($path, '{')) {
+                $files = _glob(preg_replace('/\\\d\{[0-9]+\}/', '*', $path));
+
+                sort($files);
+
+                while($file = array_pop($files)) {
+                    if (preg_match("/$filename/", $file)) {
+                        return $file;
+                    }
+                }
+            }
+
             if (file_exists($path)) {
                 return $path;
             }
