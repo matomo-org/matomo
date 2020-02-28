@@ -416,6 +416,16 @@ class Model
         return $visitRow;
     }
 
+    public function hasVisit($idSite, $idVisit)
+    {
+        // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        $sql = 'SELECT idsite FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ? LIMIT 1';
+        $bindSql = array($idVisit);
+
+        $val = $this->getDb()->fetchOne($sql, $bindSql);
+        return $val == $idSite;
+    }
+
     private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
     {
         // will use INDEX index_idsite_idvisitor (idsite, idvisitor)

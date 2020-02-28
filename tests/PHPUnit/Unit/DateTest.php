@@ -12,7 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\SettingsServer;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  */
@@ -404,14 +404,14 @@ class DateTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetLocalizedTimeFormats($language, $use12HourClock, $time, $shouldBe)
     {
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
         StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider')->forceTimeFormat($use12HourClock);
 
         $date = Date::factory($time);
 
         $this->assertEquals($shouldBe, $date->getLocalized(Date::TIME_FORMAT));
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     /**

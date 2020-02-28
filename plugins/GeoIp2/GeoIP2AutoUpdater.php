@@ -130,7 +130,10 @@ class GeoIP2AutoUpdater extends Task
         $logger = StaticContainer::get(LoggerInterface::class);
 
         $url = trim($url);
-        if ($this->isDbIpUrl($url)) {
+
+        if (self::isPaidDbIpUrl($url)) {
+            $url = $this->fetchPaidDbIpUrl($url);
+        } else if (self::isDbIpUrl($url)) {
             $url = $this->getDbIpUrlWithLatestDate($url);
         }
 
@@ -731,7 +734,7 @@ class GeoIP2AutoUpdater extends Task
         return LocationProviderGeoIp2::$dbNames[$dbType][0] . '.' . $ext;
     }
 
-    private function getDbIpUrlWithLatestDate($url)
+    protected function getDbIpUrlWithLatestDate($url)
     {
         $today = Date::today();
         return preg_replace('/-\d{4}-\d{2}\./', '-' . $today->toString('Y-m') . '.', $url);
@@ -740,5 +743,36 @@ class GeoIP2AutoUpdater extends Task
     public static function isDbIpUrl($url)
     {
         return !! preg_match('/db-ip\.com/', $url);
+    }
+
+    protected static function isPaidDbIpUrl($url)
+    {
+        return !! preg_match('/db-ip\.com\/account\/[0-9a-z]+\/db/', $url);
+    }
+
+    protected function fetchPaidDbIpUrl($url)
+    {
+        $content = trim($this->fetchUrl($url));
+
+        if (0 === strpos($content, 'http')) {
+            return $content;
+        }
+
+        $content = json_decode($content, true);
+
+        if (!empty($content['mmdb']['url'])) {
+            return $content['mmdb']['url'];
+        }
+
+        if (!empty($content['url'])) {
+            return $content['url'];
+        }
+
+        throw new Exception('Unable to determine download url');
+    }
+
+    protected function fetchUrl($url)
+    {
+        return Http::fetchRemoteFile($url);
     }
 }

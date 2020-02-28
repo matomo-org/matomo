@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	<nb_visits_new>33</nb_visits_new>
+	<nb_actions_new>45</nb_actions_new>
+	<nb_visits_converted_new>31</nb_visits_converted_new>
+	<bounce_count_new>30</bounce_count_new>
+	<sum_visit_length_new>359</sum_visit_length_new>
+	<max_actions_new>10</max_actions_new>
+	<bounce_rate_new>91%</bounce_rate_new>
+	<nb_actions_per_visit_new>1.4</nb_actions_per_visit_new>
+	<avg_time_on_site_new>11</avg_time_on_site_new>
 	<nb_visits_returning>1</nb_visits_returning>
 	<nb_actions_returning>1</nb_actions_returning>
 	<nb_visits_converted_returning>1</nb_visits_converted_returning>

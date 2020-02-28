@@ -1,0 +1,27 @@
+<?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+
+namespace Piwik\Plugins\ExampleTracker;
+
+use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\View;
+
+class VisitorDetails extends VisitorDetailsAbstract
+{
+    public function renderIcons($visitorDetails)
+    {
+        if (empty($visitorDetails['myCustomVisitParam'])) {
+            return '';
+        }
+
+        $view         = new View('@ExampleTracker/_visitorLogIcons');
+        $view->myCustomVisitParam = $visitorDetails['myCustomVisitParam'];
+        return $view->render();
+    }
+}

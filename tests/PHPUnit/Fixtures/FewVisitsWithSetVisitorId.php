@@ -147,7 +147,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         // Request from a different computer not yet logged in, this should not be added to our User ID session
         $t->setUserId(false);
         // make sure the Id is not so random as to not fail the test
-        $t->randomVisitorId = '5e15b4d842cc294d';
+        $t->setVisitorId('5e15b4d842cc294d');
 
         $t->setIp('1.2.4.7');
         $t->setUserAgent("New unique device");

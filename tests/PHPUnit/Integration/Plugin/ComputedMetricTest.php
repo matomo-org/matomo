@@ -15,7 +15,6 @@ use Piwik\Plugin\ComputedMetric;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group ComputedMetric
@@ -27,14 +26,14 @@ class ComputedMetricTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         Fixture::createWebsite('2015-01-01 00:00:00');
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 

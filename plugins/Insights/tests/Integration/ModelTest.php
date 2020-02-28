@@ -122,14 +122,6 @@ class ModelTest extends SystemTestCase
         $this->model->getLastDate('last10', 'day', 1);
     }
 
-    /**
-     * @expectedException \Exception
-     */
-    public function test_getLastDate_shouldThrowExceptionInCaseOfRangePeriod()
-    {
-        $this->model->getLastDate('2012-11-11,2012-12-12', 'range', 1);
-    }
-
     public function test_getTotalValue_shouldCalculateTotals()
     {
         $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits', false);

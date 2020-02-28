@@ -19,7 +19,6 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 class CustomDimensionTest extends Dimension
 {
@@ -84,7 +83,7 @@ class ColumnDimensionTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         Fixture::createWebsite('2014-04-05 01:02:03');
 
@@ -96,7 +95,7 @@ class ColumnDimensionTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 

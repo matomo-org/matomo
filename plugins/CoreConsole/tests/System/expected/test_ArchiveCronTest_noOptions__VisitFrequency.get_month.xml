@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
+		<nb_uniq_visitors_new>32</nb_uniq_visitors_new>
+		<nb_users_new>1</nb_users_new>
+		<nb_visits_new>32</nb_visits_new>
+		<nb_actions_new>35</nb_actions_new>
+		<nb_visits_converted_new>30</nb_visits_converted_new>
+		<bounce_count_new>30</bounce_count_new>
+		<sum_visit_length_new>305</sum_visit_length_new>
+		<max_actions_new>3</max_actions_new>
+		<bounce_rate_new>94%</bounce_rate_new>
+		<nb_actions_per_visit_new>1.1</nb_actions_per_visit_new>
+		<avg_time_on_site_new>10</avg_time_on_site_new>
 		<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
 		<nb_users_returning>0</nb_users_returning>
 		<nb_visits_returning>1</nb_visits_returning>
@@ -13,8 +24,31 @@
 		<nb_actions_per_visit_returning>1</nb_actions_per_visit_returning>
 		<avg_time_on_site_returning>0</avg_time_on_site_returning>
 	</result>
-	<result idSite="2" />
+	<result idSite="2">
+		<nb_uniq_visitors_new>1</nb_uniq_visitors_new>
+		<nb_users_new>0</nb_users_new>
+		<nb_visits_new>1</nb_visits_new>
+		<nb_actions_new>1</nb_actions_new>
+		<nb_visits_converted_new>0</nb_visits_converted_new>
+		<bounce_count_new>1</bounce_count_new>
+		<sum_visit_length_new>0</sum_visit_length_new>
+		<max_actions_new>1</max_actions_new>
+		<bounce_rate_new>100%</bounce_rate_new>
+		<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
+		<avg_time_on_site_new>0</avg_time_on_site_new>
+	</result>
 	<result idSite="3">
+		<nb_uniq_visitors_new>1</nb_uniq_visitors_new>
+		<nb_users_new>0</nb_users_new>
+		<nb_visits_new>1</nb_visits_new>
+		<nb_actions_new>3</nb_actions_new>
+		<nb_visits_converted_new>0</nb_visits_converted_new>
+		<bounce_count_new>0</bounce_count_new>
+		<sum_visit_length_new>1</sum_visit_length_new>
+		<max_actions_new>3</max_actions_new>
+		<bounce_rate_new>0%</bounce_rate_new>
+		<nb_actions_per_visit_new>3</nb_actions_per_visit_new>
+		<avg_time_on_site_new>1</avg_time_on_site_new>
 		<nb_uniq_visitors_returning>2</nb_uniq_visitors_returning>
 		<nb_users_returning>0</nb_users_returning>
 		<nb_visits_returning>2</nb_visits_returning>

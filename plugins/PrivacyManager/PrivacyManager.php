@@ -194,9 +194,63 @@ class PrivacyManager extends Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'General_Visit';
+        $translationKeys[] = 'General_Action';
+        $translationKeys[] = 'General_Details';
+        $translationKeys[] = 'General_VisitId';
+        $translationKeys[] = 'General_VisitorID';
+        $translationKeys[] = 'General_VisitorIP';
+        $translationKeys[] = 'General_UserId';
+        $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'Live_ViewVisitorProfile';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
+        $translationKeys[] = 'PrivacyManager_OptOutCustomize';
+        $translationKeys[] = 'PrivacyManager_FontColor';
+        $translationKeys[] = 'PrivacyManager_BackgroundColor';
+        $translationKeys[] = 'PrivacyManager_FontSize';
+        $translationKeys[] = 'PrivacyManager_FontFamily';
+        $translationKeys[] = 'PrivacyManager_OptOutHtmlCode';
+        $translationKeys[] = 'PrivacyManager_OptOutPreview';
+        $translationKeys[] = 'PrivacyManager_AnonymizeSites';
+        $translationKeys[] = 'PrivacyManager_AnonymizeRowDataFrom';
+        $translationKeys[] = 'PrivacyManager_AnonymizeRowDataTo';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIpHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeLocation';
+        $translationKeys[] = 'PrivacyManager_AnonymizeLocationHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeUserId';
+        $translationKeys[] = 'PrivacyManager_AnonymizeUserIdHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeProcessInfo';
+        $translationKeys[] = 'PrivacyManager_AnonymizeDataNow';
+        $translationKeys[] = 'PrivacyManager_AnonymizeDataConfirm';
+        $translationKeys[] = 'PrivacyManager_UnsetVisitColumns';
+        $translationKeys[] = 'PrivacyManager_UnsetVisitColumnsHelp';
+        $translationKeys[] = 'PrivacyManager_UnsetActionColumns';
+        $translationKeys[] = 'PrivacyManager_UnsetActionColumnsHelp';
+        $translationKeys[] = 'PrivacyManager_SearchForDataSubject';
+        $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';
+        $translationKeys[] = 'PrivacyManager_NoDataSubjectsFound';
+        $translationKeys[] = 'PrivacyManager_DeleteVisitsConfirm';
+        $translationKeys[] = 'PrivacyManager_ResultTruncated';
+        $translationKeys[] = 'PrivacyManager_AddVisitorIdToSearch';
+        $translationKeys[] = 'PrivacyManager_AddVisitorIPToSearch';
+        $translationKeys[] = 'PrivacyManager_AddUserIdToSearch';
+        $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
+        $translationKeys[] = 'PrivacyManager_DeleteSelectedVisits';
+        $translationKeys[] = 'PrivacyManager_SelectWebsite';
+        $translationKeys[] = 'PrivacyManager_MatchingDataSubjects';
+        $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
+        $translationKeys[] = 'PrivacyManager_ExportingNote';
+        $translationKeys[] = 'PrivacyManager_DeletionFromMatomoOnly';
+        $translationKeys[] = 'PrivacyManager_ResultIncludesAllVisits';
+        $translationKeys[] = 'PrivacyManager_GdprTools';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntro1';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntro2';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroAccessRight';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroEraseRight';
+        $translationKeys[] = 'PrivacyManager_GdprToolsOverviewHint';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

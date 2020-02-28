@@ -20,7 +20,7 @@ jobs:
                  --header 'content-type: application/json' \
                  --url https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR )
         REF=$(echo "${PR_INFO}" | jq -r .head.ref)
-        BASE=$(echo "${PR_INFO}" | jq -r .base.repo.full_name)
+        BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
         STATE=$(echo "${PR_INFO}" | jq -r .state)
         
         if [[ $STATE == "closed" ]]

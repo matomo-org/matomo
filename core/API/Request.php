@@ -214,6 +214,8 @@ class Request
      */
     public function process()
     {
+        $shouldReloadAuth = false;
+
         try {
             ++self::$nestedApiInvocationCount;
 
@@ -232,7 +234,6 @@ class Request
             $corsHandler->handle();
 
             $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $this->request);
-            $shouldReloadAuth = false;
 
             // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
             // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
@@ -275,6 +276,10 @@ class Request
                 'ignoreInScreenWriter' => true,
             ]);
 
+            if (empty($response)) {
+               $response = new ResponseBuilder('console', $this->request);
+            }
+            
             $toReturn = $response->getResponseException($e);
         } finally {
             --self::$nestedApiInvocationCount;

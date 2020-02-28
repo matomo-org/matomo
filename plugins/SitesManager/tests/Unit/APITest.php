@@ -11,7 +11,7 @@ namespace Piwik\Plugins\SitesManager\tests\Unit;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\SettingsServer;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group SitesManaager
@@ -33,7 +33,7 @@ class APITest extends \PHPUnit\Framework\TestCase
             $this->markTestSkipped('timezones needs to be supported');
         }
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
 
         $this->api = API::getInstance();
     }
@@ -42,7 +42,7 @@ class APITest extends \PHPUnit\Framework\TestCase
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function getTimezoneNameTestData()

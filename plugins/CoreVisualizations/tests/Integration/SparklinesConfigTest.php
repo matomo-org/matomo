@@ -12,7 +12,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group CoreVisualizations
@@ -37,12 +36,12 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $this->config = new Config();
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
     public function tearDown()
     {
-        Translate::reset();
+        Fixture::resetTranslations();
 
         parent::tearDown();
     }

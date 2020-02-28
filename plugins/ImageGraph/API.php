@@ -12,12 +12,12 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Map;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
-use Piwik\Translate;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Matomo report.
@@ -139,7 +139,7 @@ class API extends \Piwik\Plugin\API
         $useUnicodeFont = array(
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
-        $languageLoaded = Translate::getLanguageLoaded();
+        $languageLoaded = StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
         $font = self::getFontPath(self::DEFAULT_FONT);
         if (in_array($languageLoaded, $useUnicodeFont)) {
             $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);

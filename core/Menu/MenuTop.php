@@ -45,7 +45,7 @@ class MenuTop extends MenuAbstract
     /**
      * Triggers the Menu.Top.addItems hook and returns the menu.
      *
-     * @return Array
+     * @return array
      */
     public function getMenu()
     {

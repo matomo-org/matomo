@@ -20,6 +20,7 @@ use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
 use Piwik\Segment;
+use Piwik\Session;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
@@ -42,6 +43,12 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
+
+        // Overlay needs to send requests w/ the session cookie from within the tracked website, which means
+        // we can't use SameSite=Lax. So, we regenerate the session ID here (in Session.php there is a hardcoded
+        // check for Overlay, so will be set to SameSite=None).
+        // Note: this means the new session ID will have SameSite=None until it regenerates on a non-Overlay page.
+        Session::regenerateId();
 
         $template = '@Overlay/index';
         if (Config::getInstance()->General['overlay_disable_framed_mode']) {

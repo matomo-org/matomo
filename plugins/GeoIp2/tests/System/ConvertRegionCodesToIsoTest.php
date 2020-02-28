@@ -14,7 +14,6 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -126,7 +125,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         );
 
         // we need to manually reload the translations since they get reset for some reason in IntegrationTestCase::tearDown();
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
 
         $this->assertApiResponseEqualsExpected("UserCountry.getRegion", $queryParams);
         $this->assertApiResponseEqualsExpected("UserCountry.getCountry", $queryParams);
