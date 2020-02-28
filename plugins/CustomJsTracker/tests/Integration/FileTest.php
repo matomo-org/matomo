@@ -31,7 +31,7 @@ class FileTest extends IntegrationTestCase
      */
     private $dir = '';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->dir = PIWIK_DOCUMENT_ROOT . '/plugins/CustomJsTracker/tests/resources/';
@@ -44,7 +44,7 @@ class FileTest extends IntegrationTestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // restore permissions changed by makeNotWritableFile()
         chmod($this->dir, 0777);
@@ -152,21 +152,19 @@ class FileTest extends IntegrationTestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException
-     * @expectedExceptionMessage not readable
-     */
     public function test_checkReadable_shouldThrowException_IfNotIsReadable()
     {
+        $this->expectException(\Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException::class);
+        $this->expectExceptionMessage('not readable');
+
         $this->makeNotReadableFile()->checkReadable();
     }
 
-    /**
-     * @expectedException \Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException
-     * @expectedExceptionMessage not writable
-     */
     public function test_checkWritable_shouldThrowException_IfNotIsWritable()
     {
+        $this->expectException(\Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException::class);
+        $this->expectExceptionMessage('not writable');
+
         $this->makeNotReadableFile_inNonWritableDirectory()->checkWritable();
     }
 

@@ -25,7 +25,7 @@ class APITest extends \PHPUnit\Framework\TestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +38,7 @@ class APITest extends \PHPUnit\Framework\TestCase
         $this->api = API::getInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

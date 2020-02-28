@@ -39,19 +39,17 @@ class LegacyAutoLoaderTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(\Matomo\DummyClass::class, $class);
     }
 
-    /**
-     * @expectedException \Error
-     */
     public function testNotExistingMatomoClassStillFails()
     {
+        $this->expectException(\Error::class);
+
         $class = new \Matomo\ClassNotFound();
     }
 
-    /**
-     * @expectedException \Error
-     */
     public function testNotExistingPiwikClassStillFails()
     {
+        $this->expectException(\Error::class);
+
         $class = new \Piwik\ClassNotFound();
     }
 }

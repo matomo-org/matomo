@@ -28,7 +28,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
      */
     private $archiveTableDao;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

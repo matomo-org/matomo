@@ -18,7 +18,7 @@ class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
     public $period = 'day';
     public $idSite = 'all';
 
-    public function setUp()
+    public function setUp(): void
     {
         // add one thousand sites
         $allIdSites = array();

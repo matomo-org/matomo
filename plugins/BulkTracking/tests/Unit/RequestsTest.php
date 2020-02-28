@@ -23,7 +23,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
      */
     private $requests;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->requests = new Requests();

@@ -22,7 +22,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ComputedMetricTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ class ComputedMetricTest extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
         parent::tearDown();

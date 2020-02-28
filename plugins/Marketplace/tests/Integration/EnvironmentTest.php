@@ -28,7 +28,7 @@ class EnvironmentTest extends IntegrationTestCase
      */
     private $environment;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -23,7 +23,7 @@ class AnalyzeArchiveTableTest extends ConsoleCommandTestCase
      */
     public static $fixture = null;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 

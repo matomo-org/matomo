@@ -16,7 +16,7 @@ use Spyc;
  */
 class SearchEngineTest extends \PHPUnit\Framework\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // inject definitions to avoid database usage
         $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . SearchEngine::DEFINITION_FILE);
@@ -143,6 +143,8 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
 
             $this->assertTrue(in_array($name['host'] . '.png', $favicons), $name['host']);
         }
+
+        $this->assertTrue(true); // ensure there is an assertion, to prevent warning
     }
 
     /**

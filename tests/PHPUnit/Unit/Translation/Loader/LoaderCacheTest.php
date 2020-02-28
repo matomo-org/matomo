@@ -19,7 +19,7 @@ class LoaderCacheTest extends \PHPUnit\Framework\TestCase
 {
     public function test_shouldNotLoad_ifInCache()
     {
-        $cache = $this->getMock('Matomo\Cache\Lazy', array(), array(), '', false);
+        $cache = $this->getMockBuilder('Matomo\Cache\Lazy')->disableOriginalConstructor()->getMock();
         $cache->expects($this->any())
             ->method('fetch')
             ->willReturn(array('translations!'));
@@ -35,7 +35,7 @@ class LoaderCacheTest extends \PHPUnit\Framework\TestCase
 
     public function test_shouldLoad_ifNotInCache()
     {
-        $cache = $this->getMock('Matomo\Cache\Lazy', array(), array(), '', false);
+        $cache = $this->getMockBuilder('Matomo\Cache\Lazy')->disableOriginalConstructor()->getMock();
         $cache->expects($this->any())
             ->method('fetch')
             ->willReturn(null);

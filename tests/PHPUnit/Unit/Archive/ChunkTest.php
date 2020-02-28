@@ -23,7 +23,7 @@ class ChunkTest extends \PHPUnit\Framework\TestCase
 
     private $recordName = 'Actions_ActionsUrl';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->chunk = new Chunk();
     }

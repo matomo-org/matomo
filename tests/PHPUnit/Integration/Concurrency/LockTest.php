@@ -23,7 +23,7 @@ class LockTest extends IntegrationTestCase
      */
     public $lock;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ class LockTest extends IntegrationTestCase
         $this->lock = $this->createLock($mysql);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

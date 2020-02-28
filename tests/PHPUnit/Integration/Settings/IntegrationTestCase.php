@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\Settings;
 
+use PHPUnit\Framework\Constraint\IsType;
 use Piwik\Db;
 use Piwik\Settings\Setting;
 use Piwik\Settings\Storage;
@@ -26,7 +27,7 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
      */
     protected $settings;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Db::destroyDatabaseObject();
@@ -39,7 +40,10 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
         $this->assertEquals($expectedValue, $value);
 
         if (!is_null($expectedType)) {
-            $this->assertInternalType($expectedType, $value);
+            static::assertThat(
+                $value,
+                new IsType($expectedType)
+            );
         }
     }
 

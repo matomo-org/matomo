@@ -24,7 +24,7 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
     public static $_JANUARY_15_1971_00_00_00;
     public static $_JANUARY_08_1971_00_00_00;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
     }
@@ -34,13 +34,10 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetHourScheduledTimeWeeklyNegative()
     {
-        try {
-            $weeklySchedule = new Weekly();
-            $weeklySchedule->setHour(-1);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $weeklySchedule = new Weekly();
+        $weeklySchedule->setHour(-1);
     }
 
     /**
@@ -48,13 +45,10 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetHourScheduledTimeWeeklyOver24()
     {
-        try {
-            $weeklySchedule = new Weekly();
-            $weeklySchedule->setHour(25);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $weeklySchedule = new Weekly();
+        $weeklySchedule->setHour(25);
     }
 
     /**
@@ -62,13 +56,10 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetDayScheduledTimeWeeklyDay0()
     {
-        try {
-            $weeklySchedule = new Weekly();
-            $weeklySchedule->setDay(0);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $weeklySchedule = new Weekly();
+        $weeklySchedule->setDay(0);
     }
 
     /**
@@ -76,13 +67,10 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetDayScheduledTimeWeeklyOver7()
     {
-        try {
-            $weeklySchedule = new Weekly();
-            $weeklySchedule->setDay(8);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $weeklySchedule = new Weekly();
+        $weeklySchedule->setDay(8);
     }
 
     /**
@@ -182,7 +170,7 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
      */
     private function getWeeklyMock($currentTime)
     {
-        $mock = $this->getMock('Piwik\Scheduler\Schedule\Weekly', array('getTime'));
+        $mock = $this->createPartialMock('Piwik\Scheduler\Schedule\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue($currentTime));

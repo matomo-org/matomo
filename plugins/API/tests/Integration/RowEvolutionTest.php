@@ -20,18 +20,16 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class RowEvolutionTest extends IntegrationTestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Reports like VisitsSummary.get which do not have a dimension are not supported by row evolution
-     */
     public function test_getRowEvolution_shouldTriggerAnException_IfReportHasNoDimension()
     {
+        $this->expectException(\Exception::class);
+        $this->expectDeprecationMessage("Reports like VisitsSummary.get which do not have a dimension are not supported by row evolution");
         $rowEvolution = new RowEvolution();
         $rowEvolution->getRowEvolution(1, 'day', 'last7', 'VisitsSummary', 'get');
     }

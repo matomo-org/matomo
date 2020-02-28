@@ -20,7 +20,7 @@ class HourlyTest extends \PHPUnit\Framework\TestCase
     private static $_JANUARY_01_1971_09_10_00;
     private static $_JANUARY_01_1971_10_00_00;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
@@ -34,13 +34,10 @@ class HourlyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetHourScheduledTimeHourly()
     {
-        try {
-            $hourlySchedule = new Hourly();
-            $hourlySchedule->setHour(0);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $hourlySchedule = new Hourly();
+        $hourlySchedule->setHour(0);
     }
 
     /**
@@ -49,13 +46,10 @@ class HourlyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetDayScheduledTimeHourly()
     {
-        try {
-            $hourlySchedule = new Hourly();
-            $hourlySchedule->setDay(1);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $hourlySchedule = new Hourly();
+        $hourlySchedule->setDay(1);
     }
 
     /**
@@ -73,7 +67,7 @@ class HourlyTest extends \PHPUnit\Framework\TestCase
          * Expected :
          *  getRescheduledTime returns Friday January 1 1971 10:00:00 GMT
          */
-        $mock = $this->getMock('Piwik\Scheduler\Schedule\Hourly', array('getTime'));
+        $mock = $this->createPartialMock('Piwik\Scheduler\Schedule\Hourly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_01_1971_09_00_00));
@@ -88,7 +82,7 @@ class HourlyTest extends \PHPUnit\Framework\TestCase
          * Expected :
          *  getRescheduledTime returns Friday January 1 1971 10:00:00 GMT
          */
-        $mock = $this->getMock('Piwik\Scheduler\Schedule\Hourly', array('getTime'));
+        $mock = $this->createPartialMock('Piwik\Scheduler\Schedule\Hourly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));

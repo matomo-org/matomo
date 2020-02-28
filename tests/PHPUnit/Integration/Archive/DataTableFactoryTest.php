@@ -42,7 +42,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         'nb_visits' => 97
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -267,12 +267,11 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertRowEquals($row3, $this->site2, $map->getTable($this->date2)->getRowFromId(1));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage supposed to work with non-numeric data types but it is not tested
-     */
     public function test_makeMerged_shouldThrowAnException_IfANonNumericDataTypeIsGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('supposed to work with non-numeric data types but it is not tested');
+
         $dataType  = 'blob';
         $dataNames = array('nb_visits');
 

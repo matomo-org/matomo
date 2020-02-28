@@ -13,7 +13,7 @@ use Piwik\Tests\Framework\TestCase\BenchmarkTestCase;
  */
 class ArchivingProcessBenchmark extends BenchmarkTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         BenchmarkTestCase::deleteArchiveTables();
     }

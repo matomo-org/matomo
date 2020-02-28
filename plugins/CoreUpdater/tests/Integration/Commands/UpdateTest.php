@@ -30,7 +30,7 @@ class UpdateTest extends ConsoleCommandTestCase
 
     private $oldScriptName = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -44,7 +44,7 @@ class UpdateTest extends ConsoleCommandTestCase
         Updates_2_10_0_b5::$archiveBlobTables = null;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $_SERVER['SCRIPT_NAME'] = $this->oldScriptName;
 
@@ -96,7 +96,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
 
         // check no update occurred
-        $this->assertContains("Everything is already up to date.", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Everything is already up to date.", $this->applicationTester->getDisplay());
         $this->assertEquals(Version::VERSION, Option::get('version_core'));
     }
 
@@ -112,12 +112,12 @@ class UpdateTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(1, $result, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Matomo could not be updated! See above for more information.", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Matomo could not be updated! See above for more information.", $this->applicationTester->getDisplay());
     }
 
     private function assertDryRunExecuted($output)
     {
-        $this->assertContains("Note: this is a Dry Run", $output);
-        $this->assertContains(self::EXPECTED_SQL_FROM_2_10, $output);
+        self::assertStringContainsString("Note: this is a Dry Run", $output);
+        self::assertStringContainsString(self::EXPECTED_SQL_FROM_2_10, $output);
     }
 }

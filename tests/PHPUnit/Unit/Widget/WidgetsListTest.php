@@ -24,7 +24,7 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
      */
     private $list;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = new WidgetsList();

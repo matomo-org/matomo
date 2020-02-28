@@ -58,7 +58,7 @@ abstract class SystemTestCase extends TestCase
      */
     public static $fixture;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         Log::debug("Setting up " . get_called_class());
 
@@ -83,7 +83,7 @@ abstract class SystemTestCase extends TestCase
         }
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         Log::debug("Tearing down " . get_called_class());
 

@@ -49,7 +49,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

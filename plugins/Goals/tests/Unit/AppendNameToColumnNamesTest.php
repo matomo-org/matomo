@@ -26,7 +26,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable\Simple();
         $this->addRow(array('nb_visits' => 1, 'nb_conversions' => 5, 'revenue' => 10, 'conversion_rate' => 20));

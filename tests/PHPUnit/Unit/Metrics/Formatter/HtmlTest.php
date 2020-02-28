@@ -24,7 +24,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
     private $sitesInfo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->sitesInfo = array(
             1 => array(
@@ -39,7 +39,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->setSiteManagerApiMock();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
         $this->unsetSiteManagerApiMock();
@@ -96,7 +96,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     {
         $sitesInfo = $this->sitesInfo;
 
-        $mock = $this->getMock('stdClass', array('getSiteFromId'));
+        $mock = $this->getMockBuilder('stdClass')->addMethods(['getSiteFromId'])->getMock();
         $mock->expects($this->any())->method('getSiteFromId')->willReturnCallback(function ($idSite) use ($sitesInfo) {
             return $sitesInfo[$idSite];
         });

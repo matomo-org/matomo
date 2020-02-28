@@ -144,6 +144,26 @@ abstract class LocationProvider
     abstract public function getSupportedLocationInfo();
 
     /**
+     * Renders Configuration or Setup View to be attached to the provider list
+     *
+     * @return string
+     */
+    public function renderConfiguration()
+    {
+        return '';
+    }
+
+    /**
+     * Renders SetUp Guide, which will be shown above Geolocation admin, if there is no working provider
+     *
+     * @return string
+     */
+    public function renderSetUpGuide()
+    {
+        return '';
+    }
+
+    /**
      * Method called when a provider gets activated.
      */
     public function activate()

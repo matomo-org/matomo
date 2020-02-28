@@ -23,7 +23,7 @@ class RequestSetTest extends \PHPUnit\Framework\TestCase
     private $requestSet;
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -209,7 +209,7 @@ class RequestSetTest extends \PHPUnit\Framework\TestCase
     public function test_intertnalFakeEnvironment_shouldActuallyReturnAValue()
     {
         $myEnv = $this->getFakeEnvironment();
-        $this->assertInternalType('array', $myEnv);
+        self::assertIsArray($myEnv);
         $this->assertNotEmpty($myEnv);
     }
 

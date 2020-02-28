@@ -20,13 +20,13 @@ class Utf8mb4 extends Fixture
 
     public $trackInvalidRequests = true;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

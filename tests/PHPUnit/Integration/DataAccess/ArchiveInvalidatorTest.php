@@ -54,7 +54,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
      */
     private static $segment2;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -72,7 +72,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

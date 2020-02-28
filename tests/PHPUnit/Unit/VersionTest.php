@@ -17,7 +17,7 @@ class VersionTest extends \PHPUnit\Framework\TestCase
      */
     private $version;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->version = new Version();
     }

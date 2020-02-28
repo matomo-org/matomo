@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class JsProxyTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Fixture::createWebsite('2014-01-01 02:03:04');

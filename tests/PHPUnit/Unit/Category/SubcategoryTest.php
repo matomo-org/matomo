@@ -23,7 +23,7 @@ class SubcategoryTest extends \PHPUnit\Framework\TestCase
      */
     private $subcategory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->subcategory = new Subcategory();

@@ -38,6 +38,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.shouldAddTrackerFile`
   * Public API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
   * API method `CustomPiwikJs.doesIncludePluginTrackersAutomatically` has been renamed to `CustomJsTracker.doesIncludePluginTrackersAutomatically`
+* GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
 
 ## Matomo 3.13.1
 

@@ -25,13 +25,13 @@ class VisitsInDifferentTimezones extends Fixture
         $this->date = Date::factory($this->dateTime)->toString();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

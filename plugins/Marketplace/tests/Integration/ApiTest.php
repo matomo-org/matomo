@@ -35,7 +35,7 @@ class ApiTest extends IntegrationTestCase
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,22 +50,20 @@ class ApiTest extends IntegrationTestCase
         $this->setSuperUser();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSuperUserAccess
-     */
     public function test_deleteLicenseKey_requiresSuperUserAccess_IfUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
         $this->setUser();
         $this->api->deleteLicenseKey();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSuperUserAccess
-     */
     public function test_deleteLicenseKey_requiresSuperUserAccess_IfAnonymous()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
         $this->setAnonymousUser();
         $this->api->deleteLicenseKey();
     }
@@ -80,32 +78,29 @@ class ApiTest extends IntegrationTestCase
         $this->assertNotHasLicenseKey();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSuperUserAccess
-     */
     public function test_saveLicenseKey_requiresSuperUserAccess_IfUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
         $this->setUser();
         $this->api->saveLicenseKey('key');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSuperUserAccess
-     */
     public function test_saveLicenseKey_requiresSuperUserAccess_IfAnonymous()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
         $this->setAnonymousUser();
         $this->api->saveLicenseKey('key');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Marketplace_ExceptionLinceseKeyIsNotValid
-     */
     public function test_saveLicenseKey_shouldThrowException_IfTokenIsNotValid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Marketplace_ExceptionLinceseKeyIsNotValid');
+
         $this->service->returnFixture('v2.0_consumer_validate-access_token-notexistingtoken.json');
         $this->api->saveLicenseKey('key');
     }
@@ -137,12 +132,11 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame('123licensekey', $this->buildLicenseKey()->get());
     }
 
-    /**
-     * @expectedExceptionMessage Host not reachable
-     * @expectedException \Piwik\Plugins\Marketplace\Api\Service\Exception
-     */
     public function test_saveLicenseKey_shouldThrowException_IfConnectionToMarketplaceFailed()
     {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionMessage('Host not reachable');
+
         $this->service->throwException(new ServiceException('Host not reachable', ServiceException::HTTP_ERROR));
         $success = $this->api->saveLicenseKey('123licensekey');
         $this->assertTrue($success);

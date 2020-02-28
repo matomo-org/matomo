@@ -21,7 +21,7 @@ class MultipleSitesArchivingTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 

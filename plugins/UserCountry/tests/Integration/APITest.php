@@ -29,7 +29,7 @@ class APITest extends IntegrationTestCase
      */
     private $api;
     
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -51,34 +51,31 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_setLocationProviderInvalid()
     {
+        $this->expectException(\Exception::class);
+
         $locationProvider = 'invalidProvider';
         $this->api->setLocationProvider($locationProvider);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_setLocationProviderNoSuperUser()
     {
+        $this->expectException(\Exception::class);
+
         Access::getInstance()->setSuperUserAccess(false);
 
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $locationProvider = GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_setLocationProviderDisabledInConfig()
     {
+        $this->expectException(\Exception::class);
+
         Config::getInstance()->General['enable_geolocation_admin'] = 0;
 
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $locationProvider = GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
     }
 

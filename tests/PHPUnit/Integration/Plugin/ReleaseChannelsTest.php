@@ -30,7 +30,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
      */
     private $channels;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

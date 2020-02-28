@@ -25,7 +25,7 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
      */
     private $filter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
         $this->filter = new ReferrerSpamFilter;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
