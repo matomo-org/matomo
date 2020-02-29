@@ -70,7 +70,7 @@
         "MenuSystem": "Systeem",
         "MenuDevelopment": "Ontwikkeling",
         "MenuMeasurables": "Meetbaar",
-        "OptOutComplete": "Opt-out ingesteld; Uw bezoeken aan deze website zullen niet worden opgeslagen voor analyse.",
+        "OptOutComplete": "Opt-out ingesteld; uw bezoeken aan deze website zullen niet worden opgeslagen voor analyse.",
         "OptOutCompleteBis": "Als u uw cookies wist, de opt-out cookie verwijdert of wisselt van computer of webbrowser, zult u deze opt-out procedure opnieuw moeten uitvoeren.",
         "OptOutDntFound": "Je bezoek wordt niet gemeten omdat je browser aangeeft dat je dat niet wil. Dit is een instelling van je browser, dus je kunt geen gebruik maken van opt-in totdat je de 'Volg mij Niet'-functie uitschakelt.",
         "OptOutExplanation": "Matomo is ingericht om privacy op internet te respecteren. U kunt uw bezoekers de opt-out optie van Matomo Web Analytics aanbieden. Daartoe kunt u de volgende HTML-code toevoegen aan uw website, bijvoorbeeld op een pagina met een Privacybeleid.",

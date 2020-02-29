@@ -1,0 +1,28 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "गैर अपाचे वेबसर्वर मानते हुए, apache_get_modules फ़ंक्शन नहीं मिल सकता है.",
+        "CannotFindGeoIPServerVar": "%s के चर स्थापित नहीं है. आपका सर्वर ठीक से कॉन्फ़िगर नहीं किया जा सकता है.",
+        "CannotListContent": "%1$s के लिए सामग्री की सूची नहीं कर सका: %2$s",
+        "DownloadingDb": "अधीभारण %s",
+        "DownloadNewDatabasesEvery": "हर डेटाबेस का अद्यतन",
+        "FoundApacheModules": "Matomo को निम्नलिखित अपाचे मॉड्यूल ने पाया",
+        "GeoIPImplHasAccessTo": "इस GeoIP कार्यान्वयन का डेटाबेस के निम्नलिखित प्रकार के लिए उपयोग किया है",
+        "GeoIPDatabases": "GeoIP डेटाबेस",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "नोट: आईपी अनोंय्मिज़ इस प्रदाता द्वारा रिपोर्ट किए गए स्थानों पर कोई प्रभाव नहीं है. आईपी ​​अनोंय्मिज़ के साथ प्रयोग करने से पहले,आप के लिए विषय हो सकता है यह किसी भी गोपनीयता कानून का उल्लंघन नहीं करता है सुनिश्चित करें",
+        "GeoIPServerVarsFound": "Matomo निम्नलिखित GeoIP चर %s का पता लगाता है",
+        "HowToSetupGeoIPIntro": "आप सही जियोलोकेशन सेटअप प्रकट नहीं करते हैं. यह एक उपयोगी सुविधा है और इसके बिना आप अपने दर्शकों के लिए सही और पूरी स्थान की जानकारी नहीं देख सकेंगे. यहाँ है कैसे आपको जल्दी से यह प्रयोग शुरू कर सकते हैं:",
+        "HowToInstallApacheModule": "कैसे मैं अपाचे के लिए GeoIP मॉड्यूल स्थापित करूँ?",
+        "HowToInstallNginxModule": "कैसे मैं nginx के लिए GeoIP मॉड्यूल स्थापित करूँ?",
+        "HttpServerModule": "HTTP सर्वर मॉड्यूल",
+        "InvalidGeoIPUpdatePeriod": "GeoIP updater के लिए अमान्य अवधि:%1$s. मान्य %2$s मान रहे हैं.",
+        "ISPDatabase": "आईएसपी डाटाबेस",
+        "LocationDatabase": "स्थान डाटाबेस",
+        "LocationDatabaseHint": "एक स्थान डेटाबेस या तो एक देश, क्षेत्र या शहर डेटाबेस है.",
+        "UnsupportedArchiveType": "असमर्थित संग्रह प्रकार का सामना करना पड़ा %1$s.",
+        "UpdaterHasNotBeenRun": "updater कभी नहीं चलाया गया",
+        "UpdaterIsNotScheduledToRun": "यह भविष्य में चलाने के लिए निर्धारित नहीं है।",
+        "UpdaterScheduledForNextRun": "संग्रह आदेश निष्पादन: यह अगले क्रॉन कोर के दौरान चलाने के लिए निर्धारित है।",
+        "UpdaterWasLastRun": "Updater %s पर अंतिम रन था.",
+        "UpdaterWillRunNext": "यह अगले %s पर चलने के लिए निर्धारित किया गया है।"
+    }
+}

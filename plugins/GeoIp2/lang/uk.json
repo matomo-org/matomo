@@ -1,0 +1,30 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Не вдається знайти apache_get_modules функцію, мабуть цей веб-сервер це не на Apache.",
+        "CannotFindGeoIPServerVar": "Змінна %s не встановлена. Ваш сервер не може бути налаштований правильно.",
+        "CannotListContent": "Не вдалося перерахувати вміст %1$s: %2$s",
+        "DownloadingDb": "Завантаження %s",
+        "DownloadNewDatabasesEvery": "Оновлювати базу раз в",
+        "FoundApacheModules": "Matomo знайшов наступні модулі Apache",
+        "GeoIPImplHasAccessTo": "Цей варіант реалізації GeoIP має доступ до таких баз даних",
+        "GeoIPDatabases": "Бази даних GeoIP",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Підказка: анонімізація IP не впливає на ефект на отримання локації користувачів таким способом. Перед тим, як використовувати його з анонімізацією IP, переконайтеся, що це не суперечить законодавству вашої країни.",
+        "GeoIPLocationProviderNotRecommended": "Геолокація працює, але ви не використовуєте один з рекомендованих провайдерів.",
+        "GeoIPNoServerVars": "Matomo не може знайти GeoIP %s змінні.",
+        "GeoIPServerVarsFound": "Matomo знайшов наступні змінні GeoIP: %s",
+        "HowToSetupGeoIPIntro": "Здається, що у вас не налаштоване визначено локації відвідувачів з допомогою GeoIP. Це корисна \"штука\" - без неї ви не зможете досить точно визначати місцезнаходження відвідувачів. І ось як ви можете швидко налаштувати все:",
+        "HowToInstallApacheModule": "Як встановити GeoIP модуль для Apache?",
+        "HowToInstallNginxModule": "Як встановити GeoIP модуль для Nginx?",
+        "HttpServerModule": "HTTP Серверний модуль",
+        "InvalidGeoIPUpdatePeriod": "Невірний період для GeoIP оновлення: %1$s. Допустимі значення: %2$s.",
+        "ISPDatabase": "База провайдерів",
+        "LocationDatabase": "Розташування бази даних",
+        "LocationDatabaseHint": "Розташування бази даних країни, регіону або міста.",
+        "UnsupportedArchiveType": "Зустрівся непідтримуваний тип архіву %1$s.",
+        "UpdaterHasNotBeenRun": "Оновлення ніколи не проводилися.",
+        "UpdaterIsNotScheduledToRun": "Це не заплановано до запуску в майбутньому.",
+        "UpdaterScheduledForNextRun": "Це запланований запуск команди core:archive при наступному виконанні cron-завдання.",
+        "UpdaterWasLastRun": "Оновлення останнього запуску в %s.",
+        "UpdaterWillRunNext": "Заплановано наступний запуск на %s."
+    }
+}

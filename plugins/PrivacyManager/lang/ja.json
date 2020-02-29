@@ -8,6 +8,7 @@
         "AnonymizeIpMaskLength": "%1$s バイト- 例. %2$s",
         "AskingForConsent": "同意を求める",
         "ClickHereSettings": "%s 設定はこちらをクリック",
+        "AnonymizeUserId": "ユーザー IDを仮名に置き換える",
         "CurrentDBSize": "現在のデータベースサイズ",
         "DBPurged": "データベースがパージされました。",
         "DeleteBothConfirm": "生データ削除とレポートデータ削除の両方を有効にしようとしています。 これにより、古いアナリティクスデータを表示する機能が完全に削除されます。 これを実行しますか？",

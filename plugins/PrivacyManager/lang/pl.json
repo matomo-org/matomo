@@ -7,6 +7,7 @@
         "AnonymizeIpMaskLength": "%1$s bajt(ów) - np. %2$s",
         "AskingForConsent": "Zapytanie o zgodę",
         "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
+        "AnonymizeUserId": "Zamień ID użytkownika na pseudonim",
         "CurrentDBSize": "Obecny rozmiar bazy danych",
         "DBPurged": "Baza danych wyczyszczona.",
         "DeleteBothConfirm": "Zamierzasz włączyć kasowanie nieobrobionych danych i raportów. To na zawsze pozbawi Cię możliwości przeglądania archiwalnych danych. Czy na pewno chcesz to zrobić?",
