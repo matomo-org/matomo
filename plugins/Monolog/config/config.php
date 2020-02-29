@@ -19,6 +19,7 @@ return array(
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
     ),
     'log.handlers' => DI\factory(function (\DI\Container $c) {
+        // TODO: move all this and related code to a FingersCrossedHandler that can be unit tested
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
         } else {
@@ -27,6 +28,7 @@ return array(
 
         $classes = $c->get('log.handler.classes');
 
+        // TODO: use DI, ini settings
         $logConfig = $c->get(\Piwik\Config::class)->log;
         $enableFingersCrossed = isset($logConfig['enable_fingers_crossed_handler']) && $logConfig['enable_fingers_crossed_handler'] == 1;
         $fingersCrossedStopBuffering = isset($logConfig['fingers_crossed_stop_buffering_on_activation']) && $logConfig['fingers_crossed_stop_buffering_on_activation'] == 1;

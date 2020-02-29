@@ -8,15 +8,19 @@
 
 namespace Piwik\CliMulti;
 
+use Monolog\Logger;
 use Piwik\Application\Environment;
 use Piwik\Access;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\Monolog\Handler\EchoHandler;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -116,7 +120,7 @@ class RequestCommand extends ConsoleCommand
         StaticContainer::clearContainer();
         Log::unsetInstance();
 
-        $this->environment = new Environment(null);
+        $this->environment = new Environment('climulti');
         $this->environment->init();
     }
 
