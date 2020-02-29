@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Monolog\tests\Integration;
 
 use Exception;
+use Monolog\Logger;
 use Piwik\Application\Environment;
 use Piwik\Common;
 use Piwik\Config;
@@ -17,6 +18,7 @@ use Piwik\Db;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\tests\Integration\Fixture\LoggerWrapper;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group Core
@@ -191,6 +193,10 @@ class LogTest extends IntegrationTestCase
 
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)
     {
+        /** @var Logger $logger */
+        $logger = StaticContainer::get(LoggerInterface::class);
+        $logger->reset();
+
         if ($formatMessage) {
             $expectedMessage = sprintf(self::STRING_MESSAGE_FORMAT_SPRINTF, $tag, getmypid(), $expectedMessage);
         }
