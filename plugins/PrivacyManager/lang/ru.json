@@ -6,6 +6,7 @@
         "AnonymizeIpMaskLengtDescription": "Выберите, как много байтов IP-адреса посетителей должно быть скрыто.",
         "AnonymizeIpMaskLength": "%1$s байт(ов), например, %2$s",
         "ClickHereSettings": "Нажмите здесь, чтобы перейти к настройкам: %s.",
+        "AnonymizeUserId": "Заменить ID пользователя всевдонимом",
         "CurrentDBSize": "Текущий размер базы данных",
         "DBPurged": "База данных очищена.",
         "DeleteDataInterval": "Удалять старые данные каждые",
