@@ -287,25 +287,28 @@ class ArchiveInvalidator
         return $invalidationInfo;
     }
 
-    private function getAllPeriodsByYearMonth($period, $dates, $cascadeDown, &$result = [])
+    private function getAllPeriodsByYearMonth($periodOrAll, $dates, $cascadeDown, &$result = [])
     {
-        foreach ($dates as $date) {
-            if ($period === 'range'
-                && strpos($date, ',') === false
-            ) {
-                $date = $date . ',' . $date;
+        $periods = $periodOrAll ? [$periodOrAll] : ['day', 'week', 'month', 'year'];
+        foreach ($periods as $period) {
+            foreach ($dates as $date) {
+                if ($period === 'range'
+                    && strpos($date, ',') === false
+                ) {
+                    $date = $date . ',' . $date;
+                }
+
+                $periodObj = Period\Factory::build($period, $date);
+                $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
+
+                // cascade down
+                if ($cascadeDown) {
+                    $this->addChildPeriodsByYearMonth($result, $periodObj);
+                }
+
+                // cascade up
+                $this->addParentPeriodsByYearMonth($result, $periodObj);
             }
-
-            $periodObj = Period\Factory::build($period, $date);
-            $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
-
-            // cascade down
-            if ($cascadeDown) {
-                $this->addChildPeriodsByYearMonth($result, $periodObj);
-            }
-
-            // cascade up
-            $this->addParentPeriodsByYearMonth($result, $periodObj);
         }
 
         return $result;

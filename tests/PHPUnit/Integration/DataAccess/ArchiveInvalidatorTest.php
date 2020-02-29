@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -266,7 +267,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $countInvalidatedArchives += count($idarchives);
         }
 
-        $this->assertEquals(1, $countInvalidatedArchives);
+        // the day, week, month & year are invalidated
+        $this->assertEquals(4, $countInvalidatedArchives);
     }
 
     public function test_markArchivesAsInvalidated_CorrectlyModifiesDistributedLists()
@@ -290,9 +292,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         );
         $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, 'week');
 
-        $expectedSitesToProcessListContents = array(1, 3, 5);
-        $this->assertEquals($expectedSitesToProcessListContents, $this->getSitesToReprocessListContents());
-
         $expectedArchivesToPurgeListContents = array('2014_12', '2014_01', '2015_01', '2015_03');
         $this->assertEquals($expectedArchivesToPurgeListContents, $this->getArchivesToPurgeListContents());
     }
@@ -309,6 +308,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         if (!empty($segment)) {
             $segment = new Segment($segment, $idSites);
         }
+
+        $data = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_numeric_2015_04') . ' WHERE name like "done%"');
+        print_r($data);
+        exit;
 
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
@@ -767,13 +770,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                      VALUES ($idArchive, 'nb_visits', $idSite, '$dateStart', '$dateEnd', $periodId, NOW()),
                             ($idArchive, '$doneFlag', $idSite, '$dateStart', '$dateEnd', $periodId, NOW())";
         Db::query($sql);
-    }
-
-    private function getSitesToReprocessListContents()
-    {
-        $list = new SitesToReprocessDistributedList();
-        $values = $list->getAll();
-        return array_values($values);
     }
 
     private function getArchivesToPurgeListContents()
