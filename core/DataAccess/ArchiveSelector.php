@@ -66,6 +66,7 @@ class ArchiveSelector
         $plugins = array("VisitsSummary", $requestedPlugin);
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
+        $requestedPluginDoneFlags = Rules::getDoneFlags([$requestedPlugin], $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated, $params);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
@@ -73,27 +74,26 @@ class ArchiveSelector
             return [false, false, false, false];
         }
 
-        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPlugin, $segment);
-        if (!isset($result['idarchive'])
-            || !isset($result['nb_visits'])
-        ) {
-            return [false, false, false, true];
-        }
+        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
 
-        if (!in_array($result['value'], $doneFlagValues)) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, false, false, true];
+        $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
+        $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
+
+        if (isset($result['value'])
+            && !in_array($result['value'], $doneFlagValues)
+        ) { // the archive cannot be considered valid for this request (has wrong done flag value)
+            return [false, $visits, $visitsConverted, true];
         }
 
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
+            && isset($result['idarchive'])
             && Date::factory($result['ts_archived'])->isEarlier(Date::factory($minDatetimeArchiveProcessedUTC))
         ) {
-            return [false, false, false, true];
+            return [false, $visits, $visitsConverted, true];
         }
 
-        $idArchive = $result['idarchive'];
-        $visits = $result['nb_visits'];
-        $visitsConverted = $result['nb_visits_converted'];
+        $idArchive = isset($result['idarchive']) ? $result['idarchive'] : false;
 
         return array($idArchive, $visits, $visitsConverted, true);
     }
@@ -344,10 +344,8 @@ class ArchiveSelector
     }
 
     // TODO: document magic method
-    private static function findArchiveDataWithLatestTsArchived($results, $requestedPlugin, $segment)
+    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
     {
-        $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment);
-
         // find latest idarchive for each done flag
         $idArchives = [];
         foreach ($results as $row) {
@@ -372,10 +370,20 @@ class ArchiveSelector
             }
         }
 
+        // if an  archive is found, but the metric data isn't found, we set the value to 0,
+        // so it won't get returned as false. // TODO: note if this is for BC or not. first check if it is for BC or not.
+        foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
+            if (!empty($idArchives)
+                && !isset($archiveData[$metric])
+            ) {
+                $archiveData[$metric] = 0;
+            }
+        }
+
         // set the idarchive & ts_archived for the archive we're looking for
         foreach ($results as $row) {
             $name = $row['name'];
-            if (in_array($name, $namesRequestedPlugin)) {
+            if (in_array($name, $requestedPluginDoneFlags)) {
                 $archiveData['idarchive'] = $row['idarchive'];
                 $archiveData['ts_archived'] = $row['ts_archived'];
                 $archiveData['value'] = $row['value'];

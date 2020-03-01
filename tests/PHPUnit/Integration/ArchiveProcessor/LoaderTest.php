@@ -40,7 +40,7 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertEquals([false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, false], $archiveInfo);
     }
 
     /**
@@ -55,12 +55,12 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertNotEquals([false, false, false], $archiveInfo);
+        $this->assertNotEquals([false, false, false, false], $archiveInfo);
 
         Config::getInstance()->Debug[$configSetting] = 1;
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals([false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, false], $archiveInfo);
     }
 
     public function getTestDataForLoadExistingArchiveIdFromDbDebugConfig()
@@ -82,7 +82,7 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals(['1', '10', '0'], $archiveInfo);
+        $this->assertEquals(['1', '10', '0', true], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndNewEnough()
@@ -93,7 +93,7 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals(['1', '10', '0'], $archiveInfo);
+        $this->assertEquals(['1', '10', '0', true], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreNewEnough()
@@ -104,7 +104,7 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals([false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, true], $archiveInfo);
     }
 
     private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)

@@ -232,9 +232,10 @@ class Model
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
-        $limit = count($doneFlags) + 2; // total number of rows we could get w/ a single ts_archived
+        // total number of rows we could get w/ a single ts_archived (1 done flag + 2 metrics for each possible done flag)
+        // $limit = count($doneFlags) * 3;
+        // TODO :we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
 
-        // TODO: EXPLAIN it to check for performance
         $sqlQuery = "SELECT idarchive, value, name, ts_archived, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
@@ -244,8 +245,7 @@ class Model
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
                          $timeStampWhere
-                     ORDER BY ts_archived DESC
-                     LIMIT $limit";
+                     ORDER BY ts_archived DESC, idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
         return $results;

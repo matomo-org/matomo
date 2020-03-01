@@ -193,11 +193,15 @@ class Loader
     public function loadExistingArchiveIdFromDb()
     {
         if ($this->isArchivingForcedToTrigger()) {
-            return [false, false, false, false]; // no usable archive found, no existing archive
+            // TODO: lot's log here
+            // return no usable archive found, no existing archive. this will skip invalidation, which should
+            // be fine since we just force archiving. TODO: check this is true?
+            return [false, false, false, false];
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
-        return ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
+        $result = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
+        return $result;
     }
 
     /**
@@ -279,7 +283,7 @@ class Loader
             }
 
             try {
-                $this->invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, array(Date::factory($date)), false);
+                $this->invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, array(Date::factory($date)), $this->params->getPeriod()->getLabel(), $this->params->getSegment());
             } catch (\Exception $e) {
                 Site::clearCache();
                 throw $e;
