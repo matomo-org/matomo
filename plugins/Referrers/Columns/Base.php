@@ -281,7 +281,7 @@ abstract class Base extends VisitDimension
         if (!isset($this->currentUrlParse['query'])
             && !isset($this->currentUrlParse['fragment'])
         ) {
-            return false;
+            return;
         }
         $campaignParameters = Common::getCampaignParameters();
         $this->campaignNames = $campaignParameters[0];
@@ -380,7 +380,7 @@ abstract class Base extends VisitDimension
         if (!empty($this->nameReferrerAnalyzed)
             && !empty($this->keywordReferrerAnalyzed)) {
             // keyword is already set, we skip
-            return true;
+            return;
         }
 
         // Set the Campaign keyword to the keyword found in the Referrer URL if any

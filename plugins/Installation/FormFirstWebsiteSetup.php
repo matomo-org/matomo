@@ -103,6 +103,7 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
 
         // If intl extension is installed, get default currency from timezone country.
         if (!Option::get(API::OPTION_DEFAULT_CURRENCY) && $timezone && class_exists('NumberFormatter')) {
+            $location = [];
             try {
                 $zone = new DateTimeZone($timezone);
                 $location = $zone->getLocation();

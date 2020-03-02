@@ -173,6 +173,8 @@ class RowEvolution
         }
 
         $isComparing = DataComparisonFilter::isCompareParamsPresent();
+        $unmodifiedSeriesLabels = [];
+
         if ($isComparing) {
             $compareDates = Common::getRequestVar('compareDates', [], 'array');
             $comparePeriods = Common::getRequestVar('comparePeriods', [], 'array');

@@ -110,6 +110,7 @@ class HtmlTable extends Visualization
                     // ensure first metric translation is used as label if other dimensions are in separate columns
                     $this->config->addTranslation('label', $this->config->translations[reset($dimensions)]);
                 } else {
+                    $labels = [];
                     // concatenate dimensions if table is shown flattened
                     foreach ($dimensions as $dimension) {
                         $labels[] = $this->config->translations[$dimension];

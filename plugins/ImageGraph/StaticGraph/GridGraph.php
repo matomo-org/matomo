@@ -172,6 +172,9 @@ abstract class GridGraph extends StaticGraph
         );
 
         if ($this->showLegend) {
+            $bulletWidth = 0;
+            // measured using a picture editing software
+            $iconOffsetAboveLabelSymmetryAxis = 0;
             switch ($bulletType) {
                 case LEGEND_FAMILY_LINE:
                     $bulletWidth = self::LEGEND_LINE_BULLET_WIDTH;

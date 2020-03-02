@@ -169,7 +169,7 @@ cd ../../../../../";
             'expected-screenshots',
             'expected-ui-screenshots'
         );
-
+        $downloadTo = '';
         foreach ($possibleSubDirs as $subDir) {
             $downloadTo = PIWIK_DOCUMENT_ROOT . "/plugins/$plugin/tests/UI/$subDir/";
             if (is_dir($downloadTo)) {
