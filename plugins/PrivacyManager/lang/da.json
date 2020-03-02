@@ -6,6 +6,7 @@
         "AnonymizeIpMaskLength": "%1$s bytes - f.eks %2$s",
         "AskingForConsent": "Samtykkeanmodning",
         "ClickHereSettings": "Klik her for at få adgang til %s indstillinger.",
+        "AnonymizeUserId": "Erstat bruger-ID med et pseudonym",
         "CurrentDBSize": "Nuværende databasestørrelse",
         "DBPurged": "Databasen er opryddet.",
         "DeleteDataInterval": "Slet gamle data hver",

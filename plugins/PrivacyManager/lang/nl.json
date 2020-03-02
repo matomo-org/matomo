@@ -7,6 +7,7 @@
         "AnonymizeIpMaskLength": "%1$s byte(s) - bijv. %2$s",
         "AskingForConsent": "Vragen om toestemming",
         "ClickHereSettings": "Klik hier om naar de %s-instellingen te gaan.",
+        "AnonymizeUserId": "Gebruikers-ID vervangen door een pseudoniem",
         "CurrentDBSize": "Huidige databasegrootte",
         "DBPurged": "Database geleegd.",
         "DeleteDataInterval": "Verwijder oude gegevens elke",

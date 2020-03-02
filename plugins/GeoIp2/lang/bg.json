@@ -1,0 +1,28 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Не може да бъде намерена apache_get_modules функцията, което предполага, че това не е Apache сървър.",
+        "CannotFindGeoIPServerVar": "Променливата %s не е зададена. Възможно е сървърът да не е настроен правилно.",
+        "CannotListContent": "Съдържанието за %1$s: %2$s не може да бъде заредено",
+        "DownloadingDb": "Сваляне %s",
+        "DownloadNewDatabasesEvery": "Обновяване на базата от данни на всеки",
+        "FoundApacheModules": "Matomo откри следните Apache модули",
+        "GeoIPImplHasAccessTo": "Тази реализация на GeoIP има достъп до следните типове бази данни",
+        "GeoIPDatabases": "GeoIP база данни",
+        "GeoIPNoServerVars": "Matomo не може да намери GeoIP %s променливи.",
+        "GeoIPServerVarsFound": "Matomo засече следните GeoIP %s променливи",
+        "HowToSetupGeoIPIntro": "Изглежда, че настройката, за определяне на местоположението, не е направена. Това е полезна функция и без нея няма да се вижда точна и пълна информация за местоположението на посетителите. Ето и начин, по който може бързо да започнете да го използвате:",
+        "HowToInstallApacheModule": "Как да инсталирам GeoIP модул за Apache?",
+        "HowToInstallNginxModule": "Как се инсталира GeoIP модул за Nginx?",
+        "HttpServerModule": "HTTP сървърен модул",
+        "InvalidGeoIPUpdatePeriod": "Невалиден период за обновяването на GeoIP: %1$s. Валидните стойности са %2$s.",
+        "ISPDatabase": "ISP база данни",
+        "LocationDatabase": "Местоположение база данни",
+        "LocationDatabaseHint": "Базата от данни указваща местоположение е или за държава, регион или град.",
+        "UnsupportedArchiveType": "Типът архив %1$s не се поддържа.",
+        "UpdaterHasNotBeenRun": "Не е пускана до момента задача за обновяване.",
+        "UpdaterIsNotScheduledToRun": "Не е планирано да се изпълнява в бъдеще.",
+        "UpdaterScheduledForNextRun": "Ще бъде пуснато при следващото изпълнение на archive.php cron.",
+        "UpdaterWasLastRun": "Задача за проверка за обновления е стартирана последно на %s.",
+        "UpdaterWillRunNext": "Следващото пускане е планирано за %s."
+    }
+}

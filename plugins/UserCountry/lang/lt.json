@@ -1,6 +1,5 @@
 {
     "UserCountry": {
-        "AssumingNonApache": "Nepavyksta rasti apache_get_modules funkcijos, numanoma, kad tai ne Apache saityno serveris.",
         "City": "Miestas",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinentas",
@@ -12,20 +11,13 @@
         "country_cat": "Kataloniškai kalbančios bendruomenės",
         "country_o1": "Kita šalis",
         "DistinctCountries": "%s atskirti šalis",
-        "DownloadingDb": "Atsiunčiama %s",
-        "FoundApacheModules": "Matomo rado šiuos Apache modulius",
-        "GeoIPDatabases": "GeoIP duomenų bazės",
-        "GeoIPNoServerVars": "Matomo nepavyko rasti jokių GeoIP %s kintamųjų.",
-        "GeoIPServerVarsFound": "Matomo aptinka šiuos GeoIP %s kintamuosius",
         "GeolocationPageDesc": "Šiame puslapyje galite keisti kaip Matomo nustato lankytojų geografines vietas.",
-        "HowToInstallApacheModule": "Kaip man įdiegti Apache skirtą GeoIP modulį?",
         "Latitude": "Platuma",
         "Latitudes": "Platumos",
         "Location": "Vietovė",
         "Longitude": "Ilguma",
         "Longitudes": "Ilgumos",
         "Region": "Regionas",
-        "SubmenuLocations": "Vietovės",
-        "UnsupportedArchiveType": "Susidurta su nepalaikomu archyvo tipu %1$s."
+        "SubmenuLocations": "Vietovės"
     }
 }
