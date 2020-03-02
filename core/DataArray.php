@@ -79,7 +79,7 @@ class DataArray
      *
      * @return void
      */
-    protected function doSumVisitsMetrics($newRowToAdd, &$oldRowToUpdate)
+    protected function doSumVisitsMetrics(array $newRowToAdd, array &$oldRowToUpdate)
     {
         // Pre 1.2 format: string indexed rows are returned from the DB
         // Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
@@ -135,7 +135,7 @@ class DataArray
      *
      * @return void
      */
-    protected function doSumActionsMetrics($newRowToAdd, &$oldRowToUpdate)
+    protected function doSumActionsMetrics(array $newRowToAdd, array &$oldRowToUpdate)
     {
         // Pre 1.2 format: string indexed rows are returned from the DB
         // Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
@@ -209,7 +209,7 @@ class DataArray
      * @param $newRowToAdd
      * @param $oldRowToUpdate
      */
-    protected function doSumGoalsMetrics($newRowToAdd, &$oldRowToUpdate)
+    protected function doSumGoalsMetrics(array $newRowToAdd, array &$oldRowToUpdate)
     {
         $oldRowToUpdate[Metrics::INDEX_GOAL_NB_CONVERSIONS] += $newRowToAdd[Metrics::INDEX_GOAL_NB_CONVERSIONS];
         $oldRowToUpdate[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED] += $newRowToAdd[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
@@ -275,7 +275,7 @@ class DataArray
      * @param array $oldRowToUpdate
      * @return void
      */
-    protected function doSumEventsMetrics($newRowToAdd, &$oldRowToUpdate)
+    protected function doSumEventsMetrics(array $newRowToAdd, array &$oldRowToUpdate)
     {
         $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
         $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
@@ -373,7 +373,7 @@ class DataArray
      * @param array $data Passed by reference, two new columns
      *              will be added: total conversions, and total revenue, for all goals for this label/row
      */
-    protected function enrichWithConversions(&$data)
+    protected function enrichWithConversions(array &$data)
     {
         foreach ($data as &$values) {
             if (!isset($values[Metrics::INDEX_GOALS])) {

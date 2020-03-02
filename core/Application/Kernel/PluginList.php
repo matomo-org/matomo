@@ -140,7 +140,7 @@ class PluginList
      * @param array[] $pluginJsonCache  For internal testing only
      * @return \string[]
      */
-    public function sortPluginsAndRespectDependencies(array $plugins, $pluginJsonCache = array())
+    public function sortPluginsAndRespectDependencies(array $plugins, array $pluginJsonCache = array())
     {
         $global = $this->getPluginsBundledWithPiwik();
 

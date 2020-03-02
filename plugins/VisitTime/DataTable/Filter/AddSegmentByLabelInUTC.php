@@ -40,7 +40,7 @@ class AddSegmentByLabelInUTC extends DataTable\Filter\AddSegmentValue
         parent::__construct($table, function ($label) use ($self) {
             $hour = str_pad($label, 2, 0, STR_PAD_LEFT);
 
-            return $self->convertHourToUtc($hour);
+            return $self->convertHourToUTC($hour);
         });
     }
 

@@ -169,7 +169,7 @@ class DataTableFactory
      *                             labels.
      * @return DataTable|DataTable\Map
      */
-    public function make($index, $resultIndices)
+    public function make(array $index, array $resultIndices)
     {
         $keyMetadata = $this->getDefaultMetadata();
 
@@ -204,7 +204,7 @@ class DataTableFactory
      * @return DataTable|DataTable\Map
      * @throws \Exception
      */
-    public function makeMerged($index, $resultIndices)
+    public function makeMerged(array $index, array $resultIndices)
     {
         if (!$this->isNumericDataType()) {
             throw new \Exception('This method is supposed to work with non-numeric data types but it is not tested. To use it, remove this exception and write tests to be sure it works.');

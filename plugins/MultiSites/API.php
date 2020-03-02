@@ -318,7 +318,7 @@ class API extends \Piwik\Plugin\API
      *                          metrics for.
      * @throws Exception
      */
-    private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics)
+    private function calculateEvolutionPercentages($currentData, $pastData, array $apiMetrics)
     {
         if (get_class($currentData) != get_class($pastData)) { // sanity check for regressions
             throw new Exception("Expected \$pastData to be of type " . get_class($currentData) . " - got "
@@ -409,7 +409,7 @@ class API extends \Piwik\Plugin\API
         return $metrics;
     }
 
-    private function preformatApiMetricsForTotalsCalculation($apiMetrics)
+    private function preformatApiMetricsForTotalsCalculation(array $apiMetrics)
     {
         $metrics = array();
         foreach ($apiMetrics as $label => $metricsInfo) {
@@ -459,7 +459,7 @@ class API extends \Piwik\Plugin\API
      * @param DataTable $dataTable
      * @param DataTable $pastTable
      */
-    private function setPastTotalVisitsMetadata($dataTable, $pastTable)
+    private function setPastTotalVisitsMetadata(DataTable $dataTable, $pastTable)
     {
         if ($pastTable instanceof DataTable) {
             $total  = 0;
@@ -480,7 +480,7 @@ class API extends \Piwik\Plugin\API
      * @param Row[] $rows
      * @return mixed
      */
-    private function filterRowsForTotalsCalculation($rows)
+    private function filterRowsForTotalsCalculation(array $rows)
     {
         /**
          * Triggered to filter / restrict which rows should be included in the MultiSites (All Websites Dashboard)
@@ -514,7 +514,7 @@ class API extends \Piwik\Plugin\API
         return 'last_period_' . $name;
     }
 
-    private function populateLabel($dataTable)
+    private function populateLabel(DataTable $dataTable)
     {
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {

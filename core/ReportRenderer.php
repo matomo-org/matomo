@@ -55,7 +55,7 @@ abstract class ReportRenderer extends BaseFactory
         $this->idSite = $idSite;
     }
 
-    public function setReport($report)
+    public function setReport(array $report)
     {
         $this->report = $report;
     }

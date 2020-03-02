@@ -101,7 +101,7 @@ class AssetManager extends Singleton
     /**
      * @param UIAssetCacheBuster $cacheBuster
      */
-    public function setCacheBuster($cacheBuster)
+    public function setCacheBuster(UIAssetCacheBuster $cacheBuster)
     {
         $this->cacheBuster = $cacheBuster;
     }
@@ -109,7 +109,7 @@ class AssetManager extends Singleton
     /**
      * @param UIAssetFetcher $minimalStylesheetFetcher
      */
-    public function setMinimalStylesheetFetcher($minimalStylesheetFetcher)
+    public function setMinimalStylesheetFetcher(UIAssetFetcher $minimalStylesheetFetcher)
     {
         $this->minimalStylesheetFetcher = $minimalStylesheetFetcher;
     }
@@ -117,7 +117,7 @@ class AssetManager extends Singleton
     /**
      * @param Theme $theme
      */
-    public function setTheme($theme)
+    public function setTheme(Theme $theme)
     {
         $this->theme = $theme;
     }
@@ -299,7 +299,7 @@ class AssetManager extends Singleton
      * @param UIAsset $mergedAsset
      * @return UIAsset
      */
-    private function getMergedJavascript($assetFetcher, $mergedAsset)
+    private function getMergedJavascript(UIAssetFetcher $assetFetcher, UIAsset $mergedAsset)
     {
         $assetMerger = new JScriptUIAssetMerger($mergedAsset, $assetFetcher, $this->cacheBuster);
 

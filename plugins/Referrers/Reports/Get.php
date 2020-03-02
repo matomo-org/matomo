@@ -131,7 +131,7 @@ class Get extends Base
      * @return string
      * @api
      */
-    public static function getCalendarPrettyDate($period)
+    public static function getCalendarPrettyDate(Period $period)
     {
         if ($period instanceof Month) {
             // show month name when period is for a month

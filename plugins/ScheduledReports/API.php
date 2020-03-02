@@ -1017,7 +1017,7 @@ class API extends \Piwik\Plugin\API
         return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('SegmentEditor');
     }
 
-    private function getAttachments($reportRenderer, $report, $processedReports, $prettyDate)
+    private function getAttachments(ReportRenderer $reportRenderer, array $report, $processedReports, $prettyDate)
     {
         return $reportRenderer->getAttachments($report, $processedReports, $prettyDate);
     }

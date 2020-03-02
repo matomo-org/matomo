@@ -85,7 +85,7 @@ class EventDispatcher
      *                            can be either the Plugin objects themselves
      *                            or their string names.
      */
-    public function postEvent($eventName, $params, $pending = false, $plugins = null)
+    public function postEvent($eventName, array $params, $pending = false, $plugins = null)
     {
         if ($pending) {
             $this->pendingEvents[] = array($eventName, $params);

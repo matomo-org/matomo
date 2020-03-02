@@ -55,7 +55,7 @@ class DataTableSummaryRow extends Row
      *
      * @param DataTable $table
      */
-    private function sumTable($table)
+    private function sumTable(DataTable $table)
     {
         $metadata = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
         $enableCopyMetadata = false;

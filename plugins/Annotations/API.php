@@ -286,7 +286,7 @@ class API extends \Piwik\Plugin\API
      * @param array $annotation The annotation.
      * @throws Exception if the current user is not allowed to modify/delete $annotation.
      */
-    private function checkUserCanModifyOrDelete($idSite, $annotation)
+    private function checkUserCanModifyOrDelete($idSite, array $annotation)
     {
         if (!$annotation['canEditOrDelete']) {
             throw new Exception(Piwik::translate('Annotations_YouCannotModifyThisNote'));

@@ -268,7 +268,7 @@ class Db
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return \Zend_Db_Statement
      */
-    public static function query($sql, $parameters = array())
+    public static function query($sql, array $parameters = array())
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -289,7 +289,7 @@ class Db
      * @return array The fetched rows, each element is an associative array mapping column names
      *               with column values.
      */
-    public static function fetchAll($sql, $parameters = array())
+    public static function fetchAll($sql, array $parameters = array())
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -310,7 +310,7 @@ class Db
      * @return array The fetched row, each element is an associative array mapping column names
      *               with column values.
      */
-    public static function fetchRow($sql, $parameters = array())
+    public static function fetchRow($sql, array $parameters = array())
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -331,7 +331,7 @@ class Db
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return string
      */
-    public static function fetchOne($sql, $parameters = array())
+    public static function fetchOne($sql, array $parameters = array())
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -356,7 +356,7 @@ class Db
      *                     'col1value2' => array('col2' => '...', 'col3' => ...))
      *               ```
      */
-    public static function fetchAssoc($sql, $parameters = array())
+    public static function fetchAssoc($sql, array $parameters = array())
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -388,7 +388,7 @@ class Db
      * @param array $parameters Parameters to bind for each query.
      * @return int The total number of rows deleted.
      */
-    public static function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
+    public static function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, array $parameters = array())
     {
         $orderByClause = $orderBy ? "ORDER BY $orderBy" : "";
 
@@ -588,7 +588,7 @@ class Db
      *
      * @return string
      */
-    public static function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchFirst($sql, $first, $last, $step, array $params = array())
     {
         $result = false;
 
@@ -626,7 +626,7 @@ class Db
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      * @return array An array of primitive values.
      */
-    public static function segmentedFetchOne($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchOne($sql, $first, $last, $step, array $params = array())
     {
         $result = array();
 
@@ -665,7 +665,7 @@ class Db
      * @return array An array of rows that includes the result set of every smaller
      *               query.
      */
-    public static function segmentedFetchAll($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchAll($sql, $first, $last, $step, array $params = array())
     {
         $result = array();
 
@@ -702,7 +702,7 @@ class Db
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      */
-    public static function segmentedQuery($sql, $first, $last, $step, $params = array())
+    public static function segmentedQuery($sql, $first, $last, $step, array $params = array())
     {
         if ($step > 0) {
             for ($i = $first; $i <= $last; $i += $step) {

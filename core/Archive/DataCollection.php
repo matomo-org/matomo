@@ -183,7 +183,7 @@ class DataCollection
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
      * @return array
      */
-    public function getIndexedArray($resultIndices)
+    public function getIndexedArray(array $resultIndices)
     {
         $indexKeys = array_keys($resultIndices);
 
@@ -220,7 +220,7 @@ class DataCollection
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
      * @return DataTable|DataTable\Map
      */
-    public function getDataTable($resultIndices)
+    public function getDataTable(array $resultIndices)
     {
         $dataTableFactory = new DataTableFactory(
             $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
@@ -237,7 +237,7 @@ class DataCollection
      * @return DataTable|DataTable\Map
      * @throws Exception
      */
-    public function getMergedDataTable($resultIndices)
+    public function getMergedDataTable(array $resultIndices)
     {
         $dataTableFactory = new DataTableFactory(
             $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
@@ -267,7 +267,7 @@ class DataCollection
      * @throws Exception
      * @return DataTable|DataTable\Map
      */
-    public function getExpandedDataTable($resultIndices, $idSubTable = null, $depth = null, $addMetadataSubTableId = false)
+    public function getExpandedDataTable(array $resultIndices, $idSubTable = null, $depth = null, $addMetadataSubTableId = false)
     {
         if ($this->dataType != 'blob') {
             throw new Exception("DataCollection: cannot call getExpandedDataTable with "
@@ -295,7 +295,7 @@ class DataCollection
      * @param array $data The data row.
      * @return array
      */
-    public static function getDataRowMetadata($data)
+    public static function getDataRowMetadata(array $data)
     {
         if (isset($data[self::METADATA_CONTAINER_ROW_KEY])) {
             return $data[self::METADATA_CONTAINER_ROW_KEY];
@@ -309,7 +309,7 @@ class DataCollection
      *
      * @param array $data The data row.
      */
-    public static function removeMetadataFromDataRow(&$data)
+    public static function removeMetadataFromDataRow(array &$data)
     {
         unset($data[self::METADATA_CONTAINER_ROW_KEY]);
     }
@@ -324,7 +324,7 @@ class DataCollection
      * @param array $metadataNamesToIndexBy List of metadata names to index archive data by.
      * @return array
      */
-    private function createOrderedIndex($metadataNamesToIndexBy)
+    private function createOrderedIndex(array $metadataNamesToIndexBy)
     {
         $result = array();
 
@@ -352,7 +352,7 @@ class DataCollection
     /**
      * Puts an archive data row in an index.
      */
-    private function putRowInIndex(&$index, $metadataNamesToIndexBy, $row, $idSite, $period)
+    private function putRowInIndex(&$index, array $metadataNamesToIndexBy, $row, $idSite, $period)
     {
         $currentLevel = & $index;
 

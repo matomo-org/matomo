@@ -65,7 +65,7 @@ class Row extends \ArrayObject
      *                                                                  // (but in the row only the ID will be stored)
      *                       )
      */
-    public function __construct($row = array())
+    public function __construct(array $row = array())
     {
         if (isset($row[self::COLUMNS])) {
             $this->exchangeArray($row[self::COLUMNS]);
@@ -339,7 +339,7 @@ class Row extends \ArrayObject
      *
      * @param array $columns eg, `array('label' => 'www.php.net', 'nb_visits' => 15894)`
      */
-    public function setColumns($columns)
+    public function setColumns(array $columns)
     {
         $this->exchangeArray($columns);
     }

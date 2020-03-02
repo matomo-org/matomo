@@ -751,7 +751,7 @@ class Piwik
      *                            plugin observers will be executed.
      * @api
      */
-    public static function postEvent($eventName, $params = array(), $pending = false, $plugins = null)
+    public static function postEvent($eventName, array $params = array(), $pending = false, $plugins = null)
     {
         EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
     }

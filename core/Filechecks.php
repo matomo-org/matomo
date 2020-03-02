@@ -36,7 +36,7 @@ class Filechecks
      * @param array $directoriesToCheck array of directories to check - if not given default Piwik directories that needs write permission are checked
      * @return array  directory name => true|false (is writable)
      */
-    public static function checkDirectoriesWritable($directoriesToCheck)
+    public static function checkDirectoriesWritable(array $directoriesToCheck)
     {
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {

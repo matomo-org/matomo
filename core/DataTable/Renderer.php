@@ -208,7 +208,7 @@ abstract class Renderer extends BaseFactory
      * @param array $names
      * @return array
      */
-    protected function translateColumnNames($names)
+    protected function translateColumnNames(array $names)
     {
         if (!$this->apiMethod) {
             return $names;
@@ -343,7 +343,7 @@ abstract class Renderer extends BaseFactory
      * @return bool
      */
     protected static function shouldWrapArrayBeforeRendering(
-        $array, $wrapSingleValues = true, $isAssociativeArray = null)
+        array $array, $wrapSingleValues = true, $isAssociativeArray = null)
     {
         if (empty($array)) {
             return false;
