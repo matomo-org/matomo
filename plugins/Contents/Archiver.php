@@ -78,9 +78,9 @@ class Archiver extends \Piwik\Plugin\Archiver
                 log_action_content_piece.name as contentPiece,
                 log_action_content_name.name as contentName,
 
-				count(distinct log_link_visit_action.idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
-				count(distinct log_link_visit_action.idvisitor) as `" . Metrics::INDEX_NB_UNIQ_VISITORS . "`,
-				count(*) as `" . Metrics::INDEX_CONTENT_NB_IMPRESSIONS . "`
+                count(distinct log_link_visit_action.idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
+                count(distinct log_link_visit_action.idvisitor) as `" . Metrics::INDEX_NB_UNIQ_VISITORS . "`,
+                count(*) as `" . Metrics::INDEX_CONTENT_NB_IMPRESSIONS . "`
         ";
 
         $from = array(
@@ -135,7 +135,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 log_action_content_interaction.name as contentInteraction,
                 log_action_content_piece.name as contentPiece,
 
-				count(*) as `" . Metrics::INDEX_CONTENT_NB_INTERACTIONS . "`
+                count(*) as `" . Metrics::INDEX_CONTENT_NB_INTERACTIONS . "`
         ";
 
         $from = array(

@@ -53,8 +53,8 @@ class DocumentationGenerator
         list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls = '', $displayTitlesAsAngularDirective = true);
 
         return "<div piwik-content-block content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
-				$toc</div>
-				$str";
+                $toc</div>
+                $str";
     }
 
     /**
@@ -69,8 +69,8 @@ class DocumentationGenerator
         list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective = false);
 
         return "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>
-				$toc
-				$str";
+                $toc
+                $str";
     }
 
     protected function prepareModuleToDisplay($moduleName)

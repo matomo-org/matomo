@@ -69,7 +69,7 @@ return array(
     'EGP' => array('ج.م', 'Egyptian pound'),
     'ERN' => array('Nfk', 'Eritrean nakfa'),
     'ETB' => array('Br', 'Ethiopian birr'),
-//			'EUR' => array('€', 'Euro'),
+//  'EUR' => array('€', 'Euro'),
     'FKP' => array('£', 'Falkland Islands pound'),
     'FJD' => array('$', 'Fijian dollar'),
     'GMD' => array('D', 'Gambian dalasi'),

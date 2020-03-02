@@ -152,12 +152,12 @@ class LogDataPurger
         // select highest idvisit to delete from
         $dateStart = Date::factory("today")->subDay($deleteLogsOlderThan);
         $sql = "SELECT idvisit
-		          FROM $logVisit
-		         WHERE '" . $dateStart->toString('Y-m-d H:i:s') . "' > visit_last_action_time
-		           AND idvisit <= ?
-		           AND idvisit > ?
-		      ORDER BY idvisit DESC
-		         LIMIT 1";
+                  FROM $logVisit
+                 WHERE '" . $dateStart->toString('Y-m-d H:i:s') . "' > visit_last_action_time
+                   AND idvisit <= ?
+                   AND idvisit > ?
+              ORDER BY idvisit DESC
+                 LIMIT 1";
 
         return Db::segmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
     }

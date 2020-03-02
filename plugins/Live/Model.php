@@ -122,65 +122,65 @@ class Model
             $visits = $readerDb->fetchAll($sql, $bind);
         } catch (Exception $e) {
             $this->handleMaxExecutionTimeError($readerDb, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
-	        throw $e;
+            throw $e;
         }
         return $visits;
     }
 
-	/**
-	 * @param \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db $readerDb
-	 * @param Exception $e
-	 * @param $sql
-	 * @param array $bind
-	 * @param $segment
-	 * @param $dateStart
-	 * @param $dateEnd
-	 * @param $minTimestamp
-	 * @param $limit
-	 *
-	 * @throws MaxExecutionTimeExceededException
-	 */
+    /**
+     * @param \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db $readerDb
+     * @param Exception $e
+     * @param $sql
+     * @param array $bind
+     * @param $segment
+     * @param $dateStart
+     * @param $dateEnd
+     * @param $minTimestamp
+     * @param $limit
+     *
+     * @throws MaxExecutionTimeExceededException
+     */
     public function handleMaxExecutionTimeError($readerDb, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
     {
-	    // we also need to check for the 'maximum statement execution time exceeded' text as the query might be
-	    // aborted at different stages and we can't really know all the possible codes at which it may be aborted etc
-	    $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
-	                               || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-	                               || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+        // we also need to check for the 'maximum statement execution time exceeded' text as the query might be
+        // aborted at different stages and we can't really know all the possible codes at which it may be aborted etc
+        $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
+                                   || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
+                                   || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
 
-	    if ($isMaxExecutionTimeError) {
-		    $message = '';
+        if ($isMaxExecutionTimeError) {
+            $message = '';
 
-		    if ($this->isLookingAtMoreThanOneDay($dateStart, $dateEnd, $minTimestamp)) {
-			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonDateRange');
-		    }
+            if ($this->isLookingAtMoreThanOneDay($dateStart, $dateEnd, $minTimestamp)) {
+                $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonDateRange');
+            }
 
-		    if (!empty($segment)) {
-			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonSegment');
-		    }
+            if (!empty($segment)) {
+                $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonSegment');
+            }
 
-		    $limitThatCannotBeSelectedInUiButOnlyApi = 550;
-		    if ($limit > $limitThatCannotBeSelectedInUiButOnlyApi) {
-			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededLimit');
-		    }
+            $limitThatCannotBeSelectedInUiButOnlyApi = 550;
+            if ($limit > $limitThatCannotBeSelectedInUiButOnlyApi) {
+                $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededLimit');
+            }
 
-		    if (empty($message)) {
-			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonUnknown');
-		    }
+            if (empty($message)) {
+                $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonUnknown');
+            }
 
-		    $message = Piwik::translate('Live_QueryMaxExecutionTimeExceeded') . ' ' . $message;
+            $message = Piwik::translate('Live_QueryMaxExecutionTimeExceeded') . ' ' . $message;
 
-		    $params = array(
-			    'sql' => $sql, 'bind' => $bind, 'segment' => $segment, 'limit' => $limit
-		    );
+            $params = array(
+                'sql' => $sql, 'bind' => $bind, 'segment' => $segment, 'limit' => $limit
+            );
 
-		    /**
-		     * @ignore
-		     * @internal
-		     */
-		    Piwik::postEvent('Live.queryMaxExecutionTimeExceeded', array($params));
-		    throw new MaxExecutionTimeExceededException($message);
-	    }
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('Live.queryMaxExecutionTimeExceeded', array($params));
+            throw new MaxExecutionTimeExceededException($message);
+        }
     }
 
     /**
@@ -637,7 +637,7 @@ class Model
 
         if (count($where) > 0) {
             $where = join("
-				AND ", $where);
+                AND ", $where);
         } else {
             $where = false;
         }

@@ -1,12 +1,12 @@
 {% if form_data.errors %}
-	<div class="alert alert-warning">
-		<strong>{{ 'Installation_PleaseFixTheFollowingErrors'|translate }}:</strong>
-		<ul>
+    <div class="alert alert-warning">
+        <strong>{{ 'Installation_PleaseFixTheFollowingErrors'|translate }}:</strong>
+        <ul>
             {% for data in form_data.errors %}
-				<li>{{ data|raw }}</li>
+                <li>{{ data|raw }}</li>
             {% endfor %}
-		</ul>
-	</div>
+        </ul>
+    </div>
 {% endif %}
 
 <form {{ form_data.attributes|raw }}>

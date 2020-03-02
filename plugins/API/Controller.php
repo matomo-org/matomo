@@ -105,20 +105,20 @@ class Controller extends \Piwik\Plugin\Controller
                 : '';
             $restrictedToAdmin = isset($segment['permission']) ? '<br/>Note: This segment can only be used by an Admin user' : '';
             $output .= '<tr>
-							<td class="segmentString">' . $segment['segment'] . '</td>
-							<td class="segmentName">' . $segment['name'] . $restrictedToAdmin . '<br/>' . $exampleValues . ' </td>
-						</tr>';
+                            <td class="segmentString">' . $segment['segment'] . '</td>
+                            <td class="segmentName">' . $segment['name'] . $restrictedToAdmin . '<br/>' . $exampleValues . ' </td>
+                        </tr>';
 
             // Show only 2 custom variables and display message for rest
             if ($customVariableWillBeDisplayed) {
                 $customVariables++;
                 if ($customVariables == count($onlyDisplay)) {
                     $output .= '<tr><td colspan="2"> There are 5 custom variables available, so you can segment across any segment name and value range.
-    						<br/>For example, <code>customVariableName1==Type;customVariableValue1==Customer</code>
-    						<br/>Returns all visitors that have the Custom Variable "Type" set to "Customer".
-    						<br/>Custom Variables of scope "page" can be queried separately. For example, to query the Custom Variable of scope "page",
-    						<br/>stored in index 1, you would use the segment <code>customVariablePageName1==ArticleLanguage;customVariablePageValue1==FR</code>
-    						</td></tr>';
+                            <br/>For example, <code>customVariableName1==Type;customVariableValue1==Customer</code>
+                            <br/>Returns all visitors that have the Custom Variable "Type" set to "Customer".
+                            <br/>Custom Variables of scope "page" can be queried separately. For example, to query the Custom Variable of scope "page",
+                            <br/>stored in index 1, you would use the segment <code>customVariablePageName1==ArticleLanguage;customVariablePageValue1==FR</code>
+                            </td></tr>';
                 }
             }
 
@@ -130,16 +130,16 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         return "
-		<strong>Dimensions</strong>
-		<table>
-		$tableDimensions
-		</table>
-		<br/>
-		<strong>Metrics</strong>
-		<table>
-		$tableMetrics
-		</table>
-		";
+        <strong>Dimensions</strong>
+        <table>
+        $tableDimensions
+        </table>
+        <br/>
+        <strong>Metrics</strong>
+        <table>
+        $tableMetrics
+        </table>
+        ";
     }
 
     public function glossary()

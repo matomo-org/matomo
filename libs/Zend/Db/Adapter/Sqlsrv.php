@@ -437,9 +437,9 @@ class Zend_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Abstract
         $sql    = "exec sp_columns @table_name = " . $this->quoteIdentifier($tableName, true);
         $stmt   = $this->query($sql);
         $result = $stmt->fetchAll(Zend_Db::FETCH_NUM);
-		
-		// ZF-7698
-		$stmt->closeCursor();
+
+        // ZF-7698
+        $stmt->closeCursor();
 
         if (count($result) == 0) {
             return array();

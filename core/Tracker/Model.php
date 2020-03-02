@@ -100,8 +100,8 @@ class Model
     public function getAllItemsCurrentlyInTheCart($goal, $defaultIdOrder)
     {
         $sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder as idorder_original_value
-				FROM " . Common::prefixTable('log_conversion_item') . "
-				WHERE idvisit = ? AND (idorder = ? OR idorder = ?)";
+                FROM " . Common::prefixTable('log_conversion_item') . "
+                WHERE idvisit = ? AND (idorder = ? OR idorder = ?)";
 
         $bind = array(
             $goal['idvisit'],
@@ -377,10 +377,10 @@ class Model
 
         // Two use cases:
         // 1) there is no visitor ID so we try to match only on config_id (heuristics)
-        // 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
+        //      Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
         //        importing server access logs with import_logs.py, etc.
-        // 		In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
-        // 		this page view to the wrong visitor, but this is better than creating artificial visits.
+        //      In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
+        //      this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
         $configIdWhere = "visit_last_action_time >= ? AND visit_last_action_time <= ? AND idsite = ?";

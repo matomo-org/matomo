@@ -115,32 +115,32 @@ var piwikHelper = {
         return escape(value);
     },
 
-	/**
-	 * Add break points to a string so that it can be displayed more compactly
-	 */
-	addBreakpoints: function(text, breakpointMarkup)
-	{
-		return text.replace(/([\/&=?\.%#:_-])/g, '$1' +
-			(typeof breakpointMarkup == 'undefined' ? '<wbr>&#8203;' : breakpointMarkup));
-			 // &#8203; is for internet explorer
-	},
+    /**
+     * Add break points to a string so that it can be displayed more compactly
+     */
+    addBreakpoints: function(text, breakpointMarkup)
+    {
+        return text.replace(/([\/&=?\.%#:_-])/g, '$1' +
+            (typeof breakpointMarkup == 'undefined' ? '<wbr>&#8203;' : breakpointMarkup));
+             // &#8203; is for internet explorer
+    },
 
-	/**
-	 * Add breakpoints to a URL
-	 * urldecodes and encodes htmlentities to display utf8 urls without XSS vulnerabilities
-	 */
-	addBreakpointsToUrl: function(url)
-	{
-		try {
-			url = decodeURIComponent(url);
-		} catch (e) {
-			// might throw "URI malformed"
-		}
-		url = piwikHelper.addBreakpoints(url, '|||');
-		url = $(document.createElement('p')).text(url).html();
-		url = url.replace(/\|\|\|/g, '<wbr />&#8203;'); // &#8203; is for internet explorer
-		return url;
-	},
+    /**
+     * Add breakpoints to a URL
+     * urldecodes and encodes htmlentities to display utf8 urls without XSS vulnerabilities
+     */
+    addBreakpointsToUrl: function(url)
+    {
+        try {
+            url = decodeURIComponent(url);
+        } catch (e) {
+            // might throw "URI malformed"
+        }
+        url = piwikHelper.addBreakpoints(url, '|||');
+        url = $(document.createElement('p')).text(url).html();
+        url = url.replace(/\|\|\|/g, '<wbr />&#8203;'); // &#8203; is for internet explorer
+        return url;
+    },
 
     getAngularDependency: function (dependency) {
         return angular.element(document).injector().get(dependency);

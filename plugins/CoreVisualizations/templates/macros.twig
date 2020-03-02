@@ -29,7 +29,7 @@
             {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|rawSafeDecoded|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}
             {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
         </div>
-	<div>
+    <div>
         {% for groupName, group in sparkline.metrics %}
             {% if groupName is not empty %}<span class="metric-group-title">{{ groupName }}</span>{% endif %}
             {% for metric in group %}
@@ -48,6 +48,6 @@
         {% if sparkline.evolution is defined %}
             {{ _self.sparklineEvolution(sparkline.evolution) }}
         {% endif %}
-	</div>
+    </div>
     </div>
 {% endmacro %}

@@ -51,12 +51,12 @@ class Contents extends \Piwik\Plugin
         $fields[] = 'log_action_content_target.name as contentTarget';
         $fields[] = 'log_action_content_interaction.name as contentInteraction';
         $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_name
-					ON  log_link_visit_action.idaction_content_name = log_action_content_name.idaction';
+                    ON  log_link_visit_action.idaction_content_name = log_action_content_name.idaction';
         $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_piece
-					ON  log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction';
+                    ON  log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction';
         $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_target
-					ON  log_link_visit_action.idaction_content_target = log_action_content_target.idaction';
+                    ON  log_link_visit_action.idaction_content_target = log_action_content_target.idaction';
         $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_interaction
-					ON  log_link_visit_action.idaction_content_interaction = log_action_content_interaction.idaction';
+                    ON  log_link_visit_action.idaction_content_interaction = log_action_content_interaction.idaction';
     }
 }

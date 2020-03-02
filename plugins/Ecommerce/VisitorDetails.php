@@ -117,13 +117,13 @@ class VisitorDetails extends VisitorDetailsAbstract
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
                     COUNT(*) as lifeTimeConversions,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
-					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
-					    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
-					    ON log_visit.idvisit = log_conversion.idvisit
-					WHERE
-					        log_visit.idsite = ?
-					    AND log_visit.idvisitor = ?
-						AND log_conversion.idgoal = " . $ecommerceIdGoal . "
+                    FROM  " . Common::prefixTable('log_visit') . " AS log_visit
+                        LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
+                        ON log_visit.idvisit = log_conversion.idvisit
+                    WHERE
+                            log_visit.idsite = ?
+                        AND log_visit.idvisitor = ?
+                        AND log_conversion.idgoal = " . $ecommerceIdGoal . "
         ";
         return $sql;
     }
@@ -137,26 +137,26 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function queryEcommerceConversionsForVisits($idVisits)
     {
         $sql = "SELECT
-						log_conversion.idvisit,
-						case idgoal when " . GoalManager::IDGOAL_CART
+                        log_conversion.idvisit,
+                        case idgoal when " . GoalManager::IDGOAL_CART
             . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
-						idorder as orderId,
-						" . LogAggregator::getSqlRevenue('revenue') . " as revenue,
-						" . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
-						" . LogAggregator::getSqlRevenue('revenue_tax') . " as revenueTax,
-						" . LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
-						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
-						items as items,
-						log_conversion.server_time as serverTimePretty,
-						log_conversion.idlink_va,
-						log_link_visit_action.idpageview
-					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-		       LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-		              ON log_link_visit_action.idlink_va = log_conversion.idlink_va
-					WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
-						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY log_conversion.idvisit, log_conversion.server_time ASC";
+                        idorder as orderId,
+                        " . LogAggregator::getSqlRevenue('revenue') . " as revenue,
+                        " . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
+                        " . LogAggregator::getSqlRevenue('revenue_tax') . " as revenueTax,
+                        " . LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
+                        " . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
+                        items as items,
+                        log_conversion.server_time as serverTimePretty,
+                        log_conversion.idlink_va,
+                        log_link_visit_action.idpageview
+                    FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
+               LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+                      ON log_link_visit_action.idlink_va = log_conversion.idlink_va
+                    WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
+                        AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
+                    ORDER BY log_conversion.idvisit, log_conversion.server_time ASC";
         $ecommerceDetails = $this->getDb()->fetchAll($sql);
         return $ecommerceDetails;
     }
@@ -183,21 +183,21 @@ class VisitorDetails extends VisitorDetailsAbstract
         $categoryJoins = implode("\n", $categoryJoins);
 
         $sql = "SELECT
-							log_action_sku.name as itemSKU,
-							log_action_name.name as itemName,
-							$categorySelects,
-							" . LogAggregator::getSqlRevenue('price') . " as price,
-							quantity as quantity
-						FROM " . Common::prefixTable('log_conversion_item') . "
-							INNER JOIN " . Common::prefixTable('log_action') . " AS log_action_sku
-							ON  idaction_sku = log_action_sku.idaction
-							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
-							ON  idaction_name = log_action_name.idaction
-							$categoryJoins
-						WHERE idvisit = ?
-							AND idorder = ?
-							AND deleted = 0
-				";
+                            log_action_sku.name as itemSKU,
+                            log_action_name.name as itemName,
+                            $categorySelects,
+                            " . LogAggregator::getSqlRevenue('price') . " as price,
+                            quantity as quantity
+                        FROM " . Common::prefixTable('log_conversion_item') . "
+                            INNER JOIN " . Common::prefixTable('log_action') . " AS log_action_sku
+                            ON  idaction_sku = log_action_sku.idaction
+                            LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
+                            ON  idaction_name = log_action_name.idaction
+                            $categoryJoins
+                        WHERE idvisit = ?
+                            AND idorder = ?
+                            AND deleted = 0
+                ";
 
         $bind = array($idVisit, $idOrder);
 

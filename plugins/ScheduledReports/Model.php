@@ -72,23 +72,23 @@ class Model
     public static function install()
     {
         $reportTable = "`idreport` INT(11) NOT NULL AUTO_INCREMENT,
-					    `idsite` INTEGER(11) NOT NULL,
-					    `login` VARCHAR(100) NOT NULL,
-					    `description` VARCHAR(255) NOT NULL,
-					    `idsegment` INT(11),
-					    `period` VARCHAR(10) NOT NULL,
-					    `hour` tinyint NOT NULL default 0,
-					    `type` VARCHAR(10) NOT NULL,
-					    `format` VARCHAR(10) NOT NULL,
-					    `reports` TEXT NOT NULL,
-					    `parameters` TEXT NULL,
-					    `ts_created` TIMESTAMP NULL,
-					    `ts_last_sent` TIMESTAMP NULL,
-					    `deleted` tinyint(4) NOT NULL default 0,
-					    `evolution_graph_within_period` TINYINT(4) NOT NULL DEFAULT 0,
-					    `evolution_graph_period_n` INT(11) NOT NULL,
-					    `period_param` VARCHAR(10) NULL,
-					    PRIMARY KEY (`idreport`)";
+                        `idsite` INTEGER(11) NOT NULL,
+                        `login` VARCHAR(100) NOT NULL,
+                        `description` VARCHAR(255) NOT NULL,
+                        `idsegment` INT(11),
+                        `period` VARCHAR(10) NOT NULL,
+                        `hour` tinyint NOT NULL default 0,
+                        `type` VARCHAR(10) NOT NULL,
+                        `format` VARCHAR(10) NOT NULL,
+                        `reports` TEXT NOT NULL,
+                        `parameters` TEXT NULL,
+                        `ts_created` TIMESTAMP NULL,
+                        `ts_last_sent` TIMESTAMP NULL,
+                        `deleted` tinyint(4) NOT NULL default 0,
+                        `evolution_graph_within_period` TINYINT(4) NOT NULL DEFAULT 0,
+                        `evolution_graph_period_n` INT(11) NOT NULL,
+                        `period_param` VARCHAR(10) NULL,
+                        PRIMARY KEY (`idreport`)";
 
         DbHelper::createTable(self::$rawPrefix, $reportTable);
     }

@@ -249,30 +249,30 @@ class VisitorDetails extends VisitorDetailsAbstract
         // The second join is a LEFT join to allow returning records that don't have a matching page title
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
         $sql           = "
-				SELECT
-					log_link_visit_action.idvisit,
-					COALESCE(log_action.type, log_action_title.type) AS type,
-					log_action.name AS url,
-					log_action.url_prefix,
-					log_action_title.name AS pageTitle,
-					log_action.idaction AS pageIdAction,
-					log_link_visit_action.idpageview,
-					log_link_visit_action.idlink_va,
-					log_link_visit_action.server_time as serverTimePretty,
-					log_link_visit_action.time_spent_ref_action as timeSpentRef,
-					log_link_visit_action.idlink_va AS pageId,
-					log_link_visit_action.custom_float,
-					log_link_visit_action.interaction_position
-					" . $customActionDimensionFields . "
-				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
-					ON  log_link_visit_action.idaction_url = log_action.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
-					ON  log_link_visit_action.idaction_name = log_action_title.idaction
-					" . implode(" ", $customJoins) . "
-				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
-				ORDER BY log_link_visit_action.idvisit, server_time ASC
-				 ";
+                SELECT
+                    log_link_visit_action.idvisit,
+                    COALESCE(log_action.type, log_action_title.type) AS type,
+                    log_action.name AS url,
+                    log_action.url_prefix,
+                    log_action_title.name AS pageTitle,
+                    log_action.idaction AS pageIdAction,
+                    log_link_visit_action.idpageview,
+                    log_link_visit_action.idlink_va,
+                    log_link_visit_action.server_time as serverTimePretty,
+                    log_link_visit_action.time_spent_ref_action as timeSpentRef,
+                    log_link_visit_action.idlink_va AS pageId,
+                    log_link_visit_action.custom_float,
+                    log_link_visit_action.interaction_position
+                    " . $customActionDimensionFields . "
+                FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+                    LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
+                    ON  log_link_visit_action.idaction_url = log_action.idaction
+                    LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
+                    ON  log_link_visit_action.idaction_name = log_action_title.idaction
+                    " . implode(" ", $customJoins) . "
+                WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
+                ORDER BY log_link_visit_action.idvisit, server_time ASC
+                 ";
         $actionDetails = $this->getDb()->fetchAll($sql);
         return $actionDetails;
     }

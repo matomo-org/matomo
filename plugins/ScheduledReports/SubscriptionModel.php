@@ -171,12 +171,12 @@ class SubscriptionModel
     public static function install()
     {
         $reportTable = "`idreport` INT(11) NOT NULL,
-					    `token` VARCHAR(100) NULL,
-					    `email` VARCHAR(100) NOT NULL,
-					    `ts_subscribed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-					    `ts_unsubscribed` TIMESTAMP NULL,
-					    PRIMARY KEY (`idreport`, `email`),
-					    UNIQUE INDEX `unique_token` (`token`)";
+                        `token` VARCHAR(100) NULL,
+                        `email` VARCHAR(100) NOT NULL,
+                        `ts_subscribed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        `ts_unsubscribed` TIMESTAMP NULL,
+                        PRIMARY KEY (`idreport`, `email`),
+                        UNIQUE INDEX `unique_token` (`token`)";
 
         DbHelper::createTable(self::$rawPrefix, $reportTable);
     }

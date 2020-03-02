@@ -260,7 +260,7 @@ class LogAggregator
         if ($this->doesSegmentTableExist($table)) {
             return; // no need to create the table, it was already created... better to have a select vs unneeded create table
         }
-	    
+
         $engine = '';
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $engine = 'ENGINE=MEMORY';
@@ -282,15 +282,15 @@ class LogAggregator
         $transactionLevel = new Db\TransactionLevel($readerDb);
         $canSetTransactionLevel = $transactionLevel->canLikelySetTransactionLevel();
 
-	    if ($canSetTransactionLevel) {
-	        // i know this could be shortened to one if or one line but I want to make sure this line where we
+        if ($canSetTransactionLevel) {
+            // i know this could be shortened to one if or one line but I want to make sure this line where we
             // set uncomitted is easily noticable in the code as it could be missed quite easily otherwise
             // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
             // eg the visits table
-	        if (!$transactionLevel->setUncommitted()) {
-	        	$canSetTransactionLevel = false;
-	        }
-	    }
+            if (!$transactionLevel->setUncommitted()) {
+                $canSetTransactionLevel = false;
+            }
+        }
 
         if (!$canSetTransactionLevel) {
             // transaction level doesn't work... we're instead executing the select individually and then insert the data
@@ -692,8 +692,8 @@ class LogAggregator
     public function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
     {
         $where = "$tableName.$datetimeField >= ?
-				AND $tableName.$datetimeField <= ?
-				AND $tableName.idsite IN (". Common::getSqlStringFieldsArray($this->sites) . ")";
+                AND $tableName.$datetimeField <= ?
+                AND $tableName.idsite IN (". Common::getSqlStringFieldsArray($this->sites) . ")";
 
         if (!empty($extraWhere)) {
             $extraWhere = sprintf($extraWhere, $tableName, $tableName);

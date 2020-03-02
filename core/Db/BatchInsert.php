@@ -36,8 +36,8 @@ class BatchInsert
 
         foreach ($values as $row) {
             $query = "INSERT $ignore INTO " . $tableName . "
-					  $fieldList
-					  VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
+                      $fieldList
+                      VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
             Db::query($query, $row);
         }
     }

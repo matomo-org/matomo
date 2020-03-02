@@ -262,11 +262,11 @@ class API extends \Piwik\Plugin\API
 
         // Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
         $reports = Db::fetchAll("SELECT report.*
-								FROM " . Common::prefixTable('report') . " AS `report`
-									JOIN " . Common::prefixTable('site') . "
-									USING (idsite)
-								WHERE deleted = 0
-									$sqlWhere", $bind);
+                                FROM " . Common::prefixTable('report') . " AS `report`
+                                    JOIN " . Common::prefixTable('site') . "
+                                    USING (idsite)
+                                WHERE deleted = 0
+                                    $sqlWhere", $bind);
         // When a specific report was requested and not found, throw an error
         if ($idReport !== false
             && empty($reports)
@@ -520,6 +520,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception("A report renderer was not supplied in the event " . self::GET_RENDERER_INSTANCE_EVENT);
         }
 
+        /** @var ReportRenderer $reportRenderer */
         // init report renderer
         $reportRenderer->setIdSite($idSite);
         $reportRenderer->setLocale($language);

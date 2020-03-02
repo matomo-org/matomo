@@ -346,9 +346,9 @@ class RawLogDao
     private function createTempTableForStoringUsedActions()
     {
         $sql = "CREATE TEMPORARY TABLE " . Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME) . " (
-					idaction INT(11),
-					PRIMARY KEY (idaction)
-				)";
+                    idaction INT(11),
+                    PRIMARY KEY (idaction)
+                )";
         Db::query($sql);
     }
 
@@ -430,9 +430,9 @@ class RawLogDao
         list($logActionTable, $tempTableName) = Common::prefixTables("log_action", self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
 
         $deleteSql = "DELETE LOW_PRIORITY QUICK IGNORE $logActionTable
-						FROM $logActionTable
-				   LEFT JOIN $tempTableName tmp ON tmp.idaction = $logActionTable.idaction
-					   WHERE tmp.idaction IS NULL";
+                        FROM $logActionTable
+                   LEFT JOIN $tempTableName tmp ON tmp.idaction = $logActionTable.idaction
+                       WHERE tmp.idaction IS NULL";
 
         Db::query($deleteSql);
     }

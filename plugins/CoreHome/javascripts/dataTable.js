@@ -237,7 +237,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             delete self.param.filter_offset;
             delete self.param.filter_limit;
         }
-	    
+
         delete self.param.showtitle;
 
         var container = $('#' + self.workingDivId + ' .piwik-graph');
@@ -363,7 +363,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleSearchBox(domElem);
         self.handleColumnDocumentation(domElem);
         self.handleRowActions(domElem);
-		self.handleCellTooltips(domElem);
+        self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
         self.handleColumnHighlighting(domElem);
@@ -1595,7 +1595,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     self.param.idSubtable = idSubTable;
                     self.param.action = self.props.subtable_controller_action;
 
-					delete self.param.totalRows;
+                    delete self.param.totalRows;
 
                     var extraParams = {};
                     extraParams.comparisonIdSubtables = self.getComparisonIdSubtables($(this));
@@ -1679,17 +1679,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.doHandleRowActions(domElem.find('table > tbody > tr'));
     },
 
-	handleCellTooltips: function(domElem) {
-		domElem.find('span.cell-tooltip').tooltip({
-			track: true,
-			items: 'span',
-			content: function() {
-				return $(this).parent().data('tooltip');
-			},
-			show: false,
-			hide: false,
-			tooltipClass: 'small'
-		});
+    handleCellTooltips: function(domElem) {
+        domElem.find('span.cell-tooltip').tooltip({
+            track: true,
+            items: 'span',
+            content: function() {
+                return $(this).parent().data('tooltip');
+            },
+            show: false,
+            hide: false,
+            tooltipClass: 'small'
+        });
         domElem.find('span.ratio').tooltip({
             track: true,
             content: function() {
@@ -1699,7 +1699,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             show: {delay: 700, duration: 200},
             hide: false
         })
-	},
+    },
 
     handleRelatedReports: function (domElem) {
         var self = this,

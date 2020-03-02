@@ -161,7 +161,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
             for ($j = 0; $j != 4; ++$j) {
                 // NOTE: to test referrers w/o creating too many visits, we don't actually track 4 actions, but
-                //	   4 separate visits
+                //     4 separate visits
                 $actionDate = $visitDate->addHour($j + 1);
 
                 $actionIdx = $i * 4 + $j;

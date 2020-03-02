@@ -108,8 +108,8 @@ abstract class Db
             $count = $info['count'];
 
             $queryProfiling = "INSERT INTO " . Common::prefixTable('log_profiling') . "
-						(query,count,sum_time_ms) VALUES (?,$count,$time)
-						ON DUPLICATE KEY UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
+                        (query,count,sum_time_ms) VALUES (?,$count,$time)
+                        ON DUPLICATE KEY UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
             $this->query($queryProfiling, array($query));
         }
 

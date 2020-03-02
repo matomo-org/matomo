@@ -235,12 +235,12 @@ class Site
     public function __toString()
     {
         return "site id=" . $this->getId() . ",
-				 name=" . $this->getName() . ",
-				 url = " . $this->getMainUrl() . ",
-				 IPs excluded = " . $this->getExcludedIps() . ",
-				 timezone = " . $this->getTimezone() . ",
-				 currency = " . $this->getCurrency() . ",
-				 creation date = " . $this->getCreationDate();
+                 name=" . $this->getName() . ",
+                 url = " . $this->getMainUrl() . ",
+                 IPs excluded = " . $this->getExcludedIps() . ",
+                 timezone = " . $this->getTimezone() . ",
+                 currency = " . $this->getCurrency() . ",
+                 creation date = " . $this->getCreationDate();
     }
 
     /**

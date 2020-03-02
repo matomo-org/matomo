@@ -126,7 +126,7 @@ class Filechecks
 
         if (SettingsServer::isWindows()) {
             $message .= "On Windows, check that the folder is not read only and is writable.\n
-						You can try to execute:<br />";
+                        You can try to execute:<br />";
         } else {
             $message .= "For example, on a GNU/Linux server if your Apache httpd user is "
                         . Common::sanitizeInputValue(self::getUser())

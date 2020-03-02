@@ -875,9 +875,9 @@ abstract class Controller
                                                                                   ));
             }
             $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file piwik/config/config.ini.php
-						and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $invalidHost . '"</pre>After making the change, you will be able to login again.</p>
-						<p>You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
-						<pre>[General]' . "\n" . 'enable_trusted_host_check=0</pre>';
+                        and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $invalidHost . '"</pre>After making the change, you will be able to login again.</p>
+                        <p>You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
+                        <pre>[General]' . "\n" . 'enable_trusted_host_check=0</pre>';
 
             $view->invalidHost = $invalidHost; // for UserSettings warning
             $view->invalidHostMailLinkStart = $mailLinkStart;
@@ -947,7 +947,7 @@ abstract class Controller
         if (Piwik::hasUserSuperUserAccess()) {
             $siteTableName = Common::prefixTable('site');
             $message = "Error: no website was found in this Matomo installation.
-			<br />Check the table '$siteTableName' in your database, it should contain your Matomo websites.";
+            <br />Check the table '$siteTableName' in your database, it should contain your Matomo websites.";
 
             $ex = new NoWebsiteFoundException($message);
             $ex->setIsHtmlMessage();
@@ -1037,7 +1037,7 @@ abstract class Controller
             new Site($this->idSite);
         } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
-				Please check that you are logged in Matomo and have permission to access the specified website.");
+                Please check that you are logged in Matomo and have permission to access the specified website.");
         }
     }
 

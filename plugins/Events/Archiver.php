@@ -132,20 +132,20 @@ class Archiver extends \Piwik\Plugin\Archiver
                 log_action_event_action.name as eventAction,
                 log_action_event_name.name as eventName,
 
-				count(distinct log_link_visit_action.idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
-				count(distinct log_link_visit_action.idvisitor) as `" . Metrics::INDEX_NB_UNIQ_VISITORS . "`,
-				count(*) as `" . Metrics::INDEX_EVENT_NB_HITS . "`,
-
-				sum(
-					case when " . Action::DB_COLUMN_CUSTOM_FLOAT . " is null
-						then 0
-						else " . Action::DB_COLUMN_CUSTOM_FLOAT . "
-					end
-				) as `" . Metrics::INDEX_EVENT_SUM_EVENT_VALUE . "`,
-				sum( case when " . Action::DB_COLUMN_CUSTOM_FLOAT . " is null then 0 else 1 end )
-				    as `" . Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE . "`,
-				min(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") as `" . Metrics::INDEX_EVENT_MIN_EVENT_VALUE . "`,
-				max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") as `" . Metrics::INDEX_EVENT_MAX_EVENT_VALUE . "`
+                count(distinct log_link_visit_action.idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
+                count(distinct log_link_visit_action.idvisitor) as `" . Metrics::INDEX_NB_UNIQ_VISITORS . "`,
+                count(*) as `" . Metrics::INDEX_EVENT_NB_HITS . "`,
+    
+                sum(
+                    case when " . Action::DB_COLUMN_CUSTOM_FLOAT . " is null
+                        then 0
+                        else " . Action::DB_COLUMN_CUSTOM_FLOAT . "
+                    end
+                ) as `" . Metrics::INDEX_EVENT_SUM_EVENT_VALUE . "`,
+                sum( case when " . Action::DB_COLUMN_CUSTOM_FLOAT . " is null then 0 else 1 end )
+                    as `" . Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE . "`,
+                min(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") as `" . Metrics::INDEX_EVENT_MIN_EVENT_VALUE . "`,
+                max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") as `" . Metrics::INDEX_EVENT_MAX_EVENT_VALUE . "`
         ";
 
         $from = array(

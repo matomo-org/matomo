@@ -90,9 +90,9 @@ class Model
     public static function install()
     {
         $userLanguage = "login VARCHAR( 100 ) NOT NULL ,
-					     language VARCHAR( 10 ) NOT NULL ,
-					     use_12_hour_clock TINYINT(1) NOT NULL DEFAULT 0 ,
-					     PRIMARY KEY ( login )";
+                         language VARCHAR( 10 ) NOT NULL ,
+                         use_12_hour_clock TINYINT(1) NOT NULL DEFAULT 0 ,
+                         PRIMARY KEY ( login )";
         DbHelper::createTable(self::$rawPrefix, $userLanguage);
     }
 

@@ -73,15 +73,15 @@ class ModelTest extends IntegrationTestCase
 
     public function test_handleMaxExecutionTimeError_doesNotThrowExceptionWhenNotExceededTime()
     {
-    	$db = Db::get();
-    	$e = new \Exception('foo bar baz');
-	    $sql = 'SELECT 1';
-	    $bind = array();
-	    $segment =  '';
-	    $dateStart = Date::now()->subDay(1);
-	    $dateEnd = Date::now();
-	    $minTimestamp = 1;
-	    $limit = 50;
+        $db = Db::get();
+        $e = new \Exception('foo bar baz');
+        $sql = 'SELECT 1';
+        $bind = array();
+        $segment =  '';
+        $dateStart = Date::now()->subDay(1);
+        $dateEnd = Date::now();
+        $minTimestamp = 1;
+        $limit = 50;
         $model = new Model();
         $model->handleMaxExecutionTimeError($db, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
         $this->assertTrue(true);
@@ -93,14 +93,14 @@ class ModelTest extends IntegrationTestCase
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonUnknown');
 
         $db = Db::get();
-    	$e = new \Exception('[3024] Query execution was interrupted, maximum statement execution time exceeded');
-	    $sql = 'SELECT 1';
-	    $bind = array();
-	    $segment = '';
-	    $dateStart = Date::now()->subDay(1);
-	    $dateEnd = Date::now();
-	    $minTimestamp = null;
-	    $limit = 50;
+        $e = new \Exception('[3024] Query execution was interrupted, maximum statement execution time exceeded');
+        $sql = 'SELECT 1';
+        $bind = array();
+        $segment = '';
+        $dateStart = Date::now()->subDay(1);
+        $dateEnd = Date::now();
+        $minTimestamp = null;
+        $limit = 50;
         $model = new Model();
         $model->handleMaxExecutionTimeError($db, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
     }
@@ -111,14 +111,14 @@ class ModelTest extends IntegrationTestCase
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonDateRange Live_QueryMaxExecutionTimeExceededReasonSegment Live_QueryMaxExecutionTimeExceededLimit');
 
         $db = Db::get();
-    	$e = new \Exception('Query execution was interrupted, maximum statement execution time exceeded');
-	    $sql = 'SELECT 1';
-	    $bind = array();
-	    $segment = 'userId>=1';
-	    $dateStart = Date::now()->subDay(10);
-	    $dateEnd = Date::now();
-	    $minTimestamp = null;
-	    $limit = 5000;
+        $e = new \Exception('Query execution was interrupted, maximum statement execution time exceeded');
+        $sql = 'SELECT 1';
+        $bind = array();
+        $segment = 'userId>=1';
+        $dateStart = Date::now()->subDay(10);
+        $dateEnd = Date::now();
+        $minTimestamp = null;
+        $limit = 5000;
         $model = new Model();
         $model->handleMaxExecutionTimeError($db, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
     }
@@ -340,7 +340,7 @@ class ModelTest extends IntegrationTestCase
             $filterSortOrder = false
         );
         $expectedSql = 'SELECT  /*+ MAX_EXECUTION_TIME(30000) */ 
-				log_visit.*';
+                log_visit.*';
 
         $general['live_query_max_execution_time'] = -1;
         $config->General = $general;
@@ -369,7 +369,7 @@ class ModelTest extends IntegrationTestCase
             $filterSortOrder = false
         );
         $expectedSql = 'SELECT
-				log_visit.*';
+                log_visit.*';
 
         $general['live_query_max_execution_time'] = -1;
         $config->General = $general;

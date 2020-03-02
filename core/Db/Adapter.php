@@ -99,13 +99,13 @@ class Adapter
             'Mysqli',
 
             // other adapters supported by Zend_Db
-//			'Pdo_Pgsql',
-//			'Pdo_Mssql',
-//			'Sqlsrv',
-//			'Pdo_Ibm',
-//			'Db2',
-//			'Pdo_Oci',
-//			'Oracle',
+//          'Pdo_Pgsql',
+//          'Pdo_Mssql',
+//          'Sqlsrv',
+//          'Pdo_Ibm',
+//          'Db2',
+//          'Pdo_Oci',
+//          'Oracle',
         );
 
         $adapters = array();

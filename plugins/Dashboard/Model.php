@@ -133,10 +133,10 @@ class Model
     public static function install()
     {
         $dashboard = "login VARCHAR( 100 ) NOT NULL ,
-					  iddashboard INT NOT NULL ,
-					  name VARCHAR( 100 ) NULL DEFAULT NULL ,
-					  layout TEXT NOT NULL,
-					  PRIMARY KEY ( login , iddashboard )";
+                      iddashboard INT NOT NULL ,
+                      name VARCHAR( 100 ) NULL DEFAULT NULL ,
+                      layout TEXT NOT NULL,
+                      PRIMARY KEY ( login , iddashboard )";
 
         DbHelper::createTable(self::$rawPrefix, $dashboard);
     }
