@@ -108,7 +108,7 @@ class CustomLogo
         $directoryWritable = is_writable($directoryWritingTo);
         $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $pathUserLogo)
             && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserSvgLogo())
-            && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserLogoSmall());;
+            && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserLogoSmall());
 
         $isCustomLogoWritable = ($logoFilesWriteable || $directoryWritable) && $this->isFileUploadEnabled();
 
