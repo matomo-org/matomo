@@ -9,7 +9,9 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -34,6 +36,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations = [];
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_gears');
 
         $customTrackerPluginActive = false;
         if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {
@@ -48,7 +51,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
         }
 
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_gears');
+        if ($this->usesGeoIpLegacyLocationProvider()) {
+            // activate GeoIp2 plugin for users still using GeoIp2 Legacy (others might have it disabled on purpose)
+            $migrations[] = $this->migration->plugin->activate('GeoIp2');
+        }
+
+        // remove old options
+        $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
         return $migrations;
     }
@@ -56,5 +65,21 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        if ($this->usesGeoIpLegacyLocationProvider()) {
+            // switch to default provider if GeoIp Legacy was still in use
+            LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
+        }
+    }
+
+    protected function usesGeoIpLegacyLocationProvider()
+    {
+        $currentProvider = LocationProvider::getCurrentProviderId();
+
+        return in_array($currentProvider, [
+            'geoip_pecl',
+            'geoip_php',
+            'geoip_serverbased',
+        ]);
     }
 }
