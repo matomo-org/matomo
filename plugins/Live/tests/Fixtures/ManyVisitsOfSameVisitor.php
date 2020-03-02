@@ -63,6 +63,9 @@ class ManyVisitsOfSameVisitor extends Fixture
             if ($numVisits > 0) {
                 $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
+            } else {
+                $visitDateTime = Date::factory($this->dateTime)->subHour(-$numVisits/10)->getDatetime();
+                $t->setForceVisitDateTime($visitDateTime);
             }
 
             self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
