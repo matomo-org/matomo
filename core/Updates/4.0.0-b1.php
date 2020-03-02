@@ -48,6 +48,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
         }
 
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_gears');
+
         return $migrations;
     }
 
