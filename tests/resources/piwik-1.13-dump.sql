@@ -445,6 +445,7 @@ CREATE TABLE `log_visit` (
   `config_quicktime` tinyint(1) NOT NULL,
   `config_realplayer` tinyint(1) NOT NULL,
   `config_windowsmedia` tinyint(1) NOT NULL,
+  `config_gears` tinyint(1) NOT NULL,
   `config_silverlight` tinyint(1) NOT NULL,
   `config_cookie` tinyint(1) NOT NULL,
   `location_ip` varbinary(16) NOT NULL,
