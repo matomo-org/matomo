@@ -98,7 +98,7 @@ class PluginList
      * Sorts an array of plugins in the order they should be loaded. We cannot use DI here as DI is not initialized
      * at this stage.
      *
-     * @params string[] $plugins
+     * @param string[] $plugins
      * @return \string[]
      */
     public function sortPlugins(array $plugins)

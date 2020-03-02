@@ -426,7 +426,6 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable $dataTable
      * @param array $apiMetrics Metrics info.
-     * @return array Array of three values: total visits, total actions, total revenue
      */
     private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
     {

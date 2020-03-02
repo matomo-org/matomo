@@ -234,8 +234,8 @@ class Rules
             /**
              * @ignore
              *
-             * @params bool &$isRequestAuthorizedToArchive
-             * @params Parameters $params
+             * @param bool &$isRequestAuthorizedToArchive
+             * @param Parameters $params
              */
             Piwik::postEvent('Archiving.isRequestAuthorizedToArchive', [&$isRequestAuthorizedToArchive, $params]);
         }

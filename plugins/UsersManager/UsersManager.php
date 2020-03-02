@@ -171,7 +171,7 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Returns true if the password is complex enough (at least 6 characters and max 26 characters)
      *
-     * @param $input string
+     * @param string $input
      * @return bool
      */
     public static function isValidPasswordString($input)

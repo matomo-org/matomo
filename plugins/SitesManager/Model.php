@@ -338,8 +338,8 @@ class Model
     /**
      * Updates the field ts_created for the specified websites.
      *
-     * @param $idSites int[] Id Site to update ts_created
-     * @param string Date to set as creation date.
+     * @param int[] $idSites Id Site to update ts_created
+     * @param string $minDateSql Date to set as creation date.
      *
      * @ignore
      */

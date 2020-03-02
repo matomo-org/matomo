@@ -76,7 +76,6 @@ class DataArray
      *
      * @param array $newRowToAdd
      * @param array $oldRowToUpdate
-     * @param bool $onlyMetricsAvailableInActionsTable
      *
      * @return void
      */
@@ -133,7 +132,6 @@ class DataArray
      *
      * @param array $newRowToAdd
      * @param array $oldRowToUpdate
-     * @param bool $onlyMetricsAvailableInActionsTable
      *
      * @return void
      */
@@ -176,7 +174,7 @@ class DataArray
     }
 
     /**
-     * @param $idGoal
+     * @param int $idGoal
      * @return array
      */
     protected static function makeEmptyGoalRow($idGoal)

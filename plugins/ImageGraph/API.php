@@ -14,6 +14,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Map;
+use Piwik\DataTable\Row;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -388,12 +389,14 @@ class API extends \Piwik\Plugin\API
             $hasNonZeroValue = false;
 
             if (!$isMultiplePeriod || !($reportData instanceof Map)) {
+                /** @var Row[] $reportMetadata */
                 $reportMetadata = $processedReport['reportMetadata']->getRows();
 
                 $i = 0;
                 // $reportData instanceof DataTable
                 foreach ($reportData->getRows() as $row) // Row[]
                 {
+                    /** @var Row $row */
                     // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
@@ -431,6 +434,7 @@ class API extends \Piwik\Plugin\API
                     if (empty($periodsData[$i])) {
                         continue;
                     }
+                    /** @var Row[] $rows */
                     $rows = $periodsData[$i]->getRows();
 
                     if (array_key_exists(0, $rows)) {

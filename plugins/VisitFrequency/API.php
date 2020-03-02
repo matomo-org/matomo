@@ -117,6 +117,11 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
+    /**
+     * @param \Piwik\DataTable\Map $table
+     * @param $period
+     * @param $suffix
+     */
     protected function prefixColumns($table, $period, $suffix)
     {
         $rename = array();

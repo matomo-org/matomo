@@ -212,7 +212,7 @@ class AssetManager extends Singleton
     }
 
     /**
-     * @param boolean $core
+     * @param bool $core
      * @return string[]
      */
     public function getLoadedPlugins($core)
@@ -233,6 +233,7 @@ class AssetManager extends Singleton
 
     /**
      * Remove previous merged assets
+     * @param bool $pluginName
      */
     public function removeMergedAssets($pluginName = false)
     {
@@ -422,6 +423,10 @@ class AssetManager extends Singleton
         return new OnDiskUIAsset($this->getAssetDirectory(), $fileName);
     }
 
+    /**
+     * @param string[] $files
+     * @return string
+     */
     public static function compileCustomStylesheets($files)
     {
         $assetManager = new AssetManager();
@@ -433,6 +438,10 @@ class AssetManager extends Singleton
         return $assetManager->getCompiledBaseCss()->getContent();
     }
 
+    /**
+     * @param string[] $files
+     * @return string
+     */
     public static function compileCustomJs($files)
     {
         $mergedAsset = new InMemoryUIAsset();

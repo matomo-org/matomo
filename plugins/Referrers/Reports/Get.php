@@ -115,8 +115,8 @@ class Get extends Base
     /**
      * Returns the pretty date representation
      *
-     * @param $date string
-     * @param $period string
+     * @param string $date
+     * @param string $period
      * @return string Pretty date
      */
     public static function getPrettyDate($date, $period)

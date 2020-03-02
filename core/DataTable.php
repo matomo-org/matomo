@@ -1886,8 +1886,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * $row must have a column "label". The $row will be summed to this table's row with the same label.
      *
-     * @param $row
-     * @params null|array $columnAggregationOps
+     * @param Row $row
+     * @param null|array $columnAggregationOps
      * @throws \Exception
      */
     protected function aggregateRowWithLabel(Row $row, $columnAggregationOps)

@@ -233,7 +233,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns an array of Preferences
-     * @param $preferenceNames array of preference names
+     * @param array $preferenceNames array of preference names
      * @return array
      * @ignore
      */
@@ -964,8 +964,6 @@ class API extends \Piwik\Plugin\API
      * @param string $userLogin the user login(s).
      *
      * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
-     *
-     * @return bool true on success
      */
     public function deleteUser($userLogin)
     {
@@ -1133,7 +1131,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $userLogin The user login
      * @param string|string[] $capabilities  To fetch a list of available capabilities call "UsersManager.getAvailableCapabilities".
-     * @param int|int[] $idSites
+     * @param int|int[]|string $idSites
      * @throws Exception
      */
     public function addCapabilities($userLogin, $capabilities, $idSites)
@@ -1213,7 +1211,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $userLogin The user login
      * @param string|string[] $capabilities  To fetch a list of available capabilities call "UsersManager.getAvailableCapabilities".
-     * @param int|int[] $idSites
+     * @param int|int[]|string $idSites
      * @throws Exception
      */
     public function removeCapabilities($userLogin, $capabilities, $idSites)

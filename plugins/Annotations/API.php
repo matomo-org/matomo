@@ -224,12 +224,16 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         // get start & end date for request. lastN is ignored if $period == 'range'
+
+        /** @var Date $startDate */
+        /** @var Date $endDate */
         list($startDate, $endDate) = self::getDateRangeForPeriod($date, $period, $lastN);
         if ($period == 'range') {
             $period = 'day';
         }
 
         // create list of dates
+        /** @var Date[] $dates */
         $dates = array();
         for (; $startDate->getTimestamp() <= $endDate->getTimestamp(); $startDate = $startDate->addPeriod(1, $period)) {
             $dates[] = $startDate;
@@ -243,7 +247,9 @@ class API extends \Piwik\Plugin\API
         // create result w/ 0-counts
         $result = array();
         for ($i = 0; $i != count($dates) - 1; ++$i) {
+            /** @var Date|bool $date */
             $date = $dates[$i];
+            /** @var Date|bool $nextDate */
             $nextDate = $dates[$i + 1];
             $strDate = $date->toString();
 

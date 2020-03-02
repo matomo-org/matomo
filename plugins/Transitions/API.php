@@ -207,11 +207,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Get information about the following actions (following pages, site searches, outlinks, downloads)
      *
-     * @param $idaction
-     * @param $actionType
+     * @param string|int $idaction
+     * @param string $actionType
      * @param LogAggregator $logAggregator
-     * @param $limitBeforeGrouping
-     * @param $includeLoops
+     * @param bool $limitBeforeGrouping
+     * @param bool $includeLoops
      * @return array(followingPages:DataTable, outlinks:DataTable, downloads:DataTable)
      */
     protected function queryFollowingActions($idaction, $actionType, LogAggregator $logAggregator,

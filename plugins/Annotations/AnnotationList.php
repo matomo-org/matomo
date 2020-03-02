@@ -274,9 +274,9 @@ class AnnotationList
      * the counts. The date range includes the start date, but not the end date.
      *
      * @param int $idSite The ID of the site to count annotations for.
-     * @param string|false $startDate The start date of the range or false if no
+     * @param Date|bool $startDate The start date of the range or false if no
      *                                range check is desired.
-     * @param string|false $endDate The end date of the range or false if no
+     * @param Date|bool $endDate The end date of the range or false if no
      *                              range check is desired.
      * @return array eg, array('count' => 5, 'starred' => 2)
      */

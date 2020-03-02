@@ -215,10 +215,10 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites int[]
-     * @param $dates Date[]
-     * @param $period string
-     * @param $segment Segment
+     * @param int[] $idSites
+     * @param Date[] $dates
+     * @param string $period
+     * @param Segment $segment
      * @param bool $cascadeDown
      * @return InvalidationResult
      * @throws \Exception

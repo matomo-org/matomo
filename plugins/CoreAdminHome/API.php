@@ -241,7 +241,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Ensure the specified dates are valid.
      * Store invalid date so we can log them
-     * @param array $dates
+     * @param string $dates
      * @return Date[]
      */
     private function getDatesToInvalidateFromString($dates)

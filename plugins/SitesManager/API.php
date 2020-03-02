@@ -1100,7 +1100,7 @@ class API extends \Piwik\Plugin\API
      * Sets whether the default behavior should be to keep URL fragments when
      * tracking or not.
      *
-     * @param $enabled bool If true, the default behavior will be to keep URL
+     * @param bool $enabled If true, the default behavior will be to keep URL
      *                      fragments when tracking. If false, the default
      *                      behavior will be to remove them.
      */
@@ -1228,8 +1228,6 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
-     *
-     * @return bool true on success
      */
     public function updateSite($idSite,
                                $siteName = null,
@@ -1336,8 +1334,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates the field ts_created for the specified websites.
      *
-     * @param $idSites int Id Site to update ts_created
-     * @param $minDate Date to set as creation date. To play it safe it will subtract one more day.
+     * @param int $idSites Id Site to update ts_created
+     * @param Date $minDate to set as creation date. To play it safe it will subtract one more day.
      *
      * @ignore
      */
