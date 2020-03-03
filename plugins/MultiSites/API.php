@@ -457,10 +457,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Sets the number of total visits in tha pastTable on the dataTable as metadata.
      *
-     * @param DataTable $dataTable
-     * @param DataTable $pastTable
+     * @param DataTable|DataTableInterface|DataTable\Map $dataTable
+     * @param DataTable|DataTableInterface|DataTable\Map $pastTable
      */
-    private function setPastTotalVisitsMetadata(DataTable $dataTable, $pastTable)
+    private function setPastTotalVisitsMetadata($dataTable, $pastTable)
     {
         if ($pastTable instanceof DataTable) {
             $total  = 0;
