@@ -107,8 +107,8 @@ if (!defined("PHP_INT_MAX")) {
  *    but it also depends on the versions of external libraries, e.g.,
  *    php_mysqli.dll and libmysql.dll.
  *
- * @param $link    mysqli MySQLi connection resource
- * @param $charset string Character set
+ * @param mysqli $link MySQLi connection resource
+ * @param string $charset Character set
  * @return bool           TRUE on success, FALSE on failure
  */
 if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set_charset')) {
@@ -122,12 +122,12 @@ if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set
  * parse_ini_file() replacement.
  * Behaves like parse_ini_file($filename, $process_sections);
  *
+ * @author Andrew Sohn <asohn (at) aircanopy (dot) net>
+ * @author anthon (dot) pang (at) gmail (dot) com
+ *
  * @param string $filename
  * @param bool $process_sections (defaults to false)
  * @return array
- * @author anthon (dot) pang (at) gmail (dot) com
- *
- * @author Andrew Sohn <asohn (at) aircanopy (dot) net>
  */
 if (function_exists('parse_ini_file')) {
     // provide a wrapper
@@ -259,12 +259,12 @@ if (function_exists('parse_ini_file')) {
  * glob() replacement.
  * Behaves like glob($pattern, $flags)
  *
+ * @author BigueNique AT yahoo DOT ca
+ * @author anthon (dot) pang (at) gmail (dot) com
+ *
  * @param string $pattern
  * @param int $flags GLOBL_ONLYDIR, GLOB_MARK, GLOB_NOSORT (other flags not supported; defaults to 0)
  * @return array
- * @author anthon (dot) pang (at) gmail (dot) com
- *
- * @author BigueNique AT yahoo DOT ca
  */
 if (function_exists('glob')) {
     // provide a wrapper

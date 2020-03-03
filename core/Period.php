@@ -90,8 +90,8 @@ abstract class Period
      * etc.
      *
      * @static
-     * @param string $dateString string The **date** query parameter value.
-     * @param string $period string The **period** query parameter value.
+     * @param string $dateString The **date** query parameter value.
+     * @param string $period The **period** query parameter value.
      * @return boolean
      */
     public static function isMultiplePeriod($dateString, $period)

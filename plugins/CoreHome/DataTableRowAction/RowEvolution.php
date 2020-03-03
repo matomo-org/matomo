@@ -182,7 +182,6 @@ class RowEvolution
 
             $totalSeriesCount = (count($compareSegments) + 1) * (count($comparePeriods) + 1);
 
-            $unmodifiedSeriesLabels = [];
             for ($i = 0; $i < $totalSeriesCount; ++$i) {
                 $unmodifiedSeriesLabels[] = DataComparisonFilter::getPrettyComparisonLabelFromSeriesIndex($i);
             }
