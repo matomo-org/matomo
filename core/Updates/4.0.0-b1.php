@@ -10,6 +10,7 @@
 namespace Piwik\Updates;
 
 use Piwik\Date;
+use Piwik\DbHelper;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
@@ -68,8 +69,11 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // we don't delete the token_auth column so users can still downgrade to 3.X if they want to. However, the original
         // token_auth will be regenerated for security reasons to no longer have it in plain text. So this column will be no longer used
         // unless someone downgrades to 3.x
-        $sql = sprintf('UPDATE %s set token_auth = MD5(CONCAT(NOW(), UUID()))', Common::prefixTable('user'));
-        $migrations[] = $this->migration->db->sql($sql);
+        $columns = DbHelper::getTableColumns(Common::prefixTable('user'));
+        if (isset($columns['token_auth'])) {
+            $sql = sprintf('UPDATE %s set token_auth = MD5(CONCAT(NOW(), UUID()))', Common::prefixTable('user'));
+            $migrations[] = $this->migration->db->sql($sql, Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN);
+        }
 
         /** APP SPECIFIC TOKEN END */
 
