@@ -226,9 +226,6 @@ class ArchiveInvalidator
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
     {
-        static $count = 0;
-        ++$count;
-        print "call count: $count\n";@ob_flush();
         $invalidationInfo = new InvalidationResult();
 
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
