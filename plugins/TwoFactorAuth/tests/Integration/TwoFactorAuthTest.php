@@ -44,7 +44,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     private $userPassword = '123abcDk3_l3';
     private $user2faSecret = '123456';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -64,7 +64,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         unset($_GET['authCode']);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['authCode']);
     }
@@ -89,25 +89,24 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($token));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage TwoFactorAuth_MissingAuthCodeAPI
-     */
     public function test_onCreateAppSpecificTokenAuth_throwsErrorWhenMissingTokenWhenUsing2FaAndAuthenticatedCorrectly()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('TwoFactorAuth_MissingAuthCodeAPI');
+
         Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+
             'userLogin' => $this->userWith2Fa,
             'md5Password' => md5($this->userPassword),
             'description' => 'twofa test'
         ));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage TwoFactorAuth_InvalidAuthCode
-     */
     public function test_onCreateAppSpecificTokenAuth_throwsErrorWhenInvalidTokenWhenUsing2FaAndAuthenticatedCorrectly()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('TwoFactorAuth_InvalidAuthCode');
+
         $_GET['authCode'] = '111222';
         Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,

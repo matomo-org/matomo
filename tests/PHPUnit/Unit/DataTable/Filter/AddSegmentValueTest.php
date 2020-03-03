@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
  * @group DataTable
  * @group Filter
  */
-class AddSegmentValueTest extends \PHPUnit_Framework_TestCase
+class AddSegmentValueTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'AddSegmentValue';
 
@@ -25,7 +25,7 @@ class AddSegmentValueTest extends \PHPUnit_Framework_TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable();
         $this->addRow(array('label' => 'http://piwik.org/test'));

@@ -261,8 +261,25 @@ describe("Dashboard", function () {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
         await page.waitFor('#createDashboardName', { visible: true });
-        await page.type('#createDashboardName', 'newdash2');
-        await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+
+        // try to type the text a few times, as it sometimes doesn't get the full value
+        var name = 'newdash2';
+        for (var i=0; i<5; i++) {
+            await page.evaluate(function() {
+                $('#createDashboardName').val('');
+            });
+            await page.type('#createDashboardName', name);
+            await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+
+            var value = await page.evaluate(function() {
+                return $('#createDashboardName').attr('value');
+            });
+
+            if (value === name) {
+                break;
+            }
+        }
+
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
         await page.mouse.move(-10, -10);

@@ -11,9 +11,16 @@ namespace Piwik\Tests\Unit\Archiver;
 
 
 use Piwik\Archiver\Request;
+use Piwik\Date;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        Date::$now = null;
+    }
+
     /**
      * @dataProvider getTestDataForChangeDate
      */
@@ -42,6 +49,27 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 '2013-10-12,2013-11-19',
                 'http://abc.com/index.php?date=2013-10-12,2013-11-19&period=day',
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForMakeSureDateIsNotSingleDayRange
+     */
+    public function test_makeSureDateIsNotSingleDayRange($url, $expectedResult)
+    {
+        $request = new Request($url);
+        $request->makeSureDateIsNotSingleDayRange();
+        $this->assertEquals($expectedResult, $request->getUrl());
+    }
+
+    public function getTestDataForMakeSureDateIsNotSingleDayRange()
+    {
+        return [
+            ['?idSite=1&date=2012-03-04&period=day', '?idSite=1&date=2012-03-04&period=day'],
+            ['?idSite=1&date=2012-03-04,2012-03-06&period=range', '?idSite=1&date=2012-03-04,2012-03-06&period=range'],
+            ['?idSite=1&date=2012-03-04,2012-03-04&period=range', '?idSite=1&date=2012-03-04&period=day'],
+            ['?idSite=1&date=last1&period=range', '?idSite=1&date=today&period=day'],
+            ['?idSite=1&date=previous1&period=range', '?idSite=1&date=yesterday&period=day'],
         ];
     }
 }

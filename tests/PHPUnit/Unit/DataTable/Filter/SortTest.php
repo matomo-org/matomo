@@ -17,7 +17,7 @@ use Piwik\DataTable\Row;
  * @group Core
  * @group sort
  */
-class SortTest extends \PHPUnit_Framework_TestCase
+class SortTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testNormalSortDescending()

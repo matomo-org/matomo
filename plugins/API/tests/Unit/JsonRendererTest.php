@@ -18,14 +18,14 @@ use Piwik\Plugins\API\Renderer\Json2;
  * @group API_JsonRendererTest
  * @group JsonRenderer
  */
-class JsonRendererTest extends \PHPUnit_Framework_TestCase
+class JsonRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Json
      */
     private $jsonBuilder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->jsonBuilder = $this->makeBuilder(array());
         DataTable\Manager::getInstance()->deleteAll();

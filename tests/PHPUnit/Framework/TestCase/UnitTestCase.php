@@ -19,14 +19,14 @@ use Piwik\Tests\Framework\Mock\File;
  *
  * @since 2.10.0
  */
-abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
+abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Environment
      */
     protected $environment;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +35,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
         File::reset();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         File::reset();
 

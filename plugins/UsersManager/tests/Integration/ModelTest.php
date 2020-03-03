@@ -45,7 +45,7 @@ class ModelTest extends IntegrationTestCase
     private $login = 'userLogin';
     private $login2 = 'userLogin2';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

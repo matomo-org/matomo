@@ -9,9 +9,8 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tracker\Visit;
 use Piwik\Tests\Framework\Fixture;
-use PiwikTracker;
+use MatomoTracker;
 use Exception;
 
 /**
@@ -25,7 +24,7 @@ class FewVisitsWithSetVisitorId extends Fixture
 
     const USER_ID_EXAMPLE_COM = 'email@example.com';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits_setVisitorId();
@@ -35,7 +34,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $this->trackVisits_oneWeekLater_setUserId();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -148,7 +147,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         // Request from a different computer not yet logged in, this should not be added to our User ID session
         $t->setUserId(false);
         // make sure the Id is not so random as to not fail the test
-        $t->randomVisitorId = '5e15b4d842cc294d';
+        $t->setVisitorId('5e15b4d842cc294d');
 
         $t->setIp('1.2.4.7');
         $t->setUserAgent("New unique device");
@@ -193,7 +192,7 @@ class FewVisitsWithSetVisitorId extends Fixture
 
     }
 
-    private function settingInvalidVisitorIdShouldThrow(PiwikTracker $t)
+    private function settingInvalidVisitorIdShouldThrow(MatomoTracker $t)
     {
         try {
             $t->setVisitorId('test');
@@ -215,7 +214,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         }
     }
 
-    private function settingInvalidUserIdShouldThrow(PiwikTracker $t)
+    private function settingInvalidUserIdShouldThrow(MatomoTracker $t)
     {
         try {
             $t->setUserId('');

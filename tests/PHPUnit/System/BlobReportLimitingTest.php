@@ -29,7 +29,7 @@ class BlobReportLimitingTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         Cache::getTransientCache()->flushAll();
         parent::setUp();

@@ -8,21 +8,21 @@
 
 namespace Piwik\Tests\Unit\Period;
 
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 
-abstract class BasePeriodTest extends \PHPUnit_Framework_TestCase
+abstract class BasePeriodTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 }

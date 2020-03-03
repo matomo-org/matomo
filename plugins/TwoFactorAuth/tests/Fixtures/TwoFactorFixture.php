@@ -42,7 +42,7 @@ class TwoFactorFixture extends Fixture
      */
     private $twoFa;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);
         $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
@@ -52,7 +52,7 @@ class TwoFactorFixture extends Fixture
         $this->trackFirstVisit();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

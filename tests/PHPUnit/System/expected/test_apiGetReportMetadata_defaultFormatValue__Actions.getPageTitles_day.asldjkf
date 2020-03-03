@@ -1,0 +1,3 @@
+Error: Renderer format 'asldjkf' not valid. Try any of the following instead: console, csv, html, json, json2, original, php, rss, tsv, xml.
+ 
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php

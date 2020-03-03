@@ -11,7 +11,7 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
-class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
+class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'ColumnDelete';
 

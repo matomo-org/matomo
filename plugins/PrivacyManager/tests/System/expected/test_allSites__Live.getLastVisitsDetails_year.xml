@@ -4995,7 +4995,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5017,7 +5017,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5039,7 +5039,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5061,7 +5061,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5080,7 +5080,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -5400,7 +5400,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5422,7 +5422,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5444,7 +5444,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5466,7 +5466,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5485,7 +5485,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -5945,7 +5945,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5967,7 +5967,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5989,7 +5989,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6011,7 +6011,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -6032,7 +6032,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -6352,7 +6352,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6374,7 +6374,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6396,7 +6396,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6418,7 +6418,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -6437,7 +6437,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -6899,7 +6899,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6921,7 +6921,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6943,7 +6943,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6965,7 +6965,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -6984,7 +6984,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -7304,7 +7304,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -7326,7 +7326,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -7348,7 +7348,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -7370,7 +7370,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -7389,7 +7389,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -9526,7 +9526,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9548,7 +9548,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9570,7 +9570,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9592,7 +9592,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -9611,7 +9611,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -9761,7 +9761,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9783,7 +9783,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9805,7 +9805,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9827,7 +9827,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -9846,7 +9846,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -9996,7 +9996,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -10018,7 +10018,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -10040,7 +10040,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -10062,7 +10062,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -10081,7 +10081,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -11831,7 +11831,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -11853,7 +11853,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -11875,7 +11875,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -11897,7 +11897,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -11916,7 +11916,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -12066,7 +12066,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12088,7 +12088,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12110,7 +12110,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12132,7 +12132,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -12151,7 +12151,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -12301,7 +12301,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12323,7 +12323,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12345,7 +12345,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12367,7 +12367,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -12386,7 +12386,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -20238,7 +20238,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20260,7 +20260,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20282,7 +20282,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20304,7 +20304,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -20323,7 +20323,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -20643,7 +20643,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20665,7 +20665,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20687,7 +20687,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20709,7 +20709,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -20728,7 +20728,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -21521,7 +21521,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -21543,7 +21543,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -21565,7 +21565,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -21587,7 +21587,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -21606,7 +21606,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -22270,7 +22270,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -22292,7 +22292,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -22314,7 +22314,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -22336,7 +22336,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -22355,7 +22355,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -27857,7 +27857,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -27879,7 +27879,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -27901,7 +27901,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -27923,7 +27923,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -27942,7 +27942,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -28262,7 +28262,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28284,7 +28284,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28306,7 +28306,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28328,7 +28328,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -28347,7 +28347,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -28809,7 +28809,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28831,7 +28831,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28853,7 +28853,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28875,7 +28875,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -28894,7 +28894,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -29214,7 +29214,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -29236,7 +29236,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -29258,7 +29258,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -29280,7 +29280,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -29299,7 +29299,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -30735,7 +30735,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30757,7 +30757,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30779,7 +30779,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30801,7 +30801,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -30820,7 +30820,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -30970,7 +30970,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30992,7 +30992,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -31014,7 +31014,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -31036,7 +31036,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -31055,7 +31055,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -32233,7 +32233,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32255,7 +32255,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32277,7 +32277,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32299,7 +32299,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -32318,7 +32318,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -32468,7 +32468,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32490,7 +32490,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32512,7 +32512,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32534,7 +32534,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -32553,7 +32553,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -38457,7 +38457,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38479,7 +38479,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38501,7 +38501,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38523,7 +38523,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -38542,7 +38542,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -38862,7 +38862,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38884,7 +38884,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38906,7 +38906,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38928,7 +38928,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -38947,7 +38947,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -39769,7 +39769,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -39791,7 +39791,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -39813,7 +39813,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -39835,7 +39835,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -39854,7 +39854,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -40547,7 +40547,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -40569,7 +40569,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -40591,7 +40591,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -40613,7 +40613,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -40632,7 +40632,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>

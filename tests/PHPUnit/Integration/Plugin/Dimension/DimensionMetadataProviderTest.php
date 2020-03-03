@@ -15,7 +15,7 @@ use Piwik\Plugin\Manager as PluginManager;
 
 class DimensionMetadataProviderTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

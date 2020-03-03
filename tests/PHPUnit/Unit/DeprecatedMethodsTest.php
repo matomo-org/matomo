@@ -16,7 +16,7 @@ use ReflectionClass;
  * @group DeprecatedMethodsTest
  * @group Core
  */
-class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
+class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
 {
     public function test_deprecations()
     {
@@ -84,6 +84,8 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\SettingsPiwik', 'isPiwikInstalled');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Piwik', 'doAsSuperUser');
+
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('4.0.0-rc1', \Piwik\Plugins\Marketplace\tests\System\Api\ClientTest::class, 'skipTestUntilFirstRelease');
     }
 
 

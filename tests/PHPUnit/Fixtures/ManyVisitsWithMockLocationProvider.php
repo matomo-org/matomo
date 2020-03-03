@@ -30,7 +30,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->nextDay = Date::factory($this->dateTime)->addDay(1)->getDatetime();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->customDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim', 'visit', '1');
@@ -41,7 +41,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
@@ -138,7 +138,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->trackOrders($t);
     }
 
-    private function trackActions(\PiwikTracker $t, &$visitorCounter, $actionType, $userAgents, $resolutions,
+    private function trackActions(\MatomoTracker $t, &$visitorCounter, $actionType, $userAgents, $resolutions,
                                   $referrers = null, $customVars = null)
     {
         for ($i = 0; $i != 5; ++$i, ++$visitorCounter) {
@@ -207,7 +207,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         }
     }
 
-    private function trackAction(\PiwikTracker $t, $actionType, $visitorCounter, $actionNum)
+    private function trackAction(\MatomoTracker $t, $actionType, $visitorCounter, $actionNum)
     {
         if ($actionType == 'pageview') {
             self::checkResponse($t->doTrackPageView(

@@ -74,7 +74,6 @@
         "SiteWithoutDataDescription": "まだこのウエブサイトの分析データは追跡されていません。",
         "SiteWithoutDataSetupTracking": "ウェブサイトあるいはモバイルアプリでトラッキングコードが未設定の場合は、下記の%1$sトラッキングコード%2$sを設定してください。",
         "SiteWithoutDataMessageDisappears": "このメッセージは、このウェブサイトの一部のデータが追跡されるとすぐに消えます。",
-        "SiteWithoutDataSetupGoals": "それまでの間、 %1$sいくつかの目標を設定%2$sしたり、%5$sガイド%6$sや%7$s FAQ %8$sでもっと詳しい Matomo の%3$s機能%4$sを知ってください。",
         "SiteWithoutDataIgnoreMessage": "次からこのメッセージを表示しない",
         "SuperUserAccessCan": "スーパーユーザーアクセス権限を持つユーザーは、新しいウェブサイトに対し %1$s グローバルリストを指定 %2$s することもできます。",
         "Timezone": "タイムゾーン",

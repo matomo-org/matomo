@@ -25,14 +25,14 @@ use Piwik\Widget\WidgetContainerConfig;
  * @group WidgetMetadata
  * @group WidgetMetadataTest
  */
-class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
+class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var WidgetMetadata
      */
     private $metadata;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->metadata = new WidgetMetadata();
     }

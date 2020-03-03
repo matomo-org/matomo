@@ -33,7 +33,7 @@ class UserIdTest extends IntegrationTestCase
 
     protected $date = '2014-04-04';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userId = new UserId();
@@ -45,7 +45,7 @@ class UserIdTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // clean up your test here if needed
         $tables = ArchiveTableCreator::getTablesArchivesInstalled();
@@ -244,7 +244,7 @@ class UserIdTest extends IntegrationTestCase
         }
     }
 
-    private function trackPageview(\PiwikTracker $tracker, $userId, $url = null)
+    private function trackPageview(\MatomoTracker $tracker, $userId, $url = null)
     {
         if (null !== $url) {
             $tracker->setUrl('http://www.example.org' . $url);

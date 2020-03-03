@@ -95,7 +95,7 @@ class DataPurgingTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -123,6 +123,7 @@ class DataPurgingTest extends IntegrationTestCase
         $settings['delete_logs_older_than'] = 35 + $daysSinceToday;
         $settings['delete_logs_schedule_lowest_interval'] = 7;
         $settings['delete_logs_max_rows_per_query'] = 100000;
+        $settings['delete_logs_unused_actions_max_rows_per_query'] = 100000;
         $settings['delete_reports_enable'] = 1;
         $settings['delete_reports_older_than'] = $monthsSinceToday;
         $settings['delete_reports_keep_basic_metrics'] = 0;
@@ -137,7 +138,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->instance = new PrivacyManager();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

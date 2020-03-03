@@ -10,8 +10,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\SiteUrls;
-use Piwik\Url;
 
 class RequestSet
 {
@@ -119,18 +117,6 @@ class RequestSet
         return !empty($this->requests);
     }
 
-    protected function getRedirectUrl()
-    {
-        return Common::getRequestVar('redirecturl', false, 'string');
-    }
-
-    protected function hasRedirectUrl()
-    {
-        $redirectUrl = $this->getRedirectUrl();
-
-        return !empty($redirectUrl);
-    }
-
     protected function getAllSiteIdsWithinRequest()
     {
         if (empty($this->requests)) {
@@ -143,41 +129,6 @@ class RequestSet
         }
 
         return array_values(array_unique($siteIds));
-    }
-
-    // TODO maybe move to response? or somewhere else? not sure where!
-    public function shouldPerformRedirectToUrl()
-    {
-        if (!$this->hasRedirectUrl()) {
-            return false;
-        }
-
-        if (!$this->hasRequests()) {
-            return false;
-        }
-
-        $redirectUrl = $this->getRedirectUrl();
-        $host        = Url::getHostFromUrl($redirectUrl);
-
-        if (empty($host)) {
-            return false;
-        }
-
-        $urls     = new SiteUrls();
-        $siteUrls = $urls->getAllCachedSiteUrls();
-        $siteIds  = $this->getAllSiteIdsWithinRequest();
-
-        foreach ($siteIds as $siteId) {
-            if (empty($siteUrls[$siteId])) {
-                $siteUrls[$siteId] = array();
-            }
-
-            if (Url::isHostInUrls($host, $siteUrls[$siteId])) {
-                return $redirectUrl;
-            }
-        }
-
-        return false;
     }
 
     public function getState()

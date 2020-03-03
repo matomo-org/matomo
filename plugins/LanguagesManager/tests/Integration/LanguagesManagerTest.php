@@ -20,12 +20,12 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespac
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group LanguagesManager
  */
-class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
+class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
 {
     function getTestDataForLanguageFiles()
     {
@@ -38,7 +38,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
 
         foreach ($plugins as $plugin) {
 
-            if (API::getInstance()->getPluginTranslationsForLanguage($plugin, 'en')) {
+            if ('Intl' !== $plugin && API::getInstance()->getPluginTranslationsForLanguage($plugin, 'en')) {
 
                 $pluginsWithTranslation[] = $plugin;
             }
@@ -87,12 +87,13 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
         $translations = $translationWriter->getTranslations($language);
 
         if (empty($translations)) {
+            self::assertTrue(true);
             return; // skip language / plugin combinations that aren't present
         }
 
         $translationWriter->setTranslations($translations);
 
-        $this->assertTrue($translationWriter->isValid(), $translationWriter->getValidationMessage());
+        $this->assertTrue($translationWriter->isValid(), $translationWriter->getValidationMessage() ?: '');
 
         if ($translationWriter->wasFiltered()) {
 
@@ -116,11 +117,11 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
      * test language when it's not defined
      *
      * @group Plugins
-     *
-     * @expectedException Exception
      */
     function testWriterInvalidPlugin()
     {
+        $this->expectException(\Exception::class);
+
         new Writer('de', 'iNvaLiDPluGin'); // invalid plugin throws exception
     }
 
@@ -145,7 +146,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
         Cache::flushAll();
         $translator = StaticContainer::get('Piwik\Translation\Translator');
         $translator->reset();
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $translations = $translator->getAllTranslations();
         foreach ($translations AS $plugin => $pluginTranslations) {
             foreach ($pluginTranslations as $key => $pluginTranslation) {
@@ -166,7 +167,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
         Cache::flushAll();
         $translator = StaticContainer::get('Piwik\Translation\Translator');
         $translator->reset();
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $translations = $translator->getAllTranslations();
         foreach ($translations AS $plugin => $pluginTranslations) {
             if ($plugin == 'Intl') {

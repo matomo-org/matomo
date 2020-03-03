@@ -32,7 +32,7 @@ class ClientTest extends IntegrationTestCase
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -54,12 +54,11 @@ class ClientTest extends IntegrationTestCase
         $this->assertStringEndsWith('.zip', $file);
     }
 
-    /**
-     * @expectedException \Piwik\Plugins\Marketplace\Api\Exception
-     * @expectedExceptionMessage Requested plugin does not exist.
-     */
     public function test_getPluginInfo_shouldThrowException_IfNotAllowedToRequestPlugin()
     {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Exception::class);
+        $this->expectExceptionMessage('Requested plugin does not exist.');
+
         $this->service->returnFixture('v2.0_plugins_CustomPlugin1_info-access_token-notexistingtoken.json');
         $this->client->getPluginInfo('CustomPlugin1');
     }

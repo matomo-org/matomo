@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Contents\tests\Fixtures;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Tests\Framework\Fixture;
-use PiwikTracker;
+use MatomoTracker;
 
 /**
  * Tracks contents
@@ -21,7 +21,7 @@ class TwoVisitsWithContents extends Fixture
     public $idSite = 1;
     public $idGoal1 = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
@@ -56,13 +56,13 @@ class TwoVisitsWithContents extends Fixture
         $this->trackContentImpressionsAndInteractions($vis2);
     }
 
-    private function moveTimeForward(PiwikTracker $vis, $minutes)
+    private function moveTimeForward(MatomoTracker $vis, $minutes)
     {
         $hour = $minutes / 60;
         $vis->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hour)->getDatetime());
     }
 
-    protected function trackContentImpressionsAndInteractions(PiwikTracker $vis)
+    protected function trackContentImpressionsAndInteractions(MatomoTracker $vis)
     {
         $vis->setUrl('http://www.example.org/page');
         $vis->setGenerationTime(333);
@@ -91,7 +91,7 @@ class TwoVisitsWithContents extends Fixture
         self::checkResponse($vis->doTrackContentImpression('Video Ad', 'movie.mov'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 }

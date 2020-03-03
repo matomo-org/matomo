@@ -12,7 +12,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group CoreVisualizations
@@ -26,7 +25,7 @@ class SparklinesConfigTest extends IntegrationTestCase
      */
     private $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         FakeAccess::$superUser = true;
@@ -37,12 +36,12 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $this->config = new Config();
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::reset();
+        Fixture::resetTranslations();
 
         parent::tearDown();
     }
@@ -119,12 +118,11 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame($expectedSparkline, $sparklines[''][0]['metrics']['']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Values: 10, 20, 30 Descriptions: Visits, Actions
-     */
     public function test_addSparkline_shouldThrowAnException_IfValuesDoesNotMatchAmountOfDescriptions()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Values: 10, 20, 30 Descriptions: Visits, Actions');
+
         $this->config->addSparkline($this->sparklineParams(), $values = array(10, 20, 30), $description = array('Visits', 'Actions'));
     }
 

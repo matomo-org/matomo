@@ -23,30 +23,27 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SetNumberOfCustomVariablesTest extends IntegrationTestCase
 {
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage  Not enough arguments
-     */
     public function testExecute_ShouldThrowException_IfArgumentIsMissing()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments');
+
         $this->executeCommand(null);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage  The number of available custom variables has to be a number
-     */
     public function testExecute_ShouldThrowException_HasToBeANumber()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The number of available custom variables has to be a number');
+
         $this->executeCommand('a');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage  There has to be at least five custom variables
-     */
     public function testExecute_ShouldThrowException_Minimum2CustomVarsRequired()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('There has to be at least five custom variables');
+
         $this->executeCommand(4);
     }
 
@@ -60,7 +57,7 @@ class SetNumberOfCustomVariablesTest extends IntegrationTestCase
     {
         $result = $this->executeCommand(5);
 
-        $this->assertContains('Your Piwik is already configured for 5 custom variables', $result);
+        self::assertStringContainsString('Your Piwik is already configured for 5 custom variables', $result);
     }
 
     public function testExecute_ShouldAddMaxCustomVars_IfNumberIsHigherThanActual()
@@ -69,13 +66,13 @@ class SetNumberOfCustomVariablesTest extends IntegrationTestCase
 
         $result = $this->executeCommand(6);
 
-        $this->assertContains('Configuring Piwik for 6 custom variables', $result);
-        $this->assertContains('1 new custom variables having the index(es) 6 will be ADDED', $result);
-        $this->assertContains('Starting to apply changes', $result);
-        $this->assertContains('Added a variable in scope "Page" having the index 6', $result);
-        $this->assertContains('Added a variable in scope "Visit" having the index 6', $result);
-        $this->assertContains('Added a variable in scope "Conversion" having the index 6', $result);
-        $this->assertContains('Your Piwik is now configured for 6 custom variables.', $result);
+        self::assertStringContainsString('Configuring Piwik for 6 custom variables', $result);
+        self::assertStringContainsString('1 new custom variables having the index(es) 6 will be ADDED', $result);
+        self::assertStringContainsString('Starting to apply changes', $result);
+        self::assertStringContainsString('Added a variable in scope "Page" having the index 6', $result);
+        self::assertStringContainsString('Added a variable in scope "Visit" having the index 6', $result);
+        self::assertStringContainsString('Added a variable in scope "Conversion" having the index 6', $result);
+        self::assertStringContainsString('Your Piwik is now configured for 6 custom variables.', $result);
 
         $this->assertEquals(6, CustomVariables::getNumUsableCustomVariables());
     }
@@ -87,13 +84,13 @@ class SetNumberOfCustomVariablesTest extends IntegrationTestCase
 
         $result = $this->executeCommand(5);
 
-        $this->assertContains('Configuring Piwik for 5 custom variables', $result);
-        $this->assertContains('1 existing custom variables having the index(es) 6 will be REMOVED.', $result);
-        $this->assertContains('Starting to apply changes', $result);
-        $this->assertContains('Removed a variable in scope "Page" having the index 6', $result);
-        $this->assertContains('Removed a variable in scope "Visit" having the index 6', $result);
-        $this->assertContains('Removed a variable in scope "Conversion" having the index 6', $result);
-        $this->assertContains('Your Piwik is now configured for 5 custom variables.', $result);
+        self::assertStringContainsString('Configuring Piwik for 5 custom variables', $result);
+        self::assertStringContainsString('1 existing custom variables having the index(es) 6 will be REMOVED.', $result);
+        self::assertStringContainsString('Starting to apply changes', $result);
+        self::assertStringContainsString('Removed a variable in scope "Page" having the index 6', $result);
+        self::assertStringContainsString('Removed a variable in scope "Visit" having the index 6', $result);
+        self::assertStringContainsString('Removed a variable in scope "Conversion" having the index 6', $result);
+        self::assertStringContainsString('Your Piwik is now configured for 5 custom variables.', $result);
 
         $this->assertEquals(5, CustomVariables::getNumUsableCustomVariables());
     }

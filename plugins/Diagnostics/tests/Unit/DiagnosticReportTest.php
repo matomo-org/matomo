@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Diagnostics\tests\Unit;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\DiagnosticReport;
 
-class DiagnosticReportTest extends \PHPUnit_Framework_TestCase
+class DiagnosticReportTest extends \PHPUnit\Framework\TestCase
 {
     public function test_shouldComputeErrorAndWarningCount()
     {

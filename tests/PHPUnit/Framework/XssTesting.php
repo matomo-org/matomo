@@ -170,7 +170,7 @@ JS;
         $actualEntries = array_values($actualEntries);
 
         try {
-            \PHPUnit_Framework_Assert::assertEquals($expectedEntries, $actualEntries);
+            \PHPUnit\Framework\Assert::assertEquals($expectedEntries, $actualEntries);
         } catch (\Exception $ex) {
             print "XssTesting::sanityCheck() failed, got: " . var_export($actualEntries, true)
                 . "\nexpected: " . var_export($expectedEntries, true);

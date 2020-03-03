@@ -20,11 +20,6 @@ use Piwik\Plugins\UsersManager\Model;
 use Piwik\Translation\Translator;
 
 /**
- * @see core/Translate.php
- */
-require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
-
-/**
  * Main piwik helper class.
  *
  * Contains helper methods for a variety of common tasks. Plugin developers are

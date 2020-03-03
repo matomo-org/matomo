@@ -160,14 +160,14 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     public $idSite = 1;
     public $numVisitsPerIteration = 32;
     /**
-     * @var \PiwikTracker
+     * @var \MatomoTracker
      */
     private $tracker;
 
     private $numSites = 5;
     private $currentUserId;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->installLogTables();
@@ -176,7 +176,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         $this->trackVisitsForMultipleSites();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->tearDownLocation();
     }

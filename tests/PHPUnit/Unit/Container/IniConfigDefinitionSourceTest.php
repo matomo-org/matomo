@@ -12,7 +12,7 @@ use DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\IniConfigDefinitionSource;
 
-class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
+class IniConfigDefinitionSourceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -77,7 +77,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($definition instanceof ValueDefinition);
         $this->assertEquals('ini.General', $definition->getName());
-        $this->assertInternalType('array', $definition->getValue());
+        self::assertIsArray($definition->getValue());
         $this->assertEquals(array('foo' => 'bar'), $definition->getValue());
     }
 
@@ -103,10 +103,11 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|GlobalSettingsProvider
+     * @return \PHPUnit\Framework\MockObject\MockObject|GlobalSettingsProvider
      */
     private function createConfig()
     {
-        return $this->getMock('Piwik\Application\Kernel\GlobalSettingsProvider', array(), array(), '', false);
+        return $this->getMockBuilder('Piwik\Application\Kernel\GlobalSettingsProvider')
+                ->disableOriginalConstructor()->getMock();
     }
 }

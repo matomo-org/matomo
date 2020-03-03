@@ -16,14 +16,14 @@ use Piwik\Category\Subcategory;
  * @group Category
  * @group CategoryTest
  */
-class CategoryTest extends \PHPUnit_Framework_TestCase
+class CategoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Category
      */
     private $category;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->category = new Category();
@@ -76,12 +76,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array($subcategory1, $subcategory2), $this->category->getSubcategories());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Subcategory id1 already exists
-     */
     public function test_addSubcategory_ShouldThrowException_WhenAddingSubcategoryWithSameIdTwice()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Subcategory id1 already exists');
+
         $subcategory1 = $this->createSubcategory('id1', 'name1');
         $subcategory2 = $this->createSubcategory('id1', 'name2');
 

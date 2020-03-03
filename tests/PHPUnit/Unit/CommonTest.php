@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Unit;
 
 use Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Application\Environment;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -22,7 +22,7 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  * @backupGlobals enabled
  * @group Common
  */
-class CommonTest extends PHPUnit_Framework_TestCase
+class CommonTest extends TestCase
 {
 
     public function test_getProcessId()
@@ -121,13 +121,9 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRequestVarEmptyVarName()
     {
-        try {
-            $_GET[''] = 1;
-            Common::getRequestVar('');
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        $_GET[''] = 1;
+        Common::getRequestVar('');
     }
 
     /**
@@ -135,12 +131,8 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRequestVarNoDefaultNoTypeNoValue()
     {
-        try {
-            Common::getRequestVar('test');
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        Common::getRequestVar('test');
     }
 
     /**
@@ -169,11 +161,11 @@ class CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * nodefault Withtype WithValue => exception cos type not matching
-     * @expectedException \Exception
-     * @expectedExceptionMessage The parameter 'test' isn't set in the Request
      */
     public function testGetRequestVarNoDefaultWithTypeWithValue()
     {
+        $this->expectException(Exception::class);
+        $this->expectDeprecationMessage("The parameter 'test' isn't set in the Request");
         $_GET['test'] = false;
         Common::getRequestVar('test', null, 'string');
     }
@@ -183,13 +175,8 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRequestVarNoDefaultWithTypeWithValue2()
     {
-        try {
-            Common::getRequestVar('test', null, 'string');
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
-
+        $this->expectException(Exception::class);
+        Common::getRequestVar('test', null, 'string');
     }
 
     /**
@@ -286,7 +273,7 @@ class CommonTest extends PHPUnit_Framework_TestCase
             "WHITE SPACE",
         );
         foreach ($notvalid as $toTest) {
-            $this->assertFalse(Filesystem::isValidFilename($toTest), $toTest . " valid but shouldn't!");
+            self::assertFalse(Filesystem::isValidFilename($toTest), $toTest . " valid but shouldn't!");
         }
     }
 
@@ -300,8 +287,8 @@ class CommonTest extends PHPUnit_Framework_TestCase
 
         // strings not unserializable should return false and trigger a debug log
         $logger = $this->createFakeLogger();
-        $this->assertFalse(Common::safe_unserialize('{1:somebroken}'));
-        $this->assertContains('Unable to unserialize a string: unserialize(): Error at offset 0 of 14 bytes', $logger->output);
+        self::assertFalse(Common::safe_unserialize('{1:somebroken}'));
+        self::assertStringContainsString('Unable to unserialize a string: unserialize(): Error at offset 0 of 14 bytes', $logger->output);
     }
 
     private function createFakeLogger()

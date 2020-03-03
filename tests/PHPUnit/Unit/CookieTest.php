@@ -10,7 +10,7 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Cookie;
 
-class CookieTest extends \PHPUnit_Framework_TestCase
+class CookieTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for testJsonSerialize
@@ -44,7 +44,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider getJsonSerializeData
      */
-    public function testJsonSerialize($testData, $id)
+    public function testJsonSerialize($id, $testData)
     {
         $this->assertEquals($testData, json_decode(json_encode($testData), $assoc = true), $id);
     }

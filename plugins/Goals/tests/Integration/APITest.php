@@ -29,7 +29,7 @@ class APITest extends IntegrationTestCase
 
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
@@ -100,39 +100,35 @@ class APITest extends IntegrationTestCase
         $this->assertGoal($idGoal, 'MyName', '', 'title', 'rere(.*)', 'regex', 1, 50, 1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ValidatorErrorXNotWhitelisted
-     */
     public function test_addGoal_shouldThrowException_IfPatternTypeIsInvalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorXNotWhitelisted');
+
         $this->api->addGoal($this->idSite, 'MyName', 'external_website', 'www.test.de', 'invalid');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ValidatorErrorNoValidRegex
-     */
     public function test_addGoal_shouldThrowException_IfPatternRegexIsInvalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorNoValidRegex');
+
         $this->api->addGoal($this->idSite, 'MyName', 'url', '/(%$f', 'regex');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Goals_ExceptionInvalidMatchingString
-     */
     public function test_addGoal_shouldThrowException_IfPatternTypeIsExactAndMatchAttributeNotEvent()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Goals_ExceptionInvalidMatchingString');
+
         $this->api->addGoal($this->idSite, 'MyName', 'url', 'www.test.de', 'exact');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Goals_ExceptionInvalidMatchingString
-     */
     public function test_addGoal_shouldThrowException_IfPatternTypeIsExactAndMatchAttributeNotEvent2()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Goals_ExceptionInvalidMatchingString');
+
         $this->api->addGoal($this->idSite, 'MyName', 'external_website', 'www.test.de', 'exact');
     }
 
@@ -145,34 +141,31 @@ class APITest extends IntegrationTestCase
         $this->assertSame('3', (string)$idGoal);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasWriteAccess Fake exception
-     */
     public function test_addGoal_shouldThrowException_IfNotEnoughPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasWriteAccess Fake exception');
+
         $this->setNonAdminUser();
         $this->createAnyGoal();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasWriteAccess Fake exception
-     */
     public function test_updateGoal_shouldThrowException_IfNotEnoughPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasWriteAccess Fake exception');
+
         $idGoal = $this->createAnyGoal();
         $this->assertSame(1, $idGoal); // make sure goal is created and does not already fail here
         $this->setNonAdminUser();
         $this->api->updateGoal($this->idSite, $idGoal, 'MyName', 'url', 'www.test.de', 'exact');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Goals_ExceptionInvalidMatchingString
-     */
     public function test_updateGoal_shouldThrowException_IfPatternTypeIsExactAndMatchAttributeNotEvent()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Goals_ExceptionInvalidMatchingString');
+
         $idGoal = $this->createAnyGoal();
         $this->api->updateGoal($this->idSite, $idGoal, 'MyName', 'url', 'www.test.de', 'exact');
     }
@@ -236,12 +229,11 @@ class APITest extends IntegrationTestCase
         $this->assertHasNoGoals();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasViewAccess Fake exception
-     */
     public function test_getGoal_shouldThrowException_IfNotEnoughPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('heckUserHasViewAccess Fake exception');
+
         $idGoal = $this->createAnyGoal();
         $this->assertSame(1, $idGoal);
         $this->setNonAdminUser();

@@ -15,14 +15,14 @@ use Piwik\Url;
 /**
  * @group CliMulti
  */
-class OutputTest extends \PHPUnit_Framework_TestCase
+class OutputTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Output
      */
     private $output;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ class OutputTest extends \PHPUnit_Framework_TestCase
         $this->output = new Output('myid');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if(is_object($this->output)){
             $this->output->destroy();
@@ -42,12 +42,11 @@ class OutputTest extends \PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The given output id has an invalid format
-     */
     public function test_construct_shouldFail_IfInvalidOutputIdGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The given output id has an invalid format');
+
         new Output('../../');
     }
 

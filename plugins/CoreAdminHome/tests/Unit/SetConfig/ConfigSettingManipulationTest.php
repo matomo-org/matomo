@@ -44,14 +44,14 @@ class DumbMockConfig extends \Piwik\Config
  * @group CoreAdminHome
  * @group CoreAdminHome_Unit
  */
-class ConfigSettingManipulationTest extends \PHPUnit_Framework_TestCase
+class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Config
      */
     private $mockConfig;
 
-    protected function setUp()
+    public function setUp(): void
     {
         $this->mockConfig = new DumbMockConfig();
         $this->mockConfigData = array();
@@ -94,11 +94,12 @@ class ConfigSettingManipulationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getFailureTestDataForMake
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid assignment string
      */
     public function test_make_ThrowsWhenInvalidAssignmentStringSupplied($assignmentString)
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid assignment string');
+
         ConfigSettingManipulation::make($assignmentString);
     }
 
@@ -113,24 +114,22 @@ class ConfigSettingManipulationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Trying to append to non-array setting value
-     */
     public function test_manipulate_ThrowsIfAppendingNonArraySetting()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Trying to append to non-array setting value');
+
         $this->mockConfig->mockConfigData['General']['config'] = "5";
 
         $manipulation = new ConfigSettingManipulation("General", "config", "10", true);
         $manipulation->manipulate($this->mockConfig);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Trying to set non-array value to array setting
-     */
     public function test_manipulate_ThrowsIfAssigningNonArrayValue_ToArraySetting()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Trying to set non-array value to array setting');
+
         $this->mockConfig->mockConfigData['General']['config'] = array("5");
 
         $manipulation = new ConfigSettingManipulation("General", "config", "10", false);

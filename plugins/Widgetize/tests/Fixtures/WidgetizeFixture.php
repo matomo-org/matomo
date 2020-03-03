@@ -26,13 +26,13 @@ class WidgetizeFixture extends Fixture
         array('name' => 'Visit Docs',         'match' => 'url', 'pattern' => 'docs',       'patternType' => 'contains', 'revenue' => false),
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsite();
         $this->setUpGoals();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

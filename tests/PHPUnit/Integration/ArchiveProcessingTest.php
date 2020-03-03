@@ -40,7 +40,7 @@ class ArchiveProcessorTest extends ArchiveProcessor\Loader
  */
 class ArchiveProcessingTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,7 +50,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }

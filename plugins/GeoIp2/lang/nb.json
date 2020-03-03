@@ -1,0 +1,16 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Kan ikke finne apache_get_modules-funksjonen. Antar at det ikke er en Apache webserver.",
+        "CannotListContent": "Kunne ikke vise innhold for %1$s: %2$s",
+        "DownloadingDb": "Laster ned %s",
+        "DownloadNewDatabasesEvery": "Oppdater databasene hver",
+        "FoundApacheModules": "Matomo fant følgende Apache-moduler",
+        "GeoIPDatabases": "GeoIP-databaser",
+        "GeoIPNoServerVars": "Matomo kan ikke finne noen GeoIP %s variabler.",
+        "HowToInstallApacheModule": "Hvordan installerer jeg GeoIP-modulen for Apache?",
+        "HowToInstallNginxModule": "Hvordan installerer jeg GeoIP-modulen for Nginx?",
+        "HttpServerModule": "HTTP Server-modul",
+        "ISPDatabase": "ISP-database",
+        "LocationDatabase": "Lokasjonsdatabase"
+    }
+}

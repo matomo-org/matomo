@@ -13,14 +13,14 @@ use Piwik\CronArchive\FixedSiteIds;
 /**
  * @group Core
  */
-class FixedSiteIdsTest extends \PHPUnit_Framework_TestCase
+class FixedSiteIdsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FixedSiteIds
      */
     private $fixedSiteIds;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixedSiteIds = new FixedSiteIds(array(1,2,5,9));
     }

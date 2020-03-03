@@ -1,7 +1,0 @@
-{
-    "CustomPiwikJs": {
-        "PluginDescription": "Sallii minkä tahansa liitännäisen laajentaa Matomon JavaScript-seurantatiedostoa (matomo.js) ja lisätä uusia toiminnallisuuksia sekä verkkosivuston mittauskyvykkyyksiä.",
-        "DiagnosticPiwikJsWritable": "Kirjoitettava JavaScript-seurain (%s)",
-        "DiagnosticPiwikJsMakeWritable": "Suosittelemme, että %1$s asetetaan kirjoitettavaksi suorittamalla seuraava komento: %2$s"
-    }
-}

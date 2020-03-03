@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -24,13 +24,13 @@ use RecursiveIteratorIterator;
  * @group Core
  * @group ReleaseCheckListTest
  */
-class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
+class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 {
     private $globalConfig;
 
     const MINIMUM_PHP_VERSION = '7.2.0';
 
-    public function setUp()
+    public function setUp(): void
     {
         $iniReader = new IniReader();
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
@@ -221,7 +221,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             // Note: entries below are paths and any file within these paths will be automatically whitelisted
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
-            PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
+            PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
+            PIWIK_INCLUDE_PATH . '/vendor/phpunit/php-code-coverage/tests',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
         );
 

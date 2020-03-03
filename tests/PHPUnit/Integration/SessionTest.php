@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\Fixture;
  * @group Session
  * @group SessionTest
  */
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_session_should_not_be_started_if_it_was_already_started()
 	{

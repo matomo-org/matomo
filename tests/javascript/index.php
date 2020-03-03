@@ -21,8 +21,8 @@ try {
     $mysql = false;
 }
 
-use \Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
-use \Piwik\Plugins\CustomPiwikJs\TrackingCode\JsTestPluginTrackerFiles;
+use \Piwik\Plugins\CustomJsTracker\TrackerUpdater;
+use \Piwik\Plugins\CustomJsTracker\TrackingCode\JsTestPluginTrackerFiles;
 
 $targetFileName = '/tests/resources/matomo.test.js';
 $sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
@@ -1784,7 +1784,7 @@ function PiwikTest() {
     });
 
     test("ContentTrackerInternals", function() {
-        expect(151);
+        expect(111);
         var tracker = Piwik.getTracker();
         var actual, expected, trackerUrl;
 
@@ -1801,7 +1801,7 @@ function PiwikTest() {
                 message += ', ';
             }
 
-            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message + " " +  actual + ' should start with ' + expectedStartsWith);
 
             var expectedString = '&idsite=1&rec=1';
             strictEqual(actual.indexOf(expectedString), expectedStartsWith.length, 'did not find ' + expectedString + ' in ' + actual);
@@ -1854,39 +1854,6 @@ function PiwikTest() {
         actual   = tracker.buildContentInteractionRequestNode($('#ex18 a')[0], 'CustomInteraction://');
         expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
         assertTrackingRequest(actual, expected, 'should automatically find parent and search for content from there');
-
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl();
-        strictEqual(actual, undefined, 'nothing set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db',
-            'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db',
-            'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
-
-        trackerUrl = tracker.getTrackerUrl();
-        tracker.setTrackerUrl('matomo.php?test=1');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'matomo.php?test=1&redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'should use & if tracker url already contains question mark');
-
-        tracker.setTrackerUrl('matomo.php');
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('matomo.php?redirecturl=http://www.example.com', 'click', 'name', 'piece', 'target');
-        strictEqual(actual, 'matomo.php?redirecturl=http://www.example.com', 'should return unmodified url if it is already a tracker url so users can set matomo.php link in href');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('http://www.example.com', 'click', 'name');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + encodeWrapper('http://www.example.com') + '&c_i=click&c_n=name&c_t=http%3A%2F%2Fwww.example.com', 'should not change url if absolute');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl(origin, 'something', 'name', undefined, 'target');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + originEncoded + '&c_i=something&c_n=name&c_t=target', 'should not change url if same domain');
-
-        tracker.setTrackerUrl(trackerUrl);
 
         ok('test wasContentImpressionAlreadyTracked()');
         actual = tracker.wasContentImpressionAlreadyTracked(impression);
@@ -1964,16 +1931,10 @@ function PiwikTest() {
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))({target: _s('#ex108')});
         assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com', 'trackContentImpressionClickInteraction, is outlink but should use xhr as link tracking not enabled');
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
-        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
-        assertTrackingRequest($(_s('#ex109')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/file.pdf') + '&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
+        assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t='+originEncoded+'%2Ffile.pdf', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))({target: _s('#ex110')});
-        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should be tracked using redirect');
-        assertTrackingRequest($(_s('#ex110')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/example') + '&c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, the href link should be replaced with a redirect link to tracker');
-
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex111')))({target: _s('#ex111')});
-        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should detect it is a link to same page');
-        strictEqual($(_s('#ex111')).attr('href'), 'matomo.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
+        assertTrackingRequest(actual, 'c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, should be tracked using redirect');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))({target: _s('#ex112')});
         assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + toEncodedAbsoluteUrl('#example'), 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
@@ -2081,47 +2042,6 @@ function PiwikTest() {
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden'), _s('#ex116_hidden'), _s('#ex115'),_s('#ex115')]);
         strictEqual(actual.length, 1, 'getVisibleImpressions, two hidden ones before a visible ones to make sure removing hidden content block from array works and does not ignore one');
         assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img115.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img115.jpg') + '&c_t=http%3A%2F%2Fwww.example.com');
-
-
-        ok('test replaceHrefIfInternalLink()')
-
-        var trackerUrl = tracker.getTrackerUrl();
-        tracker.setTrackerUrl('matomo.php');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(), false, 'no content node set');
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), false, 'should be ignored');
-        $(_s('#ignoreInternalLink')).removeClass('piwikContentIgnoreInteraction'); // now it should be no longer ignored and as it is an intenral link replaced
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), true, 'should be replaced as is internal link');
-        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/internallink') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
-        strictEqual($(_s('#ignoreInternalLink')).attr('data-content-target'), origin + '/internallink', 'we need to set data-content-target when link is set otherwise a replace would not be found');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex122')), true, 'should be replaced');
-        strictEqual($(_s('#replacedLinkWithTarget')).attr('data-content-target'), '/test', 'should replace href but not a data-content-target if already exists');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex118')), true, 'should not replace already replaced link');
-        strictEqual($(_s('#ex118')).attr('href'), 'matomo.php?test=5', 'link should not be replaced');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex119')), false, 'anchor link should not be replaced');
-        strictEqual($(_s('#ex119')).attr('href'), '#test', 'link should not replace anchor link');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex120')), false, 'external link should not be replaced');
-        strictEqual($(_s('#ex120')).attr('href'), 'http://www.example.com', 'should not replace external link');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), true, 'should replace download link if link tracking not enabled');
-        assertTrackingRequest($(_s('#ex121')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/download.pdf') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
-
-        $(_s('#ex121')).attr('href', '/download.pdf'); // reset link
-        tracker.enableLinkTracking();
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), false, 'should not replace download link');
-        strictEqual($(_s('#ex121')).attr('href'), '/download.pdf', 'should not replace download link');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex123')), false, 'should not replace a link that has no href');
-        strictEqual($(_s('#ex123')).attr('href'), undefined, 'should still not have a href attribute');
-
-
-
-        tracker.setTrackerUrl(trackerUrl);
 
         removeContentTrackingFixture();
     });
@@ -4790,7 +4710,7 @@ if ($mysql) {
     });
 
     test("trackingContentInteractionInteractive", function() {
-        expect(18);
+        expect(15);
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -4874,20 +4794,6 @@ if ($mysql) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        var expectedLink = toAbsoluteUrl('matomo.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/anylink5') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&idsite=1&rec=1';
-        var newHref = _s('#internalLink').href;
-        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
-        strictEqual(_s('#internalLink').wasContentTargetAttrReplaced, true, 'has to be marked as replaced so we know we have to update content target again in case the url changes meanwhile');
-        // now we are going to change the link to see whether it will be replaced again
-        tracker.getContent().setHrefAttribute(_s('#internalLink'), '/newlink');
-
-        wait(300);
-
-        triggerEvent(_s('#internalLink'), 'click'); // should replace href php
-        newHref = _s('#internalLink').href;
-        expectedLink = toAbsoluteUrl('matomo.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/newlink') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fnewlink&idsite=1&rec=1';
-        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href2 is replaced again: ' + newHref); // make sure was already replace by trackContentImpressions()
-
         wait(300);
 
         stop();

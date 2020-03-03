@@ -332,9 +332,12 @@ class Visualization extends ViewDataTable
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
-        $proxyRequestParams = array_merge($request, [
-            'disable_root_datatable_post_processor' => 1,
-        ]);
+        $proxyRequestParams = $request;
+        if ($this->isComparing()) {
+            $proxyRequestParams = array_merge($proxyRequestParams, [
+                'disable_root_datatable_post_processor' => 1,
+            ]);
+        }
 
         $class     = ApiRequest::getClassNameAPI($module);
         $dataTable = Proxy::getInstance()->call($class, $method, $proxyRequestParams);

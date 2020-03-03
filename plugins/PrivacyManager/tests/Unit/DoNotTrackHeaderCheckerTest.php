@@ -16,16 +16,16 @@ use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
  * Class DoNotTrackHeaderCheckerTest
  * @group DoNotTrackHeaderCheckerTest
  */
-class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
+class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->cleanupServerGlobals();
 
         $this->setUserAgentToChrome();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cleanupServerGlobals();
     }

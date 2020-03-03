@@ -14,13 +14,13 @@ use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 /**
  * @group Core
  */
-class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
+class SegmentArchivingRequestUrlProviderTest extends \PHPUnit\Framework\TestCase
 {
     const TEST_NOW = '2015-03-01';
 
     private $mockSegmentEntries;
 
-    public function setUp()
+    public function setUp(): void
     {
         Config::getInstance()->General['enabled_periods_API'] = 'day,week,month,year,range';
 
@@ -247,7 +247,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
 
     private function createUrlProviderToTest($processNewSegmentsFrom)
     {
-        $mockSegmentEditorModel = $this->getMock('Piwik\Plugins\SegmentEditor\Model', array('getAllSegmentsAndIgnoreVisibility'));
+        $mockSegmentEditorModel = $this->createPartialMock('Piwik\Plugins\SegmentEditor\Model', array('getAllSegmentsAndIgnoreVisibility'));
         $mockSegmentEditorModel->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->will($this->returnValue($this->mockSegmentEntries));
 
         return new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom, $mockSegmentEditorModel, null, Date::factory(self::TEST_NOW));

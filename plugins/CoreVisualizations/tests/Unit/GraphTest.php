@@ -16,7 +16,7 @@ use Piwik\DataTable;
  * @group Sparklines
  * @group Plugins
  */
-class GraphTest extends \PHPUnit_Framework_TestCase
+class GraphTest extends \PHPUnit\Framework\TestCase
 {
     public function testSelectableColumnsAlreadySet()
     {
@@ -139,10 +139,10 @@ class GraphTest extends \PHPUnit_Framework_TestCase
         $dataTable = new DataTable();
         $dataTable->setRows(array($row));
 
-        $bar = $this->getMock('Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar',
-            array('getDataTable'),
-            array('', '')
-        );
+        $bar = $this->getMockBuilder('Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar')
+            ->setMethods(['getDataTable'])
+            ->setConstructorArgs(['', ''])
+            ->getMock();
         $bar->expects($this->any())
             ->method('getDataTable')
             ->will($this->returnValue($dataTable));

@@ -19,7 +19,7 @@ class ManyVisitsOfSameVisitor extends Fixture
     public $idSite = 1;
     public $idSite2 = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::siteCreated($this->idSite)) {
             self::createWebsite($this->dateTime);
@@ -32,7 +32,7 @@ class ManyVisitsOfSameVisitor extends Fixture
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -62,6 +62,9 @@ class ManyVisitsOfSameVisitor extends Fixture
 
             if ($numVisits > 0) {
                 $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
+                $t->setForceVisitDateTime($visitDateTime);
+            } else {
+                $visitDateTime = Date::factory($this->dateTime)->subHour(-$numVisits/10)->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
             }
 

@@ -16,7 +16,7 @@ use Piwik\DataTable;
  * @group AddSegmentByLabelInUTCTest
  * @group Plugins
  */
-class AddSegmentByLabelInUTCTest extends \PHPUnit_Framework_TestCase
+class AddSegmentByLabelInUTCTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'Piwik\Plugins\VisitTime\DataTable\Filter\AddSegmentByLabelInUTC';
 
@@ -25,7 +25,7 @@ class AddSegmentByLabelInUTCTest extends \PHPUnit_Framework_TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable();
         $this->addRow(array('label' => '0'));

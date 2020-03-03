@@ -111,6 +111,7 @@
         "ConfigFileIsNotWritable": "Berkas konfigurasi Matomo %1$s tak dapat ditulisi, beberapa perubahan Anda kemungkinan tidak tersimpan. %2$s Silakan mengubah perizinan berkas konfigurasi agar dapat ditulisi.",
         "Continue": "Lanjut",
         "ContinueToPiwik": "Lanjut ke Matomo",
+        "CurrentlyUsingUnsecureHttp": "Saat ini anda sedang menggunakan Matomo dengan HTTP tidak aman. Hal ini dapat membuat Matomo anda rentan terhadap eksploit. Anda juga mungkin melanggar hukum privasi, sebagaimana beberapa fitur termasuk kukis keluar tidak akan bekerja. Kami menyarankan anda mengatur Matomo untuk menggunakan SSL (HTTPS) untuk keamanan tingkat lanjut.",
         "CreatedByUser": "dibuat oleh %s",
         "CurrentMonth": "Bulan Ini",
         "CurrentWeek": "Minggu Ini",

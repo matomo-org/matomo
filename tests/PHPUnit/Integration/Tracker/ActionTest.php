@@ -10,11 +10,11 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
-use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -24,7 +24,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ActionTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -37,14 +37,14 @@ class ActionTest extends IntegrationTestCase
 
         PluginManager::getInstance()->loadPlugins(array('SitesManager'));
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     protected function setUpRootAccess()

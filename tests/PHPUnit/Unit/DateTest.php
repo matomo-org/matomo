@@ -12,13 +12,13 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\SettingsServer;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  */
-class DateTest extends \PHPUnit_Framework_TestCase
+class DateTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,7 +26,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         date_default_timezone_set('UTC');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Date::$now = null;
         date_default_timezone_set('UTC');
@@ -77,12 +77,8 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidDateThrowsException()
     {
-        try {
-            Date::factory('0001-01-01');
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        Date::factory('0001-01-01');
     }
 
     public function getTimezoneOffsets()
@@ -404,14 +400,14 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedTimeFormats($language, $use12HourClock, $time, $shouldBe)
     {
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
         StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider')->forceTimeFormat($use12HourClock);
 
         $date = Date::factory($time);
 
         $this->assertEquals($shouldBe, $date->getLocalized(Date::TIME_FORMAT));
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     /**
@@ -466,21 +462,19 @@ class DateTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
-     */
     public function test_factoryInTimezone_doesNotWorkWithNormalDates()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Date::factoryInTimezone() should not be used with');
+
         Date::factoryInTimezone('2012-02-03', 'America/Toronto');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
-     */
     public function test_factoryInTimezone_doesNotWorkWithTimestamps()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Date::factoryInTimezone() should not be used with');
+
         Date::factoryInTimezone(time(), 'America/Toronto');
     }
 }

@@ -15,7 +15,7 @@ use Piwik\Validators\IpRanges;
  * @group IpRanges
  * @group IpRangesTest
  */
-class IpRangesTest extends \PHPUnit_Framework_TestCase
+class IpRangesTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_success()
     {
@@ -28,14 +28,14 @@ class IpRangesTest extends \PHPUnit_Framework_TestCase
         $this->validate(false);
         $this->validate('');
         $this->validate(null);
+
+        $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage SitesManager_ExceptionInvalidIPFormat
-     */
     public function test_validate_failNotValidIpRange()
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');
         $this->validate(array('127.0.0.1', 'foo'));
     }
 

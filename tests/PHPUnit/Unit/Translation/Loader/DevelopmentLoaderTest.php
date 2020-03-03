@@ -13,7 +13,7 @@ use Piwik\Translation\Loader\DevelopmentLoader;
 /**
  * @group Translation
  */
-class DevelopmentLoaderTest extends \PHPUnit_Framework_TestCase
+class DevelopmentLoaderTest extends \PHPUnit\Framework\TestCase
 {
     private $translations = array(
         'General' => array(

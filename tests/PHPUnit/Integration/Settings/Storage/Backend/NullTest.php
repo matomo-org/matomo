@@ -15,7 +15,7 @@ use Piwik\Settings\Storage\Backend\NullBackend;
  * @group Backend
  * @group Storage
  */
-class NullTest extends \PHPUnit_Framework_TestCase
+class NullTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -23,7 +23,7 @@ class NullTest extends \PHPUnit_Framework_TestCase
      */
     private $backend;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

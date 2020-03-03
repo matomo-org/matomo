@@ -15,7 +15,7 @@ use Piwik\Validators\NotEmpty;
  * @group NotEmpty
  * @group NotEmptyTest
  */
-class NotEmptyTest extends \PHPUnit_Framework_TestCase
+class NotEmptyTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {
@@ -27,11 +27,12 @@ class NotEmptyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getFailValues
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorEmptyValue
      */
     public function test_validate_failValueIsEmpty($value)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
+
         $this->validate($value);
     }
 

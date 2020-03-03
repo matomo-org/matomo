@@ -107,7 +107,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
-        \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
+        \Matomo\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
     }
 
     public function onEnvironmentBootstrapped()
@@ -252,6 +252,10 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
             $plugins = $this->getPluginAndRequiredPlugins($pluginName, $plugins);
         }
+
+        $pluginsToUnload = $this->vars->pluginsToUnload ?? [];
+
+        $plugins = array_diff($plugins, $pluginsToUnload);
 
         return $plugins;
     }

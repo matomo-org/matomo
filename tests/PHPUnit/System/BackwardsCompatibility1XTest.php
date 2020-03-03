@@ -26,7 +26,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
     public static $fixture = null; // initialized below class
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -118,6 +118,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // those reports generate a different segment as a different raw value was stored that time
             'DevicesDetection.getOsVersions',
+            'DevicesDetection.getBrowserFamilies',
+            'DevicesDetection.getBrowserVersions',
+            'DevicesDetection.getBrowserEngines',
+            'DevicesDetection.getBrowsers',
             'Goals.get',
 
             // Following #9345

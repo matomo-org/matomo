@@ -14,7 +14,7 @@ use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
 
-class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
+class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 {
     const TEST_TIME_VALUE = 4567;
 
@@ -23,14 +23,14 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
      */
     private $testInstance;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->testInstance = new SessionFingerprint();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Date::$now = null;
 

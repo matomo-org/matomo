@@ -18,6 +18,7 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Events\Actions\ActionEvent;
+use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -253,7 +254,7 @@ class GoalManager
         $goals = $this->getGoalDefinitions($idSite);
 
         if (!isset($goals[$idGoal])) {
-            return null;
+            throw new InvalidRequestParameterException('idGoal ' . $idGoal . ' does not exist');
         }
 
         $goal = $goals[$idGoal];
@@ -876,10 +877,14 @@ class GoalManager
 
     private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
     {
+        $lastVisitTime = $visitProperties->getProperty('visit_last_action_time');
+        if (!$lastVisitTime) {
+            $lastVisitTime = $request->getCurrentTimestamp();
+        }
         $goal = array(
             'idvisit'     => $visitProperties->getProperty('idvisit'),
             'idvisitor'   => $visitProperties->getProperty('idvisitor'),
-            'server_time' => Date::getDatetimeFromTimestamp($visitProperties->getProperty('visit_last_action_time')),
+            'server_time' => Date::getDatetimeFromTimestamp($lastVisitTime),
         );
 
         $visitDimensions = VisitDimension::getAllDimensions();

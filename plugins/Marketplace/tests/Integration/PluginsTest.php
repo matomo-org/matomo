@@ -41,7 +41,7 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -87,7 +87,7 @@ class PluginsTest extends IntegrationTestCase
             'TreemapVisualization',
         );
         foreach ($expected as $name) {
-            $this->assertContains($name, $pluginNames);
+            self::assertTrue(in_array($name, $pluginNames));
         }
     }
 
@@ -371,7 +371,7 @@ class PluginsTest extends IntegrationTestCase
         $this->service->returnFixture('v2.0_plugins.json');
         $plugins = $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false);
 
-        $this->assertCount(54, $plugins);
+        $this->assertCount(47, $plugins);
         $names = array_map(function ($plugin) {
             return $plugin['name'];
         }, $plugins);
@@ -398,9 +398,9 @@ class PluginsTest extends IntegrationTestCase
             }
 
             if ($plugin['owner'] === 'PiwikPRO') {
-                $this->assertContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringContainsString($piwikProCampaign, $plugin['homepage']);
             } else {
-                $this->assertNotContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringNotContainsString($piwikProCampaign, $plugin['homepage']);
             }
         }
     }
@@ -485,7 +485,6 @@ class PluginsTest extends IntegrationTestCase
     {
         return array (
             'AdminNotification',
-            'AdvancedCampaignReporting',
             'AnonymousPiwikUsageMeasurement',
             'ApiGetWithSitesInfo',
             'Bandwidth',
@@ -496,14 +495,12 @@ class PluginsTest extends IntegrationTestCase
             'CustomAlerts',
             'CustomDimensions',
             'CustomOptOut',
-            'CustomTrackerJs',
             'ExcludeByDDNS',
             'FeedAnnotation',
             'FlagCounter',
             'FreeMobileMessaging',
             'GoogleAuthenticator',
             'GrabGravatar',
-            'InterSites',
             'IntranetGeoIP',
             'Ip2Hostname',
             'IP2Location',
@@ -519,7 +516,6 @@ class PluginsTest extends IntegrationTestCase
             'PaidPlugin1',
             'PerformanceInfo',
             'PerformanceMonitor',
-            'PlatformsReport',
             'QueuedTracking',
             'ReferrersManager',
             'RerUserDates',
@@ -527,17 +523,14 @@ class PluginsTest extends IntegrationTestCase
             'ServerMonitor',
             'ShibbolethLogin',
             'ShortcodeTracker',
-            'SimplePageBuilder',
             'SimpleSysMon',
-            'SiteMigration',
             'SnoopyBehavioralScoring',
             'TasksTimetable',
             'TopPagesByActions',
             'TrackingCodeCustomizer',
             'TreemapVisualization',
             'UptimeRobotMonitor',
-            'VisitorAvatar',
-            'WebsiteGroups'
+            'VisitorAvatar'
         );
     }
 }

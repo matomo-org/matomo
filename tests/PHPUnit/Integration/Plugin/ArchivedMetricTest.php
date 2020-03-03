@@ -12,13 +12,10 @@ use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\ArchivedMetric;
-use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugins\UserCountry\Columns\City;
 use Piwik\Plugins\UserCountry\Columns\Country;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group ArchivedMetric
@@ -36,11 +33,11 @@ class ArchivedMetricTest extends IntegrationTestCase
      */
     private $metric;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         Fixture::createWebsite('2015-01-01 00:00:00');
 
@@ -48,9 +45,9 @@ class ArchivedMetricTest extends IntegrationTestCase
         $this->metric = $this->makeMetric('%s');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 

@@ -273,6 +273,8 @@ class CronArchive
      */
     private $isArchiveProfilingEnabled = false;
 
+    private $lastDbReset = false;
+
     /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
@@ -304,6 +306,7 @@ class CronArchive
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
+        $this->lastDbReset = time();
     }
 
     private function isMaintenanceModeEnabled()
@@ -410,10 +413,7 @@ class CronArchive
                     (!$instanceId
                       || strpos($process, '--matomo-domain=' . $instanceId) !== false
                       || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
-                      || strpos($process, '--piwik-domain=' . $instanceId) !== false
-                      || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false)) {
                     $numRunning++;
                 }
             }
@@ -973,6 +973,8 @@ class CronArchive
 
     private function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
     {
+        $this->disconnectDb();
+
         if (Range::isMultiplePeriod($date, $period)) {
             $rangePeriod = Factory::build($period, $date, Site::getTimezoneFor($idSite));
             $periodsToCheck = $rangePeriod->getSubperiods();
@@ -1107,7 +1109,16 @@ class CronArchive
                     return Request::ABORT;
                 }
 
+                $urlBefore = $request->getUrl();
                 $request->changeDate($newDate);
+                $request->makeSureDateIsNotSingleDayRange();
+
+                // check again if we are already archiving the URL since we just changed it
+                if ($request->getUrl() !== $urlBefore
+                    && $self->isAlreadyArchivingSegment($request->getUrl(), $idSite, $period, $segment)
+                ) {
+                    return Request::ABORT;
+                }
 
                 $this->logArchiveWebsite($idSite, $period, $newDate);
             });
@@ -1228,10 +1239,23 @@ class CronArchive
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }
+        $this->disconnectDb();
         if ($this->checkResponse($response, $url)) {
             return $response;
         }
         return false;
+    }
+
+    private function disconnectDb()
+    {
+        $twoHoursInSeconds = 60 * 60 * 2;
+
+        if (time() > ($this->lastDbReset + $twoHoursInSeconds)) {
+            // we aim to through DB connections away only after 2 hours
+            $this->lastDbReset = time();
+            Db::destroyDatabaseObject();
+            Tracker::disconnectCachedDbConnection();
+        }
     }
 
     private function checkResponse($response, $url)
@@ -1975,9 +1999,17 @@ class CronArchive
                     return Request::ABORT;
                 }
 
-                $url = $request->getUrl();
-                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $url);
+                $urlBefore = $request->getUrl();
+                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $urlBefore);
                 $request->setUrl($url);
+                $request->makeSureDateIsNotSingleDayRange();
+
+                // check again if we are already archiving the URL since we just changed it
+                if ($request->getUrl() !== $urlBefore
+                    && $self->isAlreadyArchivingSegment($request->getUrl(), $idSite, $period, $segment)
+                ) {
+                    return Request::ABORT;
+                }
 
                 $processedSegmentCount++;
                 $logger->info(sprintf(

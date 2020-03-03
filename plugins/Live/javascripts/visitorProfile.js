@@ -71,14 +71,27 @@
             var self = this,
                 $element = this.$element;
 
-            $element.on('click', '.visitor-profile-close', function (e) {
-                e.preventDefault();
-                try {
-                    $element.tooltip('destroy');
-                } catch (e) {}
-                broadcast.propagateNewPopoverParameter(false);
-                return false;
-            });
+            // if there are no popover params in stack, simply close the popover
+            if (!broadcast.popoverParamStack.length) {
+                $element.on('click', '.visitor-profile-close', function (e) {
+                    e.preventDefault();
+                    try {
+                        $element.tooltip('destroy');
+                    } catch (e) {
+                    }
+                    Piwik_Popover.close();
+                });
+            } else {
+                $element.on('click', '.visitor-profile-close', function (e) {
+                    e.preventDefault();
+                    try {
+                        $element.tooltip('destroy');
+                    } catch (e) {
+                    }
+                    broadcast.propagateNewPopoverParameter(false);
+                    return false;
+                });
+            }
 
             $element.on('click', '.visitor-profile-toggle-actions', function (e) {
                 e.preventDefault();

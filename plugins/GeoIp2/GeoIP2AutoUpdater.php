@@ -11,6 +11,7 @@ namespace Piwik\Plugins\GeoIp2;
 require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker which doesn't include this file
 
 use Exception;
+use GeoIp2\Database\Reader;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -21,7 +22,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2 AS LocationProviderGeoIp2;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\Php;
-use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
@@ -130,7 +130,10 @@ class GeoIP2AutoUpdater extends Task
         $logger = StaticContainer::get(LoggerInterface::class);
 
         $url = trim($url);
-        if ($this->isDbIpUrl($url)) {
+
+        if (self::isPaidDbIpUrl($url)) {
+            $url = $this->fetchPaidDbIpUrl($url);
+        } else if (self::isDbIpUrl($url)) {
             $url = $this->getDbIpUrlWithLatestDate($url);
         }
 
@@ -197,7 +200,7 @@ class GeoIP2AutoUpdater extends Task
             $content = $unzip->listContent();
 
             if (empty($content)) {
-                throw new Exception(Piwik::translate('UserCountry_CannotListContent',
+                throw new Exception(Piwik::translate('GeoIp2_CannotListContent',
                     array("'$path'", $unzip->errorInfo())));
             }
 
@@ -250,7 +253,7 @@ class GeoIP2AutoUpdater extends Task
 
             $success = $unzip->extract($outputPath);
             if ($success !== true) {
-                throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
+                throw new Exception(Piwik::translate('General_CannotUnzipFile',
                     array("'$path'", $unzip->errorInfo())));
             }
 
@@ -260,7 +263,7 @@ class GeoIP2AutoUpdater extends Task
             }
         } else {
             $ext = end(explode(basename($path), '.', 2));
-            throw new Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new Exception(Piwik::translate('GeoIp2_UnsupportedArchiveType', "'$ext'"));
         }
 
         try {
@@ -283,11 +286,11 @@ class GeoIP2AutoUpdater extends Task
                 Log::info("GeoIP2AutoUpdater: Encountered exception when testing newly downloaded" .
                     " GeoIP 2 database: %s", $e->getMessage());
 
-                throw new Exception(Piwik::translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+                throw new Exception(Piwik::translate('GeoIp2_ThisUrlIsNotAValidGeoIPDB'));
             }
 
             if (empty($location)) {
-                throw new Exception(Piwik::translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+                throw new Exception(Piwik::translate('GeoIp2_ThisUrlIsNotAValidGeoIPDB'));
             }
 
             // delete the existing GeoIP database (if any) and rename the downloaded file
@@ -400,7 +403,7 @@ class GeoIP2AutoUpdater extends Task
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
                 throw new Exception(Piwik::translate(
-                    'UserCountry_InvalidGeoIPUpdatePeriod',
+                    'GeoIp2_InvalidGeoIPUpdatePeriod',
                     array("'$period'", "'" . self::SCHEDULE_PERIOD_MONTHLY . "', '" . self::SCHEDULE_PERIOD_WEEKLY . "'")
                 ));
             }
@@ -412,9 +415,6 @@ class GeoIP2AutoUpdater extends Task
 
             $scheduler->rescheduleTaskAndRunTomorrow(new GeoIP2AutoUpdater());
         }
-
-        // clear option for GeoIP as not needed if GeoIP2 is set up
-        GeoIPAutoUpdater::clearOptions();
     }
 
     /**
@@ -556,7 +556,7 @@ class GeoIP2AutoUpdater extends Task
             && $ext != 'gz'
             && $ext != 'mmdb.gz'
         ) {
-            throw new \Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new \Exception(Piwik::translate('GeoIp2_UnsupportedArchiveType', "'$ext'"));
         }
     }
 
@@ -589,9 +589,13 @@ class GeoIP2AutoUpdater extends Task
 
             // test the provider. on error, we rename the broken DB.
             try {
+                // check database directly, as location provider ignores invalid database errors
+                $pathToDb = LocationProviderGeoIp2::getPathToGeoIpDatabase($customNames);
+                $reader = new Reader($pathToDb);
+
                 $location = $provider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
             } catch (\Exception $e) {
-                if($logErrors) {
+                if ($logErrors) {
                     Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
                         . "%s database: %s", $type, $e->getMessage());
                 }
@@ -731,7 +735,7 @@ class GeoIP2AutoUpdater extends Task
         return LocationProviderGeoIp2::$dbNames[$dbType][0] . '.' . $ext;
     }
 
-    private function getDbIpUrlWithLatestDate($url)
+    protected function getDbIpUrlWithLatestDate($url)
     {
         $today = Date::today();
         return preg_replace('/-\d{4}-\d{2}\./', '-' . $today->toString('Y-m') . '.', $url);
@@ -740,5 +744,36 @@ class GeoIP2AutoUpdater extends Task
     public static function isDbIpUrl($url)
     {
         return !! preg_match('/db-ip\.com/', $url);
+    }
+
+    protected static function isPaidDbIpUrl($url)
+    {
+        return !! preg_match('/db-ip\.com\/account\/[0-9a-z]+\/db/', $url);
+    }
+
+    protected function fetchPaidDbIpUrl($url)
+    {
+        $content = trim($this->fetchUrl($url));
+
+        if (0 === strpos($content, 'http')) {
+            return $content;
+        }
+
+        $content = json_decode($content, true);
+
+        if (!empty($content['mmdb']['url'])) {
+            return $content['mmdb']['url'];
+        }
+
+        if (!empty($content['url'])) {
+            return $content['url'];
+        }
+
+        throw new Exception('Unable to determine download url');
+    }
+
+    protected function fetchUrl($url)
+    {
+        return Http::fetchRemoteFile($url);
     }
 }

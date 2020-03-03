@@ -14,7 +14,7 @@ use Piwik\Plugins\Monolog\Processor\ClassNameProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\ClassNameProcessor
  */
-class ClassNameProcessorTest extends \PHPUnit_Framework_TestCase
+class ClassNameProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

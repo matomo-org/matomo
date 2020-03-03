@@ -11,6 +11,9 @@ namespace Piwik\Updates;
 
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -62,10 +65,34 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             }
         }
 
-        $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
+        // we don't delete the token_auth column so users can still downgrade to 3.X if they want to. However, the original
+        // token_auth will be regenerated for security reasons to no longer have it in plain text. So this column will be no longer used
+        // unless someone downgrades to 3.x
+        $sql = sprintf('UPDATE %s set token_auth = MD5(CONCAT(NOW(), UUID()))', Common::prefixTable('user'));
+        $migrations[] = $this->migration->db->sql($sql);
+
         /** APP SPECIFIC TOKEN END */
 
+        $customTrackerPluginActive = false;
+        if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {
+            $customTrackerPluginActive = true;
+        }
+
         $migrations[] = $this->migration->plugin->activate('BulkTracking');
+        $migrations[] = $this->migration->plugin->deactivate('CustomPiwikJs');
+        $migrations[] = $this->migration->plugin->uninstall('CustomPiwikJs');
+
+        if ($customTrackerPluginActive) {
+            $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
+        }
+
+        if ($this->usesGeoIpLegacyLocationProvider()) {
+            // activate GeoIp2 plugin for users still using GeoIp2 Legacy (others might have it disabled on purpose)
+            $migrations[] = $this->migration->plugin->activate('GeoIp2');
+        }
+
+        // remove old options
+        $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
         return $migrations;
     }
@@ -73,5 +100,21 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        if ($this->usesGeoIpLegacyLocationProvider()) {
+            // switch to default provider if GeoIp Legacy was still in use
+            LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
+        }
+    }
+
+    protected function usesGeoIpLegacyLocationProvider()
+    {
+        $currentProvider = LocationProvider::getCurrentProviderId();
+
+        return in_array($currentProvider, [
+            'geoip_pecl',
+            'geoip_php',
+            'geoip_serverbased',
+        ]);
     }
 }

@@ -58,7 +58,7 @@ class TasksTest extends IntegrationTestCase
      */
     private $mail;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -77,7 +77,7 @@ class TasksTest extends IntegrationTestCase
         $this->mail = null;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['trigger']);
 

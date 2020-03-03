@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\Mock\Plugin\Manager;
  * @group Advertising
  * @group Integration
  */
-class AdvertisingTest extends \PHPUnit_Framework_TestCase
+class AdvertisingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Advertising
@@ -37,7 +37,7 @@ class AdvertisingTest extends \PHPUnit_Framework_TestCase
 
     private $exampleUrl = 'https://piwik.xyz/test';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = new FakeConfig(array('General' => array('piwik_professional_support_ads_enabled' => '1')));
         $this->pluginManager = new Manager();

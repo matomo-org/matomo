@@ -28,7 +28,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
      */
     private $duplicateActionRemover;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -10,13 +10,13 @@ namespace Piwik\Tests\Unit\Metrics;
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * @group Core
  */
-class FormatterTest extends \PHPUnit_Framework_TestCase
+class FormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Formatter
@@ -25,7 +25,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
     private $sitesInfo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->sitesInfo = array(
             1 => array(
@@ -52,13 +52,13 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Formatter();
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::reset();
+        Fixture::resetTranslations();
         NumberFormatter::getInstance()->clearCache();
         $this->unsetSiteManagerApiMock();
     }
@@ -225,7 +225,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     {
         $sitesInfo = $this->sitesInfo;
 
-        $mock = $this->getMock('stdClass', array('getSiteFromId'));
+        $mock = $this->getMockBuilder('stdClass')->addMethods(['getSiteFromId'])->getMock();
         $mock->expects($this->any())->method('getSiteFromId')->willReturnCallback(function ($idSite) use ($sitesInfo) {
             return $sitesInfo[$idSite];
         });

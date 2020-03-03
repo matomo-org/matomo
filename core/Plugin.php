@@ -107,7 +107,7 @@ class Plugin
      * perfect but efficient. If the cache is used we need to make sure to call setId() before usage as there
      * is maybe a different key set since last usage.
      *
-     * @var \Piwik\Cache\Eager
+     * @var \Matomo\Cache\Eager
      */
     private $cache;
 

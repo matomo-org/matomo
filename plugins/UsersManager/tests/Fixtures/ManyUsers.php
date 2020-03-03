@@ -70,13 +70,13 @@ class ManyUsers extends Fixture
         $this->addTextSuffixes = $addTextSuffixes;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsite();
         $this->setUpUsers();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

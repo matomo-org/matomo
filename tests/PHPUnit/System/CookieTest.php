@@ -23,14 +23,14 @@ class CookieTest extends SystemTestCase
 
     private $originalAssumeSecureValue;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->testVars = static::$fixture->getTestEnvironment();
         $this->originalAssumeSecureValue = Config::getInstance()->General['assume_secure_protocol'];
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         $this->testVars->overrideConfig('General', 'assume_secure_protocol', $this->originalAssumeSecureValue);
@@ -61,14 +61,14 @@ class CookieTest extends SystemTestCase
     {
         $headers = $this->setIgnoreCookie(self::USERAGENT_FIREFOX);
         $cookie = $this->findIgnoreCookie($headers);
-        $this->assertCookieSameSiteMatches('None', $cookie);
+        $this->assertCookieSameSiteMatches('Lax', $cookie);
     }
 
     public function testIgnoreCookieSameSiteSafari()
     {
         $headers = $this->setIgnoreCookie(self::USERAGENT_SAFARI);
         $cookie = $this->findIgnoreCookie($headers);
-        $this->assertNotContains($cookie, 'SameSite');
+        self::assertStringNotContainsString($cookie, 'SameSite');
     }
 
     private function setIgnoreCookie($userAgent)
@@ -103,6 +103,6 @@ class CookieTest extends SystemTestCase
 
     private function assertCookieSameSiteMatches($expectedSameSite, $cookieHeader)
     {
-        $this->assertContains('SameSite=' . $expectedSameSite, $cookieHeader);
+        self::assertStringContainsString('SameSite=' . $expectedSameSite, $cookieHeader);
     }
 }

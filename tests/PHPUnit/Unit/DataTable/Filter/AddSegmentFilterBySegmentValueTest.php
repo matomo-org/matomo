@@ -22,7 +22,7 @@ use Piwik\Plugins\VisitsSummary\Reports\Get;
  * @group Filter
  * @group Core
  */
-class AddSegmentBySegmentValueTest extends \PHPUnit_Framework_TestCase
+class AddSegmentBySegmentValueTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'AddSegmentBySegmentValue';
 
@@ -33,7 +33,7 @@ class AddSegmentBySegmentValueTest extends \PHPUnit_Framework_TestCase
 
     private $report;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

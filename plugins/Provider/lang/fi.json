@@ -1,9 +1,0 @@
-{
-    "Provider": {
-        "ColumnProvider": "Palveluntarjoajat",
-        "PluginDescription": "Raportoi kävijöiden internetoperaattorin.",
-        "ProviderReportDocumentation": "Tämä raportti näyttää, mitä internetin palveluntarjoajia kävijäsi käyttivät sivuillasi. Saat lisätietoja klikkaamalla toimittajan nimeä. %s Jos Matomo ei tunnista palveluntarjoajan nimeä, kävijästä näytetään IP-osoite.",
-        "WidgetProviders": "Palveluntarjoajat",
-        "ProviderReportFooter": "Tuntematon palveluntarjoaja tarkoittaa, ettei IP-osoitteen avulla voitu etsiä tietoja."
-    }
-}

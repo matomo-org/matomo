@@ -28,7 +28,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         $this->now = Date::factory('now');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

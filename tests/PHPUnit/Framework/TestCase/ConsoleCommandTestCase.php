@@ -71,7 +71,7 @@ class ConsoleCommandTestCase extends SystemTestCase
      */
     protected $application;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

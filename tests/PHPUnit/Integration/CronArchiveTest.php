@@ -106,9 +106,9 @@ class CronArchiveTest extends IntegrationTestCase
         $archiver->init();
         $archiver->run();
 
-        $this->assertContains('Will skip segments archiving for today unless they were created recently', $logger->output);
-        $this->assertContains('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
-        $this->assertNotContains('Segment "actions>=2" was created recently', $logger->output);
+        self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
+        self::assertStringContainsString('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
+        self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
     }
 
     public function test_output()
@@ -212,7 +212,7 @@ Will pre-process for website id = 1, period = day, date = last52
 - pre-processing all visits
 LOG;
 
-        $this->assertContains($expected, $logger->output);
+        self::assertStringContainsString($expected, $logger->output);
     }
 
     public function provideContainerConfig()

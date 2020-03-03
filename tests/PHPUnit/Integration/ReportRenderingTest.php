@@ -31,6 +31,6 @@ class ReportRenderingTest extends IntegrationTestCase
         $frontController = FrontController::getInstance();
         $response = $frontController->dispatch('DevicesDetection', 'getBrand');
 
-        $this->assertContains('Diagnostics_NoDataForReportArchivingNotRun', $response);
+        self::assertStringContainsString('Diagnostics_NoDataForReportArchivingNotRun', $response);
     }
 }

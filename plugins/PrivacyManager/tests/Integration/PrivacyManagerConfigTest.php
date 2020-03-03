@@ -22,7 +22,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
      */
     private $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

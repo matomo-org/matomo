@@ -46,15 +46,6 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
-        // @todo  Remove this alias in Matomo 4.0
-        $option = new InputOption('piwik-domain',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            '[DEPRECATED] Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
-        );
-
-        $this->getDefinition()->addOption($option);
-
         $option = new InputOption('xhprof',
             null,
             InputOption::VALUE_NONE,
@@ -86,6 +77,21 @@ class Console extends Application
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        try {
+            return $this->doRunImpl($input, $output);
+        } catch (\Exception $ex) {
+            try {
+                FrontController::generateSafeModeOutputFromException($ex);
+            } catch (\Exception $ex) {
+                // ignore, we re-throw the original exception, not a wrapped one
+            }
+
+            throw $ex;
+        }
+    }
+
+    private function doRunImpl(InputInterface $input, OutputInterface $output)
     {
         if ($input->hasParameterOption('--xhprof')) {
             Profiler::setupProfilerXHProf(true, true);
@@ -212,10 +218,6 @@ class Console extends Application
     protected function initMatomoHost(InputInterface $input)
     {
         $matomoHostname = $input->getParameterOption('--matomo-domain');
-
-        if (empty($matomoHostname)) {
-            $matomoHostname = $input->getParameterOption('--piwik-domain');
-        }
 
         if (empty($matomoHostname)) {
             $matomoHostname = $input->getParameterOption('--url');

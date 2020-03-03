@@ -54,12 +54,11 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame($visitToUse, $visit);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The Visit object set in the plugin
-     */
     public function test_make_shouldTriggerExceptionInCaseWrongInstanceCreatedInHandler()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The Visit object set in the plugin');
+
         Piwik::addAction('Tracker.makeNewVisitObject', function (&$visit) {
             $visit = new Tracker();
         });

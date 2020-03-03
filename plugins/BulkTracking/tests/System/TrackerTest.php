@@ -22,11 +22,11 @@ class TrackerTest extends SystemTestCase
     public static $fixture = null;
 
     /**
-     * @var \PiwikTracker
+     * @var \MatomoTracker
      */
     private $tracker;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

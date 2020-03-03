@@ -22,7 +22,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
      */
     private $sharedSiteIds;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -34,7 +34,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->sharedSiteIds = $this->makeSharedSiteIds(array(1,2,5,9));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if (!SharedSiteIds::isSupported()) {
             return;

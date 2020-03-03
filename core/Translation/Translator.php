@@ -61,6 +61,17 @@ class Translator
     }
 
     /**
+     * Clean a string that may contain HTML special chars, single/double quotes, HTML entities, leading/trailing whitespace
+     *
+     * @param string $s
+     * @return string
+     */
+    public static function clean($s)
+    {
+        return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
      * Returns an internationalized string using a translation ID. If a translation
      * cannot be found for the ID, the ID is returned.
      *

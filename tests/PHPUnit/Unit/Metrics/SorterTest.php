@@ -30,7 +30,7 @@ class SorterTest extends UnitTestCase
      */
     private $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

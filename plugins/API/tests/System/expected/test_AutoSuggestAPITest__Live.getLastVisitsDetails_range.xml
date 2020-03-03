@@ -271,7 +271,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
+				<subtitle>Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -646,7 +646,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
+				<subtitle>Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -718,13 +718,13 @@
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Macedonia</country>
+		<country>North Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Gevgelija</region>
 		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, North Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -873,13 +873,13 @@
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Macedonia</country>
+		<country>North Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Gevgelija</region>
 		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, North Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1075,7 +1075,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat6', Action: &quot;Action6&quot;</subtitle>
+				<subtitle>Category: &quot;Cat6', Action: &quot;Action6&quot;</subtitle>
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1450,7 +1450,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat5', Action: &quot;Action5&quot;</subtitle>
+				<subtitle>Category: &quot;Cat5', Action: &quot;Action5&quot;</subtitle>
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1850,7 +1850,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat4', Action: &quot;Action4&quot;</subtitle>
+				<subtitle>Category: &quot;Cat4', Action: &quot;Action4&quot;</subtitle>
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2254,7 +2254,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
+				<subtitle>Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2503,7 +2503,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
+				<subtitle>Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3050,7 +3050,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
+				<subtitle>Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3295,7 +3295,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
+				<subtitle>Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3817,7 +3817,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4037,7 +4037,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4257,7 +4257,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4469,7 +4469,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5363,7 +5363,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5637,7 +5637,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5911,7 +5911,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6177,7 +6177,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>

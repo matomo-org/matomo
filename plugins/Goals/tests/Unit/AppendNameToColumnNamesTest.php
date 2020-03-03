@@ -17,7 +17,7 @@ use Piwik\DataTable\Row;
  * @group Filter
  * @group Goals
  */
-class AppendNameToColumnNamesTest extends \PHPUnit_Framework_TestCase
+class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames';
 
@@ -26,7 +26,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit_Framework_TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable\Simple();
         $this->addRow(array('nb_visits' => 1, 'nb_conversions' => 5, 'revenue' => 10, 'conversion_rate' => 20));

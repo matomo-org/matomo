@@ -7,6 +7,7 @@
         "AnonymizeIpMaskLength": "%1$s tavua - esim. %2$s",
         "AskingForConsent": "Hyväksynnän kysyminen",
         "ClickHereSettings": "Muokkaa %s:n asetuksia.",
+        "AnonymizeUserId": "Korvaa käyttäjän ID pseudonyymilla",
         "CurrentDBSize": "Nykyinen tietokannan koko",
         "DBPurged": "Tietokannasta poistettiin vanhat tiedot.",
         "DeleteDataInterval": "Poista vanhat tiedot joka",

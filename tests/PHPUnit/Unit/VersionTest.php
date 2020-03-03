@@ -10,14 +10,14 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Version;
 
-class VersionTest extends \PHPUnit_Framework_TestCase
+class VersionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Version
      */
     private $version;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->version = new Version();
     }

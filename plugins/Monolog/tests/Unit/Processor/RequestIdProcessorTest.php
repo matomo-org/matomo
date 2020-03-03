@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Common;
 use Piwik\Plugins\Monolog\Processor\RequestIdProcessor;
 
@@ -16,15 +16,15 @@ use Piwik\Plugins\Monolog\Processor\RequestIdProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\RequestIdProcessor
  */
-class RequestIdProcessorTest extends \PHPUnit_Framework_TestCase
+class RequestIdProcessorTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Common::$isCliMode = false;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         Common::$isCliMode = true;
@@ -40,7 +40,7 @@ class RequestIdProcessorTest extends \PHPUnit_Framework_TestCase
         $result = $processor(array());
 
         $this->assertArrayHasKey('request_id', $result['extra']);
-        $this->assertInternalType('string', $result['extra']['request_id']);
+        self::assertIsString($result['extra']['request_id']);
         $this->assertNotEmpty($result['extra']['request_id']);
     }
 

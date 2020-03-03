@@ -18,14 +18,14 @@ use ReflectionProperty;
 /**
  * @group Scheduler
  */
-class TimetableTest extends \PHPUnit_Framework_TestCase
+class TimetableTest extends \PHPUnit\Framework\TestCase
 {
     private $timetable = array(
         'CoreAdminHome.purgeOutdatedArchives' => 1355529607,
         'PrivacyManager.deleteReportData_1'   => 1322229607,
     );
 
-    public function tearDown()
+    public function tearDown(): void
     {
         self::resetPiwikOption();
     }

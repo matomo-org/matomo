@@ -144,6 +144,26 @@ abstract class LocationProvider
     abstract public function getSupportedLocationInfo();
 
     /**
+     * Renders Configuration or Setup View to be attached to the provider list
+     *
+     * @return string
+     */
+    public function renderConfiguration()
+    {
+        return '';
+    }
+
+    /**
+     * Renders SetUp Guide, which will be shown above Geolocation admin, if there is no working provider
+     *
+     * @return string
+     */
+    public function renderSetUpGuide()
+    {
+        return '';
+    }
+
+    /**
      * Method called when a provider gets activated.
      */
     public function activate()
@@ -498,9 +518,9 @@ abstract class LocationProvider
      */
     protected function getIpFromInfo($info)
     {
-        $ip = \Piwik\Network\IP::fromStringIP($info['ip']);
+        $ip = \Matomo\Network\IP::fromStringIP($info['ip']);
 
-        if ($ip instanceof \Piwik\Network\IPv6 && $ip->isMappedIPv4()) {
+        if ($ip instanceof \Matomo\Network\IPv6 && $ip->isMappedIPv4()) {
             return $ip->toIPv4String();
         } else {
             return $ip->toString();

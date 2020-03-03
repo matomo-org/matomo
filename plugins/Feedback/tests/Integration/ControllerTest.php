@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Feedback\tests\Unit;
+namespace Piwik\Plugins\Feedback\tests\Integration;
 
 use Piwik\Date;
 use Piwik\NoAccessException;
@@ -26,7 +26,7 @@ class ControllerTest extends IntegrationTestCase
 
     private $now;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->controller = new Controller();
@@ -47,7 +47,7 @@ class ControllerTest extends IntegrationTestCase
         Date::$now = Date::factory('2019-05-31')->getTimestamp();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Option::deleteLike('Feedback.nextFeedbackReminder.%');
         $this->userModel->deleteUserOnly('user1');
@@ -84,9 +84,9 @@ class ControllerTest extends IntegrationTestCase
 
     public function test_updateFeedbackReminder_notLoggedIn()
     {
+        $this->expectException(NoAccessException::class);
         FakeAccess::$identity = null;
         FakeAccess::$superUser = false;
-        $this->setExpectedException(NoAccessException::class);
         $this->controller->updateFeedbackReminderDate();
     }
 }

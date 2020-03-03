@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "合計列已顯示 %s 點擊隱藏",
         "DataTableIncludeAggregateRows": "合計列已隱藏 %s 點擊顯示",
         "DataTableHowToSearch": "按下 Enter 鍵或點擊搜尋圖示來搜尋",
+        "DataTableShowDimensions": "目前顯示綜合的維度 %s 分別顯示各個維度",
+        "DataTableCombineDimensions": "目前顯示個別的維度 %s 顯示綜合的維度",
         "Default": "預設",
         "DonateCall1": "使用 Matomo 永遠不花你任何一毛錢，但那不表示我們開發不需要花到半毛錢。",
         "DonateCall2": "Matomo 需要你的持續支持以成長茁壯。",
