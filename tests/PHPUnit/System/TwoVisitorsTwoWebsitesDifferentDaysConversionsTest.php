@@ -8,8 +8,10 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Archive;
+use Piwik\Archive\ArchivePurger;
 use Piwik\Cache;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
@@ -143,6 +145,9 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
     //       plugins is non-trivial, so not done now.
     public function test_Archive_getNumeric_shouldInvalidateRememberedReportsOncePerRequestIfNeeded()
     {
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        $archivePurger->purgeInvalidatedArchivesFrom(Date::factory(self::$fixture->dateTime));
+
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTimeRange = '2010-01-03,2010-01-06';
