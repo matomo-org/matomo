@@ -213,6 +213,33 @@ class DbHelper
     }
 
     /**
+     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 1
+     *
+     * @param string $sql  query to add hint to
+     * @param int $limit  time limit in seconds
+     * @return string
+     */
+    public static function addMaxExecutionTimeHintToQuery($sql, $limit)
+    {
+        if ($limit <= 0) {
+            return $sql;
+        }
+
+        $sql = trim($sql);
+        $pos = stripos($sql, 'SELECT');
+        if ($pos !== false) {
+
+            $timeInMs = $limit * 1000;
+            $timeInMs = (int) $timeInMs;
+            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
+
+            $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
+        }
+
+        return $sql;
+    }
+
+    /**
      * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
      * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
      * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).

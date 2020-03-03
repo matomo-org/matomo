@@ -467,18 +467,18 @@ class LogAggregator
      *
      * The following columns are in each row of the result set:
      *
-     * - **{@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}**: The total number of unique visitors in this group
+     * - **{@link \Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}**: The total number of unique visitors in this group
      *                                                      of aggregated visits.
-     * - **{@link Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits aggregated.
-     * - **{@link Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions performed in this group of
+     * - **{@link \Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits aggregated.
+     * - **{@link \Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions performed in this group of
      *                                                aggregated visits.
-     * - **{@link Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions perfomred in one visit for this group of
+     * - **{@link \Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions perfomred in one visit for this group of
      *                                                 visits.
-     * - **{@link Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}**: The total amount of time spent on the site for this
+     * - **{@link \Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}**: The total amount of time spent on the site for this
      *                                                      group of visits.
-     * - **{@link Piwik\Metrics::INDEX_BOUNCE_COUNT}**: The total number of bounced visits in this group of
+     * - **{@link \Piwik\Metrics::INDEX_BOUNCE_COUNT}**: The total number of bounced visits in this group of
      *                                                  visits.
-     * - **{@link Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}**: The total number of visits for which at least one
+     * - **{@link \Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}**: The total number of visits for which at least one
      *                                                         conversion occurred, for this group of visits.
      *
      * Additional data can be selected by setting the `$additionalSelects` parameter.
@@ -498,24 +498,26 @@ class LogAggregator
      * @param bool|array $metrics The set of metrics to calculate and return. If false, the query will select
      *                            all of them. The following values can be used:
      *
-     *                            - {@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}
-     *                            - {@link Piwik\Metrics::INDEX_NB_VISITS}
-     *                            - {@link Piwik\Metrics::INDEX_NB_ACTIONS}
-     *                            - {@link Piwik\Metrics::INDEX_MAX_ACTIONS}
-     *                            - {@link Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}
-     *                            - {@link Piwik\Metrics::INDEX_BOUNCE_COUNT}
-     *                            - {@link Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_VISITS}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_ACTIONS}
+     *                            - {@link \Piwik\Metrics::INDEX_MAX_ACTIONS}
+     *                            - {@link \Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}
+     *                            - {@link \Piwik\Metrics::INDEX_BOUNCE_COUNT}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
-     *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
+     *                                   If set, the return value is the array returned by {@link \Piwik\RankingQuery::execute()}.
+     * @param bool|string $orderBy       Order By clause to add (e.g. user_id ASC)
+     * @param int $timeLimitInMs         Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimitInMs > 0
      *
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
-     *               {@link Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
+     *               {@link \Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
-                                           $metrics = false, $rankingQuery = false, $orderBy = false)
+                                           $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimitInMs = -1)
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -531,6 +533,8 @@ class LogAggregator
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, implode(', ', $orderBys));
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
 
         if ($rankingQuery) {
             unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);
@@ -878,6 +882,7 @@ class LogAggregator
      *                                           If a string is used for this parameter, the table alias is not
      *                                           suffixed (since there is only one column).
      * @param string $secondaryOrderBy      A secondary order by clause for the ranking query
+     * @param int $timeLimitInMs                Adds a MAX_EXECUTION_TIME hint to the query if $timeLimitInMs > 0
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)
      *               to see what aggregate data is calculated by the query.
@@ -890,7 +895,8 @@ class LogAggregator
         $metrics = false,
         $rankingQuery = null,
         $joinLogActionOnColumn = false,
-        $secondaryOrderBy = null
+        $secondaryOrderBy = null,
+        $timeLimitInMs = -1
     ) {
         $tableName = self::LOG_ACTIONS_TABLE;
         $availableMetrics = $this->getActionsMetricFields();
@@ -933,6 +939,8 @@ class LogAggregator
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
 
         if ($rankingQuery !== null) {
             $sumColumns = array_keys($availableMetrics);
