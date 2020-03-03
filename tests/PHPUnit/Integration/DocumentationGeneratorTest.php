@@ -23,7 +23,7 @@ class DocumentationGeneratorTest extends TestCase
         $annotation = '@hideExceptForSuperUser test test';
         $mock = $this->getMockBuilder('ReflectionClass')
             ->disableOriginalConstructor()
-            ->setMethods(array('getDocComment'))
+            ->onlyMethods(array('getDocComment'))
             ->getMock();
         $mock->expects($this->once())->method('getDocComment')->willReturn($annotation);
         $documentationGenerator = new DocumentationGenerator();

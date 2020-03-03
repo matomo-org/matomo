@@ -29,7 +29,7 @@ class RequestTest extends UnitTestCase
     private $request;
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -284,12 +284,11 @@ class RequestTest extends UnitTestCase
         $this->assertEquals('05:20:17', $request->getLocalTime());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Requested parameter myCustomFaKeParaM is not a known Tracking API Parameter
-     */
     public function test_getParam_shouldThrowException_IfTryingToAccessInvalidParam()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Requested parameter myCustomFaKeParaM is not a known Tracking API Parameter');
+
         $this->request->getParam('myCustomFaKeParaM');
     }
 
@@ -433,7 +432,7 @@ class RequestTest extends UnitTestCase
 
     private function assertCookieContains($needle, Cookie $cookie)
     {
-        $this->assertContains($needle, $cookie . '');
+        self::assertStringContainsString($needle, $cookie . '');
     }
 
     public function test_getLocalTime()

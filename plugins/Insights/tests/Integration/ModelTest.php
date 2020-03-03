@@ -18,7 +18,6 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  * @group Insights
  * @group ModelTest
  * @group Plugins
- * @group Plugins
  */
 class ModelTest extends SystemTestCase
 {
@@ -32,7 +31,7 @@ class ModelTest extends SystemTestCase
      */
     private $model;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -101,7 +100,7 @@ class ModelTest extends SystemTestCase
         $total = $this->model->getMetricTotalValue($table, 'nb_visits');
 
         $this->assertEquals(17, $total);
-        $this->assertInternalType('integer', $total);
+        self::assertIsInt($total);
     }
 
     public function test_getMetricTotalValue_shouldReturnZeroIfMetricHasNoTotal()
@@ -114,11 +113,10 @@ class ModelTest extends SystemTestCase
         $this->assertEquals(0, $total);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_getLastDate_shouldThrowExceptionIfNotPossibleToGetLastDate()
     {
+        $this->expectException(\Exception::class);
+
         $this->model->getLastDate('last10', 'day', 1);
     }
 

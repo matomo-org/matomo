@@ -31,7 +31,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
      */
     public static $fixture = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -60,21 +60,19 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         self::$fixture->setLocationProvider('GeoIP2-City.mmdb');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage  Not enough arguments
-     */
     public function testExecute_ShouldThrowException_IfArgumentIsMissing()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments');
+
         $this->executeCommand(null);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidDateFormat
-     */
     public function testExecute_ShouldReturnMessage_IfDatesAreInvalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
+
         $this->executeCommand('test');
     }
 
@@ -90,7 +88,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
     {
         $result = $this->executeCommand('2010-01-03,2010-06-03');
 
-        $this->assertContains(
+        self::assertStringContainsString(
             'Re-attribution for date range: 2010-01-03 to 2010-06-03. 35 visits to process with provider "geoip2php".',
             $result
         );

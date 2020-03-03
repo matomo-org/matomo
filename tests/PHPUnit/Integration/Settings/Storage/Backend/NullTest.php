@@ -23,7 +23,7 @@ class NullTest extends \PHPUnit\Framework\TestCase
      */
     private $backend;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

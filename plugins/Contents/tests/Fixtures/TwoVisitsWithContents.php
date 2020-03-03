@@ -21,7 +21,7 @@ class TwoVisitsWithContents extends Fixture
     public $idSite = 1;
     public $idGoal1 = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
@@ -91,7 +91,7 @@ class TwoVisitsWithContents extends Fixture
         self::checkResponse($vis->doTrackContentImpression('Video Ad', 'movie.mov'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 }

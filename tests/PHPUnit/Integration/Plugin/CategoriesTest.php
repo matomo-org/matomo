@@ -27,7 +27,7 @@ class CategoriesTest extends IntegrationTestCase
      */
     private $categories;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -39,7 +39,7 @@ class CategoriesTest extends IntegrationTestCase
         $this->categories = new Categories(StaticContainer::get('Piwik\Plugin\Manager'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($_GET['idSite']);

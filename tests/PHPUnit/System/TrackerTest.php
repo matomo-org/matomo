@@ -30,7 +30,7 @@ class TrackerTest extends IntegrationTestCase
     const TASKS_FINISHED_OPTION_NAME = "Tests.scheduledTasksFinished";
     const TASKS_STARTED_OPTION_NAME = "Tests.scheduledTasksStarted";
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -161,7 +161,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(1, count($this->getConversionItems()));
 
         $response = $this->sendTrackingRequestByCurl($urlToTest);
-        $this->assertContains('This resource is part of Matomo.', $response);
+        self::assertStringContainsString('This resource is part of Matomo.', $response);
 
         $this->assertEquals(1, $this->getCountOfConversions());
         $this->assertEquals(1, count($this->getConversionItems()));
@@ -210,7 +210,7 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertScheduledTasksWereRun();
 
-        $this->assertContains('Scheduled Tasks: Starting...', $response);
+        self::assertStringContainsString('Scheduled Tasks: Starting...', $response);
     }
 
     public function getTypesOfErrorsForScheduledTasksTrackerFailureTest()
@@ -255,11 +255,11 @@ class TrackerTest extends IntegrationTestCase
         $this->assertStringStartsWith('{"status":', $output);
 
         if($expectTrackingToSucceed) {
-            $this->assertNotContains('error', $output);
-            $this->assertContains('success', $output);
+            self::assertStringNotContainsString('error', $output);
+            self::assertStringContainsString('success', $output);
         } else {
-            $this->assertContains('error', $output);
-            $this->assertNotContains('success', $output);
+            self::assertStringContainsString('error', $output);
+            self::assertStringNotContainsString('success', $output);
         }
     }
 
@@ -359,7 +359,7 @@ class TrackerTest extends IntegrationTestCase
             $initialTask = new Task($this, 'markCustomTaskExecuted', null, Schedule::factory('hourly'));
             $tasksToAdd = array_merge(array($initialTask), $tasksToAdd);
 
-            $mockTaskLoader = $this->getMock('Piwik\Scheduler\TaskLoader', array('loadTasks'));
+            $mockTaskLoader = $this->createPartialMock('Piwik\Scheduler\TaskLoader', array('loadTasks'));
             $mockTaskLoader->expects($this->any())->method('loadTasks')->will($this->returnValue($tasksToAdd));
             $result['Piwik\Scheduler\TaskLoader'] = $mockTaskLoader;
         }

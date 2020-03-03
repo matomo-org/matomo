@@ -139,10 +139,10 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $dataTable = new DataTable();
         $dataTable->setRows(array($row));
 
-        $bar = $this->getMock('Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar',
-            array('getDataTable'),
-            array('', '')
-        );
+        $bar = $this->getMockBuilder('Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar')
+            ->setMethods(['getDataTable'])
+            ->setConstructorArgs(['', ''])
+            ->getMock();
         $bar->expects($this->any())
             ->method('getDataTable')
             ->will($this->returnValue($dataTable));

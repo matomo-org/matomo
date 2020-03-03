@@ -25,47 +25,51 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
     public static $_FEBRUARY_21_1971_09_00_00;
     public static $_FEBRUARY_28_1971_00_00_00;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
     }
 
     /**
      * Tests invalid call to setHour on Monthly
-     * @expectedException \Exception
      */
     public function testSetHourScheduledTimeMonthlyNegative()
     {
+        $this->expectException(\Exception::class);
+
         $monthlySchedule = new Monthly();
         $monthlySchedule->setHour(-1);
     }
 
     /**
      * Tests invalid call to setHour on Monthly
-     * @expectedException \Exception
      */
     public function testSetHourScheduledTimMonthlyOver24()
     {
+        $this->expectException(\Exception::class);
+
         $monthlySchedule = new Monthly();
         $monthlySchedule->setHour(25);
     }
 
     /**
      * Tests invalid call to setDay on Monthly
-     * @expectedException \Exception
      */
     public function testSetDayScheduledTimeMonthlyDay0()
     {
+        $this->expectException(\Exception::class);
+
         $monthlySchedule = new Monthly();
         $monthlySchedule->setDay(0);
     }
 
     /**
      * Tests invalid call to setDay on Monthly
-     * @expectedException \Exception
      */
     public function testSetDayScheduledTimeMonthlyOver31()
     {
+        $this->expectException(\Exception::class);
+
         $monthlySchedule = new Monthly();
         $monthlySchedule->setDay(32);
     }
@@ -239,10 +243,11 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
      * _Monthly
      *
      * @dataProvider getInvalidDayOfWeekData
-     * @expectedException \Exception
      */
     public function testMonthlyDayOfWeekInvalid($day, $week)
     {
+        $this->expectException(\Exception::class);
+
         $mock = $this->getMonthlyMock(self::$_JANUARY_15_1971_09_00_00);
         $mock->setDayOfWeek($day, $week);
     }
@@ -271,7 +276,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
      */
     private function getMonthlyMock($currentTime)
     {
-        $mock = $this->getMock('Piwik\Scheduler\Schedule\Monthly', array('getTime'));
+        $mock = $this->createPartialMock('Piwik\Scheduler\Schedule\Monthly', array('getTime'));
         $mock->expects($this->any())
              ->method('getTime')
              ->will($this->returnValue($currentTime));

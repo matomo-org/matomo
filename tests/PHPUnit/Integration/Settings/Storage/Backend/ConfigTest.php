@@ -41,7 +41,7 @@ class ConfigTest extends IntegrationTestCase
      */
     private $allBackends = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -56,12 +56,11 @@ class ConfigTest extends IntegrationTestCase
         return new Config($plugin);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No section given
-     */
     public function test_construct_shouldThrowAnException_IfSectionIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No section given');
+
         $this->createSettings('');
     }
 

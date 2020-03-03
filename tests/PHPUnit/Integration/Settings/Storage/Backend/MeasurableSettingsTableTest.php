@@ -41,7 +41,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
      */
     private $allBackends = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -56,21 +56,19 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         return new MeasurableSettingsTable($idSite, $plugin);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No plugin name given
-     */
     public function test_construct_shouldThrowAnException_IfPluginNameIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No plugin name given');
+
         $this->createSettings(1, '');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No idSite given
-     */
     public function test_construct_shouldThrowAnException_IfIdSiteIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No idSite given');
+
         $this->createSettings(0, 'MyPlugin');
     }
 

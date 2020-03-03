@@ -396,12 +396,11 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(5, 145), $finalRow->getColumn('test_int'));
     }
 
-    /**
-     * @expectedException  \Exception
-     * @expectedExceptionMessage Unknown operation 'foobarinvalid'
-     */
     public function testSumRow_ShouldThrowExceptionIfInvalidOperationIsGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unknown operation \'foobarinvalid\'');
+
         $row1 = new Row(array(Row::COLUMNS => array('test_int' => 145)));
         $finalRow = new Row(array(Row::COLUMNS => array('test_int' => 5)));
         $finalRow->sumRow($row1, $copyMetadata = true, $operation = array('test_int' => 'fooBarInvalid'));
@@ -442,11 +441,11 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Test serialize with an infinite recursion (a row linked to a table in the parent hierarchy)
      * After 100 recursion must throw an exception
-     *
-     * @expectedException \Exception
      */
     public function testSerializeWithInfiniteRecursion()
     {
+        $this->expectException(\Exception::class);
+
         $table = new DataTable;
         $table->addRowFromArray(array(Row::COLUMNS => array('visits' => 245, 'visitors' => 245),
                                       Row::DATATABLE_ASSOCIATED => $table));
@@ -938,7 +937,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testUnrelatedDataTableNotDestructed()
     {
-        $mockedDataTable = $this->getMock('\Piwik\DataTable', array('__destruct'));
+        $mockedDataTable = $this->createPartialMock('\Piwik\DataTable', array('__destruct'));
         $mockedDataTable->expects($this->never())->method('__destruct');
 
         $rowBeingDestructed = new Row();
@@ -982,7 +981,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testSubDataTableIsDestructed()
     {
-        $mockedDataTable = $this->getMock('\Piwik\DataTable', array('__destruct'));
+        $mockedDataTable = $this->getMockBuilder('\Piwik\DataTable')
+            ->onlyMethods(['__destruct'])
+            ->getMock();
         $mockedDataTable->expects($this->once())->method('__destruct');
 
         $rowBeingDestructed = new Row();

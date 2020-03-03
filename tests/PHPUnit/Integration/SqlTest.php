@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SqlTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -29,7 +29,7 @@ class SqlTest extends IntegrationTestCase
         Db::exec("CREATE TABLE table4 (d INT) ENGINE=InnoDB");
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

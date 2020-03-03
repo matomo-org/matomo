@@ -24,19 +24,18 @@ class APITest extends IntegrationTestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->api = API::getInstance();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSuperUserAccess
-     */
     public function test_unblockBruteForceIPs_requiresSuperUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
         FakeAccess::clearAccess(false, array(1,2,3));
         $this->api->unblockBruteForceIPs();
     }

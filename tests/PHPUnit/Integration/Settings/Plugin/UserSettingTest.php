@@ -68,12 +68,11 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertDbConnectionCreated();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsUserPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         $this->setAnonymousUser();
         $setting = $this->buildSetting('mysystem');
 
@@ -141,12 +140,11 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, 43939, 'integer');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Validation Fail
-     */
     public function test_setSettingValue_shouldValidateAValue_IfAFilterIsSet()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Validation Fail');
+
         $this->setUser();
         $self = $this;
 

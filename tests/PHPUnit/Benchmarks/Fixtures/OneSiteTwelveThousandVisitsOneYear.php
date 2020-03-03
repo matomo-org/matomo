@@ -21,7 +21,7 @@ class Piwik_Test_Fixture_OneSiteTwelveThousandVisitsOneYear
     public $idGoal1 = 1;
     public $idGoal2 = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         // add one site
         Fixture::createWebsite(

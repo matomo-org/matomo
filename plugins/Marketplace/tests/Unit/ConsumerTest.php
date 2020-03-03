@@ -24,7 +24,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new Service();
     }

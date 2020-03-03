@@ -49,7 +49,7 @@ define("PARTIAL_BYTE_END", 14724);
 // If the static file server has not been requested, the standard unit test case class is defined
 class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         if(!chmod(TEST_FILE_LOCATION, 0644)) {
@@ -159,7 +159,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(200, $responseInfo["http_code"]);
 
         // Tests content type
-        $this->assertContains(TEST_FILE_CONTENT_TYPE, $responseInfo["content_type"]);
+        self::assertStringContainsString(TEST_FILE_CONTENT_TYPE, $responseInfo["content_type"]);
 
         // Tests no compression has been applied
         $this->assertNull($this->getContentEncodingValue($fullResponse));

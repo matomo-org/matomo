@@ -45,13 +45,13 @@ class ContentsTest extends SystemTestCase
         );
     }
 
-    protected function setup()
+    public function setUp(): void
     {
-        parent::setup();
+        parent::setUp();
         Fixture::loadAllTranslations();
     }
 
-    protected function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         Fixture::resetTranslations();

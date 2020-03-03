@@ -21,7 +21,7 @@ class TableMetadataTest extends IntegrationTestCase
      */
     private $tableMetadataAccess;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -22,7 +22,7 @@ class ActionsTest extends IntegrationTestCase
      */
     private $actionsAccess;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

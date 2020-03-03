@@ -22,14 +22,14 @@ class IntranetSitesWithVisits extends Fixture
     public $idSite = 1;
     public $idSiteNotIntranet = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsites();
         $this->trackVisits($this->idSite);
         $this->trackVisits($this->idSiteNotIntranet);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

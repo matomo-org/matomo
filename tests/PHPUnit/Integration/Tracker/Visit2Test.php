@@ -141,7 +141,7 @@ class FakeTrackerVisit extends Visit
  */
 class Visit2Test extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Fixture::createWebsite('2014-01-01 00:00:00');

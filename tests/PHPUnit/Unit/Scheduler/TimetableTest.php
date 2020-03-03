@@ -25,7 +25,7 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         'PrivacyManager.deleteReportData_1'   => 1322229607,
     );
 
-    public function tearDown()
+    public function tearDown(): void
     {
         self::resetPiwikOption();
     }

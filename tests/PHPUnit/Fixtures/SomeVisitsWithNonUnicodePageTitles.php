@@ -19,13 +19,13 @@ class SomeVisitsWithNonUnicodePageTitles extends Fixture
     public $idSite1 = 1;
     public $dateTime = '2010-01-03 11:22:33';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsites();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

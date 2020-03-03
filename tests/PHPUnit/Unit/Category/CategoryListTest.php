@@ -23,7 +23,7 @@ class CategoryListTest extends \PHPUnit\Framework\TestCase
      */
     private $categoryList;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->categoryList = new CategoryList();
     }
@@ -40,12 +40,11 @@ class CategoryListTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array('myTest' => $category), $this->categoryList->getCategories());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Category myTest already exists
-     */
     public function test_addCategory_shouldThrowException_IfAddingSameCategoryIdTwice()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Category myTest already exists');
+
         $this->addCategory('myTest');
         $this->addCategory('myTest');
     }

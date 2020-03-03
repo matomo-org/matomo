@@ -29,7 +29,7 @@ class DashboardTest extends IntegrationTestCase
 
     private $numSitesToCreate = 3;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

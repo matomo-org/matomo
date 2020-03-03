@@ -18,9 +18,9 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class RequestTest extends IntegrationTestCase
 {
-    /** @var \Piwik\Auth|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Piwik\Auth|\PHPUnit\Framework\MockObject\MockObject */
     private $auth;
-    /** @var \Piwik\Access|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Piwik\Access|\PHPUnit\Framework\MockObject\MockObject */
     private $access;
 
     private $userAuthToken = 'token';

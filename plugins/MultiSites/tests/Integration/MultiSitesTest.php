@@ -23,7 +23,7 @@ class MultiSitesTest extends IntegrationTestCase
 {
     protected $idSiteAccess;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -68,9 +68,9 @@ class MultiSitesTest extends IntegrationTestCase
 
         $output = FrontController::getInstance()->fetchDispatch('API');
 
-        $this->assertContains('<item>', $output);
-        $this->assertContains('</rss>', $output);
-        $this->assertNotContains('error', $output);
+        self::assertStringContainsString('<item>', $output);
+        self::assertStringContainsString('</rss>', $output);
+        self::assertStringNotContainsString('error', $output);
 
         $_GET = array();
     }

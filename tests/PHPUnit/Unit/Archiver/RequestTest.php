@@ -15,7 +15,7 @@ use Piwik\Date;
 
 class RequestTest extends \PHPUnit\Framework\TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         Date::$now = null;

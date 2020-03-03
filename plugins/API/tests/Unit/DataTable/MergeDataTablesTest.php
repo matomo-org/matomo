@@ -20,7 +20,7 @@ class MergeDataTablesTest extends \PHPUnit\Framework\TestCase
      */
     private $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->instance = new MergeDataTables();

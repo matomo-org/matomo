@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class FilterOrderByTest extends BaseUnitTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable();
     }

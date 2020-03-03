@@ -26,7 +26,7 @@ class FactoryTest extends IntegrationTestCase
 
     private $pluginName = 'MyTestPluginName';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

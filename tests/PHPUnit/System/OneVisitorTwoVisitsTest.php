@@ -33,12 +33,12 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class
 
-    public function setUp()
+    public function setUp(): void
     {
         Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Proxy::getInstance()->setHideIgnoredFunctions(true);
     }

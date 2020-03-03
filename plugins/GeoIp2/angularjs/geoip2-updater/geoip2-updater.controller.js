@@ -5,11 +5,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
-    angular.module('piwikApp').controller('LocationProviderUpdaterController', LocationProviderUpdaterController);
+    angular.module('piwikApp').controller('Geoip2UpdaterController', Geoip2UpdaterController);
 
-    LocationProviderUpdaterController.$inject = ['piwikApi', '$window'];
+    Geoip2UpdaterController.$inject = ['piwikApi', '$window'];
 
-    function LocationProviderUpdaterController(piwikApi, $window) {
+    function Geoip2UpdaterController(piwikApi, $window) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
         var self = this;
 
@@ -25,7 +25,7 @@
 
             piwikApi.withTokenInUrl();
             piwikApi.post({
-                module: 'UserCountry',
+                module: 'GeoIp2',
                 action: action,
                 'continue': cont ? 1 : 0
             }, data).then(function (response) {
@@ -44,7 +44,7 @@
                     }
                 }
             }, function () {
-                callback({error: _pk_translate('UserCountry_FatalErrorDuringDownload')});
+                callback({error: _pk_translate('GeoIp2_FatalErrorDuringDownload')});
             });
         };
 
@@ -56,7 +56,7 @@
 
             // start download of free dbs
             downloadNextChunk(
-                'downloadFreeGeoIPDB',
+                'downloadFreeDBIPLiteDB',
                 'geoipdb-screen2-download',
                 'progressFreeDownload',
                 false,
@@ -81,7 +81,7 @@
             this.geoipDatabaseInstalled = true;
 
             // todo we need to replace this the proper way eventually
-            $('#geoip-db-mangement .card-title').text(_pk_translate('UserCountry_SetupAutomaticUpdatesOfGeoIP'));
+            $('#geoip-db-mangement .card-title').text(_pk_translate('GeoIp2_SetupAutomaticUpdatesOfGeoIP'));
         }
 
         this.saveGeoIpLinks = function () {
@@ -135,7 +135,7 @@
             piwikApi.withTokenInUrl();
             piwikApi.post({
                 period: this.updatePeriod,
-                module: 'UserCountry',
+                module: 'GeoIp2',
                 action: 'updateGeoIPLinks'
             }, {
                 loc_db: this.locationDbUrl,

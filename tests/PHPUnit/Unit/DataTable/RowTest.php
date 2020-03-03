@@ -21,7 +21,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
      */
     private $row;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->row = new Row();
     }
@@ -421,12 +421,11 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array('my_array' => $arrayValue), $this->row->getMetadata());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Trying to sum unsupported operands for column mycol in row with label = row1: array + integer
-     */
     public function test_sumRow_throwsIfAddingUnsupportedTypes()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Trying to sum unsupported operands for column mycol in row with label = row1: array + integer');
+
         $row1 = new Row();
         $row1->addColumn('label', 'row1');
         $row1->addColumn('mycol', ['a']);

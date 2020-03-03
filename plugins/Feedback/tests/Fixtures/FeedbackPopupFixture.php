@@ -9,14 +9,14 @@ use Piwik\Tests\Fixtures\UITestFixture;
 
 class FeedbackPopupFixture extends UITestFixture
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $yesterday = Date::yesterday();
         Option::set('Feedback.nextFeedbackReminder.superUserLogin', $yesterday->toString('Y-m-d'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         Option::delete('Feedback.nextFeedbackReminder.superUserLogin');

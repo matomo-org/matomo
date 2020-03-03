@@ -44,7 +44,7 @@ class CustomEventsTest extends SystemTestCase
         );
     }
 
-    protected function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

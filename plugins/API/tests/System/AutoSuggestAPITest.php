@@ -51,14 +51,14 @@ class AutoSuggestAPITest extends SystemTestCase
     protected static $processed = 0;
     protected static $skipped = array();
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         API::setSingletonInstance(CachedAPI::getInstance());
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 

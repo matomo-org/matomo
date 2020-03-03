@@ -18,14 +18,14 @@ use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
  */
 class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->cleanupServerGlobals();
 
         $this->setUserAgentToChrome();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cleanupServerGlobals();
     }

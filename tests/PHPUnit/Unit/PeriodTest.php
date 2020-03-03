@@ -37,19 +37,19 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     {
         $period = new Day(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
         $period = new Week(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
         $period = new Month(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
         $period = new Year(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
     }
 
@@ -65,15 +65,18 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
         Period::checkDateFormat('previous30');
         Period::checkDateFormat('+1 day');
         Period::checkDateFormat('next Thursday');
+
+        $this->assertTrue(true);
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):
      * @dataProvider getInvalidDateFormats
      */
     public function testValidate_InvalidDates($invalidDateFormat)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Date format must be: YYYY-MM-DD, or \'today\' or \'yesterday\' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):');
+
         Period::checkDateFormat($invalidDateFormat);
     }
 
@@ -148,12 +151,13 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage is a date before first website was online. Try date that's after
      * @dataProvider getInvalidDatesBeforeFirstWebsite
      */
     public function testValidate_InvalidDatesBeforeFirstWebsite($invalidDatesBeforeFirstWebsite)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('is a date before first website was online. Try date that\'s after');
+
         Period::checkDateFormat($invalidDatesBeforeFirstWebsite);
     }
     

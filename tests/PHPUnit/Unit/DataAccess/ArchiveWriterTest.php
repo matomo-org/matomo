@@ -97,7 +97,10 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
 
     private function assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs)
     {
-        $writer = $this->getMock('Piwik\DataAccess\ArchiveWriter', array('insertRecord', 'compress'), array(), '', false);
+        $writer = $this->getMockBuilder('Piwik\DataAccess\ArchiveWriter')
+            ->disableOriginalConstructor()
+            ->onlyMethods(array('insertRecord', 'compress'))
+            ->getMock();
         $writer->expects($this->exactly(count($expectedBlobs)))
                ->method('compress')
                ->will($this->returnArgument(0));
@@ -114,7 +117,10 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
 
     private function assertInsertBlobRecordInsertedASingleRecord($expectedBlob, $blob)
     {
-        $writer = $this->getMock('Piwik\DataAccess\ArchiveWriter', array('insertRecord', 'compress'), array(), '', false);
+        $writer = $this->getMockBuilder('Piwik\DataAccess\ArchiveWriter')
+            ->disableOriginalConstructor()
+            ->onlyMethods(array('insertRecord', 'compress'))
+            ->getMock();
         $writer->expects($this->once())
                ->method('compress')
                ->will($this->returnArgument(0));

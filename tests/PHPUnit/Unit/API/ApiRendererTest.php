@@ -17,7 +17,7 @@ use Piwik\Plugin\Manager;
  */
 class ApiRendererTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Manager::getInstance()->loadPlugins(array('API'));
     }
@@ -40,12 +40,11 @@ class ApiRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Original', $renderer);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidRendererFormat
-     */
     public function test_factory_shouldThrowAnException_IfInvalidFormatGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidRendererFormat');
+
         ApiRenderer::factory('phpi', array());
     }
 }

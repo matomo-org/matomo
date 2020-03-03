@@ -24,7 +24,7 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
      */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
         $this->factory = new ComputedMetricFactory(MetricsList::get());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
         parent::tearDown();

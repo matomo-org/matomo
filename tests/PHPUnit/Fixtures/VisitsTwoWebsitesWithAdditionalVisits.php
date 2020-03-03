@@ -21,13 +21,13 @@ class VisitsTwoWebsitesWithAdditionalVisits extends Fixture
     public $idSite1 = 1;
     public $idSite2 = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

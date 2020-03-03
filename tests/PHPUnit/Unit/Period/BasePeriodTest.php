@@ -12,14 +12,14 @@ use Piwik\Tests\Framework\Fixture;
 
 abstract class BasePeriodTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

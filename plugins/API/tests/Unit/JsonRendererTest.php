@@ -25,7 +25,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
      */
     private $jsonBuilder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->jsonBuilder = $this->makeBuilder(array());
         DataTable\Manager::getInstance()->deleteAll();

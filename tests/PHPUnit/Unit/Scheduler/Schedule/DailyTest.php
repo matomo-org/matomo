@@ -23,7 +23,7 @@ class DailyTest extends \PHPUnit\Framework\TestCase
     private static $_JANUARY_02_1971_00_00_00;
     private static $_JANUARY_02_1971_09_00_00;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
@@ -38,14 +38,10 @@ class DailyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetHourScheduledTimeDailyNegative()
     {
-        try {
-            $dailySchedule = Schedule::factory('daily');
-            $dailySchedule->setHour(-1);
+        $this->expectException(Exception::class);
 
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $dailySchedule = Schedule::factory('daily');
+        $dailySchedule->setHour(-1);
     }
 
     /**
@@ -53,13 +49,10 @@ class DailyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetHourScheduledTimeDailyOver24()
     {
-        try {
-            $dailySchedule = Schedule::factory('daily');
-            $dailySchedule->setHour(25);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $dailySchedule = Schedule::factory('daily');
+        $dailySchedule->setHour(25);
     }
 
     /**
@@ -67,13 +60,10 @@ class DailyTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetDayScheduledTimeDaily()
     {
-        try {
-            $dailySchedule = Schedule::factory('daily');
-            $dailySchedule->setDay(1);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+
+        $dailySchedule = Schedule::factory('daily');
+        $dailySchedule->setDay(1);
     }
 
     /**
@@ -167,7 +157,7 @@ class DailyTest extends \PHPUnit\Framework\TestCase
      */
     private function getDailyMock($currentTime)
     {
-        $mock = $this->getMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
+        $mock = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue($currentTime));

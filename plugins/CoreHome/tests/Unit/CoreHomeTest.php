@@ -22,7 +22,7 @@ class CoreHomeTest extends \PHPUnit\Framework\TestCase
      */
     private $coreHome;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

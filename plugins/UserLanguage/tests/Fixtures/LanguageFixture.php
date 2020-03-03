@@ -18,13 +18,13 @@ class LanguageFixture extends Fixture
     public $dateTime = '2014-09-04 00:00:00';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsite();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
 
     }

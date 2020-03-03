@@ -30,7 +30,7 @@ class ManagerTest extends IntegrationTestCase
      */
     private $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->manager = Plugin\Manager::getInstance();

@@ -19,7 +19,7 @@ use Piwik\DataTable\Simple;
  */
 class DataTable_Renderer_JSONTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Manager::getInstance()->deleteAll();
