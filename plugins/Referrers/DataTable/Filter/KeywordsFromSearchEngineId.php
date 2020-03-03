@@ -29,8 +29,10 @@ class KeywordsFromSearchEngineId extends BaseFilter
      * Constructor.
      *
      * @param DataTable $table The table to eventually filter.
+     * @param $firstLevelSearchEnginesTable
+     * @param null $idSubtable
      */
-    public function __construct($table, $firstLevelSearchEnginesTable, $idSubtable = null)
+    public function __construct(DataTable $table, $firstLevelSearchEnginesTable, $idSubtable = null)
     {
         parent::__construct($table);
 

@@ -43,6 +43,10 @@ class ExcludeLowPopulation extends BaseFilter
      * @var number
      */
     private $minimumValue;
+    /**
+     * @var int
+     */
+    private $columnToFilter;
 
     /**
      * Constructor.
@@ -57,7 +61,7 @@ class ExcludeLowPopulation extends BaseFilter
      *                                               percentage of the sum of all column values than
      *                                               this percentage.
      */
-    public function __construct($table, $columnToFilter, $minimumValue, $minimumPercentageThreshold = false)
+    public function __construct(DataTable $table, $columnToFilter, $minimumValue, $minimumPercentageThreshold = false)
     {
         parent::__construct($table);
 

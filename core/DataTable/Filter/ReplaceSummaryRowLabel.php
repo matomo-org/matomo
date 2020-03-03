@@ -30,13 +30,18 @@ use Piwik\Piwik;
 class ReplaceSummaryRowLabel extends BaseFilter
 {
     /**
+     * @var string|null
+     */
+    private $newLabel;
+
+    /**
      * Constructor.
      *
      * @param DataTable $table The table that will eventually be filtered.
      * @param string|null $newLabel The new label for summary row. If null, defaults to
      *                              `Piwik::translate('General_Others')`.
      */
-    public function __construct($table, $newLabel = null)
+    public function __construct(DataTable $table, $newLabel = null)
     {
         parent::__construct($table);
         if (is_null($newLabel)) {

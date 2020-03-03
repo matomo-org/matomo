@@ -19,7 +19,7 @@ class UrlsFromWebsiteId extends BaseFilter
      *
      * @param DataTable $table The table to eventually filter.
      */
-    public function __construct($table)
+    public function __construct(DataTable $table)
     {
         parent::__construct($table);
     }

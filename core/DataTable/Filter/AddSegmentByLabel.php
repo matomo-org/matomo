@@ -35,7 +35,7 @@ class AddSegmentByLabel extends BaseFilter
      *                                        If more than one segment is given a delimter has to be defined.
      * @param string $delimiter               The delimiter by which the label should be splitted.
      */
-    public function __construct($table, $segmentOrSegments, $delimiter = '')
+    public function __construct(DataTable $table, $segmentOrSegments, $delimiter = '')
     {
         parent::__construct($table);
 

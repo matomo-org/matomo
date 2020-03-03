@@ -51,7 +51,7 @@ class SetGetReferrerTypeSubtables extends DataTable\BaseFilter
      * @param string $segment
      * @param bool $expanded
      */
-    public function __construct($table, $idSite, $period, $date, $segment, $expanded)
+    public function __construct(DataTable $table, $idSite, $period, $date, $segment, $expanded)
     {
         parent::__construct($table);
         $this->idSite   = $idSite;

@@ -40,7 +40,7 @@ class Pattern extends BaseFilter
      * @param bool $invertedMatch Whether to invert the pattern or not. If true, will remove
      *                            rows if they match the pattern.
      */
-    public function __construct($table, $columnToFilter, $patternToSearch, $invertedMatch = false)
+    public function __construct(DataTable $table, $columnToFilter, $patternToSearch, $invertedMatch = false)
     {
         parent::__construct($table);
         $this->patternToSearch = $patternToSearch;

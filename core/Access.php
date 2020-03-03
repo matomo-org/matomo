@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access\CapabilitiesProvider;
 use Piwik\API\Request;
 use Piwik\Access\RolesProvider;
+use Piwik\Container\ContainerDoesNotExistException;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
@@ -80,6 +81,10 @@ class Access
      * Gets the singleton instance. Creates it if necessary.
      *
      * @return self
+     * @throws \InvalidArgumentException The name parameter must be of type string.
+     * @throws \DI\DependencyException Error while resolving the entry.
+     * @throws \DI\NotFoundException No entry found for the given name.
+     * @throws ContainerDoesNotExistException
      */
     public static function getInstance()
     {
@@ -98,6 +103,12 @@ class Access
 
     /**
      * Constructor
+     * @param RolesProvider|null $roleProvider
+     * @param CapabilitiesProvider|null $capabilityProvider
+     * @throws \InvalidArgumentException The name parameter must be of type string.
+     * @throws \DI\DependencyException Error while resolving the entry.
+     * @throws \DI\NotFoundException No entry found for the given name.
+     * @throws ContainerDoesNotExistException
      */
     public function __construct(RolesProvider $roleProvider = null, CapabilitiesProvider $capabilityProvider = null)
     {
@@ -177,7 +188,7 @@ class Access
     {
         $sql = self::getSqlAccessSite("access, t2.idsite");
 
-        return Db::fetchAll($sql, $login);
+        return Db::fetchAll($sql, [$login]);
     }
 
     /**

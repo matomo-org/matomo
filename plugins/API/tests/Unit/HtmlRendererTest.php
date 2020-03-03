@@ -73,14 +73,14 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>value</th>
-	</tr>
+    <tr>
+        <th>value</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>1</td>
-	</tr>
+    <tr>
+        <td>1</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -92,14 +92,14 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>value</th>
-	</tr>
+    <tr>
+        <th>value</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>5</td>
-	</tr>
+    <tr>
+        <td>5</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -111,14 +111,14 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>value</th>
-	</tr>
+    <tr>
+        <th>value</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>The Output</td>
-	</tr>
+    <tr>
+        <td>The Output</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -130,14 +130,14 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>value</th>
-	</tr>
+    <tr>
+        <th>value</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>The\nOutput</td>
-	</tr>
+    <tr>
+        <td>The\nOutput</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -152,16 +152,16 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>nb_visits</th>
-		<th>nb_random</th>
-	</tr>
+    <tr>
+        <th>nb_visits</th>
+        <th>nb_random</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>5</td>
-		<td>10</td>
-	</tr>
+    <tr>
+        <td>5</td>
+        <td>10</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -180,18 +180,18 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>nb_visits</th>
-		<th>nb_random</th>
-		<th>_idSubtable</th>
-	</tr>
+    <tr>
+        <th>nb_visits</th>
+        <th>nb_random</th>
+        <th>_idSubtable</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>5</td>
-		<td>10</td>
-		<td>1</td>
-	</tr>
+    <tr>
+        <td>5</td>
+        <td>10</td>
+        <td>1</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -214,23 +214,23 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>_defaultKeyName</th>
-		<th>nb_visits</th>
-		<th>nb_random</th>
-	</tr>
+    <tr>
+        <th>_defaultKeyName</th>
+        <th>nb_visits</th>
+        <th>nb_random</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>table1</td>
-		<td>5</td>
-		<td>10</td>
-	</tr>
-	<tr>
-		<td>table2</td>
-		<td>3</td>
-		<td>6</td>
-	</tr>
+    <tr>
+        <td>table1</td>
+        <td>5</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>table2</td>
+        <td>3</td>
+        <td>6</td>
+    </tr>
 </tbody>
 </table>
 ', $response);

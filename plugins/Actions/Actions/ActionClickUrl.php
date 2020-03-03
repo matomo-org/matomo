@@ -55,6 +55,7 @@ class ActionClickUrl extends Action
      * Detect whether action is an outlink given host aliases
      *
      * @param Action $action
+     * @param $idSite
      * @return bool true if the outlink the visitor clicked on points to one of the known hosts for this website
      */
     protected function detectActionIsOutlinkOnAliasHost(Action $action, $idSite)

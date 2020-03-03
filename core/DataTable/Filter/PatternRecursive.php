@@ -35,7 +35,7 @@ class PatternRecursive extends BaseFilter
      * @param string $columnToFilter The column to match with the `$patternToSearch` pattern.
      * @param string $patternToSearch The regex pattern to use.
      */
-    public function __construct($table, $columnToFilter, $patternToSearch)
+    public function __construct(DataTable $table, $columnToFilter, $patternToSearch)
     {
         parent::__construct($table);
         $this->patternToSearch = $patternToSearch;

@@ -44,7 +44,7 @@ class Sort extends BaseFilter
      *                                               If callback given it will sort by the column returned by the callback (if any)
      *                                               callback will be called with 2 parameters: primaryColumnToSort and table
      */
-    public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = true, $doSortBySecondaryColumn = false)
+    public function __construct(DataTable $table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = true, $doSortBySecondaryColumn = false)
     {
         parent::__construct($table);
 

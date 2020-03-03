@@ -32,7 +32,7 @@ class AddSegmentByLabelMapping extends BaseFilter
      * @param string $segment
      * @param array $mapping
      */
-    public function __construct($table, $segment, $mapping)
+    public function __construct(DataTable $table, $segment, array $mapping = array())
     {
         parent::__construct($table);
 

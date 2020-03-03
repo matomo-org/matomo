@@ -31,7 +31,7 @@ class PrependValueToMetadata extends BaseFilter
      * @param string $metadataName    The name of the metadata that should be prepended
      * @param string $valueToPrepend  The value to prepend if the metadata entry exists
      */
-    public function __construct($table, $metadataName, $valueToPrepend)
+    public function __construct(DataTable $table, $metadataName, $valueToPrepend)
     {
         parent::__construct($table);
 

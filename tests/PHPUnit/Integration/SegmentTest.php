@@ -686,8 +686,8 @@ class SegmentTest extends IntegrationTestCase
                    sum(log_visit.visit_total_actions) AS `3`';
         $from  = 'log_visit';
         $where = 'log_visit.visit_last_action_time >= ?
-				AND log_visit.visit_last_action_time <= ?
-				AND log_visit.idsite IN (?)';
+                AND log_visit.visit_last_action_time <= ?
+                AND log_visit.idsite IN (?)';
         $bind = array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite);
 
         $segment = 'actionType==' . $actionType;
@@ -817,8 +817,8 @@ class SegmentTest extends IntegrationTestCase
                    count(distinct log_conversion.idvisit) AS `3`,';
         $from  = 'log_conversion';
         $where = 'log_conversion.server_time >= ?
-				  AND log_conversion.server_time <= ?
-				  AND log_conversion.idsite IN (?)';
+                  AND log_conversion.server_time <= ?
+                  AND log_conversion.idsite IN (?)';
         $bind = array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite);
 
         $segment = 'actionType==' . $actionType;
@@ -885,7 +885,7 @@ class SegmentTest extends IntegrationTestCase
         $actionIdFoundInDb = $this->insertPageUrlAsAction($pageUrlFoundInDb);
 
         $select = 'log_conversion.idgoal AS `idgoal`,
-			SUM(log_conversion.items) AS `8`';
+            SUM(log_conversion.items) AS `8`';
 
         $from = 'log_conversion';
         $where = 'log_conversion.idsite IN (?)';
@@ -1044,34 +1044,34 @@ class SegmentTest extends IntegrationTestCase
         $expected = array(
             "sql"  => "
                 SELECT
-				log_inner.idvisit,
-                   log_inner.idvisit5d489886e80b4258a9407b219a4e2811,
-                   count(log_inner.idvisit5d489886e80b4258a9407b219a4e2811) as numvisits,
-                   count(distinct log_inner.idvisit5d489886e80b4258a9407b219a4e2811 ) as numvisitors,
-                   log_inner.idvisitor,
-                  log_inner.name as url,
-                  sum(log_inner.time_spent) as `13`,
-                  sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-			FROM
-				
+                log_inner.idvisit,
+                log_inner.idvisit5d489886e80b4258a9407b219a4e2811,
+                count(log_inner.idvisit5d489886e80b4258a9407b219a4e2811) as numvisits,
+                count(distinct log_inner.idvisit5d489886e80b4258a9407b219a4e2811 ) as numvisitors,
+                log_inner.idvisitor,
+                log_inner.name as url,
+                sum(log_inner.time_spent) as `13`,
+                sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
+            FROM
+
         (
             
-			SELECT
-				log_link_visit_action.idvisit, 
-log_visit.idvisit as idvisit5d489886e80b4258a9407b219a4e2811, 
-log_visit.idvisitor, 
-log_action.name, 
-log_link_visit_action.time_spent, 
-log_visit.visit_total_actions
-			FROM
-				log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-			ORDER BY
-				url, log_visit.idvisit LIMIT 0, 33
+            SELECT
+                log_link_visit_action.idvisit, 
+                log_visit.idvisit as idvisit5d489886e80b4258a9407b219a4e2811, 
+                log_visit.idvisitor, 
+                log_action.name, 
+                log_link_visit_action.time_spent, 
+                log_visit.visit_total_actions
+           FROM
+                log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+            ORDER BY
+                url, log_visit.idvisit LIMIT 0, 33
         ) AS log_inner
-			GROUP BY
-				log_inner.idvisit5d489886e80b4258a9407b219a4e2811, log_inner.idvisit5d489886e80b4258a9407b219a4e2811 , log_inner.idvisitor, log_inner.idvisitor , log_inner.idvisit
-			ORDER BY
-				url, log_inner.idvisit5d489886e80b4258a9407b219a4e2811",
+            GROUP BY
+                log_inner.idvisit5d489886e80b4258a9407b219a4e2811, log_inner.idvisit5d489886e80b4258a9407b219a4e2811 , log_inner.idvisitor, log_inner.idvisitor , log_inner.idvisit
+            ORDER BY
+                url, log_inner.idvisit5d489886e80b4258a9407b219a4e2811",
             "bind" => array(1));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1505,10 +1505,10 @@ log_visit.visit_total_actions
     public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitAction_shouldUseSubselect()
     {
         $select = 'log_conversion.idgoal AS `idgoal`,
-			       count(*) AS `1`,
-			       count(distinct log_conversion.idvisit) AS `3`,
-			       ROUND(SUM(log_conversion.revenue),2) AS `2`,
-			       SUM(log_conversion.items) AS `8`';
+                   count(*) AS `1`,
+                   count(distinct log_conversion.idvisit) AS `3`,
+                   ROUND(SUM(log_conversion.revenue),2) AS `2`,
+                   SUM(log_conversion.items) AS `8`';
         $from = 'log_conversion';
         $where = 'log_conversion.server_time >= ? AND log_conversion.server_time <= ? AND log_conversion.idsite IN (?)';
         $groupBy = 'log_conversion.idgoal';
@@ -1600,9 +1600,9 @@ log_visit.visit_total_actions
     public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndLogVisit_shouldUseSubselectGroupedByIdVisitAndBuster()
     {
         $select = 'log_conversion.idgoal AS `idgoal`,
-			       count(*) AS `1`,
-			       count(distinct log_conversion.idvisit) AS `3`,
-			       ROUND(SUM(log_conversion.revenue),2) AS `2`';
+                   count(*) AS `1`,
+                   count(distinct log_conversion.idvisit) AS `3`,
+                   ROUND(SUM(log_conversion.revenue),2) AS `2`';
 
         $from = 'log_conversion';
         $where = 'log_conversion.server_time >= ? AND log_conversion.server_time <= ? AND log_conversion.idsite IN (?)';
@@ -1655,7 +1655,7 @@ log_visit.visit_total_actions
             'idaction_url' => array($pageUrlFoundInDb, Action::TYPE_PAGE_URL)
         ));
 
-        $actionIdFoundInDb = Db::fetchOne("SELECT idaction from " . Common::prefixTable('log_action') . " WHERE name = ?", $pageUrlFoundInDb);
+        $actionIdFoundInDb = Db::fetchOne("SELECT idaction from " . Common::prefixTable('log_action') . " WHERE name = ?", [$pageUrlFoundInDb]);
         $this->assertNotEmpty($actionIdFoundInDb, "Action $pageUrlFoundInDb was not found in the " . Common::prefixTable('log_action') . " table.");
         return $actionIdFoundInDb;
     }

@@ -33,6 +33,7 @@ class StaticContainer
 
     /**
      * @return Container
+     * @throws ContainerDoesNotExistException
      */
     public static function getContainer()
     {
@@ -73,7 +74,10 @@ class StaticContainer
      *
      * @param string $name Container entry name.
      * @return mixed
-     * @throws \DI\NotFoundException
+     * @throws ContainerDoesNotExistException
+     * @throws \InvalidArgumentException The name parameter must be of type string.
+     * @throws \DI\DependencyException Error while resolving the entry.
+     * @throws \DI\NotFoundException No entry found for the given name.
      */
     public static function get($name)
     {

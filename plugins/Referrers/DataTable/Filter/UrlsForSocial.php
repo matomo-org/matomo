@@ -26,7 +26,7 @@ class UrlsForSocial extends BaseFilter
      * @param DataTable $table The table to eventually filter.
      * @param bool $sortRecursive Whether to sort recursive or not
      */
-    public function __construct($table, $sortRecursive)
+    public function __construct(DataTable $table, $sortRecursive)
     {
         parent::__construct($table);
 

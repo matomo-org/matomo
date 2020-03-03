@@ -30,7 +30,7 @@ class ColumnCallbackDeleteMetadata extends BaseFilter
      * @param DataTable $table The DataTable instance that will be filtered.
      * @param string $metadataToRemove The name of the metadata field that will be removed from each row.
      */
-    public function __construct($table, $metadataToRemove)
+    public function __construct(DataTable $table, $metadataToRemove)
     {
         parent::__construct($table);
 

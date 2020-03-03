@@ -853,10 +853,10 @@ class ProcessedReport
         }
 
         // Display time in human readable
-		if (strpos($columnName, 'time_generation') !== false) {
-			return $formatter->getPrettyTimeFromSeconds($value, true);
-		} 
-		if (strpos($columnName, 'time') !== false) {
+        if (strpos($columnName, 'time_generation') !== false) {
+            return $formatter->getPrettyTimeFromSeconds($value, true);
+        }
+        if (strpos($columnName, 'time') !== false) {
             return $formatter->getPrettyTimeFromSeconds($value);
         }
 

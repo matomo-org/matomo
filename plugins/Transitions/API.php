@@ -302,9 +302,9 @@ class API extends \Piwik\Plugin\API
      * Get information about external referrers (i.e. search engines, websites & campaigns)
      *
      * @param $idaction
-     * @param $actionType
+     * @param string $actionType
      * @param Logaggregator $logAggregator
-     * @param $limitBeforeGrouping
+     * @param int|false $limitBeforeGrouping
      * @return DataTable
      */
     protected function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
@@ -377,9 +377,9 @@ class API extends \Piwik\Plugin\API
      * Get information about internal referrers (previous pages & loops, i.e. page refreshes)
      *
      * @param $idaction
-     * @param $actionType
+     * @param string $actionType
      * @param LogAggregator $logAggregator
-     * @param $limitBeforeGrouping
+     * @param int|false $limitBeforeGrouping
      * @return array(previousPages:DataTable, loops:integer)
      */
     protected function queryInternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
@@ -438,7 +438,7 @@ class API extends \Piwik\Plugin\API
 
         $loops = 0;
         $nbPageviews = 0;
-        $previousPagesDataTable = new DataTable;
+        $previousPagesDataTable = new DataTable();
         if (isset($data['result'][$keyIsPageUrlAction])) {
             foreach ($data['result'][$keyIsPageUrlAction] as &$page) {
                 $nbActions = intval($page[Metrics::INDEX_NB_ACTIONS]);
@@ -452,7 +452,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $previousSearchesDataTable = new DataTable;
+        $previousSearchesDataTable = new DataTable();
         if (isset($data['result'][$keyIsSiteSearchAction])) {
             foreach ($data['result'][$keyIsSiteSearchAction] as &$search) {
                 $nbActions = intval($search[Metrics::INDEX_NB_ACTIONS]);
@@ -527,12 +527,12 @@ class API extends \Piwik\Plugin\API
      * direct entries, websites, campaigns, search engines
      *
      * @param LogAggregator $logAggregator
-     * @param $report
+     * @param array $report
      * @param $idaction
      * @param string $actionType
-     * @param $limitBeforeGrouping
+     * @param int|false $limitBeforeGrouping
      */
-    private function addExternalReferrers($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping)
+    private function addExternalReferrers($logAggregator, array &$report, $idaction, $actionType, $limitBeforeGrouping)
     {
         $data = $this->queryExternalReferrers(
             $idaction, $actionType, $logAggregator, $limitBeforeGrouping);
@@ -605,7 +605,7 @@ class API extends \Piwik\Plugin\API
         $this->totalTransitionsToFollowingPages = 0;
         $dataTables = array();
         foreach ($types as $type => $recordName) {
-            $dataTable = new DataTable;
+            $dataTable = new DataTable();
             if (isset($data[$type])) {
                 foreach ($data[$type] as &$record) {
                     $actions = intval($record[Metrics::INDEX_NB_ACTIONS]);

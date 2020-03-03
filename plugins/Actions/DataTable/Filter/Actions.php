@@ -17,14 +17,16 @@ use Piwik\Tracker\Action;
 
 class Actions extends BaseFilter
 {
+    /** @var int */
     private $actionType;
+
     /**
      * Constructor.
      *
      * @param DataTable $table The table to eventually filter.
-     * @param bool $isPageTitleType Whether we are handling page title or regular URL
+     * @param int $actionType
      */
-    public function __construct($table, $actionType)
+    public function __construct(DataTable $table, $actionType)
     {
         parent::__construct($table);
         $this->actionType = $actionType;

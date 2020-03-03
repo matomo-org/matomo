@@ -454,7 +454,7 @@ class API extends \Piwik\Plugin\API
             }
 
             // nothing found in all sub tables
-            return new DataTable;
+            return new DataTable();
         }
 
         // filter regular data table
@@ -464,7 +464,7 @@ class API extends \Piwik\Plugin\API
             $row = $table->getRowFromLabel($search);
             if ($row === false) {
                 // not found
-                $result = new DataTable;
+                $result = new DataTable();
                 $result->setAllTableMetadata($table->getAllTableMetadata());
                 return $result;
             }

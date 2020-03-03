@@ -151,10 +151,10 @@ class RowEvolution
         $logo = $actualLabel = false;
         $urlFound = false;
         foreach ($dataTable->getDataTables() as $subTable) {
-            /** @var $subTable DataTable */
+            /** @var DataTable $subTable */
             $subTable->applyQueuedFilters();
             if ($subTable->getRowsCount() > 0) {
-                /** @var $row Row */
+                /** @var Row $row */
                 $row = $subTable->getFirstRow();
 
                 if (!$actualLabel) {

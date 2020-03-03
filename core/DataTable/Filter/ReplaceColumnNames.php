@@ -53,7 +53,7 @@ class ReplaceColumnNames extends BaseFilter
      *
      *                                   If null, {@link Piwik\Metrics::$mappingFromIdToName} is used.
      */
-    public function __construct($table, $mappingToApply = null)
+    public function __construct(DataTable $table, $mappingToApply = null)
     {
         parent::__construct($table);
         $this->mappingToApply = Metrics::getMappingFromIdToName();

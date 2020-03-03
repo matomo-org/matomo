@@ -53,14 +53,16 @@ class NestedSitesLimiter extends BaseFilter
     /**
      * @var Row[]
      */
-    private $rows   = array();
+    private $rows = array();
 
     /**
      * Constructor.
      *
      * @param DataTable $table The table to eventually filter.
+     * @param int $offset
+     * @param int $limit
      */
-    public function __construct($table, $offset, $limit)
+    public function __construct(DataTable $table, $offset, $limit)
     {
         parent::__construct($table);
         $this->offset = $offset;

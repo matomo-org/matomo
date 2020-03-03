@@ -201,7 +201,7 @@ class ArchivingHelper
      * For rows which have subtables (eg. directories with sub pages),
      * deletes columns which don't make sense when all values of sub pages are summed.
      *
-     * @param $dataTable DataTable
+     * @param DataTable $dataTable
      */
     public static function deleteInvalidSummedColumnsFromDataTable($dataTable)
     {

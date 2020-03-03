@@ -70,7 +70,7 @@ class ColumnDelete extends BaseFilter
      *                                    this list will be removed.
      * @param bool $deleteIfZeroOnly If true, columns will be removed only if their value is 0.
      */
-    public function __construct($table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false)
+    public function __construct(DataTable $table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false)
     {
         parent::__construct($table);
 

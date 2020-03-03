@@ -51,7 +51,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
      * @param bool $getDivisorFromSummaryRow Whether to get the divisor from the summary row or the current
      *                                       row iteration.
      */
-    public function __construct($table, $columnNameToAdd, $columnValueToRead, $divisorValueOrDivisorColumnName,
+    public function __construct(DataTable $table, $columnNameToAdd, $columnValueToRead, $divisorValueOrDivisorColumnName,
                                 $quotientPrecision = 0, $shouldSkipRows = false, $getDivisorFromSummaryRow = false)
     {
         parent::__construct($table);

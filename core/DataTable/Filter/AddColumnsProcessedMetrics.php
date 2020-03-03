@@ -50,7 +50,7 @@ class AddColumnsProcessedMetrics extends BaseFilter
      * @param DataTable $table The table to eventually filter.
      * @param bool $deleteRowsWithNoVisit Whether to delete rows with no visits or not.
      */
-    public function __construct($table, $deleteRowsWithNoVisit = true)
+    public function __construct(DataTable $table, $deleteRowsWithNoVisit = true)
     {
         $this->deleteRowsWithNoVisit = $deleteRowsWithNoVisit;
         parent::__construct($table);

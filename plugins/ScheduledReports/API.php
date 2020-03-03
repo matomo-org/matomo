@@ -152,6 +152,20 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates an existing report.
      *
+     * @param $idReport
+     * @param $idSite
+     * @param $description
+     * @param $period
+     * @param $hour
+     * @param $reportType
+     * @param $reportFormat
+     * @param $reports
+     * @param $parameters
+     * @param bool $idSegment
+     * @param string $evolutionPeriodFor
+     * @param null $evolutionPeriodN
+     * @param null $periodParam
+     * @throws NoAccessException
      * @see addReport()
      */
     public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false,

@@ -34,6 +34,23 @@ use Piwik\Piwik;
 class Truncate extends BaseFilter
 {
     /**
+     * @var int
+     */
+    private $truncateAfter;
+    /**
+     * @var string|null
+     */
+    private $labelSummaryRow;
+    /**
+     * @var string|null
+     */
+    private $columnToSortByBeforeTruncating;
+    /**
+     * @var bool
+     */
+    private $filterRecursive;
+
+    /**
      * Constructor.
      *
      * @param DataTable $table The table that will be filtered eventually.
@@ -46,7 +63,7 @@ class Truncate extends BaseFilter
      * @param bool $filterRecursive If true executes this filter on all subtables descending from
      *                              `$table`.
      */
-    public function __construct($table,
+    public function __construct(DataTable $table,
                                 $truncateAfter,
                                 $labelSummaryRow = null,
                                 $columnToSortByBeforeTruncating = null,

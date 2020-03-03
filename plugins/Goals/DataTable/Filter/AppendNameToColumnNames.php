@@ -26,7 +26,7 @@ class AppendNameToColumnNames extends BaseFilter
      * @param DataTable $table     The table that will be eventually filtered.
      * @param string $nameToAppend The name that will be appended to each column
      */
-    public function __construct($table, $nameToAppend)
+    public function __construct(DataTable $table, $nameToAppend)
     {
         parent::__construct($table);
         $this->nameToAppend = $nameToAppend;

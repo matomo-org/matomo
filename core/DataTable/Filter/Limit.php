@@ -24,6 +24,19 @@ use Piwik\DataTable\BaseFilter;
 class Limit extends BaseFilter
 {
     /**
+     * @var int
+     */
+    private $offset;
+    /**
+     * @var int
+     */
+    private $limit;
+    /**
+     * @var bool
+     */
+    private $keepSummaryRow;
+
+    /**
      * Constructor.
      *
      * @param DataTable $table The DataTable that will be filtered eventually.
@@ -31,7 +44,7 @@ class Limit extends BaseFilter
      * @param int $limit Number of rows to keep (specify -1 to keep all rows).
      * @param bool $keepSummaryRow Whether to keep the summary row or not.
      */
-    public function __construct($table, $offset, $limit = -1, $keepSummaryRow = false)
+    public function __construct(DataTable $table, $offset, $limit = -1, $keepSummaryRow = false)
     {
         parent::__construct($table);
 

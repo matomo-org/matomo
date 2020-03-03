@@ -28,10 +28,10 @@ class ActionSiteSearch extends Action
     private $searchCategory = false;
     private $searchCount = false;
 
-    const CVAR_KEY_SEARCH_CATEGORY = '_pk_scat';
-    const CVAR_KEY_SEARCH_COUNT = '_pk_scount';
-    const CVAR_INDEX_SEARCH_CATEGORY = '4';
-    const CVAR_INDEX_SEARCH_COUNT = '5';
+    public const CVAR_KEY_SEARCH_CATEGORY = '_pk_scat';
+    public const CVAR_KEY_SEARCH_COUNT = '_pk_scount';
+    public const CVAR_INDEX_SEARCH_CATEGORY = '4';
+    public const CVAR_INDEX_SEARCH_COUNT = '5';
 
     public function __construct(Request $request, $detect = true)
     {

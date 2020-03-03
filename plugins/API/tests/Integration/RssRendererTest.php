@@ -147,7 +147,7 @@ class RssRendererTest extends IntegrationTestCase
     
     <generator>matomo</generator>
     <language>en</language>
-    	</channel>
+  </channel>
 </rss>', $response);
     }
 

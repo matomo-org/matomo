@@ -27,7 +27,7 @@ class RemoveSubtables extends BaseFilter
      *
      * @param DataTable $table The DataTable that will be filtered eventually.
      */
-    public function __construct($table)
+    public function __construct(DataTable $table)
     {
         parent::__construct($table);
     }

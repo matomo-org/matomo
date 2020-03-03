@@ -64,7 +64,7 @@
                                 {%- endif %}
                             {% endset %}
                             <span title="{{- title -}}">
-						        <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"/>
+                                <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"/>
                                 {% if action.type == 'ecommerceOrder' %}
                                     {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }}
                                 {% endif %}

@@ -40,7 +40,7 @@ class MetadataCallbackAddMetadata extends BaseFilter
      * @param bool $applyToSummaryRow True if the callback should be applied to the summary row, false
      *                                if otherwise.
      */
-    public function __construct($table, $metadataToRead, $metadataToAdd, $functionToApply,
+    public function __construct(DataTable $table, $metadataToRead, $metadataToAdd, $functionToApply,
                                 $applyToSummaryRow = true)
     {
         parent::__construct($table);

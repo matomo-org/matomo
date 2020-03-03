@@ -32,7 +32,7 @@ class AddSummaryRow extends BaseFilter
      * @param DataTable $table The table that will be filtered.
      * @param int $labelSummaryRow The value of the label column for the new row.
      */
-    public function __construct($table, $labelSummaryRow = DataTable::LABEL_SUMMARY_ROW)
+    public function __construct(DataTable $table, $labelSummaryRow = DataTable::LABEL_SUMMARY_ROW)
     {
         parent::__construct($table);
         $this->labelSummaryRow = $labelSummaryRow;

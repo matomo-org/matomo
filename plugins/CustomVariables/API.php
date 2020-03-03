@@ -30,6 +30,7 @@ class API extends \Piwik\Plugin\API
      * @param Date $date
      * @param string $segment
      * @param bool $expanded
+     * @param $flat
      * @param int $idSubtable
      *
      * @return DataTable|DataTable\Map

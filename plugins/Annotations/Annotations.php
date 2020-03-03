@@ -34,16 +34,20 @@ class Annotations extends \Piwik\Plugin
 
     /**
      * Adds css files for this plugin to the list in the event notification.
+     *
+     * @param array $stylesheets
      */
-    public function getStylesheetFiles(&$stylesheets)
+    public function getStylesheetFiles(array &$stylesheets)
     {
         $stylesheets[] = "plugins/Annotations/stylesheets/annotations.less";
     }
 
     /**
      * Adds js files for this plugin to the list in the event notification.
+     *
+     * @param array $jsFiles
      */
-    public function getJsFiles(&$jsFiles)
+    public function getJsFiles(array &$jsFiles)
     {
         $jsFiles[] = "plugins/Annotations/javascripts/annotations.js";
     }

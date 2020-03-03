@@ -17,8 +17,15 @@ use Piwik\DataTable\BaseFilter;
  */
 class RangeCheck extends BaseFilter
 {
+    /** @var float */
     public static $minimumValue = 0.00;
+    /** @var float */
     public static $maximumValue = 100.0;
+
+    /**
+     * @var string
+     */
+    private $columnToFilter;
 
     /**
      * @param DataTable $table
@@ -26,7 +33,7 @@ class RangeCheck extends BaseFilter
      * @param float $minimumValue minimum value for range
      * @param float $maximumValue maximum value for range
      */
-    public function __construct($table, $columnToFilter, $minimumValue = 0.00, $maximumValue = 100.0)
+    public function __construct(DataTable $table, $columnToFilter, $minimumValue = 0.00, $maximumValue = 100.0)
     {
         parent::__construct($table);
 

@@ -32,7 +32,7 @@ class AddSegmentByRangeLabel extends BaseFilter
      * @param DataTable $table
      * @param string $segment  one segment
      */
-    public function __construct($table, $segment)
+    public function __construct(DataTable $table, $segment)
     {
         parent::__construct($table);
 

@@ -59,7 +59,7 @@ class ColumnCallbackAddColumn extends BaseFilter
      * @param array $functionParameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
      *                                  instead.
      */
-    public function __construct($table, $columns, $columnToAdd, $functionToApply, $functionParameters = array())
+    public function __construct(DataTable $table, $columns, $columnToAdd, $functionToApply, array $functionParameters = array())
     {
         parent::__construct($table);
 

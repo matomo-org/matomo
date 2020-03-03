@@ -403,7 +403,7 @@ class RowEvolution
         $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $rowLabel ));
 
         // If the dataTable specifies a label_html, use this instead
-        /** @var $dataTableMap \Piwik\DataTable\Map */
+        /** @var \Piwik\DataTable\Map $dataTableMap */
         $dataTableMap = $report['reportData'];
         $labelPretty = $dataTableMap->getColumn('label_html');
         $labelPretty = array_filter($labelPretty, 'strlen');

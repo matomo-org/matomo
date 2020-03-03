@@ -17,9 +17,9 @@ use Psr\Log\LoggerInterface;
  */
 class Alexa implements MetricsProvider
 {
-    const URL = 'https://data.alexa.com/data?cli=10&url=';
-    const URL_FALLBACK = 'https://www.alexa.com/minisiteinfo/';
-    const LINK = 'https://www.alexa.com/siteinfo/';
+    public const URL = 'https://data.alexa.com/data?cli=10&url=';
+    public const URL_FALLBACK = 'https://www.alexa.com/minisiteinfo/';
+    public const LINK = 'https://www.alexa.com/siteinfo/';
 
     /**
      * @var LoggerInterface

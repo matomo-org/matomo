@@ -32,7 +32,7 @@ class AddSegmentBySegmentValue extends BaseFilter
      * @param DataTable $table
      * @param $report
      */
-    public function __construct($table, $report)
+    public function __construct(DataTable $table, $report)
     {
         parent::__construct($table);
         $this->report = $report;

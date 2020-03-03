@@ -36,11 +36,11 @@ class ColumnCallbackAddMetadata extends BaseFilter
      * @param string|array $columnsToRead The columns to read from each row and pass on to the callback.
      * @param string $metadataToAdd The name of the metadata field that will be added to each row.
      * @param callable $functionToApply The callback to apply for each row.
-     * @param array $functionParameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     * @param array|null $functionParameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
      *                                  instead.
      * @param bool $applyToSummaryRow Whether the callback should be applied to the summary row or not.
      */
-    public function __construct($table, $columnsToRead, $metadataToAdd, $functionToApply = null,
+    public function __construct(DataTable $table, $columnsToRead, $metadataToAdd, $functionToApply = null,
                                 $functionParameters = null, $applyToSummaryRow = true)
     {
         parent::__construct($table);

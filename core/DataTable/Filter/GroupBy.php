@@ -56,7 +56,7 @@ class GroupBy extends BaseFilter
      * @param array $parameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
      *                          instead.
      */
-    public function __construct($table, $groupByColumn, $reduceFunction = null, $parameters = array())
+    public function __construct(DataTable $table, $groupByColumn, $reduceFunction = null, array $parameters = array())
     {
         parent::__construct($table);
 
