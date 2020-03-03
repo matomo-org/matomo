@@ -14,7 +14,9 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Site;
 
@@ -263,27 +265,25 @@ class Loader
 
     private function invalidatedReportsIfNeeded()
     {
-        $siteIdsRequested = $this->getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet();
-
-        if (empty($siteIdsRequested)) {
-            return; // all requested site ids were already handled
-        }
-
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
+        // TODO: there should be a task that goes through the entire list if browser archiving is enab led
         foreach ($sitesPerDays as $date => $siteIds) {
-            if (empty($siteIds)) {
+            if (empty($siteIds)
+                || !in_array($this->params->getSite()->getId(), $siteIds)
+            ) {
                 continue;
             }
 
-            $siteIdsToActuallyInvalidate = array_intersect($siteIds, $siteIdsRequested);
-
-            if (empty($siteIdsToActuallyInvalidate)) {
-                continue; // all site ids that should be handled are already handled
+            $date = Date::factory($date);
+            if ($date->isEarlier($this->params->getPeriod()->getDateStart())
+                || $date->isLater($this->params->getPeriod()->getDateEnd())
+            ) {
+                continue; // date in list is not the current date, so ignore it
             }
 
             try {
-                $this->invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, array(Date::factory($date)), $this->params->getPeriod()->getLabel(), $this->params->getSegment());
+                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array($date), false, $this->params->getSegment());
             } catch (\Exception $e) {
                 Site::clearCache();
                 throw $e;
