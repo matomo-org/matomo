@@ -117,12 +117,12 @@ class SessionAuth implements Auth
 
         $this->updateSessionExpireTime($sessionFingerprint);
 
-        if (!empty($this->tokenAuth) && $this->tokenAuth !== $sessionFingerprint->getTempTokenAuth()) {
+        if (!empty($this->tokenAuth) && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()) {
             return $this->makeAuthFailure();
         }
 
-        if ($sessionFingerprint->getTempTokenAuth()) {
-            $tokenAuth = $sessionFingerprint->getTempTokenAuth();
+        if ($sessionFingerprint->getSessionTokenAuth()) {
+            $tokenAuth = $sessionFingerprint->getSessionTokenAuth();
         } else {
             $tokenAuth = $this->userModel->generateRandomTokenAuth();
         }

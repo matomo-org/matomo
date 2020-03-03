@@ -63,7 +63,7 @@ class SessionFingerprint
         return null;
     }
 
-    public function getTempTokenAuth()
+    public function getSessionTokenAuth()
     {
         if (!empty($_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH])) {
             return $_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH];
