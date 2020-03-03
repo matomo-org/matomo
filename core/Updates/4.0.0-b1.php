@@ -36,7 +36,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations = [];
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_gears');
 
         $customTrackerPluginActive = false;
         if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {
