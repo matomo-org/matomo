@@ -229,7 +229,7 @@ class Model
     {
         $db = $this->getDb();
 
-        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->table} WHERE login = ?", $userLogin);
+        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->table} WHERE login = ?", [$userLogin]);
 
         // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
         // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
@@ -246,13 +246,13 @@ class Model
     public function getUserByEmail($userEmail)
     {
         $db = $this->getDb();
-        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE email = ?", $userEmail);
+        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE email = ?", [$userEmail]);
     }
 
     public function getUserByTokenAuth($tokenAuth)
     {
         $db = $this->getDb();
-        return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
+        return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', [$tokenAuth]);
     }
 
     public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)

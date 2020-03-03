@@ -32,7 +32,7 @@ class Model
 
     public function deleteAllReportForUser($userLogin)
     {
-        Db::query('DELETE FROM ' . $this->table . ' WHERE login = ?', $userLogin);
+        Db::query('DELETE FROM ' . $this->table . ' WHERE login = ?', [$userLogin]);
     }
 
     public function updateReport($idReport, $report)

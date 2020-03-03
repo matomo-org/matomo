@@ -149,7 +149,7 @@ class RankingQuery
     /**
      * Add a column that has be added to the outer queries.
      *
-     * @param $column
+     * @param string|array $column
      * @param string|bool $aggregationFunction If set, this function is used to aggregate the values of "Others",
      *                                         eg, `'min'`, `'max'` or `'sum'`.
      */
@@ -170,7 +170,7 @@ class RankingQuery
      * into another array. Both the result and the array of excluded rows are returned
      * by {@link execute()}.
      *
-     * @param $column string Name of the column.
+     * @param string $column Name of the column.
      * @throws Exception if method is used more than once.
      */
     public function setColumnToMarkExcludedRows($column)
@@ -197,8 +197,8 @@ class RankingQuery
      * where `log_action.type = TYPE_OUTLINK`, for rows where `log_action.type = TYPE_ACTION_URL` and for
      * rows `log_action.type = TYPE_DOWNLOAD`.
      *
-     * @param $partitionColumn string The column name to partion by.
-     * @param $possibleValues Array of possible column values.
+     * @param string $partitionColumn The column name to partion by.
+     * @param array $possibleValues Array of possible column values.
      * @throws Exception if method is used more than once.
      */
     public function partitionResultIntoMultipleGroups($partitionColumn, $possibleValues)
@@ -216,10 +216,10 @@ class RankingQuery
      * Executes the query.
      * The object has to be configured first using the other methods.
      *
-     * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
+     * @param string $innerQuery  The "payload" query that does the actual data aggregation. The ordering
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
-     * @param $bind array         Bindings for the inner query.
+     * @param array $bind         Bindings for the inner query.
      * @return array              The format depends on which methods have been used
      *                            to configure the ranking query.
      */
@@ -274,7 +274,7 @@ class RankingQuery
      * If you want to get the result, use execute() instead. If you want to run the query
      * yourself, use this method.
      *
-     * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
+     * @param string $innerQuery  The "payload" query that does the actual data aggregation. The ordering
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
      * @return string             The entire ranking query SQL.
@@ -290,11 +290,11 @@ class RankingQuery
         $labelColumnsOthersSwitch = array();
         foreach ($this->labelColumns as $column => $true) {
             $labelColumnsOthersSwitch[] = "
-				CASE
-					WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
-					ELSE `$column`
-				END AS `$column`
-			";
+                CASE
+                    WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
+                    ELSE `$column`
+                END AS `$column`
+            ";
         }
         $labelColumnsOthersSwitch = implode(', ', $labelColumnsOthersSwitch);
 
@@ -323,14 +323,14 @@ class RankingQuery
         // add a counter to the query
         // we rely on the sorting of the inner query
         $withCounter = "
-			SELECT
-				$labelColumnsString,
-				$counterExpression AS counter
-				$additionalColumnsString
-			FROM
-				$initCounter
-				( $innerQuery ) actualQuery
-		";
+            SELECT
+                $labelColumnsString,
+                $counterExpression AS counter
+                $additionalColumnsString
+            FROM
+                $initCounter
+                ( $innerQuery ) actualQuery
+        ";
 
         // group by the counter - this groups "Others" because the counter stops at $limit
         $groupBy = 'counter';
@@ -338,12 +338,12 @@ class RankingQuery
             $groupBy .= ', `' . $this->partitionColumn . '`';
         }
         $groupOthers = "
-			SELECT
-				$labelColumnsOthersSwitch
-				$additionalColumnsAggregatedString
-			FROM ( $withCounter ) AS withCounter
-			GROUP BY $groupBy
-		";
+            SELECT
+                $labelColumnsOthersSwitch
+                $additionalColumnsAggregatedString
+            FROM ( $withCounter ) AS withCounter
+            GROUP BY $groupBy
+        ";
         return $groupOthers;
     }
 
@@ -375,10 +375,10 @@ class RankingQuery
         }
 
         return "
-			CASE
-				" . implode("
-				", $whens) . "
-			END
-		";
+            CASE
+                " . implode("
+                ", $whens) . "
+            END
+        ";
     }
 }

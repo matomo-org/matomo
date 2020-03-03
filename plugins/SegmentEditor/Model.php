@@ -243,7 +243,7 @@ class Model
     public function getSegment($idSegment)
     {
         $db = $this->getDb();
-        $segment = $db->fetchRow("SELECT * FROM " . $this->getTable() . " WHERE idsegment = ?", $idSegment);
+        $segment = $db->fetchRow("SELECT * FROM " . $this->getTable() . " WHERE idsegment = ?", [$idSegment]);
 
         return $segment;
     }

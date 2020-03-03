@@ -186,9 +186,9 @@ class Model
     {
         $db = $this->getDb();
 
-        $db->query("DELETE FROM " . $this->table . " WHERE idsite = ?", $idSite);
-        $db->query("DELETE FROM " . Common::prefixTable("site_url") . " WHERE idsite = ?", $idSite);
-        $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ?", $idSite);
+        $db->query("DELETE FROM " . $this->table . " WHERE idsite = ?", [$idSite]);
+        $db->query("DELETE FROM " . Common::prefixTable("site_url") . " WHERE idsite = ?",[$idSite]);
+        $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ?", [$idSite]);
     }
 
     /**
@@ -231,7 +231,7 @@ class Model
     {
         $db = $this->getDb();
         $site = $db->fetchRow("SELECT * FROM " . $this->table . "
-                               WHERE idsite = ?", $idSite);
+                               WHERE idsite = ?", [$idSite]);
 
         return $site;
     }
@@ -436,7 +436,7 @@ class Model
     public function deleteSiteAliasUrls($idsite)
     {
         $db = $this->getDb();
-        $db->query("DELETE FROM " . Common::prefixTable("site_url") . " WHERE idsite = ?", $idsite);
+        $db->query("DELETE FROM " . Common::prefixTable("site_url") . " WHERE idsite = ?", [$idsite]);
     }
 
     private function getDb()

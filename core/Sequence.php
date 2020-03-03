@@ -76,7 +76,7 @@ class Sequence
      */
     public function exists()
     {
-        $query = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE name = ?', $this->name);
+        $query = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE name = ?', [$this->name]);
 
         return $query->rowCount() > 0;
     }
