@@ -981,6 +981,11 @@ class CronArchive
             $periodsToCheck = [Factory::build($period, $date, Site::getTimezoneFor($idSite))];
         }
 
+        // don't do this check for today
+        if ($this->isTodayIncludedInPeriod($idSite, $periodsToCheck)) {
+            return [false, null];
+        }
+
         $periodsToCheckRanges = array_map(function (Period $p) { return $p->getRangeString(); }, $periodsToCheck);
 
         $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
@@ -1031,6 +1036,26 @@ class CronArchive
         }
 
         return [$isThereArchiveForAllPeriods, $newDate];
+    }
+
+    /**
+     * @param int $idSite
+     * @param Period[] $periods
+     * @return bool
+     * @throws Exception
+     */
+    private function isTodayIncludedInPeriod($idSite, $periods)
+    {
+        $timezone = Site::getTimezoneFor($idSite);
+        $today = Date::factoryInTimezone('today', $timezone);
+
+        foreach ($periods as $period) {
+            if ($period->isDateInPeriod($today)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
