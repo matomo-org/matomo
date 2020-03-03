@@ -860,7 +860,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $excludedIps Comma separated list of IP addresses
      * @throws Exception
-     * @return array of IPs
+     * @return string IPs separate by ,
      */
     private function checkAndReturnExcludedIps($excludedIps)
     {

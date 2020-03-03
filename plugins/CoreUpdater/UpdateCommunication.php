@@ -43,8 +43,6 @@ class UpdateCommunication
     /**
      * Sends a notification email to all super users if there is a core update available but only if we haven't notfied
      * them about a specific new version yet.
-     *
-     * @return bool
      */
     public function sendNotificationIfUpdateAvailable()
     {

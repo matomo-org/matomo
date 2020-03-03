@@ -78,7 +78,7 @@ class GenerateWidget extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function getWidgetName(InputInterface $input, OutputInterface $output)

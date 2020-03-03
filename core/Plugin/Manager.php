@@ -542,7 +542,7 @@ class Manager
      *                                  given subclass. If the requested file exists but does not extend this class
      *                                  a warning will be shown to advice a developer to extend this certain class.
      *
-     * @return \stdClass[]
+     * @return string[]
      */
     public function findComponents($componentName, $expectedSubclass)
     {

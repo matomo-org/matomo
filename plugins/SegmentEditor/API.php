@@ -302,7 +302,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param $idSegment
      * @throws Exception
-     * @return bool
+     * @return bool|array
      */
     public function get($idSegment)
     {

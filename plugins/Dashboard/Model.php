@@ -29,7 +29,7 @@ class Model
      * @param string $login
      * @param int $idDashboard
      *
-     * @return bool|string
+     * @return array
      */
     public function getLayoutForUser($login, $idDashboard)
     {

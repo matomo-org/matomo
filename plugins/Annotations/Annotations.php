@@ -16,7 +16,7 @@ namespace Piwik\Plugins\Annotations;
 class Annotations extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

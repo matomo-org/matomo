@@ -58,7 +58,7 @@ class ServerModule extends GeoIp2
      * information will not be available to Piwik.
      *
      * @param array $info Must have an 'ip' field.
-     * @return array
+     * @return array|false
      */
     public function getLocation($info)
     {

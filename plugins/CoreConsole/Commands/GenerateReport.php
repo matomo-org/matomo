@@ -106,7 +106,7 @@ class GenerateReport extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function getReportName(InputInterface $input, OutputInterface $output)
@@ -140,7 +140,7 @@ class GenerateReport extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function getDocumentation(InputInterface $input, OutputInterface $output)
@@ -171,7 +171,7 @@ class GenerateReport extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param string $pluginName
-     * @return array
+     * @return string|null
      * @throws \RuntimeException
      */
     protected function getCategory(InputInterface $input, OutputInterface $output, $pluginName)
@@ -293,7 +293,7 @@ class GenerateReport extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)

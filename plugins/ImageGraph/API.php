@@ -288,7 +288,8 @@ class API extends \Piwik\Plugin\API
             // row evolutions
             if ($isMultiplePeriod && $reportHasDimension) {
                 $plottedMetric = reset($ordinateColumns);
-
+                $savedFilterSortColumnValue = '';
+                $savedFilterLimitValue = -1;
                 // when no labels are specified, getRowEvolution returns the top N=filter_limit row evolutions
                 // rows are sorted using filter_sort_column (see DataTableGenericFilter for more info)
                 if (!$labels) {

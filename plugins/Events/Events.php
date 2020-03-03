@@ -19,7 +19,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 class Events extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

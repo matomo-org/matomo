@@ -238,7 +238,7 @@ class RowEvolution
      * Do as much as possible from outside the controller.
      * @param string|bool $graphType
      * @param array|bool $metrics
-     * @return Factory
+     * @return \Piwik\Plugin\ViewDataTable
      */
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {

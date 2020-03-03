@@ -353,8 +353,9 @@ abstract class GeneratePluginBase extends ConsoleCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @param $pluginNames
+     * @param $invalidArgumentException
      * @return string
-     * @throws \RuntimeException
      */
     protected function askPluginNameAndValidate(InputInterface $input, OutputInterface $output, $pluginNames, $invalidArgumentException)
     {

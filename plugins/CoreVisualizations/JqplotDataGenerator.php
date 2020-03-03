@@ -91,7 +91,7 @@ class JqplotDataGenerator
      * Generates JSON graph data and returns it.
      *
      * @param DataTable|DataTable\Map $dataTable
-     * @return string
+     * @return array
      */
     public function generate($dataTable)
     {

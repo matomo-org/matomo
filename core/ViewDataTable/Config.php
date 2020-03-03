@@ -85,7 +85,7 @@ use Piwik\Plugin\ReportsProvider;
  *
  * @api
  */
-class   Config
+class Config
 {
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.

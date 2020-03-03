@@ -517,7 +517,7 @@ class API extends \Piwik\Plugin\API
          * handle their new report formats.
          *
          * @param ReportRenderer &$reportRenderer This variable should be set to an instance that
-         *                                        extends {@link Piwik\ReportRenderer} by one of the event
+         *                                        extends {@link \Piwik\ReportRenderer} by one of the event
          *                                        subscribers.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.

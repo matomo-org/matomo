@@ -28,6 +28,7 @@ class Config extends VisualizationConfig
      * The maximum number of rows to render. All other rows will be aggregated in an 'Others' row.
      *
      * Default value: false (no limit)
+     * @var int|false
      */
     public $max_graph_elements = false;
 
@@ -35,6 +36,7 @@ class Config extends VisualizationConfig
      * Array property that contains the names of columns that can be selected in the Series Picker.
      *
      * Default value: false
+     * @var array|false
      */
     public $selectable_columns = false;
 
@@ -44,6 +46,7 @@ class Config extends VisualizationConfig
      * @see self::ROWS_TO_DISPLAY
      *
      * Default value: false
+     * @var string|false
      */
     public $row_picker_match_rows_by = false;
 
@@ -54,6 +57,7 @@ class Config extends VisualizationConfig
      * @see self::ROW_PICKER_VALUE_COLUMN
      *
      * Default value: false
+     * @var array|false
      */
     public $rows_to_display = false;
 
@@ -62,6 +66,7 @@ class Config extends VisualizationConfig
      * rows, if the row_picker_match_rows_by property is set.
      *
      * @see self::ROW_PICKER_VALUE_COLUMN
+     * @var array
      */
     public $selectable_rows = [];
 
@@ -69,6 +74,7 @@ class Config extends VisualizationConfig
      * Controls whether all ticks & labels are shown on a graph's x-axis or just some.
      *
      * Default value: false
+     * @var bool
      */
     public $show_all_ticks = false;
 
@@ -76,6 +82,7 @@ class Config extends VisualizationConfig
      * If true, a row with totals of each DataTable column is added.
      *
      * Default value: false
+     * @var bool
      */
     public $add_total_row = false;
 
@@ -84,6 +91,7 @@ class Config extends VisualizationConfig
      * choose between displaying data of different columns.
      *
      * Default value: true
+     * @var bool
      */
     public $show_series_picker = true;
 
@@ -96,6 +104,7 @@ class Config extends VisualizationConfig
      * displayed.
      *
      * Default value: true
+     * @var bool
      */
     public $display_percentage_in_tooltip = true;
 

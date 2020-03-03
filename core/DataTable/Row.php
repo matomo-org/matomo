@@ -14,7 +14,7 @@ use Piwik\Log;
 use Piwik\Metrics;
 
 /**
- * This is what a {@link Piwik\DataTable} is composed of.
+ * This is what a {@link \Piwik\DataTable} is composed of.
  *
  * DataTable rows contain columns, metadata and a subtable ID. Columns and metadata
  * are stored as an array of name => value mappings.

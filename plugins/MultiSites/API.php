@@ -82,7 +82,7 @@ class API extends \Piwik\Plugin\API
      *                                        Only used when a scheduled task is running
      * @param bool|string $enhanced When true, return additional goal & ecommerce metrics
      * @param bool|string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
-     * @param array $showColumns If specified, only the requested columns will be fetched
+     * @param array|string $showColumns If specified, only the requested columns will be fetched
      * @return DataTable
      */
     public function getAll($period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false, $pattern = false, $showColumns = array())
@@ -161,7 +161,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Same as getAll but for a unique Matomo site
-     * @see Piwik\Plugins\MultiSites\API::getAll()
+     * @see \Piwik\Plugins\MultiSites\API::getAll()
      *
      * @param int $idSite Id of the Matomo site
      * @param string $period The period type to get data for.

@@ -119,7 +119,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      * @param $apiMethod
-     * @return array
+     * @return array|false
      */
     public function getSecondaryDimensions($apiMethod)
     {

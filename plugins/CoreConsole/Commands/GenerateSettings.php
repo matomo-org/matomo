@@ -80,7 +80,7 @@ class GenerateSettings extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param string $settingsType
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output, $settingsType, $settingsFile)
