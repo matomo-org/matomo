@@ -63,14 +63,14 @@ class LogAggregatorTest extends IntegrationTestCase
 
         $expected = array(
             'sql' => '
-			SELECT
-				test, test2
-			FROM
-				log_visit AS log_visit
-			WHERE
-				1=1
-			ORDER BY
-				5',
+            SELECT
+                test, test2
+            FROM
+                log_visit AS log_visit
+            WHERE
+                1=1
+            ORDER BY
+                5',
             'bind' => array (
                 0 => '2010-03-01 00:00:00',
                 1 => '2010-03-31 23:59:59',
@@ -98,13 +98,13 @@ class LogAggregatorTest extends IntegrationTestCase
 
         $expected = array(
             'sql' => 'SELECT /* MyPluginName */
-				test, test2
-			FROM
-				log_visit AS log_visit
-			WHERE
-				1=1
-			ORDER BY
-				5',
+                test, test2
+            FROM
+                log_visit AS log_visit
+            WHERE
+                1=1
+            ORDER BY
+                5',
             'bind' => array (
                 0 => '2010-03-01 00:00:00',
                 1 => '2010-03-31 23:59:59',

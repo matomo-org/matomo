@@ -14,6 +14,7 @@ use Piwik\Archive;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
 use Piwik\Period\Range;
 use Piwik\Piwik;
@@ -514,7 +515,10 @@ class API extends \Piwik\Plugin\API
         return 'last_period_' . $name;
     }
 
-    private function populateLabel(DataTable $dataTable)
+    /**
+     * @param DataTable|DataTableInterface|DataTable\Map $dataTable
+     */
+    private function populateLabel($dataTable)
     {
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {

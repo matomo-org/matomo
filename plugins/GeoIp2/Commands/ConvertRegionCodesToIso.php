@@ -105,7 +105,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
             Db::query(sprintf($fixInvalidCountriesQuery, Common::prefixTable($logTable)));
 
             $sql = sprintf($query, Common::prefixTable($logTable), Common::prefixTable(self::MAPPING_TABLE_NAME), $dateField);
-            Db::query($sql, $activationDateTime);
+            Db::query($sql, [$activationDateTime]);
 
             $output->writeln(' <fg=green>✓</>');
         }

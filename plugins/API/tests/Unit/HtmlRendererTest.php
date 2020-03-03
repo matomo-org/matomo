@@ -245,16 +245,16 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>nb_visits</th>
-		<th>nb_random</th>
-	</tr>
+    <tr>
+        <th>nb_visits</th>
+        <th>nb_random</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>3</td>
-		<td>6</td>
-	</tr>
+    <tr>
+        <td>3</td>
+        <td>6</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -281,17 +281,17 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>nb_visits</th>
-		<th>nb_random</th>
-		<th>_metadata</th>
-	</tr>
+    <tr>
+        <th>nb_visits</th>
+        <th>nb_random</th>
+        <th>_metadata</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>3</td>
-		<td>6</td>
-		<td>\'processedRows\' =&gt; array (
+    <tr>
+        <td>3</td>
+        <td>6</td>
+        <td>\'processedRows\' =&gt; array (
   0 =&gt; 
   Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite::__set_state(array(
   )),
@@ -303,7 +303,7 @@ message', $response);
      \'timezone\' =&gt; \'UTC\',
   )),
 )</td>
-	</tr>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -317,26 +317,26 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>value</th>
-	</tr>
+    <tr>
+        <th>value</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>1</td>
-	</tr>
-	<tr>
-		<td>2</td>
-	</tr>
-	<tr>
-		<td>5</td>
-	</tr>
-	<tr>
-		<td>string</td>
-	</tr>
-	<tr>
-		<td>10</td>
-	</tr>
+    <tr>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>string</td>
+    </tr>
+    <tr>
+        <td>10</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -348,8 +348,8 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-	</tr>
+    <tr>
+    </tr>
 </thead>
 <tbody>
 </tbody>
@@ -365,16 +365,16 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>nb_visits</th>
-		<th>nb_random</th>
-	</tr>
+    <tr>
+        <th>nb_visits</th>
+        <th>nb_random</th>
+</tr>
 </thead>
 <tbody>
-	<tr>
-		<td>6</td>
-		<td>8</td>
-	</tr>
+    <tr>
+        <td>6</td>
+        <td>8</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -391,20 +391,20 @@ message', $response);
 
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>nb_visits</th>
-		<th>nb_random</th>
-	</tr>
+    <tr>
+        <th>nb_visits</th>
+        <th>nb_random</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>6</td>
-		<td>8</td>
-	</tr>
-	<tr>
-		<td>3</td>
-		<td>4</td>
-	</tr>
+    <tr>
+        <td>6</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>4</td>
+    </tr>
 </tbody>
 </table>
 ', $response);
@@ -422,28 +422,28 @@ message', $response);
         $actual = $this->builder->renderArray($input);
         $this->assertEquals('<table id="MultiSites_getAll" border="1">
 <thead>
-	<tr>
-		<th>value</th>
-		<th>1</th>
-		<th>2</th>
-	</tr>
+    <tr>
+        <th>value</th>
+        <th>1</th>
+        <th>2</th>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>firstElement</td>
-		<td>-</td>
-		<td>-</td>
-	</tr>
-	<tr>
-		<td>firstElement</td>
-		<td>secondElement</td>
-		<td>-</td>
-	</tr>
-	<tr>
-		<td>-</td>
-		<td>-</td>
-		<td>thirdElement</td>
-	</tr>
+    <tr>
+        <td>firstElement</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>firstElement</td>
+        <td>secondElement</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>-</td>
+        <td>thirdElement</td>
+    </tr>
 </tbody>
 </table>
 ', $actual);
