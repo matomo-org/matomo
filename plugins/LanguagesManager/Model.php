@@ -25,7 +25,7 @@ class Model
 
     public function deleteUserLanguage($userLogin)
     {
-        Db::query('DELETE FROM ' . $this->table . ' WHERE login = ?', $userLogin);
+        Db::query('DELETE FROM ' . $this->table . ' WHERE login = ?', [$userLogin]);
     }
 
     /**
