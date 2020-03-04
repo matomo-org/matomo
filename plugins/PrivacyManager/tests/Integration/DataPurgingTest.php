@@ -741,7 +741,7 @@ class DataPurgingTest extends IntegrationTestCase
         $range = $rangeStart->toString('Y-m-d') . "," . $rangeEnd->toString('Y-m-d');
 
         $rangeArchive = Archive::build(self::$idSite, 'range', $range);
-        $rangeArchive->getNumeric(['nb_visits', 'nb_hits']);
+        $rangeArchive->getNumeric(['nb_visits']);
 
         APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
 
