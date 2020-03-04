@@ -23,7 +23,7 @@ class Feedback extends \Piwik\Plugin
     const NEVER_REMIND_ME_AGAIN = "-1";
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

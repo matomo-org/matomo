@@ -13,7 +13,7 @@ namespace Piwik\Plugins\Widgetize;
 class Widgetize extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

@@ -161,7 +161,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Same as getAll but for a unique Matomo site
-     * @see Piwik\Plugins\MultiSites\API::getAll()
+     * @see \Piwik\Plugins\MultiSites\API::getAll()
      *
      * @param int $idSite Id of the Matomo site
      * @param string $period The period type to get data for.

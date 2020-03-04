@@ -25,7 +25,7 @@ use Piwik\Version;
 class CoreUpdater extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
