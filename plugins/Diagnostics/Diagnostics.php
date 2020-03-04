@@ -20,7 +20,7 @@ class Diagnostics extends Plugin
     const NO_DATA_ARCHIVING_NOT_RUN_NOTIFICATION_ID = 'DiagnosticsNoDataArchivingNotRun';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

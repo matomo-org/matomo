@@ -19,7 +19,7 @@ class BulkTracking extends \Piwik\Plugin
     private $requests;
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

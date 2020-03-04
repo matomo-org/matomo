@@ -14,7 +14,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 class VisitFrequency extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

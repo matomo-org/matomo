@@ -12,7 +12,7 @@ namespace Piwik\Plugins\Overlay;
 class Overlay extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     function registerEvents()
     {

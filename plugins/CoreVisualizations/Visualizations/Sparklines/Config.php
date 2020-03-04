@@ -140,7 +140,7 @@ class Config extends \Piwik\ViewDataTable\Config
      * It will show a sparkline image, the value of the resolved metric name and a descrption. Optionally, multiple
      * values can be shown after a sparkline image by passing multiple metric names
      * (eg array('nb_visits', 'nb_actions')). The data will be requested from the configured api method see
-     * {@link Piwik\ViewDataTable\RequestConfig::$apiMethodToRequestDataTable}.
+     * {@link \Piwik\ViewDataTable\RequestConfig::$apiMethodToRequestDataTable}.
      *
      * Example:
      * $config->addSparklineMetric('nb_visits');

@@ -19,7 +19,7 @@ use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 class UserCountry extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
