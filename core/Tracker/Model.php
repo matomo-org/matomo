@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DbHelper;
 use Piwik\Tracker;
 use Psr\Log\LoggerInterface;
 
@@ -418,7 +419,21 @@ class Model
 
     private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
     {
-        // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        $cacheKey = 'log_visit_has_index_idsite_idvisitor';
+        $cache = Cache::getCacheGeneral();
+
+        if (!array_key_exists($cacheKey, $cache)) {
+            $hasIndex = DbHelper::tableHasIndex(Common::prefixTable('log_visit'), 'index_idsite_idvisitor');
+            $cache[$cacheKey] = $hasIndex;
+
+            Cache::setCacheGeneral($cache);
+        }
+
+        // use INDEX index_idsite_idvisitor (idsite, idvisitor) if available
+        if (true === $cache[$cacheKey]) {
+            $from .= ' USE INDEX (index_idsite_idvisitor) ';
+        }
+
         $where .= ' AND idvisitor = ?';
         $bindSql[] = $idVisitor;
 

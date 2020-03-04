@@ -178,6 +178,21 @@ class DbHelper
     }
 
     /**
+     * Returns if the given table has an index with the given name
+     *
+     * @param string $table
+     * @param string $indexName
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function tableHasIndex($table, $indexName)
+    {
+        $result = Db::getReader()->fetchOne('SHOW INDEX FROM '.$table.' WHERE Key_name = ?', [$indexName]);
+        return !empty($result);
+    }
+
+    /**
      * Get the SQL to create Piwik tables
      *
      * @return array  array of strings containing SQL
