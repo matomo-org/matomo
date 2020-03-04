@@ -104,7 +104,7 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals([false, false, false, true], $archiveInfo);
+        $this->assertEquals([false, '10', '0', true], $archiveInfo); // visits are still returned as this was the original behavior
     }
 
     private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)

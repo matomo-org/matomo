@@ -981,8 +981,13 @@ class CronArchive
             $periodsToCheck = [Factory::build($period, $date, Site::getTimezoneFor($idSite))];
         }
 
-        // don't do this check for today
-        if ($this->isTodayIncludedInPeriod($idSite, $periodsToCheck)) {
+        $isTodayIncluded = $this->isTodayIncludedInPeriod($idSite, $periodsToCheck);
+        $isLast = preg_match('/^last([0-9]+)/', $date, $matches);
+
+        // don't do this check for a single period that includes today
+        if ($isTodayIncluded
+            && !$isLast
+        ) {
             return [false, null];
         }
 
@@ -1003,13 +1008,13 @@ class CronArchive
         }
 
         $diff = array_diff($periodsToCheckRanges, $foundArchivePeriods);
-        $isThereArchiveForAllPeriods = empty($diff);
+        $isThereArchiveForAllPeriods = empty($diff) && !$isTodayIncluded;
 
         // if there is an invalidated archive within the range, find out the oldest one and how far it is from today,
         // and change the lastN $date to be value so it is correctly re-processed.
         $newDate = $date;
         if (!$isThereArchiveForAllPeriods
-            && preg_match('/^last([0-9]+)/', $date, $matches)
+            && $isLast
         ) {
             $lastNValue = (int) $matches[1];
 

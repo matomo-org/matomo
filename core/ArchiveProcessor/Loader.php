@@ -292,30 +292,4 @@ class Loader
 
         Site::clearCache();
     }
-
-    private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
-    {
-        $id = 'Archive.SiteIdsOfRememberedReportsInvalidated';
-
-        if (!$this->cache->contains($id)) {
-            $this->cache->save($id, array());
-        }
-
-        $siteIdsAlreadyHandled = $this->cache->fetch($id);
-        $siteIdsRequested      = $this->params->getIdSites();
-
-        foreach ($siteIdsRequested as $index => $siteIdRequested) {
-            $siteIdRequested = (int) $siteIdRequested;
-
-            if (in_array($siteIdRequested, $siteIdsAlreadyHandled)) {
-                unset($siteIdsRequested[$index]); // was already handled previously, do not do it again
-            } else {
-                $siteIdsAlreadyHandled[] = $siteIdRequested; // we will handle this id this time
-            }
-        }
-
-        $this->cache->save($id, $siteIdsAlreadyHandled);
-
-        return $siteIdsRequested;
-    }
 }
