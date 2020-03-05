@@ -451,7 +451,22 @@ class VisitTest extends IntegrationTestCase
         $archive = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
 
-        $this->assertSame($expectedRemeberedArchivedReports, $remembered);
+        $this->assertSameReportsInvalidated($expectedRemeberedArchivedReports, $remembered);
+    }
+
+    private function assertSameReportsInvalidated($expected, $actual)
+    {
+        $keys1 = array_keys($expected);
+        $keys2 = array_keys($actual);
+        sort($keys1);
+        sort($keys2);
+
+        $this->assertSame($keys1, $keys2);
+        foreach ($expected as $index => $values) {
+            sort($values);
+            sort($actual[$index]);
+            $this->assertSame($values, $actual[$index]);
+        }
     }
 
     private function prepareVisitWithRequest($requestParams, $requestDate)
