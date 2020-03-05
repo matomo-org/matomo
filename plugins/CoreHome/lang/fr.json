@@ -95,7 +95,7 @@
         "JsDidntLoad": "Votre navigateur n'a pas été en mesure de charger les scripts de la page.",
         "AdblockIsMaybeUsed": "Dans le cas où vous utiliseriez un bloqueur de publicités, veuillez le désactiver pour ce site afin de vous assurer que Matomo fonctionne correctement.",
         "ChangeCurrentWebsite": "Choisir un site web, site couramment sélectionné : %s",
-        "LeadingAnalyticsPlatformRespectsYourPrivacy": "La première plateforme d'analyse statique libre qui respecte votre vie privée.",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "La première plateforme d'analyse statitisques libre qui respecte votre vie privée.",
         "MacPageUp": "Fn + flèche gauche",
         "MacPageDown": "Fn + flèche Droite",
         "ReportType": "Type de rapport",
