@@ -74,6 +74,7 @@ abstract class Factory
         self::checkPeriodIsEnabled($period);
 
         if (is_string($date)) {
+            list($period, $date) = self::convertRangeToDateIfNeeded($period, $date);
             if (Period::isMultiplePeriod($date, $period)
                 || $period == 'range'
             ) {
@@ -130,6 +131,19 @@ abstract class Factory
         throw new Exception($message);
     }
 
+    private static function convertRangeToDateIfNeeded($period, $date)
+    {
+        if (is_string($period) && is_string($date) && $period === 'range') {
+            $dates = explode(',', $date);
+            if (count($dates) === 2 && $dates[0] === $dates[1]) {
+                $period = 'day';
+                $date = $dates[0];
+            }
+        }
+
+        return array($period, $date);
+    }
+
     /**
      * Creates a Period instance using a period, date and timezone.
      *
@@ -145,6 +159,8 @@ abstract class Factory
         if (empty($timezone)) {
             $timezone = 'UTC';
         }
+
+        list($period, $date) = self::convertRangeToDateIfNeeded($period, $date);
 
         if ($period == 'range') {
             self::checkPeriodIsEnabled('range');
