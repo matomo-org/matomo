@@ -173,11 +173,10 @@ class ArchiveInvalidator
     // This version is multi process safe on the insert of a new date to invalidate.
     private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
     {
-        $id = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
+        $id = Common::getRandomString(4, 'abcdefghijklmnoprstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') . '_';
+        $id .= $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
         $id .= '_' . Common::getProcessId();
 
-        // we use md5 and not getRandomString so it is still predictable and testable in the tests
-        $id = substr(md5($id), 0, 4) . '_' . $id;
         return $id;
     }
 
