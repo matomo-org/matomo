@@ -33,7 +33,14 @@
      #}
     {% if showConfirmOnly %}
     <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p>
-    <script>window.close();</script>
+    <script>
+        {# try to update nonce in iframe, so sending it a second time works #}
+        try {
+            window.opener.document.querySelector('[name="nonce"]').value = '{{ nonce }}';
+            window.opener.document.querySelector('form').action = window.opener.document.querySelector('form').action.replace(/nonce=[0-9a-z]+/, 'nonce={{ nonce }}');
+        } catch (e) {}
+        window.close();
+    </script>
     <noscript>
     {% endif %}
 
