@@ -136,7 +136,7 @@ class ArchiveInvalidator
 
     public function getRememberedArchivedReportsThatShouldBeInvalidated()
     {
-        $reports = Option::getLike('%_' . $this->rememberArchivedReportIdStart . '%_%');
+        $reports = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%_%');
 
         $sitesPerDay = array();
 
