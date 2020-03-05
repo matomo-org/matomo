@@ -267,7 +267,6 @@ class Loader
     {
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
-        // TODO: there should be a task that goes through the entire list if browser archiving is enab led
         foreach ($sitesPerDays as $date => $siteIds) {
             if (empty($siteIds)
                 || !in_array($this->params->getSite()->getId(), $siteIds)
