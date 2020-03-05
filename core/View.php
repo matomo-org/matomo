@@ -287,6 +287,9 @@ class View implements ViewInterface
         // don't send Referer-Header for outgoing links
         if (!empty($this->useStrictReferrerPolicy)) {
             Common::sendHeader('Referrer-Policy: same-origin');
+        } else {
+            // always send explicit default header
+            Common::sendHeader('Referrer-Policy: no-referrer-when-downgrade');
         }
 
         return $this->renderTwigTemplate();
