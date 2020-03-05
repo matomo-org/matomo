@@ -15,6 +15,7 @@ use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -325,6 +326,321 @@ class ArchiveTest extends IntegrationTestCase
         $numericTables = Db::get()->fetchAll('SHOW TABLES like "%archive_numeric_2066_%"');
 
         $this->assertEmpty($numericTables, 'Archive table for future date found');
+    }
+
+    public function test_archivingInvalidatesCurrentlyRequestedArchive_ifNeeded()
+    {
+        $dateTime = '2015-02-03 10:00:00';
+
+        /** @var PiwikArchive\ArchiveInvalidator $invalidator */
+        $invalidator = StaticContainer::get(PiwikArchive\ArchiveInvalidator::class);
+
+        $existingArchives = $this->getExistingArchiveDoneValues($dateTime);
+        $this->assertEquals([], $existingArchives);
+
+        $rememberedArchivesToInvalidate = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+        $this->assertEquals([
+            '2010-03-06' => [1],
+        ], $rememberedArchivesToInvalidate);
+
+        Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'week', 'date' => $dateTime));
+
+        $existingArchives = $this->getExistingArchiveDoneValues($dateTime);
+        $this->assertEquals([
+            [
+                'idsite' => '1',
+                'period' => '2',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-02',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-03',
+                'date2' => '2015-02-03',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-04',
+                'date2' => '2015-02-04',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-05',
+                'date2' => '2015-02-05',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-06',
+                'date2' => '2015-02-06',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-07',
+                'date2' => '2015-02-07',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-08',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '1',
+            ],
+        ], $existingArchives);
+
+        $rememberedArchivesToInvalidate = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+        $this->assertEquals([
+            '2010-03-06' => [1],
+        ], $rememberedArchivesToInvalidate);
+
+        $tracker = Fixture::getTracker($idSite = 1, $dateTime);
+        $tracker->setUrl('http://example.com/page');
+        Fixture::checkResponse($tracker->doTrackPageView('the title'));
+
+        $rememberedArchivesToInvalidate = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+        $this->assertEquals([
+            '2010-03-06' => [1],
+            '2015-02-03' => [1],
+        ], $rememberedArchivesToInvalidate);
+
+        Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'week', 'date' => $dateTime));
+
+        // no change since ts_archived is still valid
+        $existingArchives = $this->getExistingArchiveDoneValues($dateTime);
+        $this->assertEquals([
+            [
+                'idsite' => '1',
+                'period' => '2',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-02',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-03',
+                'date2' => '2015-02-03',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-04',
+                'date2' => '2015-02-04',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-05',
+                'date2' => '2015-02-05',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-06',
+                'date2' => '2015-02-06',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-07',
+                'date2' => '2015-02-07',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-08',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '1',
+            ],
+        ], $existingArchives);
+
+        // manually change ts_archived to be earlier
+        Db::query("UPDATE " . ArchiveTableCreator::getNumericTable(Date::factory('2015-02-03')) . ' SET ts_archived = "2012-01-01 00:00:00"');
+
+        Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'week', 'date' => $dateTime));
+
+        $existingArchives = $this->getExistingArchiveDoneValues($dateTime);
+        $this->assertEquals([
+            [
+                'idsite' => '1',
+                'period' => '2',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '4',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-02',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-03',
+                'date2' => '2015-02-03',
+                'name' => 'done',
+                'value' => '4',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-04',
+                'date2' => '2015-02-04',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-05',
+                'date2' => '2015-02-05',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-06',
+                'date2' => '2015-02-06',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-07',
+                'date2' => '2015-02-07',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-08',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '2',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-02',
+                'date2' => '2015-02-02',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-03',
+                'date2' => '2015-02-03',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-04',
+                'date2' => '2015-02-04',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-05',
+                'date2' => '2015-02-05',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-06',
+                'date2' => '2015-02-06',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-07',
+                'date2' => '2015-02-07',
+                'name' => 'done',
+                'value' => '1',
+            ],
+            [
+                'idsite' => '1',
+                'period' => '1',
+                'date1' => '2015-02-08',
+                'date2' => '2015-02-08',
+                'name' => 'done',
+                'value' => '1',
+            ],
+        ], $existingArchives);
+    }
+
+    private function getExistingArchiveDoneValues($date)
+    {
+        return Db::fetchAll('SELECT idsite, period, date1, date2, `name`, `value` FROM ' . ArchiveTableCreator::getNumericTable(Date::factory($date))
+            . ' WHERE name = "done" ORDER BY idarchive ASC');
     }
 
     private function createManyDifferentArchiveBlobs()

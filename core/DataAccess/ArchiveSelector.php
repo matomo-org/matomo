@@ -48,7 +48,12 @@ class ArchiveSelector
     /**
      * @param ArchiveProcessor\Parameters $params
      * @param bool $minDatetimeArchiveProcessedUTC deprecated. will be removed in Matomo 4.
-     * @return array|bool TODO: document
+     * @return array An array with four values: \
+     *               - the latest archive ID or false if none
+     *               - the latest visits value for the latest archive, regardless of whether the archive is invalidated or not
+     *               - the latest visits converted value for the latest archive, regardless of whether the archive is invalidated or not
+     *               - whether there is an archive that exists or not. if this is true and the latest archive is false, it means
+     *                 the archive found was not usable (for example, it was invalidated and we are not looking for invalidated archives)
      * @throws Exception
      */
     public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = true)
@@ -343,7 +348,22 @@ class ArchiveSelector
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    // TODO: document magic method
+    /**
+     * This method takes the output of Model::getArchiveIdAndVisits() and selects data from the
+     * latest archives.
+     *
+     * This includes:
+     * - the idarchive with the latest ts_archived ($results will be ordered by ts_archived desc)
+     * - the visits/converted visits of the latest archive, which includes archives for VisitsSummary alone
+     *   ($requestedPluginDoneFlags will have the done flag for the overall archive plus a done flag for
+     *   VisitsSummary by itself)
+     * - the ts_archived for the latest idarchive
+     * - the doneFlag value for the latest archive
+     *
+     * @param $results
+     * @param $requestedPluginDoneFlags
+     * @return array
+     */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
     {
         // find latest idarchive for each done flag
@@ -371,7 +391,8 @@ class ArchiveSelector
         }
 
         // if an  archive is found, but the metric data isn't found, we set the value to 0,
-        // so it won't get returned as false. // TODO: note if this is for BC or not. first check if it is for BC or not.
+        // so it won't get returned as false. this is here because the code used to do this before this change
+        // and we didn't want to introduce any side effects. it may be removable in the future.
         foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
             if (!empty($idArchives)
                 && !isset($archiveData[$metric])

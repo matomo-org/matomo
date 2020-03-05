@@ -19,6 +19,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Site;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -47,12 +48,19 @@ class Loader
      */
     private $cache;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {
         $this->params = $params;
         $this->invalidateBeforeArchiving = $invalidateBeforeArchiving;
         $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
-        $this->cache = Cache::getTransientCache();    }
+        $this->cache = Cache::getTransientCache();
+        $this->logger = StaticContainer::get(LoggerInterface::class);
+    }
 
     /**
      * @return bool
@@ -195,9 +203,10 @@ class Loader
     public function loadExistingArchiveIdFromDb()
     {
         if ($this->isArchivingForcedToTrigger()) {
-            // TODO: lot's log here
-            // return no usable archive found, no existing archive. this will skip invalidation, which should
-            // be fine since we just force archiving. TODO: check this is true?
+            $this->logger->debug("Archiving forced to trigger for {$this->params}.");
+
+            // return no usable archive found, and no existing archive. this will skip invalidation, which should
+            // be fine since we just force archiving.
             return [false, false, false, false];
         }
 

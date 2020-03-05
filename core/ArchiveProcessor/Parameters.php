@@ -258,4 +258,9 @@ class Parameters
     {
         $this->isRootArchiveRequest = $isRootArchiveRequest;
     }
+
+    public function __toString()
+    {
+        return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}]";
+    }
 }

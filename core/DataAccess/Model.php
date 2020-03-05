@@ -232,10 +232,7 @@ class Model
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
-        // total number of rows we could get w/ a single ts_archived (1 done flag + 2 metrics for each possible done flag)
-        // $limit = count($doneFlags) * 3;
-        // TODO :we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
-
+        // NOTE: we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
         $sqlQuery = "SELECT idarchive, value, name, ts_archived, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
