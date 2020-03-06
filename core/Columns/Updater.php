@@ -283,7 +283,6 @@ class Updater extends \Piwik\Updates
             'log_visit.location_country' => 'CHAR(3) NOT NULL1',
             'log_visit.location_latitude' => 'float(10, 6) DEFAULT NULL1',
             'log_visit.config_flash' => 'TINYINT(1) NOT NULL',
-            'log_visit.config_director' => 'TINYINT(1) NOT NULL',
             'log_visit.visit_total_time' => 'SMALLINT(5) UNSIGNED NOT NULL',
             'log_visit.visitor_count_visits' => 'SMALLINT(5) UNSIGNED NOT NULL1',
             'log_visit.visit_entry_idaction_name' => 'INTEGER(11) UNSIGNED NOT NULL',
