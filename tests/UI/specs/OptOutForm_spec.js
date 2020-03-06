@@ -15,6 +15,7 @@ describe("OptOutForm", function () {
     function expandIframe() {
         return page.evaluate(() => {
             const $iframe = $('iframe#optOutIframe');
+            $iframe.contents().find('#textError_https').hide();
             $iframe.width(350);
             $iframe.height($iframe.contents().outerHeight());
         });
@@ -44,6 +45,8 @@ describe("OptOutForm", function () {
         await page.waitFor(5000); // opt out iframe creates a new page, so we can't wait on it that easily
         await page.waitForNetworkIdle(); // safety
 
+        await expandIframe();
+
         const element = await page.jQuery('iframe#optOutIframe');
         expect(await element.screenshot()).to.matchImage('opted-out');
     });
@@ -55,7 +58,38 @@ describe("OptOutForm", function () {
         await expandIframe();
 
         const element = await page.jQuery('iframe#optOutIframe');
-        expect(await element.screenshot()).to.matchImage('opted-out');
+        expect(await element.screenshot()).to.matchImage('opted-out_reloaded');
+    });
+
+    it("using opt out twice should work correctly", async function () {
+        page.setUserAgent(chromeUserAgent);
+        await page.goto(siteUrl);
+
+        await page.evaluate(function () {
+            $('iframe#optOutIframe').contents().find('input#trackVisits').click();
+        });
+
+        await page.waitFor(5000);
+
+        await expandIframe();
+
+        // check the box has opted in state after clicking once
+        var element = await page.jQuery('iframe#optOutIframe');
+        expect(await element.screenshot()).to.matchImage('clicked_once');
+
+        await page.evaluate(function () {
+            $('iframe#optOutIframe').contents().find('input#trackVisits').click();
+        });
+
+        await page.waitFor(5000);
+
+        // check the box has outed out state after click another time
+        await page.reload();
+
+        await expandIframe();
+
+        var element = await page.jQuery('iframe#optOutIframe');
+        expect(await element.screenshot()).to.matchImage('clicked_twice');
     });
 
     it("should correctly show display opted-in form when cookies are cleared", async function () {
