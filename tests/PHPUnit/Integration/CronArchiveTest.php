@@ -42,12 +42,27 @@ class CronArchiveTest extends IntegrationTestCase
         $cronarchive->setApiToInvalidateArchivedReport($api);
         $cronarchive->init();
 
-        $expectedInvalidations = array(
-            array(array(1,2), '2014-04-05'),
-            array(array(2), '2014-04-06')
-        );
+        /**
+         * should look like this but the result is random
+         *  array(
+        array(array(1,2), '2014-04-05'),
+        array(array(2), '2014-04-06')
+        )
+         */
+        $invalidatedReports = $api->getInvalidatedReports();
+        $this->assertCount(2, $invalidatedReports);
+        sort($invalidatedReports[0][0]);
+        sort($invalidatedReports[1][0]);
+        usort($invalidatedReports, function ($a, $b) {
+            return strcmp($a[1], $b[1]);
+        });
 
-        $this->assertEquals($expectedInvalidations, $api->getInvalidatedReports());
+        $this->assertSame(array(1,2), $invalidatedReports[0][0]);
+        $this->assertSame('2014-04-05', $invalidatedReports[0][1]);
+
+        $this->assertSame(array(2), $invalidatedReports[1][0]);
+        $this->assertSame('2014-04-06', $invalidatedReports[1][1]);
+
     }
 
     public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
