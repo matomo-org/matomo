@@ -10,10 +10,12 @@
 namespace Piwik\Tests\Integration\ArchiveProcessor;
 
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
@@ -30,6 +32,7 @@ class LoaderTest extends IntegrationTestCase
     {
         parent::beforeTableDataCached();
 
+        Fixture::createWebsite('2012-02-03 00:00:00');
         Fixture::createWebsite('2012-02-03 00:00:00');
     }
 
@@ -105,6 +108,102 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
         $this->assertEquals([false, '10', '0', true], $archiveInfo); // visits are still returned as this was the original behavior
+    }
+
+    /**
+     * @dataProvider getTestDataForGetReportsToInvalidate
+     */
+    public function test_getReportsToInvalidate_returnsCorrectReportsToInvalidate($rememberedReports, $idSite, $period, $date, $segment, $expected)
+    {
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        foreach ($rememberedReports as $entry) {
+            $invalidator->rememberToInvalidateArchivedReportsLater($entry['idSite'], Date::factory($entry['date']));
+        }
+
+        $params = new Parameters(new Site($idSite), Factory::build($period, $date), new Segment($segment, [$idSite]));
+        $loader = new Loader($params);
+
+        $reportsToInvalidate = $loader->getReportsToInvalidate();
+        $this->assertEquals($expected, $reportsToInvalidate);
+    }
+
+    public function getTestDataForGetReportsToInvalidate()
+    {
+        return [
+            // two dates for one site
+            [
+                [
+                    ['idSite' => 1, 'date' => '2013-04-05'],
+                    ['idSite' => 1, 'date' => '2013-03-05'],
+                    ['idSite' => 2, 'date' => '2013-05-05'],
+                ],
+                1,
+                'day',
+                '2013-04-05',
+                '',
+                [
+                    '2013-04-05' => [1],
+                ],
+            ],
+
+            // no dates for a site
+            [
+                [
+                    ['idSite' => '', 'date' => '2013-04-05'],
+                    ['idSite' => '', 'date' => '2013-04-06'],
+                    ['idSite' => 2, 'date' => '2013-05-05'],
+                ],
+                1,
+                'day',
+                '2013-04-05',
+                'browserCode==ff',
+                [],
+            ],
+
+            // day period not within range
+            [
+                [
+                    ['idSite' => 1, 'date' => '2014-03-04'],
+                    ['idSite' => 1, 'date' => '2014-03-06'],
+                ],
+                1,
+                'day',
+                '2013-03-05',
+                '',
+                [],
+            ],
+
+            // non-day periods
+            [
+                [
+                    ['idSite' => 1, 'date' => '2014-03-01'],
+                    ['idSite' => 1, 'date' => '2014-03-06'],
+                    ['idSite' => 2, 'date' => '2014-03-01'],
+                ],
+                1,
+                'week',
+                '2014-03-01',
+                '',
+                [
+                    '2014-03-01' => [1, 2],
+                ],
+            ],
+            [
+                [
+                    ['idSite' => 1, 'date' => '2014-02-01'],
+                    ['idSite' => 1, 'date' => '2014-03-06'],
+                    ['idSite' => 2, 'date' => '2014-03-05'],
+                    ['idSite' => 2, 'date' => '2014-03-06'],
+                ],
+                1,
+                'month',
+                '2014-03-01',
+                '',
+                [
+                    '2014-03-06' => [1, 2],
+                ],
+            ],
+        ];
     }
 
     private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)

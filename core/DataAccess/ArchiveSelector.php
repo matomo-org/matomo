@@ -179,7 +179,6 @@ class ArchiveSelector
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
 
-
             $archiveIds = $db->fetchAll($sql, $bind);
 
             // get the archive IDs

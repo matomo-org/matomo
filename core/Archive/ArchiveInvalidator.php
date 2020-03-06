@@ -144,6 +144,10 @@ class ArchiveInvalidator
             $siteId = (int) $report[0];
             $date   = $report[1];
 
+            if (empty($siteId)) {
+                continue;
+            }
+
             if (empty($sitesPerDay[$date])) {
                 $sitesPerDay[$date] = array();
             }

@@ -272,24 +272,37 @@ class Loader
         return $cache->fetch($cacheKey);
     }
 
-    private function invalidatedReportsIfNeeded()
+    // public for tests
+    public function getReportsToInvalidate()
     {
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
-        foreach ($sitesPerDays as $date => $siteIds) {
+        foreach ($sitesPerDays as $dateStr => $siteIds) {
             if (empty($siteIds)
                 || !in_array($this->params->getSite()->getId(), $siteIds)
             ) {
-                continue;
+                unset($sitesPerDays[$dateStr]);
             }
 
-            $date = Date::factory($date);
+            $date = Date::factory($dateStr);
             if ($date->isEarlier($this->params->getPeriod()->getDateStart())
                 || $date->isLater($this->params->getPeriod()->getDateEnd())
-            ) {
-                continue; // date in list is not the current date, so ignore it
+            ) { // date in list is not the current date, so ignore it
+                unset($sitesPerDays[$dateStr]);
             }
+        }
 
+        return $sitesPerDays;
+    }
+
+    private function invalidatedReportsIfNeeded()
+    {
+        $sitesPerDays = $this->getReportsToInvalidate();
+        if (empty($sitesPerDays)) {
+            return;
+        }
+
+        foreach ($sitesPerDays as $date => $siteIds) {
             try {
                 $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array($date), false, $this->params->getSegment());
             } catch (\Exception $e) {
