@@ -114,6 +114,7 @@ class API extends \Piwik\Plugin\API
                 Config::getInstance()->General['live_query_max_execution_time'],
                 ['method' => 'Transitions.getTransitionsForAction', 'actionName' => $actionName, 'actionType' => $actionType]
             );
+            throw $e;
         }
 
 
