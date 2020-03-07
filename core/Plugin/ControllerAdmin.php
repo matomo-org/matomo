@@ -207,12 +207,12 @@ abstract class ControllerAdmin extends Controller
     }
 
     /**
-     * PHP Version required by the next major Piwik version
+     * PHP Version required by the next major Matomo version
      * @return string
      */
     private static function getNextRequiredMinimumPHP()
     {
-        return '7.1';
+        return '7.2';
     }
 
     private static function isUsingPhpVersionCompatibleWithNextPiwik()
@@ -222,8 +222,6 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
     {
-        return; // no major version coming
-
         if (self::isUsingPhpVersionCompatibleWithNextPiwik()) {
             return;
         }
