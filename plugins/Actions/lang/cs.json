@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Průměr dle %1$s přístupů %2$s mezi %3$s a %4$s",
+        "ColumnClickedURL": "Kliknutý externí odkaz",
+        "ColumnClickedURLs": "Kliknuté externí odkazy",
         "ColumnActionURL": "URL akce",
         "ColumnClicks": "Prokliků",
         "ColumnClicksDocumentation": "Počet kliknutí na odkaz v závislosti na čase.",

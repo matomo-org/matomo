@@ -14,6 +14,7 @@
         "VisitLocation": "Localização da visita",
         "CurrentLocationIntro": "De acordo com este fornecedor, a sua localização atual é",
         "DefaultLocationProviderDesc1": "O fornecedor de localização predefinido estima o país de um visitante com base no idioma que este utiliza.",
+        "DefaultLocationProviderDesc2": "Isto não é muito preciso, pelo que %1$srecomendamos a instalação e utilização de %2$suma base de dados de geolocalização%3$s.%4$s",
         "DefaultLocationProviderExplanation": "Está a utilizar o fornecedor de localização predefinido, o que significa que o Matomo irá estimar a localização do visitante com base no idioma que este utiliza. %1$sConsulte isto%2$s para saber como configurar uma geolocalização mais precisa.",
         "DistinctCountries": "%s países distintos",
         "FromDifferentCities": "cidades diferentes",
@@ -24,6 +25,7 @@
         "getContinentDocumentation": "Este relatório mostra o continente onde os seus visitantes estavam quando acederam ao seu site.",
         "getCountryDocumentation": "Este relatório mostra o país onde os seus visitantes estavam quando acederam ao seu site.",
         "getRegionDocumentation": "Este relatório mostra a região onde os seus visitantes estavam quando acederam ao seu site.",
+        "HowToInstallGeoIPDatabases": "Como obtenho bases de dados de geolocalização?",
         "Latitude": "Latitude",
         "Latitudes": "Latitudes",
         "Location": "Localização",
@@ -32,9 +34,11 @@
         "Longitudes": "Longitudes",
         "NoDataForGeoIPReport1": "Não existem dados para este relatório porque não existem dados de localização disponíveis ou os endereços de IP dos visitantes não podem ser geolocalizados.",
         "NoDataForGeoIPReport2": "Para ativar uma geolocalização mais precisa, altere as definições %1$saqui%2$s e utilize uma %3$sbase de dados de nível de cidade%4$s.",
+        "NoProviders": "Atualmente, não existem fornecedores adicionais de geolocalização. O Matomo recomenda a utilização de bases de dados %1$sdbip%2$s, mas isto requer a ativação da extensão GeoIp2. (Alternativamente, pode instalar uma extensão de terceiros da loja, que forneça a sua própria funcionalidade de geolocalização.)",
         "PluginDescription": "Relatórios com a localização dos seus visitantes: país, região, cidade e coordenadas geográficas (latitude\/longitude).",
         "Region": "Região",
         "SubmenuLocations": "Localizações",
+        "TestIPLocatorFailed": "O Matomo tentou confirmar a localização de um endereço de IP conhecido (%1$s), mas o seu servidor não devolveu qualquer informação. Este fornecedor pode não estar configurado corretamente (por exemplo, a base de dados de geolocalização pode ter um nome incorreto ou estar num diretório errado).",
         "ToGeolocateOldVisits": "Para obter os dados de localização para as suas visitas antigas, utilize o script descrito %1$saqui%2$s.",
         "WidgetLocation": "Localização do visitante"
     }

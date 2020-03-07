@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "平均值基于 %1$s 次访问 %2$s，介于 %3$s 和 %4$s 之间",
+        "ColumnClickedURL": "点击的外部链接",
+        "ColumnClickedURLs": "点击的链接",
         "ColumnActionURL": "活动网址",
         "ColumnClicks": "点击次数",
         "ColumnClicksDocumentation": "链接被点击的次数",

@@ -34,6 +34,7 @@
         "Longitudes": "Boylam",
         "NoDataForGeoIPReport1": "Kullanılabilecek bir konum verisi olmadığından ya da ziyaretçi IP adreslerinin coğrafi konumu algılanamadığından bu rapor için herhangi bir veri yok.",
         "NoDataForGeoIPReport2": "Coğrafi konumun doğru olarak bulunması için %1$sburadan%2$s ayarları değiştirin ve %3$sil düzeyindeki bir veritabanı%4$s kullanın.",
+        "NoProviders": "Şu anda kullanılabilecek bir ek coğrafi konum hizmeti sağlayıcısı yok. Matomo %1$sdbip%2$s veritabanlarının kullanılmasını önerir. Ancak bunun için GeoIp2 eklentisinin etkinleştirilmesi gerekir (Alternatif olarak mağazadan kendi coğrafi konum özelliğini sunan bir üçüncü taraf eklenti kurabilirsiniz).",
         "PluginDescription": "Ziyaretçilerinizin konumlarını görüntüler: Ülke, bölge, il ve coğrafi koordinatlar (enlem\/boylam).",
         "Region": "Bölge",
         "SubmenuLocations": "Konumlar",
