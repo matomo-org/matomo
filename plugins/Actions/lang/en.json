@@ -57,6 +57,8 @@
         "SiteSearchCategories": "Categories (Site Search)",
         "SiteSearchKeyword": "Keyword (Site Search)",
         "SiteSearchKeywords": "Keywords (Site Search)",
+        "SiteSearchKeywordCount": "Keyword count (Site Search)",
+        "SiteSearchKeywordCounts": "Keyword counts (Site Search)",
         "SiteSearchKeywordsDocumentation": "This report lists the Search Keywords that visitors searched for on your internal Search Engine.",
         "SiteSearchKeywordsNoResultDocumentation": "This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?",
         "SubmenuPagesEntry": "Entry pages",

@@ -40,11 +40,4 @@ class RowEvolutionTest extends IntegrationTestCase
         $table = $rowEvolution->getRowEvolution(1, 'day', 'last7', 'Actions', 'getPageUrls');
         $this->assertNotEmpty($table);
     }
-
-    public function test_getRowEvolution_shouldReturnEmptyArray_IfNoData()
-    {
-        $rowEvolution = new RowEvolution();
-        $table = $rowEvolution->getRowEvolution(1, 'day', 'last7', 'Actions', 'getSiteSearchCategories');
-        $this->assertEquals(array(), $table);
-    }
 }
