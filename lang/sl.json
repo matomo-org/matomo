@@ -34,6 +34,8 @@
         "DoubleClickToChangePeriod": "Uporabite dvojni klik za uporabo tega obdobja",
         "Close": "Zapri",
         "ClickToSearch": "Klikni za iskanje",
+        "Copy": "kopiraj",
+        "Confirm": "potrdi",
         "ColumnActionsPerVisit": "Dejanj na obisk",
         "ColumnActionsPerVisitDocumentation": "Povprečno število dejanj (ogledov strani, prenosov ali izhodnih povezav), ki so bila izvedena med obiskom.",
         "ColumnAverageGenerationTime": "Povp. čas generiranja",
@@ -41,6 +43,7 @@
         "ColumnAverageTimeOnPage": "Povpr. čas na strani",
         "ColumnAverageTimeOnPageDocumentation": "Povprečen čas, ki so ga obiskovalci porabili na tej strani (samo na strani, ne na celotni spletni strani).",
         "ColumnAvgTimeOnSite": "Povpr. čas na spletni strani",
+        "ColumnSumTimeOnSite": "skupni čas na strani",
         "ColumnAvgTimeOnSiteDocumentation": "Povprečno trajanje obiska.",
         "ColumnBounceRate": "Odbojno razmerje",
         "ColumnBounceRateDocumentation": "Delež obiskov, ki je vseboval zgolj en sam ogled strani. Obiskovalec je zapustil spletno stran direktno z vhodne strani.",
@@ -62,6 +65,7 @@
         "ColumnNbActions": "Dejanj",
         "ColumnNbActionsDocumentation": "Število akcij obiskovalcev. Akcije so lahko prikazi strani, prenosi ali izhodi preko zunanjih povezav.",
         "ColumnNbUniqVisitors": "Edinstveni obiskovalci",
+        "ColumnNbUniqVisitorsDocumentation": "Število ne podvojenih obiskovalcev tvoje spletne strani. Vsak uporabnik je štet le enkrat, tudi če obišče stran večkrat dnevno.",
         "ColumnNbUsers": "Uporabniki",
         "ColumnNbUsersDocumentation": "Število uporabnikov, ki so prijavljeni v vaše spletno mesto. To je število unikatnih aktivnih uporabnikov, ki imajo nastavljen User ID (prek funkcije 'setUserId' v sledilni kodi).",
         "ColumnNbVisits": "Obiskov",
@@ -472,7 +476,12 @@
         "VerifyAccount": "Preverjanje računa",
         "ValidateSslCertificate": "Potrdi SSL certifikat",
         "VerifyLoginData": "Zagotovite, da je kombinacija uporabniškega imena in gesla pravilna.",
-        "YouAreOffline": "Oprostite, trenutno ste offline"
+        "YouAreOffline": "Oprostite, trenutno ste offline",
+        "ExceptionNoViewAccess": "Prosim preveri uporabniško ime in geslo, ter se prepričaj, da imaš %sdostop do vsaj ene spletne strani.",
+        "Mobile_HowtoExitAndroid": "Ponovno klikni NAZAJ za izhod.",
+        "MatomoMarketplace": "Matomo Tržnica",
+        "EnterAuthCode": "Vnesi avtentikacijsko geslo",
+        "EnterCorrectAuthCode": "Vnesi pravilno avtentikacijsko geslo"
     },
     "RowEvolution": {
         "AvailableMetrics": "Razpoložljive metrike",

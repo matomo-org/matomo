@@ -13,7 +13,7 @@ use Piwik\Piwik;
 class MultiSites extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

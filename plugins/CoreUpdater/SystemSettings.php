@@ -80,7 +80,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->validate = function ($channel) use ($releaseChannels) {
                 if (!$releaseChannels->isValidReleaseChannelId($channel)) {
                     throw new \Exception('Release channel is not valid');
-                };
+                }
             };
 
             $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess')

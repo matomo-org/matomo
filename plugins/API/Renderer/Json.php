@@ -31,7 +31,6 @@ class Json extends ApiRenderer
 
     /**
      * @param $message
-     * @param Exception|\Throwable $exception
      * @param \Exception|\Throwable $exception
      * @return string
      */

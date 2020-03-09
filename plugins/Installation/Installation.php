@@ -26,7 +26,7 @@ class Installation extends \Piwik\Plugin
     protected $installationControllerName = '\\Piwik\\Plugins\\Installation\\Controller';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

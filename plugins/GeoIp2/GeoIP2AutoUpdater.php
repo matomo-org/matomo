@@ -674,7 +674,7 @@ class GeoIP2AutoUpdater extends Task
     }
 
     /**
-     * See {@link Piwik\Scheduler\Schedule\Schedule::getRescheduledTime()}.
+     * See {@link \Piwik\Scheduler\Schedule\Schedule::getRescheduledTime()}.
      */
     public function getRescheduledTime()
     {
