@@ -90,7 +90,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function invalidateOutdatedArchives()
     {
-        if (false && !Rules::isBrowserTriggerEnabled()) {
+        if (!Rules::isBrowserTriggerEnabled()) {
             $this->logger->info("Browser triggered archiving disabled, archives will be invalidated during core:archive.");
             return;
         }

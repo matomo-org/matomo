@@ -1037,10 +1037,10 @@ class CronArchive
                 /** @var Range $newRangePeriod */
                 $newRangePeriod = PeriodFactory::build($period, $oldestDateWithoutArchive . ',' . $todayInTimezone);
 
-                $newDate = 'last' . min($lastNValue, $newRangePeriod->getNumberOfSubperiods());
+                $newDate = 'last' . max(min($lastNValue, $newRangePeriod->getNumberOfSubperiods()), 2);
             } else if ($isTodayIncluded) {
                 $isThereArchiveForAllPeriods = false;
-                $newDate = 'last1';
+                $newDate = 'last2';
             }
         }
 

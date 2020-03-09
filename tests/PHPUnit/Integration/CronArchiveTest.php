@@ -360,7 +360,7 @@ LOG;
                 1,
                 'day',
                 'last5',
-                [false, 'last1'],
+                [false, 'last2'],
             ],
             [ // month w/ last 3 invalid, today valid
                 [

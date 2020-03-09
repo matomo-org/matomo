@@ -304,7 +304,7 @@ class Loader
 
         foreach ($sitesPerDays as $date => $siteIds) {
             try {
-                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array($date), false, $this->params->getSegment());
+                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment());
             } catch (\Exception $e) {
                 Site::clearCache();
                 throw $e;
