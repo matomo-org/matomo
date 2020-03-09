@@ -185,7 +185,7 @@ class LoaderTest extends IntegrationTestCase
                 '2014-03-01',
                 '',
                 [
-                    '2014-03-01' => [1, 2],
+                    '2014-03-01' => [2, 1],
                 ],
             ],
             [
@@ -200,7 +200,7 @@ class LoaderTest extends IntegrationTestCase
                 '2014-03-01',
                 '',
                 [
-                    '2014-03-06' => [1, 2],
+                    '2014-03-06' => [2, 1],
                 ],
             ],
         ];
