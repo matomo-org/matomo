@@ -9,11 +9,14 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
+use Piwik\Archive;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
@@ -60,6 +63,10 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function schedule()
     {
+        // for browser triggered archiving, make sure we invalidate archives once a day just to make
+        // sure all archives that need to be invalidated get invalidated
+        $this->daily('invalidateOutdatedArchives', null, self::HIGH_PRIORITY);
+
         // general data purge on older archive tables, executed daily
         $this->daily('purgeOutdatedArchives', null, self::HIGH_PRIORITY);
 
@@ -79,6 +86,17 @@ class Tasks extends \Piwik\Plugin\Tasks
         }
 
         $this->scheduleTrackingCodeReminderChecks();
+    }
+
+    public function invalidateOutdatedArchives()
+    {
+        if (!Rules::isBrowserTriggerEnabled()) {
+            $this->logger->info("Browser triggered archiving disabled, archives will be invalidated during core:archive.");
+            return;
+        }
+
+        $cronArchive = new CronArchive();
+        $cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
     }
 
     private function scheduleTrackingCodeReminderChecks()

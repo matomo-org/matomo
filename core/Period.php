@@ -248,6 +248,21 @@ abstract class Period
     }
 
     /**
+     * Returns whether the date `$date` is within the current period or not.
+     *
+     * Note: the time component of the period's dates and `$date` is ignored.
+     *
+     * @param Date $today
+     * @return bool
+     */
+    public function isDateInPeriod(Date $date)
+    {
+        $ts = $date->getStartOfDay()->getTimestamp();
+        return $ts >= $this->getDateStart()->getStartOfDay()->getTimestamp()
+            && $ts < $this->getDateEnd()->addDay(1)->getStartOfDay()->getTimestamp();
+    }
+
+    /**
      * Add a date to the period.
      *
      * Protected because adding periods after initialization is not supported.

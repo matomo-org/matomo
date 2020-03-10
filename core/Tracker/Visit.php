@@ -572,10 +572,10 @@ class Visit implements VisitInterface
         $date = Date::factory((int)$time, $timezone);
 
         // $date->isToday() is buggy when server and website timezones don't match - so we'll do our own checking
-        $startOfTomorrow = Date::factoryInTimezone('today', $timezone)->addDay(1);
-        $isLaterThanToday = $date->getTimestamp() >= $startOfTomorrow->getTimestamp();
-        if ($isLaterThanToday) {
-            return;
+        $startOfToday = Date::factoryInTimezone('yesterday', $timezone)->addDay(1);
+        $isLaterThanYesterday = $date->getTimestamp() >= $startOfToday->getTimestamp();
+        if ($isLaterThanYesterday) {
+            return; // don't try to invalidate archives for today or later
         }
 
         $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
