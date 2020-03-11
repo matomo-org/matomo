@@ -28,7 +28,7 @@
 
 /*global JSON_PIWIK:true */
 
-if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.JSON.stringify && window.JSON.parse) {
+if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && typeof window.JSON.stringify === 'function' && typeof window.JSON.parse === 'function') {
     JSON_PIWIK = window.JSON;
 } else {
     (function () {
