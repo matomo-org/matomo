@@ -210,13 +210,16 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
-        if (!empty($userSettingsFile) && !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
+        $hasAbsoluteConfigFile = !empty($userSettingsFile) && strpos($userSettingsFile, DIRECTORY_SEPARATOR) === 0;
+        $useConfigCache = !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE']) && $hasAbsoluteConfigFile;
+
+        if ($useConfigCache) {
             $cache = new Cache();
             $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
             
             if (!empty($values)
                 && isset($values['mergedSettings'])
-                && isset($values['settingsChain'])) {
+                && isset($values['settingsChain'][$userSettingsFile])) {
                 $this->mergedSettings = $values['mergedSettings'];
                 $this->settingsChain = $values['settingsChain'];
                 return;
@@ -246,8 +249,7 @@ class IniFileChain
             $this->mergedSettings = call_user_func($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS'], $this->mergedSettings);
         }
         
-        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])
-            && !empty($userSettingsFile)
+        if ($useConfigCache
             && !empty($this->mergedSettings)
             && !empty($this->settingsChain)) {
 
