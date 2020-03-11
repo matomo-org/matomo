@@ -648,7 +648,9 @@ class FrontController extends Singleton
 
     private function makeSessionAuthenticator()
     {
-        if (Common::isPhpClimode()) { // don't use the session auth during CLI requests
+        if (Common::isPhpClimode()
+            && !defined('PIWIK_TEST_MODE')
+        ) { // don't use the session auth during CLI requests
             return null;
         }
 

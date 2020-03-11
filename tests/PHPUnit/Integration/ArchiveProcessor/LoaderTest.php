@@ -124,6 +124,9 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $reportsToInvalidate = $loader->getReportsToInvalidate();
+        foreach ($reportsToInvalidate as &$sites) {
+            sort($sites);
+        }
         $this->assertEquals($expected, $reportsToInvalidate);
     }
 
@@ -185,7 +188,7 @@ class LoaderTest extends IntegrationTestCase
                 '2014-03-01',
                 '',
                 [
-                    '2014-03-01' => [2, 1],
+                    '2014-03-01' => [1, 2],
                 ],
             ],
             [
@@ -200,7 +203,7 @@ class LoaderTest extends IntegrationTestCase
                 '2014-03-01',
                 '',
                 [
-                    '2014-03-06' => [2, 1],
+                    '2014-03-06' => [1, 2],
                 ],
             ],
         ];
