@@ -30,7 +30,7 @@ class APITest extends IntegrationTestCase
 
     private $hasSuperUserAccess = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ class APITest extends IntegrationTestCase
         $this->makeSureTestRunsInContextOfAnonymousUser();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Access::getInstance()->hasSuperUserAccess($this->hasSuperUserAccess);
         parent::tearDown();

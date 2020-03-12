@@ -42,7 +42,7 @@ class ApiTest extends IntegrationTestCase
 {
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -485,17 +485,16 @@ class ApiTest extends IntegrationTestCase
             $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
         ob_end_clean();
 
-        $this->assertContains('id="VisitsSummary_get"', $result);
-        $this->assertContains('id="Referrers_getWebsites"', $result);
-        $this->assertNotContains('id="UserCountry_getCountry"', $result);
+        self::assertStringContainsString('id="VisitsSummary_get"', $result);
+        self::assertStringContainsString('id="Referrers_getWebsites"', $result);
+        self::assertStringNotContainsString('id="UserCountry_getCountry"', $result);
     }
 
-    /**
-     * @expectedException \Piwik\Http\BadRequestException
-     * @expectedExceptionMessage This API method does not support multiple periods.
-     */
     public function test_generateReport_throwsIfMultiplePeriodsRequested()
     {
+        $this->expectException(\Piwik\Http\BadRequestException::class);
+        $this->expectExceptionMessage('This API method does not support multiple periods.');
+
         $idReport = APIScheduledReports::getInstance()->addReport(
             1,
             '',
@@ -515,12 +514,11 @@ class ApiTest extends IntegrationTestCase
             $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid evolutionPeriodFor value
-     */
     public function test_addReport_validatesEvolutionPeriodForParam()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid evolutionPeriodFor value');
+
         self::setSuperUser();
 
         APIScheduledReports::getInstance()->addReport(
@@ -541,12 +539,11 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Evolution period amount must be a positive number
-     */
     public function test_addReport_validatesEvolutionPeriodNParam()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Evolution period amount must be a positive number');
+
         self::setSuperUser();
 
         APIScheduledReports::getInstance()->addReport(
@@ -568,12 +565,11 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".
-     */
     public function test_addReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
+
         self::setSuperUser();
 
         APIScheduledReports::getInstance()->addReport(
@@ -595,12 +591,11 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid evolutionPeriodFor value
-     */
     public function test_updateReport_validatesEvolutionPeriodForParam()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid evolutionPeriodFor value');
+
         self::setSuperUser();
 
         $idReport = APIScheduledReports::getInstance()->addReport(
@@ -635,12 +630,11 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Evolution period amount must be a positive number
-     */
     public function test_updateReport_validatesEvolutionPeriodNParam()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Evolution period amount must be a positive number');
+
         self::setSuperUser();
 
         $idReport = APIScheduledReports::getInstance()->addReport(
@@ -676,12 +670,11 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".
-     */
     public function test_updateReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
+
         self::setSuperUser();
 
         $idReport = APIScheduledReports::getInstance()->addReport(

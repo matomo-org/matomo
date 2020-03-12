@@ -27,7 +27,7 @@ use Piwik\View;
 class LanguagesManager extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

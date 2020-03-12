@@ -34,7 +34,6 @@ class SiteSearchTest extends SystemTestCase
             'Actions.get',
             'Actions.getPageUrls',
             'Actions.getPageTitles',
-            'CustomVariables.getCustomVariables',
             'Actions.getSiteSearchKeywords',
             'Actions.getSiteSearchCategories',
             'Actions.getSiteSearchNoResultKeywords',

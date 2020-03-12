@@ -60,7 +60,7 @@ class PluginsArchiverTest extends IntegrationTestCase
      */
     private $pluginsArchiver;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -81,13 +81,12 @@ class PluginsArchiverTest extends IntegrationTestCase
         return $params;
     }
 
-    /**
-     * @expectedException \Piwik\ArchiveProcessor\PluginsArchiverException
-     * @expectedExceptionMessage Failed query foo bar - in plugin MyPluginName
-     * @expectedExceptionCode 42
-     */
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
     {
+        $this->expectException(\Piwik\ArchiveProcessor\PluginsArchiverException::class);
+        $this->expectExceptionCode(42);
+        $this->expectExceptionMessage('Failed query foo bar - in plugin MyPluginName');
+
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1);
     }
 

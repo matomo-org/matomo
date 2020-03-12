@@ -23,7 +23,7 @@ class ModelTest extends IntegrationTestCase
     private $model;
     private $tableName = 'archive_numeric_test';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

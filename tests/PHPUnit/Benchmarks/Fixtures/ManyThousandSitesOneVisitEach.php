@@ -20,7 +20,7 @@ class Piwik_Test_Fixture_ManyThousandSitesOneVisitEach
     public $siteCount = 20000;
     public $idSite = 'all';
 
-    public function setUp()
+    public function setUp(): void
     {
         for ($i = 0; $i != $this->siteCount; ++$i) {
             $idSite = Fixture::createWebsite(

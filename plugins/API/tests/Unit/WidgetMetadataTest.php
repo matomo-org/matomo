@@ -32,7 +32,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
      */
     private $metadata;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->metadata = new WidgetMetadata();
     }

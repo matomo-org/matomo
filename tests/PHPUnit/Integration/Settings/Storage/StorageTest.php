@@ -36,7 +36,7 @@ class StorageTest extends IntegrationTestCase
      */
     protected $settingName = 'myname';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

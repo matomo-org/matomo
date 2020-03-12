@@ -24,14 +24,14 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
     public $idGoal = 1;
     private $tmpHost = '';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setPiwikEnvironmentOverrides();
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -233,7 +233,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $_COOKIE[$customVarCookieName] = '{"1":["VAR 1 set, var 2 not set","yes"],"3":["var 3 set","yes!!!!"]}';
 
         // test loading 'id' cookie
-        self::assertContains("_viewts=" . $viewts, $t->getUrlTrackPageView());
+        self::assertStringContainsString("_viewts=" . $viewts, $t->getUrlTrackPageView());
         self::assertEquals($uuid, $t->getVisitorId());
         self::assertEquals($t->getAttributionInfo(), $_COOKIE[$refCookieName]);
         self::assertEquals(array("VAR 1 set, var 2 not set", "yes"), $t->getCustomVariable(1));

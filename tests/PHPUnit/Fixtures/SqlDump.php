@@ -27,7 +27,7 @@ class SqlDump extends Fixture
     public $tablesPrefix = 'piwik_';
     public $dumpUrl = "http://piwik-team.s3.amazonaws.com/generated-logs-one-day.sql.gz";
 
-    public function setUp()
+    public function setUp(): void
     {
         // drop all tables
         Db::dropAllTables();

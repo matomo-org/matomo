@@ -20,13 +20,13 @@ class TwoVisitsNoKeywordWithBot extends Fixture
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

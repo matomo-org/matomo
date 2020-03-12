@@ -167,7 +167,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     private $numSites = 5;
     private $currentUserId;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->installLogTables();
@@ -176,7 +176,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         $this->trackVisitsForMultipleSites();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->tearDownLocation();
     }

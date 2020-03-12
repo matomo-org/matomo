@@ -433,9 +433,9 @@ class Controller extends ControllerAdmin
     private function processPasswordChange($userLogin)
     {
         $email = Common::getRequestVar('email');
-        $password = Common::getRequestvar('password', false);
-        $passwordBis = Common::getRequestvar('passwordBis', false);
-        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
+        $password = Common::getRequestVar('password', false);
+        $passwordBis = Common::getRequestVar('passwordBis', false);
+        $passwordCurrent = Common::getRequestVar('passwordConfirmation', false);
 
         $newPassword = false;
         if (!empty($password) || !empty($passwordBis)) {

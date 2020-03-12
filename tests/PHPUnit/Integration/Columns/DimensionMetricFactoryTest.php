@@ -24,7 +24,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
     /** @var  Dimension */
     private $country;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->country = new Country();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
         parent::tearDown();

@@ -22,7 +22,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
      */
     private $process;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -30,7 +30,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         $this->process = new Process('testPid');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if(is_object($this->process)){
             $this->process->finishProcess();
@@ -38,12 +38,11 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         File::reset();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The given pid has an invalid format
-     */
     public function test_construct_shouldFailInCasePidIsInvalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The given pid has an invalid format');
+
         new Process('../../htaccess');
     }
 

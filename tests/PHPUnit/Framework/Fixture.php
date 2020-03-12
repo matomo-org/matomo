@@ -72,7 +72,7 @@ use ReflectionClass;
  *                merging some together.
  * @since 2.8.0
  */
-class Fixture extends \PHPUnit_Framework_Assert
+class Fixture extends \PHPUnit\Framework\Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
     const IMAGES_GENERATED_FOR_PHP = '7.2';
@@ -174,13 +174,13 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
-    public function setUp()
+    public function setUp(): void
     {
         // empty
     }
 
     /** Does any clean up. Most of the time there will be no need to clean up. */
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -670,10 +670,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
-        self::assertContains($expectedResponse, $response);
-        self::assertContains('This resource is part of Matomo.', $response);
-        self::assertNotContains('Error', $response);
-        self::assertNotContains('Fatal', $response);
+        self::assertStringContainsString($expectedResponse, $response);
+        self::assertStringContainsString('This resource is part of Matomo.', $response);
+        self::assertStringNotContainsString('Error', $response);
+        self::assertStringNotContainsString('Fatal', $response);
     }
 
     /**

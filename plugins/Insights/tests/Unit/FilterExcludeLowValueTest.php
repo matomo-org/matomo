@@ -20,7 +20,7 @@ use Piwik\Plugins\Insights\DataTable\Filter\ExcludeLowValue;
  */
 class FilterExcludeLowValueTest extends BaseUnitTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable();
         $this->table->addRowsFromArray(array(

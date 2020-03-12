@@ -31,7 +31,7 @@ class BulkTrackingTestCase extends IntegrationTestCase
 
     private $pluginBackup;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -41,7 +41,7 @@ class BulkTrackingTestCase extends IntegrationTestCase
         Plugin\Manager::getInstance()->addLoadedPlugin('BulkTracking', $this->bulk);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Plugin\Manager::getInstance()->addLoadedPlugin('BulkTracking', $this->pluginBackup);
         parent::tearDown();

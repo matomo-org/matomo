@@ -1,8 +1,32 @@
 {
     "GeoIp2": {
+        "AssumingNonApache": "Kan de functie apache_get_modules niet vinden, uitgegaan van non-Apache webserver.",
+        "CannotFindGeoIPServerVar": "De %s variabele is niet ingesteld. Je server is waarschijnlijk niet correct geconfigureerd",
+        "CannotListContent": "Kon geen lijst maken van de inhoud voor %1$s: %2$s",
         "CannotUnzipGeoIPFile": "Kan het GeoIP-bestand niet uitpakken in %1$s:%2$s",
-        "ServerBasedVariablesConfiguration": "Configuratie voor servervariabelen die worden gebruikt door GeoIP 2-servermodules",
+        "DownloadingDb": "%s aan het downloaden",
+        "DownloadNewDatabasesEvery": "Update databases elke",
+        "FoundApacheModules": "Matomo vond de volgende Apache-modules",
+        "GeoIPImplHasAccessTo": "Deze GeoIP implementatie heeft toegang tot de volgende database types",
+        "GeoIPDatabases": "GeoIP Databases",
+        "GeoIPLocationProviderNotRecommended": "Geografische locatie bepaling werkt, maar je gebruikt niet één van de aanbevolen leveranciers.",
+        "GeoIPNoServerVars": "Matomo kan geen GeoIP %s variabelen vinden.",
+        "GeoIPServerVarsFound": "Matomo detecteert de volgende GeoIP %s variabelen",
         "GeoIPVariablesConfigurationHere": "Je kunt %1$s gebruikte servervariabelen hier %2$sconfigureren.",
+        "HowToInstallApacheModule": "Hoe installeer ik de GeoIP module voor Apache?",
+        "HowToInstallNginxModule": "Hoe installeer ik de GeoIP-module voor Nginx?",
+        "HttpServerModule": "HTTP Server Module",
+        "InvalidGeoIPUpdatePeriod": "Ongeldige periode voor de GeoIP updater: %1$s. Geldige waardes zijn %2$s.",
+        "ISPDatabase": "ISP-database",
+        "LocationDatabase": "Locatiedatabase",
+        "LocationDatabaseHint": "Een locatie database is of een land of een regio of een stad database.",
+        "UnsupportedArchiveType": "Niet ondersteund archieftype aangetroffen %1$s.",
+        "UpdaterHasNotBeenRun": "De updater is nog niet eerder uitgevoerd.",
+        "UpdaterIsNotScheduledToRun": "Het is niet gepland om te worden uitgevoerd in de toekomst.",
+        "UpdaterScheduledForNextRun": "Het is ingepland om uitgevoerd te worden tijdens de volgende commando core:archive.",
+        "UpdaterWasLastRun": "De updater is voor het laatst uitgevoerd op %s.",
+        "UpdaterWillRunNext": "De volgende run is gepland om %s",
+        "ServerBasedVariablesConfiguration": "Configuratie voor servervariabelen die worden gebruikt door GeoIP 2-servermodules",
         "ServerVariableFor": "Server variabele voor %s"
     }
 }

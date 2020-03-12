@@ -74,7 +74,7 @@ class VisitDimensionTest extends IntegrationTestCase
      */
     private $conversionDimension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -212,12 +212,11 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertSame(array($dimension3, $dimension4, $dimension2, $dimension1), $instances);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  Circular reference detected for required field column4 in dimension column2
-     */
     public function test_sortDimensions_ShouldThrowAnException_IfCircularReferenceDetected()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Circular reference detected for required field column4 in dimension column2');
+
         $dimension1 = new FakeVisitDimension();
         $dimension1->set('columnName', 'column1');
         $dimension1->requiredFields = array('column3');

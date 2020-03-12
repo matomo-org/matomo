@@ -33,7 +33,7 @@ class APITest extends IntegrationTestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -103,24 +103,22 @@ class APITest extends IntegrationTestCase
         $this->assertCount(1, $result);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser
-     */
     public function testGetDashboardsShouldNotReturnForeignDashboardsForNonSuperUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser');
+
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'eva';
 
         $this->api->getDashboards('peter', false);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser
-     */
     public function testCreateNewDashboardForOtherUserDoesNotWorkForNonSuperUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser');
+
         FakeAccess::$superUser = false;
 
         $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
@@ -168,12 +166,11 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($dashboard['layout'], $layout);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Dashboard not found
-     */
     public function testCopyDashboardToUserFails()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Dashboard not found');
+
         $this->api->copyDashboardToUser(5, 'eva', 'new name');
     }
 

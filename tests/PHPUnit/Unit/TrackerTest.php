@@ -36,7 +36,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
 
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -157,12 +157,11 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->handler->isOnException);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage My Exception During Process
-     */
     public function test_track_shouldNotCatchAnyException_IfExceptionWasThrown()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('My Exception During Process');
+
         $this->handler->enableTriggerExceptionInProcess();
         $this->tracker->track($this->handler, $this->requestSet);
     }

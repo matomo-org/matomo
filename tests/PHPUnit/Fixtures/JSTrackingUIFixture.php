@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\Fixture;
 
 class JSTrackingUIFixture extends Fixture
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

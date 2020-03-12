@@ -23,7 +23,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     private $generator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generator = $this->makeTables(array(
             'log_visit',
@@ -100,14 +100,14 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Table 'log_visit' can't be joined for segmentation
-     *
      * Note: the exception reports `log_visit` and not `log_custom` as it resolves the dependencies as so resolves
      * from `log_custom` to `log_visit` but is then not able to find a way to join `log_visit` with `log_action`
      */
     public function test_generate_getJoinString_CustomVisitTableCantBeJoinedWithAction()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Table \'log_visit\' can\'t be joined for segmentation');
+
         $generator = $this->generate(array('log_action', 'log_custom'));
         $generator->getJoinString();
     }
@@ -161,12 +161,11 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Please reorganize the joined tables as the table log_conversion in {"0":"log_visit","1":"log_conversion","2":"log_link_visit_action","3":{"table":"log_conversion","joinOn":"log_link_visit_action.idvisit2 = log_conversion.idvisit2"}} cannot be joined correctly.
-     */
     public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArrayInverted()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Please reorganize the joined tables as the table log_conversion in {"0":"log_visit","1":"log_conversion","2":"log_link_visit_action","3":{"table":"log_conversion","joinOn":"log_link_visit_action.idvisit2 = log_conversion.idvisit2"}} cannot be joined correctly.');
+
         $generator = $this->generate(array(
             'log_visit',
             'log_conversion',

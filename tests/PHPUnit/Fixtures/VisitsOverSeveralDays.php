@@ -42,13 +42,13 @@ class VisitsOverSeveralDays extends Fixture
         'http://mixi.jp',
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

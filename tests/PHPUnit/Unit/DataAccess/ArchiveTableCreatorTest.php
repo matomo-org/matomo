@@ -17,7 +17,7 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
 {
     private $tables;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         ArchiveTableCreator::clear();
 

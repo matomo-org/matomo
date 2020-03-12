@@ -45,7 +45,7 @@ class UsersManagerTest extends IntegrationTestCase
 
     private $backupIdentity;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -67,7 +67,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         FakeAccess::$identity = $this->backupIdentity;
         parent::tearDown();
@@ -125,12 +125,13 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
     /**
-     * bad password => exception#
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionInvalidPassword
+     * bad password => exception
      */
     public function testUpdateUserBadpasswd()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionInvalidPassword');
+
         $login = "login";
         $user  = array('login'    => $login,
                        'password' => "geqgeagae",
@@ -162,31 +163,32 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * @dataProvider getAddUserInvalidLoginData
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionInvalidLogin
      */
     public function testAddUserWrongLogin($userLogin, $password, $email, $alias)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionInvalidLogin');
+
         $this->api->addUser($userLogin, $password, $email, $alias);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionLoginExists
-     */
     public function testAddUserExistingLogin()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionLoginExists');
+
         $this->api->addUser("test", "password", "email@email.com", "alias");
         $this->api->addUser("test", "password2", "em2ail@email.com", "al2ias");
     }
 
     /**
      * @see https://github.com/piwik/piwik/issues/8548
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionLoginExists
      */
     public function testAddUserExistingLoginCaseInsensitive()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionLoginExists');
+
         $this->api->addUser("test", "password", "email@email.com", "alias");
         $this->api->addUser("TeSt", "password2", "em2ail@email.com", "al2ias");
     }
@@ -204,20 +206,20 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * @dataProvider getWrongPasswordTestData
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionInvalidPassword
      */
     public function testAddUserWrongPassword($userLogin, $password, $email, $alias)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionInvalidPassword');
+
         $this->api->addUser($userLogin, $password, $email, $alias);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage mail
-     */
     public function testAddUserWrongEmail()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('mail');
+
         $this->api->addUser('geggeqgeqag', 'geqgeagae', "ema il@email.com", 'alias');
     }
 
@@ -323,64 +325,58 @@ class UsersManagerTest extends IntegrationTestCase
         ], $access);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_AddUserNoInitialAccessError
-     */
     public function test_addUser_shouldNotAllowAdminUsersToCreateUsers_WithNoInitialSiteWithAccess()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_AddUserNoInitialAccessError');
+
         FakeAccess::$superUser = false;
         FakeAccess::$idSitesAdmin = [1];
 
         $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com', 'userLogin2');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasAdminAccess Fake exception
-     */
     public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasAdminAccess Fake exception');
+
         FakeAccess::$superUser = false;
         FakeAccess::$idSitesAdmin = [2];
 
         $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com', 'userLogin2', false, 1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testDeleteUserDoesntExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
         $this->api->deleteUser("geggeqggnew");
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testDeleteUserEmptyUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->deleteUser("");
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testDeleteUserNullUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->deleteUser(null);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess
-     */
     public function testDeleteUser_ShouldFail_InCaseTheUserIsTheOnlyRemainingSuperUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess');
+
         //add user and set some rights
         $this->api->addUser("regularuser", "geqgeagae1", "test1@test.com", "alias1");
         $this->api->addUser("superuser", "geqgeagae2", "test2@test.com", "alias2");
@@ -439,12 +435,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertFalse($option);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testGetUserNoUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         // try to get it, it should raise an exception
         $this->api->getUser("geggeqgeqag");
     }
@@ -464,8 +459,8 @@ class UsersManagerTest extends IntegrationTestCase
 
         // check that all fields are the same
         $this->assertEquals($login, $user['login']);
-        $this->assertInternalType('string', $user['password']);
-        $this->assertInternalType('string', $user['date_registered']);
+        self::assertIsString($user['password']);
+        self::assertIsString($user['date_registered']);
         $this->assertEquals($email, $user['email']);
 
         //alias shouldn't be empty even if no alias specified
@@ -501,12 +496,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSomeAdminAccess Fake exception
-     */
     public function testGetUsers_withViewAccess_shouldThrowAnException()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSomeAdminAccess Fake exception');
+
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
         $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
@@ -553,73 +547,66 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertSame('geggeqge632ge56a4qag', $this->api->getUserLoginFromUserEmail('teSGgT@tesgt.com'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testGetUserLoginFromUserEmail_shouldThrowException_IfUserDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->getUserLoginFromUserEmail('unknownUser@teSsgt.com');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSomeAdminAccess Fake exception
-     */
     public function testGetUserLoginFromUserEmail_shouldThrowException_IfUserDoesNotHaveAtLeastAdminPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSomeAdminAccess Fake exception');
+
         FakeAccess::clearAccess($superUser = false, $admin =array(), $view = array(1));
         $this->api->getUserLoginFromUserEmail('tegst@tesgt.com');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testSetUserAccessNoLogin()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("nologin", "view", 1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function testSetUserAccessWrongAccessSpecified()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function testSetUserAccess_ShouldFail_SuperUserAccessIsNotAllowed()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "superuser", 1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testSetUserAccess_ShouldFail_IfLoginIsConfigSuperUserLogin()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess('superusertest', 'view', 1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserHasSuperUserAccess
-     */
     public function testSetUserAccess_ShouldFail_IfLoginIsUserWithSuperUserAccess()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserHasSuperUserAccess');
+
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword('gegg4564eqgeqag', true);
@@ -672,11 +659,10 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals($idSites, array_keys($access));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testSetUserAccess_ShouldNotBeAbleToSetAnyAccess_IfIdSitesIsEmpty()
     {
+        $this->expectException(\Exception::class);
+
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
         $this->api->setUserAccess("gegg4564eqgeqag", "view", array());
@@ -818,44 +804,40 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals($wanted1, $access1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSuperUserAccess Fake exception
-     */
     public function testSetSuperUserAccess_ShouldFail_IfUserHasNotSuperUserPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
+
         $pwd = $this->createCurrentUser();
 
         FakeAccess::$superUser= false;
         $this->api->setSuperUserAccess('nologin', false, $pwd);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testSetSuperUserAccess_ShouldFail_IfUserWithGivenLoginDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $pwd = $this->createCurrentUser();
         $this->api->setSuperUserAccess('nologin', false, $pwd);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionEditAnonymous
-     */
     public function testSetSuperUserAccess_ShouldFail_IfUserIsAnonymous()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
+
         $pwd = $this->createCurrentUser();
         $this->api->setSuperUserAccess('anonymous', true, $pwd);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser
-     */
     public function testSetSuperUserAccess_ShouldFail_IfUserIsOnlyRemainingUserWithSuperUserAccess()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser');
+
         $pwd = $this->createCurrentUser();
 
         $this->api->addUser('login1', 'password1', 'test@example.com', false);
@@ -923,39 +905,35 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals(1, $users[2]['superuser_access']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testGetSitesAccessFromUserWrongUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->getSitesAccessFromUser("user1");
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testGetUsersAccessFromSiteWrongIdSite()
     {
+        $this->expectException(\Exception::class);
+
         FakeAccess::$superUser = false;
         $this->api->getUsersAccessFromSite(1);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
-     */
     public function testGetUsersSitesFromAccessWrongSite()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
         $this->api->getUsersSitesFromAccess('unknown');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
-     */
     public function testUpdateUserNonExistingLogin()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         $this->api->updateUser("lolgin", "password");
     }
 
@@ -979,12 +957,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->_checkUserHasNotChanged($user, "passowordOK");
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ConfirmWithPassword
-     */
     public function testUpdateUserFailsNoCurrentPassword()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+
         $login = "login";
         $user  = array('login'    => $login,
                        'password' => "geqgeagae",
@@ -997,12 +974,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->updateUser($login, "passowordOK", false, false, false, "");
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
-     */
     public function testUpdateUserFailsWrongCurrentPassword()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
+
         $login = "login";
         $user  = array('login'    => $login,
                        'password' => "geqgeagae",
@@ -1015,12 +991,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeag");
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
-     */
     public function testUpdateUserFailsWrongCurrentPassword_requiresThePasswordOfCurrentLoggedInUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
+
         $login = "login";
         $user  = array('login'    => $login,
                        'password' => "geqgeagae",
@@ -1072,22 +1047,23 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * check to modify as the user
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionLoginExists
      */
     public function testAddUserIAmTheUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionLoginExists');
+
         FakeAccess::$identity = 'login';
         $this->testUpdateUserNoEmailNoAlias();
     }
 
     /**
      * check to modify as being another user => exception
-     *
-     * @expectedException \Exception
      */
     public function testUpdateUserIAmNotTheUser()
     {
+        $this->expectException(\Exception::class);
+
         FakeAccess::$identity = 'login2';
         FakeAccess::$superUser = false;
         $this->testUpdateUserNoEmailNoAlias();
@@ -1112,11 +1088,10 @@ class UsersManagerTest extends IntegrationTestCase
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "NEW ALIAS");
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testGetUserByEmailInvalidMail()
     {
+        $this->expectException(\Exception::class);
+
         $this->api->getUserByEmail('email@test.com');
     }
 

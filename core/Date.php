@@ -442,9 +442,9 @@ class Date
      */
     public function isLeapYear()
     {
-        $currentYear = date('Y', $this->getTimestamp());
+        $isLeap = (bool)(date('L', $this->getTimestamp()));
 
-        return ($currentYear % 400) == 0 || (($currentYear % 4) == 0 && ($currentYear % 100) != 0);
+        return $isLeap;
     }
 
     /**

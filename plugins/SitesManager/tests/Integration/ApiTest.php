@@ -22,7 +22,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
-use PHPUnit_Framework_Constraint_IsType;
 
 /**
  * Class Plugins_SitesManagerTest
@@ -33,7 +32,7 @@ use PHPUnit_Framework_Constraint_IsType;
  */
 class ApiTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +42,7 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -52,10 +51,11 @@ class ApiTest extends IntegrationTestCase
 
     /**
      * empty name -> exception
-     * @expectedException \Exception
      */
     public function test_addSite_WithEmptyName_ThrowsException()
     {
+        $this->expectException(\Exception::class);
+
         API::getInstance()->addSite("", array("http://piwik.net"));
     }
 
@@ -77,10 +77,10 @@ class ApiTest extends IntegrationTestCase
      * wrong urls -> exception
      *
      * @dataProvider getInvalidUrlData
-     * @expectedException \Exception
      */
     public function test_addSite_WithWrongUrls_ThrowsException($url)
     {
+        $this->expectException(\Exception::class);
         API::getInstance()->addSite("name", $url);
     }
 
@@ -155,10 +155,10 @@ class ApiTest extends IntegrationTestCase
      * Test with invalid IPs
      *
      * @dataProvider getInvalidIPsData
-     * @expectedException \Exception
      */
     public function test_addSite_WithInvalidExcludedIps_ThrowsException($ip)
     {
+        $this->expectException(\Exception::class);
         API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $ip);
     }
@@ -171,7 +171,7 @@ class ApiTest extends IntegrationTestCase
         $url = "http://piwik.net/";
         $urlOK = "http://piwik.net";
         $idsite = API::getInstance()->addSite("name", $url);
-        $this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_INT, $idsite);
+        self::assertIsInt($idsite);
 
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($urlOK, $siteInfo['main_url']);
@@ -189,7 +189,7 @@ class ApiTest extends IntegrationTestCase
         $urls = array("http://piwik.net/", "http://piwik.com", "https://piwik.net/test/", "piwik.net/another/test");
         $urlsOK = array("http://piwik.net", "http://piwik.com", "http://piwik.net/another/test", "https://piwik.net/test");
         $idsite = API::getInstance()->addSite("super website", $urls);
-        $this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_INT, $idsite);
+        self::assertIsInt($idsite);
 
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($urlsOK[0], $siteInfo['main_url']);
@@ -205,7 +205,7 @@ class ApiTest extends IntegrationTestCase
     {
         $name = "supertest(); ~@@()''!£\$'%%^'!£ போ";
         $idsite = API::getInstance()->addSite($name, "http://piwik.net");
-        $this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_INT, $idsite);
+        self::assertIsInt($idsite);
 
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($name, $siteInfo['name']);
@@ -213,12 +213,13 @@ class ApiTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage SitesManager_OnlyMatchedUrlsAllowed
      * @dataProvider getDifferentTypesDataProvider
      */
     public function test_addSite_ShouldFailAndNotCreatedASite_IfASettingIsInvalid($type)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_OnlyMatchedUrlsAllowed');
+
         try {
             $settings = array('WebsiteMeasurable' => array(array('name' => 'exclude_unknown_urls', 'value' => 'fooBar')));
             $this->addSiteWithType($type, $settings);
@@ -263,7 +264,7 @@ class ApiTest extends IntegrationTestCase
     {
         $name = "website ";
         $idsite = API::getInstance()->addSite($name, array("http://piwik.net", "http://piwik.com/test/"));
-        $this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_INT, $idsite);
+        self::assertIsInt($idsite);
 
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($name, $siteInfo['name']);
@@ -423,10 +424,11 @@ class ApiTest extends IntegrationTestCase
 
     /**
      * wrong format urls => exception
-     * @expectedException \Exception
      */
     public function test_addSiteAliasUrls_WithIncorrectFormat_ThrowsException_3()
     {
+        $this->expectException(\Exception::class);
+
         $idsite = $this->_addSite();
         $toAdd = array("http:mpigeq");
         API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
@@ -434,20 +436,20 @@ class ApiTest extends IntegrationTestCase
 
     /**
      * wrong idsite => no exception because simply no access to this resource
-     * @expectedException \Exception
      */
     public function test_addSiteAliasUrls_WithWrongIdSite_ThrowsException()
     {
+        $this->expectException(\Exception::class);
         $toAdd = array("http://pigeq.com/test");
         API::getInstance()->addSiteAliasUrls(-1, $toAdd);
     }
 
     /**
      * wrong idsite => exception
-     * @expectedException \Exception
      */
     public function test_addSiteAliasUrls_WithWrongIdSite_ThrowsException2()
     {
+        $this->expectException(\Exception::class);
         $toAdd = array("http://pigeq.com/test");
         API::getInstance()->addSiteAliasUrls(155, $toAdd);
     }
@@ -492,28 +494,28 @@ class ApiTest extends IntegrationTestCase
 
     /**
      * wrong id => exception
-     * @expectedException \Exception
      */
     public function test_getSiteFromId_WithWrongId_ThrowsException1()
     {
+        $this->expectException(\Exception::class);
         API::getInstance()->getSiteFromId(0);
     }
 
     /**
      * wrong id => exception
-     * @expectedException \Exception
      */
     public function test_getSiteFromId_WithWrongId_ThrowsException2()
     {
+        $this->expectException(\Exception::class);
         API::getInstance()->getSiteFromId("x1");
     }
 
     /**
      * wrong id : no access => exception
-     * @expectedException \Exception
      */
     public function test_getSiteFromId_ThrowsException_WhenTheUserDoesNotHavaAcessToTheSite()
     {
+        $this->expectException(\Exception::class);
         $idsite = API::getInstance()->addSite("site", array("http://piwik.net", "http://piwik.com/test/"));
         $this->assertEquals(1, $idsite);
 
@@ -531,7 +533,7 @@ class ApiTest extends IntegrationTestCase
     {
         $name = "website ''";
         $idsite = API::getInstance()->addSite($name, array("http://piwik.net", "http://piwik.com/test/"));
-        $this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_INT, $idsite);
+        self::assertIsInt($idsite);
 
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($name, $siteInfo['name']);
@@ -757,10 +759,10 @@ class ApiTest extends IntegrationTestCase
 
     /**
      * wrongId => exception
-     * @expectedException \Exception
      */
     public function test_getSiteUrlsFromId_ThrowsException_WhenSiteIdIsIncorrect()
     {
+        $this->expectException(\Exception::class);
         FakeAccess::setIdSitesView(array(3));
         FakeAccess::setIdSitesAdmin(array());
         API::getInstance()->getSiteUrlsFromId(1);
@@ -881,12 +883,11 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($newurls, $allUrls);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage SitesManager_OnlyMatchedUrlsAllowed
-     */
     public function test_updateSite_ShouldFailAndNotUpdateSite_IfASettingIsInvalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_OnlyMatchedUrlsAllowed');
+
         $type  = MobileAppMeasurable\Type::ID;
         $idSite = $this->addSiteWithType($type, array());
 
@@ -970,12 +971,11 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage SitesManager_ExceptionDeleteSite
-     */
     public function test_delete_ShouldNotDeleteASiteInCaseThereIsOnlyOneSite()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_ExceptionDeleteSite');
+
         $siteId1 = $this->_addSite();
 
         $this->assertHasSite($siteId1);
@@ -989,12 +989,11 @@ class ApiTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage website id = 99999498 not found
-     */
     public function test_delete_ShouldTriggerException_IfGivenSiteDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('website id = 99999498 not found');
+
         API::getInstance()->deleteSite(99999498);
     }
 
@@ -1068,19 +1067,19 @@ class ApiTest extends IntegrationTestCase
     /**
      *
      * @dataProvider getInvalidTimezoneData
-     * @expectedException \Exception
      */
     public function test_addSite_WithInvalidTimezone_ThrowsException($timezone)
     {
+        $this->expectException(\Exception::class);
+
         API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $ip = '', $params = '', $timezone);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_addSite_WithInvalidCurrency_ThrowsException()
     {
+        $this->expectException(\Exception::class);
+
         $invalidCurrency = '€';
         API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, '', 'UTC', $invalidCurrency);

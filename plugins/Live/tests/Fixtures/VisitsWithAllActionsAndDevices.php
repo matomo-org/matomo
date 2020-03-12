@@ -20,7 +20,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::siteCreated($idSite = 1)) {
             self::createWebsite($this->dateTime, 1);
@@ -64,7 +64,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $this->trackVisitTablet($t, Date::factory($this->dateTime)->addHour(156.9)->getDatetime());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

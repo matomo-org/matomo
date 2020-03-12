@@ -24,7 +24,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ActionTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -40,7 +40,7 @@ class ActionTest extends IntegrationTestCase
         Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

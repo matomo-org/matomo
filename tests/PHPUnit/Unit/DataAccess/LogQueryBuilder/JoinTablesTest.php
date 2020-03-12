@@ -22,7 +22,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
      */
     private $tables;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tables = $this->makeTables(array(
             'log_visit',
@@ -30,12 +30,11 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
             'log_action'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Table 'log_foo_bar_baz' can't be used for segmentation
-     */
     public function test_construct_shouldThrowException_IfTableIsNotPossibleToJoin()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Table \'log_foo_bar_baz\' can\'t be used for segmentation');
+
         $this->makeTables(array('log_visit', 'log_foo_bar_baz'));
     }
 
@@ -72,12 +71,11 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->tables->hasJoinedTable($table));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Table 'log_foo_bar_baz' can't be used for segmentation
-     */
     public function test_addTableToJoin_shouldCheckIfTableCanBeUsedForSegmentation()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Table \'log_foo_bar_baz\' can\'t be used for segmentation');
+
         $table = 'log_foo_bar_baz';
         $this->assertFalse($this->tables->hasJoinedTable($table));
 

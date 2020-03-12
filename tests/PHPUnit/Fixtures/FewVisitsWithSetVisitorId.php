@@ -24,7 +24,7 @@ class FewVisitsWithSetVisitorId extends Fixture
 
     const USER_ID_EXAMPLE_COM = 'email@example.com';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits_setVisitorId();
@@ -34,7 +34,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $this->trackVisits_oneWeekLater_setUserId();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

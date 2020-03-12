@@ -24,7 +24,7 @@ class SystemConfigSettingTest extends IntegrationTestCase
 {
     private $section = 'MySection';
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->setConfigValues(array());
         parent::tearDown();
@@ -39,24 +39,22 @@ class SystemConfigSettingTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function test_setSettingValue_shouldThrowException_IfAUserIsTryingToSetASettingWhichNeedsSuperUserPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         $this->setUser();
         $setting = $this->buildSetting('mysystem');
 
         $setting->setValue(2);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsSuperUserPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         $this->setAnonymousUser();
         $setting = $this->buildSetting('mysystem');
 

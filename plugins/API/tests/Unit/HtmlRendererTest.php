@@ -24,7 +24,7 @@ class HtmlRendererTest extends \PHPUnit\Framework\TestCase
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array('method' => 'MultiSites_getAll'));
         DataTable\Manager::getInstance()->deleteAll();
@@ -449,12 +449,11 @@ message', $response);
 ', $actual);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Data structure returned is not convertible in the requested format
-     */
     public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Data structure returned is not convertible in the requested format');
+
         $input = array(
             "firstElement"  => "isFirst",
             "secondElement" => array(
@@ -466,12 +465,11 @@ message', $response);
         $this->builder->renderArray($input);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Data structure returned is not convertible in the requested format
-     */
     public function test_renderArray_ShouldConvertMultiDimensionalIndexArrayToJson()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Data structure returned is not convertible in the requested format');
+
         $input = array(array("firstElement",
             array(
                 "firstElement",
@@ -482,12 +480,11 @@ message', $response);
         $this->builder->renderArray($input);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Data structure returned is not convertible in the requested format
-     */
     public function test_renderArray_ShouldConvertMultiDimensionalMixedArrayToJson()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Data structure returned is not convertible in the requested format');
+
         $input = array(
             "firstElement" => "isFirst",
             array(

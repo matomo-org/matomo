@@ -21,7 +21,7 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
     public $period = 'month';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         // add one site
         Fixture::createWebsite(

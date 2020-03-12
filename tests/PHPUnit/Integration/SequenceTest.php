@@ -42,12 +42,11 @@ class SequenceTest extends IntegrationTestCase
         $this->assertSame(11, $id);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Duplicate entry
-     */
     public function test_create_shouldFailIfSequenceAlreadyExists()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Duplicate entry');
+
         $sequence = $this->getExistingSequence();
 
         $sequence->create();
@@ -62,12 +61,11 @@ class SequenceTest extends IntegrationTestCase
         $this->assertNextIdGenerated($sequence, 3);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Sequence 'notCreatedSequence' not found
-     */
     public function test_getNextId_shouldFailIfThereIsNoSequenceHavingThisName()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Sequence \'notCreatedSequence\' not found');
+
         $sequence = $this->getEmptySequence();
         $sequence->getNextId();
     }

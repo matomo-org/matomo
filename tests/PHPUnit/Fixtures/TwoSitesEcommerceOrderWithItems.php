@@ -21,7 +21,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
     public $idSite2 = 2;
     public $idGoalStandard = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         self::setUpScheduledReports($this->idSite);
@@ -30,7 +30,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         $this->trackVisitsSite2($url = 'http://example-site2.com/index.htm');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

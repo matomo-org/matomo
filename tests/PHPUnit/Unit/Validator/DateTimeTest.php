@@ -23,21 +23,25 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
         $this->validate('2014-05-06T10:13:14');
         $this->validate('2014-05-06 10:13:14Z');
         $this->validate('2014-05-06T10:13:14Z');
+
+        $this->assertTrue(true);
     }
 
     public function test_validate_successValueMayBeEmpty()
     {
         $this->validate(false);
         $this->validate('');
+
+        $this->assertTrue(true);
     }
 
     /**
      * @dataProvider getWrongFormat
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorInvalidDateTimeFormat
      */
     public function test_validate_failInvalidFormat($date)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorInvalidDateTimeFormat');
         $this->validate($date);
     }
 
@@ -56,12 +60,10 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ExceptionInvalidDateFormat
-     */
     public function test_validate_invalidDate()
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
         $this->validate('2014-15-26 90:43:32');
     }
 

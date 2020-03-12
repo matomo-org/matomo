@@ -23,14 +23,14 @@ class ThreeGoalsOnePageview extends Fixture
     public $idGoal2 = 2;
     public $idGoal3 = 3;
 
-    public function setUp()
+    public function setUp(): void
     {
         Fixture::createSuperUser();
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

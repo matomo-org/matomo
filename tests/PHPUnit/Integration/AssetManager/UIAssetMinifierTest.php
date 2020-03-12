@@ -18,7 +18,7 @@ class UIAssetMinifierTest extends \PHPUnit\Framework\TestCase
      */
     private $assetMinifier;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->assetMinifier = UIAssetMinifier::getInstance();
     }

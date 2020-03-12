@@ -20,7 +20,7 @@ class FixedSiteIdsTest extends \PHPUnit\Framework\TestCase
      */
     private $fixedSiteIds;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixedSiteIds = new FixedSiteIds(array(1,2,5,9));
     }

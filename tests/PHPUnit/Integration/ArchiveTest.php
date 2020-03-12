@@ -57,7 +57,7 @@ class ArchiveTest extends IntegrationTestCase
      */
     public static $fixture;
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

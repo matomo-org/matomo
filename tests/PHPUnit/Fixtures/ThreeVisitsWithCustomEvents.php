@@ -21,7 +21,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
     public $idSite = 1;
     public static $idGoalTriggeredOnEventCategory = 3;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
@@ -226,7 +226,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $vis->setCustomVariable($id = 1, $name = 'Visit Scope Custom var', $value = 'should not appear in events report Bis', $scope = 'visit');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 }

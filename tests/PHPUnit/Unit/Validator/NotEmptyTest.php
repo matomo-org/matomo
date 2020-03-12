@@ -27,11 +27,12 @@ class NotEmptyTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getFailValues
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorEmptyValue
      */
     public function test_validate_failValueIsEmpty($value)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
+
         $this->validate($value);
     }
 

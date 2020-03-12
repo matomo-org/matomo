@@ -122,7 +122,7 @@ class OmniFixture extends Fixture
         return $result;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $firstFixture = array_shift($this->fixtures);
         $this->setUpFixture($firstFixture);
@@ -140,7 +140,7 @@ class OmniFixture extends Fixture
         Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach ($this->fixtures as $fixture) {
             echo "Tearing down " . get_class($fixture) . "...\n";

@@ -24,7 +24,7 @@ class LicenseKeyTest extends IntegrationTestCase
      */
     private $licenseKey;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

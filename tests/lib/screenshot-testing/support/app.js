@@ -236,10 +236,17 @@ Application.prototype.loadTestModules = function () {
             message += "\n" + indent + indent + "Url to reproduce: " + url + "\n";
 
             if (message.indexOf('Generated screenshot') === -1) {
-                if (!fs.existsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'))) {
-                    fsExtra.mkdirsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'));
+
+                var processedPath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots');
+
+                if (options.plugin) {
+                    processedPath = path.join(PIWIK_INCLUDE_PATH, 'plugins', options.plugin, 'tests/UI/processed-ui-screenshots');
                 }
-                const failurePath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots', test.title.replace(/(\s|[^a-zA-Z0-9_])+/g, '_') + '_failure.png');
+
+                if (!fs.existsSync(processedPath)) {
+                    fsExtra.mkdirsSync(processedPath);
+                }
+                const failurePath = path.join(processedPath, test.title.replace(/(\s|[^a-zA-Z0-9_])+/g, '_') + '_failure.png');
 
                 message += indent + indent + "Screenshot of failure: " + failurePath + "\n";
 

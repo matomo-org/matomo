@@ -26,7 +26,7 @@ class PingRequestTest extends IntegrationTestCase
     const CHANGED_COUNTRY = 'jp';
     const CHANGED_REGION = '22';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

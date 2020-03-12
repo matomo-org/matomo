@@ -39,7 +39,7 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     private $passwordResetter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->passwordResetter = new PasswordResetter();
@@ -83,12 +83,11 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEquals($token, $this->capturedToken);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage You have requested too many password resets recently. A new request can be made in one hour. If you have problems resetting your password, please contact your administrator for help.
-     */
     public function test_passwordReset_notAllowedMoreThanThreeTimesInAnHour()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('You have requested too many password resets recently. A new request can be made in one hour. If you have problems resetting your password, please contact your administrator for help.');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
 
         $this->assertNotEmpty($this->capturedToken);
@@ -124,12 +123,11 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertEquals(1, $data['requests']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Token is invalid or has expired
-     */
     public function test_passwordReset_shouldNotAllowTokenToBeUsedMoreThanOnce()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Token is invalid or has expired');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 
@@ -157,12 +155,11 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Token is invalid or has expired
-     */
     public function test_passwordReset_shouldNotAllowOldTokenToBeUsedAfterAnotherResetRequest()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Token is invalid or has expired');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 

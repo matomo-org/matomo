@@ -102,7 +102,7 @@ class ReportTest extends IntegrationTestCase
      */
     private $advancedReport;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -116,7 +116,7 @@ class ReportTest extends IntegrationTestCase
         $this->advancedReport = new GetAdvancedReport();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['idSite']);
         parent::tearDown();
@@ -142,12 +142,11 @@ class ReportTest extends IntegrationTestCase
         $this->assertTrue($this->basicReport->isEnabled());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionReportNotEnabled
-     */
     public function test_checkIsEnabled_shouldThrowAnExceptionIfReportIsNotEnabled()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionReportNotEnabled');
+
         $this->disabledReport->checkIsEnabled();
     }
 
@@ -365,7 +364,7 @@ class ReportTest extends IntegrationTestCase
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'ExampleReport'));
 
-        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call', '__construct'))->getMock();
+        $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
             '\\Piwik\\Plugins\\ExampleReport\\API', 'getExampleReport', array(
                 'idSite' => 1,
@@ -389,7 +388,7 @@ class ReportTest extends IntegrationTestCase
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'Referrers'));
 
-        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call', '__construct'))->getMock();
+        $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
             '\\Piwik\\Plugins\\Referrers\\API', 'getSearchEnginesFromKeywordId', array(
                 'idSubtable' => 23,

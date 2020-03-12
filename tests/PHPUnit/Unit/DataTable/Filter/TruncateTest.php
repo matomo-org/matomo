@@ -22,7 +22,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit\Framework\TestCase
     {
         // remark: this unit test would become invalid and would need to be rewritten if
         // Truncate filter stops calling getRowsCount() on the DataTable being filtered.
-        $mockedDataTable = $this->getMock('\Piwik\DataTable', array('getRowsCount'));
+        $mockedDataTable = $this->createPartialMock('\Piwik\DataTable', array('getRowsCount'));
         $mockedDataTable->expects($this->never())->method('getRowsCount');
 
         $dataTableBeingFiltered = new DataTable();
@@ -46,7 +46,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit\Framework\TestCase
 
         // remark: this unit test would become invalid and would need to be rewritten if
         // Truncate filter stops calling getIdSubDataTable() on rows associated with a SubDataTable
-        $rowBeingFiltered = $this->getMock('\Piwik\DataTable\Row', array('getIdSubDataTable'));
+        $rowBeingFiltered = $this->createPartialMock('\Piwik\DataTable\Row', array('getIdSubDataTable'));
         $rowBeingFiltered->expects($this->never())->method('getIdSubDataTable');
 
         $dataTableBeingFiltered->addRow($rowBeingFiltered);

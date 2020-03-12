@@ -18,7 +18,7 @@ use Piwik\DataTable\Row;
  */
 class DataTable_Renderer_ConsoleTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Manager::getInstance()->deleteAll();

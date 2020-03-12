@@ -32,7 +32,7 @@ class ManySitesImportedLogs extends Fixture
     public $includeNginxJson = false;
     public $includeApiCustomVarMapping = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
 
@@ -45,7 +45,7 @@ class ManySitesImportedLogs extends Fixture
         $this->setupSegments();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         LocationProvider::$providers = null;
         ManyVisitsWithGeoIP::unsetLocationProvider();
@@ -158,7 +158,7 @@ class ManySitesImportedLogs extends Fixture
         $output = self::executeLogImporter($logFile, $opts);
         $output = implode("\n", $output);
 
-        $this->assertContains('4 filtered log lines', $output);
+        self::assertStringContainsString('4 filtered log lines', $output);
     }
 
     private function logWithIncludeFilters()
@@ -174,7 +174,7 @@ class ManySitesImportedLogs extends Fixture
         $output = self::executeLogImporter($logFile, $opts);
         $output = implode("\n", $output);
 
-        $this->assertContains('2 filtered log lines', $output);
+        self::assertStringContainsString('2 filtered log lines', $output);
     }
 
     private function setupSegments()
@@ -288,13 +288,13 @@ class ManySitesImportedLogs extends Fixture
         $output = self::executeLogImporter($logFile, $opts);
         $output = implode("\n", $output);
 
-        $this->assertContains('1 filtered log lines', $output);
+        self::assertStringContainsString('1 filtered log lines', $output);
 
         // test that correct logs are excluded when the host is in the log file
         $output = self::executeLogImporter($logFileWithHost, $opts);
         $output = implode("\n", $output);
 
-        $this->assertContains('2 filtered log lines', $output);
+        self::assertStringContainsString('2 filtered log lines', $output);
     }
 
     /**

@@ -30,7 +30,7 @@ class LatestStableInstall extends Fixture
         $this->subdirToInstall = $subdirToInstall;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->removeLatestStableInstall();
 

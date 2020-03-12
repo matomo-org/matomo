@@ -35,7 +35,7 @@ class ReferrerNameTest extends IntegrationTestCase
     private $idSite3 = 3;
     private $idSite4 = 4;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class ReferrerNameTest extends IntegrationTestCase
         $this->referrerName = new ReferrerName();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // clean up your test here if needed
         Cache::clearCacheGeneral();

@@ -23,12 +23,11 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Piwik\Timer', $instance);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid class ID
-     */
     public function testCreatingInvalidClassThrows()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid class ID');
+
         BaseFactory::factory("This\\Class\\Does\\Not\\Exist");
     }
 }

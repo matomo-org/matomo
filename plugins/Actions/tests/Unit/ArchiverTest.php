@@ -21,12 +21,12 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
  */
 class ArchiverTests extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Fixture::resetTranslations();
     }

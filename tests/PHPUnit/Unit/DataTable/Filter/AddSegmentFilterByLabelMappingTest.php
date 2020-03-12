@@ -25,7 +25,7 @@ class AddSegmentByLabelMappingTest extends \PHPUnit\Framework\TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

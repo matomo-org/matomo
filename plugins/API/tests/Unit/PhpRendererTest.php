@@ -23,7 +23,7 @@ class PhpRendererTest extends \PHPUnit\Framework\TestCase
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array('serialize' => 0));
         DataTable\Manager::getInstance()->deleteAll();

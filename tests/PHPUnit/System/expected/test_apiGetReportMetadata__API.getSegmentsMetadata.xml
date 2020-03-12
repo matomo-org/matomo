@@ -565,6 +565,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
+		<name>Category (Site Search)</name>
+		<segment>siteSearchCategory</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
 		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
 	</row>
@@ -631,6 +637,12 @@
 		<category>Actions</category>
 		<name>Keyword (Site Search)</name>
 		<segment>siteSearchKeyword</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Keyword count (Site Search)</name>
+		<segment>siteSearchCount</segment>
 	</row>
 	<row>
 		<type>dimension</type>

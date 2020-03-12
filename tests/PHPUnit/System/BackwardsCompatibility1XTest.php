@@ -26,7 +26,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
     public static $fixture = null; // initialized below class
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 

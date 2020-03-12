@@ -20,7 +20,7 @@ class MultiDeviceGoalConversions extends Fixture
     public $idSite   = 1;
     public $idGoal   = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackSmartphoneVisits();
@@ -28,7 +28,7 @@ class MultiDeviceGoalConversions extends Fixture
         $this->trackOtherVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

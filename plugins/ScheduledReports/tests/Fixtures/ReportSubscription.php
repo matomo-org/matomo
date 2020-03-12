@@ -18,7 +18,7 @@ class ReportSubscription extends Fixture
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!Fixture::siteCreated(1)) {
             Fixture::createWebsite('2012-01-01 00:00:00');

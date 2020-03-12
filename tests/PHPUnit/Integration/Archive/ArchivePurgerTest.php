@@ -41,7 +41,7 @@ class ArchivePurgerTest extends IntegrationTestCase
      */
     private $february;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

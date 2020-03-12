@@ -24,7 +24,7 @@ use Exception;
  */
 class SegmentEditorTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -40,7 +40,7 @@ class ArchiveWithNoVisitsTest_MockArchiver extends Archiver
 
 class ArchiveWithNoVisitsTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

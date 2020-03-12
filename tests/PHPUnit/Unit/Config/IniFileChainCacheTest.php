@@ -45,7 +45,7 @@ class IniFileChainCacheTest extends IniFileChainTest
 
     private $testHost = 'mytest.matomo.org';
 
-    public function setUp()
+    public function setUp(): void
     {
         $GLOBALS['ENABLE_CONFIG_PHP_CACHE'] = true;
         $_SERVER['HTTP_HOST'] = $this->testHost;
@@ -59,7 +59,7 @@ class IniFileChainCacheTest extends IniFileChainTest
         Config::setSetting('General', 'trusted_hosts', array($this->testHost, 'foonot.exists'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
         unset($GLOBALS['ENABLE_CONFIG_PHP_CACHE']);

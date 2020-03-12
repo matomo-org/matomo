@@ -25,7 +25,7 @@ use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 class MeasurablePropertyTest extends IntegrationTestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Db::destroyDatabaseObject();
@@ -49,12 +49,11 @@ class MeasurablePropertyTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Name "name" is not allowed to be used
-     */
     public function test_constructor_shouldThrowAnExceptionWhenNotWhitelistedNameIsUsed()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Name "name" is not allowed to be used');
+
         new MeasurableProperty('name', $default = 5, FieldConfig::TYPE_INT, 'MyPlugin', $idSite = 1);
     }
 

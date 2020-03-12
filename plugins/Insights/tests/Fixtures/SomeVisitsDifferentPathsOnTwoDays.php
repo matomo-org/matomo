@@ -21,13 +21,13 @@ class SomeVisitsDifferentPathsOnTwoDays extends Fixture
     public $date1  = '2010-12-14';
     public $date2  = '2010-12-13';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

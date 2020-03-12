@@ -26,7 +26,7 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
      */
     protected $environment;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +35,7 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
         File::reset();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         File::reset();
 
