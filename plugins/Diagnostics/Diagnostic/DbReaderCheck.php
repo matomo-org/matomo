@@ -8,9 +8,9 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
@@ -30,8 +30,7 @@ class DbReaderCheck implements Diagnostic
 
     public function execute()
     {
-        $isPiwikInstalling = !Config::getInstance()->existsLocalConfig();
-        if ($isPiwikInstalling) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             // Skip the diagnostic if Piwik is being installed
             return array();
         }
