@@ -241,6 +241,8 @@ class Updater
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
                 if (!class_exists($className, false)) {
+                    // throwing an error here causes Matomo to show the safe mode instead of showing an exception fatal only
+                    // that makes it possible to deactivate / uninstall a broken plugin to recover Matomo directly
                     throw new \Error("The class $className was not found in $file");
                 }
 
