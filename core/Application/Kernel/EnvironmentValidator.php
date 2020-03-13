@@ -11,6 +11,7 @@ namespace Piwik\Application\Kernel;
 use Piwik\Common;
 use Piwik\Exception\NotYetInstalledException;
 use Piwik\Filechecks;
+use Piwik\MatomoInstaller;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -58,6 +59,9 @@ class EnvironmentValidator
             // in CLI, do not start/redirect to installer, simply output the exception at the top
             $startInstaller = false;
         }
+
+        if (MatomoInstaller::isHeadlessInstall())
+            MatomoInstaller::installFromConfig();
 
         // Start the installation when config file not found
         $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller);
