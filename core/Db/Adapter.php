@@ -129,4 +129,12 @@ class Adapter
     {
         return strtolower($adapterName) === 'pdo/mysql';
     }
+
+    /**
+     * Get the current adapter recommended by Matomo.
+     */
+    public static function getRecommendedApater()
+    {
+        return 'PDO\MYSQL';
+    }
 }
