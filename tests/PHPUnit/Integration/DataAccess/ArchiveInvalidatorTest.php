@@ -309,43 +309,11 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $segment = new Segment($segment, $idSites);
         }
 
-        $data = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_numeric_2015_04') . ' WHERE name like "done%"');
-        print_r($data);
-        exit;
-
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
         $result = $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown);
 
         $this->assertEquals($dates, $result->processedDates);
-
-        $idArchives = $this->getInvalidatedArchives();
-
-        // Remove empty values (some new empty entries may be added each month)
-        $idArchives = array_filter($idArchives);
-        $expectedIdArchives = array_filter($expectedIdArchives);
-
-        $this->assertEquals($expectedIdArchives, $idArchives);
-    }
-
-    /**
-     * @dataProvider getTestDataForMarkArchiveRangesAsInvalidated
-     */
-    public function test_markArchivesAsInvalidated_MarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
-    {
-        $dates = array_map(array('Piwik\Date', 'factory'), $dates);
-
-        $this->insertArchiveRowsForTest();
-
-        if (!empty($segment)) {
-            $segment = new Segment($segment, $idSites);
-        }
-
-        /** @var ArchiveInvalidator $archiveInvalidator */
-        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
-        $result = $archiveInvalidator->markArchivesOverlappingRangeAsInvalidated($idSites, array($dates), $segment);
-
-        $this->assertEquals(array($dates[0]), $result->processedDates);
 
         $idArchives = $this->getInvalidatedArchives();
 
@@ -375,6 +343,12 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-04-30.2015-04-30.1.done',
+                        '1.2015-04-27.2015-05-03.2.done',
+                        '1.2015-04-01.2015-04-30.3.done',
+                        '2.2015-04-30.2015-04-30.1.done',
+                        '2.2015-04-27.2015-05-03.2.done',
+                        '2.2015-04-01.2015-04-30.3.done',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -384,6 +358,12 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '2.2015-01-01.2015-12-31.4.done',
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                        '1.2015-01-01.2015-01-01.1.done',
+                        '1.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-01.2015-12-31.4.done',
+                        '2.2015-01-01.2015-01-01.1.done',
+                        '2.2015-01-01.2015-01-31.3.done',
+                        '2.2015-01-01.2015-12-31.4.done',
                     ),
                     '2015_02' => array(
                         '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
@@ -392,7 +372,19 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
                         '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-02-05.2015-02-05.1.done',
+                        '1.2015-02-02.2015-02-08.2.done',
+                        '1.2015-02-01.2015-02-28.3.done',
+                        '2.2015-02-05.2015-02-05.1.done',
+                        '2.2015-02-02.2015-02-08.2.done',
+                        '2.2015-02-01.2015-02-28.3.done',
                     ),
+                    '2014_12' => [
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
+                        '1.2014-12-29.2015-01-04.2.done',
+                        '2.2014-12-29.2015-01-04.2.done',
+                    ],
                 ),
             ),
 
@@ -407,6 +399,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-01.2015-12-31.4.done',
                     ),
                 ),
             ),
@@ -586,6 +580,34 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 ),
             ),
         );
+    }
+
+    /**
+     * @dataProvider getTestDataForMarkArchiveRangesAsInvalidated
+     */
+    public function test_markArchivesAsInvalidated_MarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
+    {
+        $dates = array_map(array('Piwik\Date', 'factory'), $dates);
+
+        $this->insertArchiveRowsForTest();
+
+        if (!empty($segment)) {
+            $segment = new Segment($segment, $idSites);
+        }
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+        $result = $archiveInvalidator->markArchivesOverlappingRangeAsInvalidated($idSites, array($dates), $segment);
+
+        $this->assertEquals(array($dates[0]), $result->processedDates);
+
+        $idArchives = $this->getInvalidatedArchives();
+
+        // Remove empty values (some new empty entries may be added each month)
+        $idArchives = array_filter($idArchives);
+        $expectedIdArchives = array_filter($expectedIdArchives);
+
+        $this->assertEquals($expectedIdArchives, $idArchives);
     }
 
     public function getTestDataForMarkArchiveRangesAsInvalidated()

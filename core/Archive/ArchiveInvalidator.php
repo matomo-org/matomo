@@ -307,7 +307,13 @@ class ArchiveInvalidator
                 }
 
                 // cascade up
-                $this->addParentPeriodsByYearMonth($result, $periodObj);
+                // if the period spans multiple years or months, it won't be used when aggregating parent periods, so
+                // we can avoid invalidating it
+                if ($periodObj->getDateStart()->toString('Y') == $periodObj->getDateEnd()->toString('Y')
+                    && $periodObj->getDateStart()->toString('m') == $periodObj->getDateEnd()->toString('m')
+                ) {
+                    $this->addParentPeriodsByYearMonth($result, $periodObj);
+                }
             }
         }
 
@@ -328,7 +334,7 @@ class ArchiveInvalidator
         }
     }
 
-    private function addParentPeriodsByYearMonth(&$result, Period $period)
+    private function addParentPeriodsByYearMonth(&$result, Period $period, Date $originalDate = null)
     {
         if ($period->getLabel() == 'year'
             || $period->getLabel() == 'range'
@@ -336,9 +342,11 @@ class ArchiveInvalidator
             return;
         }
 
-        $parentPeriod = Period\Factory::build($period->getParentPeriodLabel(), $period->getDateStart());
+        $originalDate = $originalDate ?? $period->getDateStart();
+
+        $parentPeriod = Period\Factory::build($period->getParentPeriodLabel(), $originalDate);
         $result[$this->getYearMonth($parentPeriod)][$this->getUniquePeriodId($parentPeriod)] = $parentPeriod;
-        $this->addParentPeriodsByYearMonth($result, $parentPeriod);
+        $this->addParentPeriodsByYearMonth($result, $parentPeriod, $originalDate);
     }
 
     /**
