@@ -57,6 +57,8 @@
         "SiteSearchCategories": "所有分类（站内搜索）",
         "SiteSearchKeyword": "关键词（站内搜索）",
         "SiteSearchKeywords": "关键词（站内搜索）",
+        "SiteSearchKeywordCount": "关键词计数（网站搜索）",
+        "SiteSearchKeywordCounts": "关键词计数（网站搜索）",
         "SiteSearchKeywordsDocumentation": "此报表显示访客使用站内搜索时用到的搜索关键词。",
         "SiteSearchKeywordsNoResultDocumentation": "此报表列出没有任何搜索结果的关键词：或许搜索算法需要改进，或是访客要找的内容在您的网站上还没有?",
         "SubmenuPagesEntry": "进入页面",
