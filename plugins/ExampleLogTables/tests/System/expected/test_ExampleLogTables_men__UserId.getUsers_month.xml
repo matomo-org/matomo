@@ -2,26 +2,26 @@
 <result>
 	<row>
 		<label>user4</label>
-		<nb_visits>45</nb_visits>
-		<nb_actions>74</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>28</sum_visit_length>
-		<bounce_count>22</bounce_count>
+		<nb_visits>43</nb_visits>
+		<nb_actions>70</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1108</sum_visit_length>
+		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>11</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>40</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		
 	</row>
 	<row>
 		<label>user1</label>
-		<nb_visits>12</nb_visits>
+		<nb_visits>13</nb_visits>
 		<nb_actions>18</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>6</sum_visit_length>
-		<bounce_count>7</bounce_count>
+		<max_actions>2</max_actions>
+		<sum_visit_length>727</sum_visit_length>
+		<bounce_count>8</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>3</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		
 	</row>
 </result>
