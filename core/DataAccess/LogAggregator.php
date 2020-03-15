@@ -534,8 +534,6 @@ class LogAggregator
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, implode(', ', $orderBys));
 
-        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
-
         if ($rankingQuery) {
             unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);
 
@@ -555,8 +553,10 @@ class LogAggregator
                 $rankingQuery->addColumn(Metrics::INDEX_MAX_ACTIONS, 'max');
             }
 
-            return $rankingQuery->execute($query['sql'], $query['bind']);
+            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
         }
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
@@ -940,8 +940,6 @@ class LogAggregator
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
-        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
-
         if ($rankingQuery !== null) {
             $sumColumns = array_keys($availableMetrics);
             if ($metrics) {
@@ -950,8 +948,10 @@ class LogAggregator
 
             $rankingQuery->addColumn($sumColumns, 'sum');
 
-            return $rankingQuery->execute($query['sql'], $query['bind']);
+            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
         }
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
