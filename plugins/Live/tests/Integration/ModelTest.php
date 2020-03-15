@@ -82,8 +82,7 @@ class ModelTest extends IntegrationTestCase
 	    $dateEnd = Date::now();
 	    $minTimestamp = 1;
 	    $limit = 50;
-        $model = new Model();
-        $model->handleMaxExecutionTimeError($db, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
+        Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, [$sql, $bind]);
         $this->assertTrue(true);
     }
 
@@ -102,8 +101,7 @@ class ModelTest extends IntegrationTestCase
 	    $dateEnd = Date::now();
 	    $minTimestamp = null;
 	    $limit = 50;
-        $model = new Model();
-        $model->handleMaxExecutionTimeError($db, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
+        Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, [$sql, $bind]);
     }
 
 	/**
@@ -114,15 +112,12 @@ class ModelTest extends IntegrationTestCase
     {
     	$db = Db::get();
     	$e = new \Exception('Query execution was interrupted, maximum statement execution time exceeded');
-	    $sql = 'SELECT 1';
-	    $bind = array();
 	    $segment = 'userId>=1';
 	    $dateStart = Date::now()->subDay(10);
 	    $dateEnd = Date::now();
 	    $minTimestamp = null;
 	    $limit = 5000;
-        $model = new Model();
-        $model->handleMaxExecutionTimeError($db, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
+        Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, ['param' => 'value']);
     }
 
     public function test_getStandAndEndDate()
