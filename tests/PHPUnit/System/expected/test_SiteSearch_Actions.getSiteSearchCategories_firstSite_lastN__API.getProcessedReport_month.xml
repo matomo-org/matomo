@@ -52,9 +52,21 @@
 				<exit_rate>0%</exit_rate>
 			</row>
 		</result>
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
 	</reportData>
 	<reportMetadata>
 		<result prettyDate="January 2010" />
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>4</nb_visits>

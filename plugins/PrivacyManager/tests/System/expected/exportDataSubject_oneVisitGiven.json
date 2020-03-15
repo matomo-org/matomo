@@ -101,10 +101,6 @@
         },
         {
             "custom_float": "9 min 5s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "images",
-            "custom_var_v5": "200",
             "idaction_name": "7",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
@@ -114,6 +110,8 @@
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
+            "search_cat": "images",
+            "search_count": "200",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },

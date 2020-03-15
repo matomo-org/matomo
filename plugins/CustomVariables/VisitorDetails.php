@@ -41,7 +41,11 @@ class VisitorDetails extends VisitorDetailsAbstract
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (!empty($action['custom_var_k' . $i])) {
                 $cvarKey                 = $action['custom_var_k' . $i];
-                $cvarKey                 = static::getCustomVariablePrettyKey($cvarKey);
+
+                if (in_array($cvarKey, ['_pk_scat', '_pk_scount'])) {
+                    continue; // ignore old site search variables
+                }
+
                 $customVariablesPage[$i] = array(
                     'customVariablePageName' . $i  => $cvarKey,
                     'customVariablePageValue' . $i => $action['custom_var_v' . $i],
@@ -76,19 +80,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view->visitInfo = $visitInfo;
         return [[ 50, $view->render() ]];
     }
-
-    private static function getCustomVariablePrettyKey($key)
-    {
-        $rename = array(
-            ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
-            ActionSiteSearch::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
-        );
-        if (isset($rename[$key])) {
-            return $rename[$key];
-        }
-        return $key;
-    }
-
 
     protected $customVariables = [];
 

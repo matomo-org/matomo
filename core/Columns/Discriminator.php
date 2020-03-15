@@ -45,8 +45,7 @@ class Discriminator
 
     public function isValid()
     {
-        return isset($this->discriminatorColumn)
-            && (is_numeric($this->discriminatorValue) || $this->discriminatorValue == ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY);
+        return isset($this->discriminatorColumn) && is_numeric($this->discriminatorValue);
     }
 
     /**

@@ -199,7 +199,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $date = $date->addHour(0.1);
         $t->setForceVisitDateTime($date->getDatetime());
         if( ($visitorCounter % 2) == 0) {
-            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT');
+            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter*6);
         }
 
         if (!$doBulk) {
