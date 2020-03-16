@@ -103,15 +103,6 @@ class ArchiveProcessor
 
     private $numberOfVisitsConverted = false;
 
-    /**
-     * If true, unique visitors are not calculated when we are aggregating data for multiple sites.
-     * The `[General] enable_processing_unique_visitors_multiple_sites` INI config option controls
-     * the value of this variable.
-     *
-     * @var bool
-     */
-    private $skipUniqueVisitorsCalculationForMultipleSites = true;
-
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
         $this->params = $params;
