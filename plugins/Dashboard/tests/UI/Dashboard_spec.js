@@ -73,6 +73,8 @@ describe("Dashboard", function () {
         var col2 = await page.jQuery('#dashboardWidgetsArea > .col:eq(2)');
         await col2.hover();
         await page.mouse.up();
+        await page.waitForNetworkIdle();
+        await page.waitFor(100);
         await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');

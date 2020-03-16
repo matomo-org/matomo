@@ -10,6 +10,11 @@
 describe("JSTracker", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\JSTrackingUIFixture';
 
+    before(function () {
+        testEnvironment.pluginsToLoad = ['ExampleTracker'];
+        testEnvironment.save();
+    });
+
     var testWebsiteUrl = 'tests/resources/overlay-test-site-real/index.html';
     var generalParams = 'idSite=1&period=day&date=today',
         widgetizeParams = "module=Widgetize&action=iframe",
