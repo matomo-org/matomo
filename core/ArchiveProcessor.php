@@ -117,8 +117,6 @@ class ArchiveProcessor
         $this->params = $params;
         $this->logAggregator = $logAggregator;
         $this->archiveWriter = $archiveWriter;
-
-        $this->skipUniqueVisitorsCalculationForMultipleSites = Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
     }
 
     protected function getArchive()
@@ -414,13 +412,6 @@ class ArchiveProcessor
 
     protected function enrichWithUniqueVisitorsMetric(Row $row)
     {
-        // skip unique visitors metrics calculation if calculating for multiple sites is disabled
-        if (!$this->getParams()->isSingleSite()
-            && $this->skipUniqueVisitorsCalculationForMultipleSites
-        ) {
-            return;
-        }
-
         if ($row->getColumn('nb_uniq_visitors') === false
             && $row->getColumn('nb_users') === false
         ) {
@@ -450,6 +441,13 @@ class ArchiveProcessor
         $metrics[] = $uniqueVisitorsMetric;
 
         $uniques = $this->computeNbUniques($metrics);
+
+        if ($uniques === null) {
+            // query was not executed because a plugin disabled it by removing all sites
+            $row->deleteColumn('nb_uniq_visitors');
+            $row->deleteColumn('nb_users');
+            return;
+        }
 
         // see edge case as described in https://github.com/piwik/piwik/issues/9357 where uniq_visitors might be higher
         // than visits because we archive / process it after nb_visits. Between archiving nb_visits and nb_uniq_visitors
@@ -482,12 +480,35 @@ class ArchiveProcessor
      * since unique visitors cannot be summed like other metrics.
      *
      * @param array Metrics Ids for which to aggregates count of values
-     * @return array of metrics, where the key is metricid and the value is the metric value
+     * @return array|null An array of metrics, where the key is metricid and the value is the metric value or null if
+     *                      the query was cancelled and not executed.
      */
     protected function computeNbUniques($metrics)
     {
         $logAggregator = $this->getLogAggregator();
-        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), $metrics);
+        $sitesBackup = $logAggregator->getSites();
+
+        $sites = array($this->getParams()->getSite()->getId());
+
+        /**
+         * Triggered to change which site ids should be looked at when processing unique visitors and users.
+         *
+         * @param array &$idSites An array with one idSite. This site is being archived currently. To cancel the query
+         *                        you can change this value to an empty array. To include other sites in the query you
+         *                        can add more idSites to this list of idSites.
+         */
+        Piwik::postEvent('ArchiveProcessor.ComputeNbUniques.getIdSites', array(&$sites));
+
+        if (empty($sites)) {
+            return;
+        }
+
+        $logAggregator->setSites($sites);
+        try {
+            $query = $logAggregator->queryVisitsByDimension(array(), false, array(), $metrics);
+        } finally {
+            $logAggregator->setSites($sitesBackup);
+        }
         $data = $query->fetch();
         return $data;
     }
