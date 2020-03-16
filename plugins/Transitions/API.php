@@ -12,15 +12,18 @@ namespace Piwik\Plugins\Transitions;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Actions;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Plugins\Live\Model;
 use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
@@ -81,24 +84,39 @@ class API extends \Piwik\Plugin\API
             'date' => Period\Factory::build($period->getLabel(), $date)->getLocalizedShortString()
         );
 
-        $partsArray = explode(',', $parts);
-        if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
-            $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
-        }
-        if ($parts == 'all' || in_array('followingActions', $partsArray)) {
-            $includeLoops = $parts != 'all' && !in_array('internalReferrers', $partsArray);
-            $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops);
-        }
-        if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
-            $this->addExternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
+        try {
+            $partsArray = explode(',', $parts);
+            if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
+                $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
+            }
+            if ($parts == 'all' || in_array('followingActions', $partsArray)) {
+                $includeLoops = $parts != 'all' && !in_array('internalReferrers', $partsArray);
+                $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops);
+            }
+            if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
+                $this->addExternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
+            }
+
+            // derive the number of exits from the other metrics
+            if ($parts == 'all') {
+                $report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
+                    - $this->getTotalTransitionsToFollowingActions()
+                    - $report['pageMetrics']['loops'];
+            }
+        } catch (\Exception $e) {
+            Model::handleMaxExecutionTimeError(
+                Db::getReader(),
+                $e,
+                $segment->getString(),
+                $period->getDateStart(),
+                $period->getDateEnd(),
+                0,
+                Config::getInstance()->General['live_query_max_execution_time'],
+                ['method' => 'Transitions.getTransitionsForAction', 'actionName' => $actionName, 'actionType' => $actionType]
+            );
+            throw $e;
         }
 
-        // derive the number of exits from the other metrics
-        if ($parts == 'all') {
-            $report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
-                - $this->getTotalTransitionsToFollowingActions()
-                - $report['pageMetrics']['loops'];
-        }
 
         // replace column names in the data tables
         $reportNames = array(
@@ -290,7 +308,8 @@ class API extends \Piwik\Plugin\API
             $metrics,
             $rankingQuery,
             $joinLogActionColumn,
-            $secondaryOrderBy = "`name`"
+            $secondaryOrderBy = "`name`",
+            Config::getInstance()->General['live_query_max_execution_time']
         );
 
         $dataTables = $this->makeDataTablesFollowingActions($types, $data);
@@ -342,7 +361,7 @@ class API extends \Piwik\Plugin\API
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
 
         $metrics = array(Metrics::INDEX_NB_VISITS);
-        $data = $logAggregator->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
+        $data = $logAggregator->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery, false, Config::getInstance()->General['live_query_max_execution_time']);
 
         $referrerData = array();
         $referrerSubData = array();
@@ -433,7 +452,8 @@ class API extends \Piwik\Plugin\API
             $metrics,
             $rankingQuery,
             $joinLogActionOn,
-            $secondaryOrderBy = "`name`"
+            $secondaryOrderBy = "`name`",
+            Config::getInstance()->General['live_query_max_execution_time']
         );
 
         $loops = 0;

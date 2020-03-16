@@ -7,8 +7,11 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive\ArchivePurger;
 use Piwik\Archive\Chunk;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -23,6 +26,9 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  */
 class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCase
 {
+    /**
+     * @var VisitsOverSeveralDays
+     */
     public static $fixture = null; // initialized below test definition
 
     public static function getOutputPrefix()
@@ -101,6 +107,11 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      */
     public function test_checkArchiveRecords_whenPeriodIsRange()
     {
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        foreach (self::$fixture->dateTimes as $date) {
+            $archivePurger->purgeInvalidatedArchivesFrom(Date::factory($date));
+        }
+
         // we expect 6 blobs for Actions plugins, because flat=1 or expanded=1 was not set
         // so we only archived the parent table
         $expectedActionsBlobs = 6;

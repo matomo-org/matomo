@@ -78,6 +78,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
         foreach ($bulkUrls as &$url) {
             $url = urlencode($url);
         }
+
         return array(
             array('all', array('idSite' => $idSite,
                                'date' => $dateTime,
