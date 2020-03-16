@@ -419,7 +419,9 @@ class ArchiveProcessor
             Metrics::INDEX_NB_USERS
         );
 
-        if ($this->getParams()->isSingleSite()) {
+        $sites = $this->getIdSitesToComputeNbUniques();
+
+        if (count($sites) === 1) {
             $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_VISITORS;
         } else {
             if (!SettingsPiwik::isSameFingerprintAcrossWebsites()) {
@@ -431,7 +433,7 @@ class ArchiveProcessor
         }
         $metrics[] = $uniqueVisitorsMetric;
 
-        $uniques = $this->computeNbUniques($metrics);
+        $uniques = $this->computeNbUniques($metrics, $sites);
 
         if ($uniques === null) {
             // query was not executed because a plugin disabled it by removing all sites
@@ -464,21 +466,8 @@ class ArchiveProcessor
         return 'sum';
     }
 
-    /**
-     * Processes number of unique visitors for the given period
-     *
-     * This is the only Period metric (ie. week/month/year/range) that we process from the logs directly,
-     * since unique visitors cannot be summed like other metrics.
-     *
-     * @param array Metrics Ids for which to aggregates count of values
-     * @return array|null An array of metrics, where the key is metricid and the value is the metric value or null if
-     *                      the query was cancelled and not executed.
-     */
-    protected function computeNbUniques($metrics)
+    private function getIdSitesToComputeNbUniques()
     {
-        $logAggregator = $this->getLogAggregator();
-        $sitesBackup = $logAggregator->getSites();
-
         $sites = array($this->getParams()->getSite()->getId());
 
         /**
@@ -490,9 +479,24 @@ class ArchiveProcessor
          */
         Piwik::postEvent('ArchiveProcessor.ComputeNbUniques.getIdSites', array(&$sites));
 
-        if (empty($sites)) {
-            return;
-        }
+        return $sites;
+    }
+
+    /**
+     * Processes number of unique visitors for the given period
+     *
+     * This is the only Period metric (ie. week/month/year/range) that we process from the logs directly,
+     * since unique visitors cannot be summed like other metrics.
+     *
+     * @param array $metrics Metrics Ids for which to aggregates count of values
+     * @param int[] $sites  A list of idSites that should be included
+     * @return array|null An array of metrics, where the key is metricid and the value is the metric value or null if
+     *                      the query was cancelled and not executed.
+     */
+    protected function computeNbUniques($metrics, $sites)
+    {
+        $logAggregator = $this->getLogAggregator();
+        $sitesBackup = $logAggregator->getSites();
 
         $logAggregator->setSites($sites);
         try {
