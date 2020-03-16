@@ -54,6 +54,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         ), 'idusertokenauth');
         $migrations[] = $this->migration->db->addUniqueKey('user_token_auth', 'password', 'uniq_password');
 
+        $migrations[] = $this->migration->db->dropIndex('user', 'uniq_keytoken');
+
         $userModel = new Model();
         foreach ($userModel->getUsers(array()) as $user) {
             if (!empty($user['token_auth'])) {
