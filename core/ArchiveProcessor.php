@@ -421,6 +421,13 @@ class ArchiveProcessor
 
         $sites = $this->getIdSitesToComputeNbUniques();
 
+        if (empty($sites)) {
+            // a plugin disabled it by removing all sites
+            $row->deleteColumn('nb_uniq_visitors');
+            $row->deleteColumn('nb_users');
+            return;
+        }
+
         if (count($sites) === 1) {
             $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_VISITORS;
         } else {
@@ -434,13 +441,6 @@ class ArchiveProcessor
         $metrics[] = $uniqueVisitorsMetric;
 
         $uniques = $this->computeNbUniques($metrics, $sites);
-
-        if ($uniques === null) {
-            // query was not executed because a plugin disabled it by removing all sites
-            $row->deleteColumn('nb_uniq_visitors');
-            $row->deleteColumn('nb_users');
-            return;
-        }
 
         // see edge case as described in https://github.com/piwik/piwik/issues/9357 where uniq_visitors might be higher
         // than visits because we archive / process it after nb_visits. Between archiving nb_visits and nb_uniq_visitors
