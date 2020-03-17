@@ -19,7 +19,7 @@
         {% if dbipLiteUrl|default is not empty %}
         <p>{{ 'UserCountry_HowToSetupGeoIPIntro'|translate }}</p>
         <ul style="list-style:disc !important;margin-left:2em;">
-            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a rel="noreferrer noopener" href="'~dbipLiteUrl~'">','</a>','<a rel="noreferrer noopener" target="_blank" href="http://db-ip.com/?refid=mtm">','</a>')|raw }}</li>
+            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a rel="noreferrer noopener" href="'~dbipLiteUrl~'">','</a>','<a rel="noreferrer noopener" target="_blank" href="http://db-ip.com/?refid=mtm">','</a>')|raw }}<sup>*</sup></li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'"~dbipLiteFilename~"'",'<strong>','</strong>','<strong>'~dbipLiteDesiredFilename~'</strong>')|raw }}</li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step3'|translate('<strong>','</strong>','<span style="color:green"><strong>','</strong></span>')|raw }}</li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step4'|translate }}</li>
@@ -29,6 +29,12 @@
         {% endif %}
         <p>&nbsp;</p>
     {% endif %}
+
+    <div class="row">
+        <div class="col s12">
+            <p><sup>{% if not isThereWorkingProvider %}*{% endif %} <small>{{ 'UserCountry_GeoIpDbIpAccuracyNote'|translate('<a href="https://dev.maxmind.com/geoip/geoip2/geolite2/?rId=piwik" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}.</small></sup></p>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col s12 push-m9 m3">{{ 'General_InfoFor'|translate(thisIP) }}</div>
@@ -147,7 +153,7 @@
                             <div id="manage-geoip-dbs">
                                 <div class="row" id="geoipdb-screen1">
                                     <div class="geoipdb-column-1 col s6">
-                                        <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate|raw }}</p>
+                                        <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate|raw }}<sup><small>*</small></sup></p>
                                     </div>
                                     <div class="geoipdb-column-2 col s6">
                                         <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a rel="noreferrer noopener" href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/db/?refid=mtm">','</a>')|raw }}</p>
@@ -162,6 +168,9 @@
                                                ng-click="locationUpdater.startAutomaticUpdateGeoIp()"
                                                value="{{ 'General_GetStarted'|translate }}..." id="start-automatic-update-geoip"/>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <p><sup>* <small>{{ 'UserCountry_GeoIpDbIpAccuracyNote'|translate('<a href="https://dev.maxmind.com/geoip/geoip2/geolite2/?rId=piwik" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}.</small></sup></p>
                                 </div>
                             </div>
                         </div>

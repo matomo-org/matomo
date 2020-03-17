@@ -1,8 +1,9 @@
 <div ng-show="locationUpdater.geoipDatabaseInstalled" id="geoipdb-update-info">
     <p>
-		{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm">','</a>')|raw }}
+		{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/?rId=piwik" rel="noreferrer noopener">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm">','</a>')|raw }}
         <br/><br/>
-		{% if dbipLiteUrl|default is not empty %}{{ 'UserCountry_GeoLiteCityLink'|translate('<a rel="noreferrer noopener" href="'~dbipLiteUrl|e('html_attr')~'">',dbipLiteUrl|e('html'),'</a>')|raw }}{% endif %}
+		{% if dbipLiteUrl|default is not empty %}{{ 'UserCountry_GeoLiteCityLink'|translate('<a rel="noreferrer noopener" href="'~dbipLiteUrl|e('html_attr')~'">',dbipLiteUrl|e('html'),'</a>')|raw }}<br/><br/>{% endif %}
+		{{ 'UserCountry_MaxMindLinkExplanation'|translate('<a href="https://matomo.org/faq/how-to/how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}
 
 		<span ng-show="locationUpdater.geoipDatabaseInstalled">
 			<br/><br/>{{ 'UserCountry_GeoIPUpdaterIntro'|translate }}:
