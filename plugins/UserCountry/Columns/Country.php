@@ -82,9 +82,8 @@ class Country extends Base
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $value = $this->getUrlOverrideValueIfAllowed('country', $request);
-        $value = substr($value, 0, 3);
-
         if ($value !== false) {
+            $value = substr($value, 0, 3);
             return $value;
         }
 
