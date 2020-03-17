@@ -61,6 +61,37 @@ describe("OptOutForm", function () {
         expect(await element.screenshot()).to.matchImage('opted-out_reloaded');
     });
 
+    it("using opt out twice should work correctly", async function () {
+        page.setUserAgent(chromeUserAgent);
+        await page.goto(siteUrl);
+
+        await page.evaluate(function () {
+            $('iframe#optOutIframe').contents().find('input#trackVisits').click();
+        });
+
+        await page.waitFor(5000);
+
+        await expandIframe();
+
+        // check the box has opted in state after clicking once
+        var element = await page.jQuery('iframe#optOutIframe');
+        expect(await element.screenshot()).to.matchImage('clicked_once');
+
+        await page.evaluate(function () {
+            $('iframe#optOutIframe').contents().find('input#trackVisits').click();
+        });
+
+        await page.waitFor(5000);
+
+        // check the box has outed out state after click another time
+        await page.reload();
+
+        await expandIframe();
+
+        var element = await page.jQuery('iframe#optOutIframe');
+        expect(await element.screenshot()).to.matchImage('clicked_twice');
+    });
+
     it("should correctly show display opted-in form when cookies are cleared", async function () {
         await page.clearCookies();
 

@@ -220,12 +220,15 @@ class RankingQuery
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
      * @param $bind array         Bindings for the inner query.
+     * @param int $timeLimitInMs  Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimitInMs > 0
      * @return array              The format depends on which methods have been used
      *                            to configure the ranking query.
      */
-    public function execute($innerQuery, $bind = array())
+    public function execute($innerQuery, $bind = array(), $timeLimitInMs = 0)
     {
         $query = $this->generateRankingQuery($innerQuery);
+        $query = DbHelper::addMaxExecutionTimeHintToQuery($query, $timeLimitInMs);
+
         $data  = Db::getReader()->fetchAll($query, $bind);
 
         if ($this->columnToMarkExcludedRows !== false) {

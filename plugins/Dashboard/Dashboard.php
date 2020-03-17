@@ -157,11 +157,7 @@ class Dashboard extends \Piwik\Plugin
             if ($advertising->areAdsForProfessionalServicesEnabled() && $pluginManager->isPluginActivated('ProfessionalServices')) {
                 $advertisingWidget = '{"uniqueId":"widgetProfessionalServicespromoServices","parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
             }
-            if (Piwik::hasUserSuperUserAccess()) {
-                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetDonateForm","parameters":{"module":"CoreHome","action":"getDonateForm"}}';
-            } else {
-                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
-            }
+            $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
             $insightsWidget = '';
             if ($pluginManager->isPluginActivated('Insights')) {
                 $insightsWidget = '{"uniqueId":"widgetInsightsgetOverallMoversAndShakers","parameters":{"module":"Insights","action":"getOverallMoversAndShakers"}},';

@@ -752,6 +752,16 @@ class Access
 
         throw new NoAccessException($message);
     }
+
+    /**
+     * Returns true if the current user is logged in or not.
+     *
+     * @return bool
+     */
+    public function isUserLoggedIn()
+    {
+        return !empty($this->login);
+    }
 }
 
 /**

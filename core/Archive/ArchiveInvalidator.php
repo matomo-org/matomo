@@ -77,11 +77,12 @@ class ArchiveInvalidator
         // we do not really have to get the value first. we could simply always try to call set() and it would update or
         // insert the record if needed but we do not want to lock the table (especially since there are still some
         // MyISAM installations)
-        $values = Option::getLike($this->rememberArchivedReportIdStart . '%');
+        $values = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%');
 
         $all = [];
         foreach ($values as $name => $value) {
-            $suffix = substr($name, strlen($this->rememberArchivedReportIdStart));
+            $suffix = substr($name, strpos($name, $this->rememberArchivedReportIdStart));
+            $suffix = str_replace($this->rememberArchivedReportIdStart, '', $suffix);
             list($idSite, $dateStr) = explode('_', $suffix);
 
             $all[$idSite][$dateStr] = $value;
@@ -101,7 +102,7 @@ class ArchiveInvalidator
             // we do not really have to get the value first. we could simply always try to call set() and it would update or
             // insert the record if needed but we do not want to lock the table (especially since there are still some
             // MyISAM installations)
-            $value = Option::getLike($key . '%');
+            $value = Option::getLike('%' . $key . '%');
         }
 
         // getLike() returns an empty array rather than 'false'
@@ -116,6 +117,7 @@ class ArchiveInvalidator
             $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
             Option::set($mykey, '1');
             Cache::clearCacheGeneral();
+            return $mykey;
         }
     }
 
@@ -133,15 +135,20 @@ class ArchiveInvalidator
 
     public function getRememberedArchivedReportsThatShouldBeInvalidated()
     {
-        $reports = Option::getLike($this->rememberArchivedReportIdStart . '%_%');
+        $reports = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%_%');
 
         $sitesPerDay = array();
 
         foreach ($reports as $report => $value) {
+            $report = substr($report, strpos($report, $this->rememberArchivedReportIdStart));
             $report = str_replace($this->rememberArchivedReportIdStart, '', $report);
             $report = explode('_', $report);
             $siteId = (int) $report[0];
             $date   = $report[1];
+
+            if (empty($siteId)) {
+                continue;
+            }
 
             if (empty($sitesPerDay[$date])) {
                 $sitesPerDay[$date] = array();
@@ -169,14 +176,16 @@ class ArchiveInvalidator
     // This version is multi process safe on the insert of a new date to invalidate.
     private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
     {
-        $id  = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
+        $id = Common::getRandomString(4, 'abcdefghijklmnoprstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') . '_';
+        $id .= $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
         $id .= '_' . Common::getProcessId();
+
         return $id;
     }
 
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
     {
-        $id = $this->buildRememberArchivedReportIdForSite($idSite) . '_%';
+        $id = $this->buildRememberArchivedReportIdForSite($idSite);
         $this->deleteOptionLike($id);
         Cache::clearCacheGeneral();
     }
@@ -200,7 +209,7 @@ class ArchiveInvalidator
     {
         // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
         // we want to reduce number of rows scanned and only delete specific primary key
-        $keys = Option::getLike($id . '%');
+        $keys = Option::getLike('%' . $id . '%');
 
         if (empty($keys)) {
             return;
