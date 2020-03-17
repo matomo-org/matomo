@@ -409,7 +409,9 @@ class ArchiveProcessor
             return;
         }
 
-        if (!SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
+        $periodLabel = $this->getParams()->getPeriod()->getLabel();
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($periodLabel)) {
             $row->deleteColumn('nb_uniq_visitors');
             $row->deleteColumn('nb_users');
             return;
@@ -417,14 +419,18 @@ class ArchiveProcessor
 
         $sites = $this->getIdSitesToComputeNbUniques();
 
-        /*
         if (count($sites) > 1 && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites()) {
+            if ($periodLabel != 'day') {
+                // for day we still keep the aggregated metric but for other periods we remove it as it becomes to
+                // inaccurate
+                $row->deleteColumn('nb_uniq_visitors');
+                $row->deleteColumn('nb_users');
+            }
             return;
         }
-        */
 
         if (empty($sites)) {
-            // a plugin disabled it by removing all sites
+            // a plugin disabled running below query by removing all sites.
             $row->deleteColumn('nb_uniq_visitors');
             $row->deleteColumn('nb_users');
             return;
@@ -440,6 +446,7 @@ class ArchiveProcessor
             }
             $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_FINGERPRINTS;
         }
+
         $metrics = array(
             Metrics::INDEX_NB_USERS,
             $uniqueVisitorsMetric
