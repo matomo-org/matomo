@@ -100,6 +100,7 @@
         "UpdaterWillRunNext": "It is next scheduled to run on %s.",
         "WidgetLocation": "Visitor Location",
         "InstallGeoIp2": "Matomo recommends using the %1$sdbip%2$s databases, but this requires using the GeoIp2 plugin. If you install and activate it (which will require a possibly long running update), you will be able to get started using %1$sdbip%2$s databases. (Ignore this if you are using a third party plugin that provides it's own geolocation functionality.)",
-        "GeoIpDbIpAccuracyNote": "Note: the DBIP databases are free and can be downloaded automatically, but geolocation results (specifically city results) are not as accurate as MaxMind's. MaxMind, however, requires that you create an account even for the free database. If you want to use MaxMind's geolocation database, you can start the process %1$shere%2$s"
+        "GeoIpDbIpAccuracyNote": "Note: the DBIP databases are free and can be downloaded automatically, but geolocation results (specifically city results) are not as accurate as MaxMind's. MaxMind, however, requires that you create an account even for the free database. If you want to use MaxMind's geolocation database, you can start the process %1$shere%2$s",
+        "MaxMindLinkExplanation": "If you are using MaxMind's geolocation databases and you do not already know how to generate your download URL, %1$sclick here to learn how%2$s."
     }
 }
