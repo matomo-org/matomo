@@ -415,11 +415,13 @@ class ArchiveProcessor
             return;
         }
 
-        $metrics = array(
-            Metrics::INDEX_NB_USERS
-        );
-
         $sites = $this->getIdSitesToComputeNbUniques();
+
+        /*
+        if (count($sites) > 1 && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites()) {
+            return;
+        }
+        */
 
         if (empty($sites)) {
             // a plugin disabled it by removing all sites
@@ -438,7 +440,10 @@ class ArchiveProcessor
             }
             $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_FINGERPRINTS;
         }
-        $metrics[] = $uniqueVisitorsMetric;
+        $metrics = array(
+            Metrics::INDEX_NB_USERS,
+            $uniqueVisitorsMetric
+        );
 
         $uniques = $this->computeNbUniques($metrics, $sites);
 
