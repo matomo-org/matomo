@@ -178,6 +178,21 @@ class DbHelper
     }
 
     /**
+     * Returns if the given table has an index with the given name
+     *
+     * @param string $table
+     * @param string $indexName
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function tableHasIndex($table, $indexName)
+    {
+        $result = Db::get()->fetchOne('SHOW INDEX FROM '.$table.' WHERE Key_name = ?', [$indexName]);
+        return !empty($result);
+    }
+
+    /**
      * Get the SQL to create Piwik tables
      *
      * @return array  array of strings containing SQL
@@ -210,6 +225,33 @@ class DbHelper
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);
+    }
+
+    /**
+     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 1
+     *
+     * @param string $sql  query to add hint to
+     * @param int $limit  time limit in seconds
+     * @return string
+     */
+    public static function addMaxExecutionTimeHintToQuery($sql, $limit)
+    {
+        if ($limit <= 0) {
+            return $sql;
+        }
+
+        $sql = trim($sql);
+        $pos = stripos($sql, 'SELECT');
+        if ($pos !== false) {
+
+            $timeInMs = $limit * 1000;
+            $timeInMs = (int) $timeInMs;
+            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
+
+            $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
+        }
+
+        return $sql;
     }
 
     /**

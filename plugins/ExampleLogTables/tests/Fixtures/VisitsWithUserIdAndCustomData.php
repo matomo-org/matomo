@@ -44,9 +44,10 @@ class VisitsWithUserIdAndCustomData extends Fixture
 
         foreach (array('user1', 'user2', 'user3', 'user4', false) as $key => $userId) {
             for ($numVisits = 0; $numVisits < ($key+1) * 10; $numVisits++) {
+                $visitDateTime = Date::factory($this->dateTime)->addHour($numVisits)->getDatetime();
+                $t->setForceVisitDateTime($visitDateTime);
                 $t->setUserId($userId);
-                $t->setPlugins($numVisits % 3 == 0, $numVisits % 5 == 0, $numVisits % 7 == 0);
-                $t->setBrowserHasCookies($numVisits % 3 == 0);
+                $t->setVisitorId(str_pad($numVisits.$key, 16, 'a'));
                 $t->setCountry(self::$countryCodes[$numVisits % count(self::$countryCodes)]);
 
                 if ($numVisits % 5 == 0) {
@@ -72,7 +73,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
                 $t->setForceNewVisit();
                 $t->setUrl('http://example.org/my/dir/page' . ($numVisits % 4));
 
-                $visitDateTime = Date::factory($this->dateTime)->addHour($numVisits*6)->getDatetime();
+                $visitDateTime = Date::factory($this->dateTime)->addHour($numVisits+6)->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
 
                 if ($numVisits % 7 == 0) {
@@ -82,7 +83,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
                 self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
 
                 if ($numVisits % 9 == 0) {
-                    $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($numVisits*6.1)->getDatetime());
+                    $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($numVisits+6.1)->getDatetime());
                     $t->addEcommerceItem('SKU VERY nice indeed ' . ($numVisits%3), 'PRODUCT name ' . ($numVisits%4), 'category ' . ($numVisits%5), $numVisits*2.79);
                     self::assertTrue($t->doTrackEcommerceCartUpdate($numVisits*17));
                 }

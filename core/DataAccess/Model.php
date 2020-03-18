@@ -123,9 +123,15 @@ class Model
                     $sql .= " OR ";
                 }
 
-                $sql .= "(period = " . (int)$period->getId()
-                    . " AND date1 = '" . $period->getDateStart()->getDatetime() . "'"
-                    . " AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
+                if ($period->getLabel() == 'range') { // for ranges, we delete all ranges that contain the given date(s)
+                    $sql .= "(period = " . (int)$period->getId()
+                        . " AND date2 >= '" . $period->getDateStart()->getDatetime()
+                        . "' AND date1 <= '" . $period->getDateEnd()->getDatetime() . "')";
+                } else {
+                    $sql .= "(period = " . (int)$period->getId()
+                        . " AND date1 = '" . $period->getDateStart()->getDatetime() . "'"
+                        . " AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
+                }
             }
             $sql .= ")";
         }
@@ -161,7 +167,9 @@ class Model
             foreach ($allPeriodsToInvalidate as $period) {
                 $startDate = $period->getDateStart()->getDatetime();
                 $endDate = $period->getDateEnd()->getDatetime();
-                if (!empty($allArchivesFoundIndexed[$idSite][$period->getId()][$startDate][$endDate])) {
+                if (!empty($allArchivesFoundIndexed[$idSite][$period->getId()][$startDate][$endDate])
+                    || $period->getLabel() == 'range'
+                ) {
                     continue;
                 }
 
@@ -273,7 +281,8 @@ class Model
         return $deletedRows;
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC,
+                                          $doneFlags, $doneFlagValues = null)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
@@ -289,7 +298,8 @@ class Model
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
-        $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
+        // NOTE: we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
+        $sqlQuery = "SELECT idarchive, value, name, ts_archived, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
                          AND date2 = ?
@@ -298,7 +308,7 @@ class Model
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
                          $timeStampWhere
-                     ORDER BY idarchive DESC";
+                     ORDER BY ts_archived DESC, idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
         return $results;
@@ -486,7 +496,14 @@ class Model
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         // create the SQL to find archives that are DONE
-        return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
+        $result = "((name IN ($allDoneFlags))";
+
+        if (!empty($possibleValues)) {
+            $result .= " AND (value IN (" . implode(',', $possibleValues) . ")))";
+        }
+        $result .= ')';
+
+        return $result;
     }
 
     /**

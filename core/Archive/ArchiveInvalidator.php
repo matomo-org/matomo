@@ -77,11 +77,12 @@ class ArchiveInvalidator
         // we do not really have to get the value first. we could simply always try to call set() and it would update or
         // insert the record if needed but we do not want to lock the table (especially since there are still some
         // MyISAM installations)
-        $values = Option::getLike($this->rememberArchivedReportIdStart . '%');
+        $values = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%');
 
         $all = [];
         foreach ($values as $name => $value) {
-            $suffix = substr($name, strlen($this->rememberArchivedReportIdStart));
+            $suffix = substr($name, strpos($name, $this->rememberArchivedReportIdStart));
+            $suffix = str_replace($this->rememberArchivedReportIdStart, '', $suffix);
             list($idSite, $dateStr) = explode('_', $suffix);
 
             $all[$idSite][$dateStr] = $value;
@@ -101,7 +102,7 @@ class ArchiveInvalidator
             // we do not really have to get the value first. we could simply always try to call set() and it would update or
             // insert the record if needed but we do not want to lock the table (especially since there are still some
             // MyISAM installations)
-            $value = Option::getLike($key . '%');
+            $value = Option::getLike('%' . $key . '%');
         }
 
         // getLike() returns an empty array rather than 'false'
@@ -116,6 +117,7 @@ class ArchiveInvalidator
             $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
             Option::set($mykey, '1');
             Cache::clearCacheGeneral();
+            return $mykey;
         }
     }
 
@@ -133,15 +135,20 @@ class ArchiveInvalidator
 
     public function getRememberedArchivedReportsThatShouldBeInvalidated()
     {
-        $reports = Option::getLike($this->rememberArchivedReportIdStart . '%_%');
+        $reports = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%_%');
 
         $sitesPerDay = array();
 
         foreach ($reports as $report => $value) {
+            $report = substr($report, strpos($report, $this->rememberArchivedReportIdStart));
             $report = str_replace($this->rememberArchivedReportIdStart, '', $report);
             $report = explode('_', $report);
             $siteId = (int) $report[0];
             $date   = $report[1];
+
+            if (empty($siteId)) {
+                continue;
+            }
 
             if (empty($sitesPerDay[$date])) {
                 $sitesPerDay[$date] = array();
@@ -169,14 +176,16 @@ class ArchiveInvalidator
     // This version is multi process safe on the insert of a new date to invalidate.
     private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
     {
-        $id  = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
+        $id = Common::getRandomString(4, 'abcdefghijklmnoprstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') . '_';
+        $id .= $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
         $id .= '_' . Common::getProcessId();
+
         return $id;
     }
 
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
     {
-        $id = $this->buildRememberArchivedReportIdForSite($idSite) . '_%';
+        $id = $this->buildRememberArchivedReportIdForSite($idSite);
         $this->deleteOptionLike($id);
         Cache::clearCacheGeneral();
     }
@@ -200,7 +209,7 @@ class ArchiveInvalidator
     {
         // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
         // we want to reduce number of rows scanned and only delete specific primary key
-        $keys = Option::getLike($id . '%');
+        $keys = Option::getLike('%' . $id . '%');
 
         if (empty($keys)) {
             return;
@@ -273,10 +282,6 @@ class ArchiveInvalidator
 
         $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range');
 
-        // TODO: Remove related code
-        // $yearMonths = array_keys($periodDates);
-        // $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths, $hasMoreThanJustToday); // TODO: is this still needed anymore? since we query each table I don't think so.
-
         foreach ($idSites as $idSite) {
             foreach ($dates as $date) {
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
@@ -296,21 +301,25 @@ class ArchiveInvalidator
                     && strpos($date, ',') === false
                 ) {
                     $date = $date . ',' . $date;
+                    $periodObj = new Period\Range('range', $date);
+                } else {
+                    $periodObj = Period\Factory::build($period, $date);
                 }
 
-                $periodObj = Period\Factory::build($period, $date);
                 $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
 
                 // cascade down
-                if ($cascadeDown) {
+                if ($cascadeDown
+                    && $period != 'range'
+                ) {
                     $this->addChildPeriodsByYearMonth($result, $periodObj);
                 }
 
                 // cascade up
                 // if the period spans multiple years or months, it won't be used when aggregating parent periods, so
                 // we can avoid invalidating it
-                if ($periodObj->getDateStart()->toString('Y') == $periodObj->getDateEnd()->toString('Y')
-                    && $periodObj->getDateStart()->toString('m') == $periodObj->getDateEnd()->toString('m')
+                if ($this->shouldPropagateUp($periodObj)
+                    && $period != 'range'
                 ) {
                     $this->addParentPeriodsByYearMonth($result, $periodObj);
                 }
@@ -320,11 +329,20 @@ class ArchiveInvalidator
         return $result;
     }
 
+    private function shouldPropagateUp(Period $periodObj)
+    {
+        return $periodObj->getDateStart()->toString('Y') == $periodObj->getDateEnd()->toString('Y')
+            && $periodObj->getDateStart()->toString('m') == $periodObj->getDateEnd()->toString('m');
+    }
+
     private function addChildPeriodsByYearMonth(&$result, Period $period)
     {
-        if ($period->getLabel() == 'day'
-            || $period->getLabel() == 'range'
+        if ($period->getLabel() == 'range') {
+            return;
+        } else if ($period->getLabel() == 'day'
+            && $this->shouldPropagateUp($period)
         ) {
+            $this->addParentPeriodsByYearMonth($result, $period);
             return;
         }
 
@@ -378,7 +396,6 @@ class ArchiveInvalidator
             }
         }
 
-        // TODO: don't need this either?
         foreach ($idSites as $idSite) {
             foreach ($dates as $dateRange) {
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $dateRange[0]);
@@ -387,9 +404,6 @@ class ArchiveInvalidator
         }
 
         Cache::clearCacheGeneral();
-
-        $archivesToPurge = new ArchivesToPurgeDistributedList();
-        $archivesToPurge->add($invalidatedMonths);
 
         return $invalidationInfo;
     }
@@ -405,80 +419,6 @@ class ArchiveInvalidator
             foreach ($periodsByYearMonth as $periodType => $periods) {
                 $result[$yearMonth][$periodType] = array_unique($periods);
             }
-        }
-        return $result;
-    }
-
-    /**
-     * @param Date[] $dates
-     * @param string $periodType
-     * @param bool $cascadeDown
-     * @return Period[]
-     */
-    private function getPeriodsToInvalidate($dates, $periodType, $cascadeDown)
-    {
-        $periodsToInvalidate = array();
-
-        if ($periodType == 'range') {
-            $rangeString = $dates[0] . ',' . $dates[1];
-            $periodsToInvalidate[] = Period\Factory::build('range', $rangeString);
-            return $periodsToInvalidate;
-        }
-
-        foreach ($dates as $date) {
-            $period = Period\Factory::build($periodType, $date);
-            $periodsToInvalidate[] = $period;
-
-            if ($cascadeDown) {
-                $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
-            }
-
-            if ($periodType != 'year') {
-                $periodsToInvalidate[] = Period\Factory::build('year', $date);
-            }
-        }
-
-        return $periodsToInvalidate;
-    }
-
-    /**
-     * @param Period[] $periods
-     * @return string[][][]
-     */
-    private function getPeriodDatesByYearMonthAndPeriodType($periods)
-    {
-        $result = array();
-        foreach ($periods as $period) {
-            $date = $period->getDateStart();
-            $periodType = $period->getId();
-
-            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
-            $dateString = $date->toString();
-            if ($periodType == Period\Range::PERIOD_ID) {
-                $dateString = $period->getRangeString();
-            }
-            $result[$yearMonth][$periodType][] = $dateString;
-        }
-        return $result;
-    }
-
-    /**
-     * Called when deleting all periods.
-     *
-     * @param Date[] $dates
-     * @return string[][][]
-     */
-    private function getDatesByYearMonthAndPeriodType($dates)
-    {
-        $result = array();
-        foreach ($dates as $date) {
-            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
-            $result[$yearMonth][null][] = $date->toString();
-
-            // since we're removing all periods, we must make sure to remove year periods as well.
-            // this means we have to make sure the january table is processed.
-            $janYearMonth = $date->toString('Y') . '_01';
-            $result[$janYearMonth][null][] = $date->toString();
         }
         return $result;
     }

@@ -84,11 +84,12 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         //Updated for change to allow for multiple transactions to invalidate the same report without deadlock.
         $key = 'report_to_invalidate_2_2014-04-05' . '_' . getmypid();
-        $this->assertFalse(Option::get($key));
+        $this->assertEmpty(Option::getLike('%'. $key . '%'));
 
-        $this->rememberReport(2, '2014-04-05');
+        $keyStored = $this->rememberReport(2, '2014-04-05');
 
-        $this->assertSame('1', Option::get($key));
+        $this->assertStringEndsWith($key, $keyStored);
+        $this->assertSame('1', Option::get($keyStored));
     }
 
     public function test_rememberToInvalidateArchivedReportsLater_shouldNotCreateEntryTwice()
@@ -97,7 +98,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->rememberReport(2, '2014-04-05');
         $this->rememberReport(2, '2014-04-05');
 
-        $this->assertCount(1, Option::getLike('report_to_invalidate%'));
+        $this->assertCount(1, Option::getLike('%report_to_invalidate%'));
     }
 
     public function test_getRememberedArchivedReportsThatShouldBeInvalidated_shouldNotReturnEntriesInCaseNoneAreRemembered()
@@ -113,7 +114,22 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
-        $this->assertSame($this->getRememberedReportsByDate(), $reports);
+        $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
+    }
+
+    private function assertSameReports($expected, $actual)
+    {
+        $keys1 = array_keys($expected);
+        $keys2 = array_keys($actual);
+        sort($keys1);
+        sort($keys2);
+
+        $this->assertSame($keys1, $keys2);
+        foreach ($expected as $index => $values) {
+            sort($values);
+            sort($actual[$index]);
+            $this->assertSame($values, $actual[$index]);
+        }
     }
 
     public function test_forgetRememberedArchivedReportsToInvalidateForSite_shouldNotDeleteAnythingInCaseNoReportForThatSite()
@@ -123,7 +139,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator->forgetRememberedArchivedReportsToInvalidateForSite(10);
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
-        $this->assertSame($this->getRememberedReportsByDate(), $reports);
+        $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
     public function test_forgetRememberedArchivedReportsToInvalidateForSite_shouldOnlyDeleteReportsBelongingToThatSite()
@@ -138,7 +154,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             '2014-05-05' => array(2, 5),
             '2014-04-06' => array(3)
         );
-        $this->assertSame($expected, $reports);
+        $this->assertSameReports($expected, $reports);
     }
 
     public function test_forgetRememberedArchivedReportsToInvalidate_shouldNotForgetAnythingIfThereIsNoMatch()
@@ -148,12 +164,12 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         // site does not match
         $this->invalidator->forgetRememberedArchivedReportsToInvalidate(10, Date::factory('2014-04-05'));
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
-        $this->assertSame($this->getRememberedReportsByDate(), $reports);
+        $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
 
         // date does not match
         $this->invalidator->forgetRememberedArchivedReportsToInvalidate(7, Date::factory('2012-04-05'));
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
-        $this->assertSame($this->getRememberedReportsByDate(), $reports);
+        $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
     public function test_forgetRememberedArchivedReportsToInvalidate_shouldOnlyDeleteReportBelongingToThatSiteAndDate()
@@ -170,13 +186,13 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             '2014-04-08' => array(7),
             '2014-05-08' => array(7),
         );
-        $this->assertSame($expected, $reports);
+        $this->assertSameReports($expected, $reports);
 
         unset($expected['2014-05-08']);
 
         $this->invalidator->forgetRememberedArchivedReportsToInvalidate(7, Date::factory('2014-05-08'));
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
-        $this->assertSame($expected, $reports);
+        $this->assertSameReports($expected, $reports);
     }
 
     public function test_markArchivesAsInvalidated_shouldForgetInvalidatedSitesAndDates()
@@ -199,21 +215,21 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             '2014-04-06' => array(3),
             '2014-05-08' => array(7),
         );
-        $this->assertSame($expected, $reports);
+        $this->assertSameReports($expected, $reports);
     }
 
     private function rememberReport($idSite, $date)
     {
         $date = Date::factory($date);
-        $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
+        return $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
     }
 
     private function getRememberedReportsByDate()
     {
         return array(
-            '2014-04-05' => array(1, 2, 4, 7),
-            '2014-05-05' => array(2, 5),
             '2014-04-06' => array(3),
+            '2014-04-05' => array(4, 7, 2, 1),
+            '2014-05-05' => array(5, 2),
             '2014-04-08' => array(7),
             '2014-05-08' => array(7),
         );
@@ -269,31 +285,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         // the day, week, month & year are invalidated
         $this->assertEquals(4, $countInvalidatedArchives);
-    }
-
-    public function test_markArchivesAsInvalidated_CorrectlyModifiesDistributedLists()
-    {
-        /** @var ArchiveInvalidator $archiveInvalidator */
-        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
-
-        $idSites = array(1, 3, 5);
-        $dates = array(
-            Date::factory('2014-12-31'),
-            Date::factory('2015-01-01'),
-            Date::factory('2015-01-10'),
-        );
-        $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, 'day');
-
-        $idSites = array(1, 3, 5);
-        $dates = array(
-            Date::factory('2014-12-21'),
-            Date::factory('2015-01-01'),
-            Date::factory('2015-03-08'),
-        );
-        $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, 'week');
-
-        $expectedArchivesToPurgeListContents = array('2014_12', '2014_01', '2015_01', '2015_03');
-        $this->assertEquals($expectedArchivesToPurgeListContents, $this->getArchivesToPurgeListContents());
     }
 
     /**
@@ -415,10 +406,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(
                     '2014_12' => array(
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-
-                        // doesn't need to be invalidated since the month won't use the week above, but very difficult
-                        // to keep it valid, while keeping invalidation logic simple.
-                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
+                        '1.2014-12-29.2015-01-04.2.done',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -459,6 +447,43 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                        '1.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-01.2015-01-01.1.done',
+                        '1.2015-01-01.2015-12-31.4.done',
+                        '1.2015-01-02.2015-01-02.1.done',
+                        '1.2015-01-03.2015-01-03.1.done',
+                        '1.2015-01-04.2015-01-04.1.done',
+                        '1.2015-01-05.2015-01-11.2.done',
+                        '1.2015-01-05.2015-01-05.1.done',
+                        '1.2015-01-06.2015-01-06.1.done',
+                        '1.2015-01-07.2015-01-07.1.done',
+                        '1.2015-01-08.2015-01-08.1.done',
+                        '1.2015-01-09.2015-01-09.1.done',
+                        '1.2015-01-10.2015-01-10.1.done',
+                        '1.2015-01-11.2015-01-11.1.done',
+                        '1.2015-01-12.2015-01-18.2.done',
+                        '1.2015-01-12.2015-01-12.1.done',
+                        '1.2015-01-13.2015-01-13.1.done',
+                        '1.2015-01-14.2015-01-14.1.done',
+                        '1.2015-01-15.2015-01-15.1.done',
+                        '1.2015-01-16.2015-01-16.1.done',
+                        '1.2015-01-17.2015-01-17.1.done',
+                        '1.2015-01-18.2015-01-18.1.done',
+                        '1.2015-01-19.2015-01-25.2.done',
+                        '1.2015-01-19.2015-01-19.1.done',
+                        '1.2015-01-20.2015-01-20.1.done',
+                        '1.2015-01-21.2015-01-21.1.done',
+                        '1.2015-01-22.2015-01-22.1.done',
+                        '1.2015-01-23.2015-01-23.1.done',
+                        '1.2015-01-24.2015-01-24.1.done',
+                        '1.2015-01-25.2015-01-25.1.done',
+                        '1.2015-01-26.2015-01-26.1.done',
+                        '1.2015-01-26.2015-02-01.2.done',
+                        '1.2015-01-27.2015-01-27.1.done',
+                        '1.2015-01-28.2015-01-28.1.done',
+                        '1.2015-01-29.2015-01-29.1.done',
+                        '1.2015-01-30.2015-01-30.1.done',
+                        '1.2015-01-31.2015-01-31.1.done',
                     ),
                 ),
             ),
@@ -478,6 +503,11 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
                         '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                        '1.2014-12-29.2015-01-04.2.done',
+                        '1.2014-12-29.2014-12-29.1.done',
+                        '1.2014-12-01.2014-12-31.3.done',
+                        '1.2014-12-30.2014-12-30.1.done',
+                        '1.2014-12-31.2014-12-31.1.done',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -494,15 +524,34 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                        '1.2015-01-01.2015-01-01.1.done',
+                        '1.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-01.2015-12-31.4.done',
+                        '1.2015-01-02.2015-01-02.1.done',
+                        '1.2015-01-03.2015-01-03.1.done',
+                        '1.2015-01-04.2015-01-04.1.done',
+                        '1.2015-01-26.2015-02-01.2.done',
+                        '1.2015-01-26.2015-01-26.1.done',
+                        '1.2015-01-27.2015-01-27.1.done',
+                        '1.2015-01-28.2015-01-28.1.done',
+                        '1.2015-01-29.2015-01-29.1.done',
+                        '1.2015-01-30.2015-01-30.1.done',
+                        '1.2015-01-31.2015-01-31.1.done',
                     ),
                     '2015_02' => array(
                         '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
+                        '1.2015-02-01.2015-02-01.1.done',
+                        '1.2015-02-01.2015-02-28.3.done',
                     ),
+                    '2014_01' => [
+                        '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2014-01-01.2014-12-31.4.done',
+                    ],
                 ),
             ),
 
-            // range period, exact match
+            // range period, exact match, cascade = true
             array(
                 array(1),
                 array('2015-01-01', '2015-01-10'),
@@ -526,7 +575,11 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    )
+                    ),
+                    '2015_03' => [
+                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    ],
                 ),
             ),
 
@@ -539,6 +592,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 true,
                 array(
                     '2014_12' => array(
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2015_01' => array(
@@ -557,6 +611,43 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-01.2015-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-02.2015-01-02.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-03.2015-01-03.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-04.2015-01-04.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-05.2015-01-11.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-07.2015-01-07.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-08.2015-01-08.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-09.2015-01-09.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-12.2015-01-18.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-12.2015-01-12.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-13.2015-01-13.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-14.2015-01-14.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-17.2015-01-17.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-18.2015-01-18.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-19.2015-01-25.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-19.2015-01-19.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-22.2015-01-22.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-23.2015-01-23.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-24.2015-01-24.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-27.2015-01-27.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-28.2015-01-28.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-29.2015-01-29.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                 ),
             ),
@@ -571,11 +662,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(
                     '2015_01' => array(
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-01.2015-12-31.4.done',
                     ),
                     '2015_05' => array(
                         '1.2015-05-05.2015-05-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-05-04.2015-05-10.2.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-05-05.2015-05-05.1.done',
+                        '1.2015-05-04.2015-05-10.2.done',
+                        '1.2015-05-01.2015-05-31.3.done',
                     ),
                 ),
             ),
