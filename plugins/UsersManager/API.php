@@ -684,9 +684,8 @@ class API extends \Piwik\Plugin\API
 
         $alias               = $this->getCleanAlias($alias, $userLogin);
         $passwordTransformed = $this->password->hash($passwordTransformed);
-        $token_auth          = $this->createTokenAuth($userLogin);
 
-        $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, $token_auth, Date::now()->getDatetime());
+        $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, Date::now()->getDatetime());
 
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
@@ -844,29 +843,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Regenerate the token_auth associated with a user.
-     *
-     * If the user currently logged in regenerates his own token, he will be logged out.
-     * His previous token will be rendered invalid.
-     *
-     * @param   string  $userLogin
-     * @throws  Exception
-     */
-    public function regenerateTokenAuth($userLogin)
-    {
-        $this->checkUserIsNotAnonymous($userLogin);
-
-        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
-
-        $this->model->updateUserTokenAuth(
-            $userLogin,
-            $this->createTokenAuth($userLogin)
-        );
-
-        Cache::deleteTrackerCache();
-    }
-
-    /**
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
      *
@@ -889,7 +865,6 @@ class API extends \Piwik\Plugin\API
         $this->checkUserExists($userLogin);
 
         $userInfo   = $this->model->getUser($userLogin);
-        $token_auth = $userInfo['token_auth'];
         $changeShouldRequirePasswordConfirmation = false;
 
         $passwordHasBeenUpdated = false;
@@ -936,7 +911,7 @@ class API extends \Piwik\Plugin\API
 
         $alias = $this->getCleanAlias($alias, $userLogin);
 
-        $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);
+        $this->model->updateUser($userLogin, $password, $email, $alias);
 
         Cache::deleteTrackerCache();
 
@@ -1336,34 +1311,27 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Generates a new random authentication token.
-     *
-     * @param string $userLogin Login
-     * @return string
-     */
-    public function createTokenAuth($userLogin)
-    {
-        return md5($userLogin . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
-    }
-
-    /**
-     * Returns the user's API token.
+     * Generates an app specific API token every time you call this method. You should ideally store this token securely
+     * in your app and not generate a new token every time.
      *
      * If the username/password combination is incorrect an invalid token will be returned.
      *
      * @param string $userLogin Login or Email address
      * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
+     * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
+     * @param string $expireDate Optionally a date when the token should expire
+     * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires. 
+     *                            If expireDate is set and expireHours, then expireDate will be used.
+     *                            If expireDate is set and expireHours, then expireDate will be used.
      * @return string
      */
-    public function getTokenAuth($userLogin, $md5Password)
+    public function createAppSpecificTokenAuth($userLogin, $md5Password, $description, $expireDate = null, $expireHours = 0)
     {
         UsersManager::checkPasswordHash($md5Password, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
 
         $user = $this->model->getUser($userLogin);
-
         if (empty($user) && Piwik::isValidEmailString($userLogin)) {
             $user = $this->model->getUserByEmail($userLogin);
-            
             if (!empty($user['login'])) {
                 $userLogin = $user['login'];
             }
@@ -1384,7 +1352,16 @@ class API extends \Piwik\Plugin\API
             $userUpdater->updateUserWithoutCurrentPassword($userLogin, $this->password->hash($md5Password));
         }
 
-        return $user['token_auth'];
+        if (empty($expireDate) && !empty($expireHours) && is_numeric($expireHours)) {
+            $expireDate = Date::now()->addHour($expireHours)->getDatetime();
+        } elseif (!empty($expireDate)) {
+            $expireDate = Date::factory($expireDate)->getDatetime();
+        }
+
+        $generatedToken = $this->model->generateRandomTokenAuth();
+        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate);
+
+        return $generatedToken;
     }
 
     public function newsletterSignup()

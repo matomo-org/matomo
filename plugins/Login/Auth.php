@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Login;
 
 use Piwik\AuthResult;
 use Piwik\Auth\Password;
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -76,8 +77,9 @@ class Auth implements \Piwik\Auth
             if ($this->passwordHelper->needsRehash($user['password'])) {
                 $newPasswordHash = $this->passwordHelper->hash($passwordHash);
 
-                $this->userModel->updateUser($login, $newPasswordHash, $user['email'], $user['alias'], $user['token_auth']);
+                $this->userModel->updateUser($login, $newPasswordHash, $user['email'], $user['alias']);
             }
+            $this->token_auth = null; // make sure to generate a random token 
 
             return $this->authenticationSuccess($user);
         }
@@ -90,6 +92,7 @@ class Auth implements \Piwik\Auth
         $user = $this->userModel->getUserByTokenAuth($token);
 
         if (!empty($user['login'])) {
+            $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
             return $this->authenticationSuccess($user);
         }
 
@@ -98,13 +101,10 @@ class Auth implements \Piwik\Auth
 
     private function authenticateWithLoginAndToken($token, $login)
     {
-        $user = $this->userModel->getUser($login);
+        $user = $this->userModel->getUserByTokenAuth($token);
 
-        if (!empty($user['token_auth'])
-            // authenticate either with the token or the "hash token"
-            && ((SessionInitializer::getHashTokenAuth($login, $user['token_auth']) === $token)
-                || $user['token_auth'] === $token)
-        ) {
+        if (!empty($user['login']) && $user['login'] === $login) {
+            $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
             return $this->authenticationSuccess($user);
         }
 
@@ -113,12 +113,15 @@ class Auth implements \Piwik\Auth
 
     private function authenticationSuccess(array $user)
     {
-        $this->setTokenAuth($user['token_auth']);
+        if (empty($this->token_auth)) {
+            $this->token_auth = $this->userModel->generateRandomTokenAuth();
+            // we generated one randomly which will then be stored in the session and used across the session
+        }
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
-        return new AuthResult($code, $user['login'], $user['token_auth']);
+        return new AuthResult($code, $user['login'], $this->token_auth);
     }
 
     /**

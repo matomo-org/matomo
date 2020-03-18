@@ -135,7 +135,7 @@ class SessionAuthTest extends IntegrationTestCase
     private function initializeSession($userLogin, $isRemembered = false)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin, $isRemembered);
+        $sessionFingerprint->initialize($userLogin, Fixture::getTokenAuth(), $isRemembered);
     }
 
     protected static function configureFixture($fixture)

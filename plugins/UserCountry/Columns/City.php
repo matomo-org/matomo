@@ -33,8 +33,8 @@ class City extends Base
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $value = $this->getUrlOverrideValueIfAllowed('city', $request);
-
         if ($value !== false) {
+            $value = substr($value, 0, 255);
             return $value;
         }
 

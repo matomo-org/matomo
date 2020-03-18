@@ -33,8 +33,8 @@ class Region extends Base
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $value = $this->getUrlOverrideValueIfAllowed('region', $request);
-
         if ($value !== false) {
+            $value = substr($value, 0, 3);
             return $value;
         }
 

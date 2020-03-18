@@ -6,8 +6,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 4.0.0
 
-### Breaking Changes
+### New API
+* A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
 
+### Breaking changes
+* The API `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
+* The API `UsersManager.createTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The deprecated Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead

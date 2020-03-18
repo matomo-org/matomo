@@ -382,8 +382,7 @@ class CliMulti
         }
 
         if ($this->runAsSuperUser) {
-            $tokenAuths = self::getSuperUserTokenAuths();
-            $tokenAuth = reset($tokenAuths);
+            $tokenAuth = self::getSuperUserTokenAuth();
 
             if (strpos($url, '?') === false) {
                 $url .= '?';
@@ -450,18 +449,9 @@ class CliMulti
         return $results;
     }
 
-    private static function getSuperUserTokenAuths()
+    private static function getSuperUserTokenAuth()
     {
-        $tokens = array();
-
-        /**
-         * Used to be in CronArchive, moved to CliMulti.
-         *
-         * @ignore
-         */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
-
-        return $tokens;
+        return Piwik::requestTemporarySystemAuthToken('CliMultiNonAsyncArchive', 36);
     }
 
     public function setUrlToPiwik($urlToPiwik)

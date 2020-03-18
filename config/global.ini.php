@@ -200,7 +200,7 @@ enable_processing_unique_visitors_range = 0
 ; controls whether Unique Visitors will be processed for groups of websites. these metrics describe the number
 ; of unique visitors across the entire set of websites, so if a visitor visited two websites in the group, she
 ; would still only be counted as one. only relevant when using plugins that group sites together
-enable_processing_unique_visitors_multiple_sites = 1
+enable_processing_unique_visitors_multiple_sites = 0
 
 ; The list of periods that are available in the Matomo calendar
 ; Example use case: custom date range requests are processed in real time,

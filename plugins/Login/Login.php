@@ -41,7 +41,7 @@ class Login extends \Piwik\Plugin
 
             // for brute force prevention of all tracking + reporting api requests
             'Request.initAuthenticationObject' => 'onInitAuthenticationObject',
-            'API.UsersManager.getTokenAuth' => 'beforeLoginCheckBruteForce', // doesn't require auth but can be used to authenticate
+            'API.UsersManager.createAppSpecificTokenAuth' => 'beforeLoginCheckBruteForce', // doesn't require auth but can be used to authenticate
 
             // for brute force prevention of all UI requests
             'Controller.Login.logme'           => 'beforeLoginCheckBruteForce',
