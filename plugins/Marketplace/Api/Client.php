@@ -196,7 +196,7 @@ class Client
                     }
                 }
             }
-            $numPagviews = $numPagviews / 1000;
+            $numPagviews = ($numPagviews / 1000) * 12;
             if ($numPagviews < 50) {
                 $params['bucket'] = 1;
             } elseif ($numPagviews < 100) {
