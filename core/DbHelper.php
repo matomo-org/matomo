@@ -29,6 +29,18 @@ class DbHelper
     }
 
     /**
+     * Returns `true` if a table in the database, `false` if otherwise.
+     *
+     * @param string $tableName The name of the table to check for. Must be prefixed.
+     * @return bool
+     * @throws \Exception
+     */
+    public static function tableExists($tableName)
+    {
+        return Db::get()->query("SHOW TABLES LIKE ?", $tableName)->rowCount() > 0;
+    }
+
+    /**
      * Get list of installed columns in a table
      *
      * @param  string $tableName The name of a table.

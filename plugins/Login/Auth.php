@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Login;
 use Piwik\AuthResult;
 use Piwik\Auth\Password;
 use Piwik\Date;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -54,12 +55,21 @@ class Auth implements \Piwik\Auth
      */
     public function authenticate()
     {
-        if (!empty($this->hashedPassword)) {
-            return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
-        } elseif (is_null($this->login)) {
-            return $this->authenticateWithToken($this->token_auth);
-        } elseif (!empty($this->login)) {
-            return $this->authenticateWithLoginAndToken($this->token_auth, $this->login);
+        try {
+            if (!empty($this->hashedPassword)) {
+                return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
+            } elseif (is_null($this->login)) {
+                return $this->authenticateWithToken($this->token_auth);
+            } elseif (!empty($this->login)) {
+                return $this->authenticateWithLoginAndToken($this->token_auth, $this->login);
+            }
+        } catch (\Zend_Db_Statement_Exception $e) {
+            // user_token_auth table might not yet exist when updating to Matomo 4
+            if (strpos($e->getMessage(), 'user_token_auth') && !DbHelper::tableExists('user_token_auth')) {
+                return new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous');
+            }
+
+            throw $e;
         }
 
         return new AuthResult(AuthResult::FAILURE, $this->login, $this->token_auth);
