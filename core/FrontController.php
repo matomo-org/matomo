@@ -402,7 +402,14 @@ class FrontController extends Singleton
         // ... if session auth fails try normal auth (which will login the anonymous user)
         if (!$loggedIn) {
             $authAdapter = $this->makeAuthenticator();
-            Access::getInstance()->reloadAccess($authAdapter);
+            try {
+                Access::getInstance()->reloadAccess($authAdapter);
+            } catch (\Zend_Db_Statement_Exception $e) {
+                // table `user_token_auth` might not yet exist when updating to Matomo 4
+                if (!strpos($e->getMessage(), 'user_token_auth')) {
+                    throw $e;
+                }
+            }
         } else {
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
