@@ -184,38 +184,40 @@ class Client
             $multiSites = Request::processRequest('MultiSites.getAll', array(
                 'period' => 'month',
                 'date' => 'previous1',
-                'showColumns' => 'nb_pageviews'
+                'showColumns' => 'nb_pageviews',
+                'filter_limit' => -1,
+                'filter_offset' => 0
             ));
             /** @var DataTable $multiSites */
-            $numPagviews = 0;
+            $numPageviews = 0;
             if ($multiSites && $multiSites->getRowsCount()) {
                 foreach ($multiSites->getRows() as $row) {
                     $pageviews = $row->getColumn('nb_pageviews');
                     if ($pageviews) {
-                        $numPagviews += $pageviews;
+                        $numPageviews += $pageviews;
                     }
                 }
             }
-            $numPagviews = ($numPagviews / 1000) * 12;
-            if ($numPagviews < 50) {
+            $numPageviews = $numPageviews / 1000;
+            if ($numPageviews < 50) {
                 $params['bucket'] = 1;
-            } elseif ($numPagviews < 100) {
+            } elseif ($numPageviews < 100) {
                 $params['bucket'] = 2;
-            }elseif ($numPagviews < 300) {
+            } elseif ($numPageviews < 300) {
                 $params['bucket'] = 3;
-            }elseif ($numPagviews < 600) {
+            } elseif ($numPageviews < 600) {
                 $params['bucket'] = 4;
-            }elseif ($numPagviews < 1000) {
+            } elseif ($numPageviews < 1000) {
                 $params['bucket'] = 5;
-            }elseif ($numPagviews < 2000) {
+            } elseif ($numPageviews < 2000) {
                 $params['bucket'] = 6;
-            }elseif ($numPagviews < 5000) {
+            } elseif ($numPageviews < 5000) {
                 $params['bucket'] = 7;
-            }elseif ($numPagviews < 10000) {
+            } elseif ($numPageviews < 10000) {
                 $params['bucket'] = 8;
-            }elseif ($numPagviews < 25000) {
+            } elseif ($numPageviews < 25000) {
                 $params['bucket'] = 9;
-            }elseif ($numPagviews < 50000) {
+            } elseif ($numPageviews < 50000) {
                 $params['bucket'] = 10;
             } else {
                 $params['bucket'] = 11;
