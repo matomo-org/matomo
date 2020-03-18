@@ -8,9 +8,11 @@
  */
 namespace Piwik\Plugins\Marketplace\Api;
 
+use Piwik\API\Request;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin;
@@ -177,6 +179,48 @@ class Client
         }
 
         $params = array('plugins' => $params);
+
+        if ($this->service->hasAccessToken() && Plugin\Manager::getInstance()->isPluginActivated('MultiSites')) {
+            $multiSites = Request::processRequest('MultiSites.getAll', array(
+                'period' => 'month',
+                'date' => 'previous1',
+                'showColumns' => 'nb_pageviews'
+            ));
+            /** @var DataTable $multiSites */
+            $numPagviews = 0;
+            if ($multiSites && $multiSites->getRowsCount()) {
+                foreach ($multiSites->getRows() as $row) {
+                    $pageviews = $row->getColumn('nb_pageviews');
+                    if ($pageviews) {
+                        $numPagviews += $pageviews;
+                    }
+                }
+            }
+            $numPagviews = $numPagviews / 1000;
+            if ($numPagviews < 50) {
+                $params['bucket'] = 1;
+            } elseif ($numPagviews < 100) {
+                $params['bucket'] = 2;
+            }elseif ($numPagviews < 300) {
+                $params['bucket'] = 3;
+            }elseif ($numPagviews < 600) {
+                $params['bucket'] = 4;
+            }elseif ($numPagviews < 1000) {
+                $params['bucket'] = 5;
+            }elseif ($numPagviews < 2000) {
+                $params['bucket'] = 6;
+            }elseif ($numPagviews < 5000) {
+                $params['bucket'] = 7;
+            }elseif ($numPagviews < 10000) {
+                $params['bucket'] = 8;
+            }elseif ($numPagviews < 25000) {
+                $params['bucket'] = 9;
+            }elseif ($numPagviews < 50000) {
+                $params['bucket'] = 10;
+            } else {
+                $params['bucket'] = 11;
+            }
+        }
 
         $hasUpdates = $this->fetch('plugins/checkUpdates', array('plugins' => json_encode($params)));
 
