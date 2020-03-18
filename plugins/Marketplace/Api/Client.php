@@ -179,6 +179,7 @@ class Client
         }
 
         $params = array('plugins' => $params);
+        $params = array('plugins' => json_encode($params));
 
         if ($this->service->hasAccessToken() && Plugin\Manager::getInstance()->isPluginActivated('MultiSites')) {
             $numPageviews = 0;
@@ -233,7 +234,7 @@ class Client
 
         }
 
-        $hasUpdates = $this->fetch('plugins/checkUpdates', array('plugins' => json_encode($params)));
+        $hasUpdates = $this->fetch('plugins/checkUpdates', $params);
 
         if (empty($hasUpdates)) {
             return array();
