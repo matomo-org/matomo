@@ -57,7 +57,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
         await page.waitForNetworkIdle();
         await page.evaluate(function () {
-            // Prevent random sizing error eg. http://builds-artifacts.piwik.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
+            // Prevent random sizing error eg. http://builds-artifacts.matomo.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
             $("[widgetid=widgetActionsgetOutlinks] .widgetContent").text('Displays different at random -> hidden');
         });
 
