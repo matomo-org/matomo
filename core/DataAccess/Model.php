@@ -308,6 +308,7 @@ class Model
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
                          $timeStampWhere
+                         AND ts_archived IS NOT NULL
                      ORDER BY ts_archived DESC, idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
