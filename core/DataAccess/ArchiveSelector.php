@@ -133,6 +133,7 @@ class ArchiveSelector
                                FROM %s
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
+                                AND ts_archived IS NOT NULL
                                 AND %s
                            GROUP BY idsite, date1, date2, name";
 
