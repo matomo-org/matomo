@@ -82,7 +82,7 @@ class TwoFactorFixture extends Fixture
 
             if ($this->userWith2Fa === $user) {
                 $userModel = new Model();
-                $userModel->updateUserTokenAuth($user, 'c4ca4238a0b923820dcc509a6f75849b');
+                $userModel->addTokenAuth($user, 'c4ca4238a0b923820dcc509a6f75849b', 'twofa test', Date::now()->getDatetime());
             }
         }
 

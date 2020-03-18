@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Access;
+use Piwik\Date;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -29,7 +30,12 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function schedule()
     {
+        $this->daily("cleanupExpiredTokens");
         $this->daily("setUserDefaultReportPreference");
+    }
+
+    public function cleanupExpiredTokens() {
+        $this->usersModel->deleteExpiredTokens(Date::now()->getDatetime());
     }
 
     public function setUserDefaultReportPreference()

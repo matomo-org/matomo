@@ -9,6 +9,9 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Date;
+use Piwik\DbHelper;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -33,9 +36,48 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $migrations = [];
+        $migrations = array();
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
+
+        /** APP SPECIFIC TOKEN START */
+        $migrations[] = $this->migration->db->createTable('user_token_auth', array(
+            'idusertokenauth' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
+            'login' => 'VARCHAR(100) NOT NULL',
+            'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
+            'password' => 'VARCHAR(255) NOT NULL',
+            'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
+            'hash_algo' => 'VARCHAR(30) NOT NULL',
+            'last_used' => 'DATETIME NULL',
+            'date_created' => ' DATETIME NOT NULL',
+            'date_expired' => ' DATETIME NULL',
+        ), 'idusertokenauth');
+        $migrations[] = $this->migration->db->addUniqueKey('user_token_auth', 'password', 'uniq_password');
+
+        $migrations[] = $this->migration->db->dropIndex('user', 'uniq_keytoken');
+
+        $userModel = new Model();
+        foreach ($userModel->getUsers(array()) as $user) {
+            if (!empty($user['token_auth'])) {
+                $migrations[] = $this->migration->db->insert('user_token_auth', array(
+                    'login' => $user['login'],
+                    'description' => 'Created by Matomo 4 migration',
+                    'password' => $userModel->hashTokenAuth($user['token_auth']),
+                    'date_created' => Date::now()->getDatetime()
+                ));
+            }
+        }
+
+        // we don't delete the token_auth column so users can still downgrade to 3.X if they want to. However, the original
+        // token_auth will be regenerated for security reasons to no longer have it in plain text. So this column will be no longer used
+        // unless someone downgrades to 3.x
+        $columns = DbHelper::getTableColumns(Common::prefixTable('user'));
+        if (isset($columns['token_auth'])) {
+            $sql = sprintf('UPDATE %s set token_auth = MD5(CONCAT(NOW(), UUID()))', Common::prefixTable('user'));
+            $migrations[] = $this->migration->db->sql($sql, Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN);
+        }
+
+        /** APP SPECIFIC TOKEN END */
 
         $customTrackerPluginActive = false;
         if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {

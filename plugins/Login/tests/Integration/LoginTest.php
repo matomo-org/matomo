@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Login\tests\Integration;
 use Piwik\AuthResult;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Login\Auth;
@@ -243,6 +244,17 @@ class LoginTest extends IntegrationTestCase
         $this->assertSuperUserLogin($rc, 'user');
     }
 
+    public function test_authenticate_successUserLoginAndTokenAuthWithAnonymous()
+    {
+        DbHelper::createAnonymousUser();
+
+        $user = $this->_setUpUser();
+
+        // valid login & token auth
+        $rc = $this->authenticate('anonymous', 'anonymous');
+        $this->assertUserLogin($rc, 'anonymous', strlen('anonymous'));
+    }
+
     public function test_authenticate_successUserLoginAndTokenAuth()
     {
         $user = $this->_setUpUser();
@@ -271,7 +283,8 @@ class LoginTest extends IntegrationTestCase
         $rc = $this->auth->authenticate();
         $this->assertUserLogin($rc);
         // Check that the token auth is correct in the result
-        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+        $this->assertEquals(32, strlen($rc->getTokenAuth()));
+        $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
     }
 
     public function test_authenticate_successWithSuperUserPassword()
@@ -307,7 +320,8 @@ class LoginTest extends IntegrationTestCase
         $rc = $this->auth->authenticate();
         $this->assertUserLogin($rc);
         // Check that the token auth is correct in the result
-        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+        $this->assertEquals(32, strlen($rc->getTokenAuth()));
+        $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
     }
 
     /**
@@ -324,7 +338,8 @@ class LoginTest extends IntegrationTestCase
         $this->assertUserLogin($rc);
         // Check that the login + token auth is correct in the result
         $this->assertEquals($user['login'], $rc->getIdentity());
-        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+        $this->assertEquals(32, strlen($rc->getTokenAuth()));
+        $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
     }
 
     protected function _setUpUser()
@@ -338,9 +353,10 @@ class LoginTest extends IntegrationTestCase
         API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
         $model  = new \Piwik\Plugins\UsersManager\Model();
-        $dbUser = $model->getUser($user['login']);
+        $tokenAuth = $model->generateRandomTokenAuth();
+        $model->addTokenAuth($user['login'], $tokenAuth, 'many users test', Date::now()->getDatetime());
 
-        $user['tokenAuth'] = $dbUser['token_auth'];
+        $user['tokenAuth'] = $tokenAuth;
 
         return $user;
     }

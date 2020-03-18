@@ -299,7 +299,7 @@ describe("Dashboard", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
-        var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
+        var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_token_auth');

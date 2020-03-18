@@ -492,7 +492,8 @@ function ajaxHelper() {
     this._getDefaultPostParams = function () {
         if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
             return {
-                token_auth: piwik.token_auth
+                token_auth: piwik.token_auth,
+                force_api_session: '1'
             };
         }
 

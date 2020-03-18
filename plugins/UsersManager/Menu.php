@@ -25,6 +25,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         if (!Piwik::isUserIsAnonymous()) {
             $menu->addItem('UsersManager_MenuPersonal', 'General_Settings', $this->urlForAction('userSettings'), 0);
+            $menu->addItem('UsersManager_MenuPersonal', 'General_Security', $this->urlForAction('userSecurity'), 1);
         }
     }
 }

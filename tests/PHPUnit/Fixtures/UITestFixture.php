@@ -35,6 +35,7 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
@@ -84,6 +85,8 @@ class UITestFixture extends SqlDump
         // for proper geolocation
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
+
+        self::createSuperUser(false);
 
         $this->addOverlayVisits();
         $this->addNewSitesForSiteSelector();
@@ -136,6 +139,8 @@ class UITestFixture extends SqlDump
         );
 
         parent::performSetUp($setupEnvironmentOnly);
+
+        self::createSuperUser(false);
 
         $this->createSegments();
         $this->setupDashboards();
@@ -299,7 +304,7 @@ class UITestFixture extends SqlDump
 
         $oldGet = $_GET;
         $_GET['idSite'] = 1;
-        $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
+        $_GET['token_auth'] = \Piwik\Piwik::getCurrentUserTokenAuth();
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = Request::processRequest('API.getWidgetMetadata', array(

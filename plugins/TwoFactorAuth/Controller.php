@@ -148,7 +148,7 @@ class Controller extends \Piwik\Plugin\Controller
             $this->twoFa->disable2FAforUser(Piwik::getCurrentUserLogin());
             $this->passwordVerify->forgetVerifiedPassword();
 
-            $this->redirectToIndex('UsersManager', 'userSettings', null, null, null, array(
+            $this->redirectToIndex('UsersManager', 'userSecurity', null, null, null, array(
                 'disableNonce' => false
             ));
         }
