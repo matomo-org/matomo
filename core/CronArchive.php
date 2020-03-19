@@ -50,15 +50,6 @@ class CronArchive
     // force-all-periods default (7 days)
     const ARCHIVE_SITES_WITH_TRAFFIC_SINCE = 604800;
 
-    // By default, will process last 52 days and months
-    // It will be overwritten by the number of days since last archiving ran until completion.
-    const DEFAULT_DATE_LAST = 52;
-
-    // Since weeks are not used in yearly archives, we make sure that all possible weeks are processed
-    const DEFAULT_DATE_LAST_WEEKS = 260;
-
-    const DEFAULT_DATE_LAST_YEARS = 7;
-
     // Flag to know when the archive cron is calling the API
     const APPEND_TO_API_REQUEST = '&trigger=archivephp';
 
@@ -387,12 +378,13 @@ class CronArchive
              *    * CronArchive.archiveSingleSite.finish
              */
 
+            $idArchivesToExclude = []; // TODO: document
 
             // get archives to process simultaneously
             $archivesToProcess = [];
             $periodToCheckFor = null;
             while (count($archivesToProcess) < $countOfProcesses) {
-                $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor);
+                $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor, $idArchivesToExclude);
                 if (empty($invalidatedArchive)) {
                     $this->logger->info("No more invalidated archives found.");
                     break;
@@ -405,10 +397,14 @@ class CronArchive
                     $invalidatedArchive['period'],
                     $invalidatedArchive['name']
                 );
+
                 if (empty($idArchive)) { // another process started on this archive, pull another one
                     $this->logger->debug("Archive $idArchive invalid, but being handled by another process.");
+                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
                     continue;
                 }
+
+                $idArchivesToExclude[] = $idArchive;
 
                 $archivesToProcess[] = $invalidatedArchive;
                 $periodToCheckFor = $invalidatedArchive['period'];
@@ -439,12 +435,12 @@ class CronArchive
         $this->logger->info($timer->__toString());
     }
 
-    private function getNextInvalidatedArchive($periodToGet)
+    private function getNextInvalidatedArchive($periodToGet, $idArchivesToExclude)
     {
         $tables = $this->getTablesWithInvalidatedArchives();
 
         foreach ($tables as $table) {
-            $nextArchive = $this->model->getNextInvalidatedArchive($table, $periodToGet, $this->allWebsites);
+            $nextArchive = $this->model->getNextInvalidatedArchive($table, $periodToGet, $this->allWebsites, $idArchivesToExclude);
             if (!empty($nextArchive)) {
                 return $nextArchive;
             }
@@ -486,7 +482,7 @@ class CronArchive
         /** @var Lazy $cache */
         $cache = Cache::getLazyCache();
         $cachedTables = $cache->fetch($cacheKey);
-        $cachedTables = @json_decode($cachedTables);
+        $cachedTables = @json_decode($cachedTables, true);
         if (empty($cachedTables)) {
             return;
         }
@@ -510,6 +506,8 @@ class CronArchive
                 $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), [$archive['idarchive']]);
                 continue;
             }
+
+            $this->logger->debug("Starting archiving for {url}", ['url' => $url]);
 
             $urls[] = $url;
             $archivesBeingQueried[$index] = $archive;
@@ -538,8 +536,8 @@ class CronArchive
             $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod);
 
             // remove old archive (could also do this in archivewriter, but it's a bit simpler here)
-            // TODO: do it in archive writer instead?
             $idArchive = $archivesBeingQueried[$index]['idarchive'];
+            $date = Date::factory($archivesBeingQueried[$index]['date1']);
             $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), [$idArchive]);
 
             ++$successCount;
@@ -573,7 +571,7 @@ class CronArchive
 
     private function findSegmentForArchive($archive, $idSite)
     {
-        $flag = explode('.', $archive['value'])[0];
+        $flag = explode('.', $archive['name'])[0];
         if ($flag == 'done') {
             return '';
         }
@@ -588,7 +586,7 @@ class CronArchive
         $visits = (int) $visits;
 
         $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
-            . "{$params['date']}, segment = {$params['segment']}. $visits visits found. $timer");
+            . "{$params['date']}, segment = " . (isset($params['segment']) ? $params['segment'] : '') . ", $visits visits found. $timer");
     }
 
     public function getErrors()

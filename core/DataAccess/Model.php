@@ -515,13 +515,16 @@ class Model
         $table = ArchiveTableCreator::getNumericTable(Date::factory($date1));
 
         // find latest idarchive
-        $latestArchive = Db::fetchOne("SELECT MAX(ts_archived), idarchive, `value`
+        $sql = "SELECT ts_archived, idarchive, `value`
             FROM `$table`
-            WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND `name` = ?",
-            [$idSite, $date1, $date2, $period, $doneFlag]);
+            WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND `name` = ?
+            ORDER BY ts_archived DESC
+            LIMIT 1";
+        $bind = [$idSite, $date1, $date2, $period, $doneFlag];
+        $latestArchive = Db::fetchRow($sql, $bind);
 
         if (empty($latestArchive)) { // should never happen
-            return;
+            return null;
         }
 
         // if the archive is done or being processed, we don't need to do anything so we abort
@@ -531,10 +534,6 @@ class Model
         ) {
             return null;
         }
-
-        // TODO: what do we do when there's no archive? uhhhhh oh.
-        //       archive invalidation must be insert or update? not sure. we could try to switch to using a lock as well?
-        //       easiest to insert if row does not exist.
 
         // set archive value to DONE_IN_PROGRESS IF NOT SET ALREADY
         $statement = Db::query("UPDATE `$table` SET `value` = ? WHERE idarchive = ? AND `name` = ? AND value = ?", [
@@ -554,6 +553,7 @@ class Model
         // so we can claim it.
         $lock = $this->archivingStatus->acquireArchiveInProgressLock($idSite, $date1, $date2, $period, $doneFlag);
         if (!$lock->isLocked()) {
+            print "locked\n";
             return null; // we couldn't claim the lock, archive is in progress
         }
 
@@ -569,9 +569,9 @@ class Model
      * @param string[] $tables
      * @param int $count
      */
-    public function getNextInvalidatedArchive($table, $period = null, $idSites = null)
+    public function getNextInvalidatedArchive($table, $period = null, $idSites = null, $idArchivesToExclude = null)
     {
-        $sql = "SELECT idsite, date1, date2, period, `name`
+        $sql = "SELECT idarchive, idsite, date1, date2, period, `name`
                   FROM `$table`
                  WHERE `name` LIKE 'done%' AND `value` = ?";
         $bind[] = ArchiveWriter::DONE_INVALIDATED;
@@ -586,7 +586,12 @@ class Model
             $sql .= " AND idsite IN (" . implode(',', $idSites) . ")";
         }
 
-        $sql .= "ORDER BY idsite ASC, period ASC LIMIT 1";
+        if (!empty($idArchivesToExclude)) {
+            $idArchivesToExclude = array_map('intval', $idArchivesToExclude);
+            $sql .= " AND idarchive NOT IN (" . implode(',', $idArchivesToExclude) . ')';
+        }
+
+        $sql .= " ORDER BY idsite ASC, period ASC LIMIT 1";
 
         return Db::fetchRow($sql, $bind);
     }
@@ -596,9 +601,9 @@ class Model
         $tables = [];
 
         $numericTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric', $forceReload = true);
-        print_r($numericTables);
+        rsort($numericTables); // sort by date desc so we report tables in the order we want to archive them in
+
         foreach ($numericTables as $table) {
-            print "  $table\n";
             // we look for both invalidated and in progress archives, since it's possible an in progress archive failed and was never set to invalidated
             $sql = "SELECT idarchive FROM `$table` WHERE name LIKE 'done%' AND `value` IN (" . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ") LIMIT 1";
             $idArchive = Db::fetchOne($sql);
