@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Api\Service;
@@ -185,13 +186,17 @@ class Client
             $numPageviews = 0;
 
             try {
-                $multiSites = Request::processRequest('MultiSites.getAll', array(
-                    'period' => 'month',
-                    'date' => 'previous1',
-                    'showColumns' => 'nb_pageviews',
-                    'filter_limit' => -1,
-                    'filter_offset' => 0
-                ));
+                $multiSites = null;
+                Piwik::doAsSuperUser(function () use (&$multiSites) {
+                    $multiSites = Request::processRequest('MultiSites.getAll', array(
+                        'period' => 'month',
+                        'date' => 'previous1',
+                        'showColumns' => 'nb_pageviews',
+                        'filter_limit' => -1,
+                        'filter_offset' => 0
+                    ));
+                });
+
                 /** @var DataTable\Map $multiSites */
                 if ($multiSites && $multiSites->getRowsCount()) {
                     foreach ($multiSites->getDataTables() as $table) {
