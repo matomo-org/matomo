@@ -11,7 +11,7 @@ describe("JSTracker", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\JSTrackingUIFixture';
 
     before(function () {
-        testEnvironment.pluginsToLoad = ['ExampleTracker'];
+        testEnvironment.pluginsToLoad = ['CustomJsTracker', 'ExampleTracker'];
         testEnvironment.save();
     });
 

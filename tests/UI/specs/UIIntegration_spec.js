@@ -376,7 +376,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         let elem = await page.jQuery('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
         await elem.hover();
 
-        elem = await page.jQuery('.columnDocumentation:visible', { waitFor: true });
+        await page.jQuery('.columnDocumentation:visible', { waitFor: true });
         await page.waitFor(500);
 
         expect(await page.screenshotSelector('.columnDocumentation:visible')).to.matchImage('metric_tooltip');
