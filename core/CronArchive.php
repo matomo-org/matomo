@@ -363,6 +363,7 @@ class CronArchive
         $numArchivesFinished = 0;
 
         if ($this->hasReachedMaxConcurrentArchivers()) {
+            $this->logger->info("Reached maximum concurrent archivers allowed ({$this->maxConcurrentArchivers}), aborting run.");
             return;
         }
 
@@ -386,12 +387,14 @@ class CronArchive
              *    * CronArchive.archiveSingleSite.finish
              */
 
+
             // get archives to process simultaneously
             $archivesToProcess = [];
             $periodToCheckFor = null;
             while (count($archivesToProcess) < $countOfProcesses) {
                 $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor);
                 if (empty($invalidatedArchive)) {
+                    $this->logger->info("No more invalidated archives found.");
                     break;
                 }
 
@@ -403,6 +406,7 @@ class CronArchive
                     $invalidatedArchive['name']
                 );
                 if (empty($idArchive)) { // another process started on this archive, pull another one
+                    $this->logger->debug("Archive $idArchive invalid, but being handled by another process.");
                     continue;
                 }
 
@@ -459,6 +463,7 @@ class CronArchive
         $cache = Cache::getLazyCache();
         $result = $cache->fetch($cacheKey);
         $result = @json_decode($result);
+
         if (empty($result)) {
             $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
@@ -467,7 +472,6 @@ class CronArchive
             DbHelper::getTablesInstalled(true);
 
             $result = $this->model->getTablesWithInvalidatedArchives();
-
             $cache->save($cacheKey, json_encode($result), $lifeTime = self::TABLES_WITH_INVALIDATED_ARCHIVES_TTL);
         }
         return $result;

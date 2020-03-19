@@ -595,8 +595,10 @@ class Model
     {
         $tables = [];
 
-        $numericTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
+        $numericTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric', $forceReload = true);
+        print_r($numericTables);
         foreach ($numericTables as $table) {
+            print "  $table\n";
             // we look for both invalidated and in progress archives, since it's possible an in progress archive failed and was never set to invalidated
             $sql = "SELECT idarchive FROM `$table` WHERE name LIKE 'done%' AND `value` IN (" . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ") LIMIT 1";
             $idArchive = Db::fetchOne($sql);

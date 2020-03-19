@@ -54,11 +54,6 @@ class CoreArchiver extends ConsoleCommand
         $archiver->disableSegmentsArchiving = $input->getOption('skip-all-segments');
         $archiver->skipSegmentsToday = $input->getOption('skip-segments-today');
 
-        $segmentIds = $input->getOption('force-idsegments');
-        $segmentIds = explode(',', $segmentIds);
-        $segmentIds = array_map('trim', $segmentIds);
-        $archiver->setSegmentsToForceFromSegmentIds($segmentIds);
-
         $archiver->setUrlToPiwik($url);
 
         return $archiver;

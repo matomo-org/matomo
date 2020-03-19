@@ -432,16 +432,13 @@ class ArchiveInvalidator
     {
         $idSites = array_map('intval', $idSites);
 
-        $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
-        foreach ($archiveNumericTables as $table) {
-            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
-            if (empty($dates[$tableDate])) {
-                continue;
-            }
+        // TODO: test w/ no archive tables installed
+        foreach ($dates as $tableDate => $datesForTable) {
+            $table = ArchiveTableCreator::getNumericTable(Date::factory($tableDate));
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             if ($removeRanges) {
-                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
+                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
         }
     }
@@ -504,7 +501,7 @@ class ArchiveInvalidator
 
     private function getYearMonth(Period $period)
     {
-        return $period->getDateStart()->toString('Y_m');
+        return $period->getDateStart()->toString('Y-m-01');
     }
 
     private function getUniquePeriodId(Period $period)

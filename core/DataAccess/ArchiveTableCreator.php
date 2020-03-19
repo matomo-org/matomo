@@ -74,10 +74,12 @@ class ArchiveTableCreator
      * @param string $type The type of table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`.
      * @return array
      */
-    public static function getTablesArchivesInstalled($type = null)
+    public static function getTablesArchivesInstalled($type = null, $forceReload = false)
     {
-        if (is_null(self::$tablesAlreadyInstalled)) {
-            self::refreshTableList();
+        if (is_null(self::$tablesAlreadyInstalled)
+            || $forceReload
+        ) {
+            self::refreshTableList($forceReload);
         }
 
         if (empty($type)) {

@@ -139,7 +139,6 @@ class ArchiveCronTest extends SystemTestCase
     public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
-        $output = implode("\n", $output);
 
         $this->assertRegExp('/Usage:\s*core:archive/', $output);
         self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
@@ -180,8 +179,10 @@ class ArchiveCronTest extends SystemTestCase
 
         // run the command
         exec($cmd, $output, $result);
-        if ($result !== 0 || stripos($result, "error")) {
-            $this->fail("archive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
+        $output = implode("\n", $output);
+
+        if ($result !== 0 || stripos($output, "error")) {
+            $this->fail("archive cron failed (result = $result): " . $output . "\n\ncommand used: $cmd");
         }
 
         return $output;
@@ -189,8 +190,6 @@ class ArchiveCronTest extends SystemTestCase
 
     private function compareArchivePhpOutputAgainstExpected($output)
     {
-        $output = implode("\n", $output);
-
         $fileName = 'test_ArchiveCronTest_archive_php_cron_output.txt';
         list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
 
@@ -216,7 +215,9 @@ class ArchiveCronTest extends SystemTestCase
             // is a translation token, and nothing else.
             'Piwik\Translation\Translator' => function (ContainerInterface $c) {
                 return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
-            }
+            },
+
+            'Tests.log.allowAllHandlers' => true,
         );
     }
 
