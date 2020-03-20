@@ -91,9 +91,9 @@ function createSuperUser() {
     $user  = $model->getUser($login);
 
     if (empty($user)) {
-        $model->addUser($login, $password, 'hello@example.org', $login, Date::now()->getDatetime());
+        $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
     } else {
-        $model->updateUser($login, $password, 'hello@example.org', $login);
+        $model->updateUser($login, $password, 'hello@example.org');
     }
 
     $setSuperUser = empty($user) || !empty($user['superuser_access']);
