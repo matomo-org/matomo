@@ -900,7 +900,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
         FakeAccess::$identity = 'login';
-        $this->api->updateUser($login, "passowordOK", false, false, false);
+        $this->api->updateUser($login, "passowordOK", false, false, "");
     }
 
     public function testUpdateUserFailsWrongCurrentPassword()
@@ -916,7 +916,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
         FakeAccess::$identity = 'login';
-        $this->api->updateUser($login, "passowordOK", false, false, "");
+        $this->api->updateUser($login, "passowordOK", false, false, "geqgeag");
     }
 
     public function testUpdateUserFailsWrongCurrentPassword_requiresThePasswordOfCurrentLoggedInUser()
@@ -931,7 +931,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
         // currently logged in is a super user and not "login". therefore the password of "login" won't work
-        $this->api->updateUser($login, "passowordOK", false, false, "");
+        $this->api->updateUser($login, "passowordOK", false, false, "geqgeag");
     }
 
     /**
