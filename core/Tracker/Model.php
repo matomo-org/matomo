@@ -16,6 +16,7 @@ use Psr\Log\LoggerInterface;
 
 class Model
 {
+    const CACHE_KEY_INDEX_IDSITE_IDVISITOR = 'log_visit_has_index_idsite_idvisitor';
 
     public function createAction($visitAction)
     {
@@ -70,10 +71,10 @@ class Model
             $sqlBind[]          = $value;
         }
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_conversion');
 
-        $sql   = "UPDATE $table SET $parts WHERE " . implode($updateWhereParts, ' AND ');
+        $sql   = "UPDATE $table SET $parts WHERE " . implode(' AND ', $updateWhereParts);
 
         try {
             $this->getDb()->query($sql, $sqlBind);
@@ -285,7 +286,7 @@ class Model
             $sqlBind[]     = $value;
         }
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_conversion_item');
 
         $sql = "UPDATE $table SET $parts WHERE idvisit = ? AND idorder = ? AND idaction_sku = ?";
@@ -346,7 +347,7 @@ class Model
 
         list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_link_visit_action');
 
         $sqlQuery = "UPDATE $table SET $parts WHERE idlink_va = ?";
@@ -366,7 +367,7 @@ class Model
         return $wasInserted;
     }
 
-    public function findVisitor($idSite, $configId, $idVisitor, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
+    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
     {
         $selectCustomVariables = '';
 
@@ -398,10 +399,17 @@ class Model
         } elseif ($shouldMatchOneFieldOnly) {
             $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
         } else {
-            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+            if (!empty($idVisitor)) {
+                $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+            } else {
+                $visitRow = false;
+            }
 
             if (empty($visitRow)) {
-                $configIdWhere .= ' AND user_id IS NULL ';
+                if (!empty($userId)) {
+                    $configIdWhere .= ' AND ( user_id IS NULL OR user_id = ? )';
+                    $configIdbindSql[] = $userId;
+                }
                 $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
             }
         }
@@ -409,9 +417,25 @@ class Model
         return $visitRow;
     }
 
-    private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
+    public function hasVisit($idSite, $idVisit)
     {
         // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        $sql = 'SELECT idsite FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ? LIMIT 1';
+        $bindSql = array($idVisit);
+
+        $val = $this->getDb()->fetchOne($sql, $bindSql);
+        return $val == $idSite;
+    }
+
+    private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
+    {
+        $cache = Cache::getCacheGeneral();
+
+        // use INDEX index_idsite_idvisitor (idsite, idvisitor) if available
+        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR, $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR]) {
+            $from .= ' FORCE INDEX (index_idsite_idvisitor) ';
+        }
+
         $where .= ' AND idvisitor = ?';
         $bindSql[] = $idVisitor;
 

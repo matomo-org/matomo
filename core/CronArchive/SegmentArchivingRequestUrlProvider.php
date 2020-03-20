@@ -7,8 +7,8 @@
  */
 namespace Piwik\CronArchive;
 
-use Piwik\Cache\Cache;
-use Piwik\Cache\Transient;
+use Matomo\Cache\Cache;
+use Matomo\Cache\Transient;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Factory as PeriodFactory;

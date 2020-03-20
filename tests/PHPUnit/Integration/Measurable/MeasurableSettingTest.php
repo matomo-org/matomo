@@ -20,7 +20,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class MeasurableSettingTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Fixture::createWebsite('2014-01-01 00:00:01');
@@ -42,23 +42,21 @@ class MeasurableSettingTest extends IntegrationTestCase
         $this->assertSame('test', $value);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function testSetValue_shouldThrowException_IfOnlyViewPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         FakeAccess::clearAccess();
         FakeAccess::setIdSitesView(array(1, 2, 3));
         $this->createSetting()->setValue('test');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function testSetValue_shouldThrowException_IfNoPermissionAtAll()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         FakeAccess::clearAccess();
         $this->createSetting()->setValue('test');
     }

@@ -12,8 +12,6 @@ use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SegmentEditor\SegmentList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
-use Exception;
 
 /**
  * @group SegmentFormatterTest
@@ -30,19 +28,19 @@ class SegmentFormatterTest extends IntegrationTestCase
 
     private $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->idSite = Fixture::createWebsite('2012-01-01 00:00:00');
         $this->formatter   = new SegmentFormatter(new SegmentList());
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function test_getHumanReadable_noSegmentGiven_ShouldReturnDefaultSegment()
@@ -93,21 +91,19 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->assertSame('Page URL contains "piwik" or Visit ID is not "1"', $readable);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The segment 'noTexisTinG' does not exist
-     */
     public function test_getHumanReadable_ShouldThrowAnException_IfTheGivenSegmentNameDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The segment \'noTexisTinG\' does not exist');
+
         $this->formatter->getHumanReadable($segment = 'noTexisTinG==1.0', $this->idSite);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The segment condition 'pageUrl=!1.0' is not valid.
-     */
     public function test_getHumanReadable_ShouldThrowAnException_IfSegmentCannotBeParsedBecauseOfInvalidFormat()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The segment condition \'pageUrl=!1.0\' is not valid.');
+
         $invalidOperator = '=!';
         $this->formatter->getHumanReadable($segment = 'pageUrl' . $invalidOperator . '1.0', $this->idSite);
     }

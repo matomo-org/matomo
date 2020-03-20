@@ -5233,16 +5233,14 @@
         },
         {
             "custom_float": "9 min 5s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "images",
-            "custom_var_v5": "200",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
             "idlink_va": "4",
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
+            "search_cat": "images",
+            "search_count": "200",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -5965,16 +5963,14 @@
         },
         {
             "custom_float": "9 min 45s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "web",
-            "custom_var_v5": "205",
             "idaction_name_ref": "3",
             "idaction_url_ref": "47",
             "idlink_va": "61",
             "idsite": "1",
             "idvisit": "15",
             "idvisitor": "0e64dad0a7ea5650",
+            "search_cat": "web",
+            "search_count": "205",
             "server_time": "2017-01-02 00:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -6474,14 +6470,14 @@
         },
         {
             "custom_float": "17 min 10s",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v5": "210",
             "idaction_name_ref": "1",
             "idaction_url_ref": "65",
             "idlink_va": "101",
             "idsite": "1",
             "idvisit": "27",
             "idvisitor": "d57f2b2bcf932329",
+            "search_cat": "",
+            "search_count": "210",
             "server_time": "2017-01-02 03:04:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -6703,16 +6699,14 @@
         },
         {
             "custom_float": "9 min 5s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "images",
-            "custom_var_v5": "200",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
             "idlink_va": "120",
             "idsite": "1",
             "idvisit": "33",
             "idvisitor": "08aa728aec13d68d",
+            "search_cat": "images",
+            "search_count": "200",
             "server_time": "2017-01-05 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -7435,16 +7429,14 @@
         },
         {
             "custom_float": "9 min 45s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "web",
-            "custom_var_v5": "205",
             "idaction_name_ref": "3",
             "idaction_url_ref": "47",
             "idlink_va": "177",
             "idsite": "1",
             "idvisit": "47",
             "idvisitor": "0e64dad0a7ea5650",
+            "search_cat": "web",
+            "search_count": "205",
             "server_time": "2017-01-05 00:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -7944,14 +7936,14 @@
         },
         {
             "custom_float": "17 min 10s",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v5": "210",
             "idaction_name_ref": "1",
             "idaction_url_ref": "65",
             "idlink_va": "217",
             "idsite": "1",
             "idvisit": "59",
             "idvisitor": "d57f2b2bcf932329",
+            "search_cat": "",
+            "search_count": "210",
             "server_time": "2017-01-05 03:04:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -8173,16 +8165,14 @@
         },
         {
             "custom_float": "9 min 5s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "images",
-            "custom_var_v5": "200",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
             "idlink_va": "236",
             "idsite": "2",
             "idvisit": "65",
             "idvisitor": "08aa728aec13d68d",
+            "search_cat": "images",
+            "search_count": "200",
             "server_time": "2017-01-05 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -8905,16 +8895,14 @@
         },
         {
             "custom_float": "9 min 45s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "web",
-            "custom_var_v5": "205",
             "idaction_name_ref": "3",
             "idaction_url_ref": "47",
             "idlink_va": "293",
             "idsite": "2",
             "idvisit": "79",
             "idvisitor": "0e64dad0a7ea5650",
+            "search_cat": "web",
+            "search_count": "205",
             "server_time": "2017-01-05 00:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -9414,14 +9402,14 @@
         },
         {
             "custom_float": "17 min 10s",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v5": "210",
             "idaction_name_ref": "1",
             "idaction_url_ref": "65",
             "idlink_va": "333",
             "idsite": "2",
             "idvisit": "91",
             "idvisitor": "d57f2b2bcf932329",
+            "search_cat": "",
+            "search_count": "210",
             "server_time": "2017-01-05 03:04:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -9827,6 +9815,7 @@
     "log_conversion": [
         {
             "buster": "0",
+            "config_browser_name": "CH",
             "config_device_brand": "",
             "config_device_model": "generic desktop",
             "config_device_type": "0",
@@ -9849,6 +9838,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -9870,6 +9860,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -9891,6 +9882,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -9912,6 +9904,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -9933,6 +9926,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -9954,6 +9948,7 @@
         },
         {
             "buster": "3940711799",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -9981,6 +9976,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10001,6 +9997,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10021,6 +10018,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10043,6 +10041,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10063,6 +10062,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10083,6 +10083,7 @@
         },
         {
             "buster": "3944101671",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10110,6 +10111,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10130,6 +10132,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10150,6 +10153,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10170,6 +10174,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "CH",
             "config_device_brand": "",
             "config_device_model": "generic desktop",
             "config_device_type": "0",
@@ -10192,6 +10197,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10213,6 +10219,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10234,6 +10241,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10255,6 +10263,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10276,6 +10285,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10297,6 +10307,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10317,6 +10328,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10337,6 +10349,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10359,6 +10372,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10379,6 +10393,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10399,6 +10414,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10419,6 +10435,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10439,6 +10456,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10459,6 +10477,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "CH",
             "config_device_brand": "",
             "config_device_model": "generic desktop",
             "config_device_type": "0",
@@ -10481,6 +10500,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10502,6 +10522,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10523,6 +10544,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10544,6 +10566,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10565,6 +10588,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10586,6 +10610,7 @@
         },
         {
             "buster": "3940711799",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10613,6 +10638,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10633,6 +10659,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10653,6 +10680,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10675,6 +10703,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10695,6 +10724,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10715,6 +10745,7 @@
         },
         {
             "buster": "3944101671",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10742,6 +10773,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10762,6 +10794,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",
@@ -10782,6 +10815,7 @@
         },
         {
             "buster": "0",
+            "config_browser_name": "UNK",
             "config_device_brand": "",
             "config_device_model": "",
             "custom_var_k1": "myCustomUserId",

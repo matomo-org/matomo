@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\EventDispatcher;
@@ -16,14 +16,14 @@ use Piwik\EventDispatcher;
 /**
  * @group Core
  */
-class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
+class DocumentationGeneratorTest extends TestCase
 {
     public function test_CheckIfModule_ContainsHideAnnotation()
     {
         $annotation = '@hideExceptForSuperUser test test';
         $mock = $this->getMockBuilder('ReflectionClass')
             ->disableOriginalConstructor()
-            ->setMethods(array('getDocComment'))
+            ->onlyMethods(array('getDocComment'))
             ->getMock();
         $mock->expects($this->once())->method('getDocComment')->willReturn($annotation);
         $documentationGenerator = new DocumentationGenerator();

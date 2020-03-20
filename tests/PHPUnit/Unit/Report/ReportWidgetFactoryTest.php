@@ -42,14 +42,14 @@ class GetBasicReport extends Report
  * @group ReportWidgetFactory
  * @group ReportWidgetFactoryTest
  */
-class ReportWidgetFactoryTest extends \PHPUnit_Framework_TestCase
+class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ReportWidgetFactory
      */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

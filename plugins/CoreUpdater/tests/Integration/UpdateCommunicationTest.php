@@ -22,7 +22,7 @@ use Piwik\View;
  */
 class UpdateCommunicationTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

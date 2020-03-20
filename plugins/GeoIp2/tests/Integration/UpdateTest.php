@@ -11,7 +11,7 @@ namespace Piwik\Plugins\GeoIp2\tests\Integration;
 /**
  * @group GeoIp2
  */
-class UpdateTest extends \PHPUnit_Framework_TestCase
+class UpdateTest extends \PHPUnit\Framework\TestCase
 {
     public function testEnsureFileForUpdateIsPresent()
     {

@@ -24,7 +24,7 @@ use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 class MeasurableSettingTest extends IntegrationTestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         foreach (array(2,3) as $idSite) {

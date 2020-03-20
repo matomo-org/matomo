@@ -10,9 +10,10 @@ namespace Piwik\Tests\Framework\Constraint;
 /**
  * @deprecated
  */
-class ResponseCode extends \PHPUnit_Framework_Constraint
+class ResponseCode extends \PHPUnit\Framework\Constraint\Constraint
 {
     private $actualCode;
+    private $value;
 
     /**
      * @param integer $value Expected response code
@@ -30,7 +31,7 @@ class ResponseCode extends \PHPUnit_Framework_Constraint
      * @param mixed $other Value or object to evaluate.
      * @return bool
      */
-    public function matches($other)
+    public function matches($other): bool
     {
         $options = array(
             CURLOPT_URL            => $other,
@@ -55,8 +56,8 @@ class ResponseCode extends \PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
-        return 'does not return response code ' . $this->exporter->export($this->value) . ' it is ' . $this->actualCode;
+        return 'does not return response code ' . $this->exporter()->export($this->value) . ' it is ' . $this->actualCode;
     }
-}?>
+}

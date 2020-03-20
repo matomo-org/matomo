@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Config;
 use Piwik\Cookie;
+use Piwik\ProxyHttp;
 
 /**
  * Tracking cookies.
@@ -61,7 +62,12 @@ class IgnoreCookie
             $ignoreCookie->delete();
         } else {
             $ignoreCookie->set('ignore', '*');
-            $ignoreCookie->save();
+            if (ProxyHttp::isHttps()) {
+                $ignoreCookie->setSecure(true);
+                $ignoreCookie->save('None');
+            } else {
+                $ignoreCookie->save('Lax');
+            }
         }
 
         self::deleteThirdPartyCookieUIDIfExists();

@@ -107,7 +107,7 @@ class EventDispatcher
 
             if (!isset($this->pluginHooks[$pluginName])) {
                 $plugin = $manager->getLoadedPlugin($pluginName);
-                $this->pluginHooks[$pluginName] = $plugin->getListHooksRegistered();
+                $this->pluginHooks[$pluginName] = $plugin->registerEvents();
             }
 
             $hooks = $this->pluginHooks[$pluginName];

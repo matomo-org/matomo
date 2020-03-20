@@ -11,8 +11,8 @@ namespace Piwik\Tests\Integration\Columns;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group Core
@@ -24,18 +24,18 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
      */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         $this->factory = new ComputedMetricFactory(MetricsList::get());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 

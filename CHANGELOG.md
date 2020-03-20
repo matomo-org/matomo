@@ -4,6 +4,47 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.0.0
+
+### New API
+* A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
+
+### Breaking changes
+* The API `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
+* The API `UsersManager.createTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
+* Deprecated `piwik` font was removed. Use `matomo` font instead
+* The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
+* The deprecated Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead
+* The deprecated Platform API method `\Piwik\Piwik::doAsSuperUser()` has been removed. Use `\Piwik\Access::doAsSuperUser()` instead
+* The deprecated Platform API method `\Piwik\SettingsPiwik::isPiwikInstalled()` has been removed. Use `\Piwik\SettingsPiwik::isMatomoInstalled()` instead
+* The deprecated Platform API method `\Piwik\Updates::getSql()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
+* The deprecated Platform API method `\Piwik\Updates::getMigrationQueries()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
+* The deprecated Platform API method `\Piwik\Updates::executeMigrationQueries()` has been removed. Use `\Piwik\Updates::executeMigrations()` instead
+* The deprecated Platform API method `\Piwik\Updates::update()` has been removed. Use `\Piwik\Updates::doUpdate()` instead
+* Matomo no longer polyfills the `JSON` object in the JavaScript tracker. This means IE7 and older, Firefox 3 and older will be no longer suppported in the tracker.
+* The deprecated Platform API method `\Piwik\Common::json_encode()` has been removed. Use `json_encode()` instead
+* The deprecated Platform API method `\Piwik\Common::json_decode()` has been removed. Use `json_decode()` instead
+* The deprecated Platform API method `\Piwik\Common::getContinentsList()` has been removed. Use `\Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()` instead
+* The deprecated Platform API method `\Piwik\Common::getCountriesList()` has been removed. Use `\Piwik\Intl\Data\Provider\RegionDataProvider::getCountriesList()` instead
+* The deprecated Platform API method `\Piwik\Common::getLanguagesList()` has been removed. Use `\Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguagesList()` instead
+* The deprecated Platform API method `\Piwik\Common::getLanguageToCountryList()` has been removed. Use `\Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()` instead
+* The deprecated Platform API method `\Piwik\MetricsFormatter::getCurrencyList()` has been removed. Use `\Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()` instead
+* The deprecated Platform API method `\Piwik\Site::getCurrencyList()` has been removed. Use `\Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()` instead
+* The deprecated Platform API method `\Piwik\Piwik::setUserHasSuperUserAccess()` has been removed. Use `\Piwik\Access::doAsSuperUser()` instead
+* The deprecated Platform API class `\Piwik\Registry` has been removed. Use `\Piwik\Container\StaticContainer` instead
+* The deprecated Platform API class `\Piwik\TaskScheduler` has been removed. Use `\Piwik\Scheduler\Scheduler` instead
+* The deprecated Platform API class `\Piwik\DeviceDetectorFactory` has been removed. Use `\Piwik\DeviceDetector\DeviceDetectorFactory` instead
+* The deprecated Platform API class `\Piwik\Translate` has been removed. Use `\Piwik\Translation\Translator` instead.
+* The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools.
+* The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
+* The core plugin `CustomPiwikJs` has been renamed to `CustomJsTracker`
+  * The event `CustomPiwikJs.piwikJsChanged` has been renamed to `CustomJsTracker.trackerJsChanged`
+  * The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.shouldAddTrackerFile`
+  * Public API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
+  * API method `CustomPiwikJs.doesIncludePluginTrackersAutomatically` has been renamed to `CustomJsTracker.doesIncludePluginTrackersAutomatically`
+* GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
+* Site search category and count are no longer stored as custom variables. That also means they will now have an extra field in action details and no longer appear in custom variables.
+
 ## Matomo 3.13.1
 
 ### Deprecations

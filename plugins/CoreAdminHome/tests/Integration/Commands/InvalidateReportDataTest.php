@@ -17,7 +17,7 @@ use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
  */
 class InvalidateReportDataTest extends ConsoleCommandTestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -41,7 +41,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalid date or date range specifier", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalid date or date range specifier", $this->applicationTester->getDisplay());
     }
 
     public function getInvalidDateRanges()
@@ -67,7 +67,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalid period type", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalid period type", $this->applicationTester->getDisplay());
     }
 
     public function getInvalidPeriodTypes()
@@ -92,7 +92,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalid --sites value", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalid --sites value", $this->applicationTester->getDisplay());
     }
 
     public function getInvalidSiteLists()
@@ -117,7 +117,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("The segment condition 'ablksdjfdslkjf' is not valid", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("The segment condition 'ablksdjfdslkjf' is not valid", $this->applicationTester->getDisplay());
     }
 
     /**
@@ -139,7 +139,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
 
         foreach ($expectedOutputs as $output) {
-            $this->assertContains($output, $this->applicationTester->getDisplay());
+            self::assertStringContainsString($output, $this->applicationTester->getDisplay());
         }
     }
 
@@ -155,7 +155,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_invalidDate()
@@ -170,7 +170,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("The date '2019-01-01,2019-01--09' is not a correct date range", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("The date '2019-01-01,2019-01--09' is not a correct date range", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_onlyOneDate()
@@ -185,7 +185,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("The date '2019-01-01' is not a correct date range", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("The date '2019-01-01' is not a correct date range", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_tooManyDatesInRange()
@@ -200,7 +200,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("The date '2019-01-01,2019-01-09,2019-01-12,2019-01-15' is not a correct date range", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("The date '2019-01-01,2019-01-09,2019-01-12,2019-01-15' is not a correct date range", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_multipleDateRanges()
@@ -215,7 +215,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-15", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-15", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_invalidateAllPeriodTypesSkipsRangeWhenNotRangeDAte()
@@ -230,8 +230,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertNotContains("range", $this->applicationTester->getDisplay());
-        $this->assertNotContains("Range", $this->applicationTester->getDisplay());
+        self::assertStringNotContainsString("range", $this->applicationTester->getDisplay());
+        self::assertStringNotContainsString("Range", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_invalidateAllPeriodTypes()
@@ -246,11 +246,11 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalidating day periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
-        $this->assertContains("Invalidating week periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
-        $this->assertContains("Invalidating month periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
-        $this->assertContains("Invalidating year periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
-        $this->assertContains("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating day periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating week periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating month periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating year periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateAll_multipleDateRanges()
@@ -265,7 +265,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-13 [segment = ]", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-13 [segment = ]", $this->applicationTester->getDisplay());
     }
 
     public function getTestDataForSuccessTests()

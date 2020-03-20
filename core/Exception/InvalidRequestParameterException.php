@@ -10,4 +10,9 @@ namespace Piwik\Exception;
 
 class InvalidRequestParameterException extends Exception
 {
+  
+    public function __toString()
+    {
+        return $this->getMessage() . ' ' . $this->getFile() . ':' . $this->getLine();
+    }
 }

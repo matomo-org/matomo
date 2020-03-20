@@ -9,9 +9,9 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Translate;
 use Piwik\Widget\WidgetsList;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -125,7 +125,7 @@ class GenerateWidget extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function getCategory(InputInterface $input, OutputInterface $output)
@@ -148,7 +148,7 @@ class GenerateWidget extends GeneratePluginBase
             $validate($category);
         }
 
-        $translationKey = Translate::findTranslationKeyForTranslation($category);
+        $translationKey = StaticContainer::get('Piwik\Translation\Translator')->findTranslationKeyForTranslation($category);
         if (!empty($translationKey)) {
             return $translationKey;
         }
@@ -161,7 +161,7 @@ class GenerateWidget extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)

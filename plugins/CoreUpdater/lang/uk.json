@@ -28,8 +28,6 @@
         "InstallingTheLatestVersion": "Встановлення останньої версії",
         "LatestBetaRelease": "Останній тестовий випуск",
         "LatestStableRelease": "Останній стабільний випуск",
-        "Latest2XStableRelease": "Останній стабільний 2.X",
-        "Latest2XBetaRelease": "Останній тестовий 2.X",
         "LtsSupportVersion": "Версія Довгострокової підтримки",
         "ListOfSqlQueriesFYI": "P.S.: ці запити SQL і консольні команди, які будуть виконуватися для оновлення бази даних в Matomo %s",
         "TheseSqlQueriesWillBeExecuted": "Ці запити SQL будуть виконуватися:",

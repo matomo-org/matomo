@@ -14,7 +14,6 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -31,7 +30,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
 
     protected static $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -82,7 +81,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         Fixture::checkResponse($t->doTrackPageView('It\'s pitch black...'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         Option::delete(ConvertRegionCodesToIso::OPTION_NAME);
@@ -116,7 +115,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
 
         $result = $this->executeCommand();
 
-        $this->assertContains('All region codes converted', $result);
+        self::assertStringContainsString('All region codes converted', $result);
 
         $queryParams = array(
             'idSite'  => self::$idSite,
@@ -126,7 +125,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         );
 
         // we need to manually reload the translations since they get reset for some reason in IntegrationTestCase::tearDown();
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
 
         $this->assertApiResponseEqualsExpected("UserCountry.getRegion", $queryParams);
         $this->assertApiResponseEqualsExpected("UserCountry.getCountry", $queryParams);

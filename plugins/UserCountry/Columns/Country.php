@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Metrics\Formatter;
-use Piwik\Network\IP;
+use Matomo\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\Segment;
@@ -82,8 +82,8 @@ class Country extends Base
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $value = $this->getUrlOverrideValueIfAllowed('country', $request);
-
         if ($value !== false) {
+            $value = substr($value, 0, 3);
             return $value;
         }
 

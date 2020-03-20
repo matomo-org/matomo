@@ -14,7 +14,7 @@ use Piwik\Filesystem;
 /**
  * @group Core
  */
-class FilesystemTest extends \PHPUnit_Framework_TestCase
+class FilesystemTest extends \PHPUnit\Framework\TestCase
 {
     public function test_getFileSize_ShouldRecognizeLowerUnits()
     {

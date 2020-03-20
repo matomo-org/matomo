@@ -9,14 +9,8 @@
 
 namespace Piwik\Archive;
 
-use Piwik\API\Request;
-use Piwik\Cache;
-use Piwik\Cache\Transient;
-use Piwik\CacheId;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Period\Week;
-use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Site;
 

@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Network\IP;
+use Matomo\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;

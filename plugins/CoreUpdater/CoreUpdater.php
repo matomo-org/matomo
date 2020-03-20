@@ -25,7 +25,7 @@ use Piwik\Version;
 class CoreUpdater extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -65,6 +65,8 @@ class CoreUpdater extends \Piwik\Plugin
             || $module == 'Proxy'
             // Do not show update page during installation.
             || $module == 'Installation'
+            || ($module == 'CorePluginsAdmin' && $action == 'deactivate')
+            || ($module == 'CorePluginsAdmin' && $action == 'uninstall')
             || ($module == 'LanguagesManager' && $action == 'saveLanguage')) {
             return;
         }

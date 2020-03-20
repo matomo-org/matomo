@@ -1,0 +1,30 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Ne mogu da nađem funkciju apache_get_modules, pretpostavljam da imate server koji nije Apache.",
+        "CannotFindGeoIPServerVar": "Promenljiva %s nije postavljena. Vaš server možda nije valjano podešen.",
+        "CannotListContent": "Ne mogu da pročitam sadržaj %1$s: %2$s",
+        "DownloadingDb": "Preuzimanje %s",
+        "DownloadNewDatabasesEvery": "Ažuriraj bazu svakih",
+        "FoundApacheModules": "Matomo je našao sledeće Apache module",
+        "GeoIPImplHasAccessTo": "Ova GeoIP implementacija ima pristup sledećim tipovima baza",
+        "GeoIPDatabases": "GeoIP baza",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Pažnja: anonimizacija IP adresa ne utiče na lokacije koje obezbeđuje ovaj provajder. Proverite da li ovo nije u suprotnosti sa zakonom o privatnosti pod koji pripadate.",
+        "GeoIPLocationProviderNotRecommended": "Geolokacija funkcioniše ali vi ne koristite jednog od preporučenih provajdera.",
+        "GeoIPNoServerVars": "Matomo ne može da nađe nijednu GeoIP %s promenljivu",
+        "GeoIPServerVarsFound": "Matomo je pronašao sledeće GeoIP %s promenljive",
+        "HowToSetupGeoIPIntro": "Izgleda da nemate dobro podešeno geolociranje. Ovo je korisna opcija i bez nje nećete videti kompletne i precizne informacije o lokacijama vaših posetilaca. Evo kako brzo možete da počnete da je koristite:",
+        "HowToInstallApacheModule": "Kako da instaliram GeoIP modul za Apache?",
+        "HowToInstallNginxModule": "Kako da instaliram GeoIP modul za Nginx?",
+        "HttpServerModule": "HTTP server modul",
+        "InvalidGeoIPUpdatePeriod": "Period GeoIP osvežavanje %1$s nije validan. Validne vrednosti su %2$s.",
+        "ISPDatabase": "ISP baza",
+        "LocationDatabase": "Baza lokacija",
+        "LocationDatabaseHint": "Baza lokacija je baza zemalja, regija ili gradova.",
+        "UnsupportedArchiveType": "Tip arhive %1$s nije prepoznat.",
+        "UpdaterHasNotBeenRun": "Program za nadogradnju nije nikada ranije pokretan.",
+        "UpdaterIsNotScheduledToRun": "Nije zakazano buduće izvršenje.",
+        "UpdaterScheduledForNextRun": "Zakazano je da bude pokrenuto prilikom sledećeg izvršenja archive.php posla.",
+        "UpdaterWasLastRun": "Poslednja provera je izvršena %s.",
+        "UpdaterWillRunNext": "Sledeće izvršenje je zakazano za %s."
+    }
+}

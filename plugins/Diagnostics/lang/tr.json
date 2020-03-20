@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Ayar Dosyası",
+        "MysqlTemporaryTablesWarning": "Matomo uygulamasının düzgün çalışabilmesi için CREATE TEMPORARY TABLES MySQL izninin verilmiş olması gereklidir.",
+        "MysqlTransactionLevel": "İşlem yalıtma düzeyinin değiştirilmesi desteklenmiyor. Arşivleme çalışır ancak daha yavaş olabilir. Olabiliyorsa `binlog_format` seçeneğinin `row` olarak değiştirilmesi önerilir.",
         "MysqlMaxPacketSize": "En Büyük Paket Boyutu",
         "MysqlMaxPacketSizeWarning": "MySQL veritabanınız için 'max_allowed_packet' değerini en az %1$s olarak ayarlamanız önerilir. Şu anda %2$s olarak ayarlanmış.",
         "ConfigFileIntroduction": "Matomo ayarları bu bölümde görülebilir. Matomo yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen değerlere göre değiştirilmiş olan satırlar farklı art alan renginde görüntülenir.",

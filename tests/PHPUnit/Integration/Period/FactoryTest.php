@@ -83,6 +83,7 @@ class FactoryTest extends IntegrationTestCase
 
             ['range', '2015-01-01,2015-01-10', 'UTC', Range::class, '2015-01-01,2015-01-10'],
             ['range', '2015-01-01,2015-01-10', 'Antarctica/Casey', Range::class, '2015-01-01,2015-01-10'],
+            ['range', '2015-01-01,2015-01-01', 'Antarctica/Casey', Day::class, '2015-01-01,2015-01-01'],
 
             // multiple periods
             ['day', '2015-01-01,2015-01-10', 'UTC', Range::class, '2015-01-01,2015-01-10'],
@@ -90,6 +91,13 @@ class FactoryTest extends IntegrationTestCase
             ['month', '2015-01-01,2015-02-10', 'UTC', Range::class, '2015-01-01,2015-02-28'],
             ['year', '2015-01-01,2016-01-10', 'UTC', Range::class, '2015-01-01,2016-12-31'],
         ];
+    }
+
+    public function test_makePeriodFromQueryParams()
+    {
+        $factory = Period\Factory::makePeriodFromQueryParams('UTC', 'range', '2019-01-01,2019-01-01');
+        $this->assertTrue($factory instanceof Day);
+        $this->assertEquals('2019-01-01', $factory->toString());
     }
 
     public function test_build_CreatesCustomPeriodInstances()
@@ -100,21 +108,19 @@ class FactoryTest extends IntegrationTestCase
         $this->assertInstanceOf(TestPeriod::class, $period);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidPeriod
-     */
     public function test_build_ThrowsIfPeriodIsUnrecognized()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidPeriod');
+
         Period\Factory::build('garbageperiod', '2015-01-01');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidPeriod
-     */
     public function test_build_ThrowsIfPeriodIsNotEnabledForApi()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidPeriod');
+
         Config::getInstance()->General['enabled_periods_API'] = 'day';
         Period\Factory::build('week', '2015-01-01');
     }

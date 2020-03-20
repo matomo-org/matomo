@@ -11,7 +11,6 @@ namespace Piwik\Tracker;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
@@ -29,12 +28,12 @@ class Cache
 
     /**
      * Public for tests only
-     * @var \Piwik\Cache\Lazy
+     * @var \Matomo\Cache\Lazy
      */
     public static $cache;
 
     /**
-     * @return \Piwik\Cache\Lazy
+     * @return \Matomo\Cache\Lazy
      */
     private static function getCache()
     {

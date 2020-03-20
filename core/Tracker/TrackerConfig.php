@@ -9,7 +9,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Config;
-use Piwik\Tracker;
 
 class TrackerConfig
 {

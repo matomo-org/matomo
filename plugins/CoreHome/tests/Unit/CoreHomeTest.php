@@ -15,14 +15,14 @@ use Piwik\Plugins\CoreHome\CoreHome;
  * @group CoreHomeTest
  * @group Plugins
  */
-class CoreHomeTest extends \PHPUnit_Framework_TestCase
+class CoreHomeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CoreHome
      */
     private $coreHome;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

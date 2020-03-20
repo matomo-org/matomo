@@ -21,13 +21,13 @@ class SomeVisitsAllConversions extends Fixture
     public $idGoal_OneConversionPerVisit = 1;
     public $idGoal_MultipleConversionPerVisit = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

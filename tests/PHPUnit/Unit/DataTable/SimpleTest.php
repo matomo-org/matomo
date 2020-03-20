@@ -13,7 +13,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 
-class SimpleTest extends \PHPUnit_Framework_TestCase
+class SimpleTest extends \PHPUnit\Framework\TestCase
 {
     public function test_serialize_includesAllRequiredData()
     {

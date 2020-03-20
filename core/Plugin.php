@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\MetadataLoader;
@@ -108,7 +107,7 @@ class Plugin
      * perfect but efficient. If the cache is used we need to make sure to call setId() before usage as there
      * is maybe a different key set since last usage.
      *
-     * @var \Piwik\Cache\Eager
+     * @var \Matomo\Cache\Eager
      */
     private $cache;
 
@@ -220,16 +219,6 @@ class Plugin
     public function registerEvents()
     {
         return array();
-    }
-
-    /**
-     * @ignore
-     * @deprecated since 2.15.0 use {@link registerEvents()} instead.
-     * @return array
-     */
-    public function getListHooksRegistered()
-    {
-        return $this->registerEvents();
     }
 
     /**

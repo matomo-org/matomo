@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\UsersManager\tests\Fixtures;
 
+use Piwik\Date;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
@@ -27,6 +28,7 @@ class ManyUsers extends Fixture
     public $siteCopyCount;
     public $userCopyCount;
     public $addTextSuffixes;
+    public $users = array();
 
     public $baseUsers = array(
         'login1' => array('superuser' => 1),
@@ -68,13 +70,13 @@ class ManyUsers extends Fixture
         $this->addTextSuffixes = $addTextSuffixes;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsite();
         $this->setUpUsers();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -129,8 +131,11 @@ class ManyUsers extends Fixture
                     }
                 }
 
+                $tokenAuth = $model->generateRandomTokenAuth();
+                $model->addTokenAuth($login, $tokenAuth, 'many users test', Date::now()->getDatetime());
+
                 $user = $model->getUser($login);
-                $this->users[$login]['token'] = $user['token_auth'];
+                $this->users[$login]['token'] = $tokenAuth;
             }
         }
     }

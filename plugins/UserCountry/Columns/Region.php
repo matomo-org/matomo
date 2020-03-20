@@ -16,6 +16,7 @@ use Piwik\Tracker\Action;
 class Region extends Base
 {
     protected $columnName = 'location_region';
+    protected $columnType = 'char(3) DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
     protected $category = 'UserCountry_VisitLocation';
     protected $segmentName = 'regionCode';
@@ -32,8 +33,8 @@ class Region extends Base
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $value = $this->getUrlOverrideValueIfAllowed('region', $request);
-
         if ($value !== false) {
+            $value = substr($value, 0, 3);
             return $value;
         }
 

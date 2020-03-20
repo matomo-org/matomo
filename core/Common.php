@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
@@ -201,6 +202,31 @@ class Common
     }
 
     /**
+     * Gets the current process ID.
+     * Note: If getmypid is disabled, a random ID will be generated once and used throughout the request. There is a
+     * small chance that two processes at the same time may generated the same random ID. If you need to rely on the
+     * value being 100% unique, then you may need to use `getmypid` directly or some other logic. Eg in CliMulti it is
+     * fine to use `getmypid` directly as the logic won't be used if getmypid is disabled...
+     * If you are wanting to use the pid to check if the process is running eg using `ps`, then you also have to use
+     * getmypid directly.
+     *
+     * @return int|null
+     */
+    public static function getProcessId()
+    {
+        static $pid;
+        if (!isset($pid)) {
+            if (Process::isMethodDisabled('getmypid')) {
+                $pid = Common::getRandomInt(12);
+            } else {
+                $pid = getmypid();
+            }
+        }
+
+        return $pid;
+    }
+
+    /**
      * Multi-byte strlen() - works with UTF-8
      *
      * Calls `mb_substr` if available and falls back to `substr` if not.
@@ -266,25 +292,21 @@ class Common
      */
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)
     {
-        if (PHP_MAJOR_VERSION >= 7) {
-            try {
-                return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
-            } catch (\Throwable $e) {
-                if ($rethrow) {
-                    throw $e;
-                }
-
-                $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-                $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
-                    'message' => $e->getMessage(),
-                    'backtrace' => $e->getTraceAsString(),
-                    'string' => $string,
-                ]);
-                return false;
+        try {
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+        } catch (\Throwable $e) {
+            if ($rethrow) {
+                throw $e;
             }
-        }
 
-        return @unserialize($string);
+            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+            $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
+                'message' => $e->getMessage(),
+                'backtrace' => $e->getTraceAsString(),
+                'string' => $string,
+            ]);
+            return false;
+        }
     }
 
     /*
@@ -603,9 +625,7 @@ class Common
      */
     public static function generateUniqId()
     {
-        $rand = self::getRandomInt();
-
-        return md5(uniqid($rand, true));
+        return bin2hex(random_bytes(16));
     }
 
     /**
@@ -703,37 +723,9 @@ class Common
      */
     public static function convertUserIdToVisitorIdBin($userId)
     {
-        require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-        $userIdHashed = \PiwikTracker::getUserIdHashed($userId);
+        $userIdHashed = \MatomoTracker::getUserIdHashed($userId);
 
         return self::convertVisitorIdToBin($userIdHashed);
-    }
-
-    /**
-     * JSON encode wrapper
-     * - missing or broken in some php 5.x versions
-     *
-     * @param mixed $value
-     * @return string
-     * @deprecated
-     */
-    public static function json_encode($value)
-    {
-        return @json_encode($value);
-    }
-
-    /**
-     * JSON decode wrapper
-     * - missing or broken in some php 5.x versions
-     *
-     * @param string $json
-     * @param bool $assoc
-     * @return mixed
-     * @deprecated
-     */
-    public static function json_decode($json, $assoc = false)
-    {
-        return json_decode($json, $assoc);
     }
 
     /**
@@ -798,79 +790,6 @@ class Common
     /*
      * DataFiles
      */
-
-    /**
-     * Returns list of continent codes
-     *
-     * @see core/DataFiles/Countries.php
-     *
-     * @return array Array of 3 letter continent codes
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()
-     */
-    public static function getContinentsList()
-    {
-        /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
-        return $dataProvider->getContinentList();
-    }
-
-    /**
-     * Returns list of valid country codes
-     *
-     * @see core/DataFiles/Countries.php
-     *
-     * @param bool $includeInternalCodes
-     * @return array Array of (2 letter ISO codes => 3 letter continent code)
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()
-     */
-    public static function getCountriesList($includeInternalCodes = false)
-    {
-        /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
-        return $dataProvider->getCountryList($includeInternalCodes);
-    }
-
-    /**
-     * Returns the list of valid language codes.
-     *
-     * See [core/DataFiles/Languages.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/Languages.php).
-     *
-     * @return array Array of two letter ISO codes mapped with their associated language names (in English). E.g.
-     *               `array('en' => 'English', 'ja' => 'Japanese')`.
-     * @api
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageList()
-     */
-    public static function getLanguagesList()
-    {
-        /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
-        return $dataProvider->getLanguageList();
-    }
-
-    /**
-     * Returns a list of language to country mappings.
-     *
-     * See [core/DataFiles/LanguageToCountry.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/LanguageToCountry.php).
-     *
-     * @return array Array of two letter ISO language codes mapped with two letter ISO country codes:
-     *               `array('fr' => 'fr') // French => France`
-     * @api
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()
-     */
-    public static function getLanguageToCountryList()
-    {
-        /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
-        return $dataProvider->getLanguageToCountryList();
-    }
 
     /**
      * Returns list of provider names

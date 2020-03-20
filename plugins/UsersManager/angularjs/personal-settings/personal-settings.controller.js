@@ -34,7 +34,7 @@
                     id: 'PersonalSettingsSuccess', context: 'success'});
                 notification.scrollToNotification();
 
-                self.doesRequirePasswordConfirmation = !!self.password;
+                self.doesRequirePasswordConfirmation = false;
                 self.passwordCurrent = '';
                 self.loading = false;
             }, function (errorMessage) {
@@ -74,25 +74,6 @@
             });
         };
 
-        this.regenerateTokenAuth = function () {
-            var parameters = { userLogin: piwik.userLogin };
-
-            self.loading = true;
-
-            piwikHelper.modalConfirm('#confirmTokenRegenerate', {yes: function () {
-                piwikApi.withTokenInUrl();
-                piwikApi.post({
-                    module: 'API',
-                    method: 'UsersManager.regenerateTokenAuth'
-                }, parameters).then(function (success) {
-                    $window.location.reload();
-                    self.loading = false;
-                }, function (errorMessage) {
-                    self.loading = false;
-                });
-            }});
-        };
-
         this.cancelSave = function () {
             this.passwordCurrent = '';
         };
@@ -115,14 +96,6 @@
                 language: this.language,
                 timeformat: this.timeformat,
             };
-
-            if (this.password) {
-                postParams.password = this.password;
-            }
-
-            if (this.passwordBis) {
-                postParams.passwordBis = this.passwordBis;
-            }
 
             if (this.passwordCurrent) {
                 postParams.passwordConfirmation = this.passwordCurrent;

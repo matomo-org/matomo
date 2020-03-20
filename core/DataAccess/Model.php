@@ -215,7 +215,8 @@ class Model
         return $deletedRows;
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC,
+                                          $doneFlags, $doneFlagValues = null)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
@@ -225,7 +226,14 @@ class Model
 
         $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
-        $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
+        $timeStampWhere = '';
+        if ($minDatetimeIsoArchiveProcessedUTC) {
+            $timeStampWhere = " AND ts_archived >= ? ";
+            $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
+        }
+
+        // NOTE: we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
+        $sqlQuery = "SELECT idarchive, value, name, ts_archived, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
                          AND date2 = ?
@@ -233,7 +241,8 @@ class Model
                          AND ( ($sqlWhereArchiveName)
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
-                     ORDER BY idarchive DESC";
+                         $timeStampWhere
+                     ORDER BY ts_archived DESC, idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
         return $results;
@@ -421,7 +430,14 @@ class Model
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         // create the SQL to find archives that are DONE
-        return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
+        $result = "((name IN ($allDoneFlags))";
+
+        if (!empty($possibleValues)) {
+            $result .= " AND (value IN (" . implode(',', $possibleValues) . ")))";
+        }
+        $result .= ')';
+
+        return $result;
     }
 
 }

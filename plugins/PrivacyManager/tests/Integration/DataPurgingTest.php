@@ -10,6 +10,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
@@ -95,7 +96,7 @@ class DataPurgingTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -123,6 +124,7 @@ class DataPurgingTest extends IntegrationTestCase
         $settings['delete_logs_older_than'] = 35 + $daysSinceToday;
         $settings['delete_logs_schedule_lowest_interval'] = 7;
         $settings['delete_logs_max_rows_per_query'] = 100000;
+        $settings['delete_logs_unused_actions_max_rows_per_query'] = 100000;
         $settings['delete_reports_enable'] = 1;
         $settings['delete_reports_older_than'] = $monthsSinceToday;
         $settings['delete_reports_keep_basic_metrics'] = 0;
@@ -137,7 +139,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->instance = new PrivacyManager();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -740,9 +742,13 @@ class DataPurgingTest extends IntegrationTestCase
         $range = $rangeStart->toString('Y-m-d') . "," . $rangeEnd->toString('Y-m-d');
 
         $rangeArchive = Archive::build(self::$idSite, 'range', $range);
-        $rangeArchive->getNumeric('nb_visits', 'nb_hits');
+        $rangeArchive->getNumeric(['nb_visits']);
 
         APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
+
+        // remove invalidated
+        StaticContainer::get(Archive\ArchivePurger::class)->purgeInvalidatedArchivesFrom(Date::factory('2012-01-01'));
+        StaticContainer::get(Archive\ArchivePurger::class)->purgeInvalidatedArchivesFrom(Date::factory('2012-02-01'));
 
         // when archiving is initiated, the archive metrics & reports for EVERY loaded plugin
         // are archived. don't want this test to depend on every possible metric, so get rid of

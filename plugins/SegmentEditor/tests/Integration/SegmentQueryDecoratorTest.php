@@ -25,7 +25,7 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
      */
     private $segmentQueryDecorator;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

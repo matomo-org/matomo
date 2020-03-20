@@ -13,7 +13,7 @@ use Piwik\Plugin;
 
 class ExampleTheme extends Plugin
 {
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return [
             'Theme.configureThemeVariables' => 'configureThemeVariables',

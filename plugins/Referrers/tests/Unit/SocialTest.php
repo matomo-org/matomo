@@ -15,9 +15,9 @@ use Spyc;
  * @group Social
  * @group Plugins
  */
-class SocialTest extends \PHPUnit_Framework_TestCase
+class SocialTest extends \PHPUnit\Framework\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // inject definitions to avoid database usage
         $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . Social::DEFINITION_FILE);
@@ -92,6 +92,6 @@ class SocialTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLogoFromUrl($url, $expected)
     {
-        $this->assertContains($expected, Social::getInstance()->getLogoFromUrl($url));
+        self::assertStringContainsString($expected, Social::getInstance()->getLogoFromUrl($url));
     }
 }

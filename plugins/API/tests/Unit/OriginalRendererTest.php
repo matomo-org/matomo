@@ -15,14 +15,14 @@ use Piwik\Plugins\API\Renderer\Original;
  * @group Plugin
  * @group API
  */
-class OriginalRendererTest extends \PHPUnit_Framework_TestCase
+class OriginalRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Original
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array());
     }
@@ -34,12 +34,11 @@ class OriginalRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($response);
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage The other message
-     */
     public function test_renderException_shouldThrowTheException()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('The other message');
+
         $this->builder->renderException('This message should be ignored', new \BadMethodCallException('The other message'));
     }
 

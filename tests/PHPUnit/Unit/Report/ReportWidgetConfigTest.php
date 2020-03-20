@@ -16,14 +16,14 @@ use Piwik\Report\ReportWidgetConfig;
  * @group ReportWidgetConfig
  * @group ReportWidgetConfigTest
  */
-class ReportWidgetConfigTest extends \PHPUnit_Framework_TestCase
+class ReportWidgetConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ReportWidgetConfig
      */
     private $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->config = new ReportWidgetConfig();
@@ -216,13 +216,14 @@ class ReportWidgetConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->enable();
         $this->config->checkIsEnabled();
+
+        $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_checkIsEnabled_shouldThrowException_IfDisabled()
     {
+        $this->expectException(\Exception::class);
+
         $this->config->disable();
         $this->config->checkIsEnabled();
     }

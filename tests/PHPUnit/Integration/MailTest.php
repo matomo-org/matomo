@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Mail;
 
-class MailTest extends \PHPUnit_Framework_TestCase
+class MailTest extends \PHPUnit\Framework\TestCase
 {
 
     public function getEmailFilenames()

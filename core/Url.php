@@ -9,7 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 
 /**
  * Provides URL related helper methods.
@@ -613,8 +613,8 @@ class Url
      */
     public static function getHostSanitized($host)
     {
-        if (!class_exists("Piwik\\Network\\IPUtils")) {
-            throw new Exception("Piwik\\Network\\IPUtils could not be found, maybe you are using Matomo from git and need to update Composer. $ php composer.phar update");
+        if (!class_exists("Matomo\\Network\\IPUtils")) {
+            throw new Exception("Matomo\\Network\\IPUtils could not be found, maybe you are using Matomo from git and need to update Composer. $ php composer.phar update");
         }
         return IPUtils::sanitizeIp($host);
     }

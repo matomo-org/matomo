@@ -10,17 +10,22 @@
 namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Option;
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Segment;
+use Piwik\SettingsServer;
 use Piwik\Site;
+use Piwik\Tracker\Cache;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -47,6 +52,8 @@ use Piwik\Site;
  */
 class ArchiveInvalidator
 {
+    const TRACKER_CACHE_KEY = 'ArchiveInvalidator.rememberToInvalidate';
+
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
     /**
@@ -54,47 +61,94 @@ class ArchiveInvalidator
      */
     private $model;
 
-    public function __construct(Model $model)
+    /**
+     * @var ArchivingStatus
+     */
+    private $archivingStatus;
+
+    public function __construct(Model $model, ArchivingStatus $archivingStatus)
     {
         $this->model = $model;
+        $this->archivingStatus = $archivingStatus;
+    }
+
+    public function getAllRememberToInvalidateArchivedReportsLater()
+    {
+        // we do not really have to get the value first. we could simply always try to call set() and it would update or
+        // insert the record if needed but we do not want to lock the table (especially since there are still some
+        // MyISAM installations)
+        $values = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%');
+
+        $all = [];
+        foreach ($values as $name => $value) {
+            $suffix = substr($name, strpos($name, $this->rememberArchivedReportIdStart));
+            $suffix = str_replace($this->rememberArchivedReportIdStart, '', $suffix);
+            list($idSite, $dateStr) = explode('_', $suffix);
+
+            $all[$idSite][$dateStr] = $value;
+        }
+        return $all;
     }
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
     {
-        // To support multiple transactions at once, look for any other process to have set (and committed)
-        // this report to be invalidated.
-        $key   = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
+        if (SettingsServer::isTrackerApiRequest()) {
+            $value = $this->getRememberedArchivedReportsOptionFromTracker($idSite, $date->toString());
+        } else {
+            // To support multiple transactions at once, look for any other process to have set (and committed)
+            // this report to be invalidated.
+            $key   = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
 
-        // we do not really have to get the value first. we could simply always try to call set() and it would update or
-        // insert the record if needed but we do not want to lock the table (especially since there are still some
-        // MyISAM installations)
-        $value = Option::getLike($key . '%');
+            // we do not really have to get the value first. we could simply always try to call set() and it would update or
+            // insert the record if needed but we do not want to lock the table (especially since there are still some
+            // MyISAM installations)
+            $value = Option::getLike('%' . $key . '%');
+        }
 
-        // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
-        // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
-        // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
-        // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
-        // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
-        // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
-        // that happen to run in overlapping transactions.
-        $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
         // getLike() returns an empty array rather than 'false'
         if (empty($value)) {
+            // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
+            // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
+            // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
+            // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
+            // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
+            // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
+            // that happen to run in overlapping transactions.
+            $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
             Option::set($mykey, '1');
+            Cache::clearCacheGeneral();
+            return $mykey;
         }
+    }
+
+    private function getRememberedArchivedReportsOptionFromTracker($idSite, $dateStr)
+    {
+        $cacheKey = self::TRACKER_CACHE_KEY;
+
+        $generalCache = Cache::getCacheGeneral();
+        if (empty($generalCache[$cacheKey][$idSite][$dateStr])) {
+            return [];
+        }
+
+        return $generalCache[$cacheKey][$idSite][$dateStr];
     }
 
     public function getRememberedArchivedReportsThatShouldBeInvalidated()
     {
-        $reports = Option::getLike($this->rememberArchivedReportIdStart . '%_%');
+        $reports = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%_%');
 
         $sitesPerDay = array();
 
         foreach ($reports as $report => $value) {
+            $report = substr($report, strpos($report, $this->rememberArchivedReportIdStart));
             $report = str_replace($this->rememberArchivedReportIdStart, '', $report);
             $report = explode('_', $report);
             $siteId = (int) $report[0];
             $date   = $report[1];
+
+            if (empty($siteId)) {
+                continue;
+            }
 
             if (empty($sitesPerDay[$date])) {
                 $sitesPerDay[$date] = array();
@@ -122,19 +176,24 @@ class ArchiveInvalidator
     // This version is multi process safe on the insert of a new date to invalidate.
     private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
     {
-        $id  = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
-        $id .= '_' . getmypid();
+        $id = Common::getRandomString(4, 'abcdefghijklmnoprstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') . '_';
+        $id .= $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
+        $id .= '_' . Common::getProcessId();
+
         return $id;
     }
 
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
     {
-        $id = $this->buildRememberArchivedReportIdForSite($idSite) . '_%';
-        Option::deleteLike($id);
+        $id = $this->buildRememberArchivedReportIdForSite($idSite);
+        $this->deleteOptionLike($id);
+        Cache::clearCacheGeneral();
     }
 
     /**
      * @internal
+     * After calling this method, make sure to call Cache::clearCacheGeneral(); For performance reasons we don't call
+     * this here immediately in case there are multiple invalidations.
      */
     public function forgetRememberedArchivedReportsToInvalidate($idSite, Date $date)
     {
@@ -142,7 +201,26 @@ class ArchiveInvalidator
 
         // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
         //  So this must be a deleteLike call to get all the entries, where there used to only be one.
-        Option::deleteLike($id . '%');
+        $this->deleteOptionLike($id);
+        Cache::clearCacheGeneral();
+    }
+
+    private function deleteOptionLike($id)
+    {
+        // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
+        // we want to reduce number of rows scanned and only delete specific primary key
+        $keys = Option::getLike('%' . $id . '%');
+
+        if (empty($keys)) {
+            return;
+        }
+
+        $keys = array_keys($keys);
+
+        $placeholders = Common::getSqlStringFieldsArray($keys);
+
+        $table = Common::prefixTable('option');
+        Db::query('DELETE FROM `' . $table . '` WHERE `option_name` IN (' . $placeholders . ')', $keys);
     }
 
     /**
@@ -207,6 +285,7 @@ class ArchiveInvalidator
         }
 
         $periodDates = $this->getUniqueDates($periodDates);
+
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);
@@ -217,6 +296,7 @@ class ArchiveInvalidator
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
             }
         }
+        Cache::clearCacheGeneral();
 
         return $invalidationInfo;
     }
@@ -258,6 +338,8 @@ class ArchiveInvalidator
                 $invalidationInfo->processedDates[] = $dateRange[0];
             }
         }
+
+        Cache::clearCacheGeneral();
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($invalidatedMonths);

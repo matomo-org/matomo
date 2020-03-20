@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result date="2010">
+	<result period="2010">
+		<nb_visits_new>2</nb_visits_new>
+		<nb_actions_new>2</nb_actions_new>
+		<nb_visits_converted_new>0</nb_visits_converted_new>
+		<bounce_count_new>2</bounce_count_new>
+		<sum_visit_length_new>0</sum_visit_length_new>
+		<max_actions_new>1</max_actions_new>
+		<bounce_rate_new>100%</bounce_rate_new>
+		<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
+		<avg_time_on_site_new>0</avg_time_on_site_new>
 		<nb_visits_returning>9</nb_visits_returning>
 		<nb_actions_returning>41</nb_actions_returning>
 		<nb_visits_converted_returning>0</nb_visits_converted_returning>
@@ -11,10 +20,10 @@
 		<nb_actions_per_visit_returning>4.6</nb_actions_per_visit_returning>
 		<avg_time_on_site_returning>801</avg_time_on_site_returning>
 	</result>
-	<result date="2011" />
-	<result date="2012" />
-	<result date="2013" />
-	<result date="2014" />
-	<result date="2015" />
-	<result date="2016" />
+	<result period="2011" />
+	<result period="2012" />
+	<result period="2013" />
+	<result period="2014" />
+	<result period="2015" />
+	<result period="2016" />
 </results>

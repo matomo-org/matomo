@@ -9,6 +9,7 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\DataTable;
@@ -16,7 +17,6 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
-use Piwik\Translate;
 
 /**
  * @group DataTableTest
@@ -39,78 +39,72 @@ class PivotByDimensionTest extends IntegrationTestCase
      */
     public $segmentUsedToGetIntersected = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::reset();
+        Fixture::resetTranslations();
         Cache::clearCacheGeneral();
         \Piwik\Cache::flushAll();
 
         $this->segmentTableCount = 0;
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: report 'ExampleReport.getExampleReport' has no subtable dimension.
-     */
     public function test_construction_ShouldFail_WhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unsupported pivot: report \'ExampleReport.getExampleReport\' has no subtable dimension.');
+
         $this->loadPlugins('ExampleReport', 'UserCountry');
 
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "UserCountry.City", 'nb_visits', $columnLimit = -1, $enableFetchBySegment = false);
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: the subtable dimension for 'Referrers.getKeywords' does not match the requested pivotBy dimension.
-     */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unsupported pivot: the subtable dimension for \'Referrers.getKeywords\' does not match the requested pivotBy dimension.');
+
         $this->loadPlugins('Referrers', 'UserCountry');
 
         new PivotByDimension(new DataTable(), "Referrers.getKeywords", "UserCountry.City", "nb_visits", $columnLimit = -1, $enableFetchBySegment = false);
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.getConfiguration'
-     */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unsupported pivot: No segment for dimension of report \'Resolution.getConfiguration\'');
+
         $this->loadPlugins('Referrers', 'Resolution');
 
         new PivotByDimension(new DataTable(), "Resolution.GetConfiguration", "Referrers.Keyword", "nb_visits");
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Invalid dimension 'ExampleTracker.InvalidDimension'
-     */
     public function test_construction_ShouldFail_WhenDimensionDoesNotExist()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid dimension \'ExampleTracker.InvalidDimension\'');
+
         $this->loadPlugins('ExampleReport', 'ExampleTracker');
 
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "ExampleTracker.InvalidDimension", 'nb_visits');
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No report for pivot dimension 'ExampleTracker.ExampleDimension'
-     */
     public function test_construction_ShouldFail_WhenThereIsNoReportForADimension()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unsupported pivot: No report for pivot dimension \'ExampleTracker.ExampleDimension\'');
+
         $this->loadPlugins('ExampleReport', 'ExampleTracker');
 
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "ExampleTracker.ExampleDimension", "nb_visits");
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Unable to find report 'ExampleReport.InvalidReport'
-     */
     public function test_construction_ShouldFail_WhenSpecifiedReportIsNotValid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unable to find report \'ExampleReport.InvalidReport\'');
+
         $this->loadPlugins('ExampleReport', 'Referrers');
 
         new PivotByDimension(new DataTable(), "ExampleReport.InvalidReport", "Referrers.Keyword", "nb_visits");
@@ -380,7 +374,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function provideContainerConfig()
     {
-        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call'))->getMock();
+        $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call'))->getMock();
         $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) {
             if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
                 && $methodName == 'getCity'

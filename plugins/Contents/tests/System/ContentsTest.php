@@ -7,9 +7,9 @@
  */
 namespace Piwik\Plugins\Contents\tests\System;
 
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
-use Piwik\Translate;
 
 /**
  * Testing Contents
@@ -45,16 +45,16 @@ class ContentsTest extends SystemTestCase
         );
     }
 
-    protected function setup()
+    public function setUp(): void
     {
-        parent::setup();
-        Translate::loadAllTranslations();
+        parent::setUp();
+        Fixture::loadAllTranslations();
     }
 
-    protected function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function getApiForTesting()

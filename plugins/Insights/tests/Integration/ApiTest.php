@@ -11,11 +11,10 @@ namespace Piwik\Plugins\Insights\tests\Integration;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Cache as PiwikCache;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Translate;
 
 /**
  * @group Insights
@@ -36,21 +35,21 @@ class ApiTest extends SystemTestCase
     private $api;
     private $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         PiwikCache::flushAll();
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
         $this->api = API::getInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     /**
@@ -89,7 +88,7 @@ class ApiTest extends SystemTestCase
             'evolutionDifference' => -9
         );
 
-        $this->assertInternalType('array', $metadata['report']);
+        self::assertIsArray($metadata['report']);
         $this->assertEquals('Actions', $metadata['report']['module']);
         $this->assertEquals('getPageUrls', $metadata['report']['action']);
         unset($metadata['report']);
@@ -246,7 +245,7 @@ class ApiTest extends SystemTestCase
         $this->assertTrue($this->api->canGenerateInsights('2012-12-12', 'month'));
 
         $this->assertFalse($this->api->canGenerateInsights('last10', 'day'));
-        $this->assertFalse($this->api->canGenerateInsights('2012-11-11,2012-12-12', 'range'));
+        $this->assertTrue($this->api->canGenerateInsights('2012-11-11,2012-12-12', 'range'));
     }
 
     private function requestInsights($requestParams)

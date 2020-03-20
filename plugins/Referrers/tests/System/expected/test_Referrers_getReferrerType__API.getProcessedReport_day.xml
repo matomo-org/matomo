@@ -876,310 +876,372 @@
 		<result prettyDate="Thursday, February 4, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday, February 5, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 6, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 7, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, February 8, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, February 9, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, February 10, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Thursday, February 11, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday, February 12, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 13, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 14, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, February 15, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, February 16, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, February 17, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Thursday, February 18, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday, February 19, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 20, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 21, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, February 22, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, February 23, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, February 24, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Thursday, February 25, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday, February 26, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 27, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 28, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, March 1, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, March 2, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, March 3, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Thursday, March 4, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday, March 5, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, March 6, 2010">
 			<row>
 				<segment>referrerType==search</segment>
+				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>referrerType==website</segment>
+				<referrer_type>3</referrer_type>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>

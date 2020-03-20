@@ -16,14 +16,14 @@ use Piwik\Plugins\API\Renderer\Php;
  * @group API
  * @group PhpRendererTest
  */
-class PhpRendererTest extends \PHPUnit_Framework_TestCase
+class PhpRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Php
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array('serialize' => 0));
         DataTable\Manager::getInstance()->deleteAll();

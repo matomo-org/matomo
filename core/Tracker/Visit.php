@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
@@ -409,7 +409,10 @@ class Visit implements VisitInterface
 
         if ($wasInserted) {
             Common::printDebug('Updated existing visit: ' . var_export($valuesToUpdate, true));
-        } else {
+        } elseif (!$this->getModel()->hasVisit($idSite, $idVisit)) {
+            // mostly for WordPress. see https://github.com/matomo-org/matomo/pull/15587
+            // as WP doesn't set `MYSQLI_CLIENT_FOUND_ROWS` and therefore when the update succeeded but no value changed
+            // it would still return 0 vs OnPremise would return 1 or 2.
             throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
                 . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
@@ -572,10 +575,10 @@ class Visit implements VisitInterface
         $date = Date::factory((int)$time, $timezone);
 
         // $date->isToday() is buggy when server and website timezones don't match - so we'll do our own checking
-        $startOfTomorrow = Date::factoryInTimezone('today', $timezone)->addDay(1);
-        $isLaterThanToday = $date->getTimestamp() >= $startOfTomorrow->getTimestamp();
-        if ($isLaterThanToday) {
-            return;
+        $startOfToday = Date::factoryInTimezone('yesterday', $timezone)->addDay(1);
+        $isLaterThanYesterday = $date->getTimestamp() >= $startOfToday->getTimestamp();
+        if ($isLaterThanYesterday) {
+            return; // don't try to invalidate archives for today or later
         }
 
         $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);

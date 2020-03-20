@@ -30,14 +30,14 @@ class OneVisitorTwoVisits extends Fixture
     public $simulateIntegerOverflow = false;
     public $maxUnsignedIntegerValue = '4294967295';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->simulateIntegerOverflow();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -192,7 +192,7 @@ class OneVisitorTwoVisits extends Fixture
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
         $t->setUrl('http://example.org/store/purchase.htm');
         $t->setUrlReferrer('http://search.yahoo.com/search?p=purchase');
-        // Temporary, until we implement 1st party cookies in PiwikTracker
+        // Temporary, until we implement 1st party cookies in MatomoTracker
         $t->DEBUG_APPEND_URL = '&_idvc=2';
 
         // Goal Tracking URL matching, testing custom referrer including keyword

@@ -26,7 +26,7 @@ class Installation extends \Piwik\Plugin
     protected $installationControllerName = '\\Piwik\\Plugins\\Installation\\Controller';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -64,7 +64,7 @@ class Installation extends \Piwik\Plugin
     {
         $general = Config::getInstance()->General;
 
-        if (!SettingsPiwik::isPiwikInstalled() && !$general['enable_installer']) {
+        if (!SettingsPiwik::isMatomoInstalled() && !$general['enable_installer']) {
             throw new NotYetInstalledException('Matomo is not set up yet');
         }
 

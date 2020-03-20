@@ -27,7 +27,7 @@ class DbMaxPacket implements Diagnostic
 
     public function execute()
     {
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             return array(); // only possible to perform check once we have DB connection
         }
 

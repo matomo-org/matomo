@@ -9,11 +9,9 @@
 
 namespace Piwik\Plugins\UserCountry;
 
-use Piwik\ArchiveProcessor;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\Plugins\UserCountry\LocationProvider;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {

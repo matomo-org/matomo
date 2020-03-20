@@ -2,7 +2,7 @@
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
-use Piwik\Cache\Eager;
+use Matomo\Cache\Eager;
 use Piwik\SettingsServer;
 use Piwik\Config;
 
@@ -33,8 +33,8 @@ return array(
 
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
 
-    'Piwik\Cache\Eager' => function (ContainerInterface $c) {
-        $backend = $c->get('Piwik\Cache\Backend');
+    'Matomo\Cache\Eager' => function (ContainerInterface $c) {
+        $backend = $c->get('Matomo\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id');
 
         if (SettingsServer::isTrackerApiRequest()) {
@@ -52,11 +52,11 @@ return array(
 
         return $cache;
     },
-    'Piwik\Cache\Backend' => function (ContainerInterface $c) {
+    'Matomo\Cache\Backend' => function (ContainerInterface $c) {
         // If Piwik is not installed yet, it's possible the tmp/ folder is not writable
         // we prevent failing with an unclear message eg. coming from doctrine-cache
         // by forcing to use a cache backend which always works ie. array
-        if(!\Piwik\SettingsPiwik::isPiwikInstalled()) {
+        if(!\Piwik\SettingsPiwik::isMatomoInstalled()) {
             $backend = 'array';
         } else {
             try {
@@ -131,6 +131,7 @@ return array(
         // common files on shared hosters
         'php.ini',
         '.user.ini',
+        'error_log',
         // Files below are not expected but they used to be present in older Piwik versions and may be still here
         // As they are not going to cause any trouble we won't report them as 'File to delete'
         '*.coveralls.yml',
@@ -216,4 +217,6 @@ return array(
     'archiving.performance.logger' => null,
 
     \Piwik\CronArchive\Performance\Logger::class => DI\object()->constructorParameter('logger', DI\get('archiving.performance.logger')),
+
+    \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
 );

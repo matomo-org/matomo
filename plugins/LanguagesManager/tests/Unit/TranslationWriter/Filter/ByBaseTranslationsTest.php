@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByBaseTranslations;
 /**
  * @group LanguagesManager
  */
-class ByBaseTranslationsTest extends \PHPUnit_Framework_TestCase
+class ByBaseTranslationsTest extends \PHPUnit\Framework\TestCase
 {
     public function getFilterTestData()
     {

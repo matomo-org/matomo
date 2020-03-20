@@ -17,14 +17,14 @@ use Piwik\Widget\WidgetsList;
  * @group WidgetsList
  * @group WidgetsListTest
  */
-class WidgetsListTest extends \PHPUnit_Framework_TestCase
+class WidgetsListTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var WidgetsList
      */
     private $list;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = new WidgetsList();

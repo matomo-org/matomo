@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater\Migration;
-use Piwik\Updater\Migration\Db\Sql;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Updater\UpdateObserver;
 use Zend_Db_Exception;
@@ -242,7 +241,9 @@ class Updater
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
                 if (!class_exists($className, false)) {
-                    throw new \Exception("The class $className was not found in $file");
+                    // throwing an error here causes Matomo to show the safe mode instead of showing an exception fatal only
+                    // that makes it possible to deactivate / uninstall a broken plugin to recover Matomo directly
+                    throw new \Error("The class $className was not found in $file");
                 }
 
                 if (in_array($className, $classNames)) {
@@ -545,14 +546,6 @@ class Updater
     }
 
     /**
-     * @deprecated since Piwik 3.0.0, use {@link executeMigrations()} instead.
-     */
-    public function executeMigrationQueries($file, $migrationQueries)
-    {
-        $this->executeMigrations($file, $migrationQueries);
-    }
-
-    /**
      * Execute multiple migration queries from a single Update file.
      *
      * @param string $file The path to the Updates file.
@@ -637,7 +630,7 @@ class Updater
      */
     public static function updateDatabase($file, $sqlarray)
     {
-        self::$activeInstance->executeMigrationQueries($file, $sqlarray);
+        self::$activeInstance->executeMigrations($file, $sqlarray);
     }
 
     /**

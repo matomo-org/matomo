@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -483,7 +484,7 @@ class Controller extends Plugin\ControllerAdmin
     public function deactivate($redirectAfter = true)
     {
         if($this->isAllowedToTroubleshootAsSuperUser()) {
-            Piwik::doAsSuperUser(function() use ($redirectAfter) {
+            Access::doAsSuperUser(function() use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
             });
         } else {

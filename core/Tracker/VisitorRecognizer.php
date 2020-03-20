@@ -83,6 +83,7 @@ class VisitorRecognizer
     {
         $idSite    = $request->getIdSite();
         $idVisitor = $request->getVisitorId();
+        $userId    = $request->getForcedUserId();
 
         $isVisitorIdToLookup = !empty($idVisitor);
 
@@ -98,7 +99,7 @@ class VisitorRecognizer
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, $request);
         list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit($request);
 
-        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
+        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
         $this->visitRow = $visitRow;
 
         if ($visitRow
@@ -143,7 +144,7 @@ class VisitorRecognizer
 
         // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
         // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
-        if (($isVisitorIdToLookup || $isForcedUserIdMustMatch) && $this->trustCookiesOnly) {
+        if ($isVisitorIdToLookup && $this->trustCookiesOnly) {
             return true;
         }
 

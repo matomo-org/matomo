@@ -20,7 +20,7 @@ use ReflectionProperty;
 /**
  * @group Scheduler
  */
-class SchedulerTest extends \PHPUnit_Framework_TestCase
+class SchedulerTest extends \PHPUnit\Framework\TestCase
 {
     private static function getTestTimetable()
     {
@@ -51,7 +51,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         self::stubPiwikOption($timetable);
 
-        $taskLoader = $this->getMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
         $scheduler = new Scheduler($taskLoader, new NullLogger());
 
         $this->assertEquals($expectedTime, $scheduler->getScheduledTimeForMethod($className, $methodName, $methodParameter));
@@ -84,7 +84,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $now = time();
 
-        $dailySchedule = $this->getMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
+        $dailySchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
         $dailySchedule->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue($now));
@@ -171,7 +171,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRun($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
     {
-        $taskLoader = $this->getMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
         $taskLoader->expects($this->atLeastOnce())
             ->method('loadTasks')
             ->willReturn($configuredTasks);
@@ -204,7 +204,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunTaskNow($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
     {
-        $taskLoader = $this->getMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
         $taskLoader->expects($this->atLeastOnce())
             ->method('loadTasks')
             ->willReturn($configuredTasks);

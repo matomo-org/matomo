@@ -111,7 +111,7 @@
         "ConfigFileIsNotWritable": "El archivo de configuración %1$s de Matomo no tiene permisos de escritura, por lo que algunos de tus cambios podrían no ser guardados. %2$s Por favor, cambiá los permisos del archivo de configuración para que se puedan guardar los cambios.",
         "Continue": "Continuar",
         "ContinueToPiwik": "Ir a Matomo",
-        "CurrentlyUsingUnsecureHttp": "Actualmente estás usando Matomo sobre una conexión HTTP insegura, lo cual es riesgoso. Te recomendamos configurar Matomo para que use SSL (HTTPS) y mejorar la seguridad.",
+        "CurrentlyUsingUnsecureHttp": "Actualmente estás usando Matomo sobre una conexión HTTP insegura. Esto puede volver vulnerable a tu Matomo en fallos de seguridad. También podrías estar en las fronteras de las leyes de privacidad, ya que algunas funciones, como las cookies de no seguimiento, no funcionarán. Te recomendamos configurar Matomo para que use SSL (HTTPS) y mejorar la seguridad.",
         "CreatedByUser": "Creado por %s",
         "CurrentMonth": "Mes actual",
         "CurrentWeek": "Semana actual",

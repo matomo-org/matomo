@@ -10,10 +10,12 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Access\CapabilitiesProvider;
+use Piwik\API\Request;
 use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
+use Piwik\Session\SessionAuth;
 
 /**
  * Singleton that manages user access to Piwik resources.
@@ -154,8 +156,32 @@ class Access
             return false;
         }
 
+        $result = null;
+
+        $forceApiSession = Common::getRequestVar('force_api_session', 0, 'int', $_POST);
+        if ($forceApiSession && Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction())) {
+            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_POST);
+            if (!empty($tokenAuth)) {
+                Session::start();
+                $auth = StaticContainer::get(SessionAuth::class);
+                $auth->setTokenAuth($tokenAuth);
+                $result = $auth->authenticate();
+                if (!$result->wasAuthenticationSuccessful()) {
+                    /**
+                     * Ensures brute force logic to be executed
+                     * @ignore
+                     * @internal
+                     */
+                    Piwik::postEvent('API.Request.authenticate.failed');
+                }
+                // if not successful, we will fallback to regular auth
+            }
+        }
+
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
-        $result = $this->auth->authenticate();
+        if (!$result || !$result->wasAuthenticationSuccessful()) {
+            $result = $this->auth->authenticate();
+        }
 
         if (!$result->wasAuthenticationSuccessful()) {
             return false;
@@ -630,6 +656,10 @@ class Access
     {
         $isSuperUser = self::getInstance()->hasSuperUserAccess();
 
+        if ($isSuperUser) {
+            return $function();
+        }
+
         $access = self::getInstance();
         $login = $access->getLogin();
         $shouldResetLogin = empty($login); // make sure to reset login if a login was set by "makeSureLoginNameIsSet()"
@@ -708,7 +738,7 @@ class Access
      */
     private function throwNoAccessException($message)
     {
-        if (Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
         }
         // Try to detect whether user was previously logged in so that we can display a different message
@@ -721,6 +751,16 @@ class Access
         }
 
         throw new NoAccessException($message);
+    }
+
+    /**
+     * Returns true if the current user is logged in or not.
+     *
+     * @return bool
+     */
+    public function isUserLoggedIn()
+    {
+        return !empty($this->login);
     }
 }
 

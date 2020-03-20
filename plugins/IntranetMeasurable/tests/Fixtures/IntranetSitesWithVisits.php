@@ -22,14 +22,14 @@ class IntranetSitesWithVisits extends Fixture
     public $idSite = 1;
     public $idSiteNotIntranet = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsites();
         $this->trackVisits($this->idSite);
         $this->trackVisits($this->idSiteNotIntranet);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -49,7 +49,7 @@ class IntranetSitesWithVisits extends Fixture
         }
     }
 
-    private function configureSameDevice(\PiwikTracker $t)
+    private function configureSameDevice(\MatomoTracker $t)
     {
         // to make purpose of test more clear we configure the device partially...
         $t->setIp('56.11.55.70');

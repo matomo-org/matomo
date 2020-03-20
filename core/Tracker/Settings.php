@@ -8,7 +8,6 @@
  */
 namespace Piwik\Tracker;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
@@ -41,7 +40,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
         $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent);
         $aBrowserInfo   = $deviceDetector->getClient();
 
-        if ($aBrowserInfo['type'] != 'browser') {
+        if (empty($aBrowserInfo['type']) || 'browser' !== $aBrowserInfo['type']) {
             // for now only track browsers
             unset($aBrowserInfo);
         }

@@ -181,6 +181,10 @@ class ApiTest extends SystemTestCase
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
+
+        /** @var DataTable $referrers */
+        $referrers = Request::processRequest('Referrers.getCampaigns', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $this->assertEquals(substr($longReferrer, 0, 255), $referrers->getFirstRow()->getColumn('label'));
     }
 
     public function test_forceNewVisit_shouldNotForceNewVisitWhenReferrerNameIsLongerThanDbColumnLength()
@@ -216,24 +220,24 @@ class ApiTest extends SystemTestCase
 
         $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
         // track an HTTPS request
-        $t->setUrlReferrer('https://t.umblr.com/');
+        $t->setUrlReferrer('https://somewebsite.com/');
         $t->setUrl('http://piwik.net/');
         $t->doTrackPageView('My Title');
 
         // track an HTTP request
         $t->setForceNewVisit(true);
-        $t->setUrlReferrer('http://t.umblr.com/');
+        $t->setUrlReferrer('http://somewebsite.com/');
         $t->setUrl('http://piwik.net/');
         $t->doTrackPageView('My Title');
 
         /** @var DataTable $visits */
         $visits = Request::processRequest(
-            'Referrers.getWebsites', 
+            'Referrers.getWebsites',
             array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime, 'flat' => 1)
         );
 
         $firstRow = $visits->getFirstRow();
-        $this->assertEquals('t.umblr.com/index', $firstRow->getColumn('label'));
+        $this->assertEquals('somewebsite.com/index', $firstRow->getColumn('label'));
         $this->assertEquals(2, $firstRow->getColumn('nb_visits'));
     }
 
@@ -244,19 +248,19 @@ class ApiTest extends SystemTestCase
 
         $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
         // track an HTTPS request
-        $t->setUrlReferrer('https://t.umblr.com/');
+        $t->setUrlReferrer('https://somewebsite.com/');
         $t->setUrl('http://piwik.net/');
         $t->doTrackPageView('My Title');
 
         // track an HTTP request
         $t->setForceNewVisit(true);
-        $t->setUrlReferrer('http://t.umblr.com/');
+        $t->setUrlReferrer('http://somewebsite.com/');
         $t->setUrl('http://piwik.net/');
         $t->doTrackPageView('My Title');
 
         /** @var DataTable $visits */
         $visits = Request::processRequest(
-            'Referrers.getWebsites', 
+            'Referrers.getWebsites',
             array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime)
         );
 

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreHome\tests\Integration\Tracker;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Date;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreHome\Tracker\VisitRequestProcessor;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SitesManager\API;
@@ -140,8 +141,8 @@ class VisitRequestProcessorTest extends IntegrationTestCase
     {
         $dimensions = array();
         foreach ($dimensionOnNewVisitResults as $onNewVisitResult) {
-            $dim = $this->getMockBuilder('Piwik\\Plugin\\Dimension')
-                        ->setMethods(array('shouldForceNewVisit', 'getColumnName'))
+            $dim = $this->getMockBuilder(VisitDimension::class)
+                        ->onlyMethods(array('shouldForceNewVisit', 'getColumnName'))
                         ->getMock();
             $dim->expects($this->any())->method('shouldForceNewVisit')->will($this->returnValue($onNewVisitResult));
             $dimensions[] = $dim;

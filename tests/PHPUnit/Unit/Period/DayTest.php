@@ -19,14 +19,9 @@ class DayTest extends BasePeriodTest
      */
     public function testInvalidDate()
     {
-        try {
-            new Day('Invalid Date');
-        } catch (\Exception $e) {
-            return;
-        } catch (\Throwable $e) {
-            return;
-        }
-        $this->fail('Expected Exception not raised');
+        $this->expectException(\TypeError::class);
+
+        new Day('Invalid Date');
     }
 
     /**
@@ -200,16 +195,12 @@ class DayTest extends BasePeriodTest
      */
     public function testAddSubperiodFails()
     {
+        $this->expectException(\Exception::class);
+
         // create the period
         $period = new Day(Date::factory("2007-12-31"));
 
-        try {
-            $period->addSubperiod('');
-        } catch (\Exception $e) {
-            return;
-        }
-        // expected string
-        $this->fail('Exception not raised');
+        $period->addSubperiod('');
     }
 
     public function getLocalizedShortStrings()

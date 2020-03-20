@@ -24,7 +24,7 @@ class ApiGetReportMetadataTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -34,7 +34,7 @@ class ApiGetReportMetadataTest extends SystemTestCase
         Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -74,6 +74,14 @@ class ApiGetReportMetadataTest extends SystemTestCase
             // Test w/ showRawMetrics=true
             array('Actions.getPageTitles', array('idSite'     => $idSite, 'date' => $dateTime,
                                                  'testSuffix' => '_pageTitleZeroString')),
+
+            // Test w/ no format, should default to format=json
+            ['Actions.getPageTitles', [
+                'idSite'     => $idSite,
+                'date' => $dateTime,
+                'testSuffix' => '_defaultFormatValue',
+                'format' => 'asldjkf',
+            ]],
 
             // test php renderer w/ array data
             array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,

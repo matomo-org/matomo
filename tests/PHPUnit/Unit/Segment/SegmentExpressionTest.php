@@ -14,7 +14,7 @@ use Piwik\Segment\SegmentExpression;
  * @group SegmentExpressionTest
  * @group Segment
  */
-class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
+class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for testSegmentSqlSimpleNoOperation
@@ -136,14 +136,11 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testBogusFiltersExpectExceptionThrown($bogus)
     {
-        try {
-            $segment = new SegmentExpression($bogus);
-            $segment->parseSubExpressions();
-            $segment->getSql();
-        } catch (\Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised for:' . var_export($segment->getSql(), true));
+        $this->expectException(\Exception::class);
+
+        $segment = new SegmentExpression($bogus);
+        $segment->parseSubExpressions();
+        $segment->getSql();
     }
 
     /**

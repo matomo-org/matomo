@@ -46,7 +46,7 @@ class HandlerTest extends IntegrationTestCase
      */
     private $requestSet;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -78,58 +78,6 @@ class HandlerTest extends IntegrationTestCase
         $this->assertFalse($this->response->isExceptionOutput);
         $this->assertTrue($this->response->isResponseOutput);
         $this->assertTrue($this->response->isSend);
-    }
-
-    public function test_finish_ShouldRedirectIfThereIsAValidUrl()
-    {
-        $_GET['redirecturl'] = 'http://localhost/test?foo=bar';
-
-        $this->requestSet->setRequests(array(array('idsite' => '1')));
-
-        try {
-            $this->handler->finish($this->tracker, $this->requestSet);
-            $this->fail('An expected exception was not thrown');
-        } catch (Exception $e) {
-            $this->assertContains('Matomo would redirect you to this URL: ' . $_GET['redirecturl'], $e->getMessage());
-            unset($_GET['redirecturl']);
-        }
-    }
-
-    public function test_finish_ShouldRedirectIfThereIsAValidBelongingToTheSite()
-    {
-        $_GET['redirecturl'] = 'http://piwik.net/';
-
-        $this->requestSet->setRequests(array(array('idsite' => '1')));
-
-        try {
-            $this->handler->finish($this->tracker, $this->requestSet);
-            $this->fail('An expected exception was not thrown');
-        } catch (Exception $e) {
-            $this->assertContains('Matomo would redirect you to this URL: http://piwik.net/', $e->getMessage());
-            unset($_GET['redirecturl']);
-        }
-    }
-
-    public function test_finish_ShouldNotRedirectIfThereIsAUrlThatDoesNotBelongToAnySite()
-    {
-        $_GET['redirecturl'] = 'http://random.piwik.org/test?foo=bar';
-
-        $this->requestSet->setRequests(array(array('idsite' => '1')));
-        $this->handler->finish($this->tracker, $this->requestSet);
-        unset($_GET['redirecturl']);
-
-        $this->assertTrue(true);
-    }
-
-    public function test_finish_ShouldNotRedirectIfUrlIsValidButNoRequests()
-    {
-        $_GET['redirecturl'] = 'http://localhost/test';
-
-        $this->requestSet->setRequests(array());
-        $this->handler->finish($this->tracker, $this->requestSet);
-        unset($_GET['redirecturl']);
-
-        $this->assertTrue(true);
     }
 
     public function test_finish_ShoulAlsoReturnAPossibleRenderedException()
@@ -170,21 +118,6 @@ class HandlerTest extends IntegrationTestCase
     {
         $this->executeOnException(new InvalidRequestParameterException('test'));
         $this->assertSame(400, $this->response->statusCode);
-    }
-
-    public function test_onException_ShouldStilRedirectIfThereIsAnExceptionAndAValidRedirectUrl()
-    {
-        $_GET['redirecturl'] = 'http://localhost/test?foo=bar';
-
-        $this->requestSet->setRequests(array(array('idsite' => '1')));
-
-        try {
-            $this->handler->onException($this->tracker, $this->requestSet, $this->buildException());
-            $this->fail('An expected exception was not thrown');
-        } catch (Exception $e) {
-            $this->assertContains('Matomo would redirect you to this URL: ' . $_GET['redirecturl'], $e->getMessage());
-            unset($_GET['redirecturl']);
-        }
     }
 
     public function test_onException_ShouldNotRethrowExceptionToExitTrackerImmediately()

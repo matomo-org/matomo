@@ -15,20 +15,20 @@ use Piwik\Plugins\API\Renderer\Xml;
  * @group Plugin
  * @group API
  */
-class XmlRendererTest extends \PHPUnit_Framework_TestCase
+class XmlRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Xml
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array());
         DataTable\Manager::getInstance()->deleteAll();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         DataTable\Manager::getInstance()->deleteAll();
     }

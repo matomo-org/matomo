@@ -29,7 +29,7 @@ class ScheduledReportsTest extends IntegrationTestCase
     private $reports;
     private $reportIds = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -130,7 +130,7 @@ class ScheduledReportsTest extends IntegrationTestCase
             $this->getReport($login, $idSite);
             $this->fail("Report for $login, $idSite should not exist but does");
         } catch (\Exception $e) {
-            $this->assertContains("Requested report couldn't be found", $e->getMessage());
+            self::assertStringContainsString("Requested report couldn't be found", $e->getMessage());
         }
     }
 

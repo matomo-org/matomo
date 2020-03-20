@@ -1,7 +1,27 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "Không có cơ sở dữ liệu GeoIP hợp lệ trong kho lưu trữ tar %1$s!",
+        "AssumingNonApache": "Không thể tìm thấy hàm apache_get_modules, giả sử không có máy chủ web Apache.",
+        "CannotFindGeoIPServerVar": "Biến %s không được thiết lập. Máy chủ của bạn có thể không được cấu hình đúng.",
+        "CannotListContent": "Không thể liệt kê nội dung cho %1$s: %2$s",
         "CannotUnzipGeoIPFile": "Không thể giải nén tệp GeoIP trong %1$s: %2$s",
-        "PluginDescription": "Cung cấp vị trí nhà cung cấp GeoIP2."
+        "DownloadingDb": "Đang tải xuống %s",
+        "DownloadNewDatabasesEvery": "Cập nhật tất cả các cơ sở dữ liệu",
+        "FoundApacheModules": "Matomo tìm thấy các mô-đun Apache sau",
+        "GeoIPImplHasAccessTo": "GeoIP thực thi này có quyền truy cập vào các kiểu cơ sở dữ liệu sau",
+        "GeoIPDatabases": "Cơ sở dữ liệu GeoIP",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Lưu ý: IP anonymization không ảnh hưởng đến các vị trí được báo cáo bởi nhà cung cấp này. Trước khi sử dụng nó với IP anonymization, đảm bảo điều này không vi phạm bất kỳ luật riêng tư nào bạn có thể bị phạt.",
+        "GeoIPNoServerVars": "Matomo không thể tìm thấy bất kỳ biến %s Geoip nào.",
+        "GeoIPServerVarsFound": "Matomo phát hiện các biến %s Geoip sau đây",
+        "HowToSetupGeoIPIntro": "Bạn không hiển thị để có cài đặt định vị chính xác. Đây là một tính năng hữu ích và không có nó, bạn sẽ không nhìn thấy thông tin vị trí chính xác và đầy đủ cho khách truy cập. Đây là cách bạn có thể nhanh chóng bắt đầu sử dụng nó:",
+        "HowToInstallApacheModule": "Làm thế nào để cài đặt các module Geoip cho Apache?",
+        "HowToInstallNginxModule": "Làm thế nào để cài đặt module GeoIP cho Nginx?",
+        "HttpServerModule": "Module máy chủ HTTP",
+        "InvalidGeoIPUpdatePeriod": "Thời gian cho GeoIP cập nhật không hợp lệ: %1$s. Giá trị hợp lệ là %2$s.",
+        "ISPDatabase": "Cơ sở dữ liệu ISP",
+        "LocationDatabase": "Cơ sở dữ liệu vị trí",
+        "LocationDatabaseHint": "Một cơ sở dữ liệu vị trí là một quốc gia, khu vực hoặc cơ sở dữ liệu thành phố.",
+        "UnsupportedArchiveType": "Bắt gặp kiêu lưu trữ %1$s không được hỗ trợ",
+        "UpdaterHasNotBeenRun": "Các cập nhật chưa bao giờ được chạy.",
+        "UpdaterWasLastRun": "Các cập nhật chạy sau cùng trên %s."
     }
 }

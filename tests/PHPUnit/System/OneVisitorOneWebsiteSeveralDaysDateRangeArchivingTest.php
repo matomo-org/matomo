@@ -7,8 +7,11 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive\ArchivePurger;
 use Piwik\Archive\Chunk;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -23,6 +26,9 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  */
 class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCase
 {
+    /**
+     * @var VisitsOverSeveralDays
+     */
     public static $fixture = null; // initialized below test definition
 
     public static function getOutputPrefix()
@@ -101,9 +107,14 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      */
     public function test_checkArchiveRecords_whenPeriodIsRange()
     {
-        // we expect 5 blobs for Actions plugins, because flat=1 or expanded=1 was not set
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        foreach (self::$fixture->dateTimes as $date) {
+            $archivePurger->purgeInvalidatedArchivesFrom(Date::factory($date));
+        }
+
+        // we expect 6 blobs for Actions plugins, because flat=1 or expanded=1 was not set
         // so we only archived the parent table
-        $expectedActionsBlobs = 5;
+        $expectedActionsBlobs = 6;
 
         // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
@@ -121,18 +132,19 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
              *               + 1 flag // VisitTime
              *               = 11
              *
-             *   because we call VisitFrequency.get, this creates an archive for the visitorType==returning segment.
+             *   because we call VisitFrequency.get, this creates archives for visitorType==returning
+             *   and visitorType==new segment.
              *          -> There are two archives for each segment (one for "countryCode!=aa"
-             *                      and VisitFrequency creates one for "countryCode!=aa;visitorType==returning")
+             *                      and VisitFrequency creates two more.
              *
-             * So each period=range will have = 11 records + (5 metrics + 1 flag // VisitsSummary)
-             *                                = 17
+             * So each period=range will have = 11 records + (5 metrics + 2 flags // VisitsSummary)
+             *                                = 18
              *
              * Total expected records = count unique archives * records per archive
-             *                        = 3 * 17
-             *                        = 51
+             *                        = 3 * 18
+             *                        = 54
              */
-            'archive_numeric_2010_12' => 17 * 3,
+            'archive_numeric_2010_12' => 18 * 3,
 
             /**
              * In the January date range,

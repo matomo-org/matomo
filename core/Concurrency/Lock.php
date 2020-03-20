@@ -12,6 +12,8 @@ use Piwik\Common;
 
 class Lock
 {
+    const MAX_KEY_LEN = 70;
+
     /**
      * @var LockBackend
      */
@@ -21,12 +23,19 @@ class Lock
 
     private $lockKey   = null;
     private $lockValue = null;
+    private $defaultTtl = null;
 
-    public function __construct(LockBackend $backend, $lockKeyStart)
+    public function __construct(LockBackend $backend, $lockKeyStart, $defaultTtl = null)
     {
         $this->backend = $backend;
         $this->lockKeyStart = $lockKeyStart;
         $this->lockKey = $this->lockKeyStart;
+        $this->defaultTtl = $defaultTtl;
+    }
+
+    public function reexpireLock()
+    {
+        $this->expireLock($this->defaultTtl);
     }
 
     public function getNumberOfAcquiredLocks()
@@ -39,9 +48,33 @@ class Lock
         return $this->backend->getKeysMatchingPattern($this->lockKeyStart . '*');
     }
 
+    public function execute($id, $callback)
+    {
+        $i = 0;
+        while (!$this->acquireLock($id)) {
+            $i++;
+            usleep( 100 * 1000 ); // 100ms
+            if ($i > 50) { // give up after 5seconds (50 * 100ms)
+                throw new \Exception('Could not get the lock for ID: ' . $id);
+            }
+        };
+        try {
+            return $callback();
+        } finally {
+            $this->unlock();
+        }
+    }
+
     public function acquireLock($id, $ttlInSeconds = 60)
     {
         $this->lockKey = $this->lockKeyStart . $id;
+
+        if (Common::mb_strlen($this->lockKey) > self::MAX_KEY_LEN) {
+            // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
+            // to make it more readable
+            $md5Len = 32;
+            $this->lockKey = Common::mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
+        }
 
         $lockValue = substr(Common::generateUniqId(), 0, 12);
         $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds);

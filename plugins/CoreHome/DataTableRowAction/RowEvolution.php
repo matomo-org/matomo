@@ -120,7 +120,7 @@ class RowEvolution
     /**
      * Render the popover
      * @param \Piwik\Plugins\CoreHome\Controller $controller
-     * @param View (the popover_rowevolution template)
+     * @param \Piwik\View (the popover_rowevolution template)
      */
     public function renderPopover($controller, $view)
     {
@@ -284,8 +284,8 @@ class RowEvolution
             $fractionDigits = max($this->getFractionDigits($first), $this->getFractionDigits($last));
 
             $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
-                NumberFormatter::getInstance()->format($first, $fractionDigits, $fractionDigits) . $unit,
-                NumberFormatter::getInstance()->format($last, $fractionDigits, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->format($first, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->format($last, $fractionDigits) . $unit,
             ));
 
             if ($change !== false) {

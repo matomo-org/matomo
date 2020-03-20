@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "基於 %1$s 次點擊%2$s介於 %3$s 到 %4$s",
+        "ColumnClickedURL": "點擊的離開連結",
+        "ColumnClickedURLs": "點擊的離開連結",
         "ColumnActionURL": "活動網址",
         "ColumnClicks": "點擊數",
         "ColumnClicksDocumentation": "此連結被點擊的次數。",

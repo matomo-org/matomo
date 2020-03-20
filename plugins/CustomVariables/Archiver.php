@@ -16,8 +16,6 @@ use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
 
-require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
 class Archiver extends \Piwik\Plugin\Archiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
@@ -109,7 +107,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         // then we also query the "Product page view" price which was possibly recorded.
         $additionalSelects = false;
 
-        if (in_array($slot, array(\PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_SKU, \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_NAME, \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY))) {
+        if (in_array($slot, array(\MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_SKU, \MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_NAME, \MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY))) {
             $additionalSelects = array($this->getSelectAveragePrice());
         }
         $query = $this->getLogAggregator()->queryActionsByDimension($dimensions, $where, $additionalSelects);
@@ -121,7 +119,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function getSelectAveragePrice()
     {
-        $field = "custom_var_v" . \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_PRICE;
+        $field = "custom_var_v" . \MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_PRICE;
         return LogAggregator::getSqlRevenue("AVG(log_link_visit_action." . $field . ")") . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 

@@ -10,12 +10,13 @@ namespace Piwik\Db\Schema;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
-use Piwik\Plugins\Installation\Installation;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Version;
 
 /**
@@ -24,6 +25,7 @@ use Piwik\Version;
 class Mysql implements SchemaInterface
 {
     const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
+    const MAX_TABLE_NAME_LENGTH = 64;
 
     private $tablesInstalled = null;
 
@@ -44,12 +46,24 @@ class Mysql implements SchemaInterface
                           alias VARCHAR(45) NOT NULL,
                           email VARCHAR(100) NOT NULL,
                           twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
-                          token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
-                            PRIMARY KEY(login),
-                            UNIQUE KEY uniq_keytoken(token_auth)
+                            PRIMARY KEY(login)
+                          ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+            'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (
+                          idusertokenauth BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                          login VARCHAR(100) NOT NULL,
+                          description VARCHAR(".Model::MAX_LENGTH_TOKEN_DESCRIPTION.") NOT NULL,
+                          password VARCHAR(255) NOT NULL,
+                          hash_algo VARCHAR(30) NOT NULL,
+                          system_token TINYINT(1) NOT NULL DEFAULT 0,
+                          last_used DATETIME NULL,
+                          date_created DATETIME NOT NULL,
+                          date_expired DATETIME NULL,
+                            PRIMARY KEY(idusertokenauth),
+                            UNIQUE KEY uniq_password(password)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
@@ -223,7 +237,7 @@ class Mysql implements SchemaInterface
                                         idvisit BIGINT(10) UNSIGNED NOT NULL,
                                         idaction_url_ref INTEGER(10) UNSIGNED NULL DEFAULT 0,
                                         idaction_name_ref INTEGER(10) UNSIGNED NULL,
-                                        custom_float FLOAT NULL DEFAULT NULL,
+                                        custom_float DOUBLE NULL DEFAULT NULL,
                                           PRIMARY KEY(idlink_va),
                                           INDEX index_idvisit(idvisit)
                                         ) ENGINE=$engine DEFAULT CHARSET=utf8
@@ -311,7 +325,7 @@ class Mysql implements SchemaInterface
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
             'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
-                                      `key` VARCHAR(70) NOT NULL,
+                                      `key` VARCHAR(".Lock::MAX_KEY_LEN.") NOT NULL,
                                       `value` VARCHAR(255) NULL DEFAULT NULL,
                                       `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
                                       PRIMARY KEY (`key`)
@@ -503,12 +517,15 @@ class Mysql implements SchemaInterface
     public function createAnonymousUser()
     {
         $now = Date::factory('now')->getDatetime();
-
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 'anonymous', 0, '$now', '$now' );");
+                    (`login`, `password`, `alias`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`)
+                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 0, '$now', '$now' );");
+
+        $model = new Model();
+        $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);
     }
 
     /**

@@ -94,24 +94,16 @@
 				<pageId>352</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>mobile</subtitle>
+				<subtitle>mobile - Search Category: images - Search Results Count: 200</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1640,24 +1632,16 @@
 				<pageId>468</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>mobile</subtitle>
+				<subtitle>mobile - Search Category: images - Search Results Count: 200</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -3186,24 +3170,16 @@
 				<pageId>584</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>mobile</subtitle>
+				<subtitle>mobile - Search Category: images - Search Results Count: 200</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -4995,7 +4971,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5017,7 +4993,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5039,7 +5015,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5061,7 +5037,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5080,7 +5056,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -5367,20 +5343,16 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>analytics</subtitle>
+				<subtitle>analytics - Search Results Count: 210</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -5400,7 +5372,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5422,7 +5394,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5444,7 +5416,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5466,7 +5438,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5485,7 +5457,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -5945,7 +5917,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5967,7 +5939,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5989,7 +5961,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6011,7 +5983,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -6032,7 +6004,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -6319,20 +6291,16 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>analytics</subtitle>
+				<subtitle>analytics - Search Results Count: 210</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -6352,7 +6320,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6374,7 +6342,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6396,7 +6364,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6418,7 +6386,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -6437,7 +6405,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -6899,7 +6867,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6921,7 +6889,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6943,7 +6911,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6965,7 +6933,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -6984,7 +6952,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -7271,20 +7239,16 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>analytics</subtitle>
+				<subtitle>analytics - Search Results Count: 210</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -7304,7 +7268,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -7326,7 +7290,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -7348,7 +7312,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -7370,7 +7334,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -7389,7 +7353,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -9526,7 +9490,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9548,7 +9512,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9570,7 +9534,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9592,7 +9556,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -9611,7 +9575,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -9761,7 +9725,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9783,7 +9747,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9805,7 +9769,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -9827,7 +9791,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -9846,7 +9810,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -9996,7 +9960,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -10018,7 +9982,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -10040,7 +10004,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -10062,7 +10026,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -10081,7 +10045,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -10408,24 +10372,16 @@
 				<pageId>409</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>ecommerce</subtitle>
+				<subtitle>ecommerce - Search Category: web - Search Results Count: 205</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -10951,24 +10907,16 @@
 				<pageId>525</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>ecommerce</subtitle>
+				<subtitle>ecommerce - Search Category: web - Search Results Count: 205</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -11494,24 +11442,16 @@
 				<pageId>641</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>ecommerce</subtitle>
+				<subtitle>ecommerce - Search Category: web - Search Results Count: 205</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -11831,7 +11771,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -11853,7 +11793,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -11875,7 +11815,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -11897,7 +11837,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -11916,7 +11856,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -12066,7 +12006,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12088,7 +12028,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12110,7 +12050,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12132,7 +12072,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -12151,7 +12091,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -12301,7 +12241,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12323,7 +12263,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12345,7 +12285,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -12367,7 +12307,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -12386,7 +12326,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -18429,24 +18369,16 @@
 				<pageId>236</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>mobile</subtitle>
+				<subtitle>mobile - Search Category: images - Search Results Count: 200</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -20238,7 +20170,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20260,7 +20192,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20282,7 +20214,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20304,7 +20236,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -20323,7 +20255,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -20610,20 +20542,16 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>analytics</subtitle>
+				<subtitle>analytics - Search Results Count: 210</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -20643,7 +20571,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20665,7 +20593,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20687,7 +20615,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -20709,7 +20637,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -20728,7 +20656,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -21521,7 +21449,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -21543,7 +21471,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -21565,7 +21493,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -21587,7 +21515,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -21606,7 +21534,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -21933,24 +21861,16 @@
 				<pageId>293</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>ecommerce</subtitle>
+				<subtitle>ecommerce - Search Category: web - Search Results Count: 205</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -22270,7 +22190,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -22292,7 +22212,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -22314,7 +22234,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -22336,7 +22256,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -22355,7 +22275,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -24502,24 +24422,16 @@
 				<pageId>120</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>mobile</subtitle>
+				<subtitle>mobile - Search Category: images - Search Results Count: 200</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -26048,24 +25960,16 @@
 				<pageId>700</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>mobile</subtitle>
+				<subtitle>mobile - Search Category: images - Search Results Count: 200</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -27857,7 +27761,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -27879,7 +27783,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -27901,7 +27805,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -27923,7 +27827,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -27942,7 +27846,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -28229,20 +28133,16 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>analytics</subtitle>
+				<subtitle>analytics - Search Results Count: 210</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -28262,7 +28162,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28284,7 +28184,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28306,7 +28206,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28328,7 +28228,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -28347,7 +28247,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -28809,7 +28709,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28831,7 +28731,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28853,7 +28753,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -28875,7 +28775,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -28894,7 +28794,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -29181,20 +29081,16 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>analytics</subtitle>
+				<subtitle>analytics - Search Results Count: 210</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -29214,7 +29110,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -29236,7 +29132,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -29258,7 +29154,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -29280,7 +29176,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -29299,7 +29195,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -30735,7 +30631,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30757,7 +30653,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30779,7 +30675,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30801,7 +30697,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -30820,7 +30716,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -30970,7 +30866,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -30992,7 +30888,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -31014,7 +30910,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -31036,7 +30932,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -31055,7 +30951,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -31382,24 +31278,16 @@
 				<pageId>177</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>ecommerce</subtitle>
+				<subtitle>ecommerce - Search Category: web - Search Results Count: 205</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -31896,24 +31784,16 @@
 				<pageId>757</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>ecommerce</subtitle>
+				<subtitle>ecommerce - Search Category: web - Search Results Count: 205</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -32233,7 +32113,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32255,7 +32135,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32277,7 +32157,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32299,7 +32179,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -32318,7 +32198,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -32468,7 +32348,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32490,7 +32370,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32512,7 +32392,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -32534,7 +32414,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -32553,7 +32433,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -36648,24 +36528,16 @@
 				<pageId>4</pageId>
 				<bandwidth />
 				<siteSearchKeyword>mobile</siteSearchKeyword>
+				<siteSearchCategory>images</siteSearchCategory>
+				<siteSearchCount>200</siteSearchCount>
 				<generationTimeMilliseconds>545</generationTimeMilliseconds>
 				<generationTime>0.55s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>mobile</subtitle>
+				<subtitle>mobile - Search Category: images - Search Results Count: 200</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -38457,7 +38329,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38479,7 +38351,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38501,7 +38373,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38523,7 +38395,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -38542,7 +38414,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -38829,20 +38701,16 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
+				<siteSearchCategory />
+				<siteSearchCount>210</siteSearchCount>
 				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
 				<generationTime>1.03s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>analytics</subtitle>
+				<subtitle>analytics - Search Results Count: 210</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -38862,7 +38730,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38884,7 +38752,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38906,7 +38774,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -38928,7 +38796,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -38947,7 +38815,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -39769,7 +39637,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -39791,7 +39659,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -39813,7 +39681,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -39835,7 +39703,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -39854,7 +39722,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -40210,24 +40078,16 @@
 				<pageId>61</pageId>
 				<bandwidth />
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
+				<siteSearchCategory>web</siteSearchCategory>
+				<siteSearchCount>205</siteSearchCount>
 				<generationTimeMilliseconds>585</generationTimeMilliseconds>
 				<generationTime>0.59s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>ecommerce</subtitle>
+				<subtitle>ecommerce - Search Category: web - Search Results Count: 205</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -40547,7 +40407,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>Test Name</eventName>
 				<eventValue>2</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -40569,7 +40429,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>3</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -40591,7 +40451,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;stop&quot;</subtitle>
 				<eventName>My Sound</eventName>
 				<eventValue>1</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -40613,7 +40473,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;resume&quot;</subtitle>
 				<eventName>Another Sound</eventName>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -40632,7 +40492,7 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
+				<subtitle>Category: &quot;Sound', Action: &quot;play&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>

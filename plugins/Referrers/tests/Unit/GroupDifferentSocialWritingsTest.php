@@ -18,7 +18,7 @@ use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
  * @group Core
  * @group sort
  */
-class GroupDifferentSocialWritingsTest extends \PHPUnit_Framework_TestCase
+class GroupDifferentSocialWritingsTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testRowsAreGrouped()

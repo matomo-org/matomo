@@ -58,4 +58,19 @@ class Factory
             'pluginName' => $pluginName
         ));
     }
+
+    /**
+     * Uninstalls the given plugin during an update.
+     *
+     * If the plugin is still active or if any other error occurs it will be ignored.
+     *
+     * @param string $pluginName
+     * @return Uninstall
+     */
+    public function uninstall($pluginName)
+    {
+        return $this->container->make('Piwik\Updater\Migration\Plugin\Uninstall', array(
+            'pluginName' => $pluginName
+        ));
+    }
 }

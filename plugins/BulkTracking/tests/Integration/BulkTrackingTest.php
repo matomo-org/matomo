@@ -74,12 +74,11 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertCount(2, $requests);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth must be specified when using Bulk Tracking Import
-     */
     public function test_initRequestSet_shouldTriggerException_InCaseNoValidTokenProvidedAndAuthenticationIsRequired()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
+
         $request = $this->getDummyRequest(false);
 
         $this->initRequestSet($request, true);

@@ -104,11 +104,11 @@ class TestingEnvironmentVariables
         $pluginManager = new PluginManager($pluginList);
 
         $disabledPlugins = $pluginList->getCorePluginsDisabledByDefault();
-        $disabledPlugins[] = 'LoginHttpAuth';
         $disabledPlugins[] = 'LoginLdap';
         $disabledPlugins[] = 'MarketingCampaignsReporting';
         $disabledPlugins[] = 'ExampleVisualization';
         $disabledPlugins[] = 'DeviceDetectorCache';
+        $disabledPlugins[] = 'Provider';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'

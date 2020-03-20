@@ -19,7 +19,7 @@ use Piwik\Plugins\Insights\Visualizations\Insight;
  * @group Unit
  * @group Core
  */
-class InsightReportTest extends \PHPUnit_Framework_TestCase
+class InsightReportTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var InsightReport
@@ -55,7 +55,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
      */
 
     // TODO use data providers
-    public function setUp()
+    public function setUp(): void
     {
         $this->currentTable = new DataTable();
         $this->currentTable->addRowsFromArray(array(
@@ -110,12 +110,11 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Unsupported orderBy
-     */
     public function test_generateInsight_Order_ShouldThrowException_IfInvalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unsupported orderBy');
+
         $this->generateInsight(2, 2, 2, 17, -17, 'InvalidOrDeRbY');
     }
 
@@ -270,7 +269,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
             'minDisappearedPercent' => 8,
         );
 
-        $this->assertInternalType('array', $metadata['report']);
+        self::assertIsArray($metadata['report']);
         $this->assertEquals('TestReport', $metadata['report']['name']);
         unset($metadata['report']);
         unset($metadata['totals']);

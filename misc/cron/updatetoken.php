@@ -56,10 +56,7 @@ if($piwikDomain) {
 $environment = new Environment('cli');
 $environment->init();
 
-$token = Db::get()->fetchOne("SELECT token_auth
-                              FROM " . Common::prefixTable("user") . "
-                              WHERE superuser_access = 1
-                              ORDER BY date_registered ASC");
+$token = Piwik::requestTemporarySystemAuthToken('LogImporter', 48);
 
 $filename = $environment->getContainer()->get('path.tmp') . '/cache/token.php';
 

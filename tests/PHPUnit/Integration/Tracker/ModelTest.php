@@ -7,7 +7,9 @@
  */
 namespace Piwik\Tests\Integration\Tracker;
 
+use Matomo\Network\IPUtils;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -28,11 +30,34 @@ class ModelTest extends IntegrationTestCase
      */
     private $model;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->model = new Model();
+    }
+
+    public function test_hasVisit() {
+        $this->model->createVisit(array(
+            'idvisitor' => hex2bin('1234567812345678'),
+            'config_id' => '1234567',
+            'location_ip' => IPUtils::binaryToStringIP('10.10.10.10'),
+            'idvisit' => '4',
+            'idsite' => '3',
+            'visitor_count_visits' => 0,
+            'visit_total_time' => 0,
+            'visit_first_action_time' => Date::now()->getDatetime(),
+            'visit_last_action_time' => Date::now()->getDatetime(),
+        ));
+
+        $this->assertTrue($this->model->hasVisit(3, 4));
+        $this->assertTrue($this->model->hasVisit('3', '4'));
+
+        // idsite not match
+        $this->assertFalse($this->model->hasVisit(9, 4));
+
+        // idvisit not match
+        $this->assertFalse($this->model->hasVisit(3, 8));
     }
 
     public function test_createNewIdAction_CreatesNewAction_WhenNoActionWithSameNameAndType()

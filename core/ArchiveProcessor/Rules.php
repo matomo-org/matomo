@@ -112,7 +112,7 @@ class Rules
         return $doneFlags;
     }
 
-    public static function getMinTimeProcessedForTemporaryArchive(
+    public static function getMinTimeProcessedForInProgressArchive(
         Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
@@ -226,9 +226,21 @@ class Rules
         return !$isArchivingEnabled;
     }
 
-    public static function isRequestAuthorizedToArchive()
+    public static function isRequestAuthorizedToArchive(Parameters $params = null)
     {
-        return Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+        $isRequestAuthorizedToArchive = Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+
+        if (!empty($params)) {
+            /**
+             * @ignore
+             *
+             * @params bool &$isRequestAuthorizedToArchive
+             * @params Parameters $params
+             */
+            Piwik::postEvent('Archiving.isRequestAuthorizedToArchive', [&$isRequestAuthorizedToArchive, $params]);
+        }
+
+        return $isRequestAuthorizedToArchive;
     }
 
     public static function isBrowserTriggerEnabled()
@@ -291,13 +303,15 @@ class Rules
     /**
      * Returns done flag values allowed to be selected
      *
-     * @return string
+     * @return string[]
      */
-    public static function getSelectableDoneFlagValues()
+    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null)
     {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
-        if (!Rules::isRequestAuthorizedToArchive()) {
+        if (!Rules::isRequestAuthorizedToArchive($params)
+            && $includeInvalidated
+        ) {
             //If request is not authorized to archive then fetch also invalidated archives
             $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
         }

@@ -10,10 +10,8 @@ namespace Piwik\Http;
 
 use DI\FactoryInterface;
 use Exception;
-use Piwik\Plugin;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Session;
 use Piwik\Plugin\WidgetsProvider;
 
 /**

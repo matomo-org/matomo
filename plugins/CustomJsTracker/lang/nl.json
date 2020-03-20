@@ -1,0 +1,6 @@
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsWritable": "Schrijfbare JavaScript-tracker (%s)",
+        "DiagnosticPiwikJsMakeWritable": "We adviseren %1$s schrijfbaar te maken door het volgende commando uit te voeren: %2$s"
+    }
+}

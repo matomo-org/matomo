@@ -67,6 +67,9 @@ describe("OneClickUpdate", function () {
                 await submitButton.click();
                 await page.waitForNetworkIdle();
                 await page.waitFor(250);
+
+                await page.click('.footer a');
+                await page.waitForNetworkIdle();
             } else {
                 break;
             }

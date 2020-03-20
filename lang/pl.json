@@ -111,7 +111,6 @@
         "ConfigFileIsNotWritable": "Plik konfiguracyjny Matomo %1$s nie ma ustawionych praw do zapisu, zmiany poczynione nie mogły więc zostać zapisane. %2$s Zmień przez chmod uprawnienia do zapisu pliku konfiguracyjnego.",
         "Continue": "Kontunuuj",
         "ContinueToPiwik": "Przejdź do Matomo",
-        "CurrentlyUsingUnsecureHttp": "Aktualnie używasz Matomo przez niezabezpieczony protokół HTTP. Zalecamy wykorzystanie SSL (HTTPS) aby poprawić bezpieczeństwo.",
         "CreatedByUser": "utworzony przez %s",
         "CurrentMonth": "bieżący miesiąc",
         "CurrentWeek": "bieżący tydzień",

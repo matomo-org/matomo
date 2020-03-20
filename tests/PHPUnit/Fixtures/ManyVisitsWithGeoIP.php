@@ -56,7 +56,7 @@ class ManyVisitsWithGeoIP extends Fixture
     protected $idGoal;
     protected $idGoal2;
 
-    public function setUp()
+    public function setUp(): void
     {
         // set option, so tracked data for the past won't get converted
         Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, 1);
@@ -78,7 +78,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $this->setLocationProvider('GeoIP2-City.mmdb');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->unsetLocationProvider();
     }
@@ -129,13 +129,13 @@ class ManyVisitsWithGeoIP extends Fixture
 
     /**
      * Insert a new visit into the database.
-     * @param \PiwikTracker $t          The tracker to record the visits on
+     * @param \MatomoTracker $t          The tracker to record the visits on
      * @param int $fixtureCounter       Number of times this fixture has been run 
      * @param int $visitorCounter       Visitor counter within this execution of the fixture
      * @param boolean $doBulk           Should this visit be left for bulk insert later, or processed now?
      * @param array $params             Other params as required to set up the visit
      */
-    protected function trackVisit(\PiwikTracker $t, $fixtureCounter, $visitorCounter, $doBulk, array $params)
+    protected function trackVisit(\MatomoTracker $t, $fixtureCounter, $visitorCounter, $doBulk, array $params)
     {
         $setIp = isset($params['setIp']) && $params['setIp'];
 
@@ -199,7 +199,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $date = $date->addHour(0.1);
         $t->setForceVisitDateTime($date->getDatetime());
         if( ($visitorCounter % 2) == 0) {
-            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT');
+            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter*6);
         }
 
         if (!$doBulk) {

@@ -11,7 +11,6 @@ namespace Piwik\DataTable;
 use Exception;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\BaseFactory;
@@ -124,7 +123,7 @@ abstract class Renderer extends BaseFactory
     /**
      * Set the DataTable to be rendered
      *
-     * @param DataTable|Simple|DataTable\Map $table table to be rendered
+     * @param DataTableInterface $table table to be rendered
      * @throws Exception
      */
     public function setTable($table)

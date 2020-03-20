@@ -26,7 +26,9 @@ class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {
-        $token = 'token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string');
+        $tokenAuth = Common::getRequestVar('token_auth', 'anonymous', 'string');
+
+        $token = 'token_auth=' . $tokenAuth;
 
         // when calling the API through http, we limit the number of returned results
         if (!isset($_GET['filter_limit'])) {

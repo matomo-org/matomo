@@ -42,7 +42,7 @@ class LoginWhitelistTest extends IntegrationTestCase
 
     private $cliMode;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class LoginWhitelistTest extends IntegrationTestCase
         $this->whitelist = new CustomLoginWhitelist();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Common::$isCliMode = $this->cliMode;
         parent::tearDown();

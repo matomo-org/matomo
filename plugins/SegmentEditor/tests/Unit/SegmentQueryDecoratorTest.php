@@ -17,7 +17,7 @@ use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
  * @group SegmentEditor
  * @group SegmentEditor_Unit
  */
-class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
+class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 {
     public static $storedSegments = array(
         array('definition' => 'countryCode==abc', 'idsegment' => 1),
@@ -31,7 +31,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     private $decorator;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -83,8 +83,11 @@ class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
 
     private function getMockSegmentEditorService()
     {
-        $mock = $this->getMock('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService',
-            array('getAllSegmentsAndIgnoreVisibility'), array(), '', $callOriginalConstructor = false);
+        $mock = $this->getMockBuilder('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService')
+            ->setMethods(['getAllSegmentsAndIgnoreVisibility'])
+            ->setConstructorArgs([])
+            ->disableOriginalConstructor()
+            ->getMock();
         $mock->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->willReturn(self::$storedSegments);
         return $mock;
     }

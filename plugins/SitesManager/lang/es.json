@@ -15,8 +15,6 @@
         "EcommerceHelp": "Cuando es habilitado, el informe \"Metas\" poseerá una nueva sección \"Comercio electrónico\".",
         "EnableEcommerce": "Comercio electrónico habilitado",
         "EnableSiteSearch": "Seguimiento de las búsquedas del sitio habilitado",
-        "EnableSiteSpecificUserAgentExclude": "Habilitar exclusión de usuario de agente específico de sitio.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Si necesita excluir diferentes agentes de usuario para diferentes sitios de internet, marque esta casilla, clic en guardar y %1$sagregue los agentes de usuario de arriba%2$s.",
         "ExceptionDeleteSite": "No es posible eliminar este sitio ya que es el único que tiene registrado. Primero agregue un nuevo sitio, luego elimine éste.",
         "ExceptionEmptyName": "El nombre del sitio no puede estar vacío.",
         "ExceptionInvalidCurrency": "La moneda \"%1$s\" no es válida. Por favor ingrese un símbolo de moneda válido (ej. %2$s)",
@@ -72,10 +70,10 @@
         "ShowTrackingTag": "Ver código de rastreo",
         "Sites": "Sitios de internet",
         "SiteSearchUse": "Puede utilizar Matomo para rastrear y obtener un informe que es lo que están buscando sus visitantes en el motor de búsqueda interno de su sitio de internet.",
+        "SiteWithoutDataTitle": "No se ha grabado información aún, prepárate abajo",
         "SiteWithoutDataDescription": "Aun no se han registrado datos analíticos para este sitio de internet.",
         "SiteWithoutDataSetupTracking": "Si no lo has hecho ya, por favor, configura el %1$scódigo de seguimiento%2$s de abajo en tu sitio web o app para móvil.",
         "SiteWithoutDataMessageDisappears": "Este mensaje desaparecerá tan pronto como algún dato sea monitoreado en este sitio web.",
-        "SiteWithoutDataSetupGoals": "Mientras tanto, puede que te gustase %1$sconfigurar algunos objetivos%2$s o aprender más acerca de las %3$scapacidades%4$s del sistema leyendo alguna de nuestras %5$sguías%6$s or %7$sFAQs%8$s",
         "SiteWithoutDataIgnoreMessage": "No mostrar este mensaje durante la próxima hora",
         "SuperUserAccessCan": "Un usuario con acceso Super Usuario también puede %1$s especificar la configuración global%2$s para nuevos sitios web.",
         "Timezone": "Zona Horaria",
@@ -92,6 +90,11 @@
         "ChooseMeasurableTypeHeadline": "Qué le gustaría medir?",
         "YouCurrentlyHaveAccessToNWebsites": "Actualmente posee acceso a %s sitios de internet.",
         "YourCurrentIpAddressIs": "Su dirección IP actual es %s",
-        "DeleteSiteExplanation": "Eliminando un sitio web eliminará todos los datos de registro que se hayan recopilado para el mismo. Esta acción es permanente y no se puede deshacer."
+        "DeleteSiteExplanation": "Eliminando un sitio web eliminará todos los datos de registro que se hayan recopilado para el mismo. Esta acción es permanente y no se puede deshacer.",
+        "EmailInstructionsButton": "Envía por correo estas instrucciones",
+        "EmailInstructionsSubject": "Código de rastreo de analíticas de Matomo",
+        "EmailInstructionsSiteDetailsHeading": "Detalles de tu sitio",
+        "EmailInstructionsYourSiteId": "La identificación de tu sitio: %1$s",
+        "EmailInstructionsYourTrackingUrl": "Tu URL de rastreo: %1$s"
     }
 }

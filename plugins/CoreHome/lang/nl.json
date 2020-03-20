@@ -14,6 +14,7 @@
         "DataTableExcludeAggregateRows": "Geagregeerde rijen worden getoond %s Verberg ze",
         "DataTableIncludeAggregateRows": "Geagregeerde rijen zijn verborgen %s Toon ze",
         "DataTableHowToSearch": "Druk op enter of klik op het zoek icoon om te zoeken.",
+        "DataTableShowDimensions": "Dimensies zijn gecombineerd %s Toon dimensies apart",
         "Default": "standaard",
         "DonateCall1": "Matomo zal altijd gratis zijn om te gebruiken, maar dat wil niet zeggen dat het niks kost om te maken.",
         "DonateCall2": "Matomo heeft uw voortdurende steun nodig om te groeien en te bloeien.",
@@ -53,6 +54,9 @@
         "ShareThis": "Deel dit",
         "ShortcutsAvailable": "Beschikbare snelkoppelingen",
         "ShortcutZenMode": "voor Zen mode",
+        "ShortcutSegmentSelector": "om de Segment selector te openen",
+        "ShortcutWebsiteSelector": "om de Website selector te openen",
+        "ShortcutHelp": "om deze help te tonen",
         "ShowJSCode": "toon de javascript code",
         "SkipToContent": "Ga naar de inhoud",
         "SubscribeAndBecomePiwikSupporter": "Ga verder naar een veilige kredietkaart betaalpagina (Paypal) en wordt een Matomo Supporter!",
@@ -80,6 +84,11 @@
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "De één-klik update is niet beschikbaar wanneer Matomo is geïnstalleerd over meerdere servers. Download de laatste versie van Matomo via %1$s om verder te gaan.",
         "AdblockIsMaybeUsed": "Als je gebruik maakt van een reclame blokker, schakel deze a.u.b. uit zodat je zeker weet dat Matomo werkt zonder problemen.",
         "ChangeCurrentWebsite": "Kies een website, huidig geselecteerde website: %s",
-        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Het leidende open analytics platform dat privacy respecteerd."
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Het leidende open analytics platform dat privacy respecteerd.",
+        "MacPageUp": "Fn + Pijl naar links",
+        "MacPageDown": "Fn + Pijl naar rechts",
+        "ReportType": "Rapport type",
+        "RowLimit": "Rij limiet",
+        "ExportFormat": "Export formaat"
     }
 }

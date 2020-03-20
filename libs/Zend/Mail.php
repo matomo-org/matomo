@@ -1100,7 +1100,7 @@ class Zend_Mail extends Zend_Mime_Message
         } elseif (isset($_SERVER['REMOTE_ADDR'])) {
             $user = $_SERVER['REMOTE_ADDR'];
         } else {
-            $user = getmypid();
+            $user = \Piwik\Common::getProcessId();
         }
 
         $rand = mt_rand();
@@ -1153,7 +1153,7 @@ class Zend_Mail extends Zend_Mime_Message
     /**
      * Return mail headers
      *
-     * @return void
+     * @return array
      */
     public function getHeaders()
     {

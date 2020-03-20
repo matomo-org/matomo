@@ -15,14 +15,14 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
  * @group Sparklines
  * @group Plugins
  */
-class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
+class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Config
      */
     private $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = new Config();
     }

@@ -9,8 +9,8 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\CacheId;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group Cache
@@ -18,14 +18,14 @@ use Piwik\Translate;
  */
 class CacheIdTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function test_languageAware_shouldAppendTheLoadedLanguage()

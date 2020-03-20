@@ -37,7 +37,7 @@ class SettingsProviderTest extends IntegrationTestCase
 
     private $examplePlugin = 'ExampleSettingsPlugin';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,7 +50,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->settings = new SettingsProvider($this->pluginManager);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($_GET['idSite']);

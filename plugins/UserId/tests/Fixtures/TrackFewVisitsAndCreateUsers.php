@@ -19,7 +19,7 @@ class TrackFewVisitsAndCreateUsers extends Fixture
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::siteCreated($idSite = 1)) {
             self::createWebsite($this->dateTime);
@@ -37,6 +37,7 @@ class TrackFewVisitsAndCreateUsers extends Fixture
         foreach (array('user1', 'user2', 'user3') as $key => $userId) {
             for ($numVisits = 0; $numVisits < ($key+1) * 10; $numVisits++) {
                 $t->setUserId($userId);
+                $t->setVisitorId(str_pad($numVisits.$key, 16, 'a'));
                 if ($numVisits % 5 == 0) {
                     $t->doTrackSiteSearch('some search term');
                 }

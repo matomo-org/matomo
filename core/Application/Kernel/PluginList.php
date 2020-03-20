@@ -44,7 +44,6 @@ class PluginList
         'ExampleReport',
         'ExampleAPI',
         'MobileAppMeasurable',
-        'Provider',
         'TagManager'
     );
 

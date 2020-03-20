@@ -103,6 +103,8 @@
 				<serverTimePretty>Mar 6, 2010 13:22:33</serverTimePretty>
 				<pageId>5</pageId>
 				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -111,15 +113,6 @@
 				<timestamp>1267881753</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
-		</actionDetails>
-		<lastActionDateTime>2010-03-06 13:22:33</lastActionDateTime>
-		<userId>email@example.com</userId>
-		<actions>2</actions>
-	</row>
-	<row>
-		<idVisit>4</idVisit>
-		<visitorId>6ccebef4faef4969</visitorId>
-		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
@@ -129,7 +122,7 @@
 				<serverTimePretty>Mar 6, 2010 13:28:33</serverTimePretty>
 				<pageId>6</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<interactionPosition>3</interactionPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -140,10 +133,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:28:33</lastActionDateTime>
 		<userId>email@example.com</userId>
-		<actions>1</actions>
+		<actions>3</actions>
 	</row>
 	<row>
-		<idVisit>5</idVisit>
+		<idVisit>4</idVisit>
 		<visitorId>2f16b4d842cc294d</visitorId>
 		<actionDetails>
 			<row>
@@ -169,7 +162,7 @@
 		<actions>1</actions>
 	</row>
 	<row>
-		<idVisit>6</idVisit>
+		<idVisit>5</idVisit>
 		<visitorId>7dcebef4faef4969</visitorId>
 		<actionDetails>
 			<row>
@@ -200,8 +193,6 @@
 				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>9</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<title>second pageview - by this user id</title>
 				<subtitle>http://example.org/home</subtitle>
@@ -210,6 +201,15 @@
 				<timestamp>1267892913</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
+		</actionDetails>
+		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
+		<userId>new-email@example.com</userId>
+		<actions>2</actions>
+	</row>
+	<row>
+		<idVisit>6</idVisit>
+		<visitorId>5e15b4d842cc294d</visitorId>
+		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://example.org/home</url>
@@ -221,7 +221,7 @@
 				<bandwidth />
 				<timeSpent>721</timeSpent>
 				<timeSpentPretty>12 min 1s</timeSpentPretty>
-				<interactionPosition>3</interactionPosition>
+				<interactionPosition>1</interactionPosition>
 				<title>pageview - should not be tracked by our user id but in a new visit</title>
 				<subtitle>http://example.org/home</subtitle>
 				<icon />
@@ -271,7 +271,7 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:40:33</lastActionDateTime>
 		<userId>new-email@example.com</userId>
-		<actions>3</actions>
+		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>7</idVisit>

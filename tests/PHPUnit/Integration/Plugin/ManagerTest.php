@@ -30,7 +30,7 @@ class ManagerTest extends IntegrationTestCase
      */
     private $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->manager = Plugin\Manager::getInstance();
@@ -91,7 +91,7 @@ class ManagerTest extends IntegrationTestCase
     public function test_ListenNotToControllerMethodEventsThatDoesNotExists()
     {
         foreach ($this->manager->getLoadedPlugins() as $plugin) {
-            $hooks = $plugin->getListHooksRegistered();
+            $hooks = $plugin->registerEvents();
             foreach ($hooks as $hook => $callback) {
                 if (0 === strpos($hook, 'Controller.')) {
                     list($controller, $module, $action) = explode('.', $hook);

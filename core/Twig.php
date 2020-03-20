@@ -198,6 +198,7 @@ class Twig
         $this->addTest_false();
         $this->addTest_true();
         $this->addTest_emptyString();
+        $this->addTest_isNumeric();
 
         $this->twig->addExtension(new PiwikTwigFilterExtension());
     }
@@ -239,7 +240,7 @@ class Twig
     {
         $getJavascriptTranslations = new Twig_SimpleFunction(
             'getJavascriptTranslations',
-            array('Piwik\\Translate', 'getJavascriptTranslations')
+            array(StaticContainer::get('Piwik\Translation\Translator'), 'getJavascriptTranslations')
         );
         $this->twig->addFunction($getJavascriptTranslations);
     }
@@ -361,7 +362,7 @@ class Twig
             if (!empty($options['raw'])) {
                 $template .= piwik_fix_lbrace($message);
             } else {
-                $template .= twig_escape_filter($twigEnv, $message, 'html');
+                $template .= piwik_escape_filter($twigEnv, $message, 'html');
             }
 
             $template .= '</div>';
@@ -574,5 +575,16 @@ class Twig
             return $url;
         });
         $this->twig->addFilter($safelink);
+    }
+
+    private function addTest_isNumeric()
+    {
+        $test = new Twig_SimpleTest(
+            'numeric',
+            function ($value) {
+                return is_numeric($value);
+            }
+        );
+        $this->twig->addTest($test);
     }
 }

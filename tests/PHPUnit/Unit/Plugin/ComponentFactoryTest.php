@@ -7,21 +7,20 @@
  */
 namespace Piwik\Tests\Core\Plugin;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Config;
 use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Report;
-use Piwik\Tests\Framework\Mock\TestConfig;
 
 /**
  * @group Core
  */
-class ComponentFactoryTest extends PHPUnit_Framework_TestCase
+class ComponentFactoryTest extends TestCase
 {
     const REPORT_CLASS_NAME = 'Piwik\\Plugin\\Report';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

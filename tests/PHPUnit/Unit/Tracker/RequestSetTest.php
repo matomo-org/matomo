@@ -15,7 +15,7 @@ use Piwik\Tracker\RequestSet;
  * @group RequestSetTest
  * @group Tracker
  */
-class RequestSetTest extends \PHPUnit_Framework_TestCase
+class RequestSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var TestRequestSet
@@ -23,7 +23,7 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
     private $requestSet;
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -209,7 +209,7 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
     public function test_intertnalFakeEnvironment_shouldActuallyReturnAValue()
     {
         $myEnv = $this->getFakeEnvironment();
-        $this->assertInternalType('array', $myEnv);
+        self::assertIsArray($myEnv);
         $this->assertNotEmpty($myEnv);
     }
 
@@ -360,44 +360,6 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(empty($_SERVER['HTTP_REFERER']));
     }
 
-    public function test_getRedirectUrl_ShouldReturnEmptyString_IfNoUrlSet()
-    {
-        $this->assertEquals('', $this->requestSet->getRedirectUrl());
-    }
-
-    public function test_getRedirectUrl_ShouldReturnTrue_IfAUrlSetIsSetViaGET()
-    {
-        $_GET['redirecturl'] = 'whatsoever';
-        $this->assertEquals('whatsoever', $this->requestSet->getRedirectUrl());
-        unset($_GET['redirecturl']);
-    }
-
-    public function test_getRedirectUrl_ShouldReturnTrue_IfAUrlSetIsSetViaPOST()
-    {
-        $_POST['redirecturl'] = 'whatsoeverPOST';
-        $this->assertEquals('whatsoeverPOST', $this->requestSet->getRedirectUrl());
-        unset($_POST['redirecturl']);
-    }
-
-    public function test_hasRedirectUrl_ShouldReturnFalse_IfNoUrlSet()
-    {
-        $this->assertFalse($this->requestSet->hasRedirectUrl());
-    }
-
-    public function test_hasRedirectUrl_ShouldReturnTrue_IfAUrlSetIsSetViaGET()
-    {
-        $_GET['redirecturl'] = 'whatsoever';
-        $this->assertTrue($this->requestSet->hasRedirectUrl());
-        unset($_GET['redirecturl']);
-    }
-
-    public function test_hasRedirectUrl_ShouldReturnTrue_IfAUrlSetIsSetViaPOST()
-    {
-        $_POST['redirecturl'] = 'whatsoever';
-        $this->assertTrue($this->requestSet->hasRedirectUrl());
-        unset($_POST['redirecturl']);
-    }
-
     /**
      * @param int $numRequests
      * @return Request[]
@@ -427,15 +389,6 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
 
 class TestRequestSet extends RequestSet
 {
-    public function getRedirectUrl()
-    {
-        return parent::getRedirectUrl();
-    }
-
-    public function hasRedirectUrl()
-    {
-        return parent::hasRedirectUrl();
-    }
 
     public function getAllSiteIdsWithinRequest()
     {

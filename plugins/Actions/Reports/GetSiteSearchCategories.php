@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\Actions;
 use Piwik\Plugins\Actions\Columns\SearchCategory;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
@@ -30,7 +29,7 @@ class GetSiteSearchCategories extends SiteSearchBase
 
     protected function isEnabledForIdSites($idSites, $idSite)
     {
-        return parent::isEnabledForIdSites($idSites, $idSite) && Actions::isCustomVariablesPluginsEnabled();
+        return parent::isEnabledForIdSites($idSites, $idSite);
     }
 
     public function getMetrics()

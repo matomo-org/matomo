@@ -17,7 +17,7 @@ use Piwik\Plugins\VisitsSummary\Reports\Get;
  * @group GetTest
  * @group Plugins
  */
-class GetTest extends \PHPUnit_Framework_TestCase
+class GetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Get
@@ -26,7 +26,7 @@ class GetTest extends \PHPUnit_Framework_TestCase
 
     private $column = 'nb_users';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->get = new Get();

@@ -8,10 +8,9 @@
 
 namespace Piwik\Tests\Unit;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
-use Piwik\Tests\Framework\Mock\TestConfig;
 
 class DumpConfigTestMockIniFileChain extends Config\IniFileChain
 {
@@ -52,7 +51,7 @@ class DumpConfigTestMockConfig extends Config
 /**
  * @group Core
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends TestCase
 {
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {

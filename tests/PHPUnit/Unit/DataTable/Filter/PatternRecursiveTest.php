@@ -14,7 +14,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_PatternRecursiveTest extends \PHPUnit_Framework_TestCase
+class DataTable_Filter_PatternRecursiveTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Returns a data table for testing

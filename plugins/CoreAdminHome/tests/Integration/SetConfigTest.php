@@ -22,21 +22,21 @@ class SetConfigTest extends ConsoleCommandTestCase
 {
     const TEST_CONFIG_PATH = '/tmp/test.config.ini.php';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::removeTestConfigFile();
 
         parent::setUpBeforeClass();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         self::removeTestConfigFile();
 
         parent::setUp();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         $this->makeLocalConfigWritable();
@@ -57,7 +57,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $config = $this->makeNewConfig();
         $this->assertEquals(array('setting' => 'myvalue'), $config->MySection);
 
-        $this->assertContains('Setting [MySection] setting = "myvalue"', $this->applicationTester->getDisplay());
+        self::assertStringContainsString('Setting [MySection] setting = "myvalue"', $this->applicationTester->getDisplay());
     }
 
     /**
@@ -72,7 +72,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains('Invalid assignment string', $this->applicationTester->getDisplay());
+        self::assertStringContainsString('Invalid assignment string', $this->applicationTester->getDisplay());
     }
 
     public function getInvalidArgumentsForTest()
@@ -99,7 +99,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains('[Piwik\Exception\MissingFilePermissionException]', $this->applicationTester->getDisplay());
+        self::assertStringContainsString('[Piwik\Exception\MissingFilePermissionException]', $this->applicationTester->getDisplay());
     }
 
     public function test_Command_SucceedsWhenArgumentsUsed()
@@ -131,7 +131,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $this->assertEquals(array('def'), $config->MySection['object_value']);
         $this->assertArrayNotHasKey('other_array_value', $config->MySection);
 
-        $this->assertContains("done.", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("done.", $this->applicationTester->getDisplay());
     }
 
     /**
@@ -150,7 +150,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $config = self::makeNewConfig();
 
         $this->assertEquals(0, $config->Tracker['debug']);
-        $this->assertContains("done.", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("done.", $this->applicationTester->getDisplay());
     }
 
     public function getOptionsForSettingValueToZeroTests()

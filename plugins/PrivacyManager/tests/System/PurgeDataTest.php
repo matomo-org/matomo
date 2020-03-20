@@ -22,7 +22,7 @@ class PurgeDataTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
 
     }
@@ -31,12 +31,12 @@ class PurgeDataTest extends SystemTestCase
 
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUpBeforeClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDownAfterClass();
     }

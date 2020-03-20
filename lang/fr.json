@@ -1,7 +1,7 @@
 {
     "General": {
-        "12HourClock": "Système horaire sur 12 heures",
-        "24HourClock": "Système horaire sur 24 heures",
+        "12HourClock": "Horloge 12 heures",
+        "24HourClock": "Horloge 12 heures",
         "AbandonedCarts": "Paniers abandonnés",
         "AboutPiwikX": "À propos de Matomo %s",
         "Action": "Action",
@@ -111,7 +111,7 @@
         "ConfigFileIsNotWritable": "Le fichier de configuration de Matomo %1$s n'est pas modifiable, certains de vos changements ne seront pas sauvegardées. %2$s Veuillez modifier les permissions du fichier de configuration de manière à le rendre accessible en écriture.",
         "Continue": "Continuer",
         "ContinueToPiwik": "Continuer vers Matomo",
-        "CurrentlyUsingUnsecureHttp": "Vous utilisez Matomo en mode HTTP non sécurisé, ce qui peut être dangereux. Nous vous recommandons de configurer Matomo pour utiliser SSL (HTTPS) afin d'améliorer la sécurité.",
+        "CurrentlyUsingUnsecureHttp": "Vous utilisez présentement Matomo via une connexion HTTP non-sécurisée. Ceci peut rendre votre Matomo vulnérable à des faillez de sécurité. Il est possible que vous soyez aussi en violation des lois sur la vie privée car certaines fonctionnalités telles que le refus des cookies ne fonctionneront pas. Nous vous recommandons de paramétrer Matomo afin qu'il utilise SSL (HTTPS) et pour une meilleure sécurité.",
         "CreatedByUser": "créé par %s",
         "CurrentMonth": "Mois courant",
         "CurrentWeek": "Semaine courante",
@@ -594,7 +594,7 @@
     },
     "RowEvolution": {
         "AvailableMetrics": "Métriques disponibles",
-        "CompareDocumentation": "Cliquez sur le lien ci-dessous et ouvrez ce popup pour une autre ligne de la même table pour comparer plusieurs enregistrements. <br \/>Utilisez maj+clic pour marquer la ligne pour la comparaison sans ouvrir ce popup.",
+        "CompareDocumentation": "Cliquez sur le lien ci-dessous et ouvrez cette fenêtre pour une autre ligne du même tableau pour comparer plusieurs enregistrements. <br \/>Utilisez Maj + clic pour marquer la ligne à comparer sans ouvrir cette fenêtre contextuelle.",
         "CompareRows": "Comparer les enregistrements",
         "ComparingRecords": "Comparaison de %s lignes",
         "Documentation": "Cliquez sur les métriques pour les afficher dans le grand graphique d'évolution. Utilisez maj+clic pour afficher plusieurs métriques à la fois.",

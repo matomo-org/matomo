@@ -111,7 +111,7 @@
         "ConfigFileIsNotWritable": "Matomo 設定ファイル %1$s が書き込み可能ではないため、いくつかの変更が保存されない可能性があります。%2$s設定ファイルのパーミッションを書き込み可能に変更してください。",
         "Continue": "続ける",
         "ContinueToPiwik": "Matomo を続ける",
-        "CurrentlyUsingUnsecureHttp": "現在、安全でない HTTP に対して Matomo を使用しています。セキュリティの改善された SSL ( HTTPS ) を使用するように Matomo をセットアップすることをお勧めします。",
+        "CurrentlyUsingUnsecureHttp": "現在、安全でない HTTP で Matomo を使用しています。 これにより、Matomo がセキュリティエクスプロイトに対して脆弱になる可能性があります。 また、オプトアウト Cookie を含む一部の機能が機能しないため、プライバシー法に違反している可能性があります。 セキュリティを向上させるために、SSL（ HTTPS ）を使用するように Matomo をセットアップすることをお勧めします。",
         "CreatedByUser": "%s によって作成されました",
         "CurrentMonth": "今月",
         "CurrentWeek": "今週",

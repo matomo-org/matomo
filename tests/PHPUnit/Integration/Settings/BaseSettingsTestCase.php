@@ -41,12 +41,11 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertNotNull($this->settings->getSetting('myName'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage A setting with name "myName" does already exist for plugin "ExampleSettingsPlugin"
-     */
     public function test_makeSetting_ShouldFailWhenAdingSameSettingTwice()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('A setting with name "myName" does already exist for plugin "ExampleSettingsPlugin"');
+
         $this->makeSetting('myName');
         $this->makeSetting('myName');
     }
@@ -136,12 +135,11 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertSame($setting, $settings->getSetting($settingName));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage "testSetting" does already exist
-     */
     public function test_addSetting_throwsException_IfSameSettingAddedTwice()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('"testSetting" does already exist');
+
         $settingName = 'testSetting';
         $setting  = $this->buildSetting($settingName);
         $settings = $this->createSettingsInstance();

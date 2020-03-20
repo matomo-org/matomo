@@ -10,12 +10,10 @@ namespace Piwik\Plugins\Monolog\tests\System;
 
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Plugins\Monolog\Handler\EchoHandler;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use PiwikTracker;
-use Psr\Container\ContainerInterface;
+use MatomoTracker;
 
 /**
  * @group Monolog
@@ -26,7 +24,7 @@ class TrackerLoggingTest extends SystemTestCase
 {
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -72,14 +70,11 @@ class TrackerLoggingTest extends SystemTestCase
         return $t;
     }
 
-    private function assertTrackerResponseContainsLogOutput(PiwikTracker $t)
+    private function assertTrackerResponseContainsLogOutput(MatomoTracker $t)
     {
         $response = $t->doTrackPageView('incredible title!');
 
-        $this->assertStringStartsWith("DEBUG: Debug enabled - Input parameters: array (
-  'idsite' => '1',
-  'rec' => '1',
-  'apiv' => '1',", $response);
+        $this->assertRegExp('/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] ' . preg_quote("piwik.DEBUG: Debug enabled - Input parameters: array (   'idsite' => '1',   'rec' => '1',   'apiv' => '1',") . "/", $response);
     }
 
     private function setTrackerConfig($trackerConfig)
