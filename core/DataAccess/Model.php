@@ -389,7 +389,8 @@ class Model
      */
     public function getSitesWithInvalidatedArchive($numericTable)
     {
-        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE name LIKE 'done%' AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS);
+        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE `name` LIKE 'done%' AND value IN ("
+            . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ")");
 
         $result = array();
         foreach ($rows as $row) {

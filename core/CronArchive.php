@@ -386,7 +386,7 @@ class CronArchive
             while (count($archivesToProcess) < $countOfProcesses) {
                 $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor, $idArchivesToExclude);
                 if (empty($invalidatedArchive)) {
-                    $this->logger->info("No more invalidated archives found.");
+                    $this->logger->debug("No next invalidated archive.");
                     break;
                 }
 
