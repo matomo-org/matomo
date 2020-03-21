@@ -57,6 +57,8 @@
         "SiteSearchCategories": "Kategorien (Interne Suche)",
         "SiteSearchKeyword": "Suchbegriff (interne Suche)",
         "SiteSearchKeywords": "Suchbegriffe (Interne Suche)",
+        "SiteSearchKeywordCount": "Anzahl Suchbegriffe (interne Suche)",
+        "SiteSearchKeywordCounts": "Gezählte Suchbegriffe (interne Suche)",
         "SiteSearchKeywordsDocumentation": "Dieser Bericht enthält die Suchbegriffe, nach denen Besucher in der internen Suche gesucht haben.",
         "SiteSearchKeywordsNoResultDocumentation": "Dieser Bericht zeigt die Suchbegriffe an, welche keine Ergebnisse hatten. Diese Begriffe können in bestehende Seiten eingebaut werden, um es den Besuchern zu erleichtern, die Inhalte zu finden.",
         "SubmenuPagesEntry": "Einstiegsseiten",

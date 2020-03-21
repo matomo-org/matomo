@@ -5,8 +5,8 @@
         "Configurations": "Configurações",
         "PluginDescription": "Informa as resoluções de tela dos seus visitantes.",
         "Resolutions": "Resoluções",
-        "WidgetGlobalVisitors": "Configuração Global de Visitante",
-        "WidgetGlobalVisitorsDocumentation": "Este relatório mostra as configurações mais comuns gerais que os visitantes tiveram. A configuração é a combinação de um sistema operacional, um tipo de navegador e uma resolução de tela.",
-        "WidgetResolutions": "Resoluções de Tela"
+        "WidgetGlobalVisitors": "Configuração do visitante",
+        "WidgetGlobalVisitorsDocumentation": "Este relatório mostra as configurações gerais mais comuns que os seus visitantes tinham. Uma configuração é a combinação de um sistema operacional, um tipo de navegador e uma resolução de tela.",
+        "WidgetResolutions": "Resolução de tela"
     }
 }
