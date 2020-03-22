@@ -117,6 +117,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $screenshots = array_map($cleanPath, $screenshots);
 
         $lfsFiles = `git lfs ls-files`;
+        if (empty($lfsFiles)) {
+            $lfsFiles = `git lfs ls-files --exclude=`;
+        }
         $submodules = `git submodule | awk '{ print $2 }'`;
         $submodules = explode("\n", $submodules);
         $storedLfsFiles = explode("\n", $lfsFiles);
@@ -445,6 +448,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 strpos($file, 'yuicompressor') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false ||
+                strpos($file, '/Morpheus/icons/src/') !== false ||
                 strpos($file, '/phantomjs/') !== false
             ) {
                 continue;
