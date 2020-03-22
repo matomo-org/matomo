@@ -398,7 +398,7 @@ class RequestTest extends IntegrationTestCase
         $user = new Model();
         $token = $user->generateRandomTokenAuth();
 
-        $user->addUser($login, $passwordHash, 'admin@piwik', 'alias', '2014-01-01 00:00:00');
+        $user->addUser($login, $passwordHash, 'admin@piwik', '2014-01-01 00:00:00');
         $user->addUserAccess($login, 'admin', array($idSite));
         $user->addTokenAuth($login, $token, 'createAdminUserForSite', '2014-01-01 00:00:00');
 

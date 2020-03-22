@@ -68,6 +68,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             }
         }
 
+        $migrations[] = $this->migration->db->dropColumn('user', 'alias');
+
         // we don't delete the token_auth column so users can still downgrade to 3.X if they want to. However, the original
         // token_auth will be regenerated for security reasons to no longer have it in plain text. So this column will be no longer used
         // unless someone downgrades to 3.x

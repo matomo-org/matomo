@@ -423,12 +423,11 @@ class Model
         }
     }
 
-    public function addUser($userLogin, $hashedPassword, $email, $alias, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
     {
         $user = array(
             'login'            => $userLogin,
             'password'         => $hashedPassword,
-            'alias'            => $alias,
             'email'            => $email,
             'date_registered'  => $dateRegistered,
             'superuser_access' => 0,
@@ -483,11 +482,10 @@ class Model
         return $users;
     }
 
-    public function updateUser($userLogin, $hashedPassword, $email, $alias)
+    public function updateUser($userLogin, $hashedPassword, $email)
     {
         $fields = array(
-            'alias'      => $alias,
-            'email'      => $email,
+            'email' => $email,
         );
         if (!empty($hashedPassword)) {
             $fields['password'] = $hashedPassword;

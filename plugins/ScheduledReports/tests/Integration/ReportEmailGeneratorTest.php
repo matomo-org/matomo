@@ -114,7 +114,7 @@ Content-Disposition: inline; filename="file2.txt"
 
         $mail = $this->testInstance->makeEmail($generatedReport, [
             'email' => 'test@testytesterson.com',
-            'alias' => 'test person',
+            'login' => 'test person',
         ]);
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());

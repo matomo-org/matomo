@@ -291,7 +291,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @param int|null $limit
      * @param int|null $offset
-     * @param string|null $filter_search text to search for in the user's login, email and alias (if any)
+     * @param string|null $filter_search text to search for in the user's login and email (if any)
      * @param string|null $filter_access only select users with this access to $idSite. can be 'noaccess', 'some', 'view', 'admin', 'superuser'
      *                                   Filtering by 'superuser' is only allowed for other superusers.
      * @return array
@@ -573,7 +573,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the user information (login, password hash, alias, email, date_registered, etc.)
+     * Returns the user information (login, password hash, email, date_registered, etc.)
      *
      * @param string $userLogin the user login
      *
@@ -593,7 +593,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the user information (login, password hash, alias, email, date_registered, etc.)
+     * Returns the user information (login, password hash, email, date_registered, etc.)
      *
      * @param string $userEmail the user email
      *
@@ -632,21 +632,11 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function getCleanAlias($alias, $userLogin)
-    {
-        if (empty($alias)) {
-            $alias = $userLogin;
-        }
-
-        return $alias;
-    }
-
     /**
      * Add a user in the database.
      * A user is defined by
      * - a login that has to be unique and valid
      * - a password that has to be valid
-     * - an alias
      * - an email that has to be in a correct format
      *
      * @see userExists()
@@ -656,7 +646,7 @@ class API extends \Piwik\Plugin\API
      *
      * @exception in case of an invalid parameter
      */
-    public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false, $initialIdSite = null)
+    public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
@@ -682,10 +672,9 @@ class API extends \Piwik\Plugin\API
             $passwordTransformed = $password;
         }
 
-        $alias               = $this->getCleanAlias($alias, $userLogin);
         $passwordTransformed = $this->password->hash($passwordTransformed);
 
-        $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, Date::now()->getDatetime());
+        $this->model->addUser($userLogin, $passwordTransformed, $email, Date::now()->getDatetime());
 
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
@@ -696,7 +685,7 @@ class API extends \Piwik\Plugin\API
          *
          * @param string $userLogin The new user's login handle.
          */
-        Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password, $alias));
+        Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password));
 
         if ($initialIdSite) {
             $this->setUserAccess($userLogin, 'view', $initialIdSite);
@@ -820,9 +809,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $newUser = array('login' => $user['login']);
-        if (isset($user['alias'])) {
-            $newUser['alias'] = $user['alias'];
-        }
 
         if ($user['login'] === Piwik::getCurrentUserLogin() || !empty($user['superuser_access'])) {
             $newUser['email'] = $user['email'];
@@ -851,7 +837,7 @@ class API extends \Piwik\Plugin\API
      *
      * @see addUser() for all the parameters
      */
-    public function updateUser($userLogin, $password = false, $email = false, $alias = false,
+    public function updateUser($userLogin, $password = false, $email = false,
                                $_isPasswordHashed = false, $passwordConfirmation = false)
     {
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
@@ -890,10 +876,6 @@ class API extends \Piwik\Plugin\API
             $passwordHasBeenUpdated = true;
         }
 
-        if (empty($alias)) {
-            $alias = $userInfo['alias'];
-        }
-
         if (empty($email)) {
             $email = $userInfo['email'];
         }
@@ -909,9 +891,7 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        $alias = $this->getCleanAlias($alias, $userLogin);
-
-        $this->model->updateUser($userLogin, $password, $email, $alias);
+        $this->model->updateUser($userLogin, $password, $email);
 
         Cache::deleteTrackerCache();
 
@@ -930,7 +910,7 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The user's login handle.
          * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
-        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
+        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password));
     }
 
     /**

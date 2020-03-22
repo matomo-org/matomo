@@ -43,7 +43,6 @@ class Mysql implements SchemaInterface
             'user'    => "CREATE TABLE {$prefixTables}user (
                           login VARCHAR(100) NOT NULL,
                           password VARCHAR(255) NOT NULL,
-                          alias VARCHAR(45) NOT NULL,
                           email VARCHAR(100) NOT NULL,
                           twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
@@ -521,8 +520,8 @@ class Mysql implements SchemaInterface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    (`login`, `password`, `alias`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`)
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 0, '$now', '$now' );");
+                    (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`)
+                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' );");
 
         $model = new Model();
         $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);
