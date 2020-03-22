@@ -67,7 +67,7 @@
         {% if properties.show_export %}
             {% set requestParams = properties.request_parameters_to_modify|json_encode %}
 
-            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","PHP":"PHP","HTML":"HTML"} %}
+            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","HTML":"HTML"} %}
             {% if properties.show_export_as_rss_feed %}
                 {% set formats = formats|merge({"RSS": "RSS"}) %}
             {% endif %}
