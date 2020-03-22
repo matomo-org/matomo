@@ -20,7 +20,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  * @group SubscriptionModelTest
  * @group Plugins
  */
-class tSubscriptionModelTest extends IntegrationTestCase
+class SubscriptionModelTest extends IntegrationTestCase
 {
     public function testUpdateReportSubscriptions()
     {
