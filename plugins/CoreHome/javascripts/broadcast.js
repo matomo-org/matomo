@@ -437,7 +437,7 @@ var broadcast = {
         var p_v = newParamValue.split("=");
 
         var paramName = p_v[0];
-        var valFromUrl = broadcast.getParamValue(paramName, urlStr);
+        var valFromUrl = broadcast.getParamValue(paramName, urlStr) || broadcast.getParamValue(encodeURIComponent(paramName), urlStr);
         // if set 'idGoal=' then we remove the parameter from the URL automatically (rather than passing an empty value)
         var paramValue = p_v[1];
         if (paramValue == '') {
@@ -453,7 +453,7 @@ var broadcast = {
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
                 // if new value is empty remove leading &, as well
-                regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
+                regToBeReplace = new RegExp('[\&]?(' + paramName + '|' + encodeURIComponent(paramName) + ')=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
         } else if (newParamValue != '') {
