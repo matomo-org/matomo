@@ -377,6 +377,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await elem.hover();
 
         await page.jQuery('.columnDocumentation:visible', { waitFor: true });
+        await page.evaluate(function(){
+            $('.columnDocumentation:visible').css({
+                display: 'block!important',
+            });
+        });
         await page.waitFor(500);
 
         expect(await page.screenshotSelector('.columnDocumentation:visible')).to.matchImage('metric_tooltip');
@@ -941,6 +946,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.waitForNetworkIdle();
         await page.evaluate(function(){
             $('.segmentationTitle').click();
+        });
+        await page.waitFor(100);
+        await page.evaluate(function(){
             $('.segname:contains(From Europe)').click();
         });
         await page.waitForNetworkIdle();
