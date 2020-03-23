@@ -42,7 +42,6 @@ if (!defined('PIWIK_USER_PATH')) {
  * - **isWidget**: The value of the 'widget' query parameter.
  * - **show_autocompleter**: Whether the site selector should be shown or not.
  * - **loginModule**: The name of the currently used authentication module.
- * - **userAlias**: The alias of the current user.
  * - **isInternetEnabled**: Whether the matomo server is allowed to connect to
  *                          external networks.
  *
@@ -275,8 +274,6 @@ class View implements ViewInterface
             $this->cacheBuster = $cacheBuster;
 
             $this->loginModule = Piwik::getLoginPluginName();
-
-            $this->userAlias = $this->userLogin; // can be removed in Matomo 4.0
         } catch (Exception $e) {
             Log::debug($e);
 

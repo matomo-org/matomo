@@ -104,7 +104,7 @@ class CronArchiveTest extends IntegrationTestCase
     public function test_skipSegmentsToday()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -131,7 +131,7 @@ class CronArchiveTest extends IntegrationTestCase
     public function test_output()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -207,7 +207,7 @@ LOG;
     public function test_shouldNotStopProcessingWhenOneSiteIsInvalid()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');

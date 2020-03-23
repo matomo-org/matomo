@@ -737,9 +737,9 @@ class Fixture extends \PHPUnit\Framework\Assert
         }
 
         if (empty($user) || $removeExisting) {
-            $model->addUser($login, $password, 'hello@example.org', $login, Date::now()->getDatetime());
+            $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
         } else {
-            $model->updateUser($login, $password, 'hello@example.org', $login);
+            $model->updateUser($login, $password, 'hello@example.org');
         }
         try {
             if (!$model->getUserByTokenAuth(self::ADMIN_USER_TOKEN)) {

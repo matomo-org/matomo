@@ -229,11 +229,10 @@ class Collection
                                                           'idSite'    => $parametersToSet['idSite'],
                                                           'period'    => $parametersToSet['period'],
                                                           'date'      => $parametersToSet['date'],
-                                                          'format'    => 'php',
-                                                          'serialize' => 0,
+                                                          'format'    => 'json',
                                                      ));
 
-                    $content = $request->process();
+                    $content = json_decode($request->process(), true);
                     SystemTestCase::assertApiResponseHasNoError($content);
 
                     // find first row w/ subtable

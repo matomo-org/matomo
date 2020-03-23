@@ -347,10 +347,9 @@ class LoginTest extends IntegrationTestCase
         $user = array('login'    => 'user',
                       'password' => 'geqgeagae',
                       'email'    => 'test@test.com',
-                      'alias'    => 'alias',
                       'superuser_access' => 0);
 
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email']);
 
         $model  = new \Piwik\Plugins\UsersManager\Model();
         $tokenAuth = $model->generateRandomTokenAuth();

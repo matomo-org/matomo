@@ -327,7 +327,7 @@ class CliMulti
         $posStart = strpos($commandToCheck, 'console climulti');
         $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
         $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
-        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
+        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=json&trigger=archivephp
         $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
         $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
 

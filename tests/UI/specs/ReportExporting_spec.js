@@ -94,7 +94,7 @@ describe("ReportExporting", function () {
         });
     }
 
-    var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
+    var formats = ['CSV', 'TSV', 'XML', 'JSON'];
     formats.forEach(normalReportTest);
     formats.forEach(evolutionReportTest);
     formats.forEach(rowEvolutionReportTest);
