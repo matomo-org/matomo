@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\UsersManager\tests;
+namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
@@ -359,13 +359,13 @@ class ModelTest extends IntegrationTestCase
         $this->model->deleteExpiredTokens('2021-01-02 03:04:05');
 
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
-        $this->assertSame($id2, $tokens[0]['idusertokenauth']);
-        $this->assertSame($id3, $tokens[1]['idusertokenauth']);
+        $this->assertSame($id2, (int) $tokens[0]['idusertokenauth']);
+        $this->assertSame($id3, (int) $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
 
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login2);
-        $this->assertSame($id4, $tokens[0]['idusertokenauth']);
-        $this->assertSame($id5, $tokens[1]['idusertokenauth']);
+        $this->assertSame($id4, (int) $tokens[0]['idusertokenauth']);
+        $this->assertSame($id5, (int) $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
     }
 
