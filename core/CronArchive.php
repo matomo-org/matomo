@@ -19,6 +19,7 @@ use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -324,10 +325,14 @@ class CronArchive
 
         $self = $this;
         Access::doAsSuperUser(function () use ($self) {
-            $self->init();
-            $self->run();
-            $self->runScheduledTasks();
-            $self->end();
+            try {
+                $self->init();
+                $self->run();
+                $self->runScheduledTasks();
+                $self->end();
+            } catch (StopArchiverException $e) {
+                $this->logger->info("Archiving stopped by stop archiver exception");
+            }
         });
     }
 
