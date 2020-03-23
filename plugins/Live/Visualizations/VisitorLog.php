@@ -241,6 +241,10 @@ class VisitorLog extends Visualization
             $a[$field] = strtotime($a[$field]);
             $b[$field] = strtotime($b[$field]);
         }
+        if ($field === 'type') {
+            $a[$field] = (string) $a[$field];
+            $b[$field] = (string) $b[$field];
+        }
         if ($a[$field] === $b[$field]) {
             return 0;
         }
