@@ -637,6 +637,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the Manage > Tracking Code admin page correctly', async function () {
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
 
+        // replace container id in tagmanager code, as it changes when updating omnifixture
+        await page.evaluate(function() {
+            $('.tagManagerTrackingCode pre').html($('.tagManagerTrackingCode pre').html().replace(/container_[A-z0-9]+\.js/, 'container_REPLACED.js'));
+        });
+
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('admin_manage_tracking_code');
     });
@@ -885,6 +890,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto("?" + widgetizeParams + "&" + idSite2Params + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorProfilePopup"
                 + "&enableAnimation=0");
 
+        await page.evaluate(function() {
+            $('.visitor-profile-widget-link > span').text('{REPLACED_ID}');
+        });
+
         await (await page.waitForSelector('.visitor-profile-show-map')).click();
         await page.waitForNetworkIdle();
         await page.waitFor(200);
@@ -963,6 +972,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         await page.waitForNetworkIdle();
+
+        await page.evaluate(function() {
+            $('.visitor-profile-widget-link > span').text('{REPLACED_ID}');
+        });
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visitor_profile_not_segmented');
     });
