@@ -91,7 +91,12 @@ function createSuperUser() {
     $user  = $model->getUser($login);
 
     if (empty($user)) {
-        $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
+        // @todo remove once there is a first stable 4.0 release
+        if (version_compare(\Piwik\Version::VERSION, '4.0.0-b1', '<')) {
+            $model->addUser($login, $password, 'hello@example.org', $login, '01234567890123456789012345678912', Date::now()->getDatetime());
+        } else {
+            $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
+        }
     } else {
         $model->updateUser($login, $password, 'hello@example.org');
     }

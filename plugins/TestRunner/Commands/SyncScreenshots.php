@@ -80,7 +80,7 @@ class SyncScreenshots extends ConsoleCommand
 
     private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null)
     {
-        $url = sprintf('https://builds-artifacts.piwik.org/api/%s/%s', $repository, $buildNumber);
+        $url = sprintf('https://builds-artifacts.matomo.org/api/%s/%s', $repository, $buildNumber);
 
         $this->logger->debug('Fetching {url}', array('url' => $url));
 
@@ -111,7 +111,7 @@ class SyncScreenshots extends ConsoleCommand
     private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword)
     {
         $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
-        $url = 'https://builds-artifacts.piwik.org' . $url;
+        $url = 'https://builds-artifacts.matomo.org' . $url;
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
 

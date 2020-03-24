@@ -13,7 +13,7 @@ use Piwik\Plugins\Live\Visitor;
 
 class ExampleTracker extends \Piwik\Plugin
 {
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return [
             'Live.getAllVisitorDetails' => 'getAllVisitorDetails',

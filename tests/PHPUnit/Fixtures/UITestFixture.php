@@ -432,6 +432,7 @@ class UITestFixture extends SqlDump
         API::$_autoSuggestLookBack = floor(Date::today()->getTimestamp() - Date::factory('2012-01-01')->getTimestamp()) / (24 * 60 * 60);
 
         return [
+            'Tests.now' => \DI\decorate(function(){ return Option::get("Tests.forcedNowTimestamp"); }),
             'observers.global' => \DI\add([
                 ['Report.addReports', function (&$reports) {
                     $report = new XssReport();
