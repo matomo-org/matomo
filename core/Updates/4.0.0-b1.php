@@ -46,7 +46,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             'idusertokenauth' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
             'login' => 'VARCHAR(100) NOT NULL',
             'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
-            'password' => 'VARCHAR(255) NOT NULL',
+            'password' => 'VARCHAR(191) NOT NULL',
             'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
             'hash_algo' => 'VARCHAR(30) NOT NULL',
             'last_used' => 'DATETIME NULL',
@@ -102,7 +102,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
             $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
             $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
-            $migrations[] = $this->migration->db->changeColumnType('user_token_auth', 'password', 'VARCHAR(191)');
 
             foreach ($allTables as $table) {
                 if (preg_match('/archive_/', $table) == 1) {

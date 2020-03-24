@@ -235,6 +235,11 @@ class DbHelper
         return 'utf8mb4';
     }
 
+    public static function getUsedCharset()
+    {
+        return Config::getInstance()->database['charset'] ?? self::getDefaultCharset();
+    }
+
     /**
      * Get the SQL to create Piwik tables
      *

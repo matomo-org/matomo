@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\DbHelper;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
@@ -87,14 +88,13 @@ class Request
             }
         }
 
-        // check for 4byte utf8 characters in all tracking params and replace them with �
-        // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
+        // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
     }
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
-        if ('utf8mb4' === Config::getInstance()->database['charset']) {
+        if ('utf8mb4' === DbHelper::getUsedCharset()) {
             return $value; // no need to replace anything if utf8mb4 is supported
         }
 

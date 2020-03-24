@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\CoreUpdater\tests\Fixtures;
 
-use Piwik\Db;
+use Piwik\Config;
 use Piwik\Tests\Fixtures\SqlDump;
 
 class DbUpdaterTestFixture extends SqlDump
@@ -19,15 +19,10 @@ class DbUpdaterTestFixture extends SqlDump
         $this->dropDatabaseInSetUp = true;
         $this->resetPersistedFixture = true;
 
+        Config::getInstance()->database['charset'] = 'utf8';
+        Config::getInstance()->database_tests['charset'] = 'utf8';
+        Config::getInstance()->forceSave();
+
         parent::performSetUp($setupEnvironmentOnly);
-    }
-
-    public function setUp(): void
-    {
-        $database = $this->getDbName();
-        // change collation back to utf8, otherwise migrations before 4.x might fail
-        Db::exec("ALTER DATABASE $database CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;");
-
-        parent::setUp();
     }
 }
