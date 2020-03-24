@@ -295,7 +295,7 @@ class LogAggregator
 
 	    if ($canSetTransactionLevel) {
 	        // i know this could be shortened to one if or one line but I want to make sure this line where we
-            // set uncomitted is easily noticable in the code as it could be missed quite easily otherwise
+            // set uncommitted is easily noticeable in the code as it could be missed quite easily otherwise
             // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
             // eg the visits table
 	        if (!$transactionLevel->setUncommitted()) {
@@ -478,7 +478,7 @@ class LogAggregator
      * - **{@link \Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits aggregated.
      * - **{@link \Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions performed in this group of
      *                                                aggregated visits.
-     * - **{@link \Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions perfomred in one visit for this group of
+     * - **{@link \Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions performed in one visit for this group of
      *                                                 visits.
      * - **{@link \Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}**: The total amount of time spent on the site for this
      *                                                      group of visits.

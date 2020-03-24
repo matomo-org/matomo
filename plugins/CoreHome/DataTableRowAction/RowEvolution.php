@@ -24,7 +24,7 @@ use Piwik\ViewDataTable\Factory;
 
 /**
  * ROW EVOLUTION
- * The class handles the popover that shows the evolution of a singe row in a data table
+ * The class handles the popover that shows the evolution of a single row in a data table
  */
 class RowEvolution
 {

@@ -45,7 +45,7 @@ return array(
     'nn' => 'no', // Nynorsk    => Norway
     'no' => 'no', // Norwegian  => Norway
     'pl' => 'pl', // Polish     => Poland
-    'pt' => 'pt', // Portugese  => Portugal
+    'pt' => 'pt', // Portuguese  => Portugal
     'ro' => 'ro', // Romanian   => Romania
     'ru' => 'ru', // Russian    => Russia
     'sk' => 'sk', // Slovak     => Slovakia

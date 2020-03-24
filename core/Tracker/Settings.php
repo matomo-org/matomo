@@ -77,7 +77,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
     }
 
     /**
-     * Returns a 64-bit hash that attemps to identify a user.
+     * Returns a 64-bit hash that attempts to identify a user.
      * Maintaining some privacy by default, eg. prevents the merging of several Piwik serve together for matching across instances..
      *
      * @param $os

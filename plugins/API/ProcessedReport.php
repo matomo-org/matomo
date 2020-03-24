@@ -134,7 +134,7 @@ class ProcessedReport
     }
 
     /**
-     * Translates the given metric in case the report exists and in case the metric acutally belongs to the report.
+     * Translates the given metric in case the report exists and in case the metric actually belongs to the report.
      *
      * @param string $metric     For example 'nb_visits'
      * @param int    $idSite

@@ -30,7 +30,7 @@ class RolesProvider
 
     /**
      * Returns the list of the existing Access level.
-     * Useful when a given API method requests a given acccess Level.
+     * Useful when a given API method requests a given access Level.
      * We first check that the required access level exists.
      *
      * @return array

@@ -323,7 +323,7 @@ function getOsLogo($short)
  */
 function getBrowserEngineName($engineName) {
     /*
-     * Map leagcy types to engines
+     * Map legacy types to engines
      */
     $oldTypeMapping = array(
         'ie'     => 'Trident',

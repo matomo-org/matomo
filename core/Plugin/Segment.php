@@ -131,7 +131,7 @@ class Segment
     /**
      * Sometimes you want users to set values that differ from the way they are actually stored. For instance if you
      * want to allow to filter by any URL than you might have to resolve this URL to an action id. Or a country name
-     * maybe has to be mapped to a 2 letter country code. You can do this by specifing either a callable such as
+     * maybe has to be mapped to a 2 letter country code. You can do this by specifying either a callable such as
      * `array('Classname', 'methodName')` or by passing a closure. There will be four values passed to the given closure
      * or callable: `string $valueToMatch`, `string $segment` (see {@link setSegment()}), `string $matchType`
      * (eg SegmentExpression::MATCH_EQUAL or any other match constant of this class) and `$segmentName`.

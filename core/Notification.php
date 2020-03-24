@@ -31,7 +31,7 @@ namespace Piwik;
  *
  * **Display a temporary success message**
  *
- *     $notification = new Notificiation('Success');
+ *     $notification = new Notification('Success');
  *     $notification->context = Notification::CONTEXT_SUCCESS;
  *     $notification->type = Notification::TYPE_TOAST;
  *     Notification\Manager::notify('myUniqueNotificationId', $notification);
