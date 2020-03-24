@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Matomo\Cache\Lazy;
 use Piwik\CliMulti\Process;
@@ -16,7 +17,9 @@ use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
@@ -36,6 +39,8 @@ use Psr\Log\LoggerInterface;
 class CronArchive
 {
     // the url can be set here before the init, and it will be used instead of --url=
+    const CRON_INVALIDATION_TIME_OPTION_NAME = 'CronArchive.lastInvalidationTime';
+
     public static $url = false;
 
     const TABLES_WITH_INVALIDATED_ARCHIVES = 'CronArchive.getTablesWithInvalidatedArchives';
@@ -76,6 +81,8 @@ class CronArchive
     private $segments = array();
     private $requests = 0;
     private $archiveAndRespectTTL = true;
+
+    private $idSitesNotUsingTracker = [];
 
     /**
      * @var Model
@@ -261,8 +268,6 @@ class CronArchive
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
 
-        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
-
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
@@ -270,6 +275,8 @@ class CronArchive
         $this->model = StaticContainer::get(Model::class);
 
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
+
+        $this->rawLogDao = new RawLogDao();
     }
 
     private function isMaintenanceModeEnabled()
@@ -298,6 +305,8 @@ class CronArchive
 
     public function init()
     {
+        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom, $this->dateLastForced);
+
         /**
          * This event is triggered during initializing archiving.
          *
@@ -324,11 +333,9 @@ class CronArchive
             $this->logger->info("- Will only process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
         }
 
-        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
-
         $allWebsites = APISitesManager::getInstance()->getAllSitesId();
         $websitesIds = $this->initWebsiteIds($allWebsites);
-        $this->filterWebsiteIds($websitesIds);
+        $this->filterWebsiteIds($websitesIds, $allWebsites);
         $this->allWebsites = $websitesIds;
 
         $this->logForcedSegmentInfo();
@@ -382,9 +389,9 @@ class CronArchive
 
             // get archives to process simultaneously
             $archivesToProcess = [];
-            $periodToCheckFor = null;
+            // $periodToCheckFor = null; TODO: why is this needed again?
             while (count($archivesToProcess) < $countOfProcesses) {
-                $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor, $idArchivesToExclude);
+                $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor = null, $idArchivesToExclude);
                 if (empty($invalidatedArchive)) {
                     $this->logger->debug("No next invalidated archive.");
                     break;
@@ -407,7 +414,7 @@ class CronArchive
                 $idArchivesToExclude[] = $idArchive;
 
                 $archivesToProcess[] = $invalidatedArchive;
-                $periodToCheckFor = $invalidatedArchive['period'];
+                // $periodToCheckFor = $invalidatedArchive['period'];
             }
 
             if (empty($archivesToProcess)) { // no invalidated archive left, stop
@@ -498,11 +505,29 @@ class CronArchive
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
-            $url = $this->generateUrlToArchiveFromArchiveInfo($archive);
+            $date = Date::factory($archive['date1']);
+
+            list($url, $segment) = $this->generateUrlToArchiveFromArchiveInfo($archive);
             if (empty($url)) {
                 // can happen if, for example, a segment was deleted after an archive was invalidated
                 // in this case, we can just delete the archive entirely.
-                $date = Date::factory($archive['date1']);
+                $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), [$archive['idarchive']]);
+                continue;
+            }
+
+            $idSite = $archive['idsite'];
+            if ($this->isWebsiteUsingTheTracker($idSite)
+                && !$this->hasSiteVisitsBetweenTimeframe($idSite, $archive['date1'], $archive['date2'])
+            ) {
+                $this->logger->info("Found no visits for site ID = {idSite}, {period} ({date1},{date2}), site is using the tracker so skipping archiving...", [
+                    'idSite' => $idSite,
+                    'period' => $this->periodIdsToLabels[$archive['period']],
+                    'date1' => $archive['date1'],
+                    'date2' => $archive['date2'],
+                ]);
+
+                // site is using the tracker, but there are no visits for this period, so just update the archive done
+                // value and move on
                 $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), [$archive['idarchive']]);
                 continue;
             }
@@ -510,7 +535,11 @@ class CronArchive
             $this->logger->debug("Starting archiving for {url}", ['url' => $url]);
 
             $urls[] = $url;
-            $archivesBeingQueried[$index] = $archive;
+            $archivesBeingQueried[] = $archive;
+        }
+
+        if (empty($urls)) {
+            return 0; // all URLs had no visits and were using the tracker
         }
 
         $cliMulti = $this->makeCliMulti();
@@ -548,6 +577,13 @@ class CronArchive
         return $successCount;
     }
 
+    private function hasSiteVisitsBetweenTimeframe($idSite, $date1, $date2)
+    {
+        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1, Date::factory($date2)->addDay(1)->getStartOfDay()->getDatetime(), $idSite);
+    }
+
+    // ArchiveWriter($params); // TODO: remove isTemporaryArchive param, not needed
+
     private function generateUrlToArchiveFromArchiveInfo($archive)
     {
         $period = $this->periodIdsToLabels[$archive['period']];
@@ -562,11 +598,10 @@ class CronArchive
 
         // TODO: what about plugin specific archives? what if one gets invalidated?
         $segment = $this->findSegmentForArchive($archive, $idSite);
-        if (!empty($segment)) {
-            $date = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
-        }
 
-        return $this->getVisitsRequestUrl($idSite, $period, $date, $segment);
+        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment);
+
+        return [$url, $segment];
     }
 
     private function findSegmentForArchive($archive, $idSite)
@@ -758,10 +793,10 @@ class CronArchive
         }
     }
 
-    public function filterWebsiteIds(&$websiteIds)
+    public function filterWebsiteIds(&$websiteIds, $allWebsites)
     {
         // Keep only the websites that do exist
-        $websiteIds = array_intersect($websiteIds, $this->allWebsites);
+        $websiteIds = array_intersect($websiteIds, $allWebsites);
 
         /**
          * Triggered by the **core:archive** console command so plugins can modify the priority of
@@ -795,6 +830,9 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain()
     {
+        $this->logger->info("Checking for queued invalidations...");
+
+        // invalidate remembered site/day pairs
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         foreach ($sitesPerDays as $date => $siteIds) {
@@ -802,12 +840,48 @@ class CronArchive
             $listSiteIds = implode(',', array_unique($siteIds ));
 
             try {
-                $this->logger->info('- Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
+                $this->logger->info('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIds, $date);
             } catch (Exception $e) {
                 $this->logger->info('Failed to invalidate archived reports: ' . $e->getMessage());
             }
         }
+
+        // for new segments, invalidate past dates
+        // TODO: rename the class
+        foreach ($this->allWebsites as $idSite) {
+            $segmentDatesToInvalidate = $this->segmentArchivingRequestUrlProvider->getSegmentArchivesToInvalidateForNewSegments($idSite);
+
+            foreach ($segmentDatesToInvalidate as $info) {
+                $this->logger->info('  Found new segment {segment}, invalidating dates in past for site {idSite}', [
+                    'segment' => $info['segment'],
+                    'idSite' => $idSite,
+                ]);
+
+                $earliestDate = $info['date'];
+
+                $allDates = PeriodFactory::build('range', $earliestDate . ',today')->getSubperiods();
+                $allDates = array_map(function (Period $p) {
+                    return $p->getDateStart()->toString();
+                }, $allDates);
+                $allDates = implode(',', $allDates);
+
+                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $allDates, $period = false, $info['segment']);
+            }
+        }
+
+        Option::set(self::CRON_INVALIDATION_TIME_OPTION_NAME, time());
+
+        $this->logger->info("Done invalidating");
+    }
+
+    public static function getLastInvalidationTime()
+    {
+        $result = Option::get(self::CRON_INVALIDATION_TIME_OPTION_NAME);
+        if (empty($result)) {
+            $result = Option::get(self::OPTION_ARCHIVING_STARTED_TS);
+        }
+        return $result;
     }
 
     /**
@@ -822,41 +896,14 @@ class CronArchive
             return $this->shouldArchiveSpecifiedSites;
         }
 
-        $this->findWebsiteIdsInTimezoneWithNewDay($this->allWebsites);
-        $this->findInvalidatedSitesToReprocess();
+        // TODO: see mtehod def
+        // $this->findWebsiteIdsInTimezoneWithNewDay($this->allWebsites);
 
         if ($this->shouldArchiveAllSites) {
             $this->logger->info("- Will process all " . count($this->allWebsites) . " websites");
         }
 
         return $allWebsites;
-    }
-
-    private function updateIdSitesInvalidatedOldReports()
-    {
-        $store = new SitesToReprocessDistributedList();
-        $this->idSitesInvalidatedOldReports = $store->getAll();
-    }
-
-    /**
-     * Return All websites that had reports in the past which were invalidated recently
-     * (see API CoreAdminHome.invalidateArchivedReports)
-     * eg. when using Python log import script
-     *
-     * @return array
-     */
-    private function findInvalidatedSitesToReprocess()
-    {
-        $this->updateIdSitesInvalidatedOldReports();
-
-        if (count($this->idSitesInvalidatedOldReports) > 0) {
-            $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
-            $this->logger->info("- Will process " . count($this->idSitesInvalidatedOldReports)
-                . " other websites because some old data reports have been invalidated (eg. using the Log Import script or the InvalidateReports plugin) "
-                . $ids);
-        }
-
-        return $this->idSitesInvalidatedOldReports;
     }
 
     // TODO: we need to still respect minimum process time for archives (in Rules.php) when selecting invalidated archives to re-archive.
@@ -890,7 +937,9 @@ class CronArchive
      * @param $websiteIds
      * @return array Website IDs
      */
-    private function findWebsiteIdsInTimezoneWithNewDay($websiteIds)
+    /*
+     TODO: i don't think we need this anymore, but check again after implementing today logic
+     private function findWebsiteIdsInTimezoneWithNewDay($websiteIds)
     {
         $timezones = $this->getTimezonesHavingNewDaySinceLastRun();
         $websiteDayHasFinishedSinceLastRun = APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
@@ -906,6 +955,7 @@ class CronArchive
 
         return $websiteDayHasFinishedSinceLastRun;
     }
+    */
 
     private function logInitInfo()
     {
@@ -987,6 +1037,35 @@ class CronArchive
         }
 
         return true;
+    }
+
+    private function isWebsiteUsingTheTracker($idSite)
+    {
+        if (!isset($this->idSitesNotUsingTracker)) {
+            // we want to trigger event only once
+            $this->idSitesNotUsingTracker = array();
+
+            /**
+             * This event is triggered when detecting whether there are sites that do not use the tracker.
+             *
+             * By default we only archive a site when there was actually any visit since the last archiving.
+             * However, some plugins do import data from another source instead of using the tracker and therefore
+             * will never have any visits for this site. To make sure we still archive data for such a site when
+             * archiving for this site is requested, you can listen to this event and add the idSite to the list of
+             * sites that do not use the tracker.
+             *
+             * @param bool $idSitesNotUsingTracker The list of idSites that rather import data instead of using the tracker
+             */
+            Piwik::postEvent('CronArchive.getIdSitesNotUsingTracker', array(&$this->idSitesNotUsingTracker));
+
+            if (!empty($this->idSitesNotUsingTracker)) {
+                $this->logger->info("- The following websites do not use the tracker: " . implode(',', $this->idSitesNotUsingTracker));
+            }
+        }
+
+        $isUsingTracker = !in_array($idSite, $this->idSitesNotUsingTracker);
+
+        return $isUsingTracker;
     }
 
     private function getVisitsFromApiResponse($stats)

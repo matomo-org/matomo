@@ -554,7 +554,6 @@ class Model
         // so we can claim it.
         $lock = $this->archivingStatus->acquireArchiveInProgressLock($idSite, $date1, $date2, $period, $doneFlag);
         if (!$lock->isLocked()) {
-            print "locked\n";
             return null; // we couldn't claim the lock, archive is in progress
         }
 
@@ -625,6 +624,7 @@ class Model
             VALUES (?, ?, ?, ?, ?, ?, NULL, ?)";
 
         $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
+
         Db::query($sql, [
             $idArchive,
             $doneFlag,

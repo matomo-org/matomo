@@ -9,12 +9,16 @@ namespace Piwik\CronArchive;
 
 use Doctrine\Common\Cache\Cache;
 use Matomo\Cache\Transient;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Segment;
+use Piwik\Site;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -50,56 +54,47 @@ class SegmentArchivingRequestUrlProvider
      */
     private $logger;
 
-    public function __construct($processNewSegmentsFrom, Model $segmentEditorModel = null, Cache $segmentListCache = null,
+    /**
+     * @var int
+     */
+    private $beginningOfTimeLastNInYears;
+
+    // TODO: 7 should be a const
+    public function __construct($processNewSegmentsFrom, $beginningOfTimeLastNInYears = 7, Model $segmentEditorModel = null, Cache $segmentListCache = null,
                                 Date $now = null, LoggerInterface $logger = null)
     {
         $this->processNewSegmentsFrom = $processNewSegmentsFrom;
+        $this->beginningOfTimeLastNInYears = $beginningOfTimeLastNInYears;
         $this->segmentEditorModel = $segmentEditorModel ?: new Model();
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
-    public function getUrlParameterDateString($idSite, $period, $date, $segment)
+    // TODO: the code here is a bit weird, should refactor
+    public function getSegmentArchivesToInvalidateForNewSegments($idSite)
     {
-        $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $segment);
-        if (empty($oldestDateToProcessForNewSegment)) {
-            return $date;
-        }
+        $result = [];
 
-        // if the start date for the archiving request is before the minimum date allowed for processing this segment,
-        // use the minimum allowed date as the start date
-        $periodObj = PeriodFactory::build($period, $date);
-        if ($periodObj->getDateStart()->getTimestamp() < $oldestDateToProcessForNewSegment->getTimestamp()) {
-            $this->logger->debug("Start date of archiving request period ({start}) is older than configured oldest date to process for the segment.", array(
-                'start' => $periodObj->getDateStart()
-            ));
-
-            $endDate = $periodObj->getDateEnd();
-
-            // if the creation time of a segment is older than the end date of the archiving request range, we cannot
-            // blindly rewrite the date string, since the resulting range would be incorrect. instead we make the
-            // start date equal to the end date, so less archiving occurs, and no fatal error occurs.
-            if ($oldestDateToProcessForNewSegment->getTimestamp() > $endDate->getTimestamp()) {
-                $this->logger->debug("Oldest date to process is greater than end date of archiving request period ({end}), so setting oldest date to end date.", array(
-                    'end' => $endDate
-                ));
-
-                $oldestDateToProcessForNewSegment = $endDate;
+        $segmentsForSite = $this->getAllSegments();
+        foreach ($segmentsForSite as $storedSegment) {
+            $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $storedSegment['definition']);
+            if (empty($oldestDateToProcessForNewSegment)) {
+                continue;
             }
 
-            $date = $oldestDateToProcessForNewSegment->toString().','.$endDate;
-
-            $this->logger->debug("Archiving request date range changed to {date} w/ period {period}.", array('date' => $date, 'period' => $period));
+            $result[] = [
+                'date' => $oldestDateToProcessForNewSegment,
+                'segment' => $storedSegment['definition'],
+            ];
         }
-
-        return $date;
+        return $result;
     }
 
     public function findSegmentForHash($hash, $idSite)
     {
         foreach ($this->getAllSegments() as $segment) {
-            $segmentObj = new Segment($segment, [$idSite]);
+            $segmentObj = new Segment($segment['definition'], [$idSite]);
             if ($segmentObj->getHash() == $hash) {
                 return $segment;
             }
@@ -114,6 +109,20 @@ class SegmentArchivingRequestUrlProvider
          * @var Date $segmentLastEditedTime
          */
         list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($idSite, $segment);
+
+        // TODO: for greater safety, we could also make the option per idsegment
+        $lastInvalidationTime = CronArchive::getLastInvalidationTime();
+        if (!empty($lastInvalidationTime)) {
+            $lastInvalidationTime = Date::factory((int) $lastInvalidationTime);
+        }
+
+        $segmentTimeToUse = $segmentLastEditedTime ?: $segmentCreatedTime;
+        if (!empty($lastInvalidationTime)
+            && !empty($segmentTimeToUse)
+            && $lastInvalidationTime->isEarlier($segmentTimeToUse)
+        ) {
+            return null; // has already have been invalidated, ignore
+        }
 
         if ($this->processNewSegmentsFrom == self::CREATION_TIME) {
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
@@ -144,8 +153,38 @@ class SegmentArchivingRequestUrlProvider
         } else {
             $this->logger->debug("process_new_segments_from set to beginning_of_time or cannot recognize value");
 
+            $siteCreationDate = Date::factory(Site::getCreationDateFor($idSite));
+
+            $result = Date::factory('today')->subYear($this->beginningOfTimeLastNInYears); // TODO: use constant and add option to command to use
+            if ($result->isEarlier($siteCreationDate)) {
+                $result = $siteCreationDate;
+            }
+
+            $earliestVisitTime = $this->getEarliestVisitTimeFor($idSite);
+            if (!empty($earliestVisitTime)
+                && $result->isEarlier($earliestVisitTime)
+            ) {
+                $result = $earliestVisitTime;
+            }
+
+            return $result;
+        }
+    }
+
+    private function getEarliestVisitTimeFor($idSite)
+    {
+        $earliestIdVisit = Db::fetchOne('SELECT idvisit FROM ' . Common::prefixTable('log_visit')
+            . ' WHERE idsite = ? ORDER BY visit_last_action_time ASC LIMIT 1', [$idSite]);
+
+        $earliestStartTime = Db::fetchOne('SELECT visit_first_action_time FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ?', [
+            $earliestIdVisit,
+        ]);
+
+        if (empty($earliestStartTime)) {
             return null;
         }
+
+        return Date::factory($earliestStartTime);
     }
 
     private function getCreatedTimeOfSegment($idSite, $segmentDefinition)
