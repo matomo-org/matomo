@@ -56,7 +56,7 @@ class Mysql implements SchemaInterface
                           idusertokenauth BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           login VARCHAR(100) NOT NULL,
                           description VARCHAR(".Model::MAX_LENGTH_TOKEN_DESCRIPTION.") NOT NULL,
-                          password VARCHAR(255) NOT NULL,
+                          password VARCHAR(191) NOT NULL,
                           hash_algo VARCHAR(30) NOT NULL,
                           system_token TINYINT(1) NOT NULL DEFAULT 0,
                           last_used DATETIME NULL,

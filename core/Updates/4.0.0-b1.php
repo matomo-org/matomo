@@ -14,8 +14,6 @@ use Piwik\DbHelper;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -104,6 +102,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
             $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
             $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
+            $migrations[] = $this->migration->db->changeColumnType('user_token_auth', 'password', 'VARCHAR(191)');
 
             foreach ($allTables as $table) {
                 if (preg_match('/archive_/', $table) == 1) {
