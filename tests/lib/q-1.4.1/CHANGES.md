@@ -392,7 +392,7 @@ Their replacements are listed here:
 
  - WARNING: ``promise.timeout`` is now rejected with an ``Error`` object
    and the message now includes the duration of the timeout in
-   milliseconds.  This doesn't constitute (in my opinion) a
+   miliseconds.  This doesn't constitute (in my opinion) a
    backward-incompatibility since it is a change of an undocumented and
    unspecified public behavior, but if you happened to depend on the
    exception being a string, you will need to revise your code.
