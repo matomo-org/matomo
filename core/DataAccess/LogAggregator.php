@@ -184,6 +184,16 @@ class LogAggregator
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
+    public function setSites($sites)
+    {
+        $this->sites = array_map('intval', $sites);
+    }
+
+    public function getSites()
+    {
+        return $this->sites;
+    }
+
     public function getSegment()
     {
         return $this->segment;
