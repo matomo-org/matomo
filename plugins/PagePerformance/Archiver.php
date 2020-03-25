@@ -36,7 +36,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        $selects = $columns = [];
+        $selects = [];
         $table  = 'log_link_visit_action';
 
         $performanceDimensions = [
@@ -49,7 +49,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         foreach($performanceDimensions as $dimension) {
             $column = $dimension->getColumnName();
-            $columns[] = $column;
             $selects[] = "sum($table.$column) as {$column}_total";
             $selects[] = "sum(                    
                             case when $table.$column is null
@@ -61,20 +60,22 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $joinLogActionOnColumn = array('idaction_url');
 
-        $query = $this->getLogAggregator()->queryActionsByDimension($columns, 'log_action1.type = ' . Action::TYPE_PAGE_URL, $selects, false, null, $joinLogActionOnColumn);
+        $query = $this->getLogAggregator()->queryActionsByDimension([], 'log_action1.type = ' . Action::TYPE_PAGE_URL, $selects, false, null, $joinLogActionOnColumn);
+
+        $result = $query->fetchAll();
 
         $timeTotal = $hitsTotal = 0;
 
-        $timeTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_LATENCY_TIME, 'time_latency_total');
-        $hitsTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_LATENCY_HITS, 'time_latency_hits');
-        $timeTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME, 'time_transfer_total');
-        $hitsTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS, 'time_transfer_hits');
-        $timeTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME, 'time_dom_processing_total');
-        $hitsTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_DOMPROCESSIGN_HITS, 'time_dom_processing_hits');
-        $timeTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_COMPLETION_TIME, 'time_dom_completion_total');
-        $hitsTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_COMPLETION_HITS, 'time_dom_completion_hits');
-        $timeTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME, 'time_on_load_total');
-        $hitsTotal += $this->sumAndInsertNumericRecord($query, self::PAGEPERFORMANCE_TOTAL_ONLOAD_HITS, 'time_on_load_hits');
+        $timeTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_LATENCY_TIME, 'time_latency_total');
+        $hitsTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_LATENCY_HITS, 'time_latency_hits');
+        $timeTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME, 'time_transfer_total');
+        $hitsTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS, 'time_transfer_hits');
+        $timeTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME, 'time_dom_processing_total');
+        $hitsTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_DOMPROCESSIGN_HITS, 'time_dom_processing_hits');
+        $timeTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_COMPLETION_TIME, 'time_dom_completion_total');
+        $hitsTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_COMPLETION_HITS, 'time_dom_completion_hits');
+        $timeTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME, 'time_on_load_total');
+        $hitsTotal += $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_ONLOAD_HITS, 'time_on_load_hits');
 
         $this->getProcessor()->insertNumericRecord(self::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME, (int)$timeTotal);
         $this->getProcessor()->insertNumericRecord(self::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_HITS, (int)$hitsTotal);
@@ -82,16 +83,16 @@ class Archiver extends \Piwik\Plugin\Archiver
     }
 
     /**
-     * @param \Zend_Db_Statement $query
+     * @param $result
      * @param string $metric
      * @param string $field
      * @return int
      */
-    private function sumAndInsertNumericRecord($query, $metric, $field)
+    private function sumAndInsertNumericRecord($result, $metric, $field)
     {
         $total = 0;
 
-        while ($row = $query->fetch()) {
+        foreach ($result as $row) {
             if (!empty($row[$field])) {
                 $total += $row[$field];
             }
