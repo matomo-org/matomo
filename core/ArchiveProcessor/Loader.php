@@ -94,6 +94,13 @@ class Loader
             return $idArchive;
         }
 
+        // NOTE: this optimization helps when archiving large periods. eg, if archiving a year w/ a segment where
+        // there are not visits in the entire year, we don't have to go through and do anything. but, w/o this
+        // code, we will end up launching archiving for each month, week and day, even though we don't have to.
+        if ($this->params->canSkipThisArchive()) {
+            return false;
+        }
+
         // if there is an archive, but we can't use it for some reason, invalidate existing archives before
         // we start archiving. if the archive is made invalid, we will correctly re-archive below.
         if ($this->invalidateBeforeArchiving

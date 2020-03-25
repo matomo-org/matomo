@@ -331,6 +331,11 @@ class CronArchive
         $this->logInitInfo();
         $this->logArchiveTimeoutInfo();
 
+        $idSitesNotUsingTracker = Parameters::getSitesNotUsingTracker();
+        if (!empty($idSitesNotUsingTracker)) {
+            $this->logger->info("- The following websites do not use the tracker: " . implode(',', $this->idSitesNotUsingTracker));
+        }
+
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
 
@@ -396,7 +401,7 @@ class CronArchive
 
             // get archives to process simultaneously
             $archivesToProcess = [];
-            // $periodToCheckFor = null; TODO: why is this needed again?
+            // $periodToCheckFor = null; TODO: why is this needed again? (and below)
             while (count($archivesToProcess) < $countOfProcesses) {
                 $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor = null, $idArchivesToExclude);
                 if (empty($invalidatedArchive)) {
@@ -524,9 +529,10 @@ class CronArchive
             }
 
             $idSite = $archive['idsite'];
-            if ($this->isWebsiteUsingTheTracker($idSite)
-                && !$this->hasSiteVisitsBetweenTimeframe($idSite, $archive['date1'], $archive['date2'])
-            ) {
+            $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $archive['date1']);
+            $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite]));
+
+            if ($params->canSkipThisArchive()) {
                 $this->logger->info("Found no visits for site ID = {idSite}, {period} ({date1},{date2}), site is using the tracker so skipping archiving...", [
                     'idSite' => $idSite,
                     'period' => $this->periodIdsToLabels[$archive['period']],
@@ -583,20 +589,6 @@ class CronArchive
         $this->requests += count($urls);
 
         return $successCount;
-    }
-
-    private function hasSiteVisitsBetweenTimeframe($idSite, $date1, $date2)
-    {
-        if (!isset($this->minVisitTimesPerSite[$idSite])) { // TODO: maybe add a 1 hour ttl for this as well
-            $this->minVisitTimesPerSite[$idSite] = Date::factory($this->rawLogDao->getMinimumVisitTimeForSite($idSite));
-        }
-
-        $date2 = Date::factory($date2)->addDay(1)->getStartOfDay();
-        if ($date2->isEarlier($this->minVisitTimesPerSite[$idSite])) {
-            return false;
-        }
-
-        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe(Date::factory($date1)->getDatetime(), $date2->getDatetime(), $idSite);
     }
 
     // ArchiveWriter($params); // TODO: remove isTemporaryArchive param, not needed
@@ -1056,35 +1048,6 @@ class CronArchive
         }
 
         return true;
-    }
-
-    private function isWebsiteUsingTheTracker($idSite)
-    {
-        if (!isset($this->idSitesNotUsingTracker)) {
-            // we want to trigger event only once
-            $this->idSitesNotUsingTracker = array();
-
-            /**
-             * This event is triggered when detecting whether there are sites that do not use the tracker.
-             *
-             * By default we only archive a site when there was actually any visit since the last archiving.
-             * However, some plugins do import data from another source instead of using the tracker and therefore
-             * will never have any visits for this site. To make sure we still archive data for such a site when
-             * archiving for this site is requested, you can listen to this event and add the idSite to the list of
-             * sites that do not use the tracker.
-             *
-             * @param bool $idSitesNotUsingTracker The list of idSites that rather import data instead of using the tracker
-             */
-            Piwik::postEvent('CronArchive.getIdSitesNotUsingTracker', array(&$this->idSitesNotUsingTracker));
-
-            if (!empty($this->idSitesNotUsingTracker)) {
-                $this->logger->info("- The following websites do not use the tracker: " . implode(',', $this->idSitesNotUsingTracker));
-            }
-        }
-
-        $isUsingTracker = !in_array($idSite, $this->idSitesNotUsingTracker);
-
-        return $isUsingTracker;
     }
 
     private function getVisitsFromApiResponse($stats)
