@@ -39,8 +39,9 @@
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
-    performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
-    responseEnd, event, which, button, srcElement, type, target, data,
+    performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart, responseStart,
+    responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
+    event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
@@ -3693,6 +3694,31 @@ if (typeof window.Piwik !== 'object') {
                     } else if (performanceAlias && performanceAlias.timing
                         && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
                         request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                    }
+
+                    if (performanceAlias && performanceAlias.timing && performanceAlias
+                        && performanceAlias.timing.responseStart && performanceAlias.timing.fetchStart) {
+                        request += '&pf_lat=' + (performanceAlias.timing.responseStart - performanceAlias.timing.fetchStart);
+                    }
+
+                    if (performanceAlias && performanceAlias.timing && performanceAlias
+                        && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd ) {
+                        request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+                    }
+
+                    if (performanceAlias && performanceAlias.timing && performanceAlias
+                        && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
+                        request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+                    }
+
+                    if (performanceAlias && performanceAlias.timing && performanceAlias
+                        && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
+                        request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+                    }
+
+                    if (performanceAlias && performanceAlias.timing && performanceAlias
+                        && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
+                        request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
                     }
                 }
 
