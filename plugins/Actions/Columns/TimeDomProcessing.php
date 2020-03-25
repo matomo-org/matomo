@@ -15,6 +15,7 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
@@ -27,13 +28,17 @@ class TimeDomProcessing extends ActionDimension
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
-        $dnsLoadTime = $request->getParam('pf_dm1');
-
-        if ($dnsLoadTime === -1) {
-            return null;
+        if (!($action instanceof ActionPageview)) {
+            return false;
         }
 
-        return $dnsLoadTime;
+        $domProcessTime = $request->getParam('pf_dm1');
+
+        if ($domProcessTime === -1) {
+            return false;
+        }
+
+        return $domProcessTime;
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
