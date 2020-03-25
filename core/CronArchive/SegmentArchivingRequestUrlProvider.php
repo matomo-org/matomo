@@ -78,6 +78,10 @@ class SegmentArchivingRequestUrlProvider
 
         $segmentsForSite = $this->getAllSegments();
         foreach ($segmentsForSite as $storedSegment) {
+            if (empty($storedSegment['auto_archive'])) {
+                continue;
+            }
+
             $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $storedSegment['definition']);
             if (empty($oldestDateToProcessForNewSegment)) {
                 continue;
