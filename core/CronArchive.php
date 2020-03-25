@@ -24,7 +24,6 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
-use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
@@ -983,10 +982,10 @@ class CronArchive
     public function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
     {
         if (Range::isMultiplePeriod($date, $period)) {
-            $rangePeriod = Factory::build($period, $date, Site::getTimezoneFor($idSite));
+            $rangePeriod = PeriodFactory::build($period, $date, Site::getTimezoneFor($idSite));
             $periodsToCheck = $rangePeriod->getSubperiods();
         } else {
-            $periodsToCheck = [Factory::build($period, $date, Site::getTimezoneFor($idSite))];
+            $periodsToCheck = [PeriodFactory::build($period, $date, Site::getTimezoneFor($idSite))];
         }
 
         $isTodayIncluded = $this->isTodayIncludedInPeriod($idSite, $periodsToCheck);
@@ -996,7 +995,7 @@ class CronArchive
         if ($isTodayIncluded
             && !$isLast
         ) {
-            return [false, null];
+            return [false, $date];
         }
 
         $periodsToCheckRanges = array_map(function (Period $p) { return $p->getRangeString(); }, $periodsToCheck);

@@ -260,28 +260,28 @@ LOG;
                 1,
                 'day',
                 '2015-03-04',
-                [false, null],
+                [false, '2015-03-04'],
             ],
             [
                 [],
                 1,
                 'week',
                 '2015-03-04',
-                [false, null],
+                [false, '2015-03-04'],
             ],
             [
                 [],
                 1,
                 'month',
                 '2015-03-04',
-                [false, null],
+                [false, '2015-03-04'],
             ],
             [
                 [],
                 1,
                 'year',
                 '2015-03-04',
-                [false, null],
+                [false, '2015-03-04'],
             ],
 
             // single periods that do not include today
@@ -384,7 +384,7 @@ LOG;
                 1,
                 'range',
                 '2015-03-02,2015-03-04',
-                [false, null],
+                [false, '2015-03-02,2015-03-04'],
             ],
             [ // does not include today, invalid
                 [
