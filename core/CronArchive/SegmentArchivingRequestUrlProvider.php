@@ -96,7 +96,7 @@ class SegmentArchivingRequestUrlProvider
         foreach ($this->getAllSegments() as $segment) {
             $segmentObj = new Segment($segment['definition'], [$idSite]);
             if ($segmentObj->getHash() == $hash) {
-                return $segment;
+                return $segment['definition'];
             }
         }
         return null;
@@ -119,7 +119,7 @@ class SegmentArchivingRequestUrlProvider
         $segmentTimeToUse = $segmentLastEditedTime ?: $segmentCreatedTime;
         if (!empty($lastInvalidationTime)
             && !empty($segmentTimeToUse)
-            && $lastInvalidationTime->isEarlier($segmentTimeToUse)
+            && $segmentTimeToUse->isEarlier($lastInvalidationTime)
         ) {
             return null; // has already have been invalidated, ignore
         }

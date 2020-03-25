@@ -255,6 +255,13 @@ class CronArchive
     private $periodIdsToLabels;
 
     /**
+     * @var Date[]
+     */
+    private $minVisitTimesPerSite = [];
+
+    private $processNewSegmentsFrom;
+
+    /**
      * Constructor.
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
@@ -266,7 +273,7 @@ class CronArchive
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
         $this->formatter = new Formatter();
 
-        $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
+        $this->processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
@@ -305,7 +312,7 @@ class CronArchive
 
     public function init()
     {
-        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom, $this->dateLastForced);
+        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($this->processNewSegmentsFrom, $this->dateLastForced);
 
         /**
          * This event is triggered during initializing archiving.
@@ -406,7 +413,8 @@ class CronArchive
                 );
 
                 if (empty($idArchive)) { // another process started on this archive, pull another one
-                    $this->logger->debug("Archive $idArchive invalid, but being handled by another process.");
+                    // TODO: happening too often
+                    $this->logger->debug("Archive {$invalidatedArchive['idarchive']} has been invalidated, but being handled by another process.");
                     $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
                     continue;
                 }
@@ -579,7 +587,16 @@ class CronArchive
 
     private function hasSiteVisitsBetweenTimeframe($idSite, $date1, $date2)
     {
-        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1, Date::factory($date2)->addDay(1)->getStartOfDay()->getDatetime(), $idSite);
+        if (!isset($this->minVisitTimesPerSite[$idSite])) { // TODO: maybe add a 1 hour ttl for this as well
+            $this->minVisitTimesPerSite[$idSite] = Date::factory($this->rawLogDao->getMinimumVisitTimeForSite($idSite));
+        }
+
+        $date2 = Date::factory($date2)->addDay(1)->getStartOfDay();
+        if ($date2->isEarlier($this->minVisitTimesPerSite[$idSite])) {
+            return false;
+        }
+
+        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe(Date::factory($date1)->getDatetime(), $date2->getDatetime(), $idSite);
     }
 
     // ArchiveWriter($params); // TODO: remove isTemporaryArchive param, not needed
@@ -611,7 +628,7 @@ class CronArchive
             return '';
         }
 
-        $hash = substr($flag, 5);
+        $hash = substr($flag, 4);
         return $this->segmentArchivingRequestUrlProvider->findSegmentForHash($hash, $idSite);
     }
 
@@ -877,9 +894,11 @@ class CronArchive
 
     public static function getLastInvalidationTime()
     {
+        Option::clearCachedOption(self::CRON_INVALIDATION_TIME_OPTION_NAME);
         $result = Option::get(self::CRON_INVALIDATION_TIME_OPTION_NAME);
         if (empty($result)) {
-            $result = Option::get(self::OPTION_ARCHIVING_STARTED_TS);
+            Option::clearCachedOption(self::OPTION_ARCHIVING_FINISHED_TS);
+            $result = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         }
         return $result;
     }

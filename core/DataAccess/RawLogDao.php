@@ -451,4 +451,10 @@ class RawLogDao
 
         return $columns;
     }
+
+    public function getMinimumVisitTimeForSite($idSite)
+    {
+        $sql = "SELECT MIN(visit_last_action_time) FROM " . Common::prefixTable('log_visit') . ' WHERE idsite = ?';
+        return Db::fetchOne($sql, [$idSite]);
+    }
 }
