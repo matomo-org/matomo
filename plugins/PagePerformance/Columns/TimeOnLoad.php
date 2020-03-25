@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Actions\Columns;
+namespace Piwik\Plugins\PagePerformance\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
@@ -19,12 +19,12 @@ use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
-class TimeDomCompletion extends ActionDimension
+class TimeOnLoad extends ActionDimension
 {
-    protected $columnName = 'time_dom_completion';
+    protected $columnName = 'time_on_load';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'General_ColumnTimeDomCompletion';
+    protected $nameSingular = 'PagePerformance_ColumnTimeOnLoad';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
@@ -32,38 +32,38 @@ class TimeDomCompletion extends ActionDimension
             return false;
         }
 
-        $domCompleteTime = $request->getParam('pf_dm2');
+        $timeOnLoad = $request->getParam('pf_onl');
 
-        if ($domCompleteTime === -1) {
-            return false;
+        if ($timeOnLoad === -1) {
+            return null;
         }
 
-        return $domCompleteTime;
+        return $timeOnLoad;
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric1 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
-        $metric1->setName('sum_time_dom_completion');
+        $metric1->setName('sum_time_on_load');
         $metricsList->addMetric($metric1);
 
         $metric2 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
-        $metric2->setName('max_time_dom_completion');
+        $metric2->setName('max_time_on_load');
         $metricsList->addMetric($metric2);
 
         $metric3 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
-        $metric3->setName('pageviews_with_time_dom_completion');
-        $metric3->setTranslatedName(Piwik::translate('General_ColumnViewsWithDomCompletionTime'));
+        $metric3->setName('pageviews_with_time_on_load');
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithOnLoadTime'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
-        $metric4->setName('min_time_dom_completion');
+        $metric4->setName('min_time_on_load');
         $metricsList->addMetric($metric4);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
-        $metric->setName('avg_page_time_dom_completion');
-        $metric->setTranslatedName(Piwik::translate('General_ColumnAverageDomCompletionTime'));
-        $metric->setDocumentation(Piwik::translate('General_ColumnAverageDomCompletionTimeDocumentation'));
+        $metric->setName('avg_time_on_load');
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageOnLoadTime'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageOnLoadTimeDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

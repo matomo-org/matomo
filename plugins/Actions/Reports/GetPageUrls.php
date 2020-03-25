@@ -42,13 +42,7 @@ class GetPageUrls extends Base
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime(),
-            new AverageTimeLatency(),
-            new AverageTimeTransfer(),
-            new AverageTimeDomProcessing(),
-            new AverageTimeDomCompletion(),
-            new AverageTimeOnLoad(),
-            new AveragePageLoadTime()
+            new AveragePageGenerationTime()
         );
 
         $this->subcategoryId = 'General_Pages';
@@ -80,7 +74,7 @@ class GetPageUrls extends Base
     {
         $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->columns_to_display = array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
-                                                  'avg_time_on_page', 'exit_rate', 'avg_time_generation', 'avg_page_load_time');
+                                                  'avg_time_on_page', 'exit_rate', 'avg_time_generation');
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);

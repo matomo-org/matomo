@@ -5,7 +5,7 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\Actions\Columns\Metrics;
+namespace Piwik\Plugins\PagePerformance\Columns\Metrics;
 
 use Piwik\Piwik;
 
@@ -24,11 +24,11 @@ class AverageTimeDomCompletion extends AveragePerformanceMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('General_ColumnAverageTimeDomCompletion');
+        return Piwik::translate('PagePerformance_ColumnAverageTimeDomCompletion');
     }
 
     public function getDocumentation()
     {
-        return Piwik::translate('General_ColumnAverageTimeDomCompletionDocumentation');
+        return Piwik::translate('PagePerformance_ColumnAverageTimeDomCompletionDocumentation');
     }
 }

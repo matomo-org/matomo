@@ -1019,6 +1019,7 @@ Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomJsTracker
 Plugins[] = Tour
+Plugins[] = PagePerformance
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

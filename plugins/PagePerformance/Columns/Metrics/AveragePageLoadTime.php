@@ -5,7 +5,7 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\Actions\Columns\Metrics;
+namespace Piwik\Plugins\PagePerformance\Columns\Metrics;
 
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
@@ -26,12 +26,12 @@ class AveragePageLoadTime extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('General_ColumnAveragePageLoadTime');
+        return Piwik::translate('PagePerformance_ColumnAveragePageLoadTime');
     }
 
     public function getDocumentation()
     {
-        return Piwik::translate('General_ColumnAveragePageLoadTimeDocumentation');
+        return Piwik::translate('PagePerformance_ColumnAveragePageLoadTimeDocumentation');
     }
 
     public function compute(Row $row)

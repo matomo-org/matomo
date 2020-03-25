@@ -11,6 +11,12 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageLoadTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeDomCompletion;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeDomProcessing;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeLatency;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnLoad;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeTransfer;
 use Piwik\Plugins\Actions\Columns\PageTitle;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
@@ -37,7 +43,7 @@ class GetPageTitles extends Base
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
         );
 
         $this->actionToLoadSubTables = $this->action;

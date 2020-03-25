@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Actions\Columns;
+namespace Piwik\Plugins\PagePerformance\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
@@ -24,7 +24,7 @@ class TimeDomProcessing extends ActionDimension
     protected $columnName = 'time_dom_processing';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'General_ColumnTimeDomProcessing';
+    protected $nameSingular = 'PagePerformance_ColumnTimeDomProcessing';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
@@ -53,7 +53,7 @@ class TimeDomProcessing extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
         $metric3->setName('pageviews_with_time_dom_processing');
-        $metric3->setTranslatedName(Piwik::translate('General_ColumnViewsWithDomProcessingTime'));
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithDomProcessingTime'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -62,8 +62,8 @@ class TimeDomProcessing extends ActionDimension
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_time_dom_processing');
-        $metric->setTranslatedName(Piwik::translate('General_ColumnAverageDomProcessingTime'));
-        $metric->setDocumentation(Piwik::translate('General_ColumnAverageDomProcessingTimeDocumentation'));
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageDomProcessingTime'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageDomProcessingTimeDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

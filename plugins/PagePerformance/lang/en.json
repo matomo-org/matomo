@@ -1,0 +1,27 @@
+{
+    "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Avg. page load time",
+        "ColumnAveragePageLoadTimeDocumentation": "Average time how long it takes from requesting a page until the page is fully rendered within the browser",
+        "ColumnAverageTimeLatency": "Avg. latency time",
+        "ColumnAverageTimeLatencyDocumentation": "Average time how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.",
+        "ColumnAverageTimeTransfer": "Avg. transfer time",
+        "ColumnAverageTimeTransferDocumentation": "Average time how long it takes the browser to download the response from the server.",
+        "ColumnAverageTimeDomProcessing": "Avg. DOM processing time",
+        "ColumnAverageTimeDomProcessingDocumentation": "Average time how long the browser spends loading the webpage until the user can starting interacting with it.",
+        "ColumnAverageTimeDomCompletion": "Avg. DOM completion time",
+        "ColumnAverageTimeDomCompletionDocumentation": "Average time how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event.",
+        "ColumnAverageTimeOnLoad": "Avg. on load time",
+        "ColumnAverageTimeOnLoadDocumentation": "Average time how long it takes the browser to execute Javascript code waiting for the window.load event.",
+        "ColumnViewsWithTimeLatency": "Pageviews with latency time",
+        "ColumnViewsWithTimeTransfer": "Pageviews with transfer time",
+        "ColumnViewsWithTimeDomProcessing": "Pageviews with DOM processing time",
+        "ColumnViewsWithTimeDomCompletion": "Pageviews with DOM completion time",
+        "ColumnViewsWithTimeOnLoad": "Pageviews with on load time",
+        "ColumnTimeLatency": "Latency time",
+        "ColumnTimeTransfer": "Transfer time",
+        "ColumnTimeDomProcessing": "DOM processing time",
+        "ColumnTimeDomCompletion": "DOM completion time",
+        "ColumnTimeOnLoad": "On load time",
+        "PluginDescription": "Adds some page performance reports"
+    }
+}
