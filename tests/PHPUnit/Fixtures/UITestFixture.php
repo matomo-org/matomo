@@ -35,6 +35,7 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
@@ -85,6 +86,8 @@ class UITestFixture extends SqlDump
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
+        self::createSuperUser(false);
+
         $this->addOverlayVisits();
         $this->addNewSitesForSiteSelector();
 
@@ -94,11 +97,11 @@ class UITestFixture extends SqlDump
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user
-        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com', $this->xssTesting->forTwig('useralias'));
+        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
 
         // another non super user
-        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com', $this->xssTesting->forAngular('useralias'));
+        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com');
         UsersManagerAPI::getInstance()->setUserAccess('anotheruser', 'view', array(1));
 
         // add xss scheduled report
@@ -136,6 +139,8 @@ class UITestFixture extends SqlDump
         );
 
         parent::performSetUp($setupEnvironmentOnly);
+
+        self::createSuperUser(false);
 
         $this->createSegments();
         $this->setupDashboards();
@@ -299,7 +304,7 @@ class UITestFixture extends SqlDump
 
         $oldGet = $_GET;
         $_GET['idSite'] = 1;
-        $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
+        $_GET['token_auth'] = \Piwik\Piwik::getCurrentUserTokenAuth();
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = Request::processRequest('API.getWidgetMetadata', array(
@@ -427,6 +432,7 @@ class UITestFixture extends SqlDump
         API::$_autoSuggestLookBack = floor(Date::today()->getTimestamp() - Date::factory('2012-01-01')->getTimestamp()) / (24 * 60 * 60);
 
         return [
+            'Tests.now' => \DI\decorate(function(){ return Option::get("Tests.forcedNowTimestamp"); }),
             'observers.global' => \DI\add([
                 ['Report.addReports', function (&$reports) {
                     $report = new XssReport();

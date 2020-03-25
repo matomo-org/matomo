@@ -11,7 +11,8 @@ describe("UserSettings", function () {
     this.timeout(0);
     this.fixture = "Piwik\\Plugins\\UsersManager\\tests\\Fixtures\\ManyUsers";
 
-    var url = "?module=UsersManager&action=userSettings";
+    var userSettingsUrl = "?module=UsersManager&action=userSettings";
+    var userSecurityUrl = "?module=UsersManager&action=userSecurity";
 
     before(async function() {
         await page.webpage.setViewport({
@@ -20,8 +21,36 @@ describe("UserSettings", function () {
         });
     });
 
+    it('should show user security page', async function () {
+        await page.goto(userSecurityUrl);
+        await page.waitFor(100);
+        expect(await page.screenshotSelector('.admin')).to.matchImage('load_security');
+    });
+
+    it('should ask for password when trying to add token', async function () {
+        await page.click('.addNewToken');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.loginSection');
+        expect(await page.screenshotSelector('.loginSection')).to.matchImage('add_token_check_password');
+    });
+
+    it('should accept correct password', async function () {
+        await page.type('#login_form_password', 'superUserPass');
+        await page.click('#login_form_submit');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.addTokenForm');
+        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token');
+    });
+
+    it('should create new token', async function () {
+        await page.type('.addTokenForm input[id=description]', 'test description');
+        await page.click('.addTokenForm .btn');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_success');
+    });
+
     it('should show user settings page', async function () {
-        await page.goto(url);
+        await page.goto(userSettingsUrl);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load');
     });
 
@@ -34,7 +63,7 @@ describe("UserSettings", function () {
 
     it('should not prompt user to subscribe to newsletter again', async function () {
         // Assumes previous test has clicked on the signup button - so we shouldn't see it this time
-        await page.goto(url);
+        await page.goto(userSettingsUrl);
         expect(await page.screenshotSelector('.admin')).to.matchImage('already_signed_up');
     });
 

@@ -8,13 +8,18 @@
  */
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Site;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -33,9 +38,28 @@ class Loader
      */
     protected $params;
 
-    public function __construct(Parameters $params)
+    /**
+     * @var ArchiveInvalidator
+     */
+    private $invalidator;
+
+    /**
+     * @var \Piwik\Cache\Cache
+     */
+    private $cache;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {
         $this->params = $params;
+        $this->invalidateBeforeArchiving = $invalidateBeforeArchiving;
+        $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $this->cache = Cache::getTransientCache();
+        $this->logger = StaticContainer::get(LoggerInterface::class);
     }
 
     /**
@@ -65,9 +89,17 @@ class Loader
     {
         $this->params->setRequestedPlugin($pluginName);
 
-        list($idArchive, $visits, $visitsConverted) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchive)) {
+        list($idArchive, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
+        if (!empty($idArchive)) { // we have a usable idarchive (it's not invalidated and it's new enough)
             return $idArchive;
+        }
+
+        // if there is an archive, but we can't use it for some reason, invalidate existing archives before
+        // we start archiving. if the archive is made invalid, we will correctly re-archive below.
+        if ($this->invalidateBeforeArchiving
+            && $isAnyArchiveExists
+        ) {
+            $this->invalidatedReportsIfNeeded();
         }
 
         /** @var ArchivingStatus $archivingStatus */
@@ -170,20 +202,17 @@ class Loader
      */
     public function loadExistingArchiveIdFromDb()
     {
-        $noArchiveFound = array(false, false, false);
-
         if ($this->isArchivingForcedToTrigger()) {
-            return $noArchiveFound;
+            $this->logger->debug("Archiving forced to trigger for {$this->params}.");
+
+            // return no usable archive found, and no existing archive. this will skip invalidation, which should
+            // be fine since we just force archiving.
+            return [false, false, false, false];
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
-        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
-
-        if (!$idAndVisits) {
-            return $noArchiveFound;
-        }
-
-        return $idAndVisits;
+        $result = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
+        return $result;
     }
 
     /**
@@ -241,5 +270,47 @@ class Loader
         }
 
         return $cache->fetch($cacheKey);
+    }
+
+    // public for tests
+    public function getReportsToInvalidate()
+    {
+        $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        foreach ($sitesPerDays as $dateStr => $siteIds) {
+            if (empty($siteIds)
+                || !in_array($this->params->getSite()->getId(), $siteIds)
+            ) {
+                unset($sitesPerDays[$dateStr]);
+            }
+
+            $date = Date::factory($dateStr);
+            if ($date->isEarlier($this->params->getPeriod()->getDateStart())
+                || $date->isLater($this->params->getPeriod()->getDateEnd())
+            ) { // date in list is not the current date, so ignore it
+                unset($sitesPerDays[$dateStr]);
+            }
+        }
+
+        return $sitesPerDays;
+    }
+
+    private function invalidatedReportsIfNeeded()
+    {
+        $sitesPerDays = $this->getReportsToInvalidate();
+        if (empty($sitesPerDays)) {
+            return;
+        }
+
+        foreach ($sitesPerDays as $date => $siteIds) {
+            try {
+                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment());
+            } catch (\Exception $e) {
+                Site::clearCache();
+                throw $e;
+            }
+        }
+
+        Site::clearCache();
     }
 }

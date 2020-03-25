@@ -1,4 +1,4 @@
-{{ postEvent("Template.beforeTopBar", userAlias, userLogin, topMenu) }}
+{{ postEvent("Template.beforeTopBar", userLogin, topMenu) }}
 <ul class="right hide-on-med-and-down">
     {% macro menuItemLabel(label, icon) %}
         {% if icon is defined and icon and icon starts with 'icon-' %}

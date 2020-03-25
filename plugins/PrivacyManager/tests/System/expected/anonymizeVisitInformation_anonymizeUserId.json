@@ -1734,10 +1734,6 @@
         },
         {
             "custom_float": "9 min 5s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "images",
-            "custom_var_v5": "200",
             "idaction_name": "7",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
@@ -1747,6 +1743,8 @@
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
+            "search_cat": "images",
+            "search_count": "200",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -2631,10 +2629,6 @@
         },
         {
             "custom_float": "9 min 45s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "web",
-            "custom_var_v5": "205",
             "idaction_name": "48",
             "idaction_name_ref": "3",
             "idaction_url_ref": "47",
@@ -2644,6 +2638,8 @@
             "idvisit": "15",
             "idvisitor": "0e64dad0a7ea5650",
             "interaction_position": "3",
+            "search_cat": "web",
+            "search_count": "205",
             "server_time": "2017-01-02 00:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -3257,8 +3253,6 @@
         },
         {
             "custom_float": "17 min 10s",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v5": "210",
             "idaction_name": "66",
             "idaction_name_ref": "1",
             "idaction_url_ref": "65",
@@ -3268,6 +3262,8 @@
             "idvisit": "27",
             "idvisitor": "d57f2b2bcf932329",
             "interaction_position": "2",
+            "search_cat": "",
+            "search_count": "210",
             "server_time": "2017-01-02 03:04:05",
             "time_spent_ref_action": "00:00:00"
         },

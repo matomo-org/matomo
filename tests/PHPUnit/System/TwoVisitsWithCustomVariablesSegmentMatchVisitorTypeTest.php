@@ -7,9 +7,12 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive\ArchivePurger;
 use Piwik\Archive\Chunk;
 use Piwik\Common;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
@@ -64,6 +67,9 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
      */
     public function testCheck()
     {
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        $archivePurger->purgeInvalidatedArchivesFrom(Date::factory(self::$fixture->dateTime));
+
         // ----------------------------------------------
         // Implementation Checks
         // ----------------------------------------------
@@ -90,9 +96,10 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             'archive_blob_2009_12'    => 20,
             // 7 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
-            // 6 done flag (referrers, CustomVar, VisitsSummary), 3 for period = 1 and 3 for period = 2
+            // 5 done flag (referrers, VisitsSummary), 2 for period = 1 and 3 for period = 2
             // X * 2 segments
-            'archive_numeric_2009_12' => (6 + 2 + 3 + 3) * 2,
+            // + 1 done flag archive for CustomVar
+            'archive_numeric_2009_12' => (5 + 2 + 3 + 3) * 2 + 1,
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);

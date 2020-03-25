@@ -4,8 +4,10 @@
     <div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getSegmentComparisons() track by $index">
         <div class="comparison-type">{{ 'General_Segment'|translate }}</div>
 
-        <div class="title" title="{{ comparison.title }}">
+        <div class="title" title="{{ comparison.title }}&lt;br/&gt;{{ comparison.params.segment|urldecode }}">
+            <a href="{{ $ctrl.getUrlToSegment(comparison.params.segment) }}" target="_blank">
             {{ comparison.title }}
+        </a>
         </div>
 
         <div class="comparison-period"

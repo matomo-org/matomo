@@ -13,7 +13,7 @@ describe("TwoFactorAuth", function () {
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
-        userSettings = '?module=UsersManager&action=userSettings&' + generalParams,
+        userSettings = '?module=UsersManager&action=userSecurity&' + generalParams,
         logoutUrl = '?module=Login&action=logout&period=day&date=yesterday';
 
 

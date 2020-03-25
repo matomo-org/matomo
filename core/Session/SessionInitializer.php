@@ -83,7 +83,7 @@ class SessionInitializer
     protected function processSuccessfulSession(AuthResult $authResult)
     {
         $sessionIdentifier = new SessionFingerprint();
-        $sessionIdentifier->initialize($authResult->getIdentity(), $this->isRemembered());
+        $sessionIdentifier->initialize($authResult->getIdentity(), $authResult->getTokenAuth(), $this->isRemembered());
 
         /**
          * @ignore

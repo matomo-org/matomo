@@ -81,6 +81,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     const ADMIN_USER_LOGIN = 'superUserLogin';
     const ADMIN_USER_PASSWORD = 'superUserPass';
+    const ADMIN_USER_TOKEN = 'c4ca4238a0b923820dcc509a6f75849b';
 
     const PERSIST_FIXTURE_DATA_ENV = 'PERSIST_FIXTURE_DATA';
 
@@ -716,7 +717,9 @@ class Fixture extends \PHPUnit\Framework\Assert
         $model = new \Piwik\Plugins\UsersManager\Model();
         $user  = $model->getUser(self::ADMIN_USER_LOGIN);
 
-        return $user['token_auth'];
+        if (!empty($user)) {
+            return self::ADMIN_USER_TOKEN;
+        }
     }
 
     public static function createSuperUser($removeExisting = true)
@@ -725,7 +728,6 @@ class Fixture extends \PHPUnit\Framework\Assert
 
         $login    = self::ADMIN_USER_LOGIN;
         $password = $passwordHelper->hash(UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD));
-        $token    = APIUsersManager::getInstance()->createTokenAuth($login);
 
         $model = new \Piwik\Plugins\UsersManager\Model();
         $user  = $model->getUser($login);
@@ -734,19 +736,26 @@ class Fixture extends \PHPUnit\Framework\Assert
             $model->deleteUserOnly($login);
         }
 
-        if (!empty($user) && !$removeExisting) {
-            $token = $user['token_auth'];
-        }
         if (empty($user) || $removeExisting) {
-            $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
+            $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
         } else {
-            $model->updateUser($login, $password, 'hello@example.org', $login, $token);
+            $model->updateUser($login, $password, 'hello@example.org');
+        }
+        try {
+            if (!$model->getUserByTokenAuth(self::ADMIN_USER_TOKEN)) {
+                $model->addTokenAuth($login,self::ADMIN_USER_TOKEN, 'Admin user token', Date::now()->getDatetime());
+            }
+        } catch (Exception $e) {
+            // duplicate entry errors are expected
+            if (strpos($e->getMessage(), 'Duplicate entry') === false) {
+                throw $e;
+            }
         }
 
         $setSuperUser = empty($user) || !empty($user['superuser_access']);
         $model->setSuperUserAccess($login, $setSuperUser);
 
-        return $model->getUserByTokenAuth($token);
+        return $model->getUser($login);
     }
 
     /**

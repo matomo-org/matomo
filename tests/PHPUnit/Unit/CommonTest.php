@@ -24,6 +24,7 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  */
 class CommonTest extends TestCase
 {
+
     public function test_getProcessId()
     {
         $this->assertEquals(getmypid(), Common::getProcessId());

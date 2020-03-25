@@ -171,13 +171,13 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
             $input[] = array('test' => 'two' . $i, 'test2' => 'three');
         }
 
-        $builder  = new ResponseBuilder('php', array('serialize' => 0));
+        $builder  = new ResponseBuilder('original', array('serialize' => 0));
         $response = $builder->getResponse($input);
 
         $this->assertEquals($input, $response);
         $this->assertCount(10, $response);
 
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'showColumns' => 'test'));
+        $builder  = new ResponseBuilder('original', array('serialize' => 0, 'showColumns' => 'test'));
         $response = $builder->getResponse($input);
 
         $this->assertEquals(array('test' => 'two0'), array_shift($response));
@@ -228,8 +228,8 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
             $params['filter_offset'] = $offset;
         }
 
-        $builder  = new ResponseBuilder('php', $params);
-        $response = $builder->getResponse($input);
+        $builder  = new ResponseBuilder('json', $params);
+        $response = json_decode($builder->getResponse($input), true);
 
         $this->assertEquals($expectedResponse, $response);
     }
@@ -239,14 +239,14 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $input = range(0, 200);
         $limit = Config::getInstance()->General['API_datatable_default_limit'];
 
-        $builder  = new ResponseBuilder('php', array(
+        $builder  = new ResponseBuilder('json', array(
             'serialize' => 0,
             'api_datatable_default_limit' => $limit,
             'filter_limit' => $limit,
             'filter_offset' => 0));
         $response = $builder->getResponse($input);
 
-        $this->assertEquals(range(0, 99), $response);
+        $this->assertEquals(range(0, 99), json_decode($response, true));
     }
 
     public function test_getResponse_shouldApplyLimit_IfLimitIsSetBySystemButDifferentToDefaultLimit()
@@ -255,14 +255,14 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $defaultLimit = Config::getInstance()->General['API_datatable_default_limit'];
         $limit = $defaultLimit - 1;
 
-        $builder  = new ResponseBuilder('php', array(
+        $builder  = new ResponseBuilder('json', array(
             'serialize' => 0,
             'api_datatable_default_limit' => $defaultLimit,
             'filter_limit' => $limit,
             'filter_offset' => 0));
         $response = $builder->getResponse($input);
 
-        $this->assertEquals(range(0, $limit - 1), $response);
+        $this->assertEquals(range(0, $limit - 1), json_decode($response, true));
     }
 
     public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfFilterLimitIsGiven()
@@ -309,7 +309,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
             5 => array('url' => 'nz.piwik.org'),
         );
 
-        $builder  = new ResponseBuilder('php', array(
+        $builder  = new ResponseBuilder('json', array(
             'serialize' => 0,
             'filter_limit' => -1,
             'filter_column' => array('name', 'url'),
@@ -321,7 +321,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
             2 => array('name' => 'piwik', 'url' => 'piwik.org'),
             5 => array('url' => 'nz.piwik.org'),
         );
-        $this->assertEquals($expected, $response);
+        $this->assertEquals($expected, json_decode($response, true));
     }
 
     public function test_getResponse_shouldBeAbleToApplyColumFilterAndLimitFilterOnIndexedAssociativeArray()
@@ -333,7 +333,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 
         $limit = 3;
 
-        $builder  = new ResponseBuilder('php', array(
+        $builder  = new ResponseBuilder('json', array(
             'serialize' => 0,
             'filter_limit' => $limit,
             'filter_offset' => 3,
@@ -345,6 +345,6 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
             0 => array('test' => 'two3'),
             1 => array('test' => 'two4'),
             2 => array('test' => 'two5'),
-        ), $response);
+        ), json_decode($response, true));
     }
 }

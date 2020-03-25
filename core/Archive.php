@@ -12,7 +12,6 @@ use Piwik\Archive\ArchiveQuery;
 use Piwik\Archive\ArchiveQueryFactory;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
 
@@ -168,11 +167,6 @@ class Archive implements ArchiveQuery
     private static $cache;
 
     /**
-     * @var ArchiveInvalidator
-     */
-    private $invalidator;
-
-    /**
      * @param Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
@@ -183,8 +177,6 @@ class Archive implements ArchiveQuery
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
-
-        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
     }
 
     /**
@@ -453,67 +445,6 @@ class Archive implements ArchiveQuery
         return $dataTable;
     }
 
-    private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
-    {
-        if (is_null(self::$cache)) {
-            self::$cache = Cache::getTransientCache();
-        }
-
-        $id = 'Archive.SiteIdsOfRememberedReportsInvalidated';
-
-        if (!self::$cache->contains($id)) {
-            self::$cache->save($id, array());
-        }
-
-        $siteIdsAlreadyHandled = self::$cache->fetch($id);
-        $siteIdsRequested      = $this->params->getIdSites();
-
-        foreach ($siteIdsRequested as $index => $siteIdRequested) {
-            $siteIdRequested = (int) $siteIdRequested;
-
-            if (in_array($siteIdRequested, $siteIdsAlreadyHandled)) {
-                unset($siteIdsRequested[$index]); // was already handled previously, do not do it again
-            } else {
-                $siteIdsAlreadyHandled[] = $siteIdRequested; // we will handle this id this time
-            }
-        }
-
-        self::$cache->save($id, $siteIdsAlreadyHandled);
-
-        return $siteIdsRequested;
-    }
-
-    private function invalidatedReportsIfNeeded()
-    {
-        $siteIdsRequested = $this->getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet();
-
-        if (empty($siteIdsRequested)) {
-            return; // all requested site ids were already handled
-        }
-
-        $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
-
-        foreach ($sitesPerDays as $date => $siteIds) {
-            if (empty($siteIds)) {
-                continue;
-            }
-
-            $siteIdsToActuallyInvalidate = array_intersect($siteIds, $siteIdsRequested);
-
-            if (empty($siteIdsToActuallyInvalidate)) {
-                continue; // all site ids that should be handled are already handled
-            }
-
-            try {
-                $this->invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, array(Date::factory($date)), false);
-            } catch (\Exception $e) {
-                Site::clearCache();
-                throw $e;
-            }
-        }
-
-        Site::clearCache();
-    }
 
     /**
      * Queries archive tables for data and returns the result.
@@ -638,8 +569,6 @@ class Archive implements ArchiveQuery
      */
     private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
-        $this->invalidatedReportsIfNeeded();
-
         $today = Date::today();
 
         foreach ($this->params->getPeriods() as $period) {
@@ -856,8 +785,11 @@ class Archive implements ArchiveQuery
      */
     private function prepareArchive(array $archiveGroups, Site $site, Period $period)
     {
+        // if cron archiving is running, we will invalidate in CronArchive, not here
+        $invalidateBeforeArchiving = !SettingsServer::isArchivePhpTriggered();
+
         $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
-        $archiveLoader = new ArchiveProcessor\Loader($parameters);
+        $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
 
         $periodString = $period->getRangeString();
 

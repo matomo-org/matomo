@@ -441,16 +441,18 @@ class Cookie
         $sameSite = ucfirst(strtolower($default));
 
         if ($sameSite == 'None') {
-            $userAgent = Http::getUserAgent();
-            $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
-            $deviceDetector = $ddFactory->makeInstance($userAgent);
-            $deviceDetector->parse();
+            if ((!ProxyHttp::isHttps())) {
+                $sameSite = 'Lax'; // None can be only used when secure flag will be set
+            } else {
+                $userAgent = Http::getUserAgent();
+                $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
+                $deviceDetector = $ddFactory->makeInstance($userAgent);
+                $deviceDetector->parse();
 
-            $browserFamily = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($deviceDetector->getClient('short_name'));
-            if ((!ProxyHttp::isHttps()) && $browserFamily === 'Chrome') {
-                $sameSite = 'Lax';
-            } else if ($browserFamily === 'Safari') {
-                $sameSite = '';
+                $browserFamily = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($deviceDetector->getClient('short_name'));
+                if ($browserFamily === 'Safari') {
+                    $sameSite = '';
+                }
             }
         }
 

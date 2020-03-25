@@ -108,7 +108,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Default action
      *
-     * @param none
      * @return string
      */
     function index()
@@ -472,7 +471,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Logout current user
      *
-     * @param none
      * @return void
      */
     public function logout()

@@ -85,6 +85,10 @@ class ExceptionToTextProcessor
 
     public static function getWholeBacktrace(\Exception $exception, $shouldPrintBacktrace = true)
     {
+        if (!$shouldPrintBacktrace) {
+            return $exception->getMessage();
+        }
+
         $message = "";
 
         $e = $exception;

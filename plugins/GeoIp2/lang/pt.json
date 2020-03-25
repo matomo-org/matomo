@@ -1,6 +1,7 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "Não foi possível encontrar a função apache_get_modules; assumindo um servidor web não-Apache.",
+        "CannotFindGeoIPDatabaseInArchive": "Não foi encontrada uma base de dados DBIP \/ GeoIP válida no arquivo tar %1$s!",
         "CannotFindGeoIPServerVar": "A variável %s não está definida. O seu servidor pode não estar configurado corretamente.",
         "CannotListContent": "Não foi possível listar o conteúdo para %1$s: %2$s",
         "CannotUnzipGeoIPFile": "Não foi possível extrair o ficheiro GeoIP em %1$s: %2$s",
@@ -9,7 +10,7 @@
         "FoundApacheModules": "O Matomo encontrou os seguintes módulos Apache",
         "GeoIPImplHasAccessTo": "Esta implementação do GeoIP tem acesso aos seguintes tipos de bases de dados",
         "GeoIPDatabases": "Bases de dados GeoIP",
-        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Nota: a anonimização de IPs não tem qualquer efeito nas localizações reportadas por este fornecedor. Antes de o utilizar com a anonimização de IPs, confirme que este não viola quaisquer leis de privacidade que sejam aplicáveis a si.",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Nota: a anonimização de IP não tem qualquer efeito nas localizações reportadas por este fornecedor. Antes de o utilizar com a anonimização de IP, confirme que este não viola quaisquer leis de privacidade aplicáveis.",
         "GeoIPLocationProviderNotRecommended": "A geolocalização funciona, mas não está a utilizar um dos fornecedores recomendados.",
         "GeoIPNoDatabaseFound": "Esta implementação do GeoIP não conseguiu encontrar qualquer base de dados.",
         "GeoIPNoServerVars": "O Matomo não consegue encontrar quaisquer variáveis GeoIP %s.",

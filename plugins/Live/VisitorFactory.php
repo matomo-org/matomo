@@ -29,7 +29,7 @@ class VisitorFactory
         /**
          * Triggered while visit is filtering in live plugin. Subscribers to this
          * event can force the use of a custom visitor object that extends from
-         * {@link Piwik\Plugins\Live\VisitorInterface}.
+         * {@link \Piwik\Plugins\Live\VisitorInterface}.
          *
          * @param \Piwik\Plugins\Live\VisitorInterface &$visitor Initialized to null, but can be set to
          *                                              a new visitor object. If it isn't modified

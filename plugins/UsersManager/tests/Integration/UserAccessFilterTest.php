@@ -190,7 +190,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         $expectedUsers = array();
 
         foreach ($logins as $login) {
-            $user = array('login' => $login, 'alias' => 'test', 'password' => md5('pass'));
+            $user = array('login' => $login, 'password' => md5('pass'));
 
             $users[] = $user;
             if (in_array($login, $expectedLogins)) {
@@ -283,16 +283,16 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     private function createManyUsers()
     {
-        $this->model->addUser('login1', md5('pass'), 'email1@example.com', 'alias1', md5('token1'), '2008-01-01 00:00:00');
-        $this->model->addUser('login2', md5('pass'), 'email2@example.com', 'alias2', md5('token2'), '2008-01-01 00:00:00');
+        $this->model->addUser('login1', md5('pass'), 'email1@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login2', md5('pass'), 'email2@example.com', '2008-01-01 00:00:00');
         // login3 won't have access to any site
-        $this->model->addUser('login3', md5('pass'), 'email3@example.com', 'alias3', md5('token3'), '2008-01-01 00:00:00');
-        $this->model->addUser('login4', md5('pass'), 'email4@example.com', 'alias4', md5('token4'), '2008-01-01 00:00:00');
-        $this->model->addUser('login5', md5('pass'), 'email5@example.com', 'alias5', md5('token5'), '2008-01-01 00:00:00');
-        $this->model->addUser('login6', md5('pass'), 'email6@example.com', 'alias6', md5('token6'), '2008-01-01 00:00:00');
-        $this->model->addUser('login7', md5('pass'), 'email7@example.com', 'alias7', md5('token7'), '2008-01-01 00:00:00');
-        $this->model->addUser('login8', md5('pass'), 'email8@example.com', 'alias8', md5('token8'), '2008-01-01 00:00:00');
-        $this->model->addUser('anonymous', '',       'ano@example.com',   'anonymous', 'anonymous', '2008-01-01 00:00:00');
+        $this->model->addUser('login3', md5('pass'), 'email3@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login4', md5('pass'), 'email4@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login5', md5('pass'), 'email5@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login6', md5('pass'), 'email6@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login7', md5('pass'), 'email7@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login8', md5('pass'), 'email8@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('anonymous', '', 'ano@example.com', '2008-01-01 00:00:00');
 
         $this->model->setSuperUserAccess('login1', true); // we treat this one as our superuser
 

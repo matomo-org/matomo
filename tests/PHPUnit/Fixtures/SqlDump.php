@@ -63,7 +63,9 @@ class SqlDump extends Fixture
         $host = Config::getInstance()->database['host'];
         Config::getInstance()->database['tables_prefix'] = $this->tablesPrefix;
 
-        $cmd = "mysql -h \"$host\" -u \"$user\" \"--password=$password\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
+        $defaultsFile = $this->makeMysqlDefaultsFile($user, $password);
+
+        $cmd = "mysql --defaults-extra-file=\"$defaultsFile\" -h \"$host\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
         exec($cmd, $output, $return);
         if ($return !== 0) {
             throw new Exception("Failed to load sql dump: " . implode("\n", $output));
@@ -104,5 +106,17 @@ class SqlDump extends Fixture
         fclose($dump);
         fclose($outfile);
         return $bytesRead;
+    }
+
+    private function makeMysqlDefaultsFile($user, $password)
+    {
+        $contents = "[client]
+user=$user
+password=$password\n";
+
+        $path = PIWIK_INCLUDE_PATH . '/mysqldefaults.conf';
+        file_put_contents($path, $contents);
+
+        return $path;
     }
 }

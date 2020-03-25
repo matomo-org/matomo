@@ -101,7 +101,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
             '/DataTable/Renderer/Csv.php',
             '/DataTable/Renderer/Html.php',
             '/DataTable/Renderer/Json.php',
-            '/DataTable/Renderer/Php.php',
             '/DataTable/Renderer/Rss.php',
             '/DataTable/Renderer/Tsv.php',
             '/DataTable/Renderer/Xml',
@@ -132,7 +131,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
             '/DataTable/Filter/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Filter/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Renderer/Json.php',
-            '/DataTable/Renderer/Php.php',
             '/DataTable/Renderer/Rss.php',
             '/DataTable/Renderer/Xml',
             '/DataTable/Renderer/Xml/Other.php',
@@ -152,7 +150,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
         // make sure there is a difference between those folders
         $result = Filesystem::directoryDiff($source, $target);
-        $this->assertCount(14, $result);
+        $this->assertCount(13, $result);
 
         Filesystem::unlinkTargetFilesNotPresentInSource($source, $target);
 
@@ -234,7 +232,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         file_put_contents($target . '/DataTable/Renderer/Csv.php', '');
         file_put_contents($target . '/DataTable/Renderer/Html.php', '');
         file_put_contents($target . '/DataTable/Renderer/Json.php', '');
-        file_put_contents($target . '/DataTable/Renderer/Php.php', '');
         file_put_contents($target . '/DataTable/Renderer/Rss.php', '');
         file_put_contents($target . '/DataTable/Renderer/Tsv.php', '');
         file_put_contents($target . '/DataTable/Renderer/Xml.php', '');

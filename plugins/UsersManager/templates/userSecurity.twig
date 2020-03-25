@@ -1,0 +1,121 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+{% if isUsersAdminEnabled %}
+    <div piwik-content-block content-title="{{ 'General_ChangePassword'|translate|e('html_attr') }}" feature="true">
+        <form id="userSettingsTable" method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'recordPasswordChange'}) }}">
+
+            <input type="hidden" value="{{ changePasswordNonce|e('html_attr') }}" name="nonce">
+
+            {% if isValidHost is defined and isValidHost %}
+
+                <div piwik-field uicontrol="password" name="password" autocomplete="off"
+                     ng-model="personalSettings.password"
+                     ng-change="personalSettings.requirePasswordConfirmation()"
+                     data-title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
+                </div>
+
+                <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
+                     ng-model="personalSettings.passwordBis"
+                     ng-change="personalSettings.requirePasswordConfirmation()"
+                     data-title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
+                </div>
+
+                <div piwik-field uicontrol="password" name="passwordConfirmation" autocomplete="off"
+                     ng-model="personalSettings.current_password"
+                     data-title="{{ 'UsersManager_YourCurrentPassword'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'UsersManager_TypeYourCurrentPassword'|translate|e('html_attr') }}">
+                </div>
+
+                <input type="submit"
+                       value="{{ 'General_Save'|translate|e('html_attr') }}"
+                       class="btn"/>
+            {% endif %}
+
+            {% if isValidHost is not defined or not isValidHost %}
+                <div class="alert alert-danger">
+                    {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
+                    {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
+                </div>
+            {% endif %}
+
+        </form>
+    </div>
+
+    {{ postEvent('Template.userSecurity.afterPassword') }}
+{% endif %}
+
+    <a name="authtokens" id="authtokens"></a>
+    <div piwik-content-block content-title="{{ 'UsersManager_AuthTokens'|translate|e('html_attr') }}">
+        <p>
+            {{ 'UsersManager_TokenAuthIntro'|translate }}
+            {% if hasTokensWithExpireDate %}{{ 'UsersManager_ExpiredTokensDeleteAutomatically'|translate }}{% endif %}
+        </p>
+        <table piwik-content-table class="listAuthTokens">
+            <thead>
+            <tr>
+                <th>{{ 'General_CreationDate'|translate }}</th>
+                <th>{{ 'General_Description'|translate }}</th>
+                <th>{{ 'UsersManager_LastUsed'|translate }}</th>
+                {% if hasTokensWithExpireDate %}<th title="{{ 'UsersManager_TokensWithExpireDateCreationBySystem'|translate|e('html_attr') }}">{{ 'UsersManager_ExpireDate'|translate }}</th>{% endif %}
+                <th>{{ 'General_Actions'|translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if tokens is empty %}
+            <tr>
+                <td colspan="{% if hasTokensWithExpireDate %}5{% else %}4{% endif %}">
+                    {{ 'UsersManager_NoTokenCreatedYetCreateNow'|translate('<a href="' ~ (linkTo({'module': 'UsersManager', 'action': 'addNewToken'})|e('html_attr'))~ '">', '</a>')|raw }}
+                </td></tr>
+            {% else %}
+                {% for theToken in tokens %}
+                    <tr>
+                        <td><span class="creationDate">{{ theToken.date_created }}</span></td>
+                        <td>{{ theToken.description }}</td>
+                        <td>{% if theToken.last_used %}{{ theToken.last_used }}{% else %}{{ 'General_Never'|translate }}{% endif %}</td>
+                        {% if hasTokensWithExpireDate %}
+                            <td title="{{ 'UsersManager_TokensWithExpireDateCreationBySystem'|translate|e('html_attr') }}">
+                            {% if theToken.date_expired %}{{ theToken.date_expired }}{% else %}{{ 'General_Never'|translate }}{% endif %}
+                            </td>
+                        {% endif %}
+                        <td>
+                            <form method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'deleteToken'}) }}" style="display: inline">
+                                <input name="nonce" type="hidden" value="{{ deleteTokenNonce|e('html_attr')  }}">
+                                <input name="idtokenauth" type="hidden" value="{{ theToken.idusertokenauth|e('html_attr') }}">
+                                <button type="submit" class="table-action"
+                                        title="{{ 'General_Delete'|translate|e('html_attr') }}">
+                                    <span class="icon-delete"></span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+
+        <div class="tableActionBar">
+            <a href="{{ linkTo({'module': 'UsersManager', 'action': 'addNewToken'})|e('html_attr') }}" class="addNewToken">
+                <span class="icon-add"></span>
+               {{ 'UsersManager_CreateNewToken'|translate }}
+            </a>
+
+            {% if tokens is not empty %}
+            <form method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'deleteToken'}) }}" style="display: inline">
+                <input name="nonce" type="hidden" value="{{ deleteTokenNonce|e('html_attr')  }}">
+                <input name="idtokenauth" type="hidden" value="all">
+                <button type="submit" class="table-action">
+                    <span class="icon-delete"></span> {{ 'UsersManager_DeleteAllTokens'|translate }}
+                </button>
+            </form>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+{% endblock %}

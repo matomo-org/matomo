@@ -1,3 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
+	<result idSite="1">
+		<result date="2010-01">
+			<row>
+				<label>Search Category</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>3</nb_actions>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+				<nb_pages_per_search>1.5</nb_pages_per_search>
+			</row>
+			<row>
+				<label>Bad No Result Category :(</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_pages_per_search>1</nb_pages_per_search>
+			</row>
+			<row>
+				<label>Category</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_pages_per_search>1</nb_pages_per_search>
+			</row>
+		</result>
+		<result date="2010-02" />
+		<result date="2010-03" />
+		<result date="2010-04" />
+		<result date="2010-05" />
+		<result date="2010-06" />
+		<result date="2010-07" />
+	</result>
+	<result idSite="2">
+		<result date="2010-01">
+			<row>
+				<label>Bad No Result Category bis :(</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_pages_per_search>1</nb_pages_per_search>
+			</row>
+		</result>
+		<result date="2010-02" />
+		<result date="2010-03" />
+		<result date="2010-04" />
+		<result date="2010-05" />
+		<result date="2010-06" />
+		<result date="2010-07" />
+	</result>
+	<result idSite="3">
+		<result date="2010-01" />
+		<result date="2010-02" />
+		<result date="2010-03" />
+		<result date="2010-04" />
+		<result date="2010-05" />
+		<result date="2010-06" />
+		<result date="2010-07" />
+	</result>
 </results>

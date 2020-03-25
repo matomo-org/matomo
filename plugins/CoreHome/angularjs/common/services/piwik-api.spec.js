@@ -218,7 +218,7 @@
             ]).then(function (response) {
                 var restOfExpected = "index.php?method=API.getBulkRequest&module=API&format=JSON2&idSite=1&period=day&date= - "
                     + "urls%5B%5D=%3Fmethod%3DSomePlugin.action%26param%3Dvalue&urls%5B%5D=%3Fmethod%3DSomeOtherPlugin.action"
-                    + "&token_auth=100bf5eeeed1468f3f9d93750044d3dd";
+                    + "&token_auth=100bf5eeeed1468f3f9d93750044d3dd&force_api_session=1";
 
                 expect(response.length).to.equal(2);
                 expect(response[0]).to.equal("Response #1: " + restOfExpected);

@@ -209,8 +209,8 @@ class Dashboard
         $request['format_metrics'] = 1;
         $request['disable_generic_filters'] = 1;
 
-        $responseBuilder = new ResponseBuilder('php', $request);
-        $rows = $responseBuilder->getResponse($table, 'MultiSites', 'getAll');
+        $responseBuilder = new ResponseBuilder('json', $request);
+        $rows = json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true);
 
         return $rows;
     }

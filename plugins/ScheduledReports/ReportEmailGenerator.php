@@ -22,7 +22,7 @@ abstract class ReportEmailGenerator
         $mail->setSubject($report->getReportDescription());
 
         if (!empty($customReplyTo)) {
-            $mail->setReplyTo($customReplyTo['email'], $customReplyTo['alias']);
+            $mail->setReplyTo($customReplyTo['email'], $customReplyTo['login']);
         }
 
         $this->configureEmail($mail, $report);

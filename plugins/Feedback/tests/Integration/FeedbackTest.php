@@ -35,11 +35,9 @@ class FeedbackTest extends IntegrationTestCase
 
         $this->userModel = new Model();
         $this->userModel->addUser(
-            'user1', 
+            'user1',
             'a98732d98732',
             'user1@example.com',
-            'user1',
-            'ab9879dc23876f19',
             '2019-03-03'
         );
         FakeAccess::$identity = 'user1';

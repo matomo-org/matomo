@@ -57,6 +57,8 @@
         "SiteSearchCategories": "Kategori (Kërkim Në Sajt)",
         "SiteSearchKeyword": "Fjalëkyç (Kërkim te Sajti)",
         "SiteSearchKeywords": "Fjalëkyça (Kërkim Në Sajt)",
+        "SiteSearchKeywordCount": "Numër fjalëkyçesh (Kërkim Në Sajt)",
+        "SiteSearchKeywordCounts": "Numër fjalëkyçesh (Kërkim Në Sajt)",
         "SiteSearchKeywordsDocumentation": "Ky raport paraqet Fjalëkyçe Kërkimesh që vizitorët kanë bërë me Motorin tuaj të brendshëm të Kërkimeve.",
         "SiteSearchKeywordsNoResultDocumentation": "Ky raport paraqet Fjalëkyçe Kërkimesh që nuk patën ndonjë përfundim kërkimi: ndoshta algoritmi i motorit të kërkimit mund të përmirësohet, ose ndoshta vizitorët tuaj po kërkonin për lëndë që nuk gjendet (ende) në sajtin tuaj?",
         "SubmenuPagesEntry": "Faqe hyrjesh",
