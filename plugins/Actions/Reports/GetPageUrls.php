@@ -11,6 +11,12 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageLoadTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeDomCompletion;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeDomProcessing;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeLatency;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnLoad;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeTransfer;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\PageUrl;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
@@ -36,7 +42,13 @@ class GetPageUrls extends Base
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
+            new AverageTimeLatency(),
+            new AverageTimeTransfer(),
+            new AverageTimeDomProcessing(),
+            new AverageTimeDomCompletion(),
+            new AverageTimeOnLoad(),
+            new AveragePageLoadTime()
         );
 
         $this->subcategoryId = 'General_Pages';
@@ -68,7 +80,7 @@ class GetPageUrls extends Base
     {
         $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->columns_to_display = array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
-                                                  'avg_time_on_page', 'exit_rate', 'avg_time_generation');
+                                                  'avg_time_on_page', 'exit_rate', 'avg_time_generation', 'avg_page_load_time');
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);

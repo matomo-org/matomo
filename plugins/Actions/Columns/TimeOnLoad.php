@@ -24,7 +24,7 @@ class TimeOnLoad extends ActionDimension
     protected $columnName = 'time_on_load';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'General_ColumnOnLoadTime';
+    protected $nameSingular = 'General_ColumnTimeOnLoad';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

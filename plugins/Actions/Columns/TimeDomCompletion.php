@@ -24,7 +24,7 @@ class TimeDomCompletion extends ActionDimension
     protected $columnName = 'time_dom_completion';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'General_ColumnDomCompletionTime';
+    protected $nameSingular = 'General_ColumnTimeDomCompletion';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

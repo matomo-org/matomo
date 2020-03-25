@@ -17,7 +17,13 @@ use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageLoadTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeDomCompletion;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeDomProcessing;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeLatency;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnLoad;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeTransfer;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
 use Piwik\Plugin\ReportsProvider;
@@ -520,6 +526,13 @@ class API extends \Piwik\Plugin\API
             $extraProcessedMetrics[] = new BounceRate();
             $extraProcessedMetrics[] = new ExitRate();
             $extraProcessedMetrics[] = new AveragePageGenerationTime();
+            $extraProcessedMetrics[] = new AverageTimeLatency();
+            $extraProcessedMetrics[] = new AverageTimeTransfer();
+            $extraProcessedMetrics[] = new AverageTimeDomProcessing();
+            $extraProcessedMetrics[] = new AverageTimeDomCompletion();
+            $extraProcessedMetrics[] = new AverageTimeOnLoad();
+            $extraProcessedMetrics[] = new AveragePageLoadTime();
+
             $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         });
     }

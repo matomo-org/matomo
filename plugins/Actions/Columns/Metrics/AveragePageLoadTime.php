@@ -29,6 +29,11 @@ class AveragePageLoadTime extends ProcessedMetric
         return Piwik::translate('General_ColumnAveragePageLoadTime');
     }
 
+    public function getDocumentation()
+    {
+        return Piwik::translate('General_ColumnAveragePageLoadTimeDocumentation');
+    }
+
     public function compute(Row $row)
     {
         $sum = 0;

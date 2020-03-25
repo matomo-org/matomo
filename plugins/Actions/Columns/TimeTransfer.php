@@ -24,7 +24,7 @@ class TimeTransfer extends ActionDimension
     protected $columnName = 'time_transfer';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'General_ColumnTransferTime';
+    protected $nameSingular = 'General_ColumnTimeTransfer';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

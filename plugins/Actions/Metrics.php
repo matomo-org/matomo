@@ -11,6 +11,12 @@ namespace Piwik\Plugins\Actions;
 use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugins\Actions\Columns\TimeDomCompletion;
+use Piwik\Plugins\Actions\Columns\TimeDomProcessing;
+use Piwik\Plugins\Actions\Columns\TimeLatency;
+use Piwik\Plugins\Actions\Columns\TimeOnLoad;
+use Piwik\Plugins\Actions\Columns\TimeTransfer;
 use Piwik\Tracker\Action;
 
 /**
@@ -87,6 +93,46 @@ class Metrics
                 'query' => "max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") / 1000"
             ),
         );
+
+        /**
+         * @var ActionDimension[] $performanceDimensions
+         */
+        $performanceDimensions = [
+            new TimeLatency(),
+            new TimeTransfer(),
+            new TimeDomProcessing(),
+            new TimeDomCompletion(),
+            new TimeOnLoad()
+        ];
+        foreach($performanceDimensions as $dimension) {
+            $id = $dimension->getColumnName();
+            $metricsConfig['sum_'.$id] = [
+                'aggregation' => 'sum',
+                'query' => "sum(
+                    case when " . $id . " is null
+                        then 0
+                        else " . $id . "
+                    end
+                ) / 1000"
+            ];
+            $metricsConfig['nb_hits_with_'.$id] = [
+                'aggregation' => 'sum',
+                'query' => "sum(
+                    case when " . $id . " is null
+                        then 0
+                        else 1
+                    end
+                )"
+            ];
+            $metricsConfig['min_'.$id] = [
+                'aggregation' => 'min',
+                'query' => "min(" . $id . ") / 1000"
+            ];
+            $metricsConfig['max_'.$id] = [
+                'aggregation' => 'max',
+                'query' => "max(" . $id . ") / 1000"
+            ];
+        }
 
         Piwik::postEvent('Actions.Archiving.addActionMetrics', array(&$metricsConfig));
 

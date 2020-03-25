@@ -27,23 +27,23 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
 
     public function getName()
     {
-        return 'avg_' . self::ID;
+        return 'avg_' . static::ID;
     }
 
     public function getDependentMetrics()
     {
-        return array('sum_' . self::ID, 'nb_hits_with_' . self::ID);
+        return array('sum_' . static::ID, 'nb_hits_with_' . static::ID);
     }
 
     public function getTemporaryMetrics()
     {
-        return array('sum_' . self::ID);
+        return array('sum_' . static::ID);
     }
 
     public function compute(Row $row)
     {
-        $sumGenerationTime = $this->getMetric($row, 'sum_' . self::ID);
-        $hitsWithTimeGeneration = $this->getMetric($row, 'nb_hits_with_' . self::ID);
+        $sumGenerationTime = $this->getMetric($row, 'sum_' . static::ID);
+        $hitsWithTimeGeneration = $this->getMetric($row, 'nb_hits_with_' . static::ID);
 
         return Piwik::getQuotientSafe($sumGenerationTime, $hitsWithTimeGeneration, $precision = 3);
     }
@@ -61,7 +61,7 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
 
     public function beforeCompute($report, DataTable $table)
     {
-        $hasTimeGeneration = array_sum($this->getMetricValues($table, 'sum_' . self::ID)) > 0;
+        $hasTimeGeneration = array_sum($this->getMetricValues($table, 'sum_' . static::ID)) > 0;
 
         if (!$hasTimeGeneration
             && $table->getRowsCount() != 0
@@ -70,10 +70,10 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that
             // the columns can also be removed from the view
             $table->filter('ColumnDelete', array(array(
-                'sum_' . self::ID,
-                'nb_hits_with_' . self::ID,
-                'min_' . self::ID,
-                'max_' . self::ID
+                'sum_' . static::ID,
+                'nb_hits_with_' . static::ID,
+                'min_' . static::ID,
+                'max_' . static::ID
             )));
 
             if ($table instanceof DataTable) {
@@ -81,10 +81,10 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
                 if (!is_array($emptyColumns)) {
                     $emptyColumns = array();
                 }
-                $emptyColumns[] = 'sum_' . self::ID;
-                $emptyColumns[] = 'nb_hits_with_' . self::ID;
-                $emptyColumns[] = 'min_' . self::ID;
-                $emptyColumns[] = 'max_' . self::ID;
+                $emptyColumns[] = 'sum_' . static::ID;
+                $emptyColumns[] = 'nb_hits_with_' . static::ID;
+                $emptyColumns[] = 'min_' . static::ID;
+                $emptyColumns[] = 'max_' . static::ID;
                 $table->setMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME, $emptyColumns);
             }
         }

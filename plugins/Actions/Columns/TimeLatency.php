@@ -24,7 +24,7 @@ class TimeLatency extends ActionDimension
     protected $columnName = 'time_latency';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'General_ColumnLatencyTime';
+    protected $nameSingular = 'General_ColumnTimeLatency';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

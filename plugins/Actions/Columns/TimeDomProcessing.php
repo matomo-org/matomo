@@ -24,7 +24,7 @@ class TimeDomProcessing extends ActionDimension
     protected $columnName = 'time_dom_processing';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'General_ColumnDomProcessingTime';
+    protected $nameSingular = 'General_ColumnTimeDomProcessing';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
