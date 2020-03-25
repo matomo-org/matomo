@@ -24,6 +24,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
+use Piwik\Period\Range;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -529,7 +530,8 @@ class CronArchive
             }
 
             $idSite = $archive['idsite'];
-            $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $archive['date1']);
+            $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
+            $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
             $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite]));
 
             if ($params->canSkipThisArchive()) {
@@ -856,6 +858,23 @@ class CronArchive
             }
         }
 
+        // invalidate range archives
+        foreach ($this->allWebsites as $idSite) {
+            $dates = $this->getCustomDateRangeToPreProcess($idSite);
+
+            foreach ($dates as $date) {
+                try {
+                    PeriodFactory::build('range', $date);
+                } catch (\Exception $ex) {
+                    $this->logger->debug("Found invalid range date in [General] archiving_custom_ranges: {date}", ['date' => $date]);
+                    continue;
+                }
+
+                $this->logger->info('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSite, 'date' => $date]);
+                $this->invalidator->markArchivesAsInvalidated([$idSite], [$date], 'range', $segment = null, $cascadeDown = false, $forceInvalidateNonexistant = true);
+            }
+        }
+
         // for new segments, invalidate past dates
         // TODO: rename the class
         foreach ($this->allWebsites as $idSite) {
@@ -1109,7 +1128,7 @@ class CronArchive
      * @param $idSite
      * @return array of date strings
      */
-    private function getCustomDateRangeToPreProcess($idSite) // TODO: [General] archiving_custom_ranges needs to be handled still.
+    private function getCustomDateRangeToPreProcess($idSite)
     {
         static $cache = null;
         if (is_null($cache)) {

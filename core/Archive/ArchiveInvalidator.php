@@ -232,7 +232,8 @@ class ArchiveInvalidator
      * @return InvalidationResult
      * @throws \Exception
      */
-    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
+    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
+                                              $forceInvalidateNonexistantRanges = false)
     {
         $invalidationInfo = new InvalidationResult();
 
@@ -276,15 +277,22 @@ class ArchiveInvalidator
         // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
         // idSite does not need to be added to $segment.
 
-        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
+        // TODO: periods are created here and in getAllPeriodsByYearMonth, can probably merge methods
+        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $period, $invalidationInfo);
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range');
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges);
 
-        foreach ($idSites as $idSite) {
-            foreach ($dates as $date) {
-                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+        if ($period != 'range') {
+            foreach ($idSites as $idSite) {
+                foreach ($dates as $date) {
+                    if (is_string($date)) {
+                        $date = Date::factory($date);
+                    }
+
+                    $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+                }
             }
         }
         Cache::clearCacheGeneral();
@@ -428,7 +436,7 @@ class ArchiveInvalidator
      * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false)
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false, $forceInvalidateNonexistantRanges = false)
     {
         $idSites = array_map('intval', $idSites);
 
@@ -436,7 +444,7 @@ class ArchiveInvalidator
         foreach ($dates as $tableDate => $datesForTable) {
             $table = ArchiveTableCreator::getNumericTable(Date::factory($tableDate));
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges);
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
@@ -448,22 +456,31 @@ class ArchiveInvalidator
      * @param InvalidationResult $invalidationInfo
      * @return \Piwik\Date[]
      */
-    private function removeDatesThatHaveBeenPurged($dates, InvalidationResult $invalidationInfo)
+    private function removeDatesThatHaveBeenPurged($dates, $period, InvalidationResult $invalidationInfo)
     {
         $this->findOlderDateWithLogs($invalidationInfo);
 
         $result = array();
         foreach ($dates as $date) {
+            if ($period === 'range'
+                && strpos($date, ',') === false
+            ) {
+                $periodObj = new Period\Range('range', $date . ',' . $date);
+            } else {
+                $periodObj = Period\Factory::build($period ?: 'day', $date);
+            }
+
             // we should only delete reports for dates that are more recent than N days
             if ($invalidationInfo->minimumDateWithLogs
-                && $date->isEarlier($invalidationInfo->minimumDateWithLogs)
+                && ($periodObj->getDateEnd()->isEarlier($invalidationInfo->minimumDateWithLogs)
+                    || $periodObj->getDateStart()->isEarlier($invalidationInfo->minimumDateWithLogs))
             ) {
-                $invalidationInfo->warningDates[] = $date->toString();
+                $invalidationInfo->warningDates[] = $date;
                 continue;
             }
 
             $result[] = $date;
-            $invalidationInfo->processedDates[] = $date->toString();
+            $invalidationInfo->processedDates[] = $date;
         }
         return $result;
     }

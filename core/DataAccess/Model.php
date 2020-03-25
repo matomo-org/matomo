@@ -104,7 +104,7 @@ class Model
         return $archiveIds;
     }
 
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null)
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null, $forceInvalidateNonexistantRanges = false)
     {
         // select all idarchive/name pairs we want to invalidate
         $sql = "SELECT idarchive, idsite, period, date1, date2, `name`
@@ -163,12 +163,14 @@ class Model
             $allArchivesFoundIndexed[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
         }
 
+        // TODO: test mods for $forceInvalidateNonexistantRanges
         foreach ($idSites as $idSite) {
             foreach ($allPeriodsToInvalidate as $period) {
                 $startDate = $period->getDateStart()->getDatetime();
                 $endDate = $period->getDateEnd()->getDatetime();
                 if (!empty($allArchivesFoundIndexed[$idSite][$period->getId()][$startDate][$endDate])
-                    || $period->getLabel() == 'range'
+                    || ($period->getLabel() == 'range'
+                        && !$forceInvalidateNonexistantRanges)
                 ) {
                     continue;
                 }

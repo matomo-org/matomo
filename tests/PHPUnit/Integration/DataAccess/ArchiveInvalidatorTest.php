@@ -283,8 +283,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $countInvalidatedArchives += count($idarchives);
         }
 
-        // the day, week, month & year are invalidated
-        $this->assertEquals(4, $countInvalidatedArchives);
+        // the day, day w/ a segment, week, month & year are invalidated
+        $this->assertEquals(5, $countInvalidatedArchives);
     }
 
     /**
@@ -292,8 +292,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
      */
     public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives)
     {
-        $dates = array_map(array('Piwik\Date', 'factory'), $dates);
-
         $this->insertArchiveRowsForTest();
 
         if (!empty($segment)) {
