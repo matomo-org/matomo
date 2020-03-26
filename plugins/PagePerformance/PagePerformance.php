@@ -10,19 +10,7 @@
 namespace Piwik\Plugins\PagePerformance;
 
 use Piwik\DataTable;
-use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePageLoadTime;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomCompletion;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeLatency;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeOnLoad;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeTransfer;
-use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
-use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\TimeLatency;
-use Piwik\Plugins\PagePerformance\Columns\TimeOnLoad;
-use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
 
 /**
  */
@@ -49,6 +37,7 @@ class PagePerformance extends \Piwik\Plugin
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
             'Actions.Archiving.addActionMetrics'     => 'addActionMetrics',
             'ViewDataTable.configure'                => 'configureViewDataTable',
+            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
         );
 
         foreach ($this->availableForMethods as $method) {
@@ -72,6 +61,7 @@ class PagePerformance extends \Piwik\Plugin
     {
         $jsFiles[] = 'plugins/PagePerformance/javascripts/PagePerformance.js';
         $jsFiles[] = 'plugins/PagePerformance/javascripts/rowaction.js';
+        $jsFiles[] = 'plugins/PagePerformance/javascripts/jqplotStackedBarEvolutionGraph.js';
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -79,6 +69,12 @@ class PagePerformance extends \Piwik\Plugin
         $translationKeys[] = 'PagePerformance_RowActionTitle';
         $translationKeys[] = 'PagePerformance_RowActionDescription';
         $translationKeys[] = 'PagePerformance_PagePerformanceTitle';
+    }
+
+    public function addMetricTranslations(&$translations)
+    {
+        $metrics      = Metrics::getMetricTranslations();
+        $translations = array_merge($translations, $metrics);
     }
 
     public function enrichApi(DataTable\DataTableInterface $dataTable, $params)
@@ -90,12 +86,10 @@ class PagePerformance extends \Piwik\Plugin
                 $extraProcessedMetrics = array();
             }
 
-            $extraProcessedMetrics[] = new AverageTimeLatency();
-            $extraProcessedMetrics[] = new AverageTimeTransfer();
-            $extraProcessedMetrics[] = new AverageTimeDomProcessing();
-            $extraProcessedMetrics[] = new AverageTimeDomCompletion();
-            $extraProcessedMetrics[] = new AverageTimeOnLoad();
-            $extraProcessedMetrics[] = new AveragePageLoadTime();
+            foreach (Metrics::getAllPagePerformanceMetrics() as $pagePerformanceMetric) {
+                $extraProcessedMetrics[] = $pagePerformanceMetric;
+            }
+
             $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         });
     }
@@ -109,47 +103,8 @@ class PagePerformance extends \Piwik\Plugin
         }
     }
 
-
     public function addActionMetrics(&$metricsConfig)
     {
-        /**
-         * @var ActionDimension[] $performanceDimensions
-         */
-        $performanceDimensions = [
-            new TimeLatency(),
-            new TimeTransfer(),
-            new TimeDomProcessing(),
-            new TimeDomCompletion(),
-            new TimeOnLoad()
-        ];
-        foreach($performanceDimensions as $dimension) {
-            $id = $dimension->getColumnName();
-            $metricsConfig['sum_'.$id] = [
-                'aggregation' => 'sum',
-                'query' => "sum(
-                    case when " . $id . " is null
-                        then 0
-                        else " . $id . "
-                    end
-                ) / 1000"
-            ];
-            $metricsConfig['nb_hits_with_'.$id] = [
-                'aggregation' => 'sum',
-                'query' => "sum(
-                    case when " . $id . " is null
-                        then 0
-                        else 1
-                    end
-                )"
-            ];
-            $metricsConfig['min_'.$id] = [
-                'aggregation' => 'min',
-                'query' => "min(" . $id . ") / 1000"
-            ];
-            $metricsConfig['max_'.$id] = [
-                'aggregation' => 'max',
-                'query' => "max(" . $id . ") / 1000"
-            ];
-        }
+        Metrics::attachActionMetrics($metricsConfig);
     }
 }

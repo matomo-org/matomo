@@ -15,14 +15,8 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Controller as PluginController;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePageLoadTime;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomCompletion;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeLatency;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeOnLoad;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeTransfer;
+use Piwik\Plugins\PagePerformance\Visualizations\JqplotGraph\StackedBarEvolution;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
@@ -78,17 +72,10 @@ class Controller extends PluginController
 
         // set up the view data table
         $view = ViewDataTableFactory::build(
-            Evolution::ID, $apiMethod, 'PagePerformance.getRowEvolutionGraph', $forceDefault = true);
+            StackedBarEvolution::ID, $apiMethod, 'PagePerformance.getRowEvolutionGraph', $forceDefault = true);
         $view->setDataTable($dataTable);
 
-        $view->config->columns_to_display = [
-            (new AverageTimeLatency())->getName(),
-            (new AverageTimeTransfer())->getName(),
-            (new AverageTimeDomProcessing())->getName(),
-            (new AverageTimeDomCompletion())->getName(),
-            (new AverageTimeOnLoad())->getName(),
-            (new AveragePageLoadTime())->getName(),
-        ];
+        $view->config->columns_to_display = array_keys(Metrics::getPagePerformanceMetrics());
 
         $view->requestConfig->request_parameters_to_modify['label'] = '';
         $view->config->show_goals = false;
@@ -97,6 +84,7 @@ class Controller extends PluginController
         $view->config->show_related_reports  = false;
         $view->config->show_series_picker    = false;
         $view->config->show_footer_message   = false;
+        $view->config->selectable_columns    = array_keys(Metrics::getPagePerformanceMetrics());
 
         return $this->renderView($view);
     }
@@ -109,17 +97,22 @@ class Controller extends PluginController
         if (false !== $columns) {
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
-
-        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'PagePerformance.get');
+        $view = ViewDataTableFactory::build(
+            StackedBarEvolution::ID,
+            'PagePerformance.get',
+            $this->pluginName . '.' . __FUNCTION__,
+            $forceDefault = true
+        );
+        $view->config->show_goals = false;
 
         if (!empty($columns)) {
             $view->config->columns_to_display = $columns;
         } elseif (empty($view->config->columns_to_display)) {
-            $view->config->columns_to_display = array('avg_page_load_time');
+            $view->config->columns_to_display = array_keys(Metrics::getPagePerformanceMetrics());
         }
 
         $report = ReportsProvider::factory('PagePerformance', 'get');
-        $view->config->selectable_columns = $report->getAllMetrics();
+        $view->config->selectable_columns    = array_keys(Metrics::getPagePerformanceMetrics());
 
         $numberFormatter = new Formatter\Html();
         $metrics = $report->getMetrics();
@@ -136,6 +129,8 @@ class Controller extends PluginController
         };
 
         $view->config->documentation = Piwik::translate('General_EvolutionOverPeriod');
+
+        $view->config->addTranslations(Metrics::getMetricTranslations());
 
         return $this->renderView($view);
     }

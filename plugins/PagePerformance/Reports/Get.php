@@ -12,14 +12,9 @@ use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePageLoadTime;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomCompletion;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeLatency;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeOnLoad;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeTransfer;
+use Piwik\Plugins\PagePerformance\Metrics;
+use Piwik\Plugins\PagePerformance\Visualizations\JqplotGraph\StackedBarEvolution;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -38,20 +33,13 @@ class Get extends \Piwik\Plugin\Report
         $this->processedMetrics = [
             // none
         ];
-        $this->metrics = [
-            new AverageTimeLatency(),
-            new AverageTimeTransfer(),
-            new AverageTimeDomProcessing(),
-            new AverageTimeDomCompletion(),
-            new AverageTimeOnLoad(),
-            new AveragePageLoadTime(),
-        ];
+        $this->metrics = Metrics::getAllPagePerformanceMetrics();
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         $config = $factory->createWidget();
-        $config->forceViewDataTable(Evolution::ID);
+        $config->forceViewDataTable(StackedBarEvolution::ID);
         $config->setAction('getEvolutionGraph');
         $config->setOrder(5);
         $config->setName('General_EvolutionOverPeriod');
@@ -85,6 +73,8 @@ class Get extends \Piwik\Plugin\Report
                     }
                 }
             };
+
+            $view->config->columns_to_display = array_keys(Metrics::getAllPagePerformanceMetrics());
         }
     }
 

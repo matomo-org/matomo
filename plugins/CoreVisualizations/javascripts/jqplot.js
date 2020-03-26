@@ -638,8 +638,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
 
-            var graphType;
-            if (viewDataTable == 'graphEvolution') {
+            var graphType = '';
+            if (viewDataTable == 'graphEvolution' || viewDataTable == 'graphStackedBarEvolution') {
                 graphType = 'evolution';
             } else if (viewDataTable == 'graphPie') {
                 graphType = 'pie';
