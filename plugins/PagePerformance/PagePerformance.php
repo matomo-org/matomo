@@ -70,12 +70,15 @@ class PagePerformance extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        //$jsFiles[] = 'plugins/Transitions/javascripts/transitions.js';
+        $jsFiles[] = 'plugins/PagePerformance/javascripts/PagePerformance.js';
+        $jsFiles[] = 'plugins/PagePerformance/javascripts/rowaction.js';
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        //$translationKeys[] = 'PagePerformance_TransitionsRowActionTooltipTitle';
+        $translationKeys[] = 'PagePerformance_RowActionTitle';
+        $translationKeys[] = 'PagePerformance_RowActionDescription';
+        $translationKeys[] = 'PagePerformance_PagePerformanceTitle';
     }
 
     public function enrichApi(DataTable\DataTableInterface $dataTable, $params)

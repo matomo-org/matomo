@@ -24,6 +24,9 @@
         "ColumnTimeOnLoad": "On load time",
         "PluginDescription": "Adds some page performance reports",
         "Overview": "Performance overview",
-        "Performance": "Performance"
+        "Performance": "Performance",
+        "RowActionTitle": "Open page performance report",
+        "RowActionDescription": "Show page performance report for this row",
+        "PagePerformanceTitle": "Page performance for page with %1$s \"%2$s\""
     }
 }
