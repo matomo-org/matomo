@@ -120,6 +120,8 @@ abstract class SystemTestCase extends TestCase
                     'OS = '.Fixture::IMAGES_GENERATED_ONLY_FOR_OS.', PHP = '.Fixture::IMAGES_GENERATED_FOR_PHP .
                     ' and GD = ' . Fixture::IMAGES_GENERATED_FOR_GD
             );
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -464,6 +466,8 @@ abstract class SystemTestCase extends TestCase
                 if ($unserialized === false) {
                     throw new \Exception("Unknown serialization error.");
                 }
+
+                $this->assertTrue(true); // make sure phpunit doesn't complain
             } catch (\Exception $ex) {
                 $this->comparisonFailures[] = new \Exception("Processed response in '$processedFilePath' could not be unserialized: " . $ex->getMessage());
             }

@@ -64,7 +64,7 @@ class Model
             $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
         }
 
-        $idSites = array_map(function ($v) { return (int)$v; }, $idSites);
+        $idSites = array_map('intval', $idSites);
 
         // select all usable archives
         $sql = "SELECT idsite, date1, date2, period, name,
@@ -81,9 +81,6 @@ class Model
         foreach ($rows as $row) {
             $duplicateArchives = explode(',', $row['archives']);
             $countOfArchives = count($duplicateArchives);
-
-            $firstArchive = array_shift($duplicateArchives);
-            list($firstArchiveId, $firstArchiveValue) = explode('.', $firstArchive);
 
             // if there is more than one archive, the older invalidated ones can be deleted
             if ($countOfArchives > 1) {
@@ -102,6 +99,16 @@ class Model
         }
 
         return $archiveIds;
+    }
+
+    public function getPlaceholderArchiveIds($archiveTable, array $idSites)
+    {
+        $idSites = array_map('intval', $idSites);
+
+        $sql = "SELECT DISTINCT idarchive FROM `$archiveTable` WHERE ts_archived IS NULL AND idsite IN (" . implode(',', $idSites) . ")";
+        $result = Db::fetchAll($sql);
+        $result = array_column($result, 'idarchive');
+        return $result;
     }
 
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null, $forceInvalidateNonexistantRanges = false)

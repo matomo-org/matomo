@@ -109,7 +109,7 @@ class RawLogDaoTest extends SystemTestCase
     {
         return array(
             array($from = '2015-01-25 05:35:26', $to = '2015-01-25 05:35:27', $this->idSite, $hasVisits = false), // there is no second "between" the timeframe so cannot have visits
-            array($from = '2015-01-25 05:35:27', $to = '2015-01-25 05:35:28', $this->idSite, $hasVisits = false), // there is no second "between" the timeframe so cannot have visits
+            array($from = '2015-01-25 05:35:27', $to = '2015-01-25 05:35:28', $this->idSite, $hasVisits = true),
             array($from = '2015-01-25 05:35:26', $to = '2015-01-25 05:35:28', $this->idSite, $hasVisits = true), // only one sec difference between from and to
             array($from = '2015-01-25 05:35:26', $to = '2015-01-26 05:35:27', $this->idSite, $hasVisits = true),
             array($from = '2015-01-24 05:35:26', $to = '2015-01-26 05:35:27', $this->idSite, $hasVisits = true),

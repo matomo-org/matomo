@@ -143,6 +143,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 
     public function test_Archive_getNumeric_shouldInvalidateRememberedReportsOncePerRequestIfNeeded()
     {
+        $this->assertTrue(true);
         /* TODO: remove this test and replace w/ integration test for invalidation in archive.php workflow
 
         $archivePurger = StaticContainer::get(ArchivePurger::class);
