@@ -22,6 +22,8 @@
         "ColumnTimeDomProcessing": "DOM processing time",
         "ColumnTimeDomCompletion": "DOM completion time",
         "ColumnTimeOnLoad": "On load time",
-        "PluginDescription": "Adds some page performance reports"
+        "PluginDescription": "Adds some page performance reports",
+        "Overview": "Performance overview",
+        "Performance": "Performance"
     }
 }
