@@ -259,6 +259,27 @@ class Model
         return $deletedRows;
     }
 
+    // TODO: tests and docs
+    public function getInvalidatedArchiveIdsAsOldOrOlderThan($archive)
+    {
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
+        $sql = "SELECT idarchive FROM `$table` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND `name` LIKE ? AND `value` IN ("
+            . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ") AND idarchive <= ?";
+        $bind = [
+            $archive['idsite'],
+            $archive['period'],
+            $archive['date1'],
+            $archive['date2'],
+            $archive['name'] . '%',
+            $archive['idarchive'],
+        ];
+
+        $result = Db::fetchAll($sql, $bind);
+        $result = array_column($result, 'idarchive');
+
+        return $result;
+    }
+
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
         $idsToDelete = array_values($idsToDelete);
@@ -593,7 +614,7 @@ class Model
             $sql .= " AND idarchive NOT IN (" . implode(',', $idArchivesToExclude) . ')';
         }
 
-        $sql .= " ORDER BY idsite ASC, period ASC LIMIT 1";
+        $sql .= " ORDER BY idsite ASC, period ASC, idarchive DESC LIMIT 1";
 
         return Db::fetchRow($sql, $bind);
     }

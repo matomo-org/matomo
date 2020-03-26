@@ -106,10 +106,10 @@ class ArchiveSelector
     /**
      * Queries and returns archive IDs for a set of sites, periods, and a segment.
      *
-     * @param array $siteIds
-     * @param array $periods
+     * @param int[] $siteIds
+     * @param Period[] $periods
      * @param Segment $segment
-     * @param array $plugins List of plugin names for which data is being requested.
+     * @param string[] $plugins List of plugin names for which data is being requested.
      * @param bool $includeInvalidated true to include archives that are DONE_INVALIDATED, false if only DONE_OK.
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
@@ -179,7 +179,6 @@ class ArchiveSelector
             }
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
-
             $archiveIds = $db->fetchAll($sql, $bind);
 
             // get the archive IDs

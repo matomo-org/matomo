@@ -16,6 +16,7 @@ use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
@@ -410,6 +411,18 @@ class CronArchive
                     break;
                 }
 
+                if ($this->isDoneFlagForPlugin($invalidatedArchive['name'])) {
+                    $this->logger->debug("Found plugin specific invalidated archive, ignoring.");
+                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
+                    continue;
+                }
+
+                if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
+                    $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring.");
+                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
+                    continue;
+                }
+
                 $idArchive = $this->model->startArchive(
                     $invalidatedArchive['idsite'],
                     $invalidatedArchive['date1'],
@@ -454,6 +467,26 @@ class CronArchive
         );
 
         $this->logger->info($timer->__toString());
+    }
+
+    private function isDoneFlagForPlugin($doneFlag)
+    {
+        return strpos($doneFlag, '.') !== false;
+    }
+
+    private function archiveArrayContainsArchive($archiveArray, $archive)
+    {
+        foreach ($archiveArray as $entry) {
+            if ($entry['idsite'] == $archive['idsite']
+                && $entry['period'] == $archive['period']
+                && $entry['date1'] == $archive['date1']
+                && $entry['date2'] == $archive['date2']
+                && $entry['name'] == $archive['name']
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function getNextInvalidatedArchive($periodToGet, $idArchivesToExclude)
@@ -519,13 +552,11 @@ class CronArchive
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
-            $date = Date::factory($archive['date1']);
-
             list($url, $segment) = $this->generateUrlToArchiveFromArchiveInfo($archive);
             if (empty($url)) {
                 // can happen if, for example, a segment was deleted after an archive was invalidated
                 // in this case, we can just delete the archive entirely.
-                $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), [$archive['idarchive']]);
+                $this->deleteInvalidatedArchives($archive);
                 continue;
             }
 
@@ -544,7 +575,7 @@ class CronArchive
 
                 // site is using the tracker, but there are no visits for this period, so just update the archive done
                 // value and move on
-                $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), [$archive['idarchive']]);
+                $this->deleteInvalidatedArchives($archive);
                 continue;
             }
 
@@ -581,9 +612,7 @@ class CronArchive
             $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod);
 
             // remove old archive (could also do this in archivewriter, but it's a bit simpler here)
-            $idArchive = $archivesBeingQueried[$index]['idarchive'];
-            $date = Date::factory($archivesBeingQueried[$index]['date1']);
-            $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), [$idArchive]);
+            $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
 
             ++$successCount;
         }
@@ -591,6 +620,18 @@ class CronArchive
         $this->requests += count($urls);
 
         return $successCount;
+    }
+
+    private function deleteInvalidatedArchives($archive)
+    {
+        $idArchives = $this->model->getInvalidatedArchiveIdsAsOldOrOlderThan($archive);
+        if (empty($idArchives)) {
+            $this->logger->info("Unexpected: found no invalidated archives to delete for archive: " . json_encode($idArchives));
+            return;
+        }
+
+        $date = Date::factory($archive['date1']);
+        $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), $idArchives);
     }
 
     // ArchiveWriter($params); // TODO: remove isTemporaryArchive param, not needed
@@ -610,7 +651,7 @@ class CronArchive
         // TODO: what about plugin specific archives? what if one gets invalidated?
         $segment = $this->findSegmentForArchive($archive, $idSite);
 
-        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment);
+        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment) . self::APPEND_TO_API_REQUEST;
 
         return [$url, $segment];
     }
@@ -858,15 +899,23 @@ class CronArchive
             }
         }
 
+        // invalidate today if needed for all websites
+        // TODO
+
         // invalidate range archives
         foreach ($this->allWebsites as $idSite) {
             $dates = $this->getCustomDateRangeToPreProcess($idSite);
 
             foreach ($dates as $date) {
                 try {
-                    PeriodFactory::build('range', $date);
+                    $period = PeriodFactory::build('range', $date);
                 } catch (\Exception $ex) {
                     $this->logger->debug("Found invalid range date in [General] archiving_custom_ranges: {date}", ['date' => $date]);
+                    continue;
+                }
+
+                if ($this->isThereExistingValidPeriod($idSite, $period)) {
+                    // TODO: debug log
                     continue;
                 }
 
@@ -901,6 +950,23 @@ class CronArchive
         Option::set(self::CRON_INVALIDATION_TIME_OPTION_NAME, time());
 
         $this->logger->info("Done invalidating");
+    }
+
+    private function isThereExistingValidPeriod($idSite, Period $period)
+    {
+        // empty plugins param since we only check for an 'all' archive
+        $idArchives = ArchiveSelector::getArchiveIds([$idSite], [$period], new Segment('', [$idSite]), $plugins = [], $includeInvalidated = false);
+
+        // loop through archives just in case we get a weird result w/ a bunch of empty arrays
+        foreach ($idArchives as $dates) {
+            foreach ($dates as $idArchives) {
+                if (!empty($idArchives)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public static function getLastInvalidationTime()
