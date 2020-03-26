@@ -450,7 +450,7 @@ class CronArchive
 
             $successCount = $this->launchArchivingFor($archivesToProcess);
             $numArchivesFinished += $successCount;
-        };
+        }
 
         $this->logger->info("Done archiving!");
 
@@ -514,7 +514,7 @@ class CronArchive
         $result = $cache->fetch($cacheKey);
         $result = @json_decode($result);
 
-        if (empty($result)) {
+        if (empty($result)) { // TODO: seems to be called too often? maybe cause no cache in tests? should use file cache for ArchiveCronTest
             $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
             // make sure tables are reloaded
@@ -889,18 +889,40 @@ class CronArchive
 
         foreach ($sitesPerDays as $date => $siteIds) {
             //Concurrent transaction logic will end up with duplicates set.  Adding array_unique to the siteIds.
-            $listSiteIds = implode(',', array_unique($siteIds ));
+            $listSiteIds = implode(',', array_unique($siteIds));
 
             try {
                 $this->logger->info('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIds, $date);
             } catch (Exception $e) {
-                $this->logger->info('Failed to invalidate archived reports: ' . $e->getMessage());
+                $this->logger->info('  Failed to invalidate archived reports: ' . $e->getMessage());
             }
         }
 
         // invalidate today if needed for all websites
-        // TODO
+        foreach ($this->allWebsites as $idSite) {
+            $timezone = Site::getTimezoneFor($idSite);
+            $today = Date::factoryInTimezone('today', $timezone);
+            $todayPeriod = PeriodFactory::build('day', $today);
+
+            $params = new Parameters(new Site($idSite), $todayPeriod, new Segment('', [$idSite]));
+            if ($this->isThereExistingValidPeriod($params)) {
+                $this->logger->debug("  Found existing valid archive for today, skipping invalidation...");
+                continue;
+            }
+
+            if ($params->canSkipThisArchive()) {
+                $this->logger->debug("  Today archive can be skipped due to no visits, skipping invalidation...");
+                continue;
+            }
+
+            $this->logger->info("  Will invalidate archived reports for today in site ID = {idSite}'s timezone ({today}).", [
+                'idSite' => $idSite,
+                'today' => $today->getDatetime(),
+            ]);
+
+            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $today->toString(), 'day');
+        }
 
         // invalidate range archives
         foreach ($this->allWebsites as $idSite) {
@@ -910,17 +932,19 @@ class CronArchive
                 try {
                     $period = PeriodFactory::build('range', $date);
                 } catch (\Exception $ex) {
-                    $this->logger->debug("Found invalid range date in [General] archiving_custom_ranges: {date}", ['date' => $date]);
+                    $this->logger->debug("  Found invalid range date in [General] archiving_custom_ranges: {date}", ['date' => $date]);
                     continue;
                 }
 
-                if ($this->isThereExistingValidPeriod($idSite, $period)) {
+                $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite]));
+                if ($this->isThereExistingValidPeriod($params)) {
                     // TODO: debug log
                     continue;
                 }
 
                 $this->logger->info('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSite, 'date' => $date]);
-                $this->invalidator->markArchivesAsInvalidated([$idSite], [$date], 'range', $segment = null, $cascadeDown = false, $forceInvalidateNonexistant = true);
+                // TODO: create new API for this instead of using service class directly?
+                $this->invalidator->markArchivesAsInvalidated([$idSite], [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
             }
         }
 
@@ -952,21 +976,17 @@ class CronArchive
         $this->logger->info("Done invalidating");
     }
 
-    private function isThereExistingValidPeriod($idSite, Period $period)
+    private function isThereExistingValidPeriod(Parameters $params)
     {
+        $timezone = Site::getTimezoneFor($params->getSite()->getId());
+        $today = Date::factoryInTimezone('today', $timezone);
+
+        $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
+        $minArchiveProcessedTtl = $isPeriodIncludesToday ? Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel()) : null;
+
         // empty plugins param since we only check for an 'all' archive
-        $idArchives = ArchiveSelector::getArchiveIds([$idSite], [$period], new Segment('', [$idSite]), $plugins = [], $includeInvalidated = false);
-
-        // loop through archives just in case we get a weird result w/ a bunch of empty arrays
-        foreach ($idArchives as $dates) {
-            foreach ($dates as $idArchives) {
-                if (!empty($idArchives)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        list($idArchive) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTtl, $includeInvalidated = false);
+        return !empty($idArchive);
     }
 
     public static function getLastInvalidationTime()
