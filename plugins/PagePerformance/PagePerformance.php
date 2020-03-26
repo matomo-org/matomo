@@ -28,22 +28,34 @@ use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
  */
 class PagePerformance extends \Piwik\Plugin
 {
+    protected $availableForMethods = [
+        'getPageUrls',
+        'getEntryPageUrls',
+        'getExitPageUrls',
+        'getPageUrlsFollowingSiteSearch',
+        'getPageTitles',
+        'getPageTitlesFollowingSiteSearch',
+    ];
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
-        return array(
+        $events = array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
             'Actions.Archiving.addActionMetrics'     => 'addActionMetrics',
-            'API.Actions.getPageUrls.end'            => 'enrichApi',
-            'API.Actions.getPageTitles.end'          => 'enrichApi',
             'ViewDataTable.configure'                => 'configureViewDataTable',
-
         );
+
+        foreach ($this->availableForMethods as $method) {
+            $events["API.Actions.$method.end"] = 'enrichApi';
+        }
+
+        return $events;
     }
 
     public function getPagesComparisonsDisabledFor(&$pages)
@@ -89,7 +101,7 @@ class PagePerformance extends \Piwik\Plugin
     {
         $module = $view->requestConfig->getApiModuleToRequest();
         $method = $view->requestConfig->getApiMethodToRequest();
-        if ('Actions' === $module && in_array($method, ['getPageUrls', 'getPageTitles'])) {
+        if ('Actions' === $module && in_array($method, $this->availableForMethods)) {
             $view->config->columns_to_display[] = 'avg_page_load_time';
         }
     }
