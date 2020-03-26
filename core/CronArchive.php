@@ -31,6 +31,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Psr\Log\LoggerInterface;
+use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 
 // TODO: modify CLI command options
 
@@ -1319,6 +1320,7 @@ class CronArchive
         return false;
     }
 
+    // TODO: should still handle segmentsToForce + other options
     private function logForcedSegmentInfo()
     {
         if (empty($this->segmentsToForce)) {
@@ -1401,5 +1403,25 @@ class CronArchive
             }
         }
         return false;
+    }
+
+    /**
+     * @param int[] $idSegments
+     */
+    public function setSegmentsToForceFromSegmentIds($idSegments)
+    {
+        /** @var SegmentEditorModel $segmentEditorModel */
+        $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+        $segments = $segmentEditorModel->getAllSegmentsAndIgnoreVisibility();
+
+        $segments = array_filter($segments, function ($segment) use ($idSegments) {
+            return in_array($segment['idsegment'], $idSegments);
+        });
+
+        $segments = array_map(function ($segment) {
+            return $segment['definition'];
+        }, $segments);
+
+        $this->segmentsToForce = $segments;
     }
 }

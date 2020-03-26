@@ -98,6 +98,8 @@ class Loader
         // there are not visits in the entire year, we don't have to go through and do anything. but, w/o this
         // code, we will end up launching archiving for each month, week and day, even though we don't have to.
         if ($this->params->canSkipThisArchive()) {
+            // TODO: here we can also create a small archive w/ nb_visits = 0 so we don't have to do the canSkipThisArchive() check again.
+            //       not sure how worth it it is to do that
             return false;
         }
 

@@ -657,4 +657,32 @@ class Model
             $period->getId(), ArchiveWriter::DONE_INVALIDATED,
         ]);
     }
+
+    // TODO: tests and docs
+    public function hasChildArchivesInPeriod($idSite, Period $period)
+    {
+        $date = $period->getDateStart();
+        while ($date->isEarlier($period->getDateEnd())) {
+            $archiveTable = ArchiveTableCreator::getNumericTable($date);
+
+            // TODO: should we also allow DONE_INVALIDATED/DONE_IN_PROGRESS here?
+            $values = implode(', ', [
+                ArchiveWriter::DONE_OK,
+            ]);
+
+            $sql = "SELECT idarchive
+                  FROM `$archiveTable`
+                 WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` IN ($values)
+                 LIMIT 1";
+            $bind = [$idSite, $period->getDateStart()->getDatetime(), $period->getDateEnd()->getDatetime(), $period->getId()];
+
+            $result = (bool) Db::fetchOne($sql, $bind);
+            if ($result) {
+                return true;
+            }
+
+            $date = $date->addPeriod(1, 'month');
+        }
+        return false;
+    }
 }

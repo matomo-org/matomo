@@ -10,6 +10,7 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\Cache;
+use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Log;
@@ -52,10 +53,16 @@ class Parameters
      */
     private $isRootArchiveRequest = true;
 
+    // TODO: these properties and methods that use them probably shouldn't be here, but not sure exactly where to put them.
     /**
      * @var RawLogDao
      */
     private $rawLogDao;
+
+    /**
+     * @var Model
+     */
+    private $dataAccessModel;
 
     /**
      * Constructor.
@@ -68,6 +75,7 @@ class Parameters
         $this->period = $period;
         $this->segment = $segment;
         $this->rawLogDao = new RawLogDao();
+        $this->dataAccessModel = new Model();
     }
 
     /**
@@ -275,8 +283,14 @@ class Parameters
     public function canSkipThisArchive()
     {
         $idSite = $this->getSite()->getId();
-        return $this->isWebsiteUsingTheTracker($idSite)
-            && !$this->hasSiteVisitsBetweenTimeframe($idSite, $this->getPeriod()->getDateStart()->getDatetime(), $this->getPeriod()->getDateEnd()->getDatetime());
+
+        $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
+        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $this->getPeriod()->getDateStart()->getDatetime(), $this->getPeriod()->getDateEnd()->getDatetime());
+        $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $this->getPeriod());
+
+        return $isWebsiteUsingTracker
+            && !$hasSiteVisitsBetweenTimeframe
+            && !$hasChildArchivesInPeriod;
     }
 
     private function isWebsiteUsingTheTracker($idSite)
