@@ -1016,7 +1016,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.restore();
     }
 
-    // tigger the event jqplotPiwikTickOver when the mosue enters
+    // trigger the event jqplotPiwikTickOver when the mouse enters
     // and new tick. this is used for tooltips.
     function handleMouseMove(ev, gridpos, datapos, neighbor, plot) {
         var c = plot.plugins.piwikTicks;

@@ -69,6 +69,7 @@ class PagePerformance extends \Piwik\Plugin
         $translationKeys[] = 'PagePerformance_RowActionTitle';
         $translationKeys[] = 'PagePerformance_RowActionDescription';
         $translationKeys[] = 'PagePerformance_PagePerformanceTitle';
+        $translationKeys[] = 'General_Total';
     }
 
     public function addMetricTranslations(&$translations)

@@ -89,11 +89,14 @@
                     var label;
 
                     var dataByAxis = {};
+                    var totalValue = 0;
                     for (var d = 0; d < self.data.length; ++d) {
                         var valueUnformatted = self.data[d][tick];
                         if (typeof valueUnformatted === 'undefined' || valueUnformatted === null) {
                             continue;
                         }
+
+                        totalValue += valueUnformatted;
 
                         var axis = self.jqplotParams.series[d]._xaxis || 'xaxis';
                         if (!dataByAxis[axis]) {
@@ -107,6 +110,9 @@
 
                         dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: ' + seriesColor + ';"/>' + '<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
                     }
+
+                    dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: #000;"/>' + '<strong>' + self.formatY(totalValue, 0) + '</strong> ' + _pk_translate('General_Total'));
+
 
                     var xAxisCount = 0;
                     Object.keys(self.jqplotParams.axes).forEach(function (axis) {
