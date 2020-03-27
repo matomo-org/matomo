@@ -167,7 +167,57 @@
             if (initializeSparklines) {
                 initializeSparklines();
             }
-        }
+        },
+
+        setYTicksForAxis: function (axisName, axis) {
+            // calculate maximum x value of all data sets
+            var maxCrossDataSets = 0;
+            console.log(axisName, axis);
+            console.log(this.data);
+            console.log(this.jqplotParams.series);
+
+            for (var j = 0; j < this.data[0].length; j++) {
+                var sum = 0;
+                for (var i = 0; i < this.data.length; i++) {
+                    if (this.jqplotParams.series[i].yaxis == axisName) {
+                        sum += this.data[i][j];
+                    }
+                }
+                sum = parseFloat(sum);
+                if (sum > maxCrossDataSets) {
+                    maxCrossDataSets = sum;
+                }
+            }
+
+            // add little padding on top
+            maxCrossDataSets += Math.round(maxCrossDataSets * .03);
+
+            // round to the nearest multiple of ten
+            if (maxCrossDataSets > 15) {
+                maxCrossDataSets = maxCrossDataSets + 10 - maxCrossDataSets % 10;
+            }
+
+            if (maxCrossDataSets == 0) {
+                maxCrossDataSets = 1;
+            }
+
+            // make sure percent axes don't go above 100%
+            if (axis.tickOptions.formatString.substring(2, 3) == '%' && maxCrossDataSets > 100) {
+                maxCrossDataSets = 100;
+            }
+
+            console.log(maxCrossDataSets);
+
+            // calculate y-values for ticks
+            var ticks = [];
+            var numberOfTicks = 2;
+            var tickDistance = Math.ceil(maxCrossDataSets / numberOfTicks);
+            for (var i = 0; i <= numberOfTicks; i++) {
+                ticks.push(i * tickDistance);
+            }
+            axis.ticks = ticks;
+        },
+
     });
 
 })(jQuery, require);
