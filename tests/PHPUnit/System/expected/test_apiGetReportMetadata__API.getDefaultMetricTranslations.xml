@@ -105,6 +105,12 @@
 		<nb_interactions>Content Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>
 		<nb_visits_percentage>% Visits</nb_visits_percentage>
+		<avg_time_latency>Avg. latency time</avg_time_latency>
+		<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+		<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+		<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+		<avg_time_on_load>Avg. on load time</avg_time_on_load>
+		<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
 		<max_bandwidth>Max Bandwidth</max_bandwidth>
 		<min_bandwidth>Min Bandwidth</min_bandwidth>

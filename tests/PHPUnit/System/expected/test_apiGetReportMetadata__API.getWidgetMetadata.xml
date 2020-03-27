@@ -1598,6 +1598,33 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Evolution over the period</name>
+		<category>
+			<id>General_Actions</id>
+			<name>Behaviour</name>
+			<order>10</order>
+			<icon>icon-reporting-actions</icon>
+		</category>
+		<subcategory>
+			<id>PagePerformance_Performance</id>
+			<name>Performance</name>
+			<order>70</order>
+		</subcategory>
+		<module>PagePerformance</module>
+		<action>getEvolutionGraph</action>
+		<order>5</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>graphStackedBarEvolution</viewDataTable>
+			<module>PagePerformance</module>
+			<action>getEvolutionGraph</action>
+		</parameters>
+		<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>graphStackedBarEvolution</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Referrers</name>
 		<category>
 			<id>Referrers_Referrers</id>

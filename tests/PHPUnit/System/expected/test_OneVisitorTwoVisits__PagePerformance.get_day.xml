@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<avg_time_latency>0.17</avg_time_latency>
+	<avg_time_transfer>0.26</avg_time_transfer>
+	<avg_time_dom_processing>1.5</avg_time_dom_processing>
+	<avg_time_dom_completion>0.57</avg_time_dom_completion>
+	<avg_time_on_load>0.34</avg_time_on_load>
+	<avg_page_load_time>2.85</avg_page_load_time>
+</result>

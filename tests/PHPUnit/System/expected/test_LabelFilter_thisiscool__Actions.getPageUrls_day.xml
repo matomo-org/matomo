@@ -19,6 +19,7 @@
 		<entry_sum_visit_length>1441</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>720</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>

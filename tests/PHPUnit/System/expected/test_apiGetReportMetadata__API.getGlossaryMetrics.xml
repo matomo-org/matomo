@@ -16,6 +16,16 @@
 		<documentation>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</documentation>
 	</row>
 	<row>
+		<name>Avg. DOM completion time</name>
+		<id>avg_time_dom_completion</id>
+		<documentation>Average time how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event.</documentation>
+	</row>
+	<row>
+		<name>Avg. DOM processing time</name>
+		<id>avg_time_dom_processing</id>
+		<documentation>Average time how long the browser spends loading the webpage until the user can starting interacting with it.</documentation>
+	</row>
+	<row>
 		<name>Avg. Visit Duration (in seconds)</name>
 		<id>avg_time_on_site</id>
 		<documentation>The average duration of a visit.</documentation>
@@ -26,9 +36,29 @@
 		<documentation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</documentation>
 	</row>
 	<row>
+		<name>Avg. latency time</name>
+		<id>avg_time_latency</id>
+		<documentation>Average time how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</documentation>
+	</row>
+	<row>
+		<name>Avg. on load time</name>
+		<id>avg_time_on_load</id>
+		<documentation>Average time how long it takes the browser to execute Javascript code waiting for the window.load event.</documentation>
+	</row>
+	<row>
+		<name>Avg. page load time</name>
+		<id>avg_page_load_time</id>
+		<documentation>Average time how long it takes from requesting a page until the page is fully rendered within the browser</documentation>
+	</row>
+	<row>
 		<name>Avg. time on page</name>
 		<id>avg_time_on_page</id>
 		<documentation>The average amount of time visitors spent on this page (only the page, not the entire website).</documentation>
+	</row>
+	<row>
+		<name>Avg. transfer time</name>
+		<id>avg_time_transfer</id>
+		<documentation>Average time how long it takes the browser to download the response from the server.</documentation>
 	</row>
 	<row>
 		<name>Bounce Rate</name>

@@ -125,11 +125,31 @@
 		<default_value />
 	</row>
 	<row>
+		<column_name>time_dom_completion</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_dom_processing</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_latency</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_on_load</column_name>
+		<default_value />
+	</row>
+	<row>
 		<column_name>time_spent</column_name>
 		<default_value />
 	</row>
 	<row>
 		<column_name>time_spent_ref_action</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_transfer</column_name>
 		<default_value />
 	</row>
 </result>

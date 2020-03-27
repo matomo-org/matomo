@@ -303,6 +303,10 @@ Returning Visits
 nb_uniq_visitors_new,nb_users_new,nb_visits_new,nb_actions_new,max_actions_new,bounce_rate_new,nb_actions_per_visit_new,avg_time_on_site_new,nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
 1,0,1,4,4,0%,4,00:12:01,1,0,4,12,6,25%,3,00:25:32
 
+Performance overview
+avg_time_latency,avg_time_transfer,avg_time_dom_processing,avg_time_dom_completion,avg_time_on_load,avg_page_load_time
+00:00:00,00:00:00,00:00:00,00:00:00,00:00:00,00:00:00
+
 Referrers Overview
 Referrers_visitorsFromSearchEngines,Referrers_visitorsFromSocialNetworks,Referrers_visitorsFromDirectEntry,Referrers_visitorsFromWebsites,Referrers_visitorsFromCampaigns,Referrers_distinctSearchEngines,Referrers_distinctSocialNetworks,Referrers_distinctKeywords,Referrers_distinctWebsites,Referrers_distinctCampaigns,Referrers_visitorsFromDirectEntry_percent,Referrers_visitorsFromSearchEngines_percent,Referrers_visitorsFromCampaigns_percent,Referrers_visitorsFromSocialNetworks_percent,Referrers_visitorsFromWebsites_percent
 0,0,5,0,0,0,0,0,0,0,100%,0%,0%,0%,0%

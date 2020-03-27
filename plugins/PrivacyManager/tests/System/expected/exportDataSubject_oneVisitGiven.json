@@ -67,7 +67,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "9 min 5s",
@@ -82,7 +87,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:06:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:06:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "9 min 5s",
@@ -97,7 +107,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "3",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "9 min 5s",
@@ -113,7 +128,12 @@
             "search_cat": "images",
             "search_count": "200",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -129,7 +149,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -145,7 +170,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -161,7 +191,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -177,7 +212,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -192,7 +232,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -209,7 +254,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -225,7 +275,12 @@
             "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_latency": "0s",
+            "time_on_load": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         }
     ],
     "log_foo_bar_baz": [

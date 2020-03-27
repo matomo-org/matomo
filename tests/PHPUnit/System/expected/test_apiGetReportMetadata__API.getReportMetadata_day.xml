@@ -1646,6 +1646,32 @@
 		<uniqueId>VisitFrequency_get</uniqueId>
 	</row>
 	<row>
+		<category>Actions</category>
+		<subcategory>Performance</subcategory>
+		<name>Performance overview</name>
+		<module>PagePerformance</module>
+		<action>get</action>
+		<metrics>
+			<avg_time_latency>Avg. latency time</avg_time_latency>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+		</metrics>
+		<metricsDocumentation>
+			<avg_time_latency>Average time how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</avg_time_latency>
+			<avg_time_transfer>Average time how long it takes the browser to download the response from the server.</avg_time_transfer>
+			<avg_time_dom_processing>Average time how long the browser spends loading the webpage until the user can starting interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event.</avg_time_dom_completion>
+			<avg_time_on_load>Average time how long it takes the browser to execute Javascript code waiting for the window.load event.</avg_time_on_load>
+			<avg_page_load_time>Average time how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>PagePerformance_get</uniqueId>
+	</row>
+	<row>
 		<category>Referrers</category>
 		<name>Referrers Overview</name>
 		<module>Referrers</module>
@@ -2626,6 +2652,12 @@
 			<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
 			<nb_users_new>New Users</nb_users_new>
 			<max_actions_new>max_actions_new</max_actions_new>
+			<avg_time_latency>Avg. latency time</avg_time_latency>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
@@ -2642,6 +2674,12 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<avg_time_latency>Average time how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</avg_time_latency>
+			<avg_time_transfer>Average time how long it takes the browser to download the response from the server.</avg_time_transfer>
+			<avg_time_dom_processing>Average time how long the browser spends loading the webpage until the user can starting interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event.</avg_time_dom_completion>
+			<avg_time_on_load>Average time how long it takes the browser to execute Javascript code waiting for the window.load event.</avg_time_on_load>
+			<avg_page_load_time>Average time how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
