@@ -100,5 +100,19 @@ class VisitsWithPagePerformanceMetrics extends Fixture
         $t->setUrl('http://example.org/Contact/ThankYou');
         $t->setPerformanceTimings(269, 195, 963, 195, 215);
         self::checkResponse($t->doTrackPageView('Contact'));
+
+        $dateTime = Date::factory($this->dateTime)->subDay(15)->addHour(2.6)->getDatetime();
+
+        $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
+        $t->setUrl('http://example.org/category/Page1');
+        $t->setPerformanceTimings(222, 211, 888, 299, 99);
+        self::checkResponse($t->doTrackPageView('Page Title 1'));
+        $t->setUrl('http://example.org/Contact');
+        $t->setPerformanceTimings(99, 298, 1300, 348, 199);
+        self::checkResponse($t->doTrackPageView('Contact'));
+        $t->setUrl('http://example.org/Contact/ThankYou');
+        $t->setPerformanceTimings(77, 412, 1140, 444, 120);
+        self::checkResponse($t->doTrackPageView('Contact'));
+
     }
 }
