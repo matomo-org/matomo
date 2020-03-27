@@ -68,7 +68,7 @@ class Get extends \Piwik\Plugin\Report
                     foreach ($metrics as $metric => $name) {
                         $metricValue = $firstRow->getColumn($metric);
                         if (false !== $metricValue) {
-                            $firstRow->setColumn($metric, $numberFormatter->getPrettyTimeFromSeconds($metricValue / 1000));
+                            $firstRow->setColumn($metric, $numberFormatter->getPrettyTimeFromSeconds($metricValue));
                         }
                     }
                 }
