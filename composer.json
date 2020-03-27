@@ -35,7 +35,7 @@
         "matomo/cache": "~2.0",
         "matomo/decompress": "~2.0",
         "matomo/ini": "~2.0",
-        "matomo/matomo-php-tracker": "~2.0",
+        "matomo/matomo-php-tracker": "dev-performancemetrics",
         "matomo/network": "~2.0",
         "matomo/referrer-spam-blacklist": "~3.0",
         "matomo/searchengine-and-social-list": "~3.0",
