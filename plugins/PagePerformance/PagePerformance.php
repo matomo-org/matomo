@@ -38,11 +38,8 @@ class PagePerformance extends \Piwik\Plugin
             'Actions.Archiving.addActionMetrics'     => 'addActionMetrics',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
+            'API.Request.dispatch.end'               => 'enrichApi'
         );
-
-        foreach ($this->availableForMethods as $method) {
-            $events["API.Actions.$method.end"] = 'enrichApi';
-        }
 
         return $events;
     }
@@ -78,8 +75,39 @@ class PagePerformance extends \Piwik\Plugin
         $translations = array_merge($translations, $metrics);
     }
 
-    public function enrichApi(DataTable\DataTableInterface $dataTable, $params)
+    public function enrichApi($dataTable, $params)
     {
+        if ('Actions' !== $params['module'] || !$dataTable instanceof DataTable\DataTableInterface) {
+            return;
+        }
+
+        // remove additional metrics for action reports that don't have data
+        if (!in_array($params['action'], $this->availableForMethods)) {
+            $dataTable->deleteColumns([
+                'sum_time_latency',
+                'nb_hits_with_time_latency',
+                'min_time_latency',
+                'max_time_latency',
+                'sum_time_transfer',
+                'nb_hits_with_time_transfer',
+                'min_time_transfer',
+                'max_time_transfer',
+                'sum_time_dom_processing',
+                'nb_hits_with_time_dom_processing',
+                'min_time_dom_processing',
+                'max_time_dom_processing',
+                'sum_time_dom_completion',
+                'nb_hits_with_time_dom_completion',
+                'min_time_dom_completion',
+                'max_time_dom_completion',
+                'sum_time_on_load',
+                'nb_hits_with_time_on_load',
+                'min_time_on_load',
+                'max_time_on_load',
+            ], true);
+            return;
+        }
+
         $dataTable->filter(function (DataTable $dataTable) {
             $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
 
