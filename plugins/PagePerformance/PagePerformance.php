@@ -25,6 +25,11 @@ class PagePerformance extends \Piwik\Plugin
         'getPageTitlesFollowingSiteSearch',
     ];
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
