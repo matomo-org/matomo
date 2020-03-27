@@ -284,6 +284,10 @@ class ArchiveInvalidator
 
         $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges);
 
+        foreach ($idSites as $idSite) {
+            \Piwik\ArchiveProcessor\Parameters::invalidateMinVisitTimeCache($idSite);
+        }
+
         if ($period != 'range') {
             foreach ($idSites as $idSite) {
                 foreach ($dates as $date) {

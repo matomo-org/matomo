@@ -35,13 +35,10 @@ class ArchivingStatus
      */
     private $lockStack = [];
 
-    private $pid;
-
     public function __construct(LockBackend $lockBackend, $archivingTTLSecs = self::DEFAULT_ARCHIVING_TTL)
     {
         $this->lockBackend = $lockBackend;
         $this->archivingTTLSecs = $archivingTTLSecs;
-        $this->pid = Common::getProcessId();
     }
 
     public function archiveStarted(Parameters $params)
@@ -124,10 +121,5 @@ class ArchivingStatus
 
         $lockKeyPrefix = implode('.', $lockKeyParts);
         return new Lock(StaticContainer::get(LockBackend::class), $lockKeyPrefix, $this->archivingTTLSecs);
-    }
-
-    private function getInstanceProcessId()
-    {
-        return SettingsPiwik::getPiwikInstanceId() . '.' . $this->pid;
     }
 }

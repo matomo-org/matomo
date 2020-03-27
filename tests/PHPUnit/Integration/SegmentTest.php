@@ -931,12 +931,8 @@ class SegmentTest extends IntegrationTestCase
      */
     public function test_bogusSegment_shouldThrowException($segment)
     {
-        try {
-            new Segment($segment, $idSites = array());
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(\Exception::class);
+        new Segment($segment, $idSites = array());
     }
 
 

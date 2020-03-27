@@ -46,6 +46,7 @@ class Model
         $this->archivingStatus = StaticContainer::get(ArchivingStatus::class);
     }
 
+    // TODO: look for all uses of ts_archived and make sure it handles case where it is NULL
     /**
      * Returns the archives IDs that have already been invalidated and have been since re-processed.
      *
@@ -73,6 +74,7 @@ class Model
                  WHERE name LIKE 'done%'
                    AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ")
                    AND idsite IN (" . implode(',', $idSites) . ")
+                   AND ts_archived IS NOT NULL
                  GROUP BY idsite, date1, date2, period, name";
 
         $archiveIds = array();
@@ -84,6 +86,8 @@ class Model
 
             // if there is more than one archive, the older invalidated ones can be deleted
             if ($countOfArchives > 1) {
+                array_shift($duplicateArchives); // we don't want to delete the latest archive if it is usable
+
                 foreach ($duplicateArchives as $pair) {
                     if (strpos($pair, '.') === false) {
                         $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");
@@ -91,9 +95,7 @@ class Model
                     }
 
                     list($idarchive, $value) = explode('.', $pair);
-                    if ($value == ArchiveWriter::DONE_INVALIDATED) {
-                        $archiveIds[] = $idarchive;
-                    }
+                    $archiveIds[] = $idarchive; // does not matter what the value is, the latest is usable so older archives can be purged
                 }
             }
         }

@@ -362,4 +362,11 @@ class Parameters
 
         return $value;
     }
+
+    public static function invalidateMinVisitTimeCache($idSite)
+    {
+        $cache = Cache::getLazyCache();
+        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
+        $cache->delete($cacheKey);
+    }
 }

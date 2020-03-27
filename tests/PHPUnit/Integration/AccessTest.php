@@ -179,6 +179,7 @@ class AccessTest extends IntegrationTestCase
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSuperUserAccess();
+        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
@@ -193,6 +194,7 @@ class AccessTest extends IntegrationTestCase
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeAdminAccess();
+        $this->assertTrue(true); // pass
     }
 
     public function test_isUserHasSomeAdminAccess_WithSuperUserAccess()
@@ -259,6 +261,7 @@ class AccessTest extends IntegrationTestCase
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeViewAccess();
+        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasSomeViewAccessWithSomeAccess()
@@ -307,6 +310,7 @@ class AccessTest extends IntegrationTestCase
         $access = Access::getInstance();
         $access->setSuperUserAccess(true);
         $access->checkUserHasViewAccess(array());
+        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasViewAccessWithSomeAccessSuccessIdSitesAsString()
@@ -357,6 +361,7 @@ class AccessTest extends IntegrationTestCase
         $access = Access::getInstance();
         $access->setSuperUserAccess(true);
         $access->checkUserHasWriteAccess(array());
+        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasWriteAccessWithSomeAccessFailure()
@@ -376,6 +381,7 @@ class AccessTest extends IntegrationTestCase
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasAdminAccess(array());
+        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
@@ -397,6 +403,8 @@ class AccessTest extends IntegrationTestCase
             ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasAdminAccess('1,3');
+
+        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessAllSites()
@@ -415,6 +423,8 @@ class AccessTest extends IntegrationTestCase
             ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasAdminAccess('all');
+
+        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasAdminAccessWithSomeAccessFailure()

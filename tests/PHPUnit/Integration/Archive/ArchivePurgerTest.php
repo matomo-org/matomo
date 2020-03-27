@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\Archive\ArchivePurger;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;

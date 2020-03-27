@@ -553,6 +553,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $icons = implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
+
+        $this->assertTrue(true); // pass
     }
 
     /**

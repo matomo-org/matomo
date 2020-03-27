@@ -84,6 +84,7 @@ class UpdaterTest extends IntegrationTestCase
         if ($result === false) {
             throw new \Exception("Failed to force update (nothing to update).");
         }
+        $this->assertTrue(true); // pass
     }
 
     public function testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry()

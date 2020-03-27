@@ -108,6 +108,8 @@ class PluginsArchiverTest extends IntegrationTestCase
         $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParamaters());
         $this->pluginsArchiver->callAggregateCoreMetrics();
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
+
+        $this->assertTrue(true); // pass
     }
 
 }

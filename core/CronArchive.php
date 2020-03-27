@@ -355,6 +355,10 @@ class CronArchive
 
         $this->logForcedSegmentInfo();
 
+        if ($this->skipSegmentsToday) {
+            $this->logger->info('Will skip segments archiving for today unless they were created recently');
+        }
+
         /**
          * This event is triggered after a CronArchive instance is initialized.
          *
@@ -420,6 +424,13 @@ class CronArchive
 
                 if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
                     $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring.");
+                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
+                    continue;
+                }
+
+                $reason = $this->shouldSkipArchive($invalidatedArchive);
+                if ($reason) {
+                    $this->logger->info("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
                     $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
                     continue;
                 }
@@ -650,22 +661,27 @@ class CronArchive
         $idSite = $archive['idsite'];
 
         // TODO: what about plugin specific archives? what if one gets invalidated?
-        $segment = $this->findSegmentForArchive($archive, $idSite);
+        $segment = $this->findSegmentForArchive($archive);
 
         $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment) . self::APPEND_TO_API_REQUEST;
 
         return [$url, $segment];
     }
 
-    private function findSegmentForArchive($archive, $idSite)
+    private function findSegmentForArchive($archive)
     {
+        if (isset($archive['segment'])) {
+            return $archive['segment'];
+        }
+
         $flag = explode('.', $archive['name'])[0];
         if ($flag == 'done') {
             return '';
         }
 
         $hash = substr($flag, 4);
-        return $this->segmentArchivingRequestUrlProvider->findSegmentForHash($hash, $idSite);
+        $archive['segment'] = $this->segmentArchivingRequestUrlProvider->findSegmentForHash($hash, $archive['idsite']);
+        return $archive['segment'];
     }
 
     private function logArchiveJobFinished($url, $timer, $visits)
@@ -955,7 +971,7 @@ class CronArchive
             $segmentDatesToInvalidate = $this->segmentArchivingRequestUrlProvider->getSegmentArchivesToInvalidateForNewSegments($idSite);
 
             foreach ($segmentDatesToInvalidate as $info) {
-                $this->logger->info('  Found new segment {segment}, invalidating dates in past for site {idSite}', [
+                $this->logger->info('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
                     'segment' => $info['segment'],
                     'idSite' => $idSite,
                 ]);
@@ -1013,17 +1029,12 @@ class CronArchive
             return $this->shouldArchiveSpecifiedSites;
         }
 
-        // TODO: see mtehod def
-        // $this->findWebsiteIdsInTimezoneWithNewDay($this->allWebsites);
-
         if ($this->shouldArchiveAllSites) {
             $this->logger->info("- Will process all " . count($this->allWebsites) . " websites");
         }
 
         return $allWebsites;
     }
-
-    // TODO: we need to still respect minimum process time for archives (in Rules.php) when selecting invalidated archives to re-archive.
 
     /**
      * Returns the list of timezones where the specified timestamp in that timezone
@@ -1046,33 +1057,6 @@ class CronArchive
         }
         return $timezoneToProcess;
     }
-
-    /**
-     * Returns the list of websites in which timezones today is a new day
-     * (compared to the last time archiving was executed)
-     *
-     * @param $websiteIds
-     * @return array Website IDs
-     */
-    /*
-     TODO: i don't think we need this anymore, but check again after implementing today logic
-     private function findWebsiteIdsInTimezoneWithNewDay($websiteIds)
-    {
-        $timezones = $this->getTimezonesHavingNewDaySinceLastRun();
-        $websiteDayHasFinishedSinceLastRun = APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
-        $websiteDayHasFinishedSinceLastRun = array_intersect($websiteDayHasFinishedSinceLastRun, $websiteIds);
-        $this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
-
-        if (count($websiteDayHasFinishedSinceLastRun) > 0) {
-            $ids = !empty($websiteDayHasFinishedSinceLastRun) ? ", IDs: " . implode(", ", $websiteDayHasFinishedSinceLastRun) : "";
-            $this->logger->info("- Will process " . count($websiteDayHasFinishedSinceLastRun)
-                . " other websites because the last time they were archived was on a different day (in the website's timezone) "
-                . $ids);
-        }
-
-        return $websiteDayHasFinishedSinceLastRun;
-    }
-    */
 
     private function logInitInfo()
     {
@@ -1423,5 +1407,22 @@ class CronArchive
         }, $segments);
 
         $this->segmentsToForce = $segments;
+    }
+
+    private function shouldSkipArchive($archive) // TODO: move this code to an CronArchive/ArchiveFilter.php class
+    {
+        if ($this->skipSegmentsToday) {
+            $timezone = Site::getTimezoneFor($archive['idsite']);
+            $today = Date::factoryInTimezone('today', $timezone);
+
+            $segment = $this->findSegmentForArchive($archive);
+            if (!empty($segment)
+                && $today->isLater(Date::factory($archive['date2']))
+            ) {
+                return "segment archive for today";
+            }
+        }
+
+        return false;
     }
 }

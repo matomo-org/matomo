@@ -110,6 +110,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
 
     public function test_getTitle_PrefersSetTitleOverPluginName()
     {
+        $this->assertTrue(true); // pass
         if (method_exists($this->settings, 'setTitle')) {
             $this->settings->setTitle('title');
             $this->assertSame('title', $this->settings->getTitle());

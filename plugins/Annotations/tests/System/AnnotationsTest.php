@@ -275,7 +275,7 @@ class AnnotationsTest extends SystemTestCase
                 $request->process();
                 $this->fail($failMessage);
             } catch (Exception $ex) {
-                // pass
+                $this->assertTrue(true); // pass
             }
         } else {
             $request = new Request($request);
