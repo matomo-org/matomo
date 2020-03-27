@@ -146,7 +146,7 @@ class CronArchiveTest extends IntegrationTestCase
         $archiver->segmentsToForce = array('actions>=2;browserCode=FF', 'actions>=2');
         $archiver->init();
         $archiver->run();
-file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', $logger->output);
+
         $expected = <<<LOG
 ---------------------------
 INIT

@@ -120,6 +120,14 @@ class SegmentArchivingRequestUrlProvider
             $lastInvalidationTime = Date::factory((int) $lastInvalidationTime);
         }
 
+        print $segment['definition'] . "\n";
+        if (!empty($lastInvalidationTime)) {
+            print $lastInvalidationTime->getDatetime()."\n";
+        }
+        if (!empty($segmentCreatedTime)) {
+            print $segmentCreatedTime->getDatetime()."\n";
+        }
+
         $segmentTimeToUse = $segmentLastEditedTime ?: $segmentCreatedTime;
         if (!empty($lastInvalidationTime)
             && !empty($segmentTimeToUse)

@@ -96,7 +96,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertInvalidatedArchivesPurged($this->february);
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
 
-        $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(6 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
     }
 
     public function test_purgeArchivesWithPeriodRange_PurgesAllRangeArchives()
