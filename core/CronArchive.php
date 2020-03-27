@@ -18,12 +18,10 @@ use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
@@ -70,18 +68,11 @@ class CronArchive
     // Show only first N characters from Piwik API output in case of errors
     const TRUNCATE_ERROR_MESSAGE_SUMMARY = 6000;
 
-    // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
-    private $shouldArchiveOnlySitesWithTrafficSince;
-
     // By default, we only process the current week/month/year at most once an hour
-    private $processPeriodsMaximumEverySeconds;
     private $todayArchiveTimeToLive;
-    private $websiteDayHasFinishedSinceLastRun = array();
-    private $idSitesInvalidatedOldReports = array();
     private $shouldArchiveOnlySpecificPeriods = array();
 
     private $allWebsites = array();
-    private $segments = array();
     private $requests = 0;
     private $archiveAndRespectTTL = true;
 
@@ -257,11 +248,6 @@ class CronArchive
      */
     private $periodIdsToLabels;
 
-    /**
-     * @var Date[]
-     */
-    private $minVisitTimesPerSite = [];
-
     private $processNewSegmentsFrom;
 
     /**
@@ -341,8 +327,6 @@ class CronArchive
 
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
-
-        $this->segments    = $this->initSegmentsToArchive();
 
         if (!empty($this->shouldArchiveOnlySpecificPeriods)) {
             $this->logger->info("- Will only process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
@@ -524,9 +508,9 @@ class CronArchive
         /** @var Lazy $cache */
         $cache = Cache::getLazyCache();
         $result = $cache->fetch($cacheKey);
-        $result = @json_decode($result);
+        $result = @json_decode($result, true);
 
-        if (empty($result)) { // TODO: seems to be called too often? maybe cause no cache in tests? should use file cache for ArchiveCronTest
+        if (!is_array($result)) {
             $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
             // make sure tables are reloaded
@@ -613,7 +597,7 @@ class CronArchive
             $content = array_key_exists($index, $responses) ? $responses[$index] : null;
             $this->checkResponse($content, $url);
 
-            $stats = Common::safe_unserialize($content); // TODO: I wonder if we can use json here instead of 'original' format? would be safer
+            $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
                 $this->logError("Error unserializing the following response from $url: " . $content);
                 continue;
@@ -646,8 +630,6 @@ class CronArchive
         $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), $idArchives);
     }
 
-    // ArchiveWriter($params); // TODO: remove isTemporaryArchive param, not needed
-
     private function generateUrlToArchiveFromArchiveInfo($archive)
     {
         $period = $this->periodIdsToLabels[$archive['period']];
@@ -660,10 +642,19 @@ class CronArchive
 
         $idSite = $archive['idsite'];
 
-        // TODO: what about plugin specific archives? what if one gets invalidated?
         $segment = $this->findSegmentForArchive($archive);
 
-        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment) . self::APPEND_TO_API_REQUEST;
+        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment);
+        $url = $this->makeRequestUrl($url);
+
+        if (!empty($segment)) {
+            $shouldSkipToday = !$this->wasSegmentChangedRecently($segment,
+                $this->segmentArchivingRequestUrlProvider->getAllSegments());
+
+            if ($shouldSkipToday) {
+                $url .= '&skipArchiveSegmentToday=1';
+            }
+        }
 
         return [$url, $segment];
     }
@@ -733,8 +724,6 @@ class CronArchive
         throw new Exception($m);
     }
 
-    // TODO: make sure this workflow still works: invalidate segment archive, run core:archive
-
     public function runScheduledTasks()
     {
         $this->logSection("SCHEDULED TASKS");
@@ -769,28 +758,12 @@ class CronArchive
      */
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
-        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
+        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
             $request .= '&segment=' . urlencode($segment);
         }
         return $request;
     }
-
-    private function initSegmentsToArchive()
-    {
-        $segments = \Piwik\SettingsPiwik::getKnownSegmentsToArchive();
-
-        if (empty($segments)) {
-            return array();
-        }
-
-        $this->logger->info("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
-        return $segments;
-    }
-
-    // TODO: is the isCommandAlreadyRunning() optimization still needed? since we mark an archive as DONE_IN_PROGRESS, I don't think it is. think about it anyway
-    // TODO: make sure we are still invalidating archives before running core:archive. or maybe before refreshing the list of tables? that might be better I guess.
-    // TODO: need test to make sure segment archives are invalidated as well. and are able to be invalidated.
 
     /**
      * Logs a section in the output
@@ -851,15 +824,8 @@ class CronArchive
     private function initStateFromParameters()
     {
         $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
-        $this->processPeriodsMaximumEverySeconds = $this->getDelayBetweenPeriodsArchives();
         $this->lastSuccessRunTimestamp = $this->getLastSuccessRunTimestamp();
-        $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
         $this->shouldArchiveOnlySpecificPeriods = $this->getPeriodsToProcess();
-
-        if ($this->shouldArchiveOnlySitesWithTrafficSince !== false) {
-            // force-all-periods is set here
-            $this->archiveAndRespectTTL = false;
-        }
     }
 
     public function filterWebsiteIds(&$websiteIds, $allWebsites)
@@ -1036,28 +1002,6 @@ class CronArchive
         return $allWebsites;
     }
 
-    /**
-     * Returns the list of timezones where the specified timestamp in that timezone
-     * is on a different day than today in that timezone.
-     *
-     * @return array
-     */
-    private function getTimezonesHavingNewDaySinceLastRun()
-    {
-        $timestamp = $this->lastSuccessRunTimestamp;
-        $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
-        $timezoneToProcess = array();
-        foreach ($uniqueTimezones as &$timezone) {
-            $processedDateInTz = Date::factory((int)$timestamp, $timezone);
-            $currentDateInTz = Date::factory('now', $timezone);
-
-            if ($processedDateInTz->toString() != $currentDateInTz->toString()) {
-                $timezoneToProcess[] = $timezone;
-            }
-        }
-        return $timezoneToProcess;
-    }
-
     private function logInitInfo()
     {
         $this->logSection("INIT");
@@ -1081,9 +1025,6 @@ class CronArchive
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Matomo UI > Settings > General Settings.");
 
-        $this->logger->info("- Reports for the current week/month/year will be requested at most every "
-            . $this->processPeriodsMaximumEverySeconds . " seconds.");
-
         foreach (array('week', 'month', 'year', 'range') as $period) {
             $ttl = Rules::getPeriodArchiveTimeToLiveDefault($period);
 
@@ -1099,45 +1040,6 @@ class CronArchive
             $this->logger->info("- Archiving was last executed without error "
                 . $this->formatter->getPrettyTimeFromSeconds($dateLast, true) . " ago");
         }
-    }
-
-    /**
-     * Returns the delay in seconds, that should be enforced, between calling archiving for Periods Archives.
-     * It can be set by --force-timeout-for-periods=X
-     *
-     * @return int
-     */
-    private function getDelayBetweenPeriodsArchives()
-    {
-        if (empty($this->forceTimeoutPeriod)) {
-            return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
-        }
-
-        // Ensure the cache for periods is at least as high as cache for today
-        if ($this->forceTimeoutPeriod > $this->todayArchiveTimeToLive) {
-            return $this->forceTimeoutPeriod;
-        }
-
-        $this->logger->info("WARNING: Automatically increasing --force-timeout-for-periods from {$this->forceTimeoutPeriod} to "
-            . $this->todayArchiveTimeToLive
-            . " to match the cache timeout for Today's report specified in Matomo UI > Settings > General Settings");
-
-        return $this->todayArchiveTimeToLive;
-    }
-
-    private function isShouldArchiveAllSitesWithTrafficSince()
-    {
-        if (empty($this->shouldArchiveAllPeriodsSince)) {
-            return false;
-        }
-
-        if (is_numeric($this->shouldArchiveAllPeriodsSince)
-            && $this->shouldArchiveAllPeriodsSince > 1
-        ) {
-            return (int)$this->shouldArchiveAllPeriodsSince;
-        }
-
-        return true;
     }
 
     private function getVisitsFromApiResponse($stats)
@@ -1268,7 +1170,7 @@ class CronArchive
      * @param $url
      * @return string
      */
-    private function makeRequestUrl($url) // TODO: should this still be used? where?
+    private function makeRequestUrl($url)
     {
         $url = $url . self::APPEND_TO_API_REQUEST;
 
@@ -1286,22 +1188,6 @@ class CronArchive
         Piwik::postEvent('CronArchive.alterArchivingRequestUrl', [&$url]);
 
         return $url;
-    }
-
-    protected function wasSegmentChangedRecently($definition, $allSegments)
-    {
-        foreach ($allSegments as $segment) {
-            if ($segment['definition'] === $definition) {
-                $twentyFourHoursAgo = Date::now()->subHour(24);
-                $segmentDate = $segment['ts_created'];
-                if (!empty($segment['ts_last_edit'])) {
-                    $segmentDate = $segment['ts_last_edit'];
-                }
-                return Date::factory($segmentDate)->isLater($twentyFourHoursAgo);
-            }
-        }
-
-        return false;
     }
 
     // TODO: should still handle segmentsToForce + other options
@@ -1411,15 +1297,21 @@ class CronArchive
 
     private function shouldSkipArchive($archive) // TODO: move this code to an CronArchive/ArchiveFilter.php class
     {
-        if ($this->skipSegmentsToday) {
-            $timezone = Site::getTimezoneFor($archive['idsite']);
-            $today = Date::factoryInTimezone('today', $timezone);
+        // TODO
 
-            $segment = $this->findSegmentForArchive($archive);
-            if (!empty($segment)
-                && $today->isLater(Date::factory($archive['date2']))
-            ) {
-                return "segment archive for today";
+        return false;
+    }
+
+    protected function wasSegmentChangedRecently($definition, $allSegments)
+    {
+        foreach ($allSegments as $segment) {
+            if ($segment['definition'] === $definition) {
+                $twentyFourHoursAgo = Date::now()->subHour(24);
+                $segmentDate = $segment['ts_created'];
+                if (!empty($segment['ts_last_edit'])) {
+                    $segmentDate = $segment['ts_last_edit'];
+                }
+                return Date::factory($segmentDate)->isLater($twentyFourHoursAgo);
             }
         }
 

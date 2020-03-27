@@ -81,7 +81,7 @@ class ArchiveWriter
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
      * @throws Exception
      */
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary = false)
+    public function __construct(ArchiveProcessor\Parameters $params)
     {
         $this->idArchive = false;
         $this->idSite    = $params->getSite()->getId();

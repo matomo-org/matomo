@@ -180,7 +180,7 @@ class ArchiveCronTest extends SystemTestCase
         // run the command
         exec($cmd, $output, $result);
         $output = implode("\n", $output);
-
+print "$output\n";
         if ($result !== 0 || strpos($output, "ERROR") || strpos($output, "Error")) {
             $this->fail("archive cron failed (result = $result): " . $output . "\n\ncommand used: $cmd");
         }

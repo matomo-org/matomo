@@ -11,7 +11,6 @@ namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
-use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -421,21 +420,6 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param string[][][] $periodDates
-     * @return string[][][]
-     */
-    private function getUniqueDates($periodDates)
-    {
-        $result = array();
-        foreach ($periodDates as $yearMonth => $periodsByYearMonth) {
-            foreach ($periodsByYearMonth as $periodType => $periods) {
-                $result[$yearMonth][$periodType] = array_unique($periods);
-            }
-        }
-        return $result;
-    }
-
-    /**
      * @param int[] $idSites
      * @param string[][][] $dates
      * @throws \Exception
@@ -444,15 +428,22 @@ class ArchiveInvalidator
     {
         $idSites = array_map('intval', $idSites);
 
+        $yearMonths = [];
+
         // TODO: test w/ no archive tables installed
         foreach ($dates as $tableDate => $datesForTable) {
-            $table = ArchiveTableCreator::getNumericTable(Date::factory($tableDate));
+            $tableDateObj = Date::factory($tableDate);
+
+            $table = ArchiveTableCreator::getNumericTable($tableDateObj);
+            $yearMonths[] = $tableDateObj->toString('Y_m');
 
             $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges);
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
         }
+
+        $this->markInvalidatedArchivesForReprocessAndPurge($yearMonths);
     }
 
     /**
@@ -507,15 +498,8 @@ class ArchiveInvalidator
      * @param array $idSites
      * @param array $yearMonths
      */
-    private function markInvalidatedArchivesForReprocessAndPurge(array $idSites, $yearMonths, $hasMoreThanJustToday)
+    private function markInvalidatedArchivesForReprocessAndPurge($yearMonths)
     {
-        $store = new SitesToReprocessDistributedList();
-        foreach ($idSites as $idSite) {
-            if (!empty($hasMoreThanJustToday[$idSite])) {
-                $store->add($idSite);
-            }
-        }
-
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);
     }

@@ -120,14 +120,6 @@ class SegmentArchivingRequestUrlProvider
             $lastInvalidationTime = Date::factory((int) $lastInvalidationTime);
         }
 
-        print $segment['definition'] . "\n";
-        if (!empty($lastInvalidationTime)) {
-            print $lastInvalidationTime->getDatetime()."\n";
-        }
-        if (!empty($segmentCreatedTime)) {
-            print $segmentCreatedTime->getDatetime()."\n";
-        }
-
         $segmentTimeToUse = $segmentLastEditedTime ?: $segmentCreatedTime;
         if (!empty($lastInvalidationTime)
             && !empty($segmentTimeToUse)
@@ -252,7 +244,7 @@ class SegmentArchivingRequestUrlProvider
         return array($earliestCreatedTime, $latestEditTime);
     }
 
-    private function getAllSegments()
+    public function getAllSegments()
     {
         if (!$this->segmentListCache->contains('all')) {
             $segments = $this->segmentEditorModel->getAllSegmentsAndIgnoreVisibility();

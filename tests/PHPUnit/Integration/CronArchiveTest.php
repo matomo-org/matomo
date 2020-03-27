@@ -238,7 +238,7 @@ LOG;
         $archiver->shouldArchiveSpecifiedSites = array(99999, 1);
         $archiver->init();
         $archiver->run();
-file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', $logger->output);
+
         $expected = <<<LOG
 - Will process 2 websites (--force-idsites)
 ---------------------------
