@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Gehitu erabiltzaile berria",
-        "Alias": "Alias",
         "AllWebsites": "Webgune guztiak",
         "ApplyToAllWebsites": "Aplikatu webgune guztiei",
         "DeleteConfirm": "Ziur zaude %s erabiltzailea ezabatu nahi duzula?",

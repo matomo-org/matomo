@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Tambah pengguna baru",
-        "Alias": "Julukan",
         "AllWebsites": "Seluruh situs",
         "AnonymousUser": "Pengguna anonim",
         "AnonymousUserHasViewAccess": "Catatan: pengguna %1$s memiliki akses %2$s di situs ini.",

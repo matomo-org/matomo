@@ -9,7 +9,6 @@
         "EditUser": "修改用户",
         "CreateUser": "创建用户",
         "SaveBasicInfo": "保存基本信息",
-        "Alias": "别名",
         "AllWebsites": "所有网站",
         "AnonymousAccessConfirmation": "您将授予匿名用户对该网站的“查看”访问权限。 这意味着即使没有登录，任何人都可以公开查看您的分析报告和您的访客信息。 您确定要继续吗？",
         "AnonymousUser": "匿名用户",
