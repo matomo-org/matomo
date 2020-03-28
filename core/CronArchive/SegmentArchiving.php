@@ -26,7 +26,7 @@ use Psr\Log\LoggerInterface;
  *
  * Handles the `[General] process_new_segments_from` INI option.
  */
-class SegmentArchivingRequestUrlProvider
+class SegmentArchiving
 {
     const BEGINNING_OF_TIME = 'beginning_of_time';
     const CREATION_TIME = 'segment_creation_time';

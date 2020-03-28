@@ -54,6 +54,7 @@ class ArchiveSelector
      *               - the latest visits converted value for the latest archive, regardless of whether the archive is invalidated or not
      *               - whether there is an archive that exists or not. if this is true and the latest archive is false, it means
      *                 the archive found was not usable (for example, it was invalidated and we are not looking for invalidated archives)
+     *               - the ts_archived for the latest usable archive
      * @throws Exception
      */
     public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = true)
@@ -76,31 +77,32 @@ class ArchiveSelector
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
-            return [false, false, false, false];
+            return [false, false, false, false, false];
         }
 
         $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
 
+        $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
 
         if (isset($result['value'])
             && !in_array($result['value'], $doneFlagValues)
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, $visits, $visitsConverted, true];
+            return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
             && isset($result['idarchive'])
-            && Date::factory($result['ts_archived'])->isEarlier(Date::factory($minDatetimeArchiveProcessedUTC))
+            && Date::factory($tsArchived)->isEarlier(Date::factory($minDatetimeArchiveProcessedUTC))
         ) {
-            return [false, $visits, $visitsConverted, true];
+            return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
         $idArchive = isset($result['idarchive']) ? $result['idarchive'] : false;
 
-        return array($idArchive, $visits, $visitsConverted, true);
+        return [$idArchive, $visits, $visitsConverted, true, $tsArchived];
     }
 
     /**

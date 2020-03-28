@@ -9,13 +9,13 @@ namespace Piwik\Tests\Unit\CronArchive;
 
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Site;
 
 /**
  * @group Core
  */
-class SegmentArchivingRequestUrlProviderTest extends \PHPUnit\Framework\TestCase
+class SegmentArchivingTest extends \PHPUnit\Framework\TestCase
 {
     const TEST_NOW = '2015-03-01';
 
@@ -106,6 +106,6 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit\Framework\TestCase
         $mockSegmentEditorModel = $this->createPartialMock('Piwik\Plugins\SegmentEditor\Model', array('getAllSegmentsAndIgnoreVisibility'));
         $mockSegmentEditorModel->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->will($this->returnValue($this->mockSegmentEntries));
 
-        return new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom, $beginningOfTimeLastN = 7, $mockSegmentEditorModel, null, Date::factory(self::TEST_NOW));
+        return new SegmentArchiving($processNewSegmentsFrom, $beginningOfTimeLastN = 7, $mockSegmentEditorModel, null, Date::factory(self::TEST_NOW));
     }
 }

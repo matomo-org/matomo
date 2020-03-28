@@ -88,7 +88,6 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCron()
     {
-        $this->setLastRunArchiveOptions();
         $output = $this->runArchivePhpCron();
 
         $this->compareArchivePhpOutputAgainstExpected($output);
@@ -113,8 +112,6 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCronArchivesFullRanges()
     {
-        $this->setLastRunArchiveOptions();
-
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_custom_ranges', ['2012-08-09,2012-08-13']);
@@ -144,24 +141,6 @@ class ArchiveCronTest extends SystemTestCase
         self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
     }
 
-    private function setLastRunArchiveOptions()
-    {
-        $periodTypes = array('day', 'periods');
-        $idSites = API::getInstance()->getAllSitesId();
-
-        $daysAgoArchiveRanSuccessfully = 1500;
-        $this->assertTrue($daysAgoArchiveRanSuccessfully > (\Piwik\CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400));
-        $time = Date::factory(self::$fixture->dateTime)->subDay($daysAgoArchiveRanSuccessfully)->getTimestamp();
-
-        foreach ($periodTypes as $period) {
-            foreach ($idSites as $idSite) {
-                // lastRunKey() function inlined
-                $lastRunArchiveOption = "lastRunArchive" . $period . "_" . $idSite;
-                \Piwik\Option::set($lastRunArchiveOption, $time);
-            }
-        }
-    }
-
     private function runArchivePhpCron($options = array(), $archivePhpScript = false)
     {
         $archivePhpScript = $archivePhpScript ?: PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
@@ -180,7 +159,7 @@ class ArchiveCronTest extends SystemTestCase
         // run the command
         exec($cmd, $output, $result);
         $output = implode("\n", $output);
-print "$output\n";
+
         if ($result !== 0 || strpos($output, "ERROR") || strpos($output, "Error")) {
             $this->fail("archive cron failed (result = $result): " . $output . "\n\ncommand used: $cmd");
         }

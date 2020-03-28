@@ -157,7 +157,6 @@ NOTES
   See the doc at: https://matomo.org/docs/setup-auto-archiving/
 - Async process archiving supported, using CliMulti.
 - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
-- Reports for the current week/month/year will be requested at most every 3600 seconds.
 - Will process all 0 websites
 - Limiting segment archiving to following segments:
   * actions>=2;browserCode=FF
@@ -215,9 +214,6 @@ Found no visits for site ID = 1, year (2020-01-01,2020-12-31), site is using the
 No next invalidated archive.
 Found no visits for site ID = 1, week (2019-12-30,2020-01-05), site is using the tracker so skipping archiving...
 Found no visits for site ID = 1, week (2019-12-30,2020-01-05), site is using the tracker so skipping archiving...
-Checking for queued invalidations...
-  Today archive can be skipped due to no visits, skipping invalidation...
-Done invalidating
 No next invalidated archive.
 
 LOG;

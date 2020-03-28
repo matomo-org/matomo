@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Matomo\Cache\Lazy;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ArchiveFilter;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveSelector;
@@ -22,16 +23,13 @@ use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Psr\Log\LoggerInterface;
-use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
-
-// TODO: modify CLI command options
 
 /**
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
@@ -53,9 +51,6 @@ class CronArchive
     // force-timeout-for-periods default (1 hour)
     const SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES = 3600;
 
-    // force-all-periods default (7 days)
-    const ARCHIVE_SITES_WITH_TRAFFIC_SINCE = 604800;
-
     // Flag to know when the archive cron is calling the API
     const APPEND_TO_API_REQUEST = '&trigger=archivephp';
 
@@ -70,7 +65,6 @@ class CronArchive
 
     // By default, we only process the current week/month/year at most once an hour
     private $todayArchiveTimeToLive;
-    private $shouldArchiveOnlySpecificPeriods = array();
 
     private $allWebsites = array();
     private $requests = 0;
@@ -100,12 +94,7 @@ class CronArchive
      */
     public $shouldArchiveSpecifiedSites = array();
 
-    /**
-     * If true, archiving will be launched for every site.
-     *
-     * @var bool
-     */
-    public $shouldArchiveAllSites = false;
+    public $shouldSkipSpecifiedSites = [];
 
     /**
      * If true, xhprof will be initiated for the archiving run. Only for development/testing.
@@ -136,45 +125,12 @@ class CronArchive
     public $disableScheduledTasks = false;
 
     /**
-     * The amount of seconds between non-day period archiving. That is, if archiving has been launched within
-     * the past [$forceTimeoutPeriod] seconds, Piwik will not initiate archiving for week, month and year periods.
+     * Forces CronArchive to invalidate data for the last [$dateLastForced] years when it notices a segment that
+     * was recently created or updated. By default this is 7.
      *
      * @var int|false
      */
-    public $forceTimeoutPeriod = false;
-
-    /**
-     * If supplied, archiving will be launched for sites that have had visits within the last [$shouldArchiveAllPeriodsSince]
-     * seconds. If set to `true`, the value defaults to {@link ARCHIVE_SITES_WITH_TRAFFIC_SINCE}.
-     *
-     * @var int|bool
-     */
-    public $shouldArchiveAllPeriodsSince = false;
-
-    /**
-     * If supplied, archiving will be launched only for periods that fall within this date range. For example,
-     * `"2012-01-01,2012-03-15"` would result in January 2012, February 2012 being archived but not April 2012.
-     *
-     * @var string|false eg, `"2012-01-01,2012-03-15"`
-     */
-    public $restrictToDateRange = false;
-
-    /**
-     * A list of periods to launch archiving for. By default, day, week, month and year periods
-     * are considered. This variable can limit the periods to, for example, week & month only.
-     *
-     * @var string[] eg, `array("day","week","month","year")`
-     */
-    public $restrictToPeriods = array();
-
-    /**
-     * Forces CronArchive to retrieve data for the last [$dateLastForced] periods when initiating archiving.
-     * When archiving weeks, for example, if 10 is supplied, the API will be called w/ last10. This will potentially
-     * initiate archiving for the last 10 weeks.
-     *
-     * @var int|false
-     */
-    public $dateLastForced = false;
+    public $dateLastForced = 7;
 
     /**
      * The number of concurrent requests to issue per website. Defaults to {@link MAX_CONCURRENT_API_REQUESTS}.
@@ -193,19 +149,6 @@ class CronArchive
     public $maxConcurrentArchivers = false;
 
     /**
-     * List of segment strings to force archiving for. If a stored segment is not in this list, it will not
-     * be archived.
-     *
-     * @var string[]
-     */
-    public $segmentsToForce = array();
-
-    /**
-     * @var bool
-     */
-    public $disableSegmentsArchiving = false;
-
-    /**
      * If enabled, segments will be only archived for yesterday, but not today. If the segment was created recently,
      * then it will still be archived for today and the setting will be ignored for this segment.
      * @var bool
@@ -217,9 +160,9 @@ class CronArchive
     private $formatter;
 
     /**
-     * @var SegmentArchivingRequestUrlProvider
+     * @var SegmentArchiving
      */
-    private $segmentArchivingRequestUrlProvider;
+    private $segmentArchiving;
 
     /**
      * @var LoggerInterface
@@ -249,6 +192,11 @@ class CronArchive
     private $periodIdsToLabels;
 
     private $processNewSegmentsFrom;
+
+    /**
+     * @var ArchiveFilter
+     */
+    private $archiveFilter;
 
     /**
      * Constructor.
@@ -301,7 +249,7 @@ class CronArchive
 
     public function init()
     {
-        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($this->processNewSegmentsFrom, $this->dateLastForced);
+        $this->segmentArchiving = new SegmentArchiving($this->processNewSegmentsFrom, $this->dateLastForced);
 
         /**
          * This event is triggered during initializing archiving.
@@ -328,16 +276,14 @@ class CronArchive
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
 
-        if (!empty($this->shouldArchiveOnlySpecificPeriods)) {
-            $this->logger->info("- Will only process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
-        }
-
         $allWebsites = APISitesManager::getInstance()->getAllSitesId();
         $websitesIds = $this->initWebsiteIds($allWebsites);
         $this->filterWebsiteIds($websitesIds, $allWebsites);
         $this->allWebsites = $websitesIds;
 
-        $this->logForcedSegmentInfo();
+        if ($this->archiveFilter) {
+            $this->archiveFilter->logFilterInfo($this->logger);
+        }
 
         if ($this->skipSegmentsToday) {
             $this->logger->info('Will skip segments archiving for today unless they were created recently');
@@ -388,11 +334,12 @@ class CronArchive
              *    * CronArchive.archiveSingleSite.finish
              */
 
-            $idArchivesToExclude = []; // TODO: document
+            // if we skip or can't process an idarchive, we want to ignore it the next time we look for an invalidated
+            // archive. these IDs are stored here (using a list like this serves to keep our SQL simple).
+            $idArchivesToExclude = [];
 
             // get archives to process simultaneously
             $archivesToProcess = [];
-            // $periodToCheckFor = null; TODO: why is this needed again? (and below)
             while (count($archivesToProcess) < $countOfProcesses) {
                 $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor = null, $idArchivesToExclude);
                 if (empty($invalidatedArchive)) {
@@ -428,7 +375,6 @@ class CronArchive
                 );
 
                 if (empty($idArchive)) { // another process started on this archive, pull another one
-                    // TODO: happening too often
                     $this->logger->debug("Archive {$invalidatedArchive['idarchive']} has been invalidated, but being handled by another process.");
                     $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
                     continue;
@@ -437,7 +383,6 @@ class CronArchive
                 $idArchivesToExclude[] = $idArchive;
 
                 $archivesToProcess[] = $invalidatedArchive;
-                // $periodToCheckFor = $invalidatedArchive['period'];
             }
 
             if (empty($archivesToProcess)) { // no invalidated archive left, stop
@@ -526,8 +471,6 @@ class CronArchive
     private function removeTableThatHasNoInvalidatedArchives($table)
     {
         $cacheKey = self::TABLES_WITH_INVALIDATED_ARCHIVES;
-
-        // TODO: there is a slight chance of a race condition here between processes. need to make sure it's ok.
 
         /** @var Lazy $cache */
         $cache = Cache::getLazyCache();
@@ -649,7 +592,7 @@ class CronArchive
 
         if (!empty($segment)) {
             $shouldSkipToday = !$this->wasSegmentChangedRecently($segment,
-                $this->segmentArchivingRequestUrlProvider->getAllSegments());
+                $this->segmentArchiving->getAllSegments());
 
             if ($shouldSkipToday) {
                 $url .= '&skipArchiveSegmentToday=1';
@@ -671,7 +614,7 @@ class CronArchive
         }
 
         $hash = substr($flag, 4);
-        $archive['segment'] = $this->segmentArchivingRequestUrlProvider->findSegmentForHash($hash, $archive['idsite']);
+        $archive['segment'] = $this->segmentArchiving->findSegmentForHash($hash, $archive['idsite']);
         return $archive['segment'];
     }
 
@@ -825,13 +768,16 @@ class CronArchive
     {
         $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
         $this->lastSuccessRunTimestamp = $this->getLastSuccessRunTimestamp();
-        $this->shouldArchiveOnlySpecificPeriods = $this->getPeriodsToProcess();
     }
 
     public function filterWebsiteIds(&$websiteIds, $allWebsites)
     {
         // Keep only the websites that do exist
         $websiteIds = array_intersect($websiteIds, $allWebsites);
+
+        if (!empty($this->shouldSkipSpecifiedSites)) {
+            $websiteIds = array_intersect($websiteIds, $this->shouldSkipSpecifiedSites);
+        }
 
         /**
          * Triggered by the **core:archive** console command so plugins can modify the priority of
@@ -886,6 +832,7 @@ class CronArchive
         foreach ($this->allWebsites as $idSite) {
             $timezone = Site::getTimezoneFor($idSite);
             $today = Date::factoryInTimezone('today', $timezone);
+
             $todayPeriod = PeriodFactory::build('day', $today);
 
             $params = new Parameters(new Site($idSite), $todayPeriod, new Segment('', [$idSite]));
@@ -907,6 +854,32 @@ class CronArchive
             $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $today->toString(), 'day');
         }
 
+        // invalidate yesterday archive if the time of the latest valid archive is earlier than today
+        // (means the day has changed and there might be more visits that weren't processed)
+        foreach ($this->allWebsites as $idSite) {
+            $timezone = Site::getTimezoneFor($idSite);
+            $yesterday = Date::factoryInTimezone('yesterday', $timezone);
+            $yesterdayPeriod = PeriodFactory::build('day', $yesterday);
+
+            $params = new Parameters(new Site($idSite), $yesterdayPeriod, new Segment('', [$idSite]));
+            if ($this->isThereExistingValidPeriod($params, $isYesterday = true)) {
+                $this->logger->debug("  Found existing valid archive for yesterday, skipping invalidation...");
+                continue;
+            }
+
+            if ($params->canSkipThisArchive()) {
+                $this->logger->debug("  Yesterday archive can be skipped due to no visits, skipping invalidation...");
+                continue;
+            }
+
+            $this->logger->info("  Will invalidate archived reports for yesterday in site ID = {idSite}'s timezone ({yesterday}) since the day has changed.", [
+                'idSite' => $idSite,
+                'yesterday' => $yesterday->getDatetime(),
+            ]);
+
+            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $yesterday->toString(), 'day');
+        }
+
         // invalidate range archives
         foreach ($this->allWebsites as $idSite) {
             $dates = $this->getCustomDateRangeToPreProcess($idSite);
@@ -921,20 +894,19 @@ class CronArchive
 
                 $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite]));
                 if ($this->isThereExistingValidPeriod($params)) {
-                    // TODO: debug log
+                    $this->logger->info('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSite]);
                     continue;
                 }
 
                 $this->logger->info('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSite, 'date' => $date]);
-                // TODO: create new API for this instead of using service class directly?
-                $this->invalidator->markArchivesAsInvalidated([$idSite], [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
+
+                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
             }
         }
 
         // for new segments, invalidate past dates
-        // TODO: rename the class
         foreach ($this->allWebsites as $idSite) {
-            $segmentDatesToInvalidate = $this->segmentArchivingRequestUrlProvider->getSegmentArchivesToInvalidateForNewSegments($idSite);
+            $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidateForNewSegments($idSite);
 
             foreach ($segmentDatesToInvalidate as $info) {
                 $this->logger->info('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
@@ -959,7 +931,7 @@ class CronArchive
         $this->logger->info("Done invalidating");
     }
 
-    private function isThereExistingValidPeriod(Parameters $params)
+    private function isThereExistingValidPeriod(Parameters $params, $isYesterday = false)
     {
         $timezone = Site::getTimezoneFor($params->getSite()->getId());
         $today = Date::factoryInTimezone('today', $timezone);
@@ -968,7 +940,16 @@ class CronArchive
         $minArchiveProcessedTtl = $isPeriodIncludesToday ? Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel()) : null;
 
         // empty plugins param since we only check for an 'all' archive
-        list($idArchive) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTtl, $includeInvalidated = false);
+        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTtl, $includeInvalidated = false);
+
+        // day has changed since the archive was created, we need to reprocess it
+        if ($isYesterday
+            && !empty($idArchive)
+            && Date::factory($tsArchived)->toString() != $today->toString()
+        ) {
+            return false;
+        }
+
         return !empty($idArchive);
     }
 
@@ -995,9 +976,7 @@ class CronArchive
             return $this->shouldArchiveSpecifiedSites;
         }
 
-        if ($this->shouldArchiveAllSites) {
-            $this->logger->info("- Will process all " . count($this->allWebsites) . " websites");
-        }
+        $this->logger->info("- Will process all " . count($this->allWebsites) . " websites");
 
         return $allWebsites;
     }
@@ -1049,25 +1028,6 @@ class CronArchive
         }
 
         return (int) $stats['nb_visits'];
-    }
-
-    /**
-     * @return array
-     */
-    private function getPeriodsToProcess()
-    {
-        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, $this->getDefaultPeriodsToProcess());
-        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, PeriodFactory::getPeriodsEnabledForAPI());
-
-        return $this->restrictToPeriods;
-    }
-
-    /**
-     * @return array
-     */
-    private function getDefaultPeriodsToProcess()
-    {
-        return array('day', 'week', 'month', 'year', 'range');
     }
 
     /**
@@ -1190,19 +1150,6 @@ class CronArchive
         return $url;
     }
 
-    // TODO: should still handle segmentsToForce + other options
-    private function logForcedSegmentInfo()
-    {
-        if (empty($this->segmentsToForce)) {
-            return;
-        }
-
-        $this->logger->info("- Limiting segment archiving to following segments:");
-        foreach ($this->segmentsToForce as $segmentDefinition) {
-            $this->logger->info("  * " . $segmentDefinition);
-        }
-    }
-
     /**
      * @return CliMulti
      */
@@ -1275,29 +1222,11 @@ class CronArchive
         return false;
     }
 
-    /**
-     * @param int[] $idSegments
-     */
-    public function setSegmentsToForceFromSegmentIds($idSegments)
+    private function shouldSkipArchive($archive)
     {
-        /** @var SegmentEditorModel $segmentEditorModel */
-        $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
-        $segments = $segmentEditorModel->getAllSegmentsAndIgnoreVisibility();
-
-        $segments = array_filter($segments, function ($segment) use ($idSegments) {
-            return in_array($segment['idsegment'], $idSegments);
-        });
-
-        $segments = array_map(function ($segment) {
-            return $segment['definition'];
-        }, $segments);
-
-        $this->segmentsToForce = $segments;
-    }
-
-    private function shouldSkipArchive($archive) // TODO: move this code to an CronArchive/ArchiveFilter.php class
-    {
-        // TODO
+        if ($this->archiveFilter) {
+            return $this->archiveFilter->filterArchive($archive);
+        }
 
         return false;
     }
@@ -1316,5 +1245,13 @@ class CronArchive
         }
 
         return false;
+    }
+
+    /**
+     * @param ArchiveFilter $archiveFilter
+     */
+    public function setArchiveFilter(ArchiveFilter $archiveFilter): void
+    {
+        $this->archiveFilter = $archiveFilter;
     }
 }
