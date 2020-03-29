@@ -754,6 +754,9 @@ custom_cacert_pem=
 ; Default is 1.
 enable_tracking_failures_notification = 1
 
+; Disable using referrer spam blacklist.
+disable_spam_excluding = 0
+
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
