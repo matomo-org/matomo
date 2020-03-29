@@ -126,8 +126,8 @@ class VisitExcluded
         }
 
         // Check if Referrer URL is a known spam
-        $generalConfig = Config::getInstance()->General;
-        if (!$generalConfig['disable_spam_excluding'])
+        $generalConfig = Config::getInstance()->Tracker;
+        if ($generalConfig['enable_spam_filter'])
         {
             if (!$excluded) {
                 $excluded = $this->isReferrerSpamExcluded();
