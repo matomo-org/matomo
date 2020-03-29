@@ -17,6 +17,7 @@ use Matomo\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
+use Piwik\Config;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -125,12 +126,17 @@ class VisitExcluded
         }
 
         // Check if Referrer URL is a known spam
-        if (!$excluded) {
-            $excluded = $this->isReferrerSpamExcluded();
-            if ($excluded) {
-                Common::printDebug("Referrer URL is blacklisted as spam.");
+        $generalConfig = Config::getInstance()->General;
+        if (!$generalConfig['disable_spam_excluding'])
+        {
+            if (!$excluded) {
+                $excluded = $this->isReferrerSpamExcluded();
+                if ($excluded) {
+                    Common::printDebug("Referrer URL is blacklisted as spam.");
+                }
             }
-        }
+        } else
+          Common::printDebug("Spam blacklist is disabled.");
 
         // Check if request URL is excluded
         if (!$excluded) {
