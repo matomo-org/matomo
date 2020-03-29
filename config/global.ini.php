@@ -754,9 +754,6 @@ custom_cacert_pem=
 ; Default is 1.
 enable_tracking_failures_notification = 1
 
-; Disable using referrer spam blacklist.
-disable_spam_excluding = 0
-
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
@@ -897,6 +894,9 @@ tracking_requests_require_authentication_when_custom_timestamp_newer_than = 8640
 ; and a profiling summary will be printed at the end of the request
 ; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
 enable_sql_profiler = 0
+
+; Enables using referrer spam blacklist.
+enable_spam_filter = 1
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
