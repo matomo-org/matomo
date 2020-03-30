@@ -32,13 +32,18 @@ class TimeDomProcessing extends ActionDimension
             return false;
         }
 
-        $domProcessTime = $request->getParam('pf_dm1');
+        $domProcessTime = $request->getParam($this->getRequestParam());
 
         if ($domProcessTime === -1) {
             return false;
         }
 
         return $domProcessTime;
+    }
+
+    public function getRequestParam()
+    {
+        return 'pf_dm1';
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

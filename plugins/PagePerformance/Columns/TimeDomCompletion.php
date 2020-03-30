@@ -32,13 +32,18 @@ class TimeDomCompletion extends ActionDimension
             return false;
         }
 
-        $domCompleteTime = $request->getParam('pf_dm2');
+        $domCompleteTime = $request->getParam($this->getRequestParam());
 
         if ($domCompleteTime === -1) {
             return false;
         }
 
         return $domCompleteTime;
+    }
+
+    public function getRequestParam()
+    {
+        return 'pf_dm2';
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

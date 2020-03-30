@@ -32,13 +32,18 @@ class TimeOnLoad extends ActionDimension
             return false;
         }
 
-        $timeOnLoad = $request->getParam('pf_onl');
+        $timeOnLoad = $request->getParam($this->getRequestParam());
 
         if ($timeOnLoad === -1) {
             return null;
         }
 
         return $timeOnLoad;
+    }
+
+    public function getRequestParam()
+    {
+        return 'pf_onl';
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

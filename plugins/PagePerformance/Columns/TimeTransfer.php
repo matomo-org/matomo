@@ -32,13 +32,18 @@ class TimeTransfer extends ActionDimension
             return false;
         }
 
-        $transferTime = $request->getParam('pf_tfr');
+        $transferTime = $request->getParam($this->getRequestParam());
 
         if ($transferTime === -1) {
             return false;
         }
 
         return $transferTime;
+    }
+
+    public function getRequestParam()
+    {
+        return 'pf_tfr';
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

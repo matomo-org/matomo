@@ -32,13 +32,18 @@ class TimeLatency extends ActionDimension
             return false;
         }
 
-        $latencyTime = $request->getParam('pf_lat');
+        $latencyTime = $request->getParam($this->getRequestParam());
 
         if ($latencyTime === -1) {
             return false;
         }
 
         return $latencyTime;
+    }
+
+    public function getRequestParam()
+    {
+        return 'pf_lat';
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
