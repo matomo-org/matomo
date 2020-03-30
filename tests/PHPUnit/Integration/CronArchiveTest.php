@@ -65,21 +65,6 @@ class CronArchiveTest extends IntegrationTestCase
 
     }
 
-    public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
-    {
-        Fixture::createWebsite('2014-12-12 00:01:02');
-        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
-        SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
-        SegmentAPI::getInstance()->add('burb', 'actions>=3', 1, true, true);
-        SegmentAPI::getInstance()->add('sub', 'actions>=4', 1, true, true);
-
-        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
-        $cronarchive->setSegmentsToForceFromSegmentIds(array(2, 4));
-
-        $expectedSegments = array('actions>=2', 'actions>=4');
-        $this->assertEquals($expectedSegments, array_values($cronarchive->segmentsToForce));
-    }
-
     public function test_wasSegmentCreatedRecently()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');

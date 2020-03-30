@@ -200,6 +200,11 @@ class CronArchive
     private $archiveFilter;
 
     /**
+     * @var array
+     */
+    private $idArchivesToExclude = [];
+
+    /**
      * Constructor.
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
@@ -317,6 +322,10 @@ class CronArchive
 
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
+        // if we skip or can't process an idarchive, we want to ignore it the next time we look for an invalidated
+        // archive. these IDs are stored here (using a list like this serves to keep our SQL simple).
+        $this->idArchivesToExclude = [];
+
         while (true) {
             if ($this->isMaintenanceModeEnabled()) {
                 $this->logger->info("Archiving will stop now because maintenance mode is enabled");
@@ -335,14 +344,10 @@ class CronArchive
              *    * CronArchive.archiveSingleSite.finish
              */
 
-            // if we skip or can't process an idarchive, we want to ignore it the next time we look for an invalidated
-            // archive. these IDs are stored here (using a list like this serves to keep our SQL simple).
-            $idArchivesToExclude = [];
-
             // get archives to process simultaneously
             $archivesToProcess = [];
             while (count($archivesToProcess) < $countOfProcesses) {
-                $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor = null, $idArchivesToExclude);
+                $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor = null);
                 if (empty($invalidatedArchive)) {
                     $this->logger->debug("No next invalidated archive.");
                     break;
@@ -350,20 +355,20 @@ class CronArchive
 
                 if ($this->isDoneFlagForPlugin($invalidatedArchive['name'])) {
                     $this->logger->debug("Found plugin specific invalidated archive, ignoring.");
-                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
+                    $this->addIdArchivesToExclude($invalidatedArchive);
                     continue;
                 }
 
                 if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
                     $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring.");
-                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
+                    $this->addIdArchivesToExclude($invalidatedArchive);
                     continue;
                 }
 
                 $reason = $this->shouldSkipArchive($invalidatedArchive);
                 if ($reason) {
                     $this->logger->info("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
-                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
+                    $this->addIdArchivesToExclude($invalidatedArchive);
                     continue;
                 }
 
@@ -377,11 +382,11 @@ class CronArchive
 
                 if (empty($idArchive)) { // another process started on this archive, pull another one
                     $this->logger->debug("Archive {$invalidatedArchive['idarchive']} has been invalidated, but being handled by another process.");
-                    $idArchivesToExclude[] = $invalidatedArchive['idarchive'];
+                    $this->addIdArchivesToExclude($invalidatedArchive);
                     continue;
                 }
 
-                $idArchivesToExclude[] = $idArchive;
+                $this->addIdArchivesToExclude($invalidatedArchive);
 
                 $archivesToProcess[] = $invalidatedArchive;
             }
@@ -431,17 +436,21 @@ class CronArchive
         return false;
     }
 
-    private function getNextInvalidatedArchive($periodToGet, $idArchivesToExclude)
+    private function getNextInvalidatedArchive($periodToGet)
     {
         $tables = $this->getTablesWithInvalidatedArchives();
 
         foreach ($tables as $table) {
-            $nextArchive = $this->model->getNextInvalidatedArchive($table, $periodToGet, $this->allWebsites, $idArchivesToExclude);
+            $tableMonth = substr($table, strlen($table) - 7, 7);
+            $tableMonth = str_replace('_', '-', $tableMonth);
+
+            $nextArchive = $this->model->getNextInvalidatedArchive($table, $periodToGet, $this->allWebsites, $this->idArchivesToExclude[$tableMonth]);
             if (!empty($nextArchive)) {
                 return $nextArchive;
             }
 
             $this->removeTableThatHasNoInvalidatedArchives($table);
+            unset($this->idArchivesToExclude[$tableMonth]);
         }
 
         return null;
@@ -485,6 +494,7 @@ class CronArchive
         unset($cachedTables[$index]);
 
         $cache->save($cacheKey, json_encode($cachedTables), $lifeTime = self::TABLES_WITH_INVALIDATED_ARCHIVES_TTL);
+
     }
 
     private function launchArchivingFor($archives)
@@ -1257,5 +1267,11 @@ class CronArchive
     public function setArchiveFilter(ArchiveFilter $archiveFilter): void
     {
         $this->archiveFilter = $archiveFilter;
+    }
+
+    private function addIdArchivesToExclude(array $invalidatedArchive)
+    {
+        $tableMonth = substr($invalidatedArchive['date1'], 0, 7);
+        $this->idArchivesToExclude[$tableMonth][] = $invalidatedArchive['idarchive'];
     }
 }

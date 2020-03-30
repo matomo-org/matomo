@@ -8,7 +8,6 @@
 
 namespace Piwik\CronArchive;
 
-// TODO: unit test
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Factory as PeriodFactory;
@@ -16,7 +15,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Psr\Log\LoggerInterface;
 
-class ArchiveFilter // TODO: tests
+class ArchiveFilter
 {
     private $segmentsToForce = null;
 

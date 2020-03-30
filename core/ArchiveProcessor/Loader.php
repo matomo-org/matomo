@@ -28,6 +28,8 @@ use Psr\Log\LoggerInterface;
  */
 class Loader
 {
+    const MIN_VISIT_TIME_TTL = 3600;
+
     /**
      * @var Parameters
      */
@@ -406,7 +408,7 @@ class Loader
         $value = $cache->fetch($cacheKey);
         if ($value === false) {
             $value = $this->rawLogDao->getMinimumVisitTimeForSite($idSite);
-            $cache->save($cacheKey, $value, $ttl = 3600); // TODO: constant
+            $cache->save($cacheKey, $value, $ttl = self::MIN_VISIT_TIME_TTL);
         }
 
         if (!empty($value)) {
