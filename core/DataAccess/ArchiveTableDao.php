@@ -38,6 +38,7 @@ class ArchiveTableDao
             'count_invalidated_archives' => '-',
             'count_temporary_archives' => '-',
             'count_error_archives' => '-',
+            'count_in_progress_archives' => '-',
             'count_segment_archives' => '-',
             'count_numeric_rows' => '-',
         );
@@ -53,6 +54,7 @@ class ArchiveTableDao
                        SUM(CASE WHEN name LIKE 'done%' AND value = ? THEN 1 ELSE 0 END) AS count_invalidated_archives,
                        SUM(CASE WHEN name LIKE 'done%' AND value = ? THEN 1 ELSE 0 END) AS count_temporary_archives,
                        SUM(CASE WHEN name LIKE 'done%' AND value = ? THEN 1 ELSE 0 END) AS count_error_archives,
+                       SUM(CASE WHEN name LIKE 'done%' AND value = ? THEN 1 ELSE 0 END) AS count_in_progress_archives,
                        SUM(CASE WHEN name LIKE 'done%' AND CHAR_LENGTH(name) > 32 THEN 1 ELSE 0 END) AS count_segment_archives,
                        SUM(CASE WHEN name NOT LIKE 'done%' THEN 1 ELSE 0 END) AS count_numeric_rows,
                        0 AS count_blob_rows
@@ -60,8 +62,7 @@ class ArchiveTableDao
               GROUP BY idsite, date1, date2, period";
 
         $rows = Db::fetchAll($sql, array(ArchiveWriter::DONE_INVALIDATED, ArchiveWriter::DONE_OK_TEMPORARY,
-            ArchiveWriter::DONE_ERROR));
-        // TODO: modify for DONE_IN_PROGRESS
+            ArchiveWriter::DONE_ERROR, ArchiveWriter::DONE_IN_PROGRESS));
 
         // index result
         $result = array();

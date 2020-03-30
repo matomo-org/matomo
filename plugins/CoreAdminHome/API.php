@@ -141,7 +141,6 @@ class API extends \Piwik\Plugin\API
      * @return array
      * @hideExceptForSuperUser
      */
-    // TODO: modify tests for range
     public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false,
                                               $_forceInvalidateNonexistant = false)
     {

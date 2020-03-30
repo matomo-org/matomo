@@ -55,7 +55,10 @@ class ArchiveWriter
     const DONE_INVALIDATED = 4;
 
     /**
-     * TODO
+     * Flag indicating that the archive is currently being archived. If the archiving process is aborted or killed, the
+     * archive may remain w/ this flag.
+     *
+     * @var int
      */
     const DONE_IN_PROGRESS = 5;
 
