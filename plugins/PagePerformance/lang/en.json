@@ -22,6 +22,7 @@
         "ColumnTimeDomProcessing": "DOM processing time",
         "ColumnTimeDomCompletion": "DOM completion time",
         "ColumnTimeOnLoad": "On load time",
+        "EvolutionOverPeriod": "Evolution of page performance metrics",
         "PluginDescription": "Adds some page performance reports",
         "Overview": "Performance overview",
         "Performance": "Performance",

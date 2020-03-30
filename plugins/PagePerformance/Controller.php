@@ -111,6 +111,14 @@ class Controller extends PluginController
             $view->config->columns_to_display = array_keys(Metrics::getPagePerformanceMetrics());
         }
 
+        $view->config->documentation = Piwik::translate('PagePerformance_EvolutionOverPeriod') . '<br /><br />';
+
+        $metrics = Metrics::getPagePerformanceMetrics();
+
+        foreach ($metrics as $metric) {
+            $view->config->documentation .= sprintf('<strong>%s</strong>: %s<br />', $metric->getTranslatedName(), $metric->getDocumentation());
+        }
+
         $report = ReportsProvider::factory('PagePerformance', 'get');
         $view->config->selectable_columns    = array_keys(Metrics::getPagePerformanceMetrics());
 
@@ -127,8 +135,6 @@ class Controller extends PluginController
                 }
             }
         };
-
-        $view->config->documentation = Piwik::translate('General_EvolutionOverPeriod');
 
         $view->config->addTranslations(Metrics::getMetricTranslations());
 
