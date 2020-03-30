@@ -2251,6 +2251,12 @@ if (typeof window.Piwik !== 'object') {
                 // Is performance tracking enabled
                 configPerformanceTrackingEnabled = true,
 
+                // will be set to true automatically once the onload event has finished
+                performanceAvailable = false,
+
+                // indicates if performance metrics for the page view have been sent with a request
+                performanceTracked = false,
+
                 // Generation time set from the server
                 configPerformanceGenerationTime = 0,
 
@@ -3696,29 +3702,33 @@ if (typeof window.Piwik !== 'object') {
                         request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
                     }
 
-                    if (performanceAlias && performanceAlias.timing && performanceAlias
-                        && performanceAlias.timing.responseStart && performanceAlias.timing.fetchStart) {
-                        request += '&pf_lat=' + (performanceAlias.timing.responseStart - performanceAlias.timing.fetchStart);
-                    }
+                    if (performanceAvailable && !performanceTracked) {
+                        if (performanceAlias && performanceAlias.timing && performanceAlias
+                            && performanceAlias.timing.responseStart && performanceAlias.timing.fetchStart) {
+                            request += '&pf_lat=' + (performanceAlias.timing.responseStart - performanceAlias.timing.fetchStart);
+                        }
 
-                    if (performanceAlias && performanceAlias.timing && performanceAlias
-                        && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd ) {
-                        request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
-                    }
+                        if (performanceAlias && performanceAlias.timing && performanceAlias
+                            && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
+                            request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+                        }
 
-                    if (performanceAlias && performanceAlias.timing && performanceAlias
-                        && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
-                        request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
-                    }
+                        if (performanceAlias && performanceAlias.timing && performanceAlias
+                            && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
+                            request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+                        }
 
-                    if (performanceAlias && performanceAlias.timing && performanceAlias
-                        && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
-                        request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
-                    }
+                        if (performanceAlias && performanceAlias.timing && performanceAlias
+                            && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
+                            request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+                        }
 
-                    if (performanceAlias && performanceAlias.timing && performanceAlias
-                        && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
-                        request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+                        if (performanceAlias && performanceAlias.timing && performanceAlias
+                            && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
+                            request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+                        }
+
+                        performanceTracked = true;
                     }
                 }
 
@@ -6631,6 +6641,15 @@ if (typeof window.Piwik !== 'object') {
              * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
              */
             this.forgetUserOptOut = this.rememberConsentGiven;
+
+            /**
+             * Mark performance metrics as available, once onload event has finished
+             */
+            trackCallbackOnLoad(function(){
+                setTimeout(function(){
+                    performanceAvailable = true;
+                }, 0);
+            });
 
             Piwik.trigger('TrackerSetup', [this]);
         }
