@@ -41,6 +41,7 @@ class PagePerformance extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
             'Actions.Archiving.addActionMetrics'     => 'addActionMetrics',
+            'ScheduledReports.processReports'        => 'processReports',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
             'API.Request.dispatch.end'               => 'enrichApi'
@@ -140,5 +141,18 @@ class PagePerformance extends \Piwik\Plugin
     public function addActionMetrics(&$metricsConfig)
     {
         Metrics::attachActionMetrics($metricsConfig);
+    }
+
+    public function processReports(&$processedReports, $reportType, $outputType, $report)
+    {
+        foreach ($processedReports as &$processedReport) {
+            $metadata = &$processedReport['metadata'];
+
+            // Ensure average page load time is displayed in the evolution chart
+            if ($metadata['module'] == 'PagePerformance') {
+                $metadata['imageGraphUrl'] .= '&columns=avg_page_load_time';
+                $metadata['imageGraphEvolutionUrl'] .= '&columns=avg_page_load_time';
+            }
+        }
     }
 }
