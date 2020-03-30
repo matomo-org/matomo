@@ -298,9 +298,11 @@ class CronArchive
         /**
          * This event is triggered after a CronArchive instance is initialized.
          *
-         * TODO: look for usages, since we removed a param
+         * @param array $websiteIds The list of website IDs this CronArchive instance is processing.
+         *                          This will be the entire list of IDs regardless of whether some have
+         *                          already been processed.
          */
-        Piwik::postEvent('CronArchive.init.finish', []);
+        Piwik::postEvent('CronArchive.init.finish', [$this->allWebsites]);
     }
 
     /**
@@ -339,7 +341,7 @@ class CronArchive
 
             /*
              * TODO:
-             * => events to replace:
+             * => events removed, can't be replaced I think:
              *    * CronArchive.archiveSingleSite.start
              *    * CronArchive.archiveSingleSite.finish
              */
@@ -700,7 +702,6 @@ class CronArchive
 
         $this->logSection("");
     }
-    // TODO: check if lastRunKey() is used somewhere else
 
     /**
      * Returns base URL to process reports for the $idSite on a given $period

@@ -106,9 +106,10 @@ class Loader
         // NOTE: this optimization helps when archiving large periods. eg, if archiving a year w/ a segment where
         // there are not visits in the entire year, we don't have to go through and do anything. but, w/o this
         // code, we will end up launching archiving for each month, week and day, even though we don't have to.
+        //
+        // we don't create an archive in this case, because the archive may be in progress in some way, so a 0
+        // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
-            // TODO: here we can also create a small archive w/ nb_visits = 0 so we don't have to do the canSkipThisArchive() check again.
-            //       not sure how worth it it is to do that, doesn't appear to be slow to do the check.
             return false;
         }
 

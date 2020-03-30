@@ -38,7 +38,7 @@ class Model
     /**
      * @var ArchivingStatus
      */
-    private $archivingStatus; // TODO: use DI correctly
+    private $archivingStatus;
 
     public function __construct(LoggerInterface $logger = null)
     {
@@ -46,7 +46,6 @@ class Model
         $this->archivingStatus = StaticContainer::get(ArchivingStatus::class);
     }
 
-    // TODO: look for all uses of ts_archived and make sure it handles case where it is NULL
     /**
      * Returns the archives IDs that have already been invalidated and have been since re-processed.
      *
@@ -541,7 +540,8 @@ class Model
     }
 
     /**
-     * TODO: docs + test
+     * Marks an archive as in progress if it has not been already. This method must be thread
+     * safe.
      */
     public function startArchive($idSite, $date1, $date2, $period, $doneFlag)
     {
@@ -596,7 +596,7 @@ class Model
     }
 
     /**
-     * TODO: docs  + test
+     * Gets the next invalidated archive that should be archived in a table.
      *
      * @param string[] $tables
      * @param int $count
@@ -667,21 +667,23 @@ class Model
         ]);
     }
 
-    // TODO: tests and docs
+    /**
+     * Returns true if there is an archive that exists that can be used when aggregating an archive for $period.
+     *
+     * @param $idSite
+     * @param Period $period
+     * @return bool
+     * @throws Exception
+     */
     public function hasChildArchivesInPeriod($idSite, Period $period)
     {
         $date = $period->getDateStart();
-        while ($date->isEarlier($period->getDateEnd())) {
+        while ($date->isEarlier($period->getDateEnd()->addPeriod(1, 'month'))) {
             $archiveTable = ArchiveTableCreator::getNumericTable($date);
-
-            // TODO: should we also allow DONE_INVALIDATED/DONE_IN_PROGRESS here?
-            $values = implode(', ', [
-                ArchiveWriter::DONE_OK,
-            ]);
 
             $sql = "SELECT idarchive
                   FROM `$archiveTable`
-                 WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` IN ($values)
+                 WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` = " . ArchiveWriter::DONE_OK . "
                  LIMIT 1";
             $bind = [$idSite, $period->getDateStart()->getDatetime(), $period->getDateEnd()->getDatetime(), $period->getId()];
 
@@ -690,7 +692,7 @@ class Model
                 return true;
             }
 
-            $date = $date->addPeriod(1, 'month');
+            $date = $date->addPeriod(1, 'month'); // move to next archive table
         }
         return false;
     }
