@@ -13,6 +13,7 @@ use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Segment;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -44,6 +45,8 @@ class InvalidateReportData extends ConsoleCommand
             self::ALL_OPTION_VALUE);
         $this->addOption('segment', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
             'List of segments to invalidate report data for.');
+        $this->addOption('idsegments', null, InputOption::VALUE_REQUIRED,
+            'List of id of segments to invalidate report data for.');
         $this->addOption('cascade', null, InputOption::VALUE_NONE,
             'If supplied, invalidation will cascade, invalidating child period types even if they aren\'t specified in'
             . ' --periods. For example, if --periods=week, --cascade will cause the days within those weeks to be '
@@ -68,7 +71,20 @@ class InvalidateReportData extends ConsoleCommand
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
         $dateRanges = $this->getDateRangesToInvalidateFor($input);
-        $segments = $this->getSegmentsToInvalidateFor($input, $sites);
+
+        $segments = array();
+        if ($input->getOption('segment')) {
+            $segments = $this->getSegmentsToInvalidateFor($input, $sites);
+        }
+        if ($input->getOption('idsegments')) {
+            $idsegments = $this->getSegmentsIdToInvalidateFor($input, $sites);
+        } else {
+            $segments = $this->getSegmentsToInvalidateFor($input, $sites);
+        }
+        if (isset($idsegments)) {
+            $segments = array_merge($segments, $idsegments);
+            $segments = array_unique($segments);
+        }
 
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
@@ -220,6 +236,42 @@ class InvalidateReportData extends ConsoleCommand
         $result = array();
         foreach ($segments as $segmentString) {
             $result[] = new Segment($segmentString, $idSites);
+        }
+        return $result;
+    }
+
+    private function getSegmentsIdToInvalidateFor(InputInterface $input, $idSites)
+    {
+        $idSegments = $input->getOption('idsegments');
+        $idSegments = trim($idSegments);
+        $idSegments = preg_replace('/\s/', '', $idSegments);
+        $idSegments = explode(",", $idSegments);
+        $idSegments = array_map('trim', $idSegments);
+        $idSegments = array_unique($idSegments);
+
+        if (empty($idSegments)) {
+            return array(null);
+        }
+
+        /** @var SegmentEditorModel $segmentEditorModel */
+        $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+        $segments = $segmentEditorModel->getAllSegmentsAndIgnoreVisibility();
+
+        $segments = array_filter($segments, function ($segment) use ($idSegments) {
+            return in_array($segment['idsegment'], $idSegments);
+        });
+
+        $segments = array_map(function ($segment) {
+            return $segment['definition'];
+        }, $segments);
+
+        $result = array();
+        foreach ($segments as $segmentString) {
+            try {
+                $result[] = new Segment($segmentString, $idSites);
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
         }
         return $result;
     }
