@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Cache;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
@@ -30,9 +31,10 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
     public function setUp(): void
     {
+        $this->addCustomDimensions();
+
         parent::setUp();
 
-        $this->addCustomDimensions();
         $this->trackVisitWithActionsXss();
 
         $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);

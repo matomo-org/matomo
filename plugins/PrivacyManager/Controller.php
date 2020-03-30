@@ -91,12 +91,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $rawDataRetention = '';
 
-        if ($purgeDataSettings['delete_logs_older_than'] > 30) {
-            $months = floor($purgeDataSettings['delete_logs_older_than']/30);
+        if ($purgeDataSettings['delete_logs_older_than'] > 90) {
+            // only show months when it is more than 90 days...
+            $months = floor($purgeDataSettings['delete_logs_older_than']/30.4);
+            $daysLeft = round($purgeDataSettings['delete_logs_older_than'] - ($months * 30.4));
             $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
-        }
-        if ($purgeDataSettings['delete_logs_older_than'] % 30 > 0) {
-            $days = floor($purgeDataSettings['delete_logs_older_than']%30);
+
+            if ($daysLeft > 0) {
+                $rawDataRetention .= $daysLeft . ' ' . Piwik::translate($daysLeft > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
+            }
+
+        } elseif ($purgeDataSettings['delete_logs_older_than'] > 0) {
+            $days = $purgeDataSettings['delete_logs_older_than'];
             $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
         }
 

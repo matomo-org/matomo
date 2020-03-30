@@ -48,7 +48,10 @@ describe("RowEvolution", function () {
     });
 
     it('should load multi-row evolution correctly', async function() {
-        await page.click('.rowevolution-startmulti');
+        await page.evaluate(function() {
+            $('.rowevolution-startmulti').click();
+        });
+        await page.waitForFunction("$('.ui-dialog').length === 0");
 
         const row = await page.waitForSelector('tbody tr:nth-child(2)');
         await row.hover();

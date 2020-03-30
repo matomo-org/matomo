@@ -114,7 +114,7 @@ function copyDashboardToUser() {
             $.each(availableUsers, function (index, user) {
                 if (user.login != 'anonymous' && user.login != piwik.userLogin) {
                     $(makeSelectorLastId('copyDashboardUser')).append(
-                        $('<option></option>').val(user.login).text(user.login + ' (' + user.alias + ')')
+                        $('<option></option>').val(user.login).text(user.login)
                     );
                 }
             });

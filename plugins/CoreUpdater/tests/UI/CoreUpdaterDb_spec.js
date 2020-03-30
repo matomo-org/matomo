@@ -34,7 +34,7 @@ describe("CoreUpdaterDb", function () {
         });
     }
 
-    var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
+    var formats = ['CSV', 'TSV', 'XML', 'JSON'];
     formats.forEach(apiUpgradeTest);
 
     it("should start the updater when an old version of Piwik is detected in the DB", async function() {

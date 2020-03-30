@@ -126,9 +126,9 @@ class AutoSuggestAPITest extends SystemTestCase
             'method=API.getSuggestedValuesForSegment'
             . '&segmentName=' . $params['segmentToComplete']
             . '&idSite=' . $params['idSite']
-            . '&format=php&serialize=0'
+            . '&format=json'
         );
-        $response = $request->process();
+        $response = json_decode($request->process(), true);
         $this->assertApiResponseHasNoError($response);
         $topSegmentValue = @$response[0];
 

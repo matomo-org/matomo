@@ -57,6 +57,7 @@
         "ConfigFileIsNotWritable": "Matomo konfigūracijos failas %1$s negali būti keičiamas, todėl dalis Jūsų nustatymų gali būti neišsaugoti. %2$s Prašome pakeisti šio failo teises, kad galėtumėte įrašyti pakeitimus.",
         "Continue": "Tęsti",
         "ContinueToPiwik": "Grįžti į Matomo",
+        "CreationDate": "Sukūrimo data",
         "CreatedByUser": "sukūrė %s",
         "CurrentMonth": "Šis mėnuo",
         "CurrentWeek": "Ši savaitė",
@@ -227,6 +228,7 @@
         "Search": "Ieškoti",
         "Clear": "Išvalyti",
         "SearchNoResults": "Rezultatų nėra",
+        "Security": "Saugumas",
         "SeeTheOfficialDocumentationForMoreInformation": "%1$sOficialioje dokumentacijoje%2$s rasite daugiau informacijos.",
         "SelectYesIfYouWantToSendEmailsViaServer": "Pažymėkite \"Taip\", jei norite, kad laiškai būtų siunčiami per vardinį serverį vietoj vietinės siuntimo funkcijos.",
         "Settings": "Nustatymai",
@@ -287,7 +289,8 @@
         "Yes": "Taip",
         "YouAreCurrentlyUsing": "Šiuo metu jūs naudojate Matomo %s.",
         "YouMustBeLoggedIn": "Pirmiausia turite prisijungti.",
-        "YourChangesHaveBeenSaved": "Jūsų atlikti pakeitimai išsaugoti."
+        "YourChangesHaveBeenSaved": "Jūsų atlikti pakeitimai išsaugoti.",
+        "PleaseTryAgain": "Bandykite dar kartą"
     },
     "Mobile": {
         "AccessUrlLabel": "Matomo prieigos Url",
@@ -306,6 +309,7 @@
         "NetworkErrorWithStatusCodeShort": "Tinklo klaida %s",
         "NetworkNotReachable": "Tinklas nepasiekiamas",
         "NoDataShort": "Nėra duomenų",
+        "NoPiwikAccount": "Neturite Matomo paskyros?",
         "NoVisitorFound": "Lankytojų nerasta",
         "NoVisitorsShort": "Nėra lankytojų",
         "NoWebsiteFound": "Svetainių nerasta",

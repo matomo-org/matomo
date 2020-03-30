@@ -392,9 +392,6 @@ Segmentation = (function($) {
                         || $(e.target).hasClass("filterNoResults")) {
                         e.stopPropagation();
                     } else {
-                        if (self.jscroll) {
-                            self.jscroll.destroy();
-                        }
                         self.target.closest('.segmentEditorPanel').removeClass('expanded');
                     }
                 } else {
@@ -402,10 +399,6 @@ Segmentation = (function($) {
                     closeAllOpenLists();
                     self.target.closest('.segmentEditorPanel').addClass('expanded');
                     self.target.find('.segmentFilter').val(self.translations['General_Search']).trigger('keyup');
-                    self.jscroll = self.target.find(".segmentList").jScrollPane({
-                        autoReinitialise: true,
-                        showArrows:true
-                    }).data().jsp;
                 }
             });
 

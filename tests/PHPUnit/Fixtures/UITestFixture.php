@@ -97,11 +97,11 @@ class UITestFixture extends SqlDump
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user
-        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com', $this->xssTesting->forTwig('useralias'));
+        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
 
         // another non super user
-        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com', $this->xssTesting->forAngular('useralias'));
+        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com');
         UsersManagerAPI::getInstance()->setUserAccess('anotheruser', 'view', array(1));
 
         // add xss scheduled report
@@ -432,6 +432,7 @@ class UITestFixture extends SqlDump
         API::$_autoSuggestLookBack = floor(Date::today()->getTimestamp() - Date::factory('2012-01-01')->getTimestamp()) / (24 * 60 * 60);
 
         return [
+            'Tests.now' => \DI\decorate(function(){ return Option::get("Tests.forcedNowTimestamp"); }),
             'observers.global' => \DI\add([
                 ['Report.addReports', function (&$reports) {
                     $report = new XssReport();

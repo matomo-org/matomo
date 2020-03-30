@@ -1,1 +1,0 @@
-a:5:{i:2008;a:0:{}i:2009;a:0:{}i:2010;a:0:{}i:2011;a:0:{}i:2012;a:9:{s:9:"nb_visits";d:311;s:10:"nb_actions";d:708;s:19:"nb_visits_converted";d:245;s:12:"bounce_count";d:166;s:16:"sum_visit_length";d:96791;s:11:"max_actions";d:20;s:11:"bounce_rate";s:3:"53%";s:20:"nb_actions_per_visit";d:2.3;s:16:"avg_time_on_site";s:9:"5 min 11s";}}

@@ -23,6 +23,7 @@ describe("UserSettings", function () {
 
     it('should show user security page', async function () {
         await page.goto(userSecurityUrl);
+        await page.waitFor(100);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security');
     });
 

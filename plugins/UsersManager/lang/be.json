@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Дадаць новага карыстача",
-        "Alias": "Аліас",
         "AllWebsites": "Усе сайты",
         "ApplyToAllWebsites": "Ужыць да ўсіх сайтаў",
         "ClickHereToDeleteTheCookie": "Націсніце тут, каб выдаліць cookie і пачаць адсочванне вашых наведванняў Matomo",

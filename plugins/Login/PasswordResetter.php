@@ -230,7 +230,12 @@ class PasswordResetter
         $usersManager = $this->usersManagerApi;
         Access::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
             $userUpdater = new UserUpdater();
-            $userUpdater->updateUserWithoutCurrentPassword($user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
+            $userUpdater->updateUserWithoutCurrentPassword(
+                $user['login'],
+                $resetPassword,
+                $email = false,
+                $isPasswordHashed = true
+            );
         });
     }
 

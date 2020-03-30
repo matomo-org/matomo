@@ -107,6 +107,7 @@ class ApiTest extends SystemTestCase
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('is expecting a MD5-hashed password');
+
         $this->api->createAppSpecificTokenAuth('login1', 'foobar', 'test');
     }
 

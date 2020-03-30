@@ -64,8 +64,10 @@ jobs:
     - name: Check for changes
       id: changes
       run: | 
+          git add lang/
+          git add "*.json"
           IFS=$'\n'
-          changes=( $(git diff --numstat | grep -E '([0-9]+)\s+([0-9]+)\s+[a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json' ) )
+          changes=( $(git diff --numstat HEAD | grep -E '([0-9]+)\s+([0-9]+)\s+[a-zA-Z\/]*lang\/([a-z]{2,3}(-[a-z]{2,3})?)\.json' ) )
           unset IFS
           
           # abort here if no change available
@@ -73,9 +75,6 @@ jobs:
           then
               exit 0
           fi
-
-          git add lang/
-          git add "*.json"
 
           declare -i totaladditions=0
           declare -A additionsByLang
@@ -90,7 +89,7 @@ jobs:
             fi
             
             file=${line[2]}
-            lang=$( echo ${line[2]} | grep -oE '([a-z]{2,3}(?:-[a-z]{2,3})?)\.json' | cut -d'.' -f 1 )
+            lang=$( echo ${line[2]} | grep -oE '([a-z]{2,3}(-[a-z]{2,3})?)\.json' | cut -d'.' -f 1 )
 
             totaladditions=$(( totaladditions + additions ))
             additionsByLang[$lang]=$(( additionsByLang[$lang] + additions ))
@@ -98,7 +97,7 @@ jobs:
 
           title="Updated $totaladditions strings in ${#additionsByLang[@]} languages (${!additionsByLang[@]})"
 
-          languageInfo=( $( ./console translations:languageinfo ) )
+          languageInfo=( $( ./console translations:languageinfo | tr " " "_" ) )
 
           for i in ${!additionsByLang[@]}; do
             for j in ${languageInfo[@]}; do
@@ -111,7 +110,8 @@ jobs:
               fi
             done
           
-            message="$message- Updated ${info[1]} (${additionsByLang[$i]} changes / ${info[2]} translated)\n"
+            name=$( echo ${info[1]} | tr "_" " " )
+            message="$message- Updated $name (${additionsByLang[$i]} changes / ${info[2]} translated)\n"
           done
 
           message="$message\n\nHelp us translate Matomo in your language!\nSignup at https://www.transifex.com/matomo/matomo/\nIf you have any questions, get in touch with us at translations@matomo.org"
