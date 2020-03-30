@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Matomo\Cache\Lazy;
@@ -268,7 +269,7 @@ class CronArchive
         $this->logInitInfo();
         $this->logArchiveTimeoutInfo();
 
-        $idSitesNotUsingTracker = Parameters::getSitesNotUsingTracker();
+        $idSitesNotUsingTracker = Loader::getSitesNotUsingTracker();
         if (!empty($idSitesNotUsingTracker)) {
             $this->logger->info("- The following websites do not use the tracker: " . implode(',', $this->idSitesNotUsingTracker));
         }
@@ -504,7 +505,8 @@ class CronArchive
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
             $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite]));
 
-            if ($params->canSkipThisArchive()) {
+            $loader = new Loader($params);
+            if ($loader->canSkipThisArchive()) {
                 $this->logger->info("Found no visits for site ID = {idSite}, {period} ({date1},{date2}), site is using the tracker so skipping archiving...", [
                     'idSite' => $idSite,
                     'period' => $this->periodIdsToLabels[$archive['period']],
@@ -841,7 +843,8 @@ class CronArchive
                 continue;
             }
 
-            if ($params->canSkipThisArchive()) {
+            $loader = new Loader($params);
+            if ($loader->canSkipThisArchive()) {
                 $this->logger->debug("  Today archive can be skipped due to no visits, skipping invalidation...");
                 continue;
             }
@@ -867,7 +870,8 @@ class CronArchive
                 continue;
             }
 
-            if ($params->canSkipThisArchive()) {
+            $loader = new Loader($params);
+            if ($loader->canSkipThisArchive()) {
                 $this->logger->debug("  Yesterday archive can be skipped due to no visits, skipping invalidation...");
                 continue;
             }

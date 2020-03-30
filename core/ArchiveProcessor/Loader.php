@@ -15,6 +15,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\Model;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -27,13 +29,6 @@ use Psr\Log\LoggerInterface;
 class Loader
 {
     /**
-     * Idarchive in the DB for the requested archive
-     *
-     * @var int
-     */
-    protected $idArchive;
-
-    /**
      * @var Parameters
      */
     protected $params;
@@ -44,7 +39,7 @@ class Loader
     private $invalidator;
 
     /**
-     * @var \Piwik\Cache\Cache
+     * @var \Matomo\Cache\Cache
      */
     private $cache;
 
@@ -53,6 +48,16 @@ class Loader
      */
     private $logger;
 
+    /**
+     * @var RawLogDao
+     */
+    private $rawLogDao;
+
+    /**
+     * @var Model
+     */
+    private $dataAccessModel;
+
     public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {
         $this->params = $params;
@@ -60,6 +65,8 @@ class Loader
         $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $this->cache = Cache::getTransientCache();
         $this->logger = StaticContainer::get(LoggerInterface::class);
+        $this->rawLogDao = new RawLogDao();
+        $this->dataAccessModel = new Model();
     }
 
     /**
@@ -97,9 +104,9 @@ class Loader
         // NOTE: this optimization helps when archiving large periods. eg, if archiving a year w/ a segment where
         // there are not visits in the entire year, we don't have to go through and do anything. but, w/o this
         // code, we will end up launching archiving for each month, week and day, even though we don't have to.
-        if ($this->params->canSkipThisArchive()) {
+        if ($this->canSkipThisArchive()) {
             // TODO: here we can also create a small archive w/ nb_visits = 0 so we don't have to do the canSkipThisArchive() check again.
-            //       not sure how worth it it is to do that
+            //       not sure how worth it it is to do that, doesn't appear to be slow to do the check.
             return false;
         }
 
@@ -323,5 +330,96 @@ class Loader
         }
 
         Site::clearCache();
+    }
+
+    public function canSkipThisArchive()
+    {
+        $params = $this->params;
+        $idSite = $params->getSite()->getId();
+
+        $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
+        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod()->getDateStart()->getDatetime(), $params->getPeriod()->getDateEnd()->getDatetime());
+        $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
+
+        return $isWebsiteUsingTracker
+            && !$hasSiteVisitsBetweenTimeframe
+            && !$hasChildArchivesInPeriod;
+    }
+
+    private function isWebsiteUsingTheTracker($idSite)
+    {
+        $idSitesNotUsingTracker = self::getSitesNotUsingTracker();
+
+        $isUsingTracker = !in_array($idSite, $idSitesNotUsingTracker);
+
+        return $isUsingTracker;
+    }
+
+    public static function getSitesNotUsingTracker()
+    {
+        $cache = Cache::getTransientCache();
+
+        $cacheKey = 'Archiving.isWebsiteUsingTheTracker';
+        $idSitesNotUsingTracker = $cache->fetch($cacheKey);
+        if ($idSitesNotUsingTracker === false || !isset($idSitesNotUsingTracker)) {
+            // we want to trigger event only once
+            $idSitesNotUsingTracker = array();
+
+            /**
+             * This event is triggered when detecting whether there are sites that do not use the tracker.
+             *
+             * By default we only archive a site when there was actually any visit since the last archiving.
+             * However, some plugins do import data from another source instead of using the tracker and therefore
+             * will never have any visits for this site. To make sure we still archive data for such a site when
+             * archiving for this site is requested, you can listen to this event and add the idSite to the list of
+             * sites that do not use the tracker.
+             *
+             * @param bool $idSitesNotUsingTracker The list of idSites that rather import data instead of using the tracker
+             */
+            Piwik::postEvent('CronArchive.getIdSitesNotUsingTracker', array(&$idSitesNotUsingTracker));
+
+            $cache->save($cacheKey, $idSitesNotUsingTracker);
+        }
+        return $idSitesNotUsingTracker;
+    }
+
+    private function hasSiteVisitsBetweenTimeframe($idSite, $date1, $date2)
+    {
+        $minVisitTimesPerSite = $this->getMinVisitTimesPerSite($idSite);
+        if (empty($minVisitTimesPerSite)) {
+            return false;
+        }
+
+        $date2 = Date::factory($date2)->addDay(1)->getStartOfDay();
+        if ($date2->isEarlier($minVisitTimesPerSite)) {
+            return false;
+        }
+
+        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe(Date::factory($date1)->getDatetime(), $date2->getDatetime(), $idSite);
+    }
+
+    private function getMinVisitTimesPerSite($idSite)
+    {
+        $cache = Cache::getLazyCache();
+        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
+
+        $value = $cache->fetch($cacheKey);
+        if ($value === false) {
+            $value = $this->rawLogDao->getMinimumVisitTimeForSite($idSite);
+            $cache->save($cacheKey, $value, $ttl = 3600); // TODO: constant
+        }
+
+        if (!empty($value)) {
+            $value = Date::factory($value);
+        }
+
+        return $value;
+    }
+
+    public static function invalidateMinVisitTimeCache($idSite)
+    {
+        $cache = Cache::getLazyCache();
+        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
+        $cache->delete($cacheKey);
     }
 }

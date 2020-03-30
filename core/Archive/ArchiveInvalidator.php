@@ -11,6 +11,7 @@ namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
+use Piwik\ArchiveProcessor\Loader;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -236,8 +237,6 @@ class ArchiveInvalidator
     {
         $invalidationInfo = new InvalidationResult();
 
-        // TODO: need to handle empty period for day missing
-
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
         // to reprocess.
         $hasMoreThanJustToday = [];
@@ -276,7 +275,6 @@ class ArchiveInvalidator
         // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
         // idSite does not need to be added to $segment.
 
-        // TODO: periods are created here and in getAllPeriodsByYearMonth, can probably merge methods
         $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $period, $invalidationInfo);
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
@@ -284,7 +282,7 @@ class ArchiveInvalidator
         $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges);
 
         foreach ($idSites as $idSite) {
-            \Piwik\ArchiveProcessor\Parameters::invalidateMinVisitTimeCache($idSite);
+            Loader::invalidateMinVisitTimeCache($idSite);
         }
 
         if ($period != 'range') {
@@ -308,14 +306,7 @@ class ArchiveInvalidator
         $periods = $periodOrAll ? [$periodOrAll] : ['day', 'week', 'month', 'year'];
         foreach ($periods as $period) {
             foreach ($dates as $date) {
-                if ($period === 'range'
-                    && strpos($date, ',') === false
-                ) {
-                    $date = $date . ',' . $date;
-                    $periodObj = new Period\Range('range', $date);
-                } else {
-                    $periodObj = Period\Factory::build($period, $date);
-                }
+                $periodObj = $this->makePeriod($date, $period);
 
                 $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
 
@@ -430,7 +421,6 @@ class ArchiveInvalidator
 
         $yearMonths = [];
 
-        // TODO: test w/ no archive tables installed
         foreach ($dates as $tableDate => $datesForTable) {
             $tableDateObj = Date::factory($tableDate);
 
@@ -457,13 +447,7 @@ class ArchiveInvalidator
 
         $result = array();
         foreach ($dates as $date) {
-            if ($period === 'range'
-                && strpos($date, ',') === false
-            ) {
-                $periodObj = new Period\Range('range', $date . ',' . $date);
-            } else {
-                $periodObj = Period\Factory::build($period ?: 'day', $date);
-            }
+            $periodObj = $this->makePeriod($date, $period ?: 'day');
 
             // we should only delete reports for dates that are more recent than N days
             if ($invalidationInfo->minimumDateWithLogs
@@ -512,5 +496,17 @@ class ArchiveInvalidator
     private function getUniquePeriodId(Period $period)
     {
         return $period->getId() . '.' . $period->getRangeString();
+    }
+
+    private function makePeriod($date, $period)
+    {
+        if ($period === 'range'
+            && strpos($date, ',') === false
+        ) {
+            $date = $date . ',' . $date;
+            return new Period\Range('range', $date);
+        } else {
+            return Period\Factory::build($period, $date);
+        }
     }
 }

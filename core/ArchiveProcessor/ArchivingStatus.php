@@ -52,7 +52,8 @@ class ArchivingStatus
     }
 
     /**
-     * TODO
+     * Try to acquire the lock that is acquired before starting archiving. If it is acquired, it
+     * means archiving is not ongoing. If it is not acquired, then archiving is ongoing.
      *
      * @param Parameters $params
      * @param $doneFlag

@@ -282,6 +282,38 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals(5, $countInvalidatedArchives);
     }
 
+    public function test_markArchivesAsInvalidated_InvalidatesCorrectlyWhenNoArchiveTablesExist()
+    {
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+        $result = $archiveInvalidator->markArchivesAsInvalidated([1], [Date::factory('2016-03-04')], false, null, false);
+
+        $this->assertEquals([
+            '2016-03-04',
+        ], $result->processedDates);
+
+        $expectedIdArchives = [
+            '2016_03' => [
+                '1.2016-03-04.2016-03-04.1.done',
+                '1.2016-03-01.2016-03-31.3.done',
+            ],
+            '2016_02' => [
+                '1.2016-02-29.2016-03-06.2.done',
+            ],
+            '2016_01' => [
+                '1.2016-01-01.2016-12-31.4.done',
+            ],
+        ];
+
+        $idArchives = $this->getInvalidatedArchives();
+
+        // Remove empty values (some new empty entries may be added each month)
+        $idArchives = array_filter($idArchives);
+        $expectedIdArchives = array_filter($expectedIdArchives);
+
+        $this->assertEquals($expectedIdArchives, $idArchives);
+    }
+
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */

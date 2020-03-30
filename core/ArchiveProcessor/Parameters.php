@@ -53,17 +53,6 @@ class Parameters
      */
     private $isRootArchiveRequest = true;
 
-    // TODO: these properties and methods that use them probably shouldn't be here, but not sure exactly where to put them.
-    /**
-     * @var RawLogDao
-     */
-    private $rawLogDao;
-
-    /**
-     * @var Model
-     */
-    private $dataAccessModel;
-
     /**
      * Constructor.
      *
@@ -74,8 +63,6 @@ class Parameters
         $this->site = $site;
         $this->period = $period;
         $this->segment = $segment;
-        $this->rawLogDao = new RawLogDao();
-        $this->dataAccessModel = new Model();
     }
 
     /**
@@ -278,95 +265,5 @@ class Parameters
     public function __toString()
     {
         return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}]";
-    }
-
-    public function canSkipThisArchive()
-    {
-        $idSite = $this->getSite()->getId();
-
-        $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
-        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $this->getPeriod()->getDateStart()->getDatetime(), $this->getPeriod()->getDateEnd()->getDatetime());
-        $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $this->getPeriod());
-
-        return $isWebsiteUsingTracker
-            && !$hasSiteVisitsBetweenTimeframe
-            && !$hasChildArchivesInPeriod;
-    }
-
-    private function isWebsiteUsingTheTracker($idSite)
-    {
-        $idSitesNotUsingTracker = self::getSitesNotUsingTracker();
-
-        $isUsingTracker = !in_array($idSite, $idSitesNotUsingTracker);
-
-        return $isUsingTracker;
-    }
-
-    public static function getSitesNotUsingTracker()
-    {
-        $cache = Cache::getTransientCache();
-
-        $cacheKey = 'Archiving.isWebsiteUsingTheTracker';
-        $idSitesNotUsingTracker = $cache->fetch($cacheKey);
-        if ($idSitesNotUsingTracker === false || !isset($idSitesNotUsingTracker)) {
-            // we want to trigger event only once
-            $idSitesNotUsingTracker = array();
-
-            /**
-             * This event is triggered when detecting whether there are sites that do not use the tracker.
-             *
-             * By default we only archive a site when there was actually any visit since the last archiving.
-             * However, some plugins do import data from another source instead of using the tracker and therefore
-             * will never have any visits for this site. To make sure we still archive data for such a site when
-             * archiving for this site is requested, you can listen to this event and add the idSite to the list of
-             * sites that do not use the tracker.
-             *
-             * @param bool $idSitesNotUsingTracker The list of idSites that rather import data instead of using the tracker
-             */
-            Piwik::postEvent('CronArchive.getIdSitesNotUsingTracker', array(&$idSitesNotUsingTracker));
-
-            $cache->save($cacheKey, $idSitesNotUsingTracker);
-        }
-        return $idSitesNotUsingTracker;
-    }
-
-    private function hasSiteVisitsBetweenTimeframe($idSite, $date1, $date2)
-    {
-        $minVisitTimesPerSite = $this->getMinVisitTimesPerSite($idSite);
-        if (empty($minVisitTimesPerSite)) {
-            return false;
-        }
-
-        $date2 = Date::factory($date2)->addDay(1)->getStartOfDay();
-        if ($date2->isEarlier($minVisitTimesPerSite)) {
-            return false;
-        }
-
-        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe(Date::factory($date1)->getDatetime(), $date2->getDatetime(), $idSite);
-    }
-
-    private function getMinVisitTimesPerSite($idSite)
-    {
-        $cache = Cache::getLazyCache();
-        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
-
-        $value = $cache->fetch($cacheKey);
-        if ($value === false) {
-            $value = $this->rawLogDao->getMinimumVisitTimeForSite($idSite);
-            $cache->save($cacheKey, $value, $ttl = 3600); // TODO: constant
-        }
-
-        if (!empty($value)) {
-            $value = Date::factory($value);
-        }
-
-        return $value;
-    }
-
-    public static function invalidateMinVisitTimeCache($idSite)
-    {
-        $cache = Cache::getLazyCache();
-        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
-        $cache->delete($cacheKey);
     }
 }
