@@ -211,7 +211,7 @@ class ArchiveFilter
     }
 
     /**
-     * @param string $restrictToPeriods
+     * @param string|string[] $restrictToPeriods
      */
     public function setRestrictToPeriods($restrictToPeriods)
     {

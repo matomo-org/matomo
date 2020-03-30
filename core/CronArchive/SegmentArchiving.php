@@ -14,7 +14,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Segment;
@@ -31,6 +30,7 @@ class SegmentArchiving
     const BEGINNING_OF_TIME = 'beginning_of_time';
     const CREATION_TIME = 'segment_creation_time';
     const LAST_EDIT_TIME = 'segment_last_edit_time';
+    const DEFAULT_BEGINNIN_OF_TIME_LAST_N_YEARS = 7;
 
     /**
      * @var Model
@@ -59,9 +59,9 @@ class SegmentArchiving
      */
     private $beginningOfTimeLastNInYears;
 
-    // TODO: 7 should be a const
-    public function __construct($processNewSegmentsFrom, $beginningOfTimeLastNInYears = 7, Model $segmentEditorModel = null, Cache $segmentListCache = null,
-                                Date $now = null, LoggerInterface $logger = null)
+    public function __construct($processNewSegmentsFrom, $beginningOfTimeLastNInYears = self::DEFAULT_BEGINNIN_OF_TIME_LAST_N_YEARS,
+                                Model $segmentEditorModel = null, Cache $segmentListCache = null, Date $now = null,
+                                LoggerInterface $logger = null)
     {
         $this->processNewSegmentsFrom = $processNewSegmentsFrom;
         $this->beginningOfTimeLastNInYears = $beginningOfTimeLastNInYears;
@@ -71,7 +71,6 @@ class SegmentArchiving
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
-    // TODO: the code here is a bit weird, should refactor
     public function getSegmentArchivesToInvalidateForNewSegments($idSite)
     {
         $result = [];
@@ -82,15 +81,27 @@ class SegmentArchiving
                 continue;
             }
 
-            $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $storedSegment['definition']);
+            $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $storedSegment);
             if (empty($oldestDateToProcessForNewSegment)) {
                 continue;
             }
 
-            $result[] = [
-                'date' => $oldestDateToProcessForNewSegment,
-                'segment' => $storedSegment['definition'],
-            ];
+            $found = false;
+            foreach ($result as $segment) {
+                if ($segment['segment'] == $storedSegment['definition']) {
+                    $segment['date'] = $segment['date']->isEarlier($oldestDateToProcessForNewSegment) ? $segment['date'] : $oldestDateToProcessForNewSegment;
+
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $result[] = [
+                    'date' => $oldestDateToProcessForNewSegment,
+                    'segment' => $storedSegment['definition'],
+                ];
+            }
         }
         return $result;
     }
@@ -106,13 +117,16 @@ class SegmentArchiving
         return null;
     }
 
-    private function getOldestDateToProcessForNewSegment($idSite, $segment)
+    private function getOldestDateToProcessForNewSegment($idSite, $storedSegment)
     {
         /**
          * @var Date $segmentCreatedTime
          * @var Date $segmentLastEditedTime
          */
-        list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($idSite, $segment);
+        list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($idSite, $storedSegment);
+        if (empty($segmentCreatedTime)) {
+            return null;
+        }
 
         // TODO: for greater safety, we could also make the option per idsegment
         $lastInvalidationTime = CronArchive::getLastInvalidationTime();
@@ -159,7 +173,7 @@ class SegmentArchiving
 
             $siteCreationDate = Date::factory(Site::getCreationDateFor($idSite));
 
-            $result = Date::factory('today')->subYear($this->beginningOfTimeLastNInYears); // TODO: use constant and add option to command to use
+            $result = Date::factory('today')->subYear($this->beginningOfTimeLastNInYears);
             if ($result->isEarlier($siteCreationDate)) {
                 $result = $siteCreationDate;
             }
@@ -191,50 +205,43 @@ class SegmentArchiving
         return Date::factory($earliestStartTime);
     }
 
-    private function getCreatedTimeOfSegment($idSite, $segmentDefinition)
+    private function getCreatedTimeOfSegment($idSite, $storedSegment)
     {
-        $segments = $this->getAllSegments();
-
         /** @var Date $latestEditTime */
         $latestEditTime = null;
         $earliestCreatedTime = $this->now;
-        foreach ($segments as $segment) {
-            if (empty($segment['ts_created'])
-                || empty($segment['definition'])
-                || !isset($segment['enable_only_idsite'])
-            ) {
-                continue;
-            }
+        if (empty($storedSegment['ts_created'])
+            || empty($storedSegment['definition'])
+            || !isset($storedSegment['enable_only_idsite'])
+            || !$this->isSegmentForSite($storedSegment, $idSite)
+        ) {
+            return [null, null];
+        }
 
-            if ($this->isSegmentForSite($segment, $idSite)
-                && $segment['definition'] == $segmentDefinition
-            ) {
-                // check for an earlier ts_created timestamp
-                $createdTime = Date::factory($segment['ts_created']);
-                if ($createdTime->getTimestamp() < $earliestCreatedTime->getTimestamp()) {
-                    $earliestCreatedTime = $createdTime;
-                }
+        // check for an earlier ts_created timestamp
+        $createdTime = Date::factory($storedSegment['ts_created']);
+        if ($createdTime->getTimestamp() < $earliestCreatedTime->getTimestamp()) {
+            $earliestCreatedTime = $createdTime;
+        }
 
-                // if there is no ts_last_edit timestamp, initialize it to ts_created
-                if (empty($segment['ts_last_edit'])) {
-                    $segment['ts_last_edit'] = $segment['ts_created'];
-                }
+        // if there is no ts_last_edit timestamp, initialize it to ts_created
+        if (empty($storedSegment['ts_last_edit'])) {
+            $storedSegment['ts_last_edit'] = $storedSegment['ts_created'];
+        }
 
-                // check for a later ts_last_edit timestamp
-                $lastEditTime = Date::factory($segment['ts_last_edit']);
-                if ($latestEditTime === null
-                    || $latestEditTime->getTimestamp() < $lastEditTime->getTimestamp()
-                ) {
-                    $latestEditTime = $lastEditTime;
-                }
-            }
+        // check for a later ts_last_edit timestamp
+        $lastEditTime = Date::factory($storedSegment['ts_last_edit']);
+        if ($latestEditTime === null
+            || $latestEditTime->getTimestamp() < $lastEditTime->getTimestamp()
+        ) {
+            $latestEditTime = $lastEditTime;
         }
 
         $this->logger->debug(
             "Earliest created time of segment '{segment}' w/ idSite = {idSite} is found to be {createdTime}. Latest " .
             "edit time is found to be {latestEditTime}.",
             array(
-                'segment' => $segmentDefinition,
+                'segment' => $storedSegment['definition'],
                 'idSite' => $idSite,
                 'createdTime' => $earliestCreatedTime,
                 'latestEditTime' => $latestEditTime,
