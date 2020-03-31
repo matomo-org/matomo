@@ -1028,7 +1028,7 @@ class CronArchive
                     $lhsDate = explode(',', $lhs)[0];
                     $rhsDate = explode(',', $rhs)[0];
 
-                    if ($lhsDate == $rhsDate) {
+                    if ($lhsDate === $rhsDate) {
                         return 1;
                     } else if (Date::factory($lhsDate)->isEarlier(Date::factory($rhsDate))) {
                         return -1;
@@ -1128,7 +1128,7 @@ class CronArchive
         $noSegmentUrl = $url;
 
         // already processed above for "day"
-        if ($period != "day") {
+        if ($period !== "day") {
 
             if ($this->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
                 $success = false;
@@ -1184,7 +1184,7 @@ class CronArchive
             $content = array_key_exists($index, $response) ? $response[$index] : null;
             $success = $success && $this->checkResponse($content, $url);
 
-            if ($noSegmentUrl == $url && $success) {
+            if ($noSegmentUrl === $url && $success) {
                 $stats = json_decode($content, true);
 
                 if (!is_array($stats)) {
@@ -1192,7 +1192,7 @@ class CronArchive
                     $success = false;
                 }
 
-                if ($period == 'range') {
+                if ($period === 'range') {
                     // range returns one dataset (the sum of data between the two dates),
                     // whereas other periods return lastN which is N datasets in an array. Here we make our period=range dataset look like others:
                     $stats = array($stats);
@@ -1501,7 +1501,7 @@ class CronArchive
             $processedDateInTz = Date::factory((int)$timestamp, $timezone);
             $currentDateInTz = Date::factory('now', $timezone);
 
-            if ($processedDateInTz->toString() != $currentDateInTz->toString()) {
+            if ($processedDateInTz->toString() !== $currentDateInTz->toString()) {
                 $timezoneToProcess[] = $timezone;
             }
         }
@@ -1693,7 +1693,7 @@ class CronArchive
         if (strpos($date, 'last') === 0 || strpos($date, 'previous') === 0) {
             $humanReadable = $this->formatReadableDateRange($date);
             $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in $humanReadable " . $period . "s, ";
-            $thisPeriod = $period == "day" ? "today" : "this " . $period;
+            $thisPeriod = $period === "day" ? "today" : "this " . $period;
             $visitsInLastPeriod = (int)$visitsToday . " visits " . $thisPeriod . ", ";
         } else {
             $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in " . $period . "s included in: $date, ";
@@ -1794,9 +1794,9 @@ class CronArchive
     private function getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed)
     {
         $dateLastMax = self::DEFAULT_DATE_LAST;
-        if ($period == 'year') {
+        if ($period === 'year') {
             $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
-        } elseif ($period == 'week') {
+        } elseif ($period === 'week') {
             $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
         }
         if (empty($lastTimestampWebsiteProcessed)) {
@@ -1912,7 +1912,7 @@ class CronArchive
             $defaultDate = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE];
             $preference = new UserPreferences();
             $period = $preference->getDefaultPeriod($defaultDate);
-            if ($period != 'range') {
+            if ($period !== 'range') {
                 continue;
             }
 

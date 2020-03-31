@@ -17,10 +17,6 @@ class DropColumn extends Sql
     {
         $sql = sprintf("ALTER TABLE `%s` DROP COLUMN `%s`", $table, $columnName);
 
-        if (!empty($placeColumnAfter)) {
-            $sql .= sprintf(' AFTER `%s`', $placeColumnAfter);
-        }
-
         parent::__construct($sql, static::ERROR_CODE_COLUMN_NOT_EXISTS);
     }
 

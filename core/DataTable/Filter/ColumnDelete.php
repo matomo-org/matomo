@@ -75,11 +75,11 @@ class ColumnDelete extends BaseFilter
         parent::__construct($table);
 
         if (is_string($columnsToRemove)) {
-            $columnsToRemove = $columnsToRemove == '' ? array() : explode(',', $columnsToRemove);
+            $columnsToRemove = $columnsToRemove === '' ? array() : explode(',', $columnsToRemove);
         }
 
         if (is_string($columnsToKeep)) {
-            $columnsToKeep = $columnsToKeep == '' ? array() : explode(',', $columnsToKeep);
+            $columnsToKeep = $columnsToKeep === '' ? array() : explode(',', $columnsToKeep);
         }
 
         $this->columnsToRemove = $columnsToRemove;
@@ -120,7 +120,7 @@ class ColumnDelete extends BaseFilter
                     }
 
                     if (!$keep
-                        && $name != 'label' // label cannot be removed via whitelisting
+                        && $name !== 'label' // label cannot be removed via whitelisting
                         && !isset($this->columnsToKeep[$name])
                     ) {
                         // we cannot remove row directly to prevent notice "ArrayIterator::next(): Array was modified

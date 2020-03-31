@@ -57,7 +57,7 @@ class Cache
      */
     public static function getCacheWebsiteAttributes($idSite)
     {
-        if ('all' == $idSite) {
+        if ('all' === $idSite) {
             return array();
         }
 

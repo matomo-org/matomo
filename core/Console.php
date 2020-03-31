@@ -126,7 +126,8 @@ class Console extends Application
         if ($exitCode === null) {
             $self = $this;
             $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
-                return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+                return
+                    call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
             });
         }
 

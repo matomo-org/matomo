@@ -57,7 +57,7 @@ class AddSegmentByRangeLabel extends BaseFilter
                 return;
             }
 
-            if ($label == 'General_NewVisits') {
+            if ($label === 'General_NewVisits') {
                 $row->setMetadata('segment', 'visitorType==new');
                 continue;
             }

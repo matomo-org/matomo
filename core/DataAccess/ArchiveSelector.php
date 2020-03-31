@@ -212,7 +212,7 @@ class ArchiveSelector
         $db = Db::get();
 
         // create the SQL to select archive data
-        $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
+        $loadAllSubtables = $idSubtable === Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
         if ($loadAllSubtables) {
             $name = reset($recordNames);
 
@@ -262,7 +262,7 @@ class ArchiveSelector
             // $period = "2009-01-04,2009-01-04",
             $date = Date::factory(substr($period, 0, 10));
 
-            $isNumeric = $archiveDataType == 'numeric';
+            $isNumeric = $archiveDataType === 'numeric';
             if ($isNumeric) {
                 $table = ArchiveTableCreator::getNumericTable($date);
             } else {

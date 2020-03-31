@@ -243,8 +243,8 @@ class ArchiveInvalidator
             $hasMoreThanJustToday[$idSite] = true;
             $tz = Site::getTimezoneFor($idSite);
 
-            if (($period == 'day' || $period === false)
-                && count($dates) == 1
+            if (($period === 'day' || $period === false)
+                && count($dates) === 1
                 && $dates[0]->toString() == Date::factoryInTimezone('today', $tz)
             ) {
                 $hasMoreThanJustToday[$idSite] = false;
@@ -372,7 +372,7 @@ class ArchiveInvalidator
     {
         $periodsToInvalidate = array();
 
-        if ($periodType == 'range') {
+        if ($periodType === 'range') {
             $rangeString = $dates[0] . ',' . $dates[1];
             $periodsToInvalidate[] = Period\Factory::build('range', $rangeString);
             return $periodsToInvalidate;
@@ -386,7 +386,7 @@ class ArchiveInvalidator
                 $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
             }
 
-            if ($periodType != 'year') {
+            if ($periodType !== 'year') {
                 $periodsToInvalidate[] = Period\Factory::build('year', $date);
             }
         }

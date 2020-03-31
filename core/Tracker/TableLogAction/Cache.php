@@ -70,7 +70,7 @@ class Cache
             );
         }
 
-        if(count($ids) == 0) {
+        if(count($ids) === 0) {
             return null;
         }
 

@@ -262,7 +262,7 @@ class ArchiveProcessor
             $this->archiveWriter->insertRecord($column, $value);
         }
         // if asked for only one field to sum
-        if (count($metrics) == 1) {
+        if (count($metrics) === 1) {
             return reset($metrics);
         }
 

@@ -96,7 +96,7 @@ abstract class ApiRenderer
     protected function buildDataTableRenderer($dataTable)
     {
         $format   = self::getFormatFromClass(get_class($this));
-        if ($format == 'json2') {
+        if ($format === 'json2') {
             $format = 'json';
         }
 

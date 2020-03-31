@@ -203,7 +203,7 @@ class ArchiveWriter
         $fields    = $this->getInsertFields();
 
         // For numeric records it's faster to do the insert directly; for blobs the data infile is better
-        if ($valueType == 'numeric') {
+        if ($valueType === 'numeric') {
             BatchInsert::tableInsertBatchSql($tableName, $fields, $values);
         } else {
             BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
@@ -251,7 +251,7 @@ class ArchiveWriter
 
         if ($numRecords > 1) {
             $this->batchInsertSpool($valueType);
-        } elseif ($numRecords == 1) {
+        } elseif ($numRecords === 1) {
             list($name, $value) = $this->recordsToWriteSpool[$valueType][0];
             $tableName = $this->getTableNameToInsert($value);
             $fields    = $this->getInsertFields();

@@ -211,7 +211,7 @@ class Cookie
     {
         $signature = substr($content, -40);
 
-        if (substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
+        if (substr($content, -43, 3) === self::VALUE_SEPARATOR . '_=' &&
             $signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt())
         ) {
             // strip trailing: VALUE_SEPARATOR '_=' signature"
@@ -440,7 +440,7 @@ class Cookie
     {
         $sameSite = ucfirst(strtolower($default));
 
-        if ($sameSite == 'None') {
+        if ($sameSite === 'None') {
             if ((!ProxyHttp::isHttps())) {
                 $sameSite = 'Lax'; // None can be only used when secure flag will be set
             } else {
