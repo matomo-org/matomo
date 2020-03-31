@@ -172,9 +172,6 @@
         setYTicksForAxis: function (axisName, axis) {
             // calculate maximum x value of all data sets
             var maxCrossDataSets = 0;
-            console.log(axisName, axis);
-            console.log(this.data);
-            console.log(this.jqplotParams.series);
 
             for (var j = 0; j < this.data[0].length; j++) {
                 var sum = 0;

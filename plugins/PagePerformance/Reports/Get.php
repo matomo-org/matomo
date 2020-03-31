@@ -25,8 +25,8 @@ class Get extends \Piwik\Plugin\Report
         parent::init();
 
         $this->dimension = null;
-        $this->categoryId = 'General_Actions';
-        $this->subcategoryId = 'PagePerformance_Performance';
+        $this->categoryId = 'General_Visitors';
+        $this->subcategoryId = 'General_Overview';
 
         $this->name = Piwik::translate('PagePerformance_Overview');
         $this->documentation = '';
@@ -41,15 +41,15 @@ class Get extends \Piwik\Plugin\Report
         $config = $factory->createWidget();
         $config->forceViewDataTable(StackedBarEvolution::ID);
         $config->setAction('getEvolutionGraph');
-        $config->setOrder(5);
-        $config->setName('General_EvolutionOverPeriod');
+        $config->setOrder(20);
+        $config->setName('PagePerformance_EvolutionOverPeriod');
         $widgetsList->addWidgetConfig($config);
 
         $config = $factory->createWidget();
         $config->forceViewDataTable(Sparklines::ID);
         $config->setName('');
         $config->setIsNotWidgetizable();
-        $config->setOrder(15);
+        $config->setOrder(21);
         $widgetsList->addWidgetConfig($config);
     }
 
@@ -75,6 +75,7 @@ class Get extends \Piwik\Plugin\Report
             };
 
             $view->config->columns_to_display = array_keys(Metrics::getAllPagePerformanceMetrics());
+            $view->config->setNotLinkableWithAnyEvolutionGraph();
         }
     }
 

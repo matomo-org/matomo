@@ -69,6 +69,32 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Overview</subcategory>
+		<name>Performance overview</name>
+		<module>PagePerformance</module>
+		<action>get</action>
+		<metrics>
+			<avg_time_latency>Avg. latency time</avg_time_latency>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+		</metrics>
+		<metricsDocumentation>
+			<avg_time_latency>Average time how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</avg_time_latency>
+			<avg_time_transfer>Average time how long it takes the browser to download the response from the server.</avg_time_transfer>
+			<avg_time_dom_processing>Average time how long the browser spends loading the webpage until the user can starting interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event.</avg_time_dom_completion>
+			<avg_time_on_load>Average time how long it takes the browser to execute Javascript code waiting for the window.load event.</avg_time_on_load>
+			<avg_page_load_time>Average time how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>PagePerformance_get</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Overview</subcategory>
 		<name>Visits Summary</name>
 		<module>VisitsSummary</module>
 		<action>get</action>
@@ -1644,32 +1670,6 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>
-	</row>
-	<row>
-		<category>Actions</category>
-		<subcategory>Performance</subcategory>
-		<name>Performance overview</name>
-		<module>PagePerformance</module>
-		<action>get</action>
-		<metrics>
-			<avg_time_latency>Avg. latency time</avg_time_latency>
-			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
-			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
-			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
-			<avg_time_on_load>Avg. on load time</avg_time_on_load>
-			<avg_page_load_time>Avg. page load time</avg_page_load_time>
-		</metrics>
-		<metricsDocumentation>
-			<avg_time_latency>Average time how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</avg_time_latency>
-			<avg_time_transfer>Average time how long it takes the browser to download the response from the server.</avg_time_transfer>
-			<avg_time_dom_processing>Average time how long the browser spends loading the webpage until the user can starting interacting with it.</avg_time_dom_processing>
-			<avg_time_dom_completion>Average time how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event.</avg_time_dom_completion>
-			<avg_time_on_load>Average time how long it takes the browser to execute Javascript code waiting for the window.load event.</avg_time_on_load>
-			<avg_page_load_time>Average time how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
-		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>PagePerformance_get</uniqueId>
 	</row>
 	<row>
 		<category>Referrers</category>

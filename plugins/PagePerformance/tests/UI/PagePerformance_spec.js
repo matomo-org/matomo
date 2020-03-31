@@ -16,10 +16,10 @@ describe("PagePerformance", function () {
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
     it("should load page performance overview", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
         pageWrap = await page.$('.pageWrap');
 
-        await page.hover('.piwik-graph');
+        await page.hover('#widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution .piwik-graph');
         await page.waitFor(50);
 
         expect(await pageWrap.screenshot()).to.matchImage('load');

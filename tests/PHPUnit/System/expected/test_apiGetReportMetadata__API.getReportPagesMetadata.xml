@@ -621,54 +621,6 @@
 		</widgets>
 	</row>
 	<row>
-		<uniqueId>General_Actions.PagePerformance_Performance</uniqueId>
-		<category>
-			<id>General_Actions</id>
-			<name>Behaviour</name>
-			<order>10</order>
-			<icon>icon-reporting-actions</icon>
-		</category>
-		<subcategory>
-			<id>PagePerformance_Performance</id>
-			<name>Performance</name>
-			<order>70</order>
-		</subcategory>
-		<widgets>
-			<row>
-				<name>Evolution over the period</name>
-				<module>PagePerformance</module>
-				<action>getEvolutionGraph</action>
-				<order>5</order>
-				<parameters>
-					<forceView>1</forceView>
-					<viewDataTable>graphStackedBarEvolution</viewDataTable>
-					<module>PagePerformance</module>
-					<action>getEvolutionGraph</action>
-				</parameters>
-				<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>graphStackedBarEvolution</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-			<row>
-				<name />
-				<module>PagePerformance</module>
-				<action>get</action>
-				<order>15</order>
-				<parameters>
-					<forceView>1</forceView>
-					<viewDataTable>sparklines</viewDataTable>
-					<module>PagePerformance</module>
-					<action>get</action>
-				</parameters>
-				<uniqueId>widgetPagePerformancegetforceView1viewDataTablesparklines</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>sparklines</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-		</widgets>
-	</row>
-	<row>
 		<uniqueId>General_Visitors.DevicesDetection_Devices</uniqueId>
 		<category>
 			<id>General_Visitors</id>
@@ -868,6 +820,38 @@
 			<order>2</order>
 		</subcategory>
 		<widgets>
+			<row>
+				<name>Evolution of page performance metrics</name>
+				<module>PagePerformance</module>
+				<action>getEvolutionGraph</action>
+				<order>20</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>graphStackedBarEvolution</viewDataTable>
+					<module>PagePerformance</module>
+					<action>getEvolutionGraph</action>
+				</parameters>
+				<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphStackedBarEvolution</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name />
+				<module>PagePerformance</module>
+				<action>get</action>
+				<order>21</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>sparklines</viewDataTable>
+					<module>PagePerformance</module>
+					<action>get</action>
+				</parameters>
+				<uniqueId>widgetPagePerformancegetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>sparklines</viewDataTable>
+				<isReport>1</isReport>
+			</row>
 			<row>
 				<name>Visits Over Time</name>
 				<module>VisitsSummary</module>

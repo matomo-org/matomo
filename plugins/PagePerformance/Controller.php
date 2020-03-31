@@ -105,10 +105,14 @@ class Controller extends PluginController
         );
         $view->config->show_goals = false;
 
+        $performanceMetrics = array_keys(Metrics::getPagePerformanceMetrics());
+
         if (!empty($columns)) {
-            $view->config->columns_to_display = $columns;
-        } elseif (empty($view->config->columns_to_display)) {
-            $view->config->columns_to_display = array_keys(Metrics::getPagePerformanceMetrics());
+            $view->config->columns_to_display = array_intersect($columns, $performanceMetrics);
+        }
+
+        if (empty($view->config->columns_to_display)) {
+            $view->config->columns_to_display = $performanceMetrics;
         }
 
         $view->config->documentation = Piwik::translate('PagePerformance_EvolutionOverPeriod') . '<br /><br />';
