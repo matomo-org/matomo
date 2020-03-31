@@ -224,7 +224,6 @@ class Filesystem
         if ($deleteRootToo) {
             @rmdir($dir);
         }
-        return;
     }
 
     /**
