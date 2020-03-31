@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef319f0bec0c7988dd83727e05ac2b39",
+    "content-hash": "0e193c668f0333637ac4b5a7f3bef0cc",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1125,16 +1125,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.12.3",
+            "version": "3.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31"
+                "reference": "6a92e45a55eb507f53581e9add7dc82835ad6424"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/22257883bd2c7c21d68112a907cdad7de4a2ba31",
-                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/6a92e45a55eb507f53581e9add7dc82835ad6424",
+                "reference": "6a92e45a55eb507f53581e9add7dc82835ad6424",
                 "shasum": ""
             },
             "require": {
@@ -1176,7 +1176,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2020-01-13T16:15:20+00:00"
+            "time": "2020-03-31T08:53:12+00:00"
         },
         {
             "name": "piwik/ini",
@@ -3287,5 +3287,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.5.9"
-    }
+    },
+    "plugin-api-version": "1.1.0"
 }
