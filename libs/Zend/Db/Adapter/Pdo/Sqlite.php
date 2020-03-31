@@ -91,7 +91,7 @@ class Zend_Db_Adapter_Pdo_Sqlite extends Zend_Db_Adapter_Pdo_Abstract
         $this->_config['username'] = null;
         $this->_config['password'] = null;
 
-        return parent::__construct($config);
+        parent::__construct($config);
     }
 
     /**
