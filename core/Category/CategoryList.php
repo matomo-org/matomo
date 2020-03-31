@@ -9,6 +9,7 @@ namespace Piwik\Category;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
+use Piwik\Plugin\Categories;
 
 /**
  * Base type for category. lets you change the name for a categoryId and specifiy a different order
@@ -65,7 +66,7 @@ class CategoryList
     {
         $list = new CategoryList();
 
-        $categories = StaticContainer::get('Piwik\Plugin\Categories');
+        $categories = StaticContainer::get(Categories::class);
 
         foreach ($categories->getAllCategories() as $category) {
             $list->addCategory($category);

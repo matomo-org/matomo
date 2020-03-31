@@ -16,6 +16,7 @@ use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\ProfessionalServices\Advertising;
+use Piwik\Config;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -63,7 +64,7 @@ class Config
      */
     public static function getInstance()
     {
-        return StaticContainer::get('Piwik\Config');
+        return StaticContainer::get(Config::class);
     }
 
     public function __construct(GlobalSettingsProvider $settings)

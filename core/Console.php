@@ -24,6 +24,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Plugin\ConsoleCommand;
+use Piwik\Auth;
 
 class Console extends Application
 {
@@ -154,7 +156,7 @@ class Console extends Application
     {
         if (!class_exists($command)) {
             Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
-        } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
+        } elseif (!is_subclass_of($command, ConsoleCommand::class)) {
             Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
         } else {
             /** @var Command $commandInstance */
@@ -268,7 +270,7 @@ class Console extends Application
     private function initLoggerOutput(OutputInterface $output)
     {
         /** @var ConsoleHandler $consoleLogHandler */
-        $consoleLogHandler = StaticContainer::get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
+        $consoleLogHandler = StaticContainer::get(ConsoleHandler::class);
         $consoleLogHandler->setOutput($output);
     }
 
@@ -307,7 +309,7 @@ class Console extends Application
     {
         Piwik::postEvent('Request.initAuthenticationObject');
         try {
-            StaticContainer::get('Piwik\Auth');
+            StaticContainer::get(Auth::class);
         } catch (Exception $e) {
             $message = "Authentication object cannot be found in the container. Maybe the Login plugin is not activated?
                         You can activate the plugin by adding:

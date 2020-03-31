@@ -60,6 +60,6 @@ abstract class BaseFactory
      */
     protected static function getInvalidClassIdExceptionMessage($id)
     {
-        return "Invalid class ID '$id' for " . get_called_class() . "::factory().";
+        return "Invalid class ID '$id' for " . static::class . "::factory().";
     }
 }

@@ -23,6 +23,7 @@ use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\ProxyHttp;
+use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 
 /**
  * Base class of plugin controllers that provide administrative functionality.
@@ -60,7 +61,7 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        $expired = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins\InvalidLicenses');
+        $expired = StaticContainer::get(InvalidLicenses::class);
 
         $messageLicenseMissing = $expired->getMessageNoLicense();
         if (!empty($messageLicenseMissing)) {

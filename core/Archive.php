@@ -184,7 +184,7 @@ class Archive implements ArchiveQuery
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
 
-        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+        $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
     }
 
     /**

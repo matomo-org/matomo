@@ -10,6 +10,9 @@ namespace Piwik;
 
 use Piwik\Cache\Backend;
 use Piwik\Container\StaticContainer;
+use Piwik\Cache\Lazy;
+use Piwik\Cache\Transient;
+use Piwik\Cache\Eager;
 
 class Cache
 {
@@ -24,7 +27,7 @@ class Cache
      */
     public static function getLazyCache()
     {
-        return StaticContainer::get('Piwik\Cache\Lazy');
+        return StaticContainer::get(Lazy::class);
     }
 
     /**
@@ -35,7 +38,7 @@ class Cache
      */
     public static function getTransientCache()
     {
-        return StaticContainer::get('Piwik\Cache\Transient');
+        return StaticContainer::get(Transient::class);
     }
 
     /**
@@ -53,7 +56,7 @@ class Cache
      */
     public static function getEagerCache()
     {
-        return StaticContainer::get('Piwik\Cache\Eager');
+        return StaticContainer::get(Eager::class);
     }
 
     public static function flushAll()

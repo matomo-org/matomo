@@ -52,7 +52,7 @@ abstract class API
      */
     public static function getInstance()
     {
-        $class = get_called_class();
+        $class = static::class;
 
         if (!isset(self::$instances[$class])) {
             $container = StaticContainer::getContainer();
@@ -63,7 +63,7 @@ abstract class API
                 self::$instances[$class] = $container->get($class);
             } else {
                 /** @var LoggerInterface $logger */
-                $logger = $container->get('Psr\Log\LoggerInterface');
+                $logger = $container->get(LoggerInterface::class);
 
                 // BC with API defining a protected constructor
                 $logger->notice('The API class {class} defines a protected constructor which is deprecated, make the constructor public instead', array('class' => $class));
@@ -81,7 +81,7 @@ abstract class API
      */
     public static function unsetInstance()
     {
-        $class = get_called_class();
+        $class = static::class;
         unset(self::$instances[$class]);
     }
 
@@ -102,7 +102,7 @@ abstract class API
      */
     public static function setSingletonInstance($instance)
     {
-        $class = get_called_class();
+        $class = static::class;
         self::$instances[$class] = $instance;
     }
 }

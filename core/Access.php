@@ -15,6 +15,7 @@ use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
+use Piwik\Access;
 
 /**
  * Singleton that manages user access to Piwik resources.
@@ -83,7 +84,7 @@ class Access
      */
     public static function getInstance()
     {
-        return StaticContainer::get('Piwik\Access');
+        return StaticContainer::get(Access::class);
     }
 
     /**
@@ -102,10 +103,10 @@ class Access
     public function __construct(RolesProvider $roleProvider = null, CapabilitiesProvider $capabilityProvider = null)
     {
         if (!isset($roleProvider)) {
-            $roleProvider = StaticContainer::get('Piwik\Access\RolesProvider');
+            $roleProvider = StaticContainer::get(RolesProvider::class);
         }
         if (!isset($capabilityProvider)) {
-            $capabilityProvider = StaticContainer::get('Piwik\Access\CapabilitiesProvider');
+            $capabilityProvider = StaticContainer::get(CapabilitiesProvider::class);
         }
         $this->roleProvider = $roleProvider;
         $this->capabilityProvider = $capabilityProvider;

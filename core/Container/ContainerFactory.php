@@ -100,8 +100,8 @@ class ContainerFactory
         }
 
         $container = $builder->build();
-        $container->set('Piwik\Application\Kernel\PluginList', $this->pluginList);
-        $container->set('Piwik\Application\Kernel\GlobalSettingsProvider', $this->settings);
+        $container->set(PluginList::class, $this->pluginList);
+        $container->set(GlobalSettingsProvider::class, $this->settings);
 
         return $container;
     }

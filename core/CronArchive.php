@@ -34,6 +34,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Psr\Log\LoggerInterface;
+use Piwik\CliMulti;
 
 /**
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
@@ -295,14 +296,14 @@ class CronArchive
      */
     public function __construct($processNewSegmentsFrom = null, LoggerInterface $logger = null)
     {
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
         $this->formatter = new Formatter();
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
 
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
 
-        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+        $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
 
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
     }
@@ -608,7 +609,7 @@ class CronArchive
     public function setSegmentsToForceFromSegmentIds($idSegments)
     {
         /** @var SegmentEditorModel $segmentEditorModel */
-        $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+        $segmentEditorModel = StaticContainer::get(SegmentEditorModel::class);
         $segments = $segmentEditorModel->getAllSegmentsAndIgnoreVisibility();
 
         $segments = array_filter($segments, function ($segment) use ($idSegments) {
@@ -1947,7 +1948,7 @@ class CronArchive
         $allSegmentsFullInfo = array();
         if ($this->skipSegmentsToday) {
             // small performance tweak... only needed when skip segments today
-            $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+            $segmentEditorModel = StaticContainer::get(SegmentEditorModel::class);
             $allSegmentsFullInfo = $segmentEditorModel->getSegmentsToAutoArchive($idSite);
         }
 
@@ -2154,7 +2155,7 @@ class CronArchive
     private function makeCliMulti()
     {
         /** @var CliMulti $cliMulti */
-        $cliMulti = StaticContainer::getContainer()->make('Piwik\CliMulti');
+        $cliMulti = StaticContainer::getContainer()->make(CliMulti::class);
         $cliMulti->setUrlToPiwik($this->urlToPiwik);
         $cliMulti->setPhpCliConfigurationOptions($this->phpCliConfigurationOptions);
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);

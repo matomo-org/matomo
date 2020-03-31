@@ -15,6 +15,7 @@ use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Cache as TrackerCache;
+use Psr\Log\LoggerInterface;
 
 /**
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
@@ -300,7 +301,7 @@ class Common
                     throw $e;
                 }
 
-                $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+                $logger = StaticContainer::get(LoggerInterface::class);
                 $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
                     'message' => $e->getMessage(),
                     'backtrace' => $e->getTraceAsString(),
@@ -838,7 +839,7 @@ class Common
     public static function getContinentsList()
     {
         /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $dataProvider = StaticContainer::get(RegionDataProvider::class);
         return $dataProvider->getContinentList();
     }
 
@@ -856,7 +857,7 @@ class Common
     public static function getCountriesList($includeInternalCodes = false)
     {
         /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $dataProvider = StaticContainer::get(RegionDataProvider::class);
         return $dataProvider->getCountryList($includeInternalCodes);
     }
 
@@ -875,7 +876,7 @@ class Common
     public static function getLanguagesList()
     {
         /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        $dataProvider = StaticContainer::get(LanguageDataProvider::class);
         return $dataProvider->getLanguageList();
     }
 
@@ -894,7 +895,7 @@ class Common
     public static function getLanguageToCountryList()
     {
         /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        $dataProvider = StaticContainer::get(LanguageDataProvider::class);
         return $dataProvider->getLanguageToCountryList();
     }
 
@@ -981,7 +982,7 @@ class Common
         }
 
         /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $dataProvider = StaticContainer::get(RegionDataProvider::class);
 
         $validCountries = $dataProvider->getCountryList();
 
@@ -999,7 +1000,7 @@ class Common
     public static function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
     {
         /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        $dataProvider = StaticContainer::get(LanguageDataProvider::class);
 
         $langToCountry = $dataProvider->getLanguageToCountryList();
 
@@ -1099,7 +1100,7 @@ class Common
     public static function getContinent($country)
     {
         /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $dataProvider = StaticContainer::get(RegionDataProvider::class);
 
         $countryList = $dataProvider->getCountryList();
 
@@ -1293,7 +1294,7 @@ class Common
             $info = var_export($info, true);
         }
 
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $logger = StaticContainer::get(LoggerInterface::class);
         if (is_array($info) || is_object($info)) {
             $out = var_export($info, true);
             $logger->debug($out);
@@ -1320,7 +1321,7 @@ class Common
     protected static function checkValidLanguagesIsSet($validLanguages)
     {
         /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        $dataProvider = StaticContainer::get(LanguageDataProvider::class);
 
         if (empty($validLanguages)) {
             $validLanguages = array_keys($dataProvider->getLanguageList());
