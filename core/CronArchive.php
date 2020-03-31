@@ -532,8 +532,7 @@ class CronArchive
                     'date2' => $archive['date2'],
                 ]);
 
-                // site is using the tracker, but there are no visits for this period, so just update the archive done
-                // value and move on
+                // site is using the tracker, but there are no visits for this period, so just delete the archive and move on
                 $this->deleteInvalidatedArchives($archive);
                 continue;
             }
