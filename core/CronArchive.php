@@ -369,7 +369,7 @@ class CronArchive
 
                 $reason = $this->shouldSkipArchive($invalidatedArchive);
                 if ($reason) {
-                    $this->logger->info("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
+                    $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
                     $this->addIdArchivesToExclude($invalidatedArchive);
                     continue;
                 }
@@ -446,8 +446,14 @@ class CronArchive
             $tableMonth = substr($table, strlen($table) - 7, 7);
             $tableMonth = str_replace('_', '-', $tableMonth);
 
+            if (!isset($this->idArchivesToExclude[$tableMonth])) {
+                $this->idArchivesToExclude[$tableMonth] = [];
+            }
+
             $nextArchive = $this->model->getNextInvalidatedArchive($table, $periodToGet, $this->allWebsites, $this->idArchivesToExclude[$tableMonth]);
             if (!empty($nextArchive)) {
+                $this->findSegmentForArchive($nextArchive);
+
                 return $nextArchive;
             }
 
@@ -599,7 +605,7 @@ class CronArchive
 
         $idSite = $archive['idsite'];
 
-        $segment = $this->findSegmentForArchive($archive);
+        $segment = isset($archive['segment']) ? $archive['segment'] : '';
 
         $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment);
         $url = $this->makeRequestUrl($url);
@@ -616,7 +622,7 @@ class CronArchive
         return [$url, $segment];
     }
 
-    private function findSegmentForArchive($archive)
+    private function findSegmentForArchive(&$archive)
     {
         if (isset($archive['segment'])) {
             return $archive['segment'];

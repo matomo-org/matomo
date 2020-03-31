@@ -63,7 +63,7 @@ class ArchiveFilter
 
         if (!empty($this->segmentsToForce)) {
             if (!empty($this->segmentsToForce) && !in_array($segment, $this->segmentsToForce)) {
-                return "segment is not in --force-idsegments";
+                return "segment '$segment' is not in --force-idsegments";
             }
         }
 
@@ -183,6 +183,11 @@ class ArchiveFilter
         }
 
         $this->restrictToDateRange = $parts;
+    }
+
+    public function setSegmentsToForce(array $segments)
+    {
+        $this->segmentsToForce = $segments;
     }
 
     /**

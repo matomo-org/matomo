@@ -91,6 +91,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_numeric_rows' => '9',
                 'count_blob_rows' => '9',
                 'sum_blob_length' => '108',
+                'count_in_progress_archives' => '0',
             ),
             '1.2015-01-04.2015-01-11.2' => array(
                 'label' => '1.2015-01-04.2015-01-11.2',
@@ -102,6 +103,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_numeric_rows' => '9',
                 'count_blob_rows' => '9',
                 'sum_blob_length' => '108',
+                'count_in_progress_archives' => '0',
             ),
             '1.2015-01-15.2015-01-20.5' => array(
                 'label' => '1.2015-01-15.2015-01-20.5',
@@ -113,6 +115,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_numeric_rows' => '3',
                 'count_blob_rows' => '3',
                 'sum_blob_length' => '36',
+                'count_in_progress_archives' => '0',
             ),
             '2.2015-01-03.2015-01-03.1' => array(
                 'label' => '2.2015-01-03.2015-01-03.1',
@@ -124,6 +127,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_numeric_rows' => '3',
                 'count_blob_rows' => '3',
                 'sum_blob_length' => '36',
+                'count_in_progress_archives' => '0',
             ),
             '3.2015-01-01.2015-01-31.3' => array(
                 'label' => '3.2015-01-01.2015-01-31.3',
@@ -135,6 +139,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_numeric_rows' => '9',
                 'count_blob_rows' => '9',
                 'sum_blob_length' => '108',
+                'count_in_progress_archives' => '0',
             ),
             '4.2015-01-01.2015-12-31.4' => array(
                 'label' => '4.2015-01-01.2015-12-31.4',
@@ -146,6 +151,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_numeric_rows' => '6',
                 'count_blob_rows' => '6',
                 'sum_blob_length' => '72',
+                'count_in_progress_archives' => '0',
             ),
             '1.2015-01-20.2015-01-20.1' => array(
                 'label' => '1.2015-01-20.2015-01-20.1',
@@ -157,6 +163,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_segment_archives' => '-',
                 'count_numeric_rows' => '-',
                 'sum_blob_length' => '36',
+                'count_in_progress_archives' => '-',
             ),
             '2.2015-01-21.2015-01-21.1' => array(
                 'label' => '2.2015-01-21.2015-01-21.1',
@@ -168,6 +175,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
                 'count_segment_archives' => '-',
                 'count_numeric_rows' => '-',
                 'sum_blob_length' => '36',
+                'count_in_progress_archives' => '-',
             ),
         );
 
