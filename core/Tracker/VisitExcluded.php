@@ -134,8 +134,9 @@ class VisitExcluded
                     Common::printDebug("Referrer URL is blacklisted as spam.");
                 }
             }
-        } else
-          Common::printDebug("Spam blacklist is disabled.");
+        } else {
+            Common::printDebug("Spam blacklist is disabled.");
+        }
 
         // Check if request URL is excluded
         if (!$excluded) {
