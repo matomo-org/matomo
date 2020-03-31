@@ -33,6 +33,7 @@ class StackedBarEvolution extends Evolution
         $this->checkRequestIsOnlyForMultiplePeriods();
 
         $this->config->show_flatten_table = false;
+        $this->config->show_limit_control = false;
         $this->config->datatable_js_type = 'JqplotStackedBarEvolutionGraphDataTable';
     }
 

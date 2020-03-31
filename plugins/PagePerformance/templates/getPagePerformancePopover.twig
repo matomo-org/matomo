@@ -2,4 +2,9 @@
     <div class="graph">
         {{ graph|raw }}
     </div>
+    <div class="alert alert-info">
+        {{ metrics|raw }}
+        <br />
+        {{ 'General_Note'|translate }}: {{ 'PagePerformance_HelpNote'|translate('<a href="https://matomo.org/docs/page-performance/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}
+    </div>
 </div>

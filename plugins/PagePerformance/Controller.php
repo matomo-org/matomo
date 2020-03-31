@@ -30,6 +30,14 @@ class Controller extends PluginController
 
         $view->graph = $this->getRowEvolutionGraph($dataTable);
 
+        $view->metrics = '';
+
+        $metrics = Metrics::getPagePerformanceMetrics();
+
+        foreach ($metrics as $metric) {
+            $view->metrics .= sprintf('<strong>%s</strong>: %s<br />', $metric->getTranslatedName(), $metric->getDocumentation());
+        }
+
         return $view->render();
     }
 

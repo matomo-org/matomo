@@ -72,6 +72,7 @@
 		<name>Performance overview</name>
 		<module>PagePerformance</module>
 		<action>get</action>
+		<onlineGuideUrl>https://matomo.org/docs/page-performance/</onlineGuideUrl>
 		<metrics>
 			<avg_time_latency>Avg. latency time</avg_time_latency>
 			<avg_time_transfer>Avg. transfer time</avg_time_transfer>

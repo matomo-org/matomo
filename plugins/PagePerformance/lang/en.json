@@ -26,6 +26,7 @@
         "PluginDescription": "Adds some page performance reports",
         "PerformanceTable": "Table with performance metrics",
         "Overview": "Performance overview",
+        "HelpNote": "Some of those metrics might not always be available. You can find more information in our %1$sonline guide%2$s.",
         "RowActionTitle": "Open page performance report",
         "RowActionDescription": "Show page performance report for this row",
         "PagePerformanceTitle": "Page performance for page with %1$s \"%2$s\""
