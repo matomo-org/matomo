@@ -11,12 +11,13 @@ namespace Piwik\Plugins\PagePerformance;
 
 use Piwik\DataTable;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
  */
 class PagePerformance extends \Piwik\Plugin
 {
-    protected $availableForMethods = [
+    public static $availableForMethods = [
         'getPageUrls',
         'getEntryPageUrls',
         'getExitPageUrls',
@@ -35,29 +36,15 @@ class PagePerformance extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        $events = array(
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+        return [
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
             'Actions.Archiving.addActionMetrics'     => 'addActionMetrics',
             'ScheduledReports.processReports'        => 'processReports',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
             'API.Request.dispatch.end'               => 'enrichApi'
-        );
-
-        return $events;
-    }
-
-    public function getPagesComparisonsDisabledFor(&$pages)
-    {
-        //$pages[] = "PagePerformance_Actions.Transitions_Transitions";
-    }
-
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        //$stylesheets[] = 'plugins/PagePerformance/stylesheets/styles.less';
+        ];
     }
 
     public function getJsFiles(&$jsFiles)
@@ -88,7 +75,7 @@ class PagePerformance extends \Piwik\Plugin
         }
 
         // remove additional metrics for action reports that don't have data
-        if (!in_array($params['action'], $this->availableForMethods)) {
+        if (!in_array($params['action'], self::$availableForMethods)) {
             $dataTable->deleteColumns([
                 'sum_time_latency',
                 'nb_hits_with_time_latency',
@@ -133,7 +120,7 @@ class PagePerformance extends \Piwik\Plugin
     {
         $module = $view->requestConfig->getApiModuleToRequest();
         $method = $view->requestConfig->getApiMethodToRequest();
-        if ('Actions' === $module && in_array($method, $this->availableForMethods)) {
+        if ('Actions' === $module && in_array($method, self::$availableForMethods) && $view instanceof HtmlTable) {
             $view->config->columns_to_display[] = 'avg_page_load_time';
         }
     }

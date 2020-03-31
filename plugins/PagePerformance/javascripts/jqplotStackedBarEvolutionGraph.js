@@ -203,8 +203,6 @@
                 maxCrossDataSets = 100;
             }
 
-            console.log(maxCrossDataSets);
-
             // calculate y-values for ticks
             var ticks = [];
             var numberOfTicks = 2;

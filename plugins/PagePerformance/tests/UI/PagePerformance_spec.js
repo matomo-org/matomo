@@ -52,8 +52,30 @@ describe("PagePerformance", function () {
         expect(await pageWrap.screenshot()).to.matchImage('pageurl_overlay');
     });
 
-    it("should show rowaction for subtable rows", async function () {
+    it("should show new table with performance metrics visualization in selection", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
+
+        // hover visualization selection
+        const icon = await page.jQuery('.activateVisualizationSelection');
+        await icon.click();
+
+        pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('visualizations');
+    });
+
+    it("should load new table with performance metrics visualization", async function () {
+
+        // hover visualization selection
+        const icon = await page.jQuery('.dropdown-content .icon-page-performance');
+        await icon.click();
+
+        await page.waitForNetworkIdle();
+
+        pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('performance_visualization');
+    });
+
+    it("should show rowaction for subtable rows", async function () {
 
         const subtablerow = await page.jQuery('tr.subDataTable:eq(1)');
         await subtablerow.click();

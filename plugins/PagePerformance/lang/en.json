@@ -24,6 +24,7 @@
         "ColumnTimeOnLoad": "On load time",
         "EvolutionOverPeriod": "Evolution of page performance metrics",
         "PluginDescription": "Adds some page performance reports",
+        "PerformanceTable": "Table with performance metrics",
         "Overview": "Performance overview",
         "RowActionTitle": "Open page performance report",
         "RowActionDescription": "Show page performance report for this row",
