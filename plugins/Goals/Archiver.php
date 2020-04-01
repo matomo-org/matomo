@@ -33,7 +33,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const NO_LABEL = ':';
     const LOG_CONVERSION_TABLE = 'log_conversion';
     const VISITS_COUNT_FIELD = 'visitor_count_visits';
-    const DAYS_SINCE_FIRST_VISIT_FIELD = 'visitor_days_since_first';
+    const DAYS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
     /**
      * This array stores the ranges to use when displaying the 'visits to conversion' report

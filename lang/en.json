@@ -134,6 +134,8 @@
         "DaysSinceFirstVisit": "Days since first visit",
         "DaysSinceLastEcommerceOrder": "Days since last Ecommerce order",
         "DaysSinceLastVisit": "Days since last visit",
+        "SecondsSinceLastVisit": "Seconds since last visit",
+        "SecondsSinceFirstVisit": "Seconds since first visit",
         "Default": "Default",
         "DefaultAppended": "(default)",
         "Delete": "Delete",

@@ -21,6 +21,11 @@ class VisitProperties
      */
     private $visitInfo = array();
 
+    public function __construct($visitInfo = [])
+    {
+        $this->visitInfo = $visitInfo;
+    }
+
     /**
      * Returns a visit property, or `null` if none is set.
      *

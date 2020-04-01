@@ -65,6 +65,11 @@ class Visit implements VisitInterface
     protected $visitProperties;
 
     /**
+     * @var VisitProperties
+     */
+    protected $previousVisitProperties;
+
+    /**
      * @var ArchiveInvalidator
      */
     private $invalidator;
@@ -435,7 +440,8 @@ class Visit implements VisitInterface
         $visitorIp = $this->getVisitorIp();
         $configId = $this->request->getMetadata('CoreHome', 'visitorId');
 
-        $this->visitProperties->clearProperties();
+        $this->previousVisitProperties = $this->visitProperties;
+        $this->visitProperties = new VisitProperties();
 
         $this->visitProperties->setProperty('idvisitor', $idVisitor);
         $this->visitProperties->setProperty('config_id', $configId);
@@ -599,6 +605,6 @@ class Visit implements VisitInterface
 
     private function makeVisitorFacade()
     {
-        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request);
+        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request, $this->previousVisitProperties);
     }
 }

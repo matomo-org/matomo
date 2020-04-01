@@ -62,7 +62,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getDaysSinceFirstVisit()
     {
-        return $this->details['visitor_days_since_first'];
+        return floor($this->details['visitor_seconds_since_first'] / 86400);
     }
 
     protected function getDaysSinceLastEcommerceOrder()
