@@ -43,7 +43,7 @@
                                     segment: segment
                                 }, 'GET');
                                 ajaxRequest.setCallback(function (r) {
-                                    $(element).find("#visitsTotal").html(r);
+                                    $(element).find("#visitsTotal").replaceWith(r);
                                 });
                                 ajaxRequest.send();
                             },
