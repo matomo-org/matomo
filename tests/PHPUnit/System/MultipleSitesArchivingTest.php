@@ -33,6 +33,12 @@ class MultipleSitesArchivingTest extends SystemTestCase
             }
         });
 
+        Piwik::addAction("ArchiveProcessor.ComputeNbUniques.getIdSites", function (&$sites) use ($extraSite) {
+            if (reset($sites) == $extraSite) {
+                $sites = array(1, 2, 3);
+            }
+        });
+
         Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] = 1;
         Config::getInstance()->Tracker['enable_fingerprinting_across_websites'] = 1;
     }

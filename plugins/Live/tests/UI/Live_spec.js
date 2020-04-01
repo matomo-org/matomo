@@ -75,6 +75,16 @@ describe("Live", function () {
         expect(await dialog.screenshot()).to.matchImage('visitor_profile');
     });
 
+    it('should load additional visits in visitor log', async function() {
+
+        await page.click('.visitor-profile-more-info a');
+
+        await page.waitForNetworkIdle();
+
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('visitor_profile_more_visits');
+    });
+
     it('should hide all action details', async function() {
         await page.evaluate(function(){
             $('.visitor-profile-toggle-actions').click();

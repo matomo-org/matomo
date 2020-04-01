@@ -103,22 +103,11 @@ class ArchiveProcessor
 
     private $numberOfVisitsConverted = false;
 
-    /**
-     * If true, unique visitors are not calculated when we are aggregating data for multiple sites.
-     * The `[General] enable_processing_unique_visitors_multiple_sites` INI config option controls
-     * the value of this variable.
-     *
-     * @var bool
-     */
-    private $skipUniqueVisitorsCalculationForMultipleSites = true;
-
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
         $this->params = $params;
         $this->logAggregator = $logAggregator;
         $this->archiveWriter = $archiveWriter;
-
-        $this->skipUniqueVisitorsCalculationForMultipleSites = Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
     }
 
     protected function getArchive()
@@ -414,30 +403,40 @@ class ArchiveProcessor
 
     protected function enrichWithUniqueVisitorsMetric(Row $row)
     {
-        // skip unique visitors metrics calculation if calculating for multiple sites is disabled
-        if (!$this->getParams()->isSingleSite()
-            && $this->skipUniqueVisitorsCalculationForMultipleSites
-        ) {
-            return;
-        }
-
         if ($row->getColumn('nb_uniq_visitors') === false
             && $row->getColumn('nb_users') === false
         ) {
             return;
         }
 
-        if (!SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
+        $periodLabel = $this->getParams()->getPeriod()->getLabel();
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($periodLabel)) {
             $row->deleteColumn('nb_uniq_visitors');
             $row->deleteColumn('nb_users');
             return;
         }
 
-        $metrics = array(
-            Metrics::INDEX_NB_USERS
-        );
+        $sites = $this->getIdSitesToComputeNbUniques();
 
-        if ($this->getParams()->isSingleSite()) {
+        if (count($sites) > 1 && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites()) {
+            if ($periodLabel != 'day') {
+                // for day we still keep the aggregated metric but for other periods we remove it as it becomes to
+                // inaccurate
+                $row->deleteColumn('nb_uniq_visitors');
+                $row->deleteColumn('nb_users');
+            }
+            return;
+        }
+
+        if (empty($sites)) {
+            // a plugin disabled running below query by removing all sites.
+            $row->deleteColumn('nb_uniq_visitors');
+            $row->deleteColumn('nb_users');
+            return;
+        }
+
+        if (count($sites) === 1) {
             $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_VISITORS;
         } else {
             if (!SettingsPiwik::isSameFingerprintAcrossWebsites()) {
@@ -447,9 +446,13 @@ class ArchiveProcessor
             }
             $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_FINGERPRINTS;
         }
-        $metrics[] = $uniqueVisitorsMetric;
 
-        $uniques = $this->computeNbUniques($metrics);
+        $metrics = array(
+            Metrics::INDEX_NB_USERS,
+            $uniqueVisitorsMetric
+        );
+
+        $uniques = $this->computeNbUniques($metrics, $sites);
 
         // see edge case as described in https://github.com/piwik/piwik/issues/9357 where uniq_visitors might be higher
         // than visits because we archive / process it after nb_visits. Between archiving nb_visits and nb_uniq_visitors
@@ -475,19 +478,44 @@ class ArchiveProcessor
         return 'sum';
     }
 
+    private function getIdSitesToComputeNbUniques()
+    {
+        $sites = array($this->getParams()->getSite()->getId());
+
+        /**
+         * Triggered to change which site ids should be looked at when processing unique visitors and users.
+         *
+         * @param array &$idSites An array with one idSite. This site is being archived currently. To cancel the query
+         *                        you can change this value to an empty array. To include other sites in the query you
+         *                        can add more idSites to this list of idSites.
+         */
+        Piwik::postEvent('ArchiveProcessor.ComputeNbUniques.getIdSites', array(&$sites));
+
+        return $sites;
+    }
+
     /**
      * Processes number of unique visitors for the given period
      *
      * This is the only Period metric (ie. week/month/year/range) that we process from the logs directly,
      * since unique visitors cannot be summed like other metrics.
      *
-     * @param array Metrics Ids for which to aggregates count of values
-     * @return array of metrics, where the key is metricid and the value is the metric value
+     * @param array $metrics Metrics Ids for which to aggregates count of values
+     * @param int[] $sites  A list of idSites that should be included
+     * @return array|null An array of metrics, where the key is metricid and the value is the metric value or null if
+     *                      the query was cancelled and not executed.
      */
-    protected function computeNbUniques($metrics)
+    protected function computeNbUniques($metrics, $sites)
     {
         $logAggregator = $this->getLogAggregator();
-        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), $metrics);
+        $sitesBackup = $logAggregator->getSites();
+
+        $logAggregator->setSites($sites);
+        try {
+            $query = $logAggregator->queryVisitsByDimension(array(), false, array(), $metrics);
+        } finally {
+            $logAggregator->setSites($sitesBackup);
+        }
         $data = $query->fetch();
         return $data;
     }
