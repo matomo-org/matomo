@@ -315,7 +315,7 @@ class UITestFixture extends SqlDump
             return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
         });
 
-        $widgetsPerDashboard = ceil((count($allWidgets)+1) / $dashboardCount);
+        $widgetsPerDashboard = ceil(count($allWidgets) / $dashboardCount);
 
         // group widgets so they will be spread out across 3 dashboards
         $groupedWidgets = array();
