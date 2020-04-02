@@ -36,7 +36,13 @@ class VisitsCount extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        return $request->getVisitCount();
+        $previousVisitCount = $visitor->getPreviousVisitColumn($this->columnName);
+        print "pvc: ".var_export($previousVisitCount, true)."\n";
+        if ($previousVisitCount === false || $previousVisitCount === null || $previousVisitCount === '') {
+            print "here?\n";
+            return 0;
+        }
+        return $previousVisitCount + 1;
     }
 
     /**

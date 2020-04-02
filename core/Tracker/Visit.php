@@ -146,7 +146,7 @@ class Visit implements VisitInterface
     public function handle()
     {
         $this->checkSiteExists($this->request);
-
+print "start\n";
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
 
@@ -285,7 +285,7 @@ class Visit implements VisitInterface
     protected function handleNewVisit($visitIsConverted)
     {
         Common::printDebug("New Visit (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
-
+print "handle new \n";
         $this->setNewVisitorInformation();
 
         $dimensions = $this->getAllVisitDimensions();

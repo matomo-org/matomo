@@ -3311,7 +3311,7 @@ if (typeof window.Piwik !== 'object') {
                     createTs: createTs,
                     visitCount: visitCount,
                     currentVisitTs: currentVisitTs,
-                    lastVisitTs: lastVisitTs,
+                    lastVisitTs: lastVisitTs, // TODO: remove after visit count removed
                     lastEcommerceOrderTs: lastEcommerceOrderTs
                 };
             }
@@ -3599,12 +3599,11 @@ if (typeof window.Piwik !== 'object') {
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                    '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
+                    '&_id=' + cookieVisitorIdValues.uuid + '&_idvc=' + cookieVisitorIdValues.visitCount +
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
                     (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
                     '&_refts=' + referralTs +
-                    '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
                     (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
