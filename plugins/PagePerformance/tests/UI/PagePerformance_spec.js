@@ -18,10 +18,6 @@ describe("PagePerformance", function () {
     it("should load page performance overview", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
         pageWrap = await page.$('.pageWrap');
-
-        await page.hover('#widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution .piwik-graph');
-        await page.waitFor(50);
-
         expect(await pageWrap.screenshot()).to.matchImage('load');
     });
 
@@ -31,6 +27,7 @@ describe("PagePerformance", function () {
         // hover first row
         const row = await page.waitForSelector('.dataTable tbody tr:first-child');
         await row.hover();
+        await page.waitFor(50);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('rowactions');
