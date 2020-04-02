@@ -140,7 +140,6 @@ class LatestStableInstall extends Fixture
     {
         $pathToMatomoPackage = PIWIK_INCLUDE_PATH . '/../matomo-package';
         if (file_exists($pathToMatomoPackage)) {
-            return;
             Filesystem::unlinkRecursive($pathToMatomoPackage, true);
         }
 
