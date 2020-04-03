@@ -22,7 +22,7 @@ use Piwik\Tracker\Visitor;
 class TimeLatency extends ActionDimension
 {
     protected $columnName = 'time_latency';
-    protected $columnType = 'INTEGER(10) UNSIGNED NULL';
+    protected $columnType = 'MEDIUMINT(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeLatency';
 
