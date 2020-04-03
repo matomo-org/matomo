@@ -18,6 +18,7 @@ use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
 use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\ActionPageview;
+use Piwik\Tracker\Model;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -38,10 +39,17 @@ class PerformanceDataProcessor extends RequestProcessor
         }
 
         $pageViewId = $request->getParam('pv_id');
-        $visitorId = $request->getVisitorId();
+        $idVisit    = $visitProperties->getProperty('idvisit');
 
         // ignore requests that can't be associated with an existing page view of a visitor
-        if (empty($pageViewId) || empty($visitorId)) {
+        if (empty($pageViewId) || empty($idVisit)) {
+            return;
+        }
+
+        $idLinkVa = $this->getPageViewId($idVisit, $pageViewId);
+
+        // ignore requests
+        if (empty($idLinkVa)) {
             return;
         }
 
@@ -59,11 +67,7 @@ class PerformanceDataProcessor extends RequestProcessor
         foreach ($performanceDimensions as $performanceDimension) {
             $paramValue = $request->getParam($performanceDimension->getRequestParam());
             if ($paramValue > -1) {
-                $valuesToUpdate[] = sprintf(
-                    '%s = %s',
-                    $performanceDimension->getColumnName(),
-                    $paramValue
-                );
+                $valuesToUpdate[$performanceDimension->getColumnName()] = $paramValue;
             }
         }
 
@@ -71,15 +75,32 @@ class PerformanceDataProcessor extends RequestProcessor
             return; // no values to update given with the request
         }
 
-        $query = sprintf(
-            'UPDATE %1$s LEFT JOIN %2$s ON idaction_url_ref = idaction SET %3$s WHERE idvisitor = ? AND idpageview = ? AND %2$s.type = 1',
-            Common::prefixTable('log_link_visit_action'),
-            Common::prefixTable('log_action'),
-            implode(', ', $valuesToUpdate)
-        );
-
         Log::info('Updating page performance metrics of page view with id ' . $pageViewId);
 
-        Tracker::getDatabase()->query($query, [$visitorId, $pageViewId]);
+        $model = new Model();
+        $model->updateAction($idLinkVa, $valuesToUpdate);
+    }
+
+    protected function getPageViewId($idVisit, $pageViewId)
+    {
+        $query = sprintf(
+            'SELECT idlink_va FROM %1$s LEFT JOIN %2$s ON idaction_url = idaction WHERE idvisit = ? AND idpageview = ? AND %2$s.type = ?',
+            Common::prefixTable('log_link_visit_action'),
+            Common::prefixTable('log_action')
+        );
+
+        $idLinkVa = Tracker::getDatabase()->fetchOne($query, [$idVisit, $pageViewId, Action::TYPE_PAGE_URL]);
+
+        if (!empty($idLinkVa)) {
+            return $idLinkVa;
+        }
+
+        $query = sprintf(
+            'SELECT idlink_va FROM %1$s LEFT JOIN %2$s ON idaction_name = idaction WHERE idvisit = ? AND idpageview = ? AND %2$s.type = ?',
+            Common::prefixTable('log_link_visit_action'),
+            Common::prefixTable('log_action')
+        );
+
+        return Tracker::getDatabase()->fetchOne($query, [$idVisit, $pageViewId, Action::TYPE_PAGE_TITLE]);
     }
 }
