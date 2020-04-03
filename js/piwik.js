@@ -3478,6 +3478,35 @@ if (typeof window.Piwik !== 'object') {
                 return id;
             }
 
+            function appendAvailablePerformanceMetrics(request) {
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.fetchStart) {
+                    request += '&pf_lat=' + (performanceAlias.timing.responseStart - performanceAlias.timing.fetchStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
+                    request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
+                    request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
+                    request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
+                    request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+                }
+
+                return request;
+            }
+
             /**
              * Returns the URL to call piwik.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
@@ -3703,31 +3732,7 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                     if (performanceAvailable && !performanceTracked) {
-                        if (performanceAlias && performanceAlias.timing && performanceAlias
-                            && performanceAlias.timing.responseStart && performanceAlias.timing.fetchStart) {
-                            request += '&pf_lat=' + (performanceAlias.timing.responseStart - performanceAlias.timing.fetchStart);
-                        }
-
-                        if (performanceAlias && performanceAlias.timing && performanceAlias
-                            && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
-                            request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
-                        }
-
-                        if (performanceAlias && performanceAlias.timing && performanceAlias
-                            && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
-                            request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
-                        }
-
-                        if (performanceAlias && performanceAlias.timing && performanceAlias
-                            && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
-                            request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
-                        }
-
-                        if (performanceAlias && performanceAlias.timing && performanceAlias
-                            && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
-                            request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
-                        }
-
+                        request = appendAvailablePerformanceMetrics(request);
                         performanceTracked = true;
                     }
                 }
@@ -3871,6 +3876,11 @@ if (typeof window.Piwik !== 'object') {
                 configIdPageView = generateUniqueId();
 
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
+
+                // append already available performance metrics if they were not already tracked (or appended)
+                if (!performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                }
 
                 sendRequest(request, configTrackerPause, callback);
             }
