@@ -104,7 +104,8 @@
     isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
+    getConfigIdPageView, newVisitor, uuid, createTs
+    , currentVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
@@ -3269,9 +3270,6 @@ if (typeof window.Piwik !== 'object') {
                     // creation timestamp - seconds since Unix epoch
                     nowTs,
 
-                    // visitCount - 0 = no previous visit
-                    0,
-
                     // current visit timestamp
                     nowTs,
 
@@ -3294,9 +3292,7 @@ if (typeof window.Piwik !== 'object') {
                     newVisitor = cookieVisitorIdValue[0],
                     uuid = cookieVisitorIdValue[1],
                     createTs = cookieVisitorIdValue[2],
-                    visitCount = cookieVisitorIdValue[3],
-                    currentVisitTs = cookieVisitorIdValue[4],
-                    lastVisitTs = cookieVisitorIdValue[5];
+                    currentVisitTs = cookieVisitorIdValue[4];
 
                 // case migrating from pre-1.5 cookies
                 if (!isDefined(cookieVisitorIdValue[6])) {
@@ -3309,9 +3305,8 @@ if (typeof window.Piwik !== 'object') {
                     newVisitor: newVisitor,
                     uuid: uuid,
                     createTs: createTs,
-                    visitCount: visitCount,
+
                     currentVisitTs: currentVisitTs,
-                    lastVisitTs: lastVisitTs, // TODO: remove after visit count removed
                     lastEcommerceOrderTs: lastEcommerceOrderTs
                 };
             }
@@ -3345,9 +3340,7 @@ if (typeof window.Piwik !== 'object') {
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
                     visitorIdCookieValues.createTs + '.' +
-                    visitorIdCookieValues.visitCount + '.' +
                     nowTs + '.' +
-                    visitorIdCookieValues.lastVisitTs + '.' +
                     visitorIdCookieValues.lastEcommerceOrderTs;
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
@@ -3525,16 +3518,6 @@ if (typeof window.Piwik !== 'object') {
                 if (!cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
 
-                    // here we make sure that if 'ses' cookie is deleted few times within the visit
-                    // and so this code path is triggered many times for one visit,
-                    // we only increase visitCount once per Visit window (default 30min)
-                    var visitDuration = configSessionCookieTimeout / 1000;
-                    if (!cookieVisitorIdValues.lastVisitTs
-                        || (nowTs - cookieVisitorIdValues.lastVisitTs) > visitDuration) {
-                        cookieVisitorIdValues.visitCount++;
-                        cookieVisitorIdValues.lastVisitTs = cookieVisitorIdValues.currentVisitTs;
-                    }
-
 
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set
@@ -3599,7 +3582,8 @@ if (typeof window.Piwik !== 'object') {
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                    '&_id=' + cookieVisitorIdValues.uuid + '&_idvc=' + cookieVisitorIdValues.visitCount +
+                    '&_id=' + cookieVisitorIdValues.uuid +
+
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
                     (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +

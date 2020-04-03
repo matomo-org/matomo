@@ -78,7 +78,11 @@ class VisitorReturning extends VisitDimension
             return self::IS_RETURNING_CUSTOMER;
         }
 
-        $visitCount = $request->getVisitCount();
+        $visitCount = $visitor->visitProperties->getProperty('visitor_count_visits'); // TODO: hope his is run first?
+        if ($visitCount === false) {
+            throw new \Error('Unexpected, this should be run first...'); // TODO: remove when dealt w/.
+        }
+
         $daysSinceFirstVisit = $request->getDaysSinceFirstVisit();
         $daysSinceLastVisit = $request->getDaysSinceLastVisit();
 

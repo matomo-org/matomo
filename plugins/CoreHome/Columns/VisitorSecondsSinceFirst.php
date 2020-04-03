@@ -18,8 +18,10 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceFirst extends VisitDimension
 {
+    const COLUMN_TYPE = 'SMALLINT(5) UNSIGNED NULL';
+
     protected $columnName = 'visitor_seconds_since_first';
-    protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
+    protected $columnType = self::COLUMN_TYPE;
     protected $segmentName = 'secondsSinceFirstVisit';
     protected $nameSingular = 'General_SecondsSinceFirstVisit';
     protected $type = self::TYPE_NUMBER;

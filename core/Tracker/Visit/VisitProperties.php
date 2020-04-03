@@ -21,7 +21,7 @@ class VisitProperties
      */
     private $visitInfo = array();
 
-    public function __construct($visitInfo = [])
+    public function __construct(array $visitInfo = [])
     {
         $this->visitInfo = $visitInfo;
     }

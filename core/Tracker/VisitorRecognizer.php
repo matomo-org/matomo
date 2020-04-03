@@ -101,7 +101,7 @@ class VisitorRecognizer
 
         $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
         $this->visitRow = $visitRow;
-print_r($visitRow);
+
         if ($visitRow
             && count($visitRow) > 0
         ) {

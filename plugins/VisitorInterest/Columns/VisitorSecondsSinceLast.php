@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\VisitorInterest\Columns;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
@@ -18,8 +19,10 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceLast extends VisitDimension
 {
+    const COLUMN_TYPE = 'INT(11) UNSIGNED NULL';
+
     protected $columnName = 'visitor_seconds_since_last';
-    protected $columnType = 'INT(11) UNSIGNED NULL';
+    protected $columnType = self::COLUMN_TYPE;
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'secondsSinceLastVisit';
     protected $nameSingular = 'General_SecondsSinceLastVisit';
@@ -42,7 +45,7 @@ class VisitorSecondsSinceLast extends VisitDimension
         }
 
         $currentTimestamp = $request->getCurrentTimestamp();
-        $previousVisitLastActionTime = $visitor->getPreviousVisitColumn('visit_last_action_time');
+        $previousVisitLastActionTime = Date::factory($visitor->getPreviousVisitColumn('visit_last_action_time'))->getTimestamp();
 
         if (empty($previousVisitLastActionTime)) {
             Common::printDebug("Found empty visit_last_action_time for last visit of known visitor, this is unexpected.");

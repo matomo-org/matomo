@@ -146,7 +146,7 @@ class Visit implements VisitInterface
     public function handle()
     {
         $this->checkSiteExists($this->request);
-print "start\n";
+
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
 
@@ -184,6 +184,7 @@ print "start\n";
         }
 
         $isNewVisit = $this->request->getMetadata('CoreHome', 'isNewVisit');
+        $this->previousVisitProperties = new VisitProperties($this->request->getMetadata('CoreHome', 'lastKnownVisit') ?: []);
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -285,7 +286,7 @@ print "start\n";
     protected function handleNewVisit($visitIsConverted)
     {
         Common::printDebug("New Visit (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
-print "handle new \n";
+
         $this->setNewVisitorInformation();
 
         $dimensions = $this->getAllVisitDimensions();
@@ -440,8 +441,7 @@ print "handle new \n";
         $visitorIp = $this->getVisitorIp();
         $configId = $this->request->getMetadata('CoreHome', 'visitorId');
 
-        $this->previousVisitProperties = $this->visitProperties;
-        $this->visitProperties = new VisitProperties();
+        $this->visitProperties->clearProperties();
 
         $this->visitProperties->setProperty('idvisitor', $idVisitor);
         $this->visitProperties->setProperty('config_id', $configId);

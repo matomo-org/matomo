@@ -653,7 +653,6 @@ class Fixture extends \PHPUnit\Framework\Assert
      */
     public static function checkResponse($response)
     {
-        print "$response\n";return;
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
