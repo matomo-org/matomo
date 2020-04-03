@@ -61,33 +61,6 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Evolution of page performance metrics</name>
-		<category>
-			<id>General_Visitors</id>
-			<name>Visitors</name>
-			<order>5</order>
-			<icon>icon-reporting-visitors</icon>
-		</category>
-		<subcategory>
-			<id>General_Overview</id>
-			<name>Overview</name>
-			<order>2</order>
-		</subcategory>
-		<module>PagePerformance</module>
-		<action>getEvolutionGraph</action>
-		<order>20</order>
-		<parameters>
-			<forceView>1</forceView>
-			<viewDataTable>graphStackedBarEvolution</viewDataTable>
-			<module>PagePerformance</module>
-			<action>getEvolutionGraph</action>
-		</parameters>
-		<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>graphStackedBarEvolution</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
 		<name>Visits Overview (with graph)</name>
 		<category>
 			<id>General_Visitors</id>
