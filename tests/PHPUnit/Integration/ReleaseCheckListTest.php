@@ -868,7 +868,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $countFileChecked = 0;
         foreach ($files as $file) {
 
-            if($this->isFileBelongToTests($file)) {
+            if($this->isFileBelongToTests($file) || is_dir($file)) {
                 continue;
             }
 
