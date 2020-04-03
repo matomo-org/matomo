@@ -114,11 +114,11 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // replace days to ... dimensions w/ segments
         foreach (['log_visit', 'log_conversion'] as $table) {
             $migrations[] = $this->migration->db->changeColumn($table, 'visitor_days_since_first', 'visitor_seconds_since_first', VisitorSecondsSinceFirst::COLUMN_TYPE);
-            $migrations[] = $this->migration->db->sql("UPDATE $table SET visitor_seconds_since_first = visitor_days_since_first * 86400");
+            $migrations[] = $this->migration->db->sql("UPDATE $table SET visitor_seconds_since_first = visitor_seconds_since_first * 86400");
         }
 
         $migrations[] = $this->migration->db->changeColumn('log_visit', 'visitor_days_since_last', 'visitor_seconds_since_last', VisitorSecondsSinceLast::COLUMN_TYPE);
-        $migrations[] = $this->migration->db->sql("UPDATE $table SET visitor_seconds_since_last = visitor_days_since_last * 86400");
+        $migrations[] = $this->migration->db->sql("UPDATE $table SET visitor_seconds_since_last = visitor_seconds_since_last * 86400");
 
         return $migrations;
     }
