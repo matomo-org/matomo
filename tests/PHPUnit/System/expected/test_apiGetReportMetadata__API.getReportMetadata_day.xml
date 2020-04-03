@@ -1603,7 +1603,7 @@
 		<name>Visits by days since last visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
-		<dimension>Visits by days since last visit</dimension>
+		<dimension>Seconds since last visit</dimension>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>

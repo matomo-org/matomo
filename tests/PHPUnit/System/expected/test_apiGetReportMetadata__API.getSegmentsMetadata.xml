@@ -61,6 +61,18 @@
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
+		<name>Seconds since first visit</name>
+		<segment>secondsSinceFirstVisit</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
+		<name>Seconds since last visit</name>
+		<segment>secondsSinceLastVisit</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
 		<name>Visit Duration (in seconds)</name>
 		<segment>visitDuration</segment>
 	</row>

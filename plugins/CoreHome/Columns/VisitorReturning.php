@@ -86,7 +86,7 @@ class VisitorReturning extends VisitDimension
         $daysSinceFirstVisit = $request->getDaysSinceFirstVisit();
         $daysSinceLastVisit = $request->getDaysSinceLastVisit();
 
-        if ($visitCount > 1 || $visitor->isVisitorKnown() || $daysSinceFirstVisit > 0 || $daysSinceLastVisit > 0) {
+        if ($visitor->isVisitorKnown() || $daysSinceFirstVisit > 0 || $daysSinceLastVisit > 0) {
             return self::IS_RETURNING;
         }
 
