@@ -24,6 +24,8 @@ class Controller extends PluginController
 {
     public function indexPagePerformance()
     {
+        $this->checkSitePermission();
+
         $view = new View('@PagePerformance/getPagePerformancePopover');
 
         $dataTable = $this->getEvolutionTable();
