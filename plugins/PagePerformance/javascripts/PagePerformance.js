@@ -86,6 +86,11 @@ var PagePerformance = function() {
         }
         label = labelParts.join(delimiter);
 
+        // encode label for usage in .html()
+        label = piwikHelper.htmlEntities(label);
+        label = piwikHelper.escape(label);
+        label = label.replace(/(&amp;)(#[0-9]{2,5};)/g, '&$2');
+
         var title = _pk_translate('PagePerformance_PagePerformanceTitle', [type, label]);
 
         Piwik_Popover.setTitle(title);
