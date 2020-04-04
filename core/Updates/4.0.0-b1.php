@@ -118,7 +118,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         $migrations[] = $this->migration->db->changeColumn('log_visit', 'visitor_days_since_last', 'visitor_seconds_since_last', VisitorSecondsSinceLast::COLUMN_TYPE);
-        $migrations[] = $this->migration->db->sql("UPDATE $table SET visitor_seconds_since_last = visitor_seconds_since_last * 86400");
+        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('log_visit') . "` SET visitor_seconds_since_last = visitor_seconds_since_last * 86400");
 
         return $migrations;
     }

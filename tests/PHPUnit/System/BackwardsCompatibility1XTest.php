@@ -65,7 +65,6 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         $t->setForceVisitDateTime('2012-12-29 03:01:30');
         $t->setUrl('http://site.com/other/index.htm');
-        $t->DEBUG_APPEND_URL = '&_idvc=2'; // make sure visit is marked as returning
         $t->doTrackPageView('other incredible title!');
 
         $t->doBulkTrack();

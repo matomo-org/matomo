@@ -181,8 +181,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setDebugStringAppend(
             '&_idts='. $date->subDay(100)->getTimestampUTC(). // first visit timestamp
             '&_ects='. $date->subDay(50)->getTimestampUTC(). // Timestamp ecommerce
-            '&_viewts='. $date->subDay(10)->getTimestampUTC(). // Last visit timestamp
-            '&_idvc=5' // Visit count
+            '&_viewts='. $date->subDay(10)->getTimestampUTC() // Last visit timestamp
         );
         $r = $t->doTrackPageView("Space Quest XII");
 

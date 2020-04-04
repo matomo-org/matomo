@@ -75,10 +75,10 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
+		<visitCount>4</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceFirstVisit>1</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
 		<visitDurationPretty>6 min 3s</visitDurationPretty>
@@ -343,10 +343,10 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
+		<visitCount>3</visitCount>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceFirstVisit>1</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>1</daysSinceLastEcommerceOrder>
 		<visitDuration>1081</visitDuration>
 		<visitDurationPretty>18 min 1s</visitDurationPretty>

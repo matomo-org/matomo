@@ -252,21 +252,6 @@ class RequestTest extends UnitTestCase
         $this->assertEquals(1, $this->request->getVisitCount());
     }
 
-    public function test_getVisitCount_shouldReturnTheSetValue_IfHigherThanOne()
-    {
-        $request = $this->buildRequest(array('_idvc' => 13));
-        $this->assertEquals(13, $request->getVisitCount());
-    }
-
-    public function test_getVisitCount_shouldReturnAtLEastOneEvenIfLowerValueIsSet()
-    {
-        $request = $this->buildRequest(array('_idvc' => 0));
-        $this->assertEquals(1, $request->getVisitCount());
-
-        $request = $this->buildRequest(array('_idvc' => -1));
-        $this->assertEquals(1, $request->getVisitCount());
-    }
-
     public function test_getLocalTime_shouldFallbackToCurrentDate_IfNoParamIsSet()
     {
         $this->assertEquals('02:20:17', $this->request->getLocalTime());

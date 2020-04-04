@@ -38,7 +38,7 @@ class VisitsCount extends VisitDimension
     {
         $previousVisitCount = $visitor->getPreviousVisitColumn($this->columnName);
         if ($previousVisitCount === false || $previousVisitCount === null || $previousVisitCount === '') {
-            return 0;
+            return 1;
         }
         $result = $previousVisitCount + 1;
         return $result;

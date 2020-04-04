@@ -91,7 +91,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         // VISIT NO 2
 
         // Fake the returning visit cookie
-        $t->setDebugStringAppend("&_idvc=2");
+        // TODO: can't do this w/ idvc, should be fine for a test
         $t->setBrowserLanguage('pl');
 
         // VIEW category page
@@ -166,7 +166,6 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
             $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($offsetHour + 2.4)->getDatetime());
             // Also recording an order the day after (purposefully using old order ID, it should be ignored by the tracker since it was used in a previous visit)
             if ($offsetHour >= 24) {
-                $t->setDebugStringAppend("&_idvc=1");
                 $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
                 self::checkTrackingFailureResponse($t->doTrackEcommerceOrder($orderId2, $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
             }

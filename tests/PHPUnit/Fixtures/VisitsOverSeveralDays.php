@@ -73,10 +73,7 @@ class VisitsOverSeveralDays extends Fixture
         foreach ($dateTimes as $dateTime) {
             $days++;
 
-            // Fake the visit count cookie
-            $debugStringAppend = "&_idvc=$days";
-
-            $visitor = $this->makeTracker($this->idSite, $dateTime, $debugStringAppend);
+            $visitor = $this->makeTracker($this->idSite, $dateTime);
 
             // FIRST VISIT THIS DAY
             $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());

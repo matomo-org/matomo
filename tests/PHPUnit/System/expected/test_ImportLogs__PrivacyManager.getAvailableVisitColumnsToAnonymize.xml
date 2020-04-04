@@ -225,14 +225,6 @@
 		<default_value />
 	</row>
 	<row>
-		<column_name>visitor_days_since_first</column_name>
-		<default_value />
-	</row>
-	<row>
-		<column_name>visitor_days_since_last</column_name>
-		<default_value />
-	</row>
-	<row>
 		<column_name>visitor_days_since_order</column_name>
 		<default_value />
 	</row>
@@ -242,6 +234,14 @@
 	</row>
 	<row>
 		<column_name>visitor_returning</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_seconds_since_first</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_seconds_since_last</column_name>
 		<default_value />
 	</row>
 </result>
