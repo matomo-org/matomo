@@ -525,12 +525,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "fed1832947d2cc5dbfacdf6feafc51a4626a2bb5"
+                "reference": "9794438b0c1754060cc15048a030c9d39222b615"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/fed1832947d2cc5dbfacdf6feafc51a4626a2bb5",
-                "reference": "fed1832947d2cc5dbfacdf6feafc51a4626a2bb5",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/9794438b0c1754060cc15048a030c9d39222b615",
+                "reference": "9794438b0c1754060cc15048a030c9d39222b615",
                 "shasum": ""
             },
             "require": {
@@ -565,7 +565,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2020-04-01T06:33:29+00:00"
+            "time": "2020-04-06T07:37:16+00:00"
         },
         {
             "name": "matomo/network",
@@ -1236,16 +1236,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.12.3",
+            "version": "3.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31"
+                "reference": "6a92e45a55eb507f53581e9add7dc82835ad6424"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/22257883bd2c7c21d68112a907cdad7de4a2ba31",
-                "reference": "22257883bd2c7c21d68112a907cdad7de4a2ba31",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/6a92e45a55eb507f53581e9add7dc82835ad6424",
+                "reference": "6a92e45a55eb507f53581e9add7dc82835ad6424",
                 "shasum": ""
             },
             "require": {
@@ -1287,7 +1287,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2020-01-13T16:15:20+00:00"
+            "time": "2020-03-31T08:53:12+00:00"
         },
         {
             "name": "psr/container",
