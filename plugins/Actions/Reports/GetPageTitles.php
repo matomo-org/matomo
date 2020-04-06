@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Reports;
 
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
@@ -71,7 +72,11 @@ class GetPageTitles extends Base
 
         $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->columns_to_display = array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
-                                                  'avg_time_on_page', 'exit_rate', 'avg_time_generation');
+                                                  'avg_time_on_page', 'exit_rate');
+
+        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<')) {
+            $view->config->columns_to_display[] = 'avg_time_generation';
+        }
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);
