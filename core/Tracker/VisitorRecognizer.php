@@ -205,7 +205,7 @@ class VisitorRecognizer
                 'visit_exit_idaction_name',
                 'visitor_returning',
                 'visitor_seconds_since_first',
-                'visitor_days_since_order',
+                'visitor_seconds_since_order',
                 'visitor_count_visits',
                 'visit_goal_buyer',
 

@@ -15,14 +15,12 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
-// TODO: update that keeps old data? is that possible? maybe we need to keep both and use one if available, other if it isn't.
-//       that's annoying. you know what, let's create an issue.
-class VisitorDaysSinceOrder extends VisitDimension
+class VisitorSecondsSinceOrder extends VisitDimension
 {
-    protected $columnName = 'visitor_last_order_time';
-    protected $columnType = 'DATETIME UNSIGNED NULL';
-    protected $segmentName = 'lastOrderTime'; // TODO: segment + keep existing (daysSinceLastEcommerceOrder)
-    protected $nameSingular = 'General_DaysSinceLastEcommerceOrder'; // TODO: modify
+    protected $columnName = 'visitor_seconds_since_order';
+    protected $columnType = 'INT(11) UNSIGNED NULL';
+    protected $segmentName = 'secondsSinceLastEcommerceOrder';
+    protected $nameSingular = 'General_SecondsSinceLastEcommerceOrder';
     protected $category = 'General_Visitors'; // todo put into ecommerce category?
     protected $type = self::TYPE_NUMBER;
 
@@ -34,22 +32,22 @@ class VisitorDaysSinceOrder extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $isOrder = $request->getParam('ec_id');
-        if (!empty($isOrder)) {
-            return Date::now()->getDatetime();
-        }
-
-        return $visitor->getPreviousVisitColumn('visitor_last_order_time') ?: null;
+        return $this->onExistingVisit($request, $visitor, $action);
     }
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        $isOrder = $request->getParam('ec_id');
-        if (!empty($isOrder)) {
-            return Date::now()->getDatetime();
+        $idorder = $request->getParam('ec_id');
+        $isOrder = !empty($idorder);
+        if ($isOrder) {
+            return 0;
         }
 
-        return $visitor->getVisitorColumn($this->columnName);
+        $secondsSinceLastOrder = $visitor->getVisitorColumn($this->columnName);
+        $visitsLastActionTime = Date::factory($visitor->getVisitorColumn('visit_last_action_time'))->getTimestamp();
+        $secondsSinceLastAction = $request->getCurrentTimestamp() - $visitsLastActionTime;
+
+        return $secondsSinceLastOrder + $secondsSinceLastAction;
     }
 
     /**
@@ -67,7 +65,13 @@ class VisitorDaysSinceOrder extends VisitDimension
     {
         parent::addSegment($segment);
 
-        // TODO: add daysSinceLastEcommerceOrder segment (visitor_last_order_time -
-        //       FUCK. this might screw me.
+        $segment = new Segment();
+        $segment->setSegment('daysSinceLastEcommerceOrder');
+        $segment->setName('General_DaysSinceFirstVisit');
+        $segment->setCategory('General_Visitors');
+        $segment->setSqlFilterValue(function ($value) {
+            return $value * 86400;
+        });
+        $this->addSegment($segment);
     }
 }
