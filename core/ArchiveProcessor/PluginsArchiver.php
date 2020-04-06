@@ -269,7 +269,7 @@ class PluginsArchiver
         }
 
         if (Rules::shouldProcessReportsAllPlugins(
-            $this->params->getIdSites(),
+            array($this->params->getSite()->getId()),
             $this->params->getSegment(),
             $this->params->getPeriod()->getLabel())) {
             return true;
