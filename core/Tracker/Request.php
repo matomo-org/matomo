@@ -250,42 +250,6 @@ class Request
     }
 
     /**
-     * @return bool|float|int
-     */
-    public function getDaysSinceLastOrder()
-    {
-        $daysSinceLastOrder = false;
-        $lastOrderTimestamp = $this->getParam('_ects');
-
-        if ($this->isTimestampValid($lastOrderTimestamp)) {
-            $daysSinceLastOrder = round(($this->getCurrentTimestamp() - $lastOrderTimestamp) / 86400, $precision = 0);
-            if ($daysSinceLastOrder < 0) {
-                $daysSinceLastOrder = 0;
-            }
-        }
-
-        return $daysSinceLastOrder;
-    }
-
-    /**
-     * @return float|int
-     */
-    public function getDaysSinceLastVisit()
-    {
-        $daysSinceLastVisit = 0;
-        $lastVisitTimestamp = $this->getParam('_viewts');
-
-        if ($this->isTimestampValid($lastVisitTimestamp)) {
-            $daysSinceLastVisit = round(($this->getCurrentTimestamp() - $lastVisitTimestamp) / 86400, $precision = 0);
-            if ($daysSinceLastVisit < 0) {
-                $daysSinceLastVisit = 0;
-            }
-        }
-
-        return $daysSinceLastVisit;
-    }
-
-    /**
      * @return int|mixed
      */
     public function getVisitCount()
@@ -359,10 +323,6 @@ class Request
             '_ref'         => array('', 'string'),
             '_rcn'         => array('', 'string'),
             '_rck'         => array('', 'string'),
-            '_idts'        => array(0, 'int'),
-            '_viewts'      => array(0, 'int'),
-            '_ects'        => array(0, 'int'),
-            '_idvc'        => array(1, 'int'),
             'url'          => array('', 'string'),
             'urlref'       => array('', 'string'),
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),

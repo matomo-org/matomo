@@ -71,22 +71,8 @@ class VisitorReturning extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $daysSinceLastOrder = $request->getDaysSinceLastOrder();
-        $isReturningCustomer = ($daysSinceLastOrder !== false);
-
-        if ($isReturningCustomer) {
-            return self::IS_RETURNING_CUSTOMER;
-        }
-
-        $visitCount = $visitor->visitProperties->getProperty('visitor_count_visits'); // TODO: hope his is run first?
-        if ($visitCount === false) {
-            throw new \Error('Unexpected, this should be run first...'); // TODO: remove when dealt w/.
-        }
-
-        $daysSinceFirstVisit = $request->getDaysSinceFirstVisit();
-        $daysSinceLastVisit = $request->getDaysSinceLastVisit();
-
-        if ($visitor->isVisitorKnown() || $daysSinceFirstVisit > 0 || $daysSinceLastVisit > 0) {
+        // TODO: why was there so much extra logic? i a visitor isn't detected as known, why would visit count/ects/idts/etc. not be 0/null?
+        if ($visitor->isVisitorKnown()) {
             return self::IS_RETURNING;
         }
 
