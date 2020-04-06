@@ -195,6 +195,8 @@ class Controller extends \Piwik\Plugin\Controller
             return '';
         }
 
+        VisitorLog::groupActionsByPageviewId($nextVisits);
+
         $view = new View('@Live/getVisitList.twig');
         $view->idSite = $this->idSite;
         $view->startCounter = $startCounter < $nextVisits->getRowsCount() ? $nextVisits->getRowsCount() : $startCounter;

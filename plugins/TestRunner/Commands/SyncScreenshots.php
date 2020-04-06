@@ -146,7 +146,7 @@ echo -e \"\n--> Check the commit above is correct... <---\n\"
 sleep 7
 git push";
 
-        if ($repository === 'piwik/piwik') {
+        if ($repository === 'matomo-org/matomo') {
             $commands .= "
 cd ../../../";
         } else {

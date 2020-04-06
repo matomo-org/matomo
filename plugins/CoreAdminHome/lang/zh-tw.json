@@ -109,6 +109,7 @@
         "YouMayOptOut3": "這樣做可以保護你的隱私，但也將讓擁有者無法從你的活動中學習，為你和其他使用者創造更佳的體驗。",
         "UncheckToOptOut": "取消勾選來選擇退出追蹤。",
         "CheckToOptIn": "勾選來選擇加入追蹤。",
+        "OptOutErrorNoCookies": "選擇退出追蹤的功能必須要開啟 cookie 才能運作。",
         "MissingTrackingCodeEmailSubject": "Matomo 分析沒有記錄到 %s 的流量，開始行動",
         "JsTrackingCodeMissingEmail1": "幾天前你在你的 Matomo 分析中新增了網站「%s」。我們剛剛檢查了你的 Matomo 似乎沒有記錄到這個網站的任何流量。",
         "JsTrackingCodeMissingEmail3": "要尋找和自訂你的追蹤程式碼，%1$s點擊這裡%2$s（或看看%3$sJavaScript 追蹤客戶端指南%4$s）。",

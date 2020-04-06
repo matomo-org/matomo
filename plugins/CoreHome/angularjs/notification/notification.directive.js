@@ -87,8 +87,9 @@
                 function closeExistingNotificationHavingSameIdIfNeeded(id, notificationElement) {
                     // TODO: instead of doing a global query for notification, there should be a notification-container
                     //       directive that manages notifications.
+                    var notificationStillExists = !!notificationElement.parents('body').length;
                     var existingNode = angular.element('[notification-id=' + id + ']').not(notificationElement);
-                    if (existingNode && existingNode.length) {
+                    if (notificationStillExists && existingNode && existingNode.length) {
                         existingNode.remove();
                     }
                 }

@@ -18,7 +18,7 @@ class SiteNameJoin extends Columns\Join
 {
     public function __construct()
     {
-        return parent::__construct('site', 'idsite', 'name');
+        parent::__construct('site', 'idsite', 'name');
     }
 
 }

@@ -11,6 +11,7 @@
         "Settings_CredentialNotProvidedByAdmin": "Преди да можете да добавяте и управлявате телефонни номера, моля, свържете се с вашия администратор, за да свърже Matomo с SMS профил.",
         "Settings_CredentialProvided": "Вашият %s SMS приложно-програмен интерфейсен профил е правилно настроен!",
         "Settings_DeleteAccountConfirm": "Сигурни ли сте, че искате да изтриете този SMS профил?",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Така посоченият доставчик на SMS услуги ще бъде ползван само от вас. Други потребители няма да могат да го ползват.",
         "Settings_InvalidActivationCode": "Въведеният код не е валиден, моля опитайте отново.",
         "Settings_LetUsersManageAPICredential": "Позволява на потребителите да управляват своите собствени идентификационни данни за SMS API",
         "Settings_ManagePhoneNumbers": "Управление на телефонните номера",
@@ -18,14 +19,15 @@
         "Settings_PhoneNumber": "Телефонен номер",
         "Settings_PhoneNumbers_Add": "Добави нов телефонен номер",
         "Settings_SMSAPIAccount": "Управление на профила за SMS приложно-програмен интерфейс",
-        "Settings_SMSProvider": "SMS провайдър",
+        "Settings_SMSProvider": "Доставчик на SMS услуги",
         "Settings_SuperAdmin": "Настройки на супер потребителя",
         "Settings_SuspiciousPhoneNumber": "Ако не получите текстовото съобщение, може да опитате без водещата нула. т.е. %s",
         "Settings_UpdateOrDeleteAccount": "%1$sОбновяване%2$s или %3$sизтриване%4$s на този профил.",
         "Settings_ValidatePhoneNumber": "Валидиране",
+        "Settings_VerificationCodeJustSent": "Изпратихме ви код със SMS на посочения номер, моля, въведете кода по-горе и натиснете \"Валидиране\".",
         "SettingsMenu": "Мобилни съобщения",
         "TopLinkTooltip": "Вземете Web Analytics Reports доставен във вашата пощенска кутия или във вашия мобилен телефон!",
-        "TopMenu": "Email & SMS Доклади",
+        "TopMenu": "Доклади по имейл и SMS",
         "VerificationText": "Кодът е %1$s. За да потвърдите вашия телефонен номер и да получите Matomo SMS отчети, моля, копирайте този код във формата достъпна чрез Matomo > %2$s > %3$s."
     }
 }
