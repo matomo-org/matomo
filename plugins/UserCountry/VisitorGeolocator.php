@@ -305,11 +305,6 @@ class VisitorGeolocator
     public static function getDefaultLocationCache()
     {
         if (self::$defaultLocationCache === null) {
-            if (!class_exists(Transient::class)) {
-                $ex = new \Exception();
-                print $ex->getTraceAsString()."\n";
-                exit;
-            }
             self::$defaultLocationCache = new Transient();
         }
         return self::$defaultLocationCache;
