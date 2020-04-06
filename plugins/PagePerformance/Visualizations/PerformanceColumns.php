@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\PagePerformance\Visualizations;
 
 use Piwik\DataTable;
+use Piwik\DbHelper;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\PagePerformance\Metrics;
 use Piwik\Plugins\PagePerformance\PagePerformance;
@@ -51,6 +52,10 @@ class PerformanceColumns extends HtmlTable
                 'label',
                 'nb_visits',
             ], array_keys(Metrics::getAllPagePerformanceMetrics()));
+
+            if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<')) {
+                $properties->columns_to_display[] = 'avg_time_generation';
+            }
         });
 
         parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
