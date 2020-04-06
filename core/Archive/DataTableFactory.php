@@ -404,13 +404,17 @@ class DataTableFactory
             foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
                 $row->removeSubtable();
             }
+            $summaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($summaryRow) {
+                $summaryRow->removeSubtable();
+            }
 
             return;
         }
 
         $dataName = reset($this->dataNames);
 
-        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
+        foreach ($dataTable->getRows() as $row) {
             $sid = $row->getIdSubDataTable();
             if ($sid === null) {
                 continue;
