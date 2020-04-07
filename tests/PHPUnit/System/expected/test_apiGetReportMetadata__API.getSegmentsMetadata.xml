@@ -10,13 +10,13 @@
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Days since first visit</name>
-		<segment>daysSinceFirstVisit</segment>
+		<segment>daysSinceLastEcommerceOrder</segment>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
-		<name>Days since last Ecommerce order</name>
-		<segment>daysSinceLastEcommerceOrder</segment>
+		<name>Days since first visit</name>
+		<segment>daysSinceFirstVisit</segment>
 	</row>
 	<row>
 		<type>metric</type>
@@ -63,6 +63,12 @@
 		<category>Visitors</category>
 		<name>Seconds since first visit</name>
 		<segment>secondsSinceFirstVisit</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
+		<name>Seconds since last Ecommerce order</name>
+		<segment>secondsSinceLastEcommerceOrder</segment>
 	</row>
 	<row>
 		<type>metric</type>

@@ -225,10 +225,6 @@
 		<default_value />
 	</row>
 	<row>
-		<column_name>visitor_days_since_order</column_name>
-		<default_value />
-	</row>
-	<row>
 		<column_name>visitor_localtime</column_name>
 		<default_value />
 	</row>
@@ -242,6 +238,10 @@
 	</row>
 	<row>
 		<column_name>visitor_seconds_since_last</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_seconds_since_order</column_name>
 		<default_value />
 	</row>
 </result>

@@ -2,8 +2,8 @@
 <result>
 	<row>
 		<label>1 visit</label>
-		<nb_visits>8</nb_visits>
-		<nb_visits_percentage>53%</nb_visits_percentage>
+		<nb_visits>13</nb_visits>
+		<nb_visits_percentage>87%</nb_visits_percentage>
 		<segment>visitCount==1</segment>
 	</row>
 	<row>
@@ -20,14 +20,14 @@
 	</row>
 	<row>
 		<label>4 visits</label>
-		<nb_visits>1</nb_visits>
-		<nb_visits_percentage>7%</nb_visits_percentage>
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
 		<segment>visitCount==4</segment>
 	</row>
 	<row>
 		<label>5 visits</label>
-		<nb_visits>2</nb_visits>
-		<nb_visits_percentage>13%</nb_visits_percentage>
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
 		<segment>visitCount==5</segment>
 	</row>
 	<row>
@@ -38,8 +38,8 @@
 	</row>
 	<row>
 		<label>7 visits</label>
-		<nb_visits>1</nb_visits>
-		<nb_visits_percentage>7%</nb_visits_percentage>
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
 		<segment>visitCount==7</segment>
 	</row>
 	<row>
@@ -68,8 +68,8 @@
 	</row>
 	<row>
 		<label>51-100 visits</label>
-		<nb_visits>1</nb_visits>
-		<nb_visits_percentage>7%</nb_visits_percentage>
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
 		<segment>visitCount&gt;=51;visitCount&lt;=100</segment>
 	</row>
 	<row>

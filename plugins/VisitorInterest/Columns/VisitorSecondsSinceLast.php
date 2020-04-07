@@ -45,7 +45,7 @@ class VisitorSecondsSinceLast extends VisitDimension
         }
 
         $currentTimestamp = $request->getCurrentTimestamp();
-        $previousVisitLastActionTime = Date::factory($visitor->getPreviousVisitColumn('visit_last_action_time'))->getTimestamp();
+        $previousVisitLastActionTime = strtotime($visitor->getPreviousVisitColumn('visit_first_action_time'));
 
         if (empty($previousVisitLastActionTime)) {
             Common::printDebug("Found empty visit_last_action_time for last visit of known visitor, this is unexpected.");
