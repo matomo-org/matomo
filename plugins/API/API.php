@@ -10,6 +10,7 @@ namespace Piwik\Plugins\API;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Category\CategoryList;
@@ -29,6 +30,7 @@ use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
@@ -580,6 +582,46 @@ class API extends \Piwik\Plugin\API
 
         // if segment has suggested values callback then return result from it instead
         $suggestedValuesCallbackRequiresTable = false;
+
+        if (!Rules::isBrowserTriggerEnabled() && is_string($segment['suggestedValuesApi']) && !empty($segment['suggestedValuesApi'])) {
+            $period = 'year';
+            $date = 'today';
+            if (Date::now()->toString('m') == '01' && !Rules::isArchivingDisabledFor(array($idSite), new Segment('', array($idSite)), 'range')) {
+                $period = 'range';
+                $date = Date::now()->subMonth(1)->toString() . ',' . Date::now()->addDay(1)->toString();
+            }
+
+            $flat = strpos($segment['suggestedValuesApi'], 'Actions.') === 0;
+
+            $table = Request::processRequest($segment['suggestedValuesApi'], array(
+                'idSite' => $idSite,
+                'period' => $period,
+                'date' => $date,
+                'filter_offset' => 0,
+                'flat' => (int) $flat,
+                'filter_limit' => $maxSuggestionsToReturn
+            ));
+            if ($table && $table instanceof DataTable && $table->getRowsCount()) {
+                $values = [];
+                foreach ($table->getRowsWithoutSummaryRow() as $row) {
+                    $segment = $row->getMetadata('segment');
+                    $remove = array(
+                        $segmentName . Segment\SegmentExpression::MATCH_EQUAL,
+                        $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH
+                    );
+                    if (!empty($segment) && preg_match('/^' . implode('|',$remove) . '/', $segment)) {
+                        $values[] = urldecode(urldecode(str_replace($remove, '', $segment)));
+                    } else {
+                        $values[] = $row->getColumn('label');
+                    }
+                }
+
+                $values = array_slice($values, 0, $maxSuggestionsToReturn);
+                $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+                return $values;
+            }
+        }
+
         if (isset($segment['suggestedValuesCallback'])) {
             $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
                 $segment['suggestedValuesCallback']);

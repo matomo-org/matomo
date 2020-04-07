@@ -110,10 +110,17 @@ abstract class Dimension
     /**
      * Sets a callback which will be executed when user will call for suggested values for segment.
      *
-     * @var callable
+     * @var callable|string
      * @api since Piwik 3.2.0
      */
     protected $suggestedValuesCallback;
+
+    /**
+     * An API method whose label columns will be used to determine the suggested values should browser archiving
+     * be disabled.
+     * @var string
+     */
+    protected $suggestedValuesApi = '';
 
     /**
      * Here you should explain which values are accepted/useful for your segment, for example:
@@ -618,6 +625,10 @@ abstract class Dimension
 
         if ($this->suggestedValuesCallback && !$segment->getSuggestedValuesCallback()) {
             $segment->setSuggestedValuesCallback($this->suggestedValuesCallback);
+        }
+
+        if ($this->suggestedValuesApi) {
+            $segment->setSuggestedValuesApi($this->suggestedValuesApi);
         }
 
         if ($this->sqlFilterValue && !$segment->getSqlFilterValue()) {

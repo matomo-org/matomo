@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 use Exception;
+use Piwik\Development;
 
 /**
  * Creates a new segment that can be used for instance within the {@link \Piwik\Columns\Dimension::configureSegment()}
@@ -54,6 +55,7 @@ class Segment
     private $suggestedValuesCallback;
     private $unionOfSegments;
     private $isInternalSegment = false;
+    private $suggestedValuesApi = '';
 
     /**
      * If true, this segment will only be visible to the user if the user has view access
@@ -289,11 +291,35 @@ class Segment
     /**
      * Set callback which will be executed when user will call for suggested values for segment.
      *
-     * @param callable $suggestedValuesCallback
+     * @param callable|string $suggestedValuesCallback
      */
     public function setSuggestedValuesCallback($suggestedValuesCallback)
     {
         $this->suggestedValuesCallback = $suggestedValuesCallback;
+    }
+
+    /**
+     * @return string
+     * @ignore
+     */
+    public function getSuggestedValuesApi()
+    {
+        return $this->suggestedValuesApi;
+    }
+
+    /**
+     * Set callback which will be executed when user will call for suggested values for segment.
+     *
+     * @param string $suggestedValuesApi
+     */
+    public function setSuggestedValuesApi($suggestedValuesApi)
+    {
+        if (!empty($suggestedValuesApi) && is_string($suggestedValuesApi) && Development::isEnabled()) {
+            if (strpos($suggestedValuesApi, '.') === false) {
+                throw new Exception('Invalid suggested values API defined');
+            }
+        }
+        $this->suggestedValuesApi = $suggestedValuesApi;
     }
 
     /**
@@ -344,6 +370,10 @@ class Segment
 
         if (is_callable($this->suggestedValuesCallback)) {
             $segment['suggestedValuesCallback'] = $this->suggestedValuesCallback;
+        }
+
+        if (is_string($this->suggestedValuesApi) && !empty($this->suggestedValuesApi)) {
+            $segment['suggestedValuesApi'] = $this->suggestedValuesApi;
         }
 
         return $segment;
