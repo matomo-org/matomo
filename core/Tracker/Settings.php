@@ -108,7 +108,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
               $os
             . $browserName . $browserVersion
             . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF
-            . $plugin_WindowsMedia . $plugin_Silverlight . $plugin_Cookie
+            . $plugin_WindowsMedia . '0' . $plugin_Silverlight . $plugin_Cookie
             . $ip
             . $browserLang
             . $salt;
