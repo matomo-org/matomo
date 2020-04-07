@@ -289,7 +289,7 @@ class Updater extends \Piwik\Updates
             'log_visit.visit_entry_idaction_name' => 'INTEGER(11) UNSIGNED NOT NULL',
             'log_visit.visit_entry_idaction_url' => 'INTEGER(11) UNSIGNED NOT NULL',
             'log_visit.visitor_returning' => 'TINYINT(1) NOT NULL1',
-            'log_visit.visitor_seconds_since_order' => 'INT(11) UNSIGNED NOT NULL1',
+            'log_visit.visitor_days_since_order' => 'INT(11) UNSIGNED NOT NULL1',
             'log_visit.visit_goal_buyer' => 'TINYINT(1) NOT NULL',
             'log_visit.visit_first_action_time' => 'DATETIME NOT NULL',
             'log_visit.visit_goal_converted' => 'TINYINT(1) NOT NULL',

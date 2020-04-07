@@ -61,9 +61,9 @@ class VisitorSecondsSinceOrder extends VisitDimension
         return $visitor->getVisitorColumn($this->columnName);
     }
 
-    protected function addSegment(Segment $segment)
+    protected function configureSegments()
     {
-        parent::addSegment($segment);
+        parent::configureSegments();
 
         $segment = new Segment();
         $segment->setSegment('daysSinceLastEcommerceOrder');

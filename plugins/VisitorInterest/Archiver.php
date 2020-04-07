@@ -108,7 +108,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         ));
 
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visitor_seconds_since_last', $this->getDaysSinceLastVisitGapInSecs(), 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
+            'FLOOR(log_visit.visitor_seconds_since_last / 86400)', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
             $restrictToReturningVisitors = true
         ));
 
@@ -158,20 +158,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             }
         }
         return $secondsGap;
-    }
-
-    private function getDaysSinceLastVisitGapInSecs()
-    {
-        $result = [];
-        foreach (self::$daysSinceLastVisitGap as $key => $gap) {
-            foreach ($gap as $itemKey => $item) {
-                if (is_int($item)) {
-                    $item = $item * 24 * 60 * 60;
-                }
-                $result[$key][$itemKey] = $item;
-            }
-        }
-        return $result;
     }
 
 }
