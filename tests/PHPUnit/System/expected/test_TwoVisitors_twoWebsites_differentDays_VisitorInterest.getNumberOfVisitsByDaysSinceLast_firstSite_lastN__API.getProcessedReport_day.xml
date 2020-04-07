@@ -8,7 +8,7 @@
 		<name>Visits by days since last visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
-		<dimension>Visits by days since last visit</dimension>
+		<dimension>Days since last visit</dimension>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -21,7 +21,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
 	</metadata>
 	<columns>
-		<label>Visits by days since last visit</label>
+		<label>Days since last visit</label>
 		<nb_visits>Visits</nb_visits>
 	</columns>
 	<reportData>
@@ -160,11 +160,11 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 			</row>
 			<row>
 				<label>2 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 			</row>
 			<row>
 				<label>3 days</label>
@@ -222,7 +222,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 			</row>
 			<row>
 				<label>2 days</label>
@@ -230,7 +230,7 @@
 			</row>
 			<row>
 				<label>3 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 			</row>
 			<row>
 				<label>4 days</label>
@@ -284,7 +284,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 			</row>
 			<row>
 				<label>2 days</label>
@@ -296,7 +296,7 @@
 			</row>
 			<row>
 				<label>4 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 			</row>
 			<row>
 				<label>5 days</label>
@@ -346,7 +346,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 			</row>
 			<row>
 				<label>2 days</label>
@@ -362,7 +362,7 @@
 			</row>
 			<row>
 				<label>5 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 			</row>
 			<row>
 				<label>6 days</label>
@@ -408,7 +408,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 			</row>
 			<row>
 				<label>2 days</label>
@@ -428,7 +428,7 @@
 			</row>
 			<row>
 				<label>6 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 			</row>
 			<row>
 				<label>7 days</label>
