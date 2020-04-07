@@ -110,7 +110,7 @@ abstract class Dimension
     /**
      * Sets a callback which will be executed when user will call for suggested values for segment.
      *
-     * @var callable|string
+     * @var callable
      * @api since Piwik 3.2.0
      */
     protected $suggestedValuesCallback;
