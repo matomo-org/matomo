@@ -597,6 +597,7 @@ class API extends \Piwik\Plugin\API
                 'idSite' => $idSite,
                 'period' => $period,
                 'date' => $date,
+                'segment' => '',
                 'filter_offset' => 0,
                 'flat' => (int) $flat,
                 'filter_limit' => $maxSuggestionsToReturn
