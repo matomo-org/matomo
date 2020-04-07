@@ -70,7 +70,7 @@ class VisitorSecondsSinceOrder extends VisitDimension
         $segment->setName('General_DaysSinceFirstVisit');
         $segment->setCategory('General_Visitors');
         $segment->setSqlFilterValue(function ($value) {
-            return $value * 86400;
+            return (int)$value * 86400;
         });
         $this->addSegment($segment);
     }

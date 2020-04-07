@@ -59,14 +59,14 @@ class VisitorSecondsSinceLast extends VisitDimension
     protected function configureSegments()
     {
         parent::configureSegments();
-
+// ,
         // TODO: is this right?
         $segment = new Segment();
         $segment->setSegment('daysSinceLastVisit');
         $segment->setName('General_DaysSinceLastVisit');
         $segment->setCategory('General_Visitors');
         $segment->setSqlFilterValue(function ($value) {
-            return $value * 86400;
+            return (int)$value * 86400;
         });
         $this->addSegment($segment);
     }

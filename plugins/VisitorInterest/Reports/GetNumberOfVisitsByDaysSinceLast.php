@@ -32,6 +32,21 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
         $this->subcategoryId = 'VisitorInterest_Engagement';
     }
 
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        parent::configureReportMetadata($availableReports, $infos);
+
+        end($availableReports);
+        $lastKey = key($availableReports);
+
+        if ($availableReports[$lastKey]['name'] != $this->getName()) {
+            return;
+        }
+
+        // change the column label that is shown in processed report, since we're displaying days not seconds
+        $availableReports[$lastKey]['dimension'] = Piwik::translate('General_DaysSinceLastVisit');
+    }
+
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         $widget = $factory->createWidget()->setName('VisitorInterest_WidgetVisitsByDaysSinceLast');
