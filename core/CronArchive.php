@@ -355,6 +355,12 @@ class CronArchive
                     break;
                 }
 
+                if ($invalidatedArchive['segment'] === null) {
+                    $this->logger->debug("Found archive for segment that is not auto archived, ignoring.");
+                    $this->addIdArchivesToExclude($invalidatedArchive);
+                    continue;
+                }
+
                 if ($this->isDoneFlagForPlugin($invalidatedArchive['name'])) {
                     $this->logger->debug("Found plugin specific invalidated archive, ignoring.");
                     $this->addIdArchivesToExclude($invalidatedArchive);
@@ -453,7 +459,6 @@ class CronArchive
             $nextArchive = $this->model->getNextInvalidatedArchive($table, $periodToGet, $this->allWebsites, $this->idArchivesToExclude[$tableMonth]);
             if (!empty($nextArchive)) {
                 $this->findSegmentForArchive($nextArchive);
-
                 return $nextArchive;
             }
 

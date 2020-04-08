@@ -77,7 +77,7 @@ class SegmentArchiving
 
         $segmentsForSite = $this->getAllSegments();
         foreach ($segmentsForSite as $storedSegment) {
-            if (empty($storedSegment['auto_archive'])) {
+            if ($this->isAutoArchivingEnabledFor($storedSegment)) {
                 continue;
             }
 
@@ -109,6 +109,10 @@ class SegmentArchiving
     public function findSegmentForHash($hash, $idSite)
     {
         foreach ($this->getAllSegments() as $segment) {
+            if ($this->isAutoArchivingEnabledFor($segment)) {
+                continue;
+            }
+
             $segmentObj = new Segment($segment['definition'], [$idSite]);
             if ($segmentObj->getHash() == $hash) {
                 return $segment['definition'];
@@ -266,5 +270,10 @@ class SegmentArchiving
     {
         return $segment['enable_only_idsite'] == 0
             || $segment['enable_only_idsite'] == $idSite;
+    }
+
+    private function isAutoArchivingEnabledFor($storedSegment)
+    {
+        return empty($storedSegment['auto_archive']);
     }
 }
