@@ -185,7 +185,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Return array of available languages
      *
-     * @return array Arry of array, each containing its ISO language code and name of the language
+     * @return array Array of array, each containing its ISO language code and name of the language
      */
     public function getAvailableLanguageNames()
     {

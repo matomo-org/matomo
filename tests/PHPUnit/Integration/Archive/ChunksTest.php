@@ -125,7 +125,7 @@ class ChunksTest extends IntegrationTestCase
         return $dataTable->getSerialized();
     }
 
-    private function createArchiveProcessorParamaters()
+    private function createArchiveProcessorParameters()
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', $this->date);
 
@@ -137,7 +137,7 @@ class ChunksTest extends IntegrationTestCase
 
     private function createPluginsArchiver()
     {
-        $params = $this->createArchiveProcessorParamaters();
+        $params = $this->createArchiveProcessorParameters();
 
         return new ArchiveProcessor\PluginsArchiver($params);
     }

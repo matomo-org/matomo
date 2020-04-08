@@ -44,7 +44,7 @@ abstract class Updates
     /**
      * Perform the incremental version update.
      *
-     * This method should preform all updating logic. If you define migrations in an overridden `getMigrations()`
+     * This method should perform all updating logic. If you define migrations in an overridden `getMigrations()`
      * method, you must call {@link Updater::executeMigrations()} here.
      *
      * See {@link \Piwik\Plugins\ExamplePlugin\Updates\Updates_0_0_2} for an example.

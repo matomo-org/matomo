@@ -206,7 +206,7 @@ class Updater
      * Component has a new version?
      *
      * @param string $componentName
-     * @return bool TRUE if compoment is to be updated; FALSE if not
+     * @return bool TRUE if component is to be updated; FALSE if not
      */
     public function hasNewVersion($componentName)
     {

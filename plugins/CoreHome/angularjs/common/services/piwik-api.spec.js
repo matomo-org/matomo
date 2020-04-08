@@ -251,7 +251,7 @@
             $httpBackend.flush();
         });
 
-        it("shuld correctly handle errors in a bulk request response, regardless of error location", function (done) {
+        it("should correctly handle errors in a bulk request response, regardless of error location", function (done) {
             piwikApi.bulkFetch([
                 {
                     method: "SomeOtherPlugin.whatever"

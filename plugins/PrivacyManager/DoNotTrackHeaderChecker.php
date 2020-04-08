@@ -49,7 +49,7 @@ class DoNotTrackHeaderChecker
             //     /.well-known/dnt
             // per Tracking Preference Expression
             
-            //Tracking Perference Expression has been updated to require Tk: N rather than Tk: 1
+            //Tracking Preference Expression has been updated to require Tk: N rather than Tk: 1
             Common::sendHeader('Tk: N');
         }
     }

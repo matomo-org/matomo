@@ -119,7 +119,7 @@ class Social extends Singleton
 
 
     /**
-     * Get's social network name from URL.
+     * Gets social network name from URL.
      *
      * @param string $url
      * @return string

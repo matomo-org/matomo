@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SequenceTest extends IntegrationTestCase
 {
-    public function test_create_shouldAddNewSequenceWithInitalId1()
+    public function test_create_shouldAddNewSequenceWithInitialId1()
     {
         $sequence = $this->getEmptySequence();
 

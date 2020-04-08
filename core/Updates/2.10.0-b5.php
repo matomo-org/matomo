@@ -27,7 +27,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  *
  * Unlike DevicesDetection plugin, the UserSettings plugin did not store archives holding the os and browser data without
  * their version number. The "version-less" reports were always generated out of the "version-containing" archives .
- * For big archives (month/year) that ment that some of the data was truncated, due to the datatable entry limit.
+ * For big archives (month/year) that meant that some of the data was truncated, due to the datatable entry limit.
  * To avoid that data loss / inaccuracy in the future, DevicesDetection plugin will also store archives without the version.
  * For data archived after DevicesDetection plugin was enabled, those archive already exist. As we are removing the
  * UserSettings reports, there is a fallback in DevicesDetection API to build the report out of the datatable with versions.
