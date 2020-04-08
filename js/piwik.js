@@ -247,7 +247,7 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
                     // Detect incomplete support for accessing string characters by index.
                     var charIndexBuggy = has("bug-string-char-index");
 
-                    // Define additional utility methods if the `Date` methods are buggy.
+                    // Define additional utility methods if the `Date` methods are buggy. 
                     if (!isExtended) {
                         var floor = Math.floor;
                         // A mapping between the months of the year and the number of days between
