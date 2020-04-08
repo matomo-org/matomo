@@ -195,6 +195,7 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function notifyTrackingFailures()
     {
+        $this->cleanupTrackingFailures();
         $failures = $this->trackingFailures->getAllFailures();
         $general = Config::getInstance()->General;
         if (!empty($failures) && $general['enable_tracking_failures_notification']) {
