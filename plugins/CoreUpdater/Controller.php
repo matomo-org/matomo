@@ -12,7 +12,6 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
@@ -171,17 +170,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
         return $view->render();
-    }
-
-    public function oneClickUpdatePartTwo()
-    {
-        Piwik::checkUserHasSuperUserAccess();
-
-        Json::sendHeaderJSON();
-
-        $messages = $this->updater->oneClickUpdatePartTwo();
-
-        echo json_encode($messages);
     }
 
     public function oneClickResults()

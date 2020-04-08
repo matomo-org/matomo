@@ -52,7 +52,7 @@ describe("OneClickUpdate", function () {
     it('should update successfully and show the finished update screen', async function () {
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
-        await page.waitFor('.content', { timeout: 120000 });
+        await page.waitFor('.content');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_success');
     });
 
