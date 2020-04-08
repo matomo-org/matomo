@@ -305,7 +305,12 @@ class VisitorGeolocator
     public static function getDefaultLocationCache()
     {
         if (self::$defaultLocationCache === null) {
-            self::$defaultLocationCache = new Transient();
+            if (class_exists('\Piwik\Cache\Transient')) {
+                // during the oneclickupdate from 3.x => greater, this class will be loaded, so we have to use it instead of the Matomo namespaced one
+                self::$defaultLocationCache = new \Piwik\Cache\Transient();
+            } else {
+                self::$defaultLocationCache = new Transient();
+            }
         }
         return self::$defaultLocationCache;
     }
