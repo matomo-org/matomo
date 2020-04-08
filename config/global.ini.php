@@ -895,6 +895,9 @@ tracking_requests_require_authentication_when_custom_timestamp_newer_than = 8640
 ; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
 enable_sql_profiler = 0
 
+; Enables using referrer spam blacklist.
+enable_spam_filter = 1
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
