@@ -583,12 +583,24 @@ class API extends \Piwik\Plugin\API
         // if segment has suggested values callback then return result from it instead
         $suggestedValuesCallbackRequiresTable = false;
 
-        if (!Rules::isBrowserTriggerEnabled() && is_string($segment['suggestedValuesApi']) && !empty($segment['suggestedValuesApi'])) {
+        if (!empty($segment['suggestedValuesApi']) && is_string($segment['suggestedValuesApi']) && !Rules::isBrowserTriggerEnabled()) {
+            $now = Date::now()->setTimezone(Site::getTimezoneFor($idSite));
+            if (self::$_autoSuggestLookBack != 60) {
+                // in Auto suggest tests we need to assume now is in 2018...
+                // we do - 20 to make sure the year is still correct otherwise could end up being 2017-12-31 and the recorded visits are over several days in the tests we make sure to select the last day a visit was recorded
+                $now = $now->subDay(self::$_autoSuggestLookBack - 20);
+            }
+            // we want to avoid launching the archiver should browser archiving be enabled as this can be very slow... we then rather
+            // use the live api.
             $period = 'year';
-            $date = 'today';
-            if (Date::now()->toString('m') == '01' && !Rules::isArchivingDisabledFor(array($idSite), new Segment('', array($idSite)), 'range')) {
-                $period = 'range';
-                $date = Date::now()->subMonth(1)->toString() . ',' . Date::now()->addDay(1)->toString();
+            $date = $now->toString();
+            if ($now->toString('m') == '01') {
+                if (Rules::isArchivingDisabledFor(array($idSite), new Segment('', array($idSite)), 'range')) {
+                    $date = $now->subYear(1)->toString(); // use previous year data to avoid using range
+                } else {
+                    $period = 'range';
+                    $date = $now->subMonth(1)->toString() . ',' . $now->addDay(1)->toString();
+                }
             }
 
             $flat = strpos($segment['suggestedValuesApi'], 'Actions.') === 0;
