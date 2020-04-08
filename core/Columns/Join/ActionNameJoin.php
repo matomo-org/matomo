@@ -18,7 +18,7 @@ class ActionNameJoin extends Columns\Join
 {
     public function __construct()
     {
-        return parent::__construct('log_action', 'idaction', 'name');
+        parent::__construct('log_action', 'idaction', 'name');
     }
 
 }

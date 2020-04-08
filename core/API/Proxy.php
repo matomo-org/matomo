@@ -148,7 +148,7 @@ class Proxy
 
             $this->registerClass($className);
 
-            // instanciate the object
+            // instantiate the object
             $object = $className::getInstance();
 
             // check method exists

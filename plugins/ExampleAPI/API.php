@@ -66,7 +66,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Sums two floats and returns the result.
-     * The paramaters are set automatically from the GET request
+     * The parameters are set automatically from the GET request
      * when the API function is called. You can also use default values
      * as shown in this example.
      *

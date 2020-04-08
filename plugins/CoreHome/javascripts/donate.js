@@ -133,7 +133,7 @@
             }
         });
 
-        // event for programatically changing the position
+        // event for programmatically changing the position
         $('body').on('piwik:changePosition', '.piwik-donate-slider', function (e, data) {
             moveSliderPosition(this, data.position);
         });

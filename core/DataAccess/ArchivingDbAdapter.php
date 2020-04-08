@@ -9,6 +9,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\Concurrency\Lock;
 use Piwik\Db\AdapterInterface;
 use Psr\Log\LoggerInterface;
@@ -29,6 +30,11 @@ class ArchivingDbAdapter
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * @var int
+     */
+    private $lastReexpireTime = null;
 
     public function __construct($wrapped, Lock $archivingLock = null, LoggerInterface $logger = null)
     {
@@ -101,7 +107,11 @@ class ArchivingDbAdapter
     private function reexpireLock()
     {
         if ($this->archivingLock) {
-            $this->archivingLock->reexpireLock();
+            $timeBetweenReexpires = ArchivingStatus::DEFAULT_ARCHIVING_TTL / 4;
+            if ($this->lastReexpireTime + $timeBetweenReexpires < time()) {
+                $this->archivingLock->reexpireLock();
+                $this->lastReexpireTime = time();
+            }
         }
     }
 }

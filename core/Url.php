@@ -373,7 +373,7 @@ class Url
     }
 
     /**
-     * Returns an array mapping query paramater names with query parameter values for
+     * Returns an array mapping query parameter names with query parameter values for
      * the current URL.
      *
      * @return array If current URL is `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`

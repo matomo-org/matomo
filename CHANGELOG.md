@@ -105,7 +105,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * It is now possible to queue a request on the JavaScript tracker using the method `queueRequest(requestUrl)`. This can be useful to group multiple tracking requests into one bulk request to reduce the number of tracking requests that are sent to your server making the tracking more efficient.
-* When specifying a callback in the JavaScript tracker in a tracker method, we now make sure to execute the callback even in error cases or when sentBeacon is used. The callback recevies an event parameter to determine which request was sent and whether the request was sent successfully.
+* When specifying a callback in the JavaScript tracker in a tracker method, we now make sure to execute the callback even in error cases or when sentBeacon is used. The callback receives an event parameter to determine which request was sent and whether the request was sent successfully.
 * Added new event `Metrics.getEvolutionUnit` which lets you set the unit for a metric used in evolution charts and row evolution.
 
 ### New Features
@@ -868,7 +868,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
 * [Visit Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Dimension/VisitDimension) to add a dimension that tracks visit related information
 * [Conversion Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Dimension/ConversionDimension) to add a dimension that tracks conversion related information
 * [Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Columns/Dimension) to add a basic non tracking dimension that can be used in `Reports`
-* [Widgets](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Widgets) to add or modfiy widgets
+* [Widgets](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Widgets) to add or modify widgets
 * These Menu classes got new methods that make it easier to add new items to a specific section
   * [MenuAdmin](http://developer.matomo.org/2.x/api-reference/Piwik/Menu/MenuAdmin) to add or modify admin menu items. 
   * [MenuReporting](http://developer.matomo.org/2.x/api-reference/Piwik/Menu/MenuReporting) to add or modify reporting menu items

@@ -95,7 +95,7 @@ class Request
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
         if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
-            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            Common::printDebug("Unsupported character detected in $key. Replacing with \xEF\xBF\xBD");
             return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
         }
 

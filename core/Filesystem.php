@@ -224,7 +224,6 @@ class Filesystem
         if ($deleteRootToo) {
             @rmdir($dir);
         }
-        return;
     }
 
     /**
@@ -251,7 +250,7 @@ class Filesystem
 
     /**
      * Sort all given paths/filenames by its path length. Long path names will be listed first. This method can be
-     * useful if you have for instance a bunch of files/directories to delete. By sorting them by lengh you can make
+     * useful if you have for instance a bunch of files/directories to delete. By sorting them by length you can make
      * sure to delete all files within the folders before deleting the actual folder.
      *
      * @param string[] $files

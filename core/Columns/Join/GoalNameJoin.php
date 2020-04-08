@@ -18,7 +18,7 @@ class GoalNameJoin extends Columns\Join
 {
     public function __construct()
     {
-        return parent::__construct('goal', 'idgoal', 'name');
+        parent::__construct('goal', 'idgoal', 'name');
     }
 
 }

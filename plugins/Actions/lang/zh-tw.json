@@ -57,6 +57,8 @@
         "SiteSearchCategories": "分類（站內搜尋）",
         "SiteSearchKeyword": "關鍵字（站內搜尋）",
         "SiteSearchKeywords": "關鍵字（站內搜尋）",
+        "SiteSearchKeywordCount": "關鍵字數量（站內搜尋）",
+        "SiteSearchKeywordCounts": "關鍵字數量（站內搜尋）",
         "SiteSearchKeywordsDocumentation": "這份報表列出訪客在站內搜尋時所使用的搜尋關鍵字。",
         "SiteSearchKeywordsNoResultDocumentation": "這份報表列出沒有任何搜尋結果的關鍵字：或許搜尋演算法可以改進，或是訪客要尋找的東西還不存在於你的網站？",
         "SubmenuPagesEntry": "到達網頁",

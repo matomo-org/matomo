@@ -98,7 +98,7 @@ class PasswordResetter
     /**
      * The from email to use in the confirm password reset email.
      *
-     * Deafults to the `[General] login_password_recovery_email_address` INI config option.
+     * Defaults to the `[General] login_password_recovery_email_address` INI config option.
      *
      * @var
      */
