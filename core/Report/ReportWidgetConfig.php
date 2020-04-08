@@ -20,7 +20,7 @@ class ReportWidgetConfig extends WidgetConfig
     protected $forceViewDataTable = false;
 
     /**
-     * Sets a default viewDataTable that should be used to render the report. This is not neccessarily the
+     * Sets a default viewDataTable that should be used to render the report. This is not necessarily the
      * view that will be actually used to render the report. Eg if a user switched manually to another viewDataTable
      * Piwik will re-use the viewDataTable that was used the last time. If you want to force the usage of a
      * viewDataTable use {@link forceViewDataTable()}.

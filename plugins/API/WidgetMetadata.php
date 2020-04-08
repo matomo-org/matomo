@@ -124,7 +124,7 @@ class WidgetMetadata
             $item['layout'] = $widget->getLayout();
             $item['isContainer'] = true;
 
-            // we do not want to create categories to the inital categoryList. Otherwise we'd maybe display more pages
+            // we do not want to create categories to the initial categoryList. Otherwise we'd maybe display more pages
             // etc.
             $subCategoryList = new CategoryList();
             $this->createMissingCategoriesAndSubcategories($subCategoryList, $widget->getWidgetConfigs());

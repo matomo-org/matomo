@@ -84,7 +84,7 @@ class Request
     private $request = null;
 
     /**
-     * Converts the supplied request string into an array of query paramater name/value
+     * Converts the supplied request string into an array of query parameter name/value
      * mappings. The current query parameters (everything in `$_GET` and `$_POST`) are
      * forwarded to request array before it is returned.
      *
@@ -266,7 +266,7 @@ class Request
 
             // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
             // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters
-            // which may only exist in $this->request, if the request was called programatically)
+            // which may only exist in $this->request, if the request was called programmatically)
             $toReturn = Context::executeWithQueryParameters($this->request, function () use ($response, $returnedValue, $module, $method) {
                 return $response->getResponse($returnedValue, $module, $method);
             });

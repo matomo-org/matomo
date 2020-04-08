@@ -46,7 +46,7 @@ require_once PIWIK_VENDOR_PATH . '/autoload.php';
 \Piwik\Plugin\Manager::initPluginDirectories();
 
 /**
- * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling
+ * Eaccelerator does not support closures and is known to be not compatible with Piwik. Therefore we are disabling
  * it automatically. At this point it looks like Eaccelerator is no longer under development and the bug has not
  * been fixed within a year.
  *

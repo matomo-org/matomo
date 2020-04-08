@@ -164,7 +164,7 @@ class API extends \Piwik\Plugin\API
      *
      * Unlike DevicesDetection plugin now, the UserSettings plugin did not store archives holding the os and browser data without
      * their version number. The "version-less" reports were always generated out of the "version-containing" archives .
-     * For big archives (month/year) that ment that some of the data was truncated, due to the datatable entry limit.
+     * For big archives (month/year) that meant that some of the data was truncated, due to the datatable entry limit.
      * To avoid that data loss / inaccuracy in the future, DevicesDetection plugin will also store archives without the version.
      * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
      * them here from the "version-containing" reports if possible.

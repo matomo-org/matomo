@@ -29,7 +29,7 @@
      */
     var dashboardElement = null;
     /**
-     * Boolean indicating wether the layout config has been changed or not
+     * Boolean indicating weather the layout config has been changed or not
      * @type {boolean}
      */
     var dashboardChanged = false;

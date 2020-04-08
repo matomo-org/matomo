@@ -1036,7 +1036,7 @@ class API extends \Piwik\Plugin\API
         $capabilities = array();
 
         if (is_array($access)) {
-            // we require one role, and optionally multiple capabilties
+            // we require one role, and optionally multiple capabilities
             list($roles, $capabilities) = $this->getRoleAndCapabilitiesFromAccess($access);
 
             if (count($roles) < 1) {

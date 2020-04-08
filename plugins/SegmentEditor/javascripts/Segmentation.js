@@ -834,7 +834,7 @@ Segmentation = (function($) {
                 this.content = this.target.find(".segmentationContainer");
             }
 
-            // assign content to object attribute to make it easil accesible through all widget methods
+            // assign content to object attribute to make it easily accessible through all widget methods
             this.markCurrentSegment();
             setTimeout(function () {
                 self.markComparedSegments();

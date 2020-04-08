@@ -329,7 +329,7 @@ class API extends \Piwik\Plugin\API
                 $idSite = $idSites;
             }
         } elseif (empty($idSite) && empty($idSites)) {
-            throw new \Exception('Calling API.getReportMetadata without any idSite is no longer supported since Matomo 3.0.0. Please specifiy at least one idSite via the "idSite" parameter.');
+            throw new \Exception('Calling API.getReportMetadata without any idSite is no longer supported since Matomo 3.0.0. Please specify at least one idSite via the "idSite" parameter.');
         }
 
         Piwik::checkUserHasViewAccess($idSite);

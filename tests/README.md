@@ -153,7 +153,7 @@ You can retrieve the files generated during the build (the build artifacts) at [
 
 By default tests running on Travis CI will log all messages of at least `INFO` level in `$PIWIK_ROOT_DIR/tmp/logs/piwik.log`. In a given travis build output, you can view the logs by clicking on the line `$ cat $PIWIK_ROOT_DIR/tmp/logs/matomo.log` at the end of the build output text.
 
-Note: `DEBUG` and `VERBOSE` messages are not logged by default (to keep Travis page loading fast). At any time you can temporarirly enable logging by [modifying this file](https://github.com/matomo-org/matomo/blob/master/tests/PHPUnit/config.ini.travis.php#L23-27) and changing `log_level = info` to `log_level = debug` or `log_level = verbose`.
+Note: `DEBUG` and `VERBOSE` messages are not logged by default (to keep Travis page loading fast). At any time you can temporarily enable logging by [modifying this file](https://github.com/matomo-org/matomo/blob/master/tests/PHPUnit/config.ini.travis.php#L23-27) and changing `log_level = info` to `log_level = debug` or `log_level = verbose`.
 
 ### Screenshot tests build artifacts
 
