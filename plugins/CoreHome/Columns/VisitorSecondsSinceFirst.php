@@ -79,18 +79,4 @@ class VisitorSecondsSinceFirst extends VisitDimension
     {
         return $visitor->getVisitorColumn($this->columnName);
     }
-
-    protected function configureSegments()
-    {
-        parent::configureSegments();
-
-        // TODO: is this right?
-        $segment = new Segment();
-        $segment->setSegment('daysSinceFirstVisit');
-        $segment->setName('General_DaysSinceFirstVisit');
-        $segment->setCategory('General_Visitors');
-        $segment->setSqlFilterValue(function ($value) {
-            return (int)$value * 86400;
-        });
-        $this->addSegment($segment);
-    }}
+}

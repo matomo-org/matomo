@@ -29,7 +29,7 @@ class VisitorSecondsSinceLast extends VisitDimension
 
     public function getName()
     {
-        return Piwik::translate('General_SecondsSinceLastVisit'); // TODO why was this overridden?
+        return Piwik::translate('General_SecondsSinceLastVisit');
     }
 
     /**
@@ -54,20 +54,5 @@ class VisitorSecondsSinceLast extends VisitDimension
 
         $secondsSinceLast = $currentTimestamp - $previousVisitLastActionTime;
         return $secondsSinceLast;
-    }
-
-    protected function configureSegments()
-    {
-        parent::configureSegments();
-// ,
-        // TODO: is this right?
-        $segment = new Segment();
-        $segment->setSegment('daysSinceLastVisit');
-        $segment->setName('General_DaysSinceLastVisit');
-        $segment->setCategory('General_Visitors');
-        $segment->setSqlFilterValue(function ($value) {
-            return (int)$value * 86400;
-        });
-        $this->addSegment($segment);
     }
 }

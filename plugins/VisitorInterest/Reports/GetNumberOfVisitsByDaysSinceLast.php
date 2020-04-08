@@ -10,6 +10,7 @@ namespace Piwik\Plugins\VisitorInterest\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\VisitorInterest\Columns\VisitorDaysSinceLast;
 use Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
@@ -21,7 +22,7 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
     protected function init()
     {
         parent::init();
-        $this->dimension     = new VisitorSecondsSinceLast();
+        $this->dimension     = new VisitorDaysSinceLast();
         $this->name          = Piwik::translate('VisitorInterest_VisitsByDaysSinceLast');
         $this->documentation = Piwik::translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation');
         $this->metrics       = array('nb_visits');
@@ -30,21 +31,6 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
         $this->order = 30;
 
         $this->subcategoryId = 'VisitorInterest_Engagement';
-    }
-
-    public function configureReportMetadata(&$availableReports, $infos)
-    {
-        parent::configureReportMetadata($availableReports, $infos);
-
-        end($availableReports);
-        $lastKey = key($availableReports);
-
-        if ($availableReports[$lastKey]['name'] != $this->getName()) {
-            return;
-        }
-
-        // change the column label that is shown in processed report, since we're displaying days not seconds
-        $availableReports[$lastKey]['dimension'] = Piwik::translate('General_DaysSinceLastVisit');
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
