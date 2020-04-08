@@ -43,6 +43,11 @@ class Dependency
 
         foreach ($requires as $name => $requiredVersion) {
             $currentVersion  = $this->getCurrentVersion($name);
+
+            if (in_array(strtolower($name), ['piwik', 'matomo'])) {
+                $requiredVersion = $this->markPluginsWithoutUpperBoundMatomoRequirementAsIncompatible($requiredVersion);
+            }
+
             $missingVersions = $this->getMissingVersions($currentVersion, $requiredVersion);
 
             if (!empty($missingVersions)) {
@@ -95,6 +100,24 @@ class Dependency
         }
 
         return $missingVersions;
+    }
+
+    /**
+     * Upon Matomo 4 we require a lower and upper version bound for Matomo to be set in plugin.json
+     * If that is not the case we assume the plugin not to be compatible with Matomo 4
+     *
+     * @param string $requiredVersion
+     * @return string
+     */
+    private function markPluginsWithoutUpperBoundMatomoRequirementAsIncompatible($requiredVersion)
+    {
+        $requiredVersions = explode(',', (string) $requiredVersion);
+
+        if (count($requiredVersions) === 1) {
+            $requiredVersions[] = '<4.0.0-b1';
+        }
+
+        return implode(',', $requiredVersions);
     }
 
     private function makeVersionBackwardsCompatibleIfNoComparisonDefined($version)
