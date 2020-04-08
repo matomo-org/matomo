@@ -3726,9 +3726,6 @@ if (typeof window.Piwik !== 'object') {
                 if (configPerformanceTrackingEnabled) {
                     if (configPerformanceGenerationTime) {
                         request += '&gt_ms=' + configPerformanceGenerationTime;
-                    } else if (performanceAlias && performanceAlias.timing
-                        && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                        request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
                     }
 
                     if (performanceAvailable && !performanceTracked) {
