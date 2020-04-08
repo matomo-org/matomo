@@ -291,7 +291,7 @@ class Segment
     /**
      * Set callback which will be executed when user will call for suggested values for segment.
      *
-     * @param callable|string $suggestedValuesCallback
+     * @param callable $suggestedValuesCallback
      */
     public function setSuggestedValuesCallback($suggestedValuesCallback)
     {
@@ -316,7 +316,7 @@ class Segment
     {
         if (!empty($suggestedValuesApi) && is_string($suggestedValuesApi)) {
             if (Development::isEnabled() && strpos($suggestedValuesApi, '.get') === false) {
-                throw new Exception('Invalid suggested values API defined, expeciting ".get" to be present.');
+                throw new Exception('Invalid suggested values API defined, expecting ".get" to be present.');
             }
         } else {
             $suggestedValuesApi = '';
