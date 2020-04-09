@@ -133,11 +133,15 @@
 		<default_value />
 	</row>
 	<row>
-		<column_name>time_latency</column_name>
+		<column_name>time_network</column_name>
 		<default_value />
 	</row>
 	<row>
 		<column_name>time_on_load</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_server</column_name>
 		<default_value />
 	</row>
 	<row>

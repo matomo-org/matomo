@@ -74,7 +74,8 @@
 		<action>get</action>
 		<onlineGuideUrl>https://matomo.org/docs/page-performance/</onlineGuideUrl>
 		<metrics>
-			<avg_time_latency>Avg. latency time</avg_time_latency>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
 			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
 			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
 			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
@@ -82,7 +83,8 @@
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		</metrics>
 		<metricsDocumentation>
-			<avg_time_latency>Average time (in seconds) how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</avg_time_latency>
+			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
+			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
 			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
 			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
 			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
@@ -2653,7 +2655,8 @@
 			<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
 			<nb_users_new>New Users</nb_users_new>
 			<max_actions_new>max_actions_new</max_actions_new>
-			<avg_time_latency>Avg. latency time</avg_time_latency>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
 			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
 			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
 			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
@@ -2675,7 +2678,8 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<avg_time_latency>Average time (in seconds) how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</avg_time_latency>
+			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
+			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
 			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
 			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
 			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>

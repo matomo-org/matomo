@@ -66,9 +66,12 @@
 		<nb_hits_with_time_generation>4</nb_hits_with_time_generation>
 		<min_time_generation>0.615</min_time_generation>
 		<max_time_generation>0.615</max_time_generation>
-		<nb_hits_with_time_latency>4</nb_hits_with_time_latency>
-		<min_time_latency>0.682</min_time_latency>
-		<max_time_latency>0.682</max_time_latency>
+		<nb_hits_with_time_network>4</nb_hits_with_time_network>
+		<min_time_network>0.117</min_time_network>
+		<max_time_network>0.117</max_time_network>
+		<nb_hits_with_time_server>4</nb_hits_with_time_server>
+		<min_time_server>0.682</min_time_server>
+		<max_time_server>0.682</max_time_server>
 		<nb_hits_with_time_transfer>4</nb_hits_with_time_transfer>
 		<min_time_transfer>1.057</min_time_transfer>
 		<max_time_transfer>1.057</max_time_transfer>

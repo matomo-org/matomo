@@ -36,9 +36,9 @@
 		<documentation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</documentation>
 	</row>
 	<row>
-		<name>Avg. latency time</name>
-		<id>avg_time_latency</id>
-		<documentation>Average time (in seconds) how long it takes the response to get to the user’s device. Includes the time it takes for the request to get to the server, it takes the server to render a response, and until the first byte of that response gets back to the user’s device.</documentation>
+		<name>Avg. network time</name>
+		<id>avg_time_network</id>
+		<documentation>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</documentation>
 	</row>
 	<row>
 		<name>Avg. on load time</name>
@@ -49,6 +49,11 @@
 		<name>Avg. page load time</name>
 		<id>avg_page_load_time</id>
 		<documentation>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</documentation>
+	</row>
+	<row>
+		<name>Avg. server time</name>
+		<id>avg_time_server</id>
+		<documentation>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</documentation>
 	</row>
 	<row>
 		<name>Avg. time on page</name>

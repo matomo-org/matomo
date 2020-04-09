@@ -105,7 +105,8 @@
 		<nb_interactions>Content Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>
 		<nb_visits_percentage>% Visits</nb_visits_percentage>
-		<avg_time_latency>Avg. latency time</avg_time_latency>
+		<avg_time_network>Avg. network time</avg_time_network>
+		<avg_time_server>Avg. server time</avg_time_server>
 		<avg_time_transfer>Avg. transfer time</avg_time_transfer>
 		<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
 		<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
