@@ -48,10 +48,10 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
 
         $this->checkActionHasTimings($idPageView);
 
-        $tracker->setPerformanceTimings(77, 412, 1055, 333, 66);
+        $tracker->setPerformanceTimings(12, 77, 412, 1055, 333, 66);
         Fixture::checkResponse($tracker->doTrackEvent('cat', 'act'));
 
-        $this->checkActionHasTimings($idPageView, 77, 412, 1055, 333, 66);
+        $this->checkActionHasTimings($idPageView, 12, 77, 412, 1055, 333, 66);
     }
 
     public function test_shouldUpdatePerformanceTimingsInOngoingPingRequest()
@@ -64,10 +64,10 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
 
         $this->checkActionHasTimings($idPageView);
 
-        $tracker->setPerformanceTimings(66, 445, 1025, 12, 111);
+        $tracker->setPerformanceTimings(5, 66, 445, 1025, 12, 111);
         Fixture::checkResponse($tracker->doPing());
 
-        $this->checkActionHasTimings($idPageView, 66, 445, 1025, 12, 111);
+        $this->checkActionHasTimings($idPageView, 5, 66, 445, 1025, 12, 111);
     }
 
     public function test_shouldNotUpdatePerformanceTimingsInOngoingPageViewRequest()
@@ -80,25 +80,26 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
 
         $this->checkActionHasTimings($idPageView);
 
-        $tracker->setPerformanceTimings(66, 445, 1025, 12, 111);
+        $tracker->setPerformanceTimings(0, 66, 445, 1025, 12, 111);
         $tracker->setUrl('http://example.org/test2');
         Fixture::checkResponse($tracker->doTrackPageView('Another Page'));
 
         $this->checkActionHasTimings($idPageView);
-        $this->checkActionHasTimings($tracker->idPageview, 66, 445, 1025, 12, 111);
+        $this->checkActionHasTimings($tracker->idPageview, 0, 66, 445, 1025, 12, 111);
     }
 
-    protected function checkActionHasTimings($pageViewId, $latency = null, $transfer = null, $domProcessing = null, $domCompletion = null, $onload = null)
+    protected function checkActionHasTimings($pageViewId, $network = null, $server = null, $transfer = null, $domProcessing = null, $domCompletion = null, $onload = null)
     {
         $result = Db::fetchRow(
-            sprintf('SELECT time_latency, time_transfer, time_dom_processing, time_dom_completion, time_on_load 
+            sprintf('SELECT time_network, time_server, time_transfer, time_dom_processing, time_dom_completion, time_on_load 
                       FROM %1$s LEFT JOIN %2$s ON idaction_url = idaction WHERE idpageview = ? AND %2$s.type = 1',
                 Common::prefixTable('log_link_visit_action'),
                 Common::prefixTable('log_action')
         ), $pageViewId);
 
         $this->assertEquals([
-            'time_latency' => $latency,
+            'time_network' => $network,
+            'time_server' => $server,
             'time_transfer' => $transfer,
             'time_dom_processing' => $domProcessing,
             'time_dom_completion' => $domCompletion,

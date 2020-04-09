@@ -12,7 +12,8 @@ use Piwik\Log;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\TimeLatency;
+use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
+use Piwik\Plugins\PagePerformance\Columns\TimeServer;
 use Piwik\Plugins\PagePerformance\Columns\TimeOnLoad;
 use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
 use Piwik\Tracker;
@@ -55,7 +56,8 @@ class PerformanceDataProcessor extends RequestProcessor
 
         /** @var ActionDimension[] $performanceDimensions */
         $performanceDimensions = [
-            new TimeLatency(),
+            new TimeNetwork(),
+            new TimeServer(),
             new TimeTransfer(),
             new TimeDomProcessing(),
             new TimeDomCompletion(),

@@ -39,7 +39,7 @@
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
-    performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart, responseStart,
+    performance, mozPerformance, msPerformance, webkitPerformance, timing, connectEnd, requestStart, responseStart,
     responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
     event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
@@ -3480,8 +3480,13 @@ if (typeof window.Piwik !== 'object') {
 
             function appendAvailablePerformanceMetrics(request) {
                 if (performanceAlias && performanceAlias.timing && performanceAlias
-                    && performanceAlias.timing.responseStart && performanceAlias.timing.fetchStart) {
-                    request += '&pf_lat=' + (performanceAlias.timing.responseStart - performanceAlias.timing.fetchStart);
+                    && performanceAlias.timing.connectEnd && performanceAlias.timing.fetchStart) {
+                    request += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.requestStart) {
+                    request += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias

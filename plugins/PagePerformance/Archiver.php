@@ -11,18 +11,20 @@ namespace Piwik\Plugins\PagePerformance;
 
 use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\TimeLatency;
+use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
+use Piwik\Plugins\PagePerformance\Columns\TimeServer;
 use Piwik\Plugins\PagePerformance\Columns\TimeOnLoad;
 use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
-use Piwik\Tracker\Action;
 
 /**
  * Class Archiver
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const PAGEPERFORMANCE_TOTAL_LATENCY_TIME = 'PagePerformance_latency_time';
-    const PAGEPERFORMANCE_TOTAL_LATENCY_HITS = 'PagePerformance_latency_hits';
+    const PAGEPERFORMANCE_TOTAL_NETWORK_TIME = 'PagePerformance_network_time';
+    const PAGEPERFORMANCE_TOTAL_NETWORK_HITS = 'PagePerformance_network_hits';
+    const PAGEPERFORMANCE_TOTAL_SERVER_TIME = 'PagePerformance_servery_time';
+    const PAGEPERFORMANCE_TOTAL_SERVER_HITS = 'PagePerformance_server_hits';
     const PAGEPERFORMANCE_TOTAL_TRANSFER_TIME = 'PagePerformance_transfer_time';
     const PAGEPERFORMANCE_TOTAL_TRANSFER_HITS = 'PagePerformance_transfer_hits';
     const PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME = 'PagePerformance_domprocessing_time';
@@ -40,7 +42,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         $table  = 'log_link_visit_action';
 
         $performanceDimensions = [
-            new TimeLatency(),
+            new TimeNetwork(),
+            new TimeServer(),
             new TimeTransfer(),
             new TimeDomProcessing(),
             new TimeDomCompletion(),
@@ -64,8 +67,10 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $result = $query->fetchAll();
 
-        $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_LATENCY_TIME, 'time_latency_total');
-        $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_LATENCY_HITS, 'time_latency_hits');
+        $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_NETWORK_TIME, 'time_network_total');
+        $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_NETWORK_HITS, 'time_network_hits');
+        $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_SERVER_TIME, 'time_server_total');
+        $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_SERVER_HITS, 'time_server_hits');
         $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME, 'time_transfer_total');
         $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS, 'time_transfer_hits');
         $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME, 'time_dom_processing_total');
@@ -99,8 +104,10 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         $this->getProcessor()->aggregateNumericMetrics(array(
-            self::PAGEPERFORMANCE_TOTAL_LATENCY_TIME,
-            self::PAGEPERFORMANCE_TOTAL_LATENCY_HITS,
+            self::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
+            self::PAGEPERFORMANCE_TOTAL_NETWORK_HITS,
+            self::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
+            self::PAGEPERFORMANCE_TOTAL_SERVER_HITS,
             self::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
             self::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS,
             self::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,

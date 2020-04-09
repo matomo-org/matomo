@@ -12,12 +12,14 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePageLoadTime;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeLatency;
+use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeNetwork;
+use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeServer;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeOnLoad;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeTransfer;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\TimeLatency;
+use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
+use Piwik\Plugins\PagePerformance\Columns\TimeServer;
 use Piwik\Plugins\PagePerformance\Columns\TimeOnLoad;
 use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
 
@@ -29,7 +31,8 @@ class Metrics
     public static function getPagePerformanceMetrics()
     {
         $metrics = [
-            new AverageTimeLatency(),
+            new AverageTimeNetwork(),
+            new AverageTimeServer(),
             new AverageTimeTransfer(),
             new AverageTimeDomProcessing(),
             new AverageTimeDomCompletion(),
@@ -51,7 +54,8 @@ class Metrics
     public static function getAllPagePerformanceMetrics()
     {
         $metrics = [
-            new AverageTimeLatency(),
+            new AverageTimeNetwork(),
+            new AverageTimeServer(),
             new AverageTimeTransfer(),
             new AverageTimeDomProcessing(),
             new AverageTimeDomCompletion(),
@@ -84,7 +88,8 @@ class Metrics
          * @var ActionDimension[] $performanceDimensions
          */
         $performanceDimensions = [
-            new TimeLatency(),
+            new TimeNetwork(),
+            new TimeServer(),
             new TimeTransfer(),
             new TimeDomProcessing(),
             new TimeDomCompletion(),

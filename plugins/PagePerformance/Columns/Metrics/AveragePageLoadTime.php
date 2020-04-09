@@ -15,7 +15,7 @@ use Piwik\Plugin\ProcessedMetric;
 /**
  * The average amount of time it took loading a page completely. Calculated as:
  *
- *     avg_time_latency + avg_time_transfer + avg_time_dom_processing + avg_time_dom_completion + avg_time_on_load
+ *     avg_time_network + avg_time_server + avg_time_transfer + avg_time_dom_processing + avg_time_dom_completion + avg_time_on_load
  */
 class AveragePageLoadTime extends ProcessedMetric
 {
@@ -57,6 +57,7 @@ class AveragePageLoadTime extends ProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('avg_time_latency', 'avg_time_transfer', 'avg_time_dom_processing', 'avg_time_dom_completion', 'avg_time_on_load');
+        return ['avg_time_network', 'avg_time_server', 'avg_time_transfer',
+                'avg_time_dom_processing', 'avg_time_dom_completion', 'avg_time_on_load'];
     }
 }

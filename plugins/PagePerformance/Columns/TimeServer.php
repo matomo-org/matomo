@@ -19,12 +19,12 @@ use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
-class TimeLatency extends ActionDimension
+class TimeServer extends ActionDimension
 {
-    protected $columnName = 'time_latency';
+    protected $columnName = 'time_server';
     protected $columnType = 'MEDIUMINT(10) UNSIGNED NULL';
     protected $type = self::TYPE_DURATION_MS;
-    protected $nameSingular = 'PagePerformance_ColumnTimeLatency';
+    protected $nameSingular = 'PagePerformance_ColumnTimeServer';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
@@ -32,43 +32,43 @@ class TimeLatency extends ActionDimension
             return false;
         }
 
-        $latencyTime = $request->getParam($this->getRequestParam());
+        $serverTime = $request->getParam($this->getRequestParam());
 
-        if ($latencyTime === -1) {
+        if ($serverTime === -1) {
             return false;
         }
 
-        return $latencyTime;
+        return $serverTime;
     }
 
     public function getRequestParam()
     {
-        return 'pf_lat';
+        return 'pf_srv';
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric1 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
-        $metric1->setName('sum_time_latency');
+        $metric1->setName('sum_time_server');
         $metricsList->addMetric($metric1);
 
         $metric2 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
-        $metric2->setName('max_time_latency');
+        $metric2->setName('max_time_server');
         $metricsList->addMetric($metric2);
 
         $metric3 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
-        $metric3->setName('pageviews_with_time_latency');
-        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithLatencyTime'));
+        $metric3->setName('pageviews_with_time_server');
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithServerTime'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
-        $metric4->setName('min_time_latency');
+        $metric4->setName('min_time_server');
         $metricsList->addMetric($metric4);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
-        $metric->setName('avg_time_latency');
-        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageLatencyTime'));
-        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageLatencyTimeDocumentation'));
+        $metric->setName('avg_time_server');
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageServerTime'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageServerTimeDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

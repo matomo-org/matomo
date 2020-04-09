@@ -101,7 +101,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         $visitorA->setUrl('http://example.org/index.htm#ignoredFragment');
         $visitorA->DEBUG_APPEND_URL = '&_idts=' . Date::factory($datetimeSpanOverTwoDays)->getTimestamp();
         $visitorA->setGenerationTime(123);
-        $visitorA->setPerformanceTimings(228, 335, 1015, 209, 301);
+        $visitorA->setPerformanceTimings(36, 228, 335, 1015, 209, 301);
         self::checkResponse($visitorA->doTrackPageView('first page view'));
 
         $visitorA->setForceVisitDateTime(Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
@@ -122,7 +122,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         $visitorB->setUrl('http://example.org/products');
         $visitorB->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(1)->getTimestamp();
         $visitorB->setGenerationTime(153);
-        $visitorB->setPerformanceTimings(305, 440, 1159, 356, 440);
+        $visitorB->setPerformanceTimings(62, 305, 440, 1159, 356, 440);
         self::assertTrue($visitorB->doTrackPageView('first page view'));
 
         // -
@@ -146,13 +146,13 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             }
 
             $visitorB->setGenerationTime(323);
-            $visitorB->setPerformanceTimings(268, 356, 1025, 296, 335);
+            $visitorB->setPerformanceTimings(27, 268, 356, 1025, 296, 335);
             self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
             // Second page view 6 minutes later
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.1)->getDatetime());
             $visitorB->setUrl('http://example.org/thankyou');
             $visitorB->setGenerationTime(173);
-            $visitorB->setPerformanceTimings(199, 289, 998, 198, 299);
+            $visitorB->setPerformanceTimings(0, 199, 289, 998, 198, 299);
             self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
 
             // testing a strange combination causing an error in r3767
@@ -164,7 +164,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             // Actions.getPageTitle tested with this title
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.25)->getDatetime());
             $visitorB->setGenerationTime(452);
-            $visitorB->setPerformanceTimings(356, 452, 1499, 356, 269);
+            $visitorB->setPerformanceTimings(33, 356, 452, 1499, 356, 269);
             self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
             self::checkBulkTrackingResponse($visitorB->doBulkTrack());
         }

@@ -77,10 +77,14 @@ class PagePerformance extends \Piwik\Plugin
         // remove additional metrics for action reports that don't have data
         if (!in_array($params['action'], self::$availableForMethods)) {
             $dataTable->deleteColumns([
-                'sum_time_latency',
-                'nb_hits_with_time_latency',
-                'min_time_latency',
-                'max_time_latency',
+                'sum_time_network',
+                'nb_hits_with_time_network',
+                'min_time_network',
+                'max_time_network',
+                'sum_time_server',
+                'nb_hits_with_time_server',
+                'min_time_server',
+                'max_time_server',
                 'sum_time_transfer',
                 'nb_hits_with_time_transfer',
                 'min_time_transfer',

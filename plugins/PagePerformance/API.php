@@ -14,7 +14,8 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePageLoadTime;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeLatency;
+use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeNetwork;
+use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeServer;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeOnLoad;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeTransfer;
 
@@ -30,8 +31,10 @@ class API extends \Piwik\Plugin\API
         $archive = Archive::build($idSite, $period, $date, $segment);
 
         $columns = array(
-            Archiver::PAGEPERFORMANCE_TOTAL_LATENCY_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_LATENCY_HITS,
+            Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
+            Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_HITS,
+            Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
+            Archiver::PAGEPERFORMANCE_TOTAL_SERVER_HITS,
             Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS,
             Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,
@@ -49,25 +52,33 @@ class API extends \Piwik\Plugin\API
         $precision = 2;
 
         $dataTable->filter('ColumnCallbackReplace', [[
-            Archiver::PAGEPERFORMANCE_TOTAL_LATENCY_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME,
+                                                         Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
+                                                         Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
+                                                         Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
+                                                         Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,
+                                                         Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_TIME,
+                                                         Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME,
+                                                         Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME,
         ], function($value) { return $value / 1000; }]);
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
-            $this->getMetricColumn(AverageTimeLatency::class),
-            Archiver::PAGEPERFORMANCE_TOTAL_LATENCY_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_LATENCY_HITS,
+            $this->getMetricColumn(AverageTimeNetwork::class),
+            Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
+            Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_HITS,
+            $precision
+        ));
+
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+            $this->getMetricColumn(AverageTimeServer::class),
+            Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
+            Archiver::PAGEPERFORMANCE_TOTAL_SERVER_HITS,
             $precision
         ));
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeTransfer::class),
             Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
-            Archiver::PAGEPERFORMANCE_TOTAL_LATENCY_HITS,
+            Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS,
             $precision
         ));
 
