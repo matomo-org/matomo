@@ -9,12 +9,16 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Columns\Dimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 
-class VisitorDaysSinceFirst extends Dimension
+class VisitorDaysSinceFirst extends VisitDimension
 {
+    protected $type = self::TYPE_NUMBER;
+    protected $sqlSegment = 'ROUND(log_visit.visitor_seconds_since_first / 86400)';
     protected $nameSingular = 'General_DaysSinceFirstVisit';
+    protected $columnName = 'visitor_seconds_since_first';
+    protected $segmentName = 'daysSinceFirstVisit';
 
     protected function configureSegments()
     {

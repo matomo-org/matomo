@@ -9,26 +9,15 @@
 
 namespace Piwik\Plugins\VisitorInterest\Columns;
 
-use Piwik\Columns\Dimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 
-class VisitorDaysSinceLast extends Dimension
+class VisitorDaysSinceLast extends VisitDimension
 {
-    protected $segmentName = 'secondsSinceLastVisit';
-    protected $columnName = 'visitor_seconds_since_last';
+    protected $category = 'General_Visitors';
     protected $type = self::TYPE_NUMBER;
-    protected $nameSingular = 'General_DaysSinceLastVisit';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('daysSinceLastVisit');
-        $segment->setName('General_DaysSinceLastVisit');
-        $segment->setCategory('General_Visitors');
-        $segment->setSqlFilter('log_visit.visitor_seconds_since_last');
-        $segment->setSqlFilterValue(function ($value) {
-            return (int)$value * 86400;
-        });
-        $this->addSegment($segment);
-    }
+    protected $nameSingular = 'General_DaysSinceFirstVisit';
+    protected $columnName = 'visitor_seconds_since_last';
+    protected $sqlSegment = 'FLOOR(log_visit.visitor_seconds_since_last / 86400)';
+    protected $segmentName = 'daysSinceLastVisit';
 }
