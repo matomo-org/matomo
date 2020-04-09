@@ -56,7 +56,7 @@ class TimeTransfer extends ActionDimension
         $metric2->setName('max_time_transfer');
         $metricsList->addMetric($metric2);
 
-        $metric3 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
+        $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_transfer');
         $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTransferTime'));
         $metricsList->addMetric($metric3);
