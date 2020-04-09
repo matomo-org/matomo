@@ -9,9 +9,12 @@
         "ColumnNbReturningVisitsConverted": "Брой конвертирани повторни посещения",
         "ColumnReturningVisits": "Върнали се посетители",
         "ColumnSumVisitLengthReturning": "Време прекарано по време на повторните посещения (в секунди)",
+        "ColumnUniqueNewVisitors": "Уникални нови посетители",
         "ColumnUniqueReturningVisitors": "Уникални повторни посетители",
+        "NewVisits": "нови посещения",
         "ReturningVisitDocumentation": "Повторно посещение (за разлиса от ново посещение) се прави от някой, който е посещавал сайта поне веднъж в миналото.",
         "ReturningVisitsDocumentation": "Това е преглед на повторните посещения.",
+        "ReturnVisits": "завърнали се посетители",
         "SubmenuFrequency": "Честота",
         "WidgetGraphReturning": "Графика на завърналите се посетители",
         "WidgetOverview": "Резюме на честотата"

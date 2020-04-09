@@ -6,7 +6,7 @@
  */
 
 /**
- * If the given expression evaluates to true the element will be focussed
+ * If the given expression evaluates to true the element will be focused
  *
  * Example:
  * <input type="text" piwik-focus-if="view.editName">

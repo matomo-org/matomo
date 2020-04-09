@@ -37,7 +37,7 @@ class CreatePull extends TranslationBase
 
         if (!empty($changes)) {
 
-            $output->writeln("You have uncommited changes. Creating pull request is only available with a clean working directory");
+            $output->writeln("You have uncommitted changes. Creating pull request is only available with a clean working directory");
             return;
         }
 

@@ -55,6 +55,7 @@
         "WidgetPageUrlsFollowingSearch": "Страници следящи търсенията на сайтове",
         "WidgetSearchCategories": "Търси категории",
         "WidgetSearchKeywords": "Ключови думи търсени от сайта",
-        "WidgetSearchNoResultKeywords": "Търсене по ключови думи без резултати"
+        "WidgetSearchNoResultKeywords": "Търсене по ключови думи без резултати",
+        "Behaviour": "Поведение"
     }
 }

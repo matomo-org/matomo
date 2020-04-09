@@ -18,11 +18,11 @@ use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
-use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
@@ -326,10 +326,14 @@ class CronArchive
 
         $self = $this;
         Access::doAsSuperUser(function () use ($self) {
-            $self->init();
-            $self->run();
-            $self->runScheduledTasks();
-            $self->end();
+            try {
+                $self->init();
+                $self->run();
+                $self->runScheduledTasks();
+                $self->end();
+            } catch (StopArchiverException $e) {
+                $this->logger->info("Archiving stopped by stop archiver exception");
+            }
         });
     }
 
@@ -444,9 +448,9 @@ class CronArchive
                 // `list of SharedSiteIds` have been potentially emptied and filled again from the beginning.
                 // This means 5 hours later, even though all websites that were originally in the list have been
                 // finished by now, the `cron:archive` will stay active and continue processing because the list of
-                // siteIds to archive was resetted by another `cron:archive` command. Potentially some `cron:archive`
+                // siteIds to archive was reset by another `cron:archive` command. Potentially some `cron:archive`
                 // will basically never end because by the time the `cron:archive` finishes, the sharedSideIds have
-                // been resettet. This can eventually lead to some random concurrency issues when there are like
+                // been reset. This can eventually lead to some random concurrency issues when there are like
                 // 40 `core:archive` active at the same time.
                 $this->logger->info("Stopping archiving as the initial list of websites has been processed.");
                 return;
@@ -984,10 +988,10 @@ class CronArchive
         $this->disconnectDb();
 
         if (Range::isMultiplePeriod($date, $period)) {
-            $rangePeriod = Factory::build($period, $date, Site::getTimezoneFor($idSite));
+            $rangePeriod = PeriodFactory::build($period, $date, Site::getTimezoneFor($idSite));
             $periodsToCheck = $rangePeriod->getSubperiods();
         } else {
-            $periodsToCheck = [Factory::build($period, $date, Site::getTimezoneFor($idSite))];
+            $periodsToCheck = [PeriodFactory::build($period, $date, Site::getTimezoneFor($idSite))];
         }
 
         $isTodayIncluded = $this->isTodayIncludedInPeriod($idSite, $periodsToCheck);
@@ -997,7 +1001,7 @@ class CronArchive
         if ($isTodayIncluded
             && !$isLast
         ) {
-            return [false, null];
+            return [false, $date];
         }
 
         $periodsToCheckRanges = array_map(function (Period $p) { return $p->getRangeString(); }, $periodsToCheck);

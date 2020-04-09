@@ -138,7 +138,7 @@ abstract class Dimension
      * Interesting when specifying a segment. Sometimes you want users to set segment values that differ from the way
      * they are actually stored. For instance if you want to allow to filter by any URL than you might have to resolve
      * this URL to an action id. Or a country name maybe has to be mapped to a 2 letter country code. You can do this by
-     * specifing either a callable such as `array('Classname', 'methodName')` or by passing a closure.
+     * specifying either a callable such as `array('Classname', 'methodName')` or by passing a closure.
      * There will be four values passed to the given closure or callable: `string $valueToMatch`, `string $segment`
      * (see {@link setSegment()}), `string $matchType` (eg SegmentExpression::MATCH_EQUAL or any other match constant
      * of this class) and `$segmentName`.
@@ -568,7 +568,7 @@ abstract class Dimension
         }
 
         if (!$this->suggestedValuesCallback) {
-            // we can generate effecient value callback for enums automatically
+            // we can generate efficient value callback for enums automatically
             $enum = $this->getEnumColumnValues();
             if (!empty($enum)) {
                 $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) use ($enum) {

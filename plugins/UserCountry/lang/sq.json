@@ -40,6 +40,8 @@
         "SubmenuLocations": "Vende",
         "TestIPLocatorFailed": "Matomo provoi të kontrollojë vendin e një adrese të njohur IP (%1$s), por shërbyesi juaj s’u përgjigj me ndonjë të dhënë. Ky furnizues mund të mos jetë formësuar si duhet (baza e të dhënave për gjeovendëzim mund të jetë emërtuar jo saktë ose të gjendet në drejtori të gabuar, për shembull).",
         "ToGeolocateOldVisits": "Që të kini të dhëna vendesh për vizitat tuaja të vjetra, përdorni programthin e përshkruar %1$skëtu%2$s.",
-        "WidgetLocation": "Vend Vizitori"
+        "WidgetLocation": "Vend Vizitori",
+        "GeoIpDbIpAccuracyNote": "Shënim: Bazat e të dhënave DBIP janë falas dhe mund të shkarkohen automatikisht, por përfundimet e gjeovendëzimit (posaçërisht përfundimet për qytete) s’janë aq të përpikta sa të MaxMind-it. MaxMind, nga ana tjetër, lyp të krijoni një llogari madje edhe për bazën falas të të dhënave. Nëse doni të përdorni bazën e të dhënave MaxMind për gjeovendëzime, procesin mund ta filloni %1$skëtu%2$s",
+        "MaxMindLinkExplanation": "Nëse përdorni baza të dhënash MaxMind për gjeovendëzime dhe nuk dini tashmë si si të prodhoni URL-në tuaj të shkarkimit, %1$sklikoni këtu që të mësoni se si%2$s."
     }
 }

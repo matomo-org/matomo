@@ -663,7 +663,7 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
     /**
-     * normal case,  set different acccess to different websites for one user
+     * normal case, set different access to different websites for one user
      */
     public function testSetUserAccessMultipleCallDistinctAccessSameUser()
     {

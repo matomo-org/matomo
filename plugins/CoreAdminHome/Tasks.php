@@ -81,7 +81,8 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->daily('cleanupTrackingFailures', null, self::LOWEST_PRIORITY);
         $this->weekly('notifyTrackingFailures', null, self::LOWEST_PRIORITY);
 
-        if(SettingsPiwik::isInternetEnabled() === true){
+        $generalConfig = Config::getInstance()->Tracker;
+        if((SettingsPiwik::isInternetEnabled() === true) && $generalConfig['enable_spam_filter']){
             $this->weekly('updateSpammerBlacklist');
         }
 

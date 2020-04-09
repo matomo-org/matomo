@@ -102,7 +102,7 @@ class RequestConfig
     );
 
     /**
-     * The list of ViewDataTable properties that can be overriden by query parameters.
+     * The list of ViewDataTable properties that can be overridden by query parameters.
      */
     public $overridableProperties = array(
         'filter_sort_column',

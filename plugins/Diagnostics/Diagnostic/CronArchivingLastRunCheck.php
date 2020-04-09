@@ -93,7 +93,7 @@ class CronArchivingLastRunCheck implements Diagnostic
     private function getArchivingCommand()
     {
         $domain = Config::getHostname();
-        return PIWIK_INCLUDE_PATH . ' --matomo-domain=' . $domain . ' core:archive';
+        return PIWIK_INCLUDE_PATH . '/console --matomo-domain=' . $domain . ' core:archive';
     }
 
     public static function getTimeSinceLastSuccessfulRun($lastRunTime = null)

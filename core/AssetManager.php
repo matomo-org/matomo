@@ -84,7 +84,7 @@ class AssetManager extends Singleton
         $assetManager = parent::getInstance();
 
         /**
-         * Triggered when creating an instance of the asset manager. Lets you overwite the
+         * Triggered when creating an instance of the asset manager. Lets you overwrite the
          * asset manager behavior.
          *
          * @param AssetManager &$assetManager

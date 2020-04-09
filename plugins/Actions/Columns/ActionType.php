@@ -75,7 +75,7 @@ class ActionType extends ActionDimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        // do not genereate any metric for this
+        // do not generate any metric for this
     }
 
 }

@@ -172,7 +172,7 @@ class Loader
     protected function doesRequestedPluginIncludeVisitsSummary()
     {
         $processAllReportsIncludingVisitsSummary =
-                Rules::shouldProcessReportsAllPlugins($this->params->getIdSites(), $this->params->getSegment(), $this->params->getPeriod()->getLabel());
+                Rules::shouldProcessReportsAllPlugins(array($this->params->getSite()->getId()), $this->params->getSegment(), $this->params->getPeriod()->getLabel());
         $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary
                                                         || $this->params->getRequestedPlugin() == 'VisitsSummary';
         return $doesRequestedPluginIncludeVisitsSummary;

@@ -49,7 +49,7 @@ abstract class BaseItem extends Base
 
     public function getMetricsDocumentation()
     {
-        // we do not check whether it is abondon carts if not set re performance improvements
+        // we do not check whether it is abandon carts if not set re performance improvements
         if ($this->isAbandonedCart($fetchIfNotSet = false)) {
             return array(
                 'revenue'         => Piwik::translate('Goals_ColumnRevenueDocumentation',

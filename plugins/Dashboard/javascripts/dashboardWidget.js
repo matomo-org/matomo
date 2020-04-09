@@ -9,7 +9,7 @@
     $.widget('piwik.dashboardWidget', {
 
         /**
-         * Boolean indicating wether the widget is currently maximised
+         * Boolean indicating weather the widget is currently maximised
          * @type {Boolean}
          */
         isMaximised: false,

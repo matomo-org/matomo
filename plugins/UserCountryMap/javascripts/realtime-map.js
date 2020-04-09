@@ -408,7 +408,7 @@
                         $('#realTimeMapNoVisitsInfo').toggle(!report.length);
                     }
 
-                    // check wether we got any geolocated visits left
+                    // check whether we got any geolocated visits left
                     if (!report.length) {
                         $('.realTimeMap_overlay .showing_visits_of').hide();
                         $('.realTimeMap_overlay .no_data').show();

@@ -38,6 +38,8 @@
         "WidgetExternalWebsites": "Външни сайтове",
         "WidgetSocials": "Списък на социалните мрежи",
         "WidgetTopKeywordsForPages": "Най-използваните ключови думи",
-        "XPercentOfVisits": "%s от посещения"
+        "XPercentOfVisits": "%s от посещения",
+        "Acquisition": "Придобиване",
+        "VisitorsFromDirectEntry": "Посетители с директно посещение"
     }
 }

@@ -175,7 +175,7 @@ class TrackerCodeGenerator
          *                                        the JavaScript tracker inside of anonymous function before
          *                                        adding setTrackerUrl into paq.
          *                         - **protocol**: Piwik url protocol.
-         *                         - **loadAsync**: boolean whether piwik.js should be loaded syncronous or asynchronous
+         *                         - **loadAsync**: boolean whether piwik.js should be loaded synchronous or asynchronous
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.

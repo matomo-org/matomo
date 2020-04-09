@@ -444,7 +444,7 @@
     /**
      * Shows an annotation manager under a report for a specific site & date range.
      *
-     * @param {Element} domElem The element of the report to show the annotation manger
+     * @param {Element} domElem The element of the report to show the annotation manager
      *                          under.
      * @param {int} idSite The ID of the site to show the annotations of.
      * @param {string} date The start date of the period.
