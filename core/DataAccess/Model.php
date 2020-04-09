@@ -60,9 +60,9 @@ class Model
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ")
+                   AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
                    AND idsite IN (" . implode(',', $idSites) . ")
-                 GROUP BY idsite, date1, date2, period, name";
+              GROUP BY idsite, date1, date2, period, name";
 
         $archiveIds = array();
 

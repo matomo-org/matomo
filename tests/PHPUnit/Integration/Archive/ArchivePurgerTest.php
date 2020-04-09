@@ -95,7 +95,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertInvalidatedArchivesPurged($this->february);
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
 
-        $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(6 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
     }
 
     public function test_purgeArchivesWithPeriodRange_PurgesAllRangeArchives()
@@ -152,6 +152,11 @@ class ArchivePurgerTest extends IntegrationTestCase
         $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
         $this->assertEquals(2 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
         self::$fixture->assertArchivesDoNotExist(array(20, 21), $this->january);
+    }
+
+    public function test_purgeInvalidatedArchivesFrom_InvalidatesAllOldArchivesRegardlessOfValue()
+    {
+        // TODO
     }
 
     public function test_purgeNoSegmentArchives_blankSegmentName()
