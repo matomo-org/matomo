@@ -60,9 +60,7 @@ class Model
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ','
-                                   . ArchiveWriter::DONE_OK . ','
-                                   . ArchiveWriter::DONE_OK_TEMPORARY . ")
+                   AND AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ")
                    AND idsite IN (" . implode(',', $idSites) . ")
                  GROUP BY idsite, date1, date2, period, name";
 
@@ -73,11 +71,10 @@ class Model
             $duplicateArchives = explode(',', $row['archives']);
             $countOfArchives = count($duplicateArchives);
 
-            $firstArchive = array_shift($duplicateArchives);
-            list($firstArchiveId, $firstArchiveValue) = explode('.', $firstArchive);
-
             // if there is more than one archive, the older invalidated ones can be deleted
             if ($countOfArchives > 1) {
+                array_shift($duplicateArchives); // we don't want to delete the latest archive if it is usable
+
                 foreach ($duplicateArchives as $pair) {
                     if (strpos($pair, '.') === false) {
                         $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");
@@ -85,9 +82,7 @@ class Model
                     }
 
                     list($idarchive, $value) = explode('.', $pair);
-                    if ($value == ArchiveWriter::DONE_INVALIDATED) {
-                        $archiveIds[] = $idarchive;
-                    }
+                    $archiveIds[] = $idarchive;
                 }
             }
         }
