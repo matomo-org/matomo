@@ -603,7 +603,9 @@ class API extends \Piwik\Plugin\API
                 }
             }
 
-            $flat = strpos($segment['suggestedValuesApi'], 'Actions.') === 0;
+            $apiParts = explode('.', $segment['suggestedValuesApi']);
+            $meta = $this->getMetadata($idSite, $apiParts[0], $apiParts[1]);
+            $flat = !empty($meta[0]['actionToLoadSubTables']) && $meta[0]['actionToLoadSubTables'] == $apiParts[1];
 
             $table = Request::processRequest($segment['suggestedValuesApi'], array(
                 'idSite' => $idSite,
@@ -624,8 +626,6 @@ class API extends \Piwik\Plugin\API
                     );
                     if (!empty($segment) && preg_match('/^' . implode('|',$remove) . '/', $segment)) {
                         $values[] = urldecode(urldecode(str_replace($remove, '', $segment)));
-                    } else {
-                        $values[] = $row->getColumn('label');
                     }
                 }
 
