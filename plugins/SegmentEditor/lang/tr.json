@@ -47,7 +47,6 @@
         "UnprocessedSegmentApiError3": "Bir kaç saat sonra dilim verilerine API üzerinden erişebiliyor olmanız gerekir (erişemiyorsanız bir sorun olabilir).",
         "CustomUnprocessedSegmentApiError1": "İstediğiniz dilim, henüz Dilim Düzenleyici üzerinden eklenmemiş olduğundan rapor verilerinin ön hazırlığı yapılmamış.",
         "CustomUnprocessedSegmentApiError2": "Bu dilimin verilerini görüntülemek için, Matomo Dilim Düzenleyici bölümünden bu dilimi eklemelisiniz.",
-        "CustomUnprocessedSegmentApiError3": "(Alternatif olarak, SegmentEditor.add API yöntemini kullanarak programlama ile yeni bir dilim ekleyebilirsiniz).",
         "CustomUnprocessedSegmentApiError4": "Düzenleyici (ya da API) ile dilimi ekledikten sonra, bu hata iletisi kaldırılır ve dilim verilerinin ön hazırlığının tamamlanması ile bir kaç saat içinde dilimlenmiş rapor verileri görüntülenebilir (görüntülenmiyorsa bir sorun olabilir).",
         "CustomUnprocessedSegmentApiError5": "Live.getLastVisitsDetails API yöntemini kullanarak verilerin ön hazırlığının tamamlanmasını beklemeden dilimin çalışıp çalışmadığını sınayabileceğinizi unutmayın.",
         "CustomUnprocessedSegmentApiError6": "Bu API yöntemini kullanarak, &segment= parametre ölçütünüze uyan kullanıcı ve işlemleri görebilirsiniz.",
