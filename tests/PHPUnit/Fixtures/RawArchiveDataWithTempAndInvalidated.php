@@ -368,6 +368,30 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ),
     );
 
+    public static $dummyArchiveDataNoInvalidated = [
+        // two archives w/ DONE_OK for a new site (no invalidated archives for site)
+        [
+            'idarchive' => 32,
+            'idsite' => 4,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-11',
+            'date2' => '2015-02-11',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 10:12:12'
+        ],
+        [
+            'idarchive' => 33,
+            'idsite' => 4,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-11',
+            'date2' => '2015-02-11',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 12:12:12'
+        ],
+    ];
+
     /**
      * @var Date
      */
@@ -400,6 +424,8 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         $dummyArchiveData = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveData);
         $this->insertArchiveRows($archiveDate, $dummyArchiveData);
 
+        $dummySiteNoInvalidated = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveDataNoInvalidated);
+        $this->insertArchiveRows($archiveDate, $dummySiteNoInvalidated);
     }
 
     private function insertArchiveRows(Date $archiveDate, array $dummyArchiveData)

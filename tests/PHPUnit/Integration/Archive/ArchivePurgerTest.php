@@ -100,7 +100,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertInvalidatedArchivesPurged($this->february);
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
 
-        $this->assertEquals(8 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(9 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
 
         $this->checkNoDuplicateArchives();
     }
@@ -121,9 +121,9 @@ class ArchivePurgerTest extends IntegrationTestCase
         Fixture::createWebsite($this->january);
         Fixture::createWebsite($this->january);
 
-        //There are 5 rows for website #3. We leave the other two because they're before our purge threshold.
+        //There are 5 rows for website #3 and 1. We leave the other two because they're before our purge threshold.
         $deletedRowCount = $this->archivePurger->purgeDeletedSiteArchives($this->january);
-        $this->assertEquals(5 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(7 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
         self::$fixture->assertArchivesDoNotExist(array(3, 7, 10, 13, 19), $this->january);
     }
 

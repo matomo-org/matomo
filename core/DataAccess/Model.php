@@ -46,7 +46,7 @@ class Model
      * @return array
      * @throws Exception
      */
-    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, array $idSites)
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable)
     {
         try {
             Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
@@ -54,14 +54,11 @@ class Model
             $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
         }
 
-        $idSites = array_map(function ($v) { return (int)$v; }, $idSites);
-
         $sql = "SELECT idsite, date1, date2, period, name,
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
                    AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
-                   AND idsite IN (" . implode(',', $idSites) . ")
               GROUP BY idsite, date1, date2, period, name";
 
         $archiveIds = array();
