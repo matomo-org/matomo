@@ -624,6 +624,8 @@ class API extends \Piwik\Plugin\API
                         $segmentName . Segment\SegmentExpression::MATCH_EQUAL,
                         $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH
                     );
+                    // we don't look at row columns since this could include rows that won't work eg Other summary rows. etc
+                    // and it is generally not reliable.
                     if (!empty($segment) && preg_match('/^' . implode('|',$remove) . '/', $segment)) {
                         $values[] = urldecode(urldecode(str_replace($remove, '', $segment)));
                     }

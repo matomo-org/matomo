@@ -117,7 +117,7 @@ abstract class Dimension
 
     /**
      * An API method whose label columns will be used to determine the suggested values should browser archiving
-     * be disabled.
+     * be disabled. The API must have defined a segment metadata on each row for this to work.
      * @var string
      */
     protected $suggestedValuesApi = '';
