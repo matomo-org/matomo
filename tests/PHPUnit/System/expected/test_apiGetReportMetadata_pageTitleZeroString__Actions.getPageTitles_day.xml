@@ -14,6 +14,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==Page%2BName%2Bnot%2Bdefined</segment>
+		<segment>pageTitle==</segment>
 	</row>
 </result>

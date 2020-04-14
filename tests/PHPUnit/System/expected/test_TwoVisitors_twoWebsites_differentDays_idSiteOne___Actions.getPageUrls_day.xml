@@ -78,7 +78,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.223</avg_time_generation>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 	</result>
 	<result date="2010-01-05">
@@ -150,7 +150,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0</avg_time_generation>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 	</result>
 	<result date="2010-01-06">
@@ -222,7 +222,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0</avg_time_generation>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 	</result>
 	<result date="2010-01-07">
@@ -294,7 +294,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0</avg_time_generation>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 	</result>
 	<result date="2010-01-08">
@@ -366,7 +366,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0</avg_time_generation>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 	</result>
 	<result date="2010-01-09">
@@ -438,7 +438,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0</avg_time_generation>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 	</result>
 </results>
