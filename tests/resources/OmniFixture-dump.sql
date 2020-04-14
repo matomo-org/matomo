@@ -408,7 +408,7 @@ CREATE TABLE `log_link_visit_action` (
   `custom_float` double DEFAULT NULL,
   `server_time` datetime NOT NULL,
   `idpageview` char(6) DEFAULT NULL,
-  `interaction_position` mediumint(8) unsigned DEFAULT NULL,
+  `pageview_position` mediumint(8) unsigned DEFAULT NULL,
   `idaction_name` int(10) unsigned DEFAULT NULL,
   `idaction_url` int(10) unsigned DEFAULT NULL,
   `search_cat` varchar(200) DEFAULT NULL,
