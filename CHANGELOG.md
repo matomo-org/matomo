@@ -4,6 +4,11 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.13.5
+
+### New API
+* A new event `ArchiveProcessor.ComputeNbUniques.getIdSites` was added so plugins can change which site IDs should be included when processing the number unique visitors and users for a specific site.
+
 ## Matomo 3.13.1
 
 ### Deprecations
