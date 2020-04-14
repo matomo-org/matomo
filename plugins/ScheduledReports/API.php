@@ -711,7 +711,7 @@ class API extends \Piwik\Plugin\API
          * event to list the available report parameters for their transport medium.
          *
          * @param array $availableParameters The list of available parameters for this report type.
-         *                                   This is an array that maps paramater IDs with a boolean
+         *                                   This is an array that maps parameter IDs with a boolean
          *                                   that indicates whether the parameter is mandatory or not.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.

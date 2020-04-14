@@ -1902,7 +1902,7 @@ if (typeof window.Piwik !== 'object') {
                     return this.getLocation().origin + this.getLocation().pathname + url;
                 }
 
-                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javasript:... ecmascript: ... and many more
+                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javascript:... ecmascript: ... and many more
                 if (0 === url.search('^[a-zA-Z]{2,11}:')) {
                     return url;
                 }
@@ -2307,7 +2307,7 @@ if (typeof window.Piwik !== 'object') {
                 // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
                 // the window had focus at least once.
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
-                timeWindowLastFocussed = null,
+                timeWindowLastFocused = null,
 
                 // Timestamp of last tracker request sent to Piwik
                 lastTrackerRequestTime = null,
@@ -2695,9 +2695,9 @@ if (typeof window.Piwik !== 'object') {
                     // we execute it with a little delay in case the unload event occurred just after sending this request
                     // this is to avoid the following behaviour: Eg on form submit a tracking request is sent via POST
                     // in this method. Then a few ms later the browser wants to navigate to the new page and the unload
-                    // event occurrs and the browser cancels the just triggered POST request. This causes or fallback
+                    // event occurs and the browser cancels the just triggered POST request. This causes or fallback
                     // method to be triggered and we execute the same request again (either as fallbackGet or sendBeacon).
-                    // The problem is that we do not know whether the inital POST request was already fully transferred
+                    // The problem is that we do not know whether the initial POST request was already fully transferred
                     // to the server or not when the onreadystatechange callback is executed and we might execute the
                     // same request a second time. To avoid this, we delay the actual execution of this POST request just
                     // by 50ms which gives it usually enough time to detect the unload event in most cases.
@@ -2816,7 +2816,7 @@ if (typeof window.Piwik !== 'object') {
 
             function heartBeatOnFocus() {
                 hadWindowFocusAtLeastOnce = true;
-                timeWindowLastFocussed = new Date().getTime();
+                timeWindowLastFocused = new Date().getTime();
             }
 
             function hadWindowMinimalFocusToConsiderViewed() {
@@ -2824,7 +2824,7 @@ if (typeof window.Piwik !== 'object') {
                 // the page otherwise we can assume user was not really on the page and for example only switching
                 // through tabs
                 var now = new Date().getTime();
-                return !timeWindowLastFocussed || (now - timeWindowLastFocussed) > configHeartBeatDelay;
+                return !timeWindowLastFocused || (now - timeWindowLastFocused) > configHeartBeatDelay;
             }
 
             function heartBeatOnBlur() {

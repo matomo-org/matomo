@@ -201,7 +201,7 @@ class Controller extends \Piwik\Plugin\Controller
     //  --------------------------------------------------------
     //  ROW EVOLUTION
     //  The following methods render the popover that shows the
-    //  evolution of a singe or multiple rows in a data table
+    //  evolution of a single or multiple rows in a data table
     //  --------------------------------------------------------
 
     /** Render the entire row evolution popover for a single row */

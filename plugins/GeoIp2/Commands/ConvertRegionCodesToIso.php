@@ -87,7 +87,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         $activationTime = Option::get(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME);
         $activationDateTime = date('Y-m-d H:i:s', $activationTime);
 
-        // fix country and region of tibet so it wil be updated correctly afterwards
+        // fix country and region of tibet so it will be updated correctly afterwards
         $tibetFixQuery = 'UPDATE %s SET location_country = "cn", location_region = "14" WHERE location_country = "ti"';
 
         // replace invalid country codes used by GeoIP Legacy

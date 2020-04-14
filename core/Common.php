@@ -920,7 +920,7 @@ class Common
      * Returns the language and region string, based only on the Browser 'accepted language' information.
      * * The language tag is defined by ISO 639-1
      *
-     * @param string $browserLanguage Browser's accepted langauge header
+     * @param string $browserLanguage Browser's accepted language header
      * @param array $validLanguages array of valid language codes
      * @return string  2 letter ISO 639 code  'es' (Spanish)
      */
@@ -945,7 +945,7 @@ class Common
      * * The language tag is defined by ISO 639-1
      * * The region tag is defined by ISO 3166-1
      *
-     * @param string $browserLanguage Browser's accepted langauge header
+     * @param string $browserLanguage Browser's accepted language header
      * @param array $validLanguages array of valid language codes. Note that if the array includes "fr" then it will consider all regional variants of this language valid, such as "fr-ca" etc.
      * @return string 2 letter ISO 639 code 'es' (Spanish) or if found, includes the region as well: 'es-ar'
      */
