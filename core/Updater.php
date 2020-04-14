@@ -654,11 +654,3 @@ class Updater
         return 'version_' . $name;
     }
 }
-
-/**
- * Exception thrown by updater if a non-recoverable error occurs
- *
- */
-class UpdaterErrorException extends \Exception
-{
-}
