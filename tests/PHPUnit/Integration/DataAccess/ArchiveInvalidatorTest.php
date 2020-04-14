@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -730,6 +731,21 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedIdArchives, $idArchives);
     }
 
+    public function test_markArchivesAsInvalidated_DoesNotInvalidateInProgressArchives()
+    {
+        $this->insertArchiveRow(1, '2015-02-03', 'day', $value = ArchiveWriter::DONE_IN_PROGRESS);
+        $this->insertArchiveRow(1, '2015-02-07', 'week', $value = ArchiveWriter::DONE_IN_PROGRESS);
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+        $result = $archiveInvalidator->markArchivesAsInvalidated([1], [Date::factory('2015-02-07')], 'day');
+
+        $this->assertEquals([Date::factory('2015-02-07')->toString()], array_map('strval', $result->processedDates));
+
+        $idArchives = $this->getInvalidatedArchives($anyTsArchived = false);
+        $this->assertEmpty($idArchives);
+    }
+
     public function getTestDataForMarkArchiveRangesAsInvalidated()
     {
         // $idSites, $dates, $segment, $expectedIdArchives
@@ -839,16 +855,22 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         return $result;
     }
 
-    private function getInvalidatedArchives()
+    private function getInvalidatedArchives($anyTsArchived = true)
     {
         $result = array();
         foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
 
             $sql = "SELECT CONCAT(idsite, '.', date1, '.', date2, '.', period, '.', name) FROM $table WHERE name LIKE 'done%' AND value = ?";
+            if (!$anyTsArchived) {
+                $sql .= " AND ts_archived IS NOT NULL";
+            }
 
             $archiveSpecs = Db::fetchAll($sql, array(ArchiveWriter::DONE_INVALIDATED));
             $archiveSpecs = array_map('reset', $archiveSpecs);
+            if (empty($archiveSpecs)) {
+                continue;
+            }
 
             $result[$date] = $archiveSpecs;
         }
@@ -884,7 +906,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    private function insertArchiveRow($idSite, $date, $periodLabel)
+    private function insertArchiveRow($idSite, $date, $periodLabel, $doneValue = ArchiveWriter::DONE_OK)
     {
         $periodObject = \Piwik\Period\Factory::build($periodLabel, $date);
         $dateStart = $periodObject->getDateStart();
@@ -908,9 +930,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
         }
 
-        $sql = "INSERT INTO $table (idarchive, name, idsite, date1, date2, period, ts_archived)
-                     VALUES ($idArchive, 'nb_visits', $idSite, '$dateStart', '$dateEnd', $periodId, NOW()),
-                            ($idArchive, '$doneFlag', $idSite, '$dateStart', '$dateEnd', $periodId, NOW())";
+        $sql = "INSERT INTO $table (idarchive, name, value, idsite, date1, date2, period, ts_archived)
+                     VALUES ($idArchive, 'nb_visits', 1, $idSite, '$dateStart', '$dateEnd', $periodId, NOW()),
+                            ($idArchive, '$doneFlag', $doneValue, $idSite, '$dateStart', '$dateEnd', $periodId, NOW())";
         Db::query($sql);
     }
 

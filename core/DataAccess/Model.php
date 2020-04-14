@@ -115,7 +115,7 @@ class Model
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null, $forceInvalidateNonexistantRanges = false)
     {
         // select all idarchive/name pairs we want to invalidate
-        $sql = "SELECT idarchive, idsite, period, date1, date2, `name`
+        $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
                   FROM `$archiveTable`
                  WHERE idsite IN (" . implode(',', $idSites) . ")";
 
@@ -158,16 +158,24 @@ class Model
         // update each archive as invalidated
         if (!empty($idArchives)) {
             $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-                . implode(',', $idArchives) . ") AND $nameCondition";
+                . implode(',', $idArchives) . ") AND $nameCondition AND value <> " . ArchiveWriter::DONE_IN_PROGRESS;
 
             Db::query($sql);
         }
+
+        // these should not be included in the number of invalidated archives, so we count and subtract them
+        // (we do want them to be in $allArchivesFoundIndexed, so dummy archives won't be created for them)
+        $countOfInProgress = 0;
 
         // for every archive we need to invalidate, if one does not already exist, create a dummy archive so CronArchive
         // will pick it up
         // TODO: explain this later
         $allArchivesFoundIndexed = [];
         foreach ($archivesToInvalidate as $row) {
+            if ($row['value'] == ArchiveWriter::DONE_IN_PROGRESS) {
+                ++$countOfInProgress;
+            }
+
             $allArchivesFoundIndexed[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
         }
 
