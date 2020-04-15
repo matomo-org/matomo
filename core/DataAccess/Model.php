@@ -634,7 +634,7 @@ class Model
             $sql .= " AND idarchive NOT IN (" . implode(',', $idArchivesToExclude) . ')';
         }
 
-        $sql .= " ORDER BY idsite ASC, period ASC, idarchive DESC LIMIT 1";
+        $sql .= " ORDER BY idsite ASC, period ASC, date1 ASC, idarchive DESC LIMIT 1";
 
         return Db::fetchRow($sql, $bind);
     }
