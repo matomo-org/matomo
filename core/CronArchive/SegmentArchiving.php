@@ -139,7 +139,6 @@ class SegmentArchiving
             return null;
         }
 
-        // TODO: for greater safety, we could also make the option per idsegment
         $lastInvalidationTime = CronArchive::getLastInvalidationTime();
         if (!empty($lastInvalidationTime)) {
             $lastInvalidationTime = Date::factory((int) $lastInvalidationTime);

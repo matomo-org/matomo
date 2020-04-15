@@ -46,6 +46,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
 * Site search category and count are no longer stored as custom variables. That also means they will now have an extra field in action details and no longer appear in custom variables.
 * The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
+* The `$completed` parameter for the 'CronArchive.archiveSingleSite.finish' event has been removed. For both this event and the CronArchive.archiveSingleSite.start event, a new
+  parameter is added for the process' pid. Multiple processes can now trigger this event for the same site ID.
 
 ## Matomo 3.13.1
 

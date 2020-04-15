@@ -184,7 +184,6 @@ class Model
             $allArchivesFoundIndexed[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
         }
 
-        // TODO: test mods for $forceInvalidateNonexistantRanges
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
             foreach ($allPeriodsToInvalidate as $period) {
@@ -220,8 +219,6 @@ class Model
         }
 
         return count($idArchives);
-
-        // TODO: check about race conditions here between the select and update
     }
 
     /**
@@ -298,18 +295,17 @@ class Model
         return $deletedRows;
     }
 
-    // TODO: tests and docs
     public function getInvalidatedArchiveIdsAsOldOrOlderThan($archive)
     {
         $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
-        $sql = "SELECT idarchive FROM `$table` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND `name` LIKE ? AND `value` IN ("
+        $sql = "SELECT idarchive FROM `$table` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `value` IN ("
             . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ") AND idarchive <= ?";
         $bind = [
             $archive['idsite'],
             $archive['period'],
             $archive['date1'],
             $archive['date2'],
-            $archive['name'] . '%',
+            $archive['name'],
             $archive['idarchive'],
         ];
 

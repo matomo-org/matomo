@@ -312,6 +312,8 @@ class CronArchive
      */
     public function run()
     {
+        $pid = Common::getProcessId();
+
         $timer = new Timer;
 
         $this->logSection("START");
@@ -349,15 +351,19 @@ class CronArchive
                     return;
                 }
 
-                $this->logger->info("Done processing archives for site {idSite}.", ['idSite' => $idSite]);
-            }
+                /**
+                 * This event is triggered before the cron archiving process starts archiving data for a single
+                 * site.
+                 *
+                 * Note: multiple archiving processes can post this event.
+                 *
+                 * @param int $idSite The ID of the site we're archiving data for.
+                 * @param string $pid The PID of the process processing archives for this site.
+                 */
+                Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idSite, $pid));
 
-            /*
-             * TODO:
-             *  replace
-             *    * CronArchive.archiveSingleSite.start
-             *    * CronArchive.archiveSingleSite.finish
-             */
+                $this->logger->info("Start processing archives for site {idSite}.", ['idSite' => $idSite]);
+            }
 
             // get archives to process simultaneously
             $archivesToProcess = [];
@@ -413,6 +419,17 @@ class CronArchive
             }
 
             if (empty($archivesToProcess)) { // no invalidated archive left
+                /**
+                 * This event is triggered immediately after the cron archiving process starts archiving data for a single
+                 * site.
+                 *
+                 * Note: multiple archiving processes can post this event.
+                 *
+                 * @param int $idSite The ID of the site we're archiving data for.
+                 * @param string $pid The PID of the process processing archives for this site.
+                 */
+                Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idSite, $pid));
+
                 $idSite = null;
                 $this->logger->debug("No more archives for site {idSite}.", ['idSite' => $idSite]);
                 continue;
