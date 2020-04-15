@@ -9,6 +9,7 @@ namespace Piwik\CronArchive;
 
 use Doctrine\Common\Cache\Cache;
 use Matomo\Cache\Transient;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
@@ -59,6 +60,11 @@ class SegmentArchiving
      */
     private $beginningOfTimeLastNInYears;
 
+    /**
+     * @var bool
+     */
+    private $forceArchiveAllSegments;
+
     public function __construct($processNewSegmentsFrom, $beginningOfTimeLastNInYears = self::DEFAULT_BEGINNIN_OF_TIME_LAST_N_YEARS,
                                 Model $segmentEditorModel = null, Cache $segmentListCache = null, Date $now = null,
                                 LoggerInterface $logger = null)
@@ -69,6 +75,7 @@ class SegmentArchiving
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->forceArchiveAllSegments = $this->getShouldForceArchiveAllSegments();
     }
 
     public function getSegmentArchivesToInvalidateForNewSegments($idSite)
@@ -274,6 +281,11 @@ class SegmentArchiving
 
     public function isAutoArchivingEnabledFor($storedSegment)
     {
-        return !empty($storedSegment['auto_archive']);
+        return $this->forceArchiveAllSegments || !empty($storedSegment['auto_archive']);
+    }
+
+    private function getShouldForceArchiveAllSegments()
+    {
+        return !Rules::isBrowserTriggerEnabled() && !Rules::isBrowserArchivingAvailableForSegments();
     }
 }

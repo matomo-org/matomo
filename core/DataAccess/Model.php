@@ -157,6 +157,8 @@ class Model
 
         // update each archive as invalidated
         if (!empty($idArchives)) {
+            $idArchives = array_map('intval', $idArchives);
+
             $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
                 . implode(',', $idArchives) . ") AND $nameCondition AND value <> " . ArchiveWriter::DONE_IN_PROGRESS;
 
