@@ -624,8 +624,12 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $pluginsWithUnexpectedUpdates = array();
         $pluginsWithUpdates = array();
         $numTestedCorePlugins = 0;
+
+        // eg these plugins are managed in a submodule and they are installing all tables/columns as part of their plugin install method etc.
+        $corePluginsThatAreIndependent = array('TagManager');
+
         foreach ($plugins as $pluginName => $info) {
-            if ($manager->isPluginBundledWithCore($pluginName)) {
+            if ($manager->isPluginBundledWithCore($pluginName) && !in_array($pluginName, $corePluginsThatAreIndependent)) {
                 $numTestedCorePlugins++;
                 $pathToUpdates = Manager::getPluginDirectory($pluginName) . '/Updates/*.php';
                 $files = _glob($pathToUpdates);
@@ -641,8 +645,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                         // since matomo 3.13.0 we basically don't want to see any plugin specific updates for core plugins
                         // they should be instead in core/Updates/*
                         $pluginsWithUnexpectedUpdates[$pluginName] = $file;
-
-                        var_export($pluginName . $file);
                     } else {
                         $pluginsWithUpdates[] = $pluginName;
                     }
