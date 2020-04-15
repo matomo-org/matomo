@@ -571,11 +571,3 @@ class Proxy
         }
     }
 }
-
-/**
- * To differentiate between "no value" and default value of null
- *
- */
-class NoDefaultValue
-{
-}
