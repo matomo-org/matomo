@@ -70,7 +70,7 @@
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
-    disablePerformanceTracking, setGenerationTimeMs, maq_confirm_opted_in,
+    disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
@@ -2257,9 +2257,6 @@ if (typeof window.Piwik !== 'object') {
                 // indicates if performance metrics for the page view have been sent with a request
                 performanceTracked = false,
 
-                // Generation time set from the server
-                configPerformanceGenerationTime = 0,
-
                 // Whether Custom Variables scope "visit" should be stored in a cookie during the time of the visit
                 configStoreCustomVariablesInCookie = false,
 
@@ -3728,15 +3725,9 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 // performance tracking
-                if (configPerformanceTrackingEnabled) {
-                    if (configPerformanceGenerationTime) {
-                        request += '&gt_ms=' + configPerformanceGenerationTime;
-                    }
-
-                    if (performanceAvailable && !performanceTracked) {
-                        request = appendAvailablePerformanceMetrics(request);
-                        performanceTracked = true;
-                    }
+                if (configPerformanceTrackingEnabled && performanceAvailable && !performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                    performanceTracked = true;
                 }
 
                 if (configIdPageView) {
@@ -5891,16 +5882,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disablePerformanceTracking = function () {
                 configPerformanceTrackingEnabled = false;
-            };
-
-            /**
-             * Set the server generation time.
-             * If set, the browser's performance.timing API in not used anymore to determine the time.
-             *
-             * @param int generationTime
-             */
-            this.setGenerationTimeMs = function (generationTime) {
-                configPerformanceGenerationTime = parseInt(generationTime, 10);
             };
 
             /**

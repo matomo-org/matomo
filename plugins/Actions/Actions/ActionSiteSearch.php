@@ -69,11 +69,6 @@ class ActionSiteSearch extends Action
         return $this->getIdActionName();
     }
 
-    public function getCustomFloatValue()
-    {
-        return $this->request->getPageGenerationTime();
-    }
-
     protected function isSearchDetected()
     {
         $siteSearch = $this->detectSiteSearch($this->originalUrl);
