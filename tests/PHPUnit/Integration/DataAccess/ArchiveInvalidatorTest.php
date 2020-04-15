@@ -841,6 +841,29 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         );
     }
 
+    public function test_markArchivesAsInvalidated_forceInvalidatesNonExistantRangesWhenRequired()
+    {
+        $archives = $this->getInvalidatedArchives();
+        $this->assertEmpty($archives);
+
+        $this->invalidator->markArchivesAsInvalidated([1], ['2015-03-04,2015-03-06', '2016-04-03,2016-05-12'], 'range', null, false);
+
+        $archives = $this->getInvalidatedArchives();
+        $this->assertEmpty($archives);
+
+        $this->invalidator->markArchivesAsInvalidated([1], ['2015-03-04,2015-03-06', '2016-04-03,2016-05-12'], 'range', null, false, true);
+
+        $archives = $this->getInvalidatedArchives();
+        $this->assertEquals([
+            '2015_03' => [
+                '1.2015-03-04.2015-03-06.5.done',
+            ],
+            '2016_04' => [
+                '1.2016-04-03.2016-05-12.5.done',
+            ],
+        ], $archives);
+    }
+
     private function getInvalidatedIdArchives()
     {
         $result = array();

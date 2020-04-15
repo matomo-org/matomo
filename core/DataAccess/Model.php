@@ -169,7 +169,10 @@ class Model
 
         // for every archive we need to invalidate, if one does not already exist, create a dummy archive so CronArchive
         // will pick it up
-        // TODO: explain this later
+        //
+        // we do this by first indexing every archive we found (including DONE_IN_PROGRESS ones for whom we shouldn't
+        // create new rows). then below, if one of the period/site/segment combinations isn't in this array, we insert
+        // a row
         $allArchivesFoundIndexed = [];
         foreach ($archivesToInvalidate as $row) {
             if ($row['value'] == ArchiveWriter::DONE_IN_PROGRESS) {
@@ -180,6 +183,7 @@ class Model
         }
 
         // TODO: test mods for $forceInvalidateNonexistantRanges
+        $dummyArchives = [];
         foreach ($idSites as $idSite) {
             foreach ($allPeriodsToInvalidate as $period) {
                 $startDate = $period->getDateStart()->getDatetime();
@@ -191,13 +195,30 @@ class Model
                     continue;
                 }
 
-                $this->createDummyArchive($idSite, $period, $segment);
+                $idArchive = $this->allocateNewArchiveId($archiveTable);
+                $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));;
+
+                $tableName = ArchiveTableCreator::getNumericTable($period->getDateStart());
+                $dummyArchives[$tableName][] = [
+                    'idarchive' => $idArchive,
+                    'name' => $doneFlag,
+                    'idsite' => $idSite,
+                    'date1' => $period->getDateStart()->getDatetime(),
+                    'date2' => $period->getDateEnd()->getDatetime(),
+                    'period' => $period->getId(),
+                    'ts_archived' => null,
+                    'value' => ArchiveWriter::DONE_INVALIDATED,
+                ];
             }
+        }
+
+        $fields = ['idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'];
+        foreach ($dummyArchives as $tableName => $tableDummyArchives) {
+            Db\BatchInsert::tableInsertBatch($tableName, $fields, $tableDummyArchives);
         }
 
         return count($idArchives);
 
-        // TODO: in archive.php, maybe only invalidate the first N elements in the list? need to check performance.
         // TODO: check about race conditions here between the select and update
     }
 
