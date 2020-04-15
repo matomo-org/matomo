@@ -68,6 +68,7 @@ class CronArchive
     private $todayArchiveTimeToLive;
 
     private $allWebsites = array();
+    private $websiteIdArchiveList = [];
     private $requests = 0;
     private $archiveAndRespectTTL = true;
 
@@ -286,6 +287,7 @@ class CronArchive
         $websitesIds = $this->initWebsiteIds($allWebsites);
         $this->filterWebsiteIds($websitesIds, $allWebsites);
         $this->allWebsites = $websitesIds;
+        $this->websiteIdArchiveList = $websitesIds;
 
         if ($this->archiveFilter) {
             $this->archiveFilter->logFilterInfo($this->logger);
@@ -328,6 +330,7 @@ class CronArchive
         // archive. these IDs are stored here (using a list like this serves to keep our SQL simple).
         $this->idArchivesToExclude = [];
 
+        $idSite = null;
         while (true) {
             if ($this->isMaintenanceModeEnabled()) {
                 $this->logger->info("Archiving will stop now because maintenance mode is enabled");
@@ -339,9 +342,19 @@ class CronArchive
                 flush();
             }
 
+            if (empty($idSite)) {
+                $idSite = $this->getNextIdSiteToArchive();
+                if (empty($idSite)) { // no sites left to archive, stop
+                    $this->logger->debug("No more sites left to archive, stopping.");
+                    return;
+                }
+
+                $this->logger->info("Done processing archives for site {idSite}.", ['idSite' => $idSite]);
+            }
+
             /*
              * TODO:
-             * => events removed, can't be replaced I think:
+             *  replace
              *    * CronArchive.archiveSingleSite.start
              *    * CronArchive.archiveSingleSite.finish
              */
@@ -349,7 +362,7 @@ class CronArchive
             // get archives to process simultaneously
             $archivesToProcess = [];
             while (count($archivesToProcess) < $countOfProcesses) {
-                $invalidatedArchive = $this->getNextInvalidatedArchive($periodToCheckFor = null);
+                $invalidatedArchive = $this->getNextInvalidatedArchive($idSite, $periodToCheckFor = null);
                 if (empty($invalidatedArchive)) {
                     $this->logger->debug("No next invalidated archive.");
                     break;
@@ -399,8 +412,10 @@ class CronArchive
                 $archivesToProcess[] = $invalidatedArchive;
             }
 
-            if (empty($archivesToProcess)) { // no invalidated archive left, stop
-                return;
+            if (empty($archivesToProcess)) { // no invalidated archive left
+                $idSite = null;
+                $this->logger->debug("No more archives for site {idSite}.", ['idSite' => $idSite]);
+                continue;
             }
 
             $successCount = $this->launchArchivingFor($archivesToProcess);
@@ -413,7 +428,6 @@ class CronArchive
         $this->logger->info("Processed $numArchivesFinished archives.");
         $this->logger->info("Total API requests: {$this->requests}");
 
-        //DONE: done/total, visits, wtoday, wperiods, reqs, time, errors[count]: first eg.
         $this->logger->info("done: " .
             $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
             (empty($this->errors)
@@ -444,9 +458,9 @@ class CronArchive
         return false;
     }
 
-    private function getNextInvalidatedArchive($periodToGet)
+    private function getNextInvalidatedArchive($idSite, $periodToGet)
     {
-        $tables = $this->getTablesWithInvalidatedArchives();
+        $tables = $this->getTablesWithInvalidatedArchives($idSite);
 
         foreach ($tables as $table) {
             $tableMonth = substr($table, strlen($table) - 7, 7);
@@ -456,22 +470,25 @@ class CronArchive
                 $this->idArchivesToExclude[$tableMonth] = [];
             }
 
-            $nextArchive = $this->model->getNextInvalidatedArchive($table, $periodToGet, $this->allWebsites, $this->idArchivesToExclude[$tableMonth]);
+            $nextArchive = $this->model->getNextInvalidatedArchive($table, $idSite, $periodToGet, $this->allWebsites, $this->idArchivesToExclude[$tableMonth]);
+
             if (!empty($nextArchive)) {
-                $this->findSegmentForArchive($nextArchive);
-                return $nextArchive;
+                $isCronArchivingEnabled = $this->findSegmentForArchive($nextArchive);
+                if ($isCronArchivingEnabled) {
+                    return $nextArchive;
+                }
             }
 
-            $this->removeTableThatHasNoInvalidatedArchives($table);
+            $this->removeTableThatHasNoInvalidatedArchives($idSite, $table);
             unset($this->idArchivesToExclude[$tableMonth]);
         }
 
         return null;
     }
 
-    private function getTablesWithInvalidatedArchives()
+    private function getTablesWithInvalidatedArchives($idSite)
     {
-        $cacheKey = self::TABLES_WITH_INVALIDATED_ARCHIVES;
+        $cacheKey = self::TABLES_WITH_INVALIDATED_ARCHIVES . '.' . (int) $idSite;
 
         /** @var Lazy $cache */
         $cache = Cache::getLazyCache();
@@ -491,9 +508,9 @@ class CronArchive
         return $result;
     }
 
-    private function removeTableThatHasNoInvalidatedArchives($table)
+    private function removeTableThatHasNoInvalidatedArchives($idSite, $table)
     {
-        $cacheKey = self::TABLES_WITH_INVALIDATED_ARCHIVES;
+        $cacheKey = self::TABLES_WITH_INVALIDATED_ARCHIVES . '.' . (int) $idSite;
 
         /** @var Lazy $cache */
         $cache = Cache::getLazyCache();
@@ -628,18 +645,21 @@ class CronArchive
 
     private function findSegmentForArchive(&$archive)
     {
-        if (isset($archive['segment'])) {
-            return $archive['segment'];
-        }
-
         $flag = explode('.', $archive['name'])[0];
         if ($flag == 'done') {
-            return '';
+            $archive['segment'] = '';
+            return true;
         }
 
         $hash = substr($flag, 4);
-        $archive['segment'] = $this->segmentArchiving->findSegmentForHash($hash, $archive['idsite']);
-        return $archive['segment'];
+        $storedSegment = $this->segmentArchiving->findSegmentForHash($hash, $archive['idsite']);
+        if (!isset($storedSegment['definition'])) {
+            $archive['segment'] = null;
+            return false;
+        }
+
+        $archive['segment'] = $storedSegment['definition'];
+        return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
     }
 
     private function logArchiveJobFinished($url, $timer, $visits)
@@ -1284,5 +1304,10 @@ class CronArchive
     {
         $tableMonth = substr($invalidatedArchive['date1'], 0, 7);
         $this->idArchivesToExclude[$tableMonth][] = $invalidatedArchive['idarchive'];
+    }
+
+    private function getNextIdSiteToArchive()
+    {
+        return array_shift($this->websiteIdArchiveList);
     }
 }

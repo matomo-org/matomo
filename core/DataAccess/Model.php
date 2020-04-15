@@ -609,12 +609,15 @@ class Model
      * @param string[] $tables
      * @param int $count
      */
-    public function getNextInvalidatedArchive($table, $period = null, $idSites = null, $idArchivesToExclude = null)
+    public function getNextInvalidatedArchive($table, $idSite, $period = null, $idSites = null, $idArchivesToExclude = null)
     {
         $sql = "SELECT idarchive, idsite, date1, date2, period, `name`
                   FROM `$table`
-                 WHERE `name` LIKE 'done%' AND `value` = ?";
-        $bind[] = ArchiveWriter::DONE_INVALIDATED;
+                 WHERE `name` LIKE 'done%' AND `value` = ? AND idsite = ?";
+        $bind = [
+            ArchiveWriter::DONE_INVALIDATED,
+            $idSite,
+        ];
 
         if (!empty($period)) {
             $sql .= " AND period = ?";
