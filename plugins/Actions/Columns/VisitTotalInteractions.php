@@ -83,7 +83,7 @@ class VisitTotalInteractions extends VisitDimension
     {
         $position = self::getCurrentInteractionPosition($request);
 
-        return ($position + 1);
+        return $position + 1;
     }
 
     /**
