@@ -3102,7 +3102,7 @@ if (typeof window.Piwik !== 'object') {
                 var cookieName = getCookieName('cvar'),
                     cookie = getCookie(cookieName);
 
-                if (cookie.length) {
+                if (cookie && cookie.length) {
                     cookie = windowAlias.JSON.parse(cookie);
 
                     if (isObject(cookie)) {
@@ -5538,7 +5538,9 @@ if (typeof window.Piwik !== 'object') {
             this.setCookieNamePrefix = function (cookieNamePrefix) {
                 configCookieNamePrefix = cookieNamePrefix;
                 // Re-init the Custom Variables cookie
-                customVariables = getCustomVariablesFromCookie();
+                if (customVariables) {
+                    customVariables = getCustomVariablesFromCookie();
+                }
             };
 
             /**
@@ -6658,7 +6660,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
