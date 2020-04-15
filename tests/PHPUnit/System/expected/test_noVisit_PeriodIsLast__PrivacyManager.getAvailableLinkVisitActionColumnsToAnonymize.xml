@@ -113,7 +113,7 @@
 		<default_value />
 	</row>
 	<row>
-		<column_name>interaction_position</column_name>
+		<column_name>pageview_position</column_name>
 		<default_value />
 	</row>
 	<row>

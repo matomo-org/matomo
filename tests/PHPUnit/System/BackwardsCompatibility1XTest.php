@@ -102,6 +102,8 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                 'entry_sum_visit_length',
                 'sum_visit_length',
                 'nb_visits_converted',
+                'interactionPosition',
+                'pageviewPosition',
             ],
         );
 

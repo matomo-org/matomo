@@ -16,7 +16,7 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>העלא וועלט</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -140,7 +140,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>hallå världen</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -157,7 +157,7 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>halló heimur</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -279,7 +279,7 @@
 				
 				<pageId>11</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>привет мир</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -401,7 +401,7 @@
 				
 				<pageId>10</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Dia duit ar domhan</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -525,7 +525,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Hallo welt</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -542,7 +542,7 @@
 				
 				<pageId>9</pageId>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>¡hola mundo</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -664,7 +664,7 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Bonjour le monde</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -786,7 +786,7 @@
 				
 				<pageId>6</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Hello world</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -908,7 +908,7 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -1030,7 +1030,7 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -1152,7 +1152,7 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
