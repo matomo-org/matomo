@@ -28,8 +28,7 @@ if ($minimumPhpInvalid) {
     $piwik_errorMessage .= "<p><strong>To run Matomo you need at least PHP version $piwik_minimumPHPVersion</strong></p>
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
 				<p>Please try to update your PHP version, Matomo is really worth it! Nowadays most web hosts
-				support PHP $piwik_minimumPHPVersion.</p>
-				<p>Also see the FAQ: <a href='https://matomo.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
+				support PHP $piwik_minimumPHPVersion.</p>";
 } else {
     if (!extension_loaded('session')) {
         $piwik_errorMessage .= "<p><strong>Matomo and Zend_Session require the session extension</strong></p>
