@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Matomo\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -617,6 +616,47 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan($minimumTotalFilesizesExpectedInMb * 1024 * 1024, $sumFilesizes, "expected to have at least $minimumTotalFilesizesExpectedInMb Mb of files in Piwik codebase.");
     }
 
+    public function test_noUpdatesInCorePlugins()
+    {
+        $manager = Manager::getInstance();
+        $plugins = $manager->loadAllPluginsAndGetTheirInfo();
+
+        $pluginsWithUnexpectedUpdates = array();
+        $pluginsWithUpdates = array();
+        $numTestedCorePlugins = 0;
+        foreach ($plugins as $pluginName => $info) {
+            if ($manager->isPluginBundledWithCore($pluginName)) {
+                $numTestedCorePlugins++;
+                $pathToUpdates = Manager::getPluginDirectory($pluginName) . '/Updates/*.php';
+                $files = _glob($pathToUpdates);
+                if (empty($files)) {
+                    $files = array();
+                }
+
+                foreach ($files as $file) {
+                    $fileVersion = basename($file, '.php');
+                    if (
+                        version_compare('3.13.0', $fileVersion) != 1
+                    ) {
+                        // since matomo 3.13.0 we basically don't want to see any plugin specific updates for core plugins
+                        // they should be instead in core/Updates/*
+                        $pluginsWithUnexpectedUpdates[$pluginName] = $file;
+
+                        var_export($pluginName . $file);
+                    } else {
+                        $pluginsWithUpdates[] = $pluginName;
+                    }
+                }
+            }
+        }
+
+        $this->assertSame(array(), $pluginsWithUnexpectedUpdates);
+
+        // some assertions below to make sure we're actually doing valid tests and there is no bug in above code
+        $this->assertGreaterThan(50, $numTestedCorePlugins);
+        // eg this here shows the plugins that have update files but from older matomo versions.
+        $this->assertSame(array('DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_unique($pluginsWithUpdates));
+    }
     /**
      * @param $file
      * @return bool
