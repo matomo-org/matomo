@@ -111,13 +111,20 @@ class Dependency
      */
     private function markPluginsWithoutUpperBoundMatomoRequirementAsIncompatible($requiredVersion)
     {
-        $requiredVersions = explode(',', (string) $requiredVersion);
-
-        if (count($requiredVersions) === 1) {
-            $requiredVersions[] = '<4.0.0-b1';
+        if (strpos($requiredVersion, ',') !== false) {
+            return $requiredVersion;
         }
 
-        return implode(',', $requiredVersions);
+        $minVersion = str_replace(array('>', '=', '<', '!', '~', '^'), '', $requiredVersion);
+        if (preg_match("/^\<=?\d/", $requiredVersion)) {
+            $upperLimit = '>=' . $minVersion[0] . '.0.0-b1,' . $requiredVersion;
+        } else if (!empty($minVersion) && is_numeric($minVersion[0])) {
+            $upperLimit = $requiredVersion . ',<' . ($minVersion[0] + 1) . '.0.0-b1';
+        } else {
+            $upperLimit = '>=4.0.0-b1,<5.0.0-b1';
+        }
+
+        return $upperLimit;
     }
 
     private function makeVersionBackwardsCompatibleIfNoComparisonDefined($version)
