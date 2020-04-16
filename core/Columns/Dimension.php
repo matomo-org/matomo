@@ -116,6 +116,13 @@ abstract class Dimension
     protected $suggestedValuesCallback;
 
     /**
+     * An API method whose label columns will be used to determine the suggested values should browser archiving
+     * be disabled. The API must have defined a segment metadata on each row for this to work.
+     * @var string
+     */
+    protected $suggestedValuesApi = '';
+
+    /**
      * Here you should explain which values are accepted/useful for your segment, for example:
      * "1, 2, 3, etc." or "comcast.net, proxad.net, etc.". If the value needs any special encoding you should mention
      * this as well. For example "Any URL including protocol. The URL must be URL encoded."
@@ -618,6 +625,10 @@ abstract class Dimension
 
         if ($this->suggestedValuesCallback && !$segment->getSuggestedValuesCallback()) {
             $segment->setSuggestedValuesCallback($this->suggestedValuesCallback);
+        }
+
+        if ($this->suggestedValuesApi) {
+            $segment->setSuggestedValuesApi($this->suggestedValuesApi);
         }
 
         if ($this->sqlFilterValue && !$segment->getSqlFilterValue()) {

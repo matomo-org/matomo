@@ -23,6 +23,7 @@ class ExitPageTitle extends VisitDimension
     protected $nameSingular = 'Actions_ColumnExitPageTitle';
     protected $namePlural = 'Actions_WidgetExitPageTitles';
     protected $category = 'General_Actions';
+    protected $suggestedValuesApi = 'Actions.getExitPageTitles';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_TEXT;
 

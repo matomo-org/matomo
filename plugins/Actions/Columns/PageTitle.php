@@ -22,6 +22,7 @@ class PageTitle extends ActionDimension
     protected $nameSingular = 'Goals_PageTitle';
     protected $namePlural = 'Actions_WidgetPageTitles';
     protected $category = 'General_Actions';
+    protected $suggestedValuesApi = 'Actions.getPageTitles';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()

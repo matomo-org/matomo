@@ -2629,6 +2629,15 @@ if (typeof window.Piwik !== 'object') {
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
+            function shouldForcePost(request)
+            {
+                if (configRequestMethod === 'POST') {
+                    return true;
+                }
+                // we force long single request urls and bulk requests over post
+                return request && (request.length > 2000 || request.indexOf('{"requests"') === 0);
+            }
+
             function supportsSendBeacon()
             {
                 return 'object' === typeof navigatorAlias
@@ -2636,7 +2645,7 @@ if (typeof window.Piwik !== 'object') {
                     && 'function' === typeof Blob;
             }
 
-            function sendPostRequestViaSendBeacon(request, callback)
+            function sendPostRequestViaSendBeacon(request, callback, fallbackToGet)
             {
                 var isSupported = supportsSendBeacon();
 
@@ -2652,7 +2661,7 @@ if (typeof window.Piwik !== 'object') {
                 try {
                     var blob = new Blob([request], headers);
 
-                    if (request.length <= 2000) {
+                    if (fallbackToGet && !shouldForcePost(request)) {
                         blob = new Blob([], headers);
                         url = url + (url.indexOf('?') < 0 ? '?' : '&') + request;
                     }
@@ -2680,7 +2689,7 @@ if (typeof window.Piwik !== 'object') {
                     fallbackToGet = true;
                 }
 
-                if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
+                if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet)) {
                     return;
                 }
 
@@ -2695,7 +2704,7 @@ if (typeof window.Piwik !== 'object') {
                     // same request a second time. To avoid this, we delay the actual execution of this POST request just
                     // by 50ms which gives it usually enough time to detect the unload event in most cases.
 
-                    if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
+                    if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet)) {
                         return;
                     }
                     var sentViaBeacon;
@@ -2715,7 +2724,7 @@ if (typeof window.Piwik !== 'object') {
                         // fallback on error
                         xhr.onreadystatechange = function () {
                             if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
-                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
+                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet);
 
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
@@ -2736,7 +2745,7 @@ if (typeof window.Piwik !== 'object') {
 
                         xhr.send(request);
                     } catch (e) {
-                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
+                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet);
                         if (!sentViaBeacon && fallbackToGet) {
                             getImage(request, callback);
                         } else if (typeof callback === 'function') {
@@ -2917,12 +2926,12 @@ if (typeof window.Piwik !== 'object') {
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
 
-                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback)) {
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
                             setExpireDateTime(100);
                             return;
                         }
 
-                        if (configRequestMethod === 'POST' || String(request).length > 2000) {
+                        if (shouldForcePost(request)) {
                             sendXmlHttpRequest(request, callback);
                         } else {
                             getImage(request, callback);
@@ -2982,7 +2991,13 @@ if (typeof window.Piwik !== 'object') {
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
                         bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
-                        sendXmlHttpRequest(bulk, null, false);
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
+                            // makes sure to load the next page faster by not waiting as long
+                            // we apply this once we know send beacon works
+                            setExpireDateTime(100);
+                        } else {
+                            sendXmlHttpRequest(bulk, null, false);
+                        }
                     }
 
                     setExpireDateTime(delay);

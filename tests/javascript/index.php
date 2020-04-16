@@ -3519,7 +3519,7 @@ if ($mysql) {
     });
 
     test("tracking with sendBeacon", function() {
-        expect(9);
+        expect(11);
 
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
@@ -3537,6 +3537,9 @@ if ($mysql) {
             ok(event.request.indexOf('action_name=') === 0, 'contains request');
         });
 
+        tracker.queueRequest('action_name=Queue1'); // these 2 will be sent as bulk request
+        tracker.queueRequest('action_name=Queue2');
+
         stop();
         setTimeout(function() {
             ok(callbackCalled, 'called the callback');
@@ -3546,13 +3549,15 @@ if ($mysql) {
             xhr.send(null);
             var results = xhr.responseText;
             var m = /<span\>([0-9]+)\<\/span\>/.exec(results);
-            equal( m ? m[1] : 0, "2", "count tracking events" );
+            equal( m ? m[1] : 0, "4", "count tracking events" );
 
             ok(results.indexOf('matomo.php?action_name=' + shortTitle + '&') >= 0, "trackPageView() sends small request");
             ok(results.indexOf('matomo.php?action_name=' + longTitle + '&') >= 0, "trackPageView() sends long request");
+            ok(results.indexOf('matomo.php?action_name=Queue1&') >= 0, "queueRequest() sends bulk request 1");
+            ok(results.indexOf('matomo.php?action_name=Queue2&') >= 0, "queueRequest() sends bulk request 2");
 
             start();
-        }, 2000);
+        }, 6000);
     });
 
 

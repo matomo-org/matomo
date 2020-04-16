@@ -25,6 +25,7 @@ class PageUrl extends ActionDimension
     protected $acceptValues = 'All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $suggestedValuesApi = 'Actions.getPageUrls';
 
     public function getDbColumnJoin()
     {
