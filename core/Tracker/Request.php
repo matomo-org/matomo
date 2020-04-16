@@ -230,38 +230,6 @@ class Request
     }
 
     /**
-     * @return float|int
-     */
-    public function getDaysSinceFirstVisit()
-    {
-        $cookieFirstVisitTimestamp = $this->getParam('_idts');
-
-        if (!$this->isTimestampValid($cookieFirstVisitTimestamp)) {
-            $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
-        }
-
-        $daysSinceFirstVisit = floor(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400);
-
-        if ($daysSinceFirstVisit < 0) {
-            $daysSinceFirstVisit = 0;
-        }
-
-        return $daysSinceFirstVisit;
-    }
-
-    /**
-     * @return int|mixed
-     */
-    public function getVisitCount()
-    {
-        $visitCount = $this->getParam('_idvc');
-        if ($visitCount < 1) {
-            $visitCount = 1;
-        }
-        return $visitCount;
-    }
-
-    /**
      * Returns the language the visitor is viewing.
      *
      * @return string browser language code, eg. "en-gb,en;q=0.5"

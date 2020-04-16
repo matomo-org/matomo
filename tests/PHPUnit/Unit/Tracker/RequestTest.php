@@ -108,45 +108,6 @@ class RequestTest extends UnitTestCase
         $this->assertFalse($request->getForcedUserId());
     }
 
-    public function test_getDaysSinceFirstVisit_shouldReturnZeroIfNow()
-    {
-        $this->assertEquals(0.0, $this->request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_ShouldNotReturnMinusValue()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time + 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_TodayMinusHalfDay()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_Yesterday()
-    {
-        $request = $this->buildRequest(array('_idts' => '' .($this->time - 86400)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_12Days()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 12))));
-        $request->setIsAuthenticated();
-        $this->assertEquals(12.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_IfTimestampIsNotValidShouldIgnoreParam()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 25 * 365))));
-        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
-    }
-
     public function test_getGoalRevenue_ShouldReturnDefaultValue_IfNothingSet()
     {
         $this->assertFalse($this->request->getGoalRevenue(false));
@@ -167,11 +128,6 @@ class RequestTest extends UnitTestCase
         $this->assertTrue(ctype_alnum($hash));
 
         $this->assertEquals('da4b9237bacccdf1', $this->request->getUserIdHashed(2));
-    }
-
-    public function test_getVisitCount_shouldReturnOne_IfNotSet()
-    {
-        $this->assertEquals(1, $this->request->getVisitCount());
     }
 
     public function test_getLocalTime_shouldFallbackToCurrentDate_IfNoParamIsSet()

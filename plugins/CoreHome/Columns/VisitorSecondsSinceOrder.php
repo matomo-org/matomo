@@ -40,13 +40,19 @@ class VisitorSecondsSinceOrder extends VisitDimension
         $idorder = $request->getParam('ec_id');
         $isOrder = !empty($idorder);
         if ($isOrder) {
+            print "is order\n";
             return 0;
         }
 
         $secondsSinceLastOrder = $visitor->getVisitorColumn($this->columnName);
+        if ($secondsSinceLastOrder === null) {
+            print "no order yet\n";
+            return null;
+        }
+
         $visitsLastActionTime = Date::factory($visitor->getVisitorColumn('visit_last_action_time'))->getTimestamp();
         $secondsSinceLastAction = $request->getCurrentTimestamp() - $visitsLastActionTime;
-
+print "$secondsSinceLastOrder - $visitsLastActionTime - $secondsSinceLastAction\n";
         return $secondsSinceLastOrder + $secondsSinceLastAction;
     }
 
