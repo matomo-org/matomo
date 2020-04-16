@@ -2,9 +2,6 @@
 <result>
 	<row>
 		<label>Checkout</label>
-		<sum_time_generation>0.134</sum_time_generation>
-		<min_time_generation>0.134</min_time_generation>
-		<max_time_generation>0.134</max_time_generation>
 		<sum_time_network>0.022</sum_time_network>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.022</min_time_network>
@@ -48,9 +45,6 @@
 			<row>
 				<label> Purchasing...</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<sum_time_generation>0.134</sum_time_generation>
-				<min_time_generation>0.134</min_time_generation>
-				<max_time_generation>0.134</max_time_generation>
 				<sum_time_network>0.0220</sum_time_network>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0220</min_time_network>
@@ -88,9 +82,6 @@
 	<row>
 		<label> incredible title!</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<sum_time_generation>0.234</sum_time_generation>
-		<min_time_generation>0.234</min_time_generation>
-		<max_time_generation>0.234</max_time_generation>
 		<sum_time_network>0.0330</sum_time_network>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.0330</min_time_network>
@@ -134,9 +125,6 @@
 	<row>
 		<label> Looking at homepage (again)...</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<sum_time_generation>0.023</sum_time_generation>
-		<min_time_generation>0.023</min_time_generation>
-		<max_time_generation>0.023</max_time_generation>
 		<sum_time_network>0.0000</sum_time_network>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.0000</min_time_network>
@@ -180,9 +168,6 @@
 	<row>
 		<label> Second page view - should be registered as URL</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<sum_time_generation>0.224</sum_time_generation>
-		<min_time_generation>0.224</min_time_generation>
-		<max_time_generation>0.224</max_time_generation>
 		<sum_time_network>0.0620</sum_time_network>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.0620</min_time_network>

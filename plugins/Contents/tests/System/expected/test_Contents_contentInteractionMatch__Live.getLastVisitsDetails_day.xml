@@ -15,11 +15,11 @@
 				
 				
 				<pageId>1</pageId>
+				<pageLoadTime>1.15s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
-				<generationTimeMilliseconds>333</generationTimeMilliseconds>
-				<generationTime>0.33s</generationTime>
+				<pageLoadTimeMilliseconds>1152</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Ads</title>
 				<subtitle>http://www.example.org/page</subtitle>
@@ -405,11 +405,11 @@
 				
 				
 				<pageId>14</pageId>
+				<pageLoadTime>1.15s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
-				<generationTimeMilliseconds>333</generationTimeMilliseconds>
-				<generationTime>0.33s</generationTime>
+				<pageLoadTimeMilliseconds>1152</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Ads</title>
 				<subtitle>http://www.example.org/page</subtitle>

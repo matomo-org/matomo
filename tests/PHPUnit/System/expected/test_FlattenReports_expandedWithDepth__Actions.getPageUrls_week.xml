@@ -5,9 +5,6 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
-		<min_time_generation>0.1</min_time_generation>
-		<max_time_generation>0.6</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -22,7 +19,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
-		<avg_time_generation>0.3</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1</segment>
 		<subtable>
 			<row>
@@ -30,9 +26,6 @@
 				<nb_visits>6</nb_visits>
 				<nb_hits>6</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
-				<min_time_generation>0.1</min_time_generation>
-				<max_time_generation>0.6</max_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -45,7 +38,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
-				<avg_time_generation>0.3</avg_time_generation>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub</segment>
 			</row>
 		</subtable>
@@ -55,9 +47,6 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
-		<min_time_generation>0.2</min_time_generation>
-		<max_time_generation>1.2</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -72,7 +61,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
-		<avg_time_generation>0.6</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir2</segment>
 		<subtable>
 			<row>
@@ -80,9 +68,6 @@
 				<nb_visits>6</nb_visits>
 				<nb_hits>6</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
-				<min_time_generation>0.2</min_time_generation>
-				<max_time_generation>1.2</max_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -95,7 +80,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
-				<avg_time_generation>0.6</avg_time_generation>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir2%252Fsub</segment>
 			</row>
 		</subtable>
@@ -105,9 +89,6 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
-		<min_time_generation>0.3</min_time_generation>
-		<max_time_generation>1.8</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -122,7 +103,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
-		<avg_time_generation>0.9</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir3</segment>
 		<subtable>
 			<row>
@@ -130,9 +110,6 @@
 				<nb_visits>6</nb_visits>
 				<nb_hits>6</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
-				<min_time_generation>0.3</min_time_generation>
-				<max_time_generation>1.8</max_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -145,7 +122,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
-				<avg_time_generation>0.9</avg_time_generation>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir3%252Fsub</segment>
 			</row>
 		</subtable>
@@ -155,9 +131,6 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -170,7 +143,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/page1.html</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage1.html</segment>
 	</row>
@@ -179,9 +151,6 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation>0</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -195,7 +164,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fsub</segment>
 		<subtable>
 			<row>

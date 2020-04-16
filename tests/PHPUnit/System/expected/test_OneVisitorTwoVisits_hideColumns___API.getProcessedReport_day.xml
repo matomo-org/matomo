@@ -73,9 +73,6 @@
 	</reportMetadata>
 	<reportTotal>
 		<sum_time_spent>1080</sum_time_spent>
-		<sum_time_generation>0.615</sum_time_generation>
-		<min_time_generation>0.615</min_time_generation>
-		<max_time_generation>0.615</max_time_generation>
 		<sum_time_network>0.117</sum_time_network>
 		<nb_hits_with_time_network>4</nb_hits_with_time_network>
 		<min_time_network>0.117</min_time_network>

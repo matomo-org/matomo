@@ -5,9 +5,24 @@
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>34</sum_time_spent>
-		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
-		<min_time_generation>0.058</min_time_generation>
-		<max_time_generation>0.292</max_time_generation>
+		<nb_hits_with_time_network>2</nb_hits_with_time_network>
+		<min_time_network>0.067</min_time_network>
+		<max_time_network>0.067</max_time_network>
+		<nb_hits_with_time_server>2</nb_hits_with_time_server>
+		<min_time_server>0.116</min_time_server>
+		<max_time_server>0.116</max_time_server>
+		<nb_hits_with_time_transfer>2</nb_hits_with_time_transfer>
+		<min_time_transfer>0.521</min_time_transfer>
+		<max_time_transfer>0.521</max_time_transfer>
+		<nb_hits_with_time_dom_processing>2</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.654</min_time_dom_processing>
+		<max_time_dom_processing>0.654</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>2</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.7</min_time_dom_completion>
+		<max_time_dom_completion>0.7</max_time_dom_completion>
+		<nb_hits_with_time_on_load>2</nb_hits_with_time_on_load>
+		<min_time_on_load>0.135</min_time_on_load>
+		<max_time_on_load>0.135</max_time_on_load>
 		<sum_bandwidth>172</sum_bandwidth>
 		<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
 		<min_bandwidth>86</min_bandwidth>
@@ -21,11 +36,16 @@
 		<sum_daily_entry_nb_uniq_visitors>4</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_network>0.034</avg_time_network>
+		<avg_time_server>0.058</avg_time_server>
+		<avg_time_transfer>0.261</avg_time_transfer>
+		<avg_time_dom_processing>0.327</avg_time_dom_processing>
+		<avg_time_dom_completion>0.35</avg_time_dom_completion>
+		<avg_time_on_load>0.068</avg_time_on_load>
+		<avg_page_load_time>1.098</avg_page_load_time>
 		<avg_time_on_page>9</avg_time_on_page>
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>50%</exit_rate>
-		<avg_time_generation>0.177</avg_time_generation>
 		<url>http://piwik.org/</url>
 		<segment>exitPageUrl==http%253A%252F%252Fpiwik.org%252F</segment>
 	</row>
@@ -34,9 +54,24 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>172</sum_bandwidth>
 		<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -50,11 +85,16 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/index.htm</url>
 		<segment>exitPageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
@@ -63,9 +103,24 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
-		<min_time_generation>0.119</min_time_generation>
-		<max_time_generation>0.391</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0.01</min_time_network>
+		<max_time_network>0.01</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.096</min_time_server>
+		<max_time_server>0.096</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.232</min_time_transfer>
+		<max_time_transfer>0.232</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.312</min_time_dom_processing>
+		<max_time_dom_processing>0.312</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.255</min_time_dom_completion>
+		<max_time_dom_completion>0.255</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0</min_time_on_load>
+		<max_time_on_load>0</max_time_on_load>
 		<sum_bandwidth>86</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>86</min_bandwidth>
@@ -76,11 +131,16 @@
 		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_bandwidth>43</avg_bandwidth>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_network>0.01</avg_time_network>
+		<avg_time_server>0.096</avg_time_server>
+		<avg_time_transfer>0.232</avg_time_transfer>
+		<avg_time_dom_processing>0.312</avg_time_dom_processing>
+		<avg_time_dom_completion>0.255</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0.905</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.255</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog</segment>
 		<subtable>
 			<row>
@@ -88,9 +148,24 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-				<min_time_generation>0.391</min_time_generation>
-				<max_time_generation>0.391</max_time_generation>
+				<nb_hits_with_time_network>0</nb_hits_with_time_network>
+				<min_time_network />
+				<max_time_network />
+				<nb_hits_with_time_server>0</nb_hits_with_time_server>
+				<min_time_server />
+				<max_time_server />
+				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+				<min_time_transfer />
+				<max_time_transfer />
+				<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+				<min_time_dom_processing />
+				<max_time_dom_processing />
+				<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+				<min_time_dom_completion />
+				<max_time_dom_completion />
+				<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+				<min_time_on_load />
+				<max_time_on_load />
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -103,7 +178,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>0.391</avg_time_generation>
 				<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2012</segment>
 				<subtable>
 					<row>
@@ -111,9 +185,24 @@
 						<nb_visits>1</nb_visits>
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-						<min_time_generation>0.391</min_time_generation>
-						<max_time_generation>0.391</max_time_generation>
+						<nb_hits_with_time_network>0</nb_hits_with_time_network>
+						<min_time_network />
+						<max_time_network />
+						<nb_hits_with_time_server>0</nb_hits_with_time_server>
+						<min_time_server />
+						<max_time_server />
+						<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+						<min_time_transfer />
+						<max_time_transfer />
+						<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+						<min_time_dom_processing />
+						<max_time_dom_processing />
+						<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+						<min_time_dom_completion />
+						<max_time_dom_completion />
+						<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+						<min_time_on_load />
+						<max_time_on_load />
 						<sum_bandwidth>43</sum_bandwidth>
 						<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 						<min_bandwidth>43</min_bandwidth>
@@ -126,7 +215,6 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<avg_time_generation>0.391</avg_time_generation>
 						<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2012%252F10</segment>
 						<subtable>
 							<row>
@@ -134,9 +222,24 @@
 								<nb_visits>1</nb_visits>
 								<nb_hits>1</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
-								<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-								<min_time_generation>0.391</min_time_generation>
-								<max_time_generation>0.391</max_time_generation>
+								<nb_hits_with_time_network>0</nb_hits_with_time_network>
+								<min_time_network />
+								<max_time_network />
+								<nb_hits_with_time_server>0</nb_hits_with_time_server>
+								<min_time_server />
+								<max_time_server />
+								<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+								<min_time_transfer />
+								<max_time_transfer />
+								<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+								<min_time_dom_processing />
+								<max_time_dom_processing />
+								<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+								<min_time_dom_completion />
+								<max_time_dom_completion />
+								<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+								<min_time_on_load />
+								<max_time_on_load />
 								<sum_bandwidth>43</sum_bandwidth>
 								<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 								<min_bandwidth>43</min_bandwidth>
@@ -149,7 +252,6 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
-								<avg_time_generation>0.391</avg_time_generation>
 								<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2012%252F10%252Fintegrate-piwik-into-your-rails-application</segment>
 								<subtable>
 									<row>
@@ -157,9 +259,24 @@
 										<nb_visits>1</nb_visits>
 										<nb_hits>1</nb_hits>
 										<sum_time_spent>0</sum_time_spent>
-										<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-										<min_time_generation>0.391</min_time_generation>
-										<max_time_generation>0.391</max_time_generation>
+										<nb_hits_with_time_network>0</nb_hits_with_time_network>
+										<min_time_network />
+										<max_time_network />
+										<nb_hits_with_time_server>0</nb_hits_with_time_server>
+										<min_time_server />
+										<max_time_server />
+										<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+										<min_time_transfer />
+										<max_time_transfer />
+										<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+										<min_time_dom_processing />
+										<max_time_dom_processing />
+										<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+										<min_time_dom_completion />
+										<max_time_dom_completion />
+										<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+										<min_time_on_load />
+										<max_time_on_load />
 										<sum_bandwidth>43</sum_bandwidth>
 										<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 										<min_bandwidth>43</min_bandwidth>
@@ -175,7 +292,6 @@
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
-										<avg_time_generation>0.391</avg_time_generation>
 										<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
 										<segment>exitPageUrl==http%253A%252F%252Fpiwik.org%252Fblog%252F2012%252F10%252Fintegrate-piwik-into-your-rails-application%252F</segment>
 									</row>
@@ -190,9 +306,24 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-				<min_time_generation>0.119</min_time_generation>
-				<max_time_generation>0.119</max_time_generation>
+				<nb_hits_with_time_network>1</nb_hits_with_time_network>
+				<min_time_network>0.01</min_time_network>
+				<max_time_network>0.01</max_time_network>
+				<nb_hits_with_time_server>1</nb_hits_with_time_server>
+				<min_time_server>0.096</min_time_server>
+				<max_time_server>0.096</max_time_server>
+				<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+				<min_time_transfer>0.232</min_time_transfer>
+				<max_time_transfer>0.232</max_time_transfer>
+				<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+				<min_time_dom_processing>0.312</min_time_dom_processing>
+				<max_time_dom_processing>0.312</max_time_dom_processing>
+				<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+				<min_time_dom_completion>0.255</min_time_dom_completion>
+				<max_time_dom_completion>0.255</max_time_dom_completion>
+				<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+				<min_time_on_load>0</min_time_on_load>
+				<max_time_on_load>0</max_time_on_load>
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -205,7 +336,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>0.119</avg_time_generation>
 				<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2014</segment>
 				<subtable>
 					<row>
@@ -213,9 +343,24 @@
 						<nb_visits>1</nb_visits>
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-						<min_time_generation>0.119</min_time_generation>
-						<max_time_generation>0.119</max_time_generation>
+						<nb_hits_with_time_network>1</nb_hits_with_time_network>
+						<min_time_network>0.01</min_time_network>
+						<max_time_network>0.01</max_time_network>
+						<nb_hits_with_time_server>1</nb_hits_with_time_server>
+						<min_time_server>0.096</min_time_server>
+						<max_time_server>0.096</max_time_server>
+						<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+						<min_time_transfer>0.232</min_time_transfer>
+						<max_time_transfer>0.232</max_time_transfer>
+						<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+						<min_time_dom_processing>0.312</min_time_dom_processing>
+						<max_time_dom_processing>0.312</max_time_dom_processing>
+						<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+						<min_time_dom_completion>0.255</min_time_dom_completion>
+						<max_time_dom_completion>0.255</max_time_dom_completion>
+						<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+						<min_time_on_load>0</min_time_on_load>
+						<max_time_on_load>0</max_time_on_load>
 						<sum_bandwidth>43</sum_bandwidth>
 						<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 						<min_bandwidth>43</min_bandwidth>
@@ -228,7 +373,6 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<avg_time_generation>0.119</avg_time_generation>
 						<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2014%252F03</segment>
 						<subtable>
 							<row>
@@ -236,9 +380,24 @@
 								<nb_visits>1</nb_visits>
 								<nb_hits>1</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
-								<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-								<min_time_generation>0.119</min_time_generation>
-								<max_time_generation>0.119</max_time_generation>
+								<nb_hits_with_time_network>1</nb_hits_with_time_network>
+								<min_time_network>0.01</min_time_network>
+								<max_time_network>0.01</max_time_network>
+								<nb_hits_with_time_server>1</nb_hits_with_time_server>
+								<min_time_server>0.096</min_time_server>
+								<max_time_server>0.096</max_time_server>
+								<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+								<min_time_transfer>0.232</min_time_transfer>
+								<max_time_transfer>0.232</max_time_transfer>
+								<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+								<min_time_dom_processing>0.312</min_time_dom_processing>
+								<max_time_dom_processing>0.312</max_time_dom_processing>
+								<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+								<min_time_dom_completion>0.255</min_time_dom_completion>
+								<max_time_dom_completion>0.255</max_time_dom_completion>
+								<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+								<min_time_on_load>0</min_time_on_load>
+								<max_time_on_load>0</max_time_on_load>
 								<sum_bandwidth>43</sum_bandwidth>
 								<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 								<min_bandwidth>43</min_bandwidth>
@@ -251,7 +410,6 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
-								<avg_time_generation>0.119</avg_time_generation>
 								<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2014%252F03%252Fpiwik-2-1-massive-performance-reliability-improvements</segment>
 								<subtable>
 									<row>
@@ -259,9 +417,24 @@
 										<nb_visits>1</nb_visits>
 										<nb_hits>1</nb_hits>
 										<sum_time_spent>0</sum_time_spent>
-										<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-										<min_time_generation>0.119</min_time_generation>
-										<max_time_generation>0.119</max_time_generation>
+										<nb_hits_with_time_network>1</nb_hits_with_time_network>
+										<min_time_network>0.0100</min_time_network>
+										<max_time_network>0.0100</max_time_network>
+										<nb_hits_with_time_server>1</nb_hits_with_time_server>
+										<min_time_server>0.0960</min_time_server>
+										<max_time_server>0.0960</max_time_server>
+										<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+										<min_time_transfer>0.2320</min_time_transfer>
+										<max_time_transfer>0.2320</max_time_transfer>
+										<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+										<min_time_dom_processing>0.3120</min_time_dom_processing>
+										<max_time_dom_processing>0.3120</max_time_dom_processing>
+										<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+										<min_time_dom_completion>0.2550</min_time_dom_completion>
+										<max_time_dom_completion>0.2550</max_time_dom_completion>
+										<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+										<min_time_on_load>0.0000</min_time_on_load>
+										<max_time_on_load>0.0000</max_time_on_load>
 										<sum_bandwidth>43</sum_bandwidth>
 										<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 										<min_bandwidth>43</min_bandwidth>
@@ -277,7 +450,6 @@
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
-										<avg_time_generation>0.119</avg_time_generation>
 										<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
 										<segment>exitPageUrl==http%253A%252F%252Fpiwik.org%252Fblog%252F2014%252F03%252Fpiwik-2-1-massive-performance-reliability-improvements%252F</segment>
 									</row>
@@ -294,9 +466,24 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.145</min_time_generation>
-		<max_time_generation>0.145</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0</min_time_network>
+		<max_time_network>0</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.355</min_time_server>
+		<max_time_server>0.355</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.099</min_time_transfer>
+		<max_time_transfer>0.099</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.341</min_time_dom_processing>
+		<max_time_dom_processing>0.341</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.2</min_time_dom_completion>
+		<max_time_dom_completion>0.2</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0.11</min_time_on_load>
+		<max_time_on_load>0.11</max_time_on_load>
 		<sum_bandwidth>86</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -307,11 +494,16 @@
 		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_bandwidth>43</avg_bandwidth>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0.355</avg_time_server>
+		<avg_time_transfer>0.099</avg_time_transfer>
+		<avg_time_dom_processing>0.341</avg_time_dom_processing>
+		<avg_time_dom_completion>0.2</avg_time_dom_completion>
+		<avg_time_on_load>0.11</avg_time_on_load>
+		<avg_page_load_time>1.105</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.145</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Flog-analytics</segment>
 		<subtable>
 			<row>
@@ -319,9 +511,24 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-				<min_time_generation>0.145</min_time_generation>
-				<max_time_generation>0.145</max_time_generation>
+				<nb_hits_with_time_network>1</nb_hits_with_time_network>
+				<min_time_network>0.0000</min_time_network>
+				<max_time_network>0.0000</max_time_network>
+				<nb_hits_with_time_server>1</nb_hits_with_time_server>
+				<min_time_server>0.3550</min_time_server>
+				<max_time_server>0.3550</max_time_server>
+				<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+				<min_time_transfer>0.0990</min_time_transfer>
+				<max_time_transfer>0.0990</max_time_transfer>
+				<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+				<min_time_dom_processing>0.3410</min_time_dom_processing>
+				<max_time_dom_processing>0.3410</max_time_dom_processing>
+				<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+				<min_time_dom_completion>0.2000</min_time_dom_completion>
+				<max_time_dom_completion>0.2000</max_time_dom_completion>
+				<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+				<min_time_on_load>0.1100</min_time_on_load>
+				<max_time_on_load>0.1100</max_time_on_load>
 				<sum_bandwidth>86</sum_bandwidth>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -337,7 +544,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>0.145</avg_time_generation>
 				<url>http://piwik.org/log-analytics/</url>
 				<segment>exitPageUrl==http%253A%252F%252Fpiwik.org%252Flog-analytics%252F</segment>
 			</row>
@@ -348,9 +554,24 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.413</min_time_generation>
-		<max_time_generation>0.413</max_time_generation>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -364,11 +585,16 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.413</avg_time_generation>
 		<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
 		<segment>exitPageUrl==http%253A%252F%252Fdemo.piwik.org%252Findex.php%253Fmodule%253DCoreHome%2526action%253Dindex%2526date%253Dyesterday%2526period%253Dday%2526idSite%253D7</segment>
 	</row>
@@ -377,9 +603,24 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -393,11 +634,16 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
 		<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
 		<segment>exitPageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 	</row>
@@ -406,20 +652,40 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation>0</max_time_generation>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
 		<max_bandwidth>43</max_bandwidth>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fcontact</segment>
 		<subtable>
 			<row>
@@ -427,6 +693,24 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_network>0</nb_hits_with_time_network>
+				<min_time_network />
+				<max_time_network />
+				<nb_hits_with_time_server>0</nb_hits_with_time_server>
+				<min_time_server />
+				<max_time_server />
+				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+				<min_time_transfer />
+				<max_time_transfer />
+				<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+				<min_time_dom_processing />
+				<max_time_dom_processing />
+				<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+				<min_time_dom_completion />
+				<max_time_dom_completion />
+				<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+				<min_time_on_load />
+				<max_time_on_load />
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -447,9 +731,24 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.134</min_time_generation>
-		<max_time_generation>0.134</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0.013</min_time_network>
+		<max_time_network>0.013</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.121</min_time_server>
+		<max_time_server>0.121</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.244</min_time_transfer>
+		<max_time_transfer>0.244</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.345</min_time_dom_processing>
+		<max_time_dom_processing>0.345</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.09</min_time_dom_completion>
+		<max_time_dom_completion>0.09</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0</min_time_on_load>
+		<max_time_on_load>0</max_time_on_load>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -460,11 +759,16 @@
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>43</avg_bandwidth>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_network>0.013</avg_time_network>
+		<avg_time_server>0.121</avg_time_server>
+		<avg_time_transfer>0.244</avg_time_transfer>
+		<avg_time_dom_processing>0.345</avg_time_dom_processing>
+		<avg_time_dom_completion>0.09</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0.813</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.134</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fdocs</segment>
 		<subtable>
 			<row>
@@ -472,9 +776,24 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-				<min_time_generation>0.134</min_time_generation>
-				<max_time_generation>0.134</max_time_generation>
+				<nb_hits_with_time_network>1</nb_hits_with_time_network>
+				<min_time_network>0.013</min_time_network>
+				<max_time_network>0.013</max_time_network>
+				<nb_hits_with_time_server>1</nb_hits_with_time_server>
+				<min_time_server>0.121</min_time_server>
+				<max_time_server>0.121</max_time_server>
+				<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+				<min_time_transfer>0.244</min_time_transfer>
+				<max_time_transfer>0.244</max_time_transfer>
+				<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+				<min_time_dom_processing>0.345</min_time_dom_processing>
+				<max_time_dom_processing>0.345</max_time_dom_processing>
+				<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+				<min_time_dom_completion>0.09</min_time_dom_completion>
+				<max_time_dom_completion>0.09</max_time_dom_completion>
+				<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+				<min_time_on_load>0</min_time_on_load>
+				<max_time_on_load>0</max_time_on_load>
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -487,7 +806,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>0.134</avg_time_generation>
 				<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fdocs%252Finstallation</segment>
 				<subtable>
 					<row>
@@ -495,9 +813,24 @@
 						<nb_visits>1</nb_visits>
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-						<min_time_generation>0.134</min_time_generation>
-						<max_time_generation>0.134</max_time_generation>
+						<nb_hits_with_time_network>1</nb_hits_with_time_network>
+						<min_time_network>0.0130</min_time_network>
+						<max_time_network>0.0130</max_time_network>
+						<nb_hits_with_time_server>1</nb_hits_with_time_server>
+						<min_time_server>0.1210</min_time_server>
+						<max_time_server>0.1210</max_time_server>
+						<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+						<min_time_transfer>0.2440</min_time_transfer>
+						<max_time_transfer>0.2440</max_time_transfer>
+						<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+						<min_time_dom_processing>0.3450</min_time_dom_processing>
+						<max_time_dom_processing>0.3450</max_time_dom_processing>
+						<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+						<min_time_dom_completion>0.0900</min_time_dom_completion>
+						<max_time_dom_completion>0.0900</max_time_dom_completion>
+						<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+						<min_time_on_load>0.0000</min_time_on_load>
+						<max_time_on_load>0.0000</max_time_on_load>
 						<sum_bandwidth>43</sum_bandwidth>
 						<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 						<min_bandwidth>43</min_bandwidth>
@@ -513,7 +846,6 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<avg_time_generation>0.134</avg_time_generation>
 						<url>http://piwik.org/docs/installation/</url>
 						<segment>exitPageUrl==http%253A%252F%252Fpiwik.org%252Fdocs%252Finstallation%252F</segment>
 					</row>
@@ -526,20 +858,40 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>7</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.113</min_time_generation>
-		<max_time_generation>0.113</max_time_generation>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
 		<max_bandwidth>43</max_bandwidth>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>7</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.113</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fdownload</segment>
 		<subtable>
 			<row>
@@ -547,9 +899,24 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>7</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-				<min_time_generation>0.113</min_time_generation>
-				<max_time_generation>0.113</max_time_generation>
+				<nb_hits_with_time_network>0</nb_hits_with_time_network>
+				<min_time_network />
+				<max_time_network />
+				<nb_hits_with_time_server>0</nb_hits_with_time_server>
+				<min_time_server />
+				<max_time_server />
+				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+				<min_time_transfer />
+				<max_time_transfer />
+				<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+				<min_time_dom_processing />
+				<max_time_dom_processing />
+				<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+				<min_time_dom_completion />
+				<max_time_dom_completion />
+				<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+				<min_time_on_load />
+				<max_time_on_load />
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -560,7 +927,6 @@
 				<avg_time_on_page>7</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>0.113</avg_time_generation>
 				<url>http://piwik.org/download/</url>
 				<segment>exitPageUrl==http%253A%252F%252Fpiwik.org%252Fdownload%252F</segment>
 			</row>
@@ -571,20 +937,40 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation>0</max_time_generation>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
 		<max_bandwidth>43</max_bandwidth>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
 		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fwhat-is-piwisk</segment>
 		<subtable>
 			<row>
@@ -592,6 +978,24 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_network>0</nb_hits_with_time_network>
+				<min_time_network />
+				<max_time_network />
+				<nb_hits_with_time_server>0</nb_hits_with_time_server>
+				<min_time_server />
+				<max_time_server />
+				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+				<min_time_transfer />
+				<max_time_transfer />
+				<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+				<min_time_dom_processing />
+				<max_time_dom_processing />
+				<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+				<min_time_dom_completion />
+				<max_time_dom_completion />
+				<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+				<min_time_on_load />
+				<max_time_on_load />
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>

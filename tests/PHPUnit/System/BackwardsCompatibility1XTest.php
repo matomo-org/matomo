@@ -92,6 +92,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         // page performance metrics added in Matomo 4
         $performanceMetrics = [
+            'sum_time_generation',
+            'nb_hits_with_time_generation',
+            'min_time_generation',
+            'max_time_generation',
             'sum_time_network',
             'nb_hits_with_time_network',
             'min_time_network',
@@ -116,6 +120,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'nb_hits_with_time_on_load',
             'min_time_on_load',
             'max_time_on_load',
+            'avg_time_generation',
             'avg_time_network',
             'avg_time_server',
             'avg_time_transfer',

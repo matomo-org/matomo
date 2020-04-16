@@ -5150,7 +5150,7 @@
     ],
     "log_link_visit_action": [
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "2",
             "idaction_url_ref": "0",
@@ -5168,7 +5168,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "4",
             "idaction_url_ref": "2",
@@ -5177,16 +5177,16 @@
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "6",
             "idaction_url_ref": "4",
@@ -5195,16 +5195,16 @@
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
             "idlink_va": "4",
@@ -5363,7 +5363,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "6 min 32s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "25",
             "idaction_url_ref": "0",
@@ -5476,7 +5476,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "6 min 32s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "25",
             "idaction_url_ref": "0",
@@ -5494,7 +5494,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "34",
             "idaction_url_ref": "0",
@@ -5512,7 +5512,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "35",
             "idaction_url_ref": "34",
@@ -5521,16 +5521,16 @@
             "idvisit": "4",
             "idvisitor": "e3c514844962b92f",
             "server_time": "2016-12-31 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "34",
             "idaction_url_ref": "0",
@@ -5548,7 +5548,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "35",
             "idaction_url_ref": "34",
@@ -5557,16 +5557,16 @@
             "idvisit": "5",
             "idvisitor": "e3c514844962b92f",
             "server_time": "2017-01-01 23:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "34",
             "idaction_url_ref": "0",
@@ -5584,7 +5584,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "35",
             "idaction_url_ref": "34",
@@ -5593,13 +5593,13 @@
             "idvisit": "6",
             "idvisitor": "e3c514844962b92f",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
             "custom_float": "0s",
@@ -5629,13 +5629,13 @@
             "idvisit": "7",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2016-12-31 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -5647,13 +5647,13 @@
             "idvisit": "7",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2016-12-31 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -5683,13 +5683,13 @@
             "idvisit": "8",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-01 09:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -5701,13 +5701,13 @@
             "idvisit": "8",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-01 09:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -5737,13 +5737,13 @@
             "idvisit": "9",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-01 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -5755,13 +5755,13 @@
             "idvisit": "9",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-01 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -5791,13 +5791,13 @@
             "idvisit": "10",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-01 19:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -5809,13 +5809,13 @@
             "idvisit": "10",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-01 19:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -5845,13 +5845,13 @@
             "idvisit": "11",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -5863,13 +5863,13 @@
             "idvisit": "11",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -5899,13 +5899,13 @@
             "idvisit": "12",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-02 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -5917,13 +5917,13 @@
             "idvisit": "12",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-02 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -5953,13 +5953,13 @@
             "idvisit": "13",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -5971,16 +5971,16 @@
             "idvisit": "13",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
-            "custom_float": "5 min 48s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "42",
             "idaction_url_ref": "0",
@@ -6240,7 +6240,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "46",
             "idaction_url_ref": "0",
@@ -6258,7 +6258,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "47",
             "idaction_url_ref": "46",
@@ -6276,7 +6276,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url_ref": "47",
             "idlink_va": "61",
@@ -6295,7 +6295,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "46",
             "idaction_url_ref": "0",
@@ -6313,7 +6313,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "47",
             "idaction_url_ref": "46",
@@ -6331,7 +6331,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -6349,7 +6349,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -6358,16 +6358,16 @@
             "idvisit": "17",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -6376,16 +6376,16 @@
             "idvisit": "17",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -6403,7 +6403,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -6412,16 +6412,16 @@
             "idvisit": "18",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-01 22:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -6430,16 +6430,16 @@
             "idvisit": "18",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-01 22:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -6457,7 +6457,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -6466,16 +6466,16 @@
             "idvisit": "19",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -6484,16 +6484,16 @@
             "idvisit": "19",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -6511,7 +6511,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -6520,16 +6520,16 @@
             "idvisit": "20",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -6538,16 +6538,16 @@
             "idvisit": "20",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "20 min 49s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "54",
             "idaction_url_ref": "0",
@@ -6660,7 +6660,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "20 min 49s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "54",
             "idaction_url_ref": "0",
@@ -6924,13 +6924,13 @@
             "idvisit": "25",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
             "custom_float": "0s",
@@ -6942,13 +6942,13 @@
             "idvisit": "25",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
             "custom_float": "0s",
@@ -6978,13 +6978,13 @@
             "idvisit": "26",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
             "custom_float": "0s",
@@ -6996,16 +6996,16 @@
             "idvisit": "26",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
-            "custom_float": "17 min 10s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "65",
             "idaction_url_ref": "0",
@@ -7023,7 +7023,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "17 min 10s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url_ref": "65",
             "idlink_va": "101",
@@ -7132,7 +7132,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -7150,7 +7150,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -7159,16 +7159,16 @@
             "idvisit": "28",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-02 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -7186,7 +7186,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -7195,16 +7195,16 @@
             "idvisit": "29",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-01 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -7222,7 +7222,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -7231,16 +7231,16 @@
             "idvisit": "30",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-01 17:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -7258,7 +7258,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -7267,16 +7267,16 @@
             "idvisit": "31",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-01 23:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -7294,7 +7294,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -7303,16 +7303,16 @@
             "idvisit": "32",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "2",
             "idaction_url_ref": "0",
@@ -7330,7 +7330,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "4",
             "idaction_url_ref": "2",
@@ -7339,16 +7339,16 @@
             "idvisit": "33",
             "idvisitor": "08aa728aec13d68d",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "6",
             "idaction_url_ref": "4",
@@ -7357,16 +7357,16 @@
             "idvisit": "33",
             "idvisitor": "08aa728aec13d68d",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
             "idlink_va": "120",
@@ -7525,7 +7525,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "6 min 32s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "25",
             "idaction_url_ref": "0",
@@ -7638,7 +7638,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "6 min 32s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "25",
             "idaction_url_ref": "0",
@@ -7656,7 +7656,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "34",
             "idaction_url_ref": "0",
@@ -7674,7 +7674,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "35",
             "idaction_url_ref": "34",
@@ -7683,16 +7683,16 @@
             "idvisit": "36",
             "idvisitor": "e3c514844962b92f",
             "server_time": "2017-01-03 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "34",
             "idaction_url_ref": "0",
@@ -7710,7 +7710,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "35",
             "idaction_url_ref": "34",
@@ -7719,16 +7719,16 @@
             "idvisit": "37",
             "idvisitor": "e3c514844962b92f",
             "server_time": "2017-01-04 23:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "34",
             "idaction_url_ref": "0",
@@ -7746,7 +7746,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "35",
             "idaction_url_ref": "34",
@@ -7755,13 +7755,13 @@
             "idvisit": "38",
             "idvisitor": "e3c514844962b92f",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
             "custom_float": "0s",
@@ -7791,13 +7791,13 @@
             "idvisit": "39",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-03 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -7809,13 +7809,13 @@
             "idvisit": "39",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-03 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -7845,13 +7845,13 @@
             "idvisit": "40",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-04 09:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -7863,13 +7863,13 @@
             "idvisit": "40",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-04 09:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -7899,13 +7899,13 @@
             "idvisit": "41",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-04 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -7917,13 +7917,13 @@
             "idvisit": "41",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-04 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -7953,13 +7953,13 @@
             "idvisit": "42",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-04 19:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -7971,13 +7971,13 @@
             "idvisit": "42",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-04 19:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -8007,13 +8007,13 @@
             "idvisit": "43",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -8025,13 +8025,13 @@
             "idvisit": "43",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -8061,13 +8061,13 @@
             "idvisit": "44",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-05 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -8079,13 +8079,13 @@
             "idvisit": "44",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-05 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -8115,13 +8115,13 @@
             "idvisit": "45",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -8133,16 +8133,16 @@
             "idvisit": "45",
             "idvisitor": "5be7cae0271f5639",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
-            "custom_float": "5 min 48s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "42",
             "idaction_url_ref": "0",
@@ -8402,7 +8402,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "46",
             "idaction_url_ref": "0",
@@ -8420,7 +8420,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "47",
             "idaction_url_ref": "46",
@@ -8438,7 +8438,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url_ref": "47",
             "idlink_va": "177",
@@ -8457,7 +8457,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "46",
             "idaction_url_ref": "0",
@@ -8475,7 +8475,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "47",
             "idaction_url_ref": "46",
@@ -8493,7 +8493,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -8511,7 +8511,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -8520,16 +8520,16 @@
             "idvisit": "49",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -8538,16 +8538,16 @@
             "idvisit": "49",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -8565,7 +8565,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -8574,16 +8574,16 @@
             "idvisit": "50",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-04 22:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -8592,16 +8592,16 @@
             "idvisit": "50",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-04 22:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -8619,7 +8619,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -8628,16 +8628,16 @@
             "idvisit": "51",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -8646,16 +8646,16 @@
             "idvisit": "51",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "51",
             "idaction_url_ref": "0",
@@ -8673,7 +8673,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "52",
             "idaction_url_ref": "51",
@@ -8682,16 +8682,16 @@
             "idvisit": "52",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name_ref": "3",
             "idaction_url": "53",
             "idaction_url_ref": "52",
@@ -8700,16 +8700,16 @@
             "idvisit": "52",
             "idvisitor": "f89db150c0ae0cab",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "20 min 49s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "54",
             "idaction_url_ref": "0",
@@ -8822,7 +8822,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "20 min 49s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "54",
             "idaction_url_ref": "0",
@@ -9086,13 +9086,13 @@
             "idvisit": "57",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
             "custom_float": "0s",
@@ -9104,13 +9104,13 @@
             "idvisit": "57",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
             "custom_float": "0s",
@@ -9140,13 +9140,13 @@
             "idvisit": "58",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
             "custom_float": "0s",
@@ -9158,16 +9158,16 @@
             "idvisit": "58",
             "idvisitor": "d357803f17701499",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
-            "custom_float": "17 min 10s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "65",
             "idaction_url_ref": "0",
@@ -9185,7 +9185,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "17 min 10s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url_ref": "65",
             "idlink_va": "217",
@@ -9294,7 +9294,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -9312,7 +9312,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -9321,16 +9321,16 @@
             "idvisit": "60",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-05 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -9348,7 +9348,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -9357,16 +9357,16 @@
             "idvisit": "61",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-04 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -9384,7 +9384,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -9393,16 +9393,16 @@
             "idvisit": "62",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-04 17:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -9420,7 +9420,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -9429,16 +9429,16 @@
             "idvisit": "63",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-04 23:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "0",
             "idaction_url": "68",
             "idaction_url_ref": "0",
@@ -9456,7 +9456,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name_ref": "1",
             "idaction_url": "69",
             "idaction_url_ref": "68",
@@ -9465,16 +9465,16 @@
             "idvisit": "64",
             "idvisitor": "61977a16e418646f",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "2",
@@ -9495,7 +9495,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "4",
@@ -9507,16 +9507,16 @@
             "idvisitor": "08aa728aec13d68d",
             "pageview_position": "2",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "5",
             "idaction_name_ref": "3",
             "idaction_url": "6",
@@ -9528,16 +9528,16 @@
             "idvisitor": "08aa728aec13d68d",
             "pageview_position": "3",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "7",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
@@ -9713,7 +9713,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "6 min 32s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "25",
@@ -9848,7 +9848,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "6 min 32s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "25",
@@ -9869,7 +9869,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "34",
@@ -9890,7 +9890,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "35",
@@ -9902,16 +9902,16 @@
             "idvisitor": "e3c514844962b92f",
             "pageview_position": "2",
             "server_time": "2017-01-03 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "34",
@@ -9932,7 +9932,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "35",
@@ -9944,16 +9944,16 @@
             "idvisitor": "e3c514844962b92f",
             "pageview_position": "2",
             "server_time": "2017-01-04 23:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "34",
@@ -9974,7 +9974,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2 hours 43 min",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "35",
@@ -9986,13 +9986,13 @@
             "idvisitor": "e3c514844962b92f",
             "pageview_position": "2",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
             "custom_float": "0s",
@@ -10028,13 +10028,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "2",
             "server_time": "2017-01-03 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -10049,13 +10049,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "3",
             "server_time": "2017-01-03 08:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -10091,13 +10091,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "2",
             "server_time": "2017-01-04 09:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -10112,13 +10112,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "3",
             "server_time": "2017-01-04 09:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -10154,13 +10154,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "2",
             "server_time": "2017-01-04 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -10175,13 +10175,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "3",
             "server_time": "2017-01-04 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -10217,13 +10217,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "2",
             "server_time": "2017-01-04 19:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -10238,13 +10238,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "3",
             "server_time": "2017-01-04 19:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -10280,13 +10280,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "2",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -10301,13 +10301,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "3",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -10343,13 +10343,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "2",
             "server_time": "2017-01-05 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -10364,13 +10364,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "3",
             "server_time": "2017-01-05 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
             "custom_float": "0s",
@@ -10406,13 +10406,13 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "2",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 8s",
+            "time_dom_processing": "3 min 36s",
+            "time_network": "1 min 46s",
+            "time_on_load": "2 min 45s",
+            "time_server": "3 min 18s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "2 min 48s"
         },
         {
             "custom_float": "0s",
@@ -10427,16 +10427,16 @@
             "idvisitor": "5be7cae0271f5639",
             "pageview_position": "3",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "3 min 28s",
+            "time_dom_processing": "2 min 49s",
+            "time_network": "5 min 6s",
+            "time_on_load": "1 min 39s",
+            "time_server": "3 min 20s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "6 min 45s"
         },
         {
-            "custom_float": "5 min 48s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "42",
@@ -10732,7 +10732,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "46",
@@ -10753,7 +10753,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "47",
@@ -10774,7 +10774,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name": "48",
             "idaction_name_ref": "3",
             "idaction_url_ref": "47",
@@ -10796,7 +10796,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "46",
@@ -10817,7 +10817,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 45s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "47",
@@ -10838,7 +10838,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "51",
@@ -10859,7 +10859,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "52",
@@ -10871,16 +10871,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "2",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "5",
             "idaction_name_ref": "3",
             "idaction_url": "53",
@@ -10892,16 +10892,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "3",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "51",
@@ -10922,7 +10922,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "52",
@@ -10934,16 +10934,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "2",
             "server_time": "2017-01-04 22:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "5",
             "idaction_name_ref": "3",
             "idaction_url": "53",
@@ -10955,16 +10955,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "3",
             "server_time": "2017-01-04 22:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "51",
@@ -10985,7 +10985,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "52",
@@ -10997,16 +10997,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "2",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "5",
             "idaction_name_ref": "3",
             "idaction_url": "53",
@@ -11018,16 +11018,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "3",
             "server_time": "2017-01-05 00:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "51",
@@ -11048,7 +11048,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "52",
@@ -11060,16 +11060,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "2",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "5 min 59s",
+            "time_dom_processing": "2 min 45s",
+            "time_network": "36s",
+            "time_on_load": "2 min 35s",
+            "time_server": "1 min 39s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "3 min 26s"
         },
         {
-            "custom_float": "16 min 24s",
+            "custom_float": "0s",
             "idaction_name": "5",
             "idaction_name_ref": "3",
             "idaction_url": "53",
@@ -11081,16 +11081,16 @@
             "idvisitor": "f89db150c0ae0cab",
             "pageview_position": "3",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "2 min 35s",
+            "time_dom_processing": "3 min 19s",
+            "time_network": "26s",
+            "time_on_load": "1 min 30s",
+            "time_server": "3 min 55s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "36s"
         },
         {
-            "custom_float": "20 min 49s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "54",
@@ -11225,7 +11225,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "20 min 49s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "54",
@@ -11524,13 +11524,13 @@
             "idvisitor": "d357803f17701499",
             "pageview_position": "2",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
             "custom_float": "0s",
@@ -11545,13 +11545,13 @@
             "idvisitor": "d357803f17701499",
             "pageview_position": "3",
             "server_time": "2017-01-05 01:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
             "custom_float": "0s",
@@ -11587,13 +11587,13 @@
             "idvisitor": "d357803f17701499",
             "pageview_position": "2",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 6s"
         },
         {
             "custom_float": "0s",
@@ -11608,16 +11608,16 @@
             "idvisitor": "d357803f17701499",
             "pageview_position": "3",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
             "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "0s"
+            "time_transfer": "1 min 45s"
         },
         {
-            "custom_float": "17 min 10s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "65",
@@ -11638,7 +11638,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "17 min 10s",
+            "custom_float": "0s",
             "idaction_name": "66",
             "idaction_name_ref": "1",
             "idaction_url_ref": "65",
@@ -11769,7 +11769,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "68",
@@ -11790,7 +11790,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "69",
@@ -11802,16 +11802,16 @@
             "idvisitor": "61977a16e418646f",
             "pageview_position": "2",
             "server_time": "2017-01-05 02:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "68",
@@ -11832,7 +11832,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "69",
@@ -11844,16 +11844,16 @@
             "idvisitor": "61977a16e418646f",
             "pageview_position": "2",
             "server_time": "2017-01-04 14:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "68",
@@ -11874,7 +11874,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "69",
@@ -11886,16 +11886,16 @@
             "idvisitor": "61977a16e418646f",
             "pageview_position": "2",
             "server_time": "2017-01-04 17:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "68",
@@ -11916,7 +11916,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "69",
@@ -11928,16 +11928,16 @@
             "idvisitor": "61977a16e418646f",
             "pageview_position": "2",
             "server_time": "2017-01-04 23:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "68",
@@ -11958,7 +11958,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "69",
@@ -11970,13 +11970,13 @@
             "idvisitor": "61977a16e418646f",
             "pageview_position": "2",
             "server_time": "2017-01-05 03:10:05",
-            "time_dom_completion": "0s",
-            "time_dom_processing": "0s",
-            "time_network": "0s",
-            "time_on_load": "0s",
-            "time_server": "0s",
+            "time_dom_completion": "6 min 9s",
+            "time_dom_processing": "5 min 21s",
+            "time_network": "1 min 39s",
+            "time_on_load": "3 min 21s",
+            "time_server": "1 min 50s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "0s"
+            "time_transfer": "4 min 8s"
         }
     ],
     "log_foo_bar_baz": [

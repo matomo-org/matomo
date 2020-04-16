@@ -15,9 +15,9 @@
 				
 				
 				<pageId>49</pageId>
+				<pageLoadTime>1.45s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>292</generationTimeMilliseconds>
-				<generationTime>0.29s</generationTime>
+				<pageLoadTimeMilliseconds>1454</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
@@ -328,8 +328,6 @@
 				
 				<pageId>47</pageId>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>413</generationTimeMilliseconds>
-				<generationTime>0.41s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</title>
 				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
@@ -813,8 +811,6 @@
 				
 				<pageId>43</pageId>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>391</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Integrate Piwik into your Rails Application - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
@@ -1128,9 +1124,9 @@
 				
 				
 				<pageId>41</pageId>
+				<pageLoadTime>0.91s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>119</generationTimeMilliseconds>
-				<generationTime>0.12s</generationTime>
+				<pageLoadTimeMilliseconds>905</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</subtitle>
@@ -1273,9 +1269,9 @@
 				
 				
 				<pageId>39</pageId>
+				<pageLoadTime>1.11s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>145</generationTimeMilliseconds>
-				<generationTime>0.15s</generationTime>
+				<pageLoadTimeMilliseconds>1105</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Log Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/log-analytics/</subtitle>
@@ -1441,8 +1437,6 @@
 				<bandwidth>43</bandwidth>
 				<timeSpent>2</timeSpent>
 				<timeSpentPretty>2s</timeSpentPretty>
-				<generationTimeMilliseconds>182</generationTimeMilliseconds>
-				<generationTime>0.18s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
@@ -1483,8 +1477,6 @@
 				<bandwidth>43</bandwidth>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
-				<generationTimeMilliseconds>113</generationTimeMilliseconds>
-				<generationTime>0.11s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Download - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/download/</subtitle>
@@ -1639,9 +1631,9 @@
 				
 				
 				<pageId>36</pageId>
+				<pageLoadTime>0.81s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>134</generationTimeMilliseconds>
-				<generationTime>0.13s</generationTime>
+				<pageLoadTimeMilliseconds>813</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello Installing Piwik - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/docs/installation/</subtitle>
@@ -1796,9 +1788,9 @@
 				
 				
 				<pageId>34</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>58</generationTimeMilliseconds>
-				<generationTime>0.06s</generationTime>
+				<pageLoadTimeMilliseconds>739</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
@@ -1956,8 +1948,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>123</generationTimeMilliseconds>
-				<generationTime>0.12s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -1998,8 +1988,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>120</generationTimeMilliseconds>
-				<generationTime>0.12s</generationTime>
 				<pageviewPosition>5</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -2025,8 +2013,6 @@
 				<bandwidth />
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
-				<generationTimeMilliseconds>23</generationTimeMilliseconds>
-				<generationTime>0.02s</generationTime>
 				<pageviewPosition>9</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -2052,8 +2038,6 @@
 				<bandwidth />
 				<timeSpent>50</timeSpent>
 				<timeSpentPretty>50s</timeSpentPretty>
-				<generationTimeMilliseconds>234</generationTimeMilliseconds>
-				<generationTime>0.23s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -2079,8 +2063,6 @@
 				<bandwidth />
 				<timeSpent>49</timeSpent>
 				<timeSpentPretty>49s</timeSpentPretty>
-				<generationTimeMilliseconds>294</generationTimeMilliseconds>
-				<generationTime>0.29s</generationTime>
 				<pageviewPosition>6</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -2106,8 +2088,6 @@
 				<bandwidth />
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
-				<generationTimeMilliseconds>237</generationTimeMilliseconds>
-				<generationTime>0.24s</generationTime>
 				<pageviewPosition>10</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -2133,8 +2113,6 @@
 				<bandwidth />
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
-				<generationTimeMilliseconds>1324</generationTimeMilliseconds>
-				<generationTime>1.32s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
@@ -2160,8 +2138,6 @@
 				<bandwidth />
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
-				<generationTimeMilliseconds>624</generationTimeMilliseconds>
-				<generationTime>0.62s</generationTime>
 				<pageviewPosition>7</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
@@ -2187,8 +2163,6 @@
 				<bandwidth />
 				<timeSpent>8</timeSpent>
 				<timeSpentPretty>8s</timeSpentPretty>
-				<generationTimeMilliseconds>543</generationTimeMilliseconds>
-				<generationTime>0.54s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
@@ -2212,8 +2186,6 @@
 				
 				<pageId>77</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>343</generationTimeMilliseconds>
-				<generationTime>0.34s</generationTime>
 				<pageviewPosition>8</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
@@ -2329,8 +2301,6 @@
 				
 				<pageId>86</pageId>
 				<bandwidth>182</bandwidth>
-				<generationTimeMilliseconds>1</generationTimeMilliseconds>
-				<generationTime>0.001s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/view/my/file.html</subtitle>
@@ -2746,8 +2716,6 @@
 				
 				<pageId>94</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>359</generationTimeMilliseconds>
-				<generationTime>0.36s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://hello.example.com/hello/from/another/world/6,681965</subtitle>
@@ -2892,8 +2860,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>109</generationTimeMilliseconds>
-				<generationTime>0.11s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://xzy.example.com/Products/theProduct</subtitle>
@@ -2932,8 +2898,6 @@
 				
 				<pageId>91</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>109</generationTimeMilliseconds>
-				<generationTime>0.11s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title />
 				<subtitle>http://xzy.example.com/Products/theProduct</subtitle>
@@ -3228,8 +3192,6 @@
 				
 				<pageId>82</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>359</generationTimeMilliseconds>
-				<generationTime>0.36s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</title>
 				<subtitle>http://hello.example.com/hello/world/6,681965</subtitle>
@@ -3362,8 +3324,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>359</generationTimeMilliseconds>
-				<generationTime>0.36s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</title>
 				<subtitle>http://hello.example.com/hello/world/6,681965</subtitle>
@@ -3395,8 +3355,6 @@
 				
 				<pageId>83</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>359</generationTimeMilliseconds>
-				<generationTime>0.36s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://hello.example.com/hello/from/another/world/6,681965</subtitle>
@@ -3845,8 +3803,6 @@
 				
 				<pageId>89</pageId>
 				<bandwidth>915</bandwidth>
-				<generationTimeMilliseconds>1</generationTimeMilliseconds>
-				<generationTime>0.001s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
@@ -3977,8 +3933,6 @@
 				
 				<pageId>90</pageId>
 				<bandwidth>267</bandwidth>
-				<generationTimeMilliseconds>9</generationTimeMilliseconds>
-				<generationTime>0.009s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/api/fútbol-user-agent</subtitle>
