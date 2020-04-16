@@ -15,11 +15,11 @@ use Piwik\Tracker\Visitor;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 
-class InteractionPosition extends ActionDimension
+class PageViewPosition extends ActionDimension
 {
-    protected $columnName = 'interaction_position';
+    protected $columnName = 'pageview_position';
     protected $columnType = 'MEDIUMINT UNSIGNED DEFAULT NULL';
-    protected $nameSingular = 'Actions_ColumnInteractionPosition';
+    protected $nameSingular = 'Actions_ColumnPageViewPosition';
     protected $type = self::TYPE_NUMBER;
 
     /**

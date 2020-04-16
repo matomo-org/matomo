@@ -83,10 +83,7 @@ class VisitTotalInteractions extends VisitDimension
     {
         $position = self::getCurrentInteractionPosition($request);
 
-        $position = $position + 1;
-
-        // Remove this in Piwik 4
-        return min($position, 32765);
+        return $position + 1;
     }
 
     /**

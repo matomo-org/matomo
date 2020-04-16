@@ -65,7 +65,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "1",
+            "pageview_position": "1",
             "server_time": "2017-01-02 03:04:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -80,7 +80,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "2",
+            "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:06:00"
         },
@@ -95,7 +95,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "3",
+            "pageview_position": "3",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -109,7 +109,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "search_cat": "images",
             "search_count": "200",
             "server_time": "2017-01-02 03:10:05",
@@ -127,7 +127,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -143,7 +143,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -159,7 +159,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -175,7 +175,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -190,7 +190,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -207,7 +207,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         },
@@ -223,7 +223,7 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
         }
