@@ -10,11 +10,13 @@ namespace Piwik\Plugins\API\tests\System;
 
 use Piwik\API\Request;
 use Piwik\Application\Environment;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable\Manager;
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
@@ -50,6 +52,7 @@ class AutoSuggestAPITest extends SystemTestCase
 
     protected static $processed = 0;
     protected static $skipped = array();
+    private static $hasArchivedData = false;
 
     public static function setUpBeforeClass(): void
     {
@@ -99,6 +102,43 @@ class AutoSuggestAPITest extends SystemTestCase
                     'otherRequestParameters' => array('filter_limit' => 1000)));
 
         }
+        return $apiForTesting;
+    }
+
+    /**
+     * @dataProvider getApiForTestingBrowserArchivingDisabled
+     */
+    public function testApiBrowserArchivingDisabled($api, $params)
+    {
+        if (!self::$hasArchivedData) {
+            self::$hasArchivedData = true;
+            // need to make sure data is archived before disabling the archiving
+            Request::processRequest('API.get', array(
+                'date' => '2018-01-10', 'period' => 'year', 'idSite' => $params['idSite'],
+                'trigger' => 'archivephp'
+            ));
+        }
+
+        // Refresh cache for CustomVariables\Model
+        Cache::clearCacheGeneral();
+        // disable browser archiving so the APIs are used
+        Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 0);
+
+        $this->runApiTests($api, $params);
+
+        Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 1);
+    }
+
+    public function getApiForTestingBrowserArchivingDisabled()
+    {
+        $idSite = self::$fixture->idSite;
+        $segments = self::getSegmentsMetadata($onlyWithSuggestedValuesApi = true);
+
+        $apiForTesting = array();
+        foreach ($segments as $segment) {
+            $apiForTesting[] = $this->getApiForTestingForSegment($idSite, $segment);
+        }
+
         return $apiForTesting;
     }
 
@@ -206,7 +246,7 @@ class AutoSuggestAPITest extends SystemTestCase
         $this->assertGreaterThan($minimumSegmentsToTest, self::$processed, $message);
     }
 
-    public static function getSegmentsMetadata()
+    public static function getSegmentsMetadata($onlyWithSuggestedValuesApi = false)
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
@@ -230,6 +270,9 @@ class AutoSuggestAPITest extends SystemTestCase
 
                 foreach ($dimension->getSegments() as $segment) {
                     if ($segment->isInternal()) {
+                        continue;
+                    }
+                    if ($onlyWithSuggestedValuesApi && !$segment->getSuggestedValuesApi()) {
                         continue;
                     }
                     $segments[] = $segment->getSegment();

@@ -113,7 +113,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.223</avg_time_generation>
-			<segment>pageTitle==Page%2BName%2Bnot%2Bdefined</segment>
+			<segment>pageTitle==</segment>
 		</row>
 	</result>
 	<result date="2011" />

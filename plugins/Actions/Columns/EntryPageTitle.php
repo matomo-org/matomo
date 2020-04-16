@@ -21,6 +21,7 @@ class EntryPageTitle extends VisitDimension
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'entryPageTitle';
+    protected $suggestedValuesApi = 'Actions.getEntryPageTitles';
     protected $nameSingular = 'Actions_ColumnEntryPageTitle';
     protected $namePlural = 'Actions_WidgetEntryPageTitles';
     protected $category = 'General_Actions';

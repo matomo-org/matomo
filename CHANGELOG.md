@@ -48,6 +48,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
 * The dimension and `log_link_visit_action` column interaction_position has been renamed to pageview_position. If your database queries rely on the column you can simply replace the name.
 
+## Matomo 3.13.5
+
+### New API
+* A new event `ArchiveProcessor.ComputeNbUniques.getIdSites` was added so plugins can change which site IDs should be included when processing the number unique visitors and users for a specific site.
+
 ## Matomo 3.13.1
 
 ### Deprecations
