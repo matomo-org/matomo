@@ -43,6 +43,7 @@ class PagePerformance extends \Piwik\Plugin
             'ScheduledReports.processReports'        => 'processReports',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
+            'Metrics.isLowerValueBetter'             => 'isLowerValueBetter',
             'API.Request.dispatch.end'               => 'enrichApi'
         ];
     }
@@ -66,6 +67,13 @@ class PagePerformance extends \Piwik\Plugin
     {
         $metrics      = Metrics::getMetricTranslations();
         $translations = array_merge($translations, $metrics);
+    }
+
+    public function isLowerValueBetter(&$isLowerBetter, $metric)
+    {
+        if (array_key_exists($metric, Metrics::getAllPagePerformanceMetrics())) {
+            $isLowerBetter = true;
+        }
     }
 
     public function enrichApi($dataTable, $params)
