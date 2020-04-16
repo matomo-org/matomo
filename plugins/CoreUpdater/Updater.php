@@ -15,6 +15,7 @@ use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
@@ -124,8 +125,10 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
 
+        $tempTokenAuth = Piwik::requestTemporarySystemAuthToken('OneClickUpdate', 1);
         $partTwoUrl = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
             'action' => 'oneClickUpdatePartTwo',
+            'token_auth' => $tempTokenAuth,
         ]);
 
         $response = Http::sendHttpRequest($partTwoUrl, 300);
