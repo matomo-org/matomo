@@ -47,7 +47,6 @@
         "UnprocessedSegmentApiError3": "その後、数時間程度でセグメントデータが API を通じて利用可能になります。 （そうでない場合は、問題がある可能性があります）。",
         "CustomUnprocessedSegmentApiError1": "要求したセグメントがセグメントエディタでまだ作成されていないため、レポートデータが事前処理されていません。",
         "CustomUnprocessedSegmentApiError2": "このセグメントのデータを表示するには、Matomo にアクセスし、セグメントエディタでこのセグメントを手動で作成する必要があります。",
-        "CustomUnprocessedSegmentApiError3": "（また、Segment Editor.add API メソッドを使用してプログラムで新しいセグメントを作成することもできます）。",
         "CustomUnprocessedSegmentApiError4": "エディタ（または API 経由）でセグメントを作成すると、このエラーメッセージが消え、セグメントデータが前処理された後、数時間以内にセグメント化されたレポートデータが表示されます。 （そうでない場合は、問題がある可能性があります）。",
         "CustomUnprocessedSegmentApiError5": "あなたのセグメントが Live.getLastVisitsDetails API を使用して処理されるのを待たずに動作するかどうかテストできます。",
         "CustomUnprocessedSegmentApiError6": "この API メソッドを使用すると、&segment= parameter で一致したユーザーとアクションが表示されます。",

@@ -16,12 +16,14 @@ class LatestCurrentStable extends ReleaseChannel
 {
     public function getId()
     {
-        return 'latest_'.Version::MAJOR_VERSION.'x_stable';
+        // NOTE: using Version::VERSION instead of Version::MAJOR_VERSION  since MAJOR_VERSION may not exist when
+        // updating from pre 4.x to 4.x.
+        return 'latest_'.((int) Version::VERSION).'x_stable';
     }
 
     public function getName()
     {
-        return Piwik::translate('CoreUpdater_LatestXStableRelease', Version::MAJOR_VERSION . '.X');
+        return Piwik::translate('CoreUpdater_LatestXStableRelease', ((int) Version::VERSION) . '.X');
     }
 
     public function getDescription()

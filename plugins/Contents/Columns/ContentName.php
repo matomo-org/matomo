@@ -24,6 +24,7 @@ class ContentName extends ActionDimension
     protected $nameSingular = 'Contents_ContentName';
     protected $namePlural = 'Contents_ContentNames';
     protected $acceptValues = 'The name of a content block, for instance "Ad Sale"';
+    protected $suggestedValuesApi = 'Contents.getContentNames';
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';

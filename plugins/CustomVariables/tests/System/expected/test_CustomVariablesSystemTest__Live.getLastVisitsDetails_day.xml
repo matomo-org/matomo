@@ -31,7 +31,7 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Profile page</title>
 				<subtitle>http://localhost</subtitle>
 				<icon />

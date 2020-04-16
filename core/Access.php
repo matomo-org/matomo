@@ -13,7 +13,6 @@ use Piwik\Access\CapabilitiesProvider;
 use Piwik\API\Request;
 use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\Session\SessionAuth;
 
@@ -733,6 +732,7 @@ class Access
     /**
      * Throw a NoAccessException with the given message, or a more generic 'You need to log in' message if the
      * user is not currently logged in (e.g. if session has expired).
+     *
      * @param $message
      * @throws NoAccessException
      */
@@ -762,13 +762,4 @@ class Access
     {
         return !empty($this->login);
     }
-}
-
-/**
- * Exception thrown when a user doesn't have sufficient access to a resource.
- *
- * @api
- */
-class NoAccessException extends InvalidRequestParameterException
-{
 }

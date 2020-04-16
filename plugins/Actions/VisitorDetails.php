@@ -136,9 +136,9 @@ class VisitorDetails extends VisitorDetailsAbstract
             unset($action['custom_float']);
         }
 
-        if (array_key_exists('interaction_position', $action)) {
-            $action['interactionPosition'] = $action['interaction_position'];
-            unset($action['interaction_position']);
+        if (array_key_exists('pageview_position', $action)) {
+            $action['pageviewPosition'] = $action['pageview_position'];
+            unset($action['pageview_position']);
         }
 
         // Reconstruct url from prefix
@@ -276,7 +276,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float,
-					log_link_visit_action.interaction_position,
+					log_link_visit_action.pageview_position,
 					log_link_visit_action.search_cat,
 					log_link_visit_action.search_count
 					" . $customActionDimensionFields . "

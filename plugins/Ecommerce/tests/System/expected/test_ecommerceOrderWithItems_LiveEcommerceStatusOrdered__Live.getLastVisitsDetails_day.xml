@@ -183,7 +183,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -220,7 +220,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -257,7 +257,7 @@
 				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
-				<interactionPosition>3</interactionPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />

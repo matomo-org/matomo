@@ -18,7 +18,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -55,7 +55,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -92,7 +92,7 @@
 				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
-				<interactionPosition>3</interactionPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -286,7 +286,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -311,7 +311,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>Looking at Electronics &amp; Cameras page again</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -336,7 +336,7 @@
 				<bandwidth />
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<interactionPosition>3</interactionPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<title>Looking at product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -453,7 +453,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>4</interactionPosition>
+				<pageviewPosition>4</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -490,7 +490,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>5</interactionPosition>
+				<pageviewPosition>5</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -527,7 +527,7 @@
 				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
-				<interactionPosition>6</interactionPosition>
+				<pageviewPosition>6</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -721,7 +721,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -773,7 +773,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>Another Product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -810,7 +810,7 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<interactionPosition>3</interactionPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<title>Another Product page with no category</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -845,7 +845,7 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
-				<interactionPosition>4</interactionPosition>
+				<pageviewPosition>4</pageviewPosition>
 				<title>Another Product page with multiple categories</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />

@@ -18,7 +18,7 @@
 				<bandwidth />
 				<generationTimeMilliseconds>134</generationTimeMilliseconds>
 				<generationTime>0.13s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Checkout/Purchasing...</title>
 				<subtitle>http://example.org/store/purchase.htm</subtitle>
 				<icon />
@@ -159,7 +159,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<generationTimeMilliseconds>234</generationTimeMilliseconds>
 				<generationTime>0.23s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm?parameter=Should display</subtitle>
 				<icon />
@@ -180,7 +180,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<generationTimeMilliseconds>224</generationTimeMilliseconds>
 				<generationTime>0.22s</generationTime>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view - should be registered as URL</title>
 				<subtitle>http://example.org/</subtitle>
 				<icon />
@@ -199,7 +199,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -218,7 +218,7 @@
 				<bandwidth />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -237,7 +237,7 @@
 				<bandwidth />
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -256,7 +256,7 @@
 				<bandwidth />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -294,7 +294,7 @@
 				<siteSearchCount />
 				<generationTimeMilliseconds>812</generationTimeMilliseconds>
 				<generationTime>0.81s</generationTime>
-				<interactionPosition>3</interactionPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
@@ -313,7 +313,7 @@
 				<bandwidth />
 				<generationTimeMilliseconds>24</generationTimeMilliseconds>
 				<generationTime>0.02s</generationTime>
-				<interactionPosition>4</interactionPosition>
+				<pageviewPosition>4</pageviewPosition>
 				<title>Looking at homepage after site search...</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />

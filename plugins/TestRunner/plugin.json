@@ -4,7 +4,7 @@
     "description": "Developer tool that lets you run the automated tests suite. Only needed in development.",
     "theme": false,
     "require": {
-        "piwik": ">=2.9.0"
+        "matomo": ">=4.0.0-b1,<5.0.0-b1"
     },
     "authors": [
         {

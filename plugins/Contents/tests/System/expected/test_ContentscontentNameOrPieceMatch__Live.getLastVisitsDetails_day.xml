@@ -20,7 +20,7 @@
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Ads</title>
 				<subtitle>http://www.example.org/page</subtitle>
 				<icon />
@@ -42,7 +42,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -64,7 +64,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -86,7 +86,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -108,7 +108,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -130,7 +130,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction>submit</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (submit)</title>
@@ -152,7 +152,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -174,7 +174,7 @@
 				<contentTarget>http://piwik.org/</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -196,7 +196,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
@@ -218,7 +218,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
@@ -240,7 +240,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -262,7 +262,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -284,7 +284,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -410,7 +410,7 @@
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Ads</title>
 				<subtitle>http://www.example.org/page</subtitle>
 				<icon />
@@ -432,7 +432,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -454,7 +454,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -476,7 +476,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -498,7 +498,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -520,7 +520,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction>submit</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (submit)</title>
@@ -542,7 +542,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -564,7 +564,7 @@
 				<contentTarget>http://piwik.org/</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -586,7 +586,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
@@ -608,7 +608,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
@@ -630,7 +630,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -652,7 +652,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -674,7 +674,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>

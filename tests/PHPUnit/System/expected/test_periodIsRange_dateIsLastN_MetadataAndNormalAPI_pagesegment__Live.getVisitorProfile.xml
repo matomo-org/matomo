@@ -40,7 +40,7 @@
 					
 					<pageId>5</pageId>
 					<bandwidth />
-					<interactionPosition />
+					<pageviewPosition />
 					<icon>plugins/Morpheus/images/link.png</icon>
 					<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 					<title>Outlink</title>
@@ -185,7 +185,7 @@
 					
 					<pageId>4</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>Homepage</title>
 					<subtitle>http://example.org/homepage</subtitle>
 					<icon />
