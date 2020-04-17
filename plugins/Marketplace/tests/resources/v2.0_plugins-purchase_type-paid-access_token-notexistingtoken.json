@@ -75,7 +75,7 @@
       "addToCartUrl":"https:\/\/plugins.piwik.org\/PaidPlugin1?add-to-cart=l&currency=USD",
       "addToCartEmbedUrl":"http:\/\/myshop.piwik\/product\/PaidPlugin1?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=USD"}],"reviews":{"embedUrl":"http:\/\/myshop.piwik\/product\/PaidPlugin1?show_reviews=1&piwik_embed=1",
       "height":200}},"versions":[{"name":"1.1",
-    "release":null,"requires":{"piwik":">=2.0.0",
+    "release":null,"requires":{"piwik":">=2.0.0,<5.0.0-b1",
       "php":">=5.3.0"},"numDownloads":null,"license":{"name":"GPLv3+",
       "url":""},"repositoryChangelogUrl":null,"readmeHtml":{"description":"\n\n<p>This plugin will clear out the tmp dir of Piwik. Useful for when you are developing other plugins or just need to kill that file and can't get to your installation to delete it normally<\/p>\n\n",
       "faq":"",
