@@ -208,7 +208,7 @@ class Evolution extends JqplotDataGenerator
      * @param DataTable[] $dataTables
      * @throws \Exception
      */
-    private function addSelectedSeriesXLabels(array &$xLabels, array $dataTables)
+    protected function addSelectedSeriesXLabels(array &$xLabels, array $dataTables)
     {
         $xTicksCount = count($dataTables);
         foreach ($xLabels as $labelSeries) {

@@ -15,9 +15,9 @@
 				
 				
 				<pageId>69</pageId>
+				<pageLoadTime>1.45s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>292</generationTimeMilliseconds>
-				<generationTime>0.29s</generationTime>
+				<pageLoadTimeMilliseconds>1454</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
@@ -298,8 +298,6 @@
 				
 				<pageId>67</pageId>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>413</generationTimeMilliseconds>
-				<generationTime>0.41s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</title>
 				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
@@ -753,8 +751,6 @@
 				
 				<pageId>63</pageId>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>391</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Integrate Piwik into your Rails Application - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
@@ -1038,9 +1034,9 @@
 				
 				
 				<pageId>61</pageId>
+				<pageLoadTime>0.91s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>119</generationTimeMilliseconds>
-				<generationTime>0.12s</generationTime>
+				<pageLoadTimeMilliseconds>905</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</subtitle>
@@ -1168,9 +1164,9 @@
 				
 				
 				<pageId>59</pageId>
+				<pageLoadTime>1.11s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>145</generationTimeMilliseconds>
-				<generationTime>0.15s</generationTime>
+				<pageLoadTimeMilliseconds>1105</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Log Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/log-analytics/</subtitle>
@@ -1321,8 +1317,6 @@
 				<bandwidth>43</bandwidth>
 				<timeSpent>2</timeSpent>
 				<timeSpentPretty>2s</timeSpentPretty>
-				<generationTimeMilliseconds>182</generationTimeMilliseconds>
-				<generationTime>0.18s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
@@ -1348,8 +1342,6 @@
 				<bandwidth>43</bandwidth>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
-				<generationTimeMilliseconds>113</generationTimeMilliseconds>
-				<generationTime>0.11s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Download - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/download/</subtitle>
@@ -1504,9 +1496,9 @@
 				
 				
 				<pageId>56</pageId>
+				<pageLoadTime>0.81s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>134</generationTimeMilliseconds>
-				<generationTime>0.13s</generationTime>
+				<pageLoadTimeMilliseconds>813</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello Installing Piwik - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/docs/installation/</subtitle>
@@ -1646,9 +1638,9 @@
 				
 				
 				<pageId>54</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth>43</bandwidth>
-				<generationTimeMilliseconds>58</generationTimeMilliseconds>
-				<generationTime>0.06s</generationTime>
+				<pageLoadTimeMilliseconds>739</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>

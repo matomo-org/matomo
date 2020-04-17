@@ -404,7 +404,12 @@ class Request
             'search_cat'   => array('', 'string'),
             'pv_id'        => array('', 'string'),
             'search_count' => array(-1, 'int'),
-            'gt_ms'        => array(-1, 'int'),
+            'pf_net'       => array(-1, 'int'),
+            'pf_srv'       => array(-1, 'int'),
+            'pf_tfr'       => array(-1, 'int'),
+            'pf_dm1'       => array(-1, 'int'),
+            'pf_dm2'       => array(-1, 'int'),
+            'pf_onl'       => array(-1, 'int'),
 
             // Content
             'c_p'          => array('', 'string'),
@@ -851,20 +856,6 @@ class Request
     public function isEmptyRequest()
     {
         return $this->isEmptyRequest;
-    }
-
-    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
-
-    public function getPageGenerationTime()
-    {
-        $generationTime = $this->getParam('gt_ms');
-        if ($generationTime > 0
-            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
-        ) {
-            return (int)$generationTime;
-        }
-
-        return false;
     }
 
     /**

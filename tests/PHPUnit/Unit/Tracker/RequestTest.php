@@ -328,32 +328,6 @@ class RequestTest extends UnitTestCase
         $this->assertEquals($expected, $request->getPlugins());
     }
 
-    public function test_getPageGenerationTime_shouldDefaultToFalse_IfNotGiven()
-    {
-        $this->assertFalse($this->request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldIgnoreAnyValueLowerThan0()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '0'));
-        $this->assertFalse($request->getPageGenerationTime());
-
-        $request = $this->buildRequest(array('gt_ms' => '-5'));
-        $this->assertFalse($request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldIgnoreAnyValueThatIsTooHigh()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '3600002'));
-        $this->assertFalse($request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldReturnAValidValue()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '1942'));
-        $this->assertSame(1942, $request->getPageGenerationTime());
-    }
-
     public function test_truncateCustomVariable_shouldNotTruncateAnything_IfValueIsShortEnough()
     {
         $len = CustomVariables::getMaxLengthCustomVariables();

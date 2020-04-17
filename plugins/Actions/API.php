@@ -15,7 +15,6 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
@@ -520,6 +519,7 @@ class API extends \Piwik\Plugin\API
             $extraProcessedMetrics[] = new BounceRate();
             $extraProcessedMetrics[] = new ExitRate();
             $extraProcessedMetrics[] = new AveragePageGenerationTime();
+
             $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         });
     }

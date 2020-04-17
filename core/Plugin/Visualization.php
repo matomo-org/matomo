@@ -453,10 +453,6 @@ class Visualization extends ViewDataTable
             $this->config->setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors);
         }
 
-        if (!empty($this->dataTable)) {
-            $this->removeEmptyColumnsFromDisplay();
-        }
-
         if (empty($this->requestConfig->filter_sort_column)) {
             $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $columns);
         }
@@ -532,6 +528,10 @@ class Visualization extends ViewDataTable
             // queue other filters so they can be applied later if queued filters are disabled
             foreach ($self->config->getPresentationFilters() as $filter) {
                 $dataTable->queueFilter($filter[0], $filter[1]);
+            }
+
+            if (!empty($this->dataTable)) {
+                $self->removeEmptyColumnsFromDisplay();
             }
         });
 

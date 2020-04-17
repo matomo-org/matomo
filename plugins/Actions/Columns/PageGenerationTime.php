@@ -17,6 +17,12 @@ use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 
+/**
+ * Page generation time has been deprecated in favor of new metrics in Page Performance plugin
+ * It won't track any new values, but is still there to show the available data for the past
+ *
+ * @deprecated
+ */
 class PageGenerationTime extends ActionDimension
 {
     protected $nameSingular = 'General_ColumnPageGenerationTime';

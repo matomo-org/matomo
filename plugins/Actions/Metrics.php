@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
 use Piwik\Tracker\Action;
