@@ -11,6 +11,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		
+		<segment>userId==user1</segment>
 	</row>
 	<row>
 		<label>commonuser</label>
@@ -23,6 +24,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		
+		<segment>userId==commonuser</segment>
 	</row>
 	<row>
 		<label>user2</label>
@@ -35,5 +37,6 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		
+		<segment>userId==user2</segment>
 	</row>
 </result>

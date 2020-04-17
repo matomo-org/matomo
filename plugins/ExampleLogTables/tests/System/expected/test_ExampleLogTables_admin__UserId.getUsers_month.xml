@@ -11,6 +11,7 @@
 		<sum_daily_nb_uniq_visitors>30</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		
+		<segment>userId==user3</segment>
 	</row>
 	<row>
 		<label>user1</label>
@@ -23,5 +24,6 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		
+		<segment>userId==user1</segment>
 	</row>
 </result>
