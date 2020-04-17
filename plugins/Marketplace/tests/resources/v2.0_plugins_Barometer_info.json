@@ -42,7 +42,7 @@
   "numContributors":"3",
   "lastCommitDate":"1970-01-01 00:33:35"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.1",
   "release":"2014-12-23 00:38:20",
-  "requires":{"piwik":">=1.10.0"},"numDownloads":0,"license":{"name":"GPLv3+",
+  "requires":{"piwik":">=1.10.0,<5.0.0-b1"},"numDownloads":0,"license":{"name":"GPLv3+",
     "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/halfdan\/piwik-barometer-plugin\/commits\/v0.1.1",
   "readmeHtml":{"description":"",
     "faq":"",

@@ -79,8 +79,7 @@ class Actions extends BaseFilter
                         if ($row->getIdSubDataTable()) {
                             $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($label))));
                         } else {
-                            $notDefinedName = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
-                            if (trim($label) == $notDefinedName) {
+                            if (trim($label) == $notDefinedTitle) {
                                 $row->setMetadata('segmentValue', '');
                             } else {
                                 $row->setMetadata('segmentValue', urlencode(trim($label)));

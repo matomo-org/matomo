@@ -390,10 +390,7 @@ class PluginsTest extends IntegrationTestCase
                 $this->assertTrue(in_array($plugin['isInstalled'], array(true, false), true));
                 $this->assertFalse($plugin['isInvalid']);
                 $this->assertTrue(isset($plugin['canBeUpdated']));
-                $this->assertSame([['requirement' => 'piwik',
-                                    'actualVersion' => '4.0.0-b1',
-                                    'requiredVersion' => '>=2.0.4-b5,<3.0.0-b1',
-                                    'causedBy' => '<3.0.0-b1']], $plugin['missingRequirements']);
+                $this->assertSame([], $plugin['missingRequirements']);
                 $this->assertSame(Plugin\Manager::getInstance()->isPluginActivated('SecurityInfo'), $plugin['isActivated']);
             } elseif ($name === 'SimplePageBuilder') {
                 // should add campaign parameters if Piwik PRO plugin
@@ -467,10 +464,7 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame($pluginName, $plugin['name']);
         $this->assertSame($pluginManager->getLoadedPlugin($pluginName)->getVersion(), $plugin['currentVersion']);
         $this->assertSame($pluginManager->isPluginActivated($pluginName), $plugin['isActivated']);
-        $this->assertSame([['requirement' => 'piwik',
-                            'actualVersion' => '4.0.0-b1',
-                            'requiredVersion' => '>=2.0.0,<3.0.0-b1',
-                            'causedBy' => '<3.0.0-b1']], $plugin['missingRequirements']);
+        $this->assertSame([], $plugin['missingRequirements']);
          $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
 
         $expectedApiCalls = array(
