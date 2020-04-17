@@ -8,9 +8,9 @@
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.01</min_time_network>
 		<max_time_network>0.01</max_time_network>
-		<nb_hits_with_time_server>1</nb_hits_with_time_server>
-		<min_time_server>0.096</min_time_server>
-		<max_time_server>0.096</max_time_server>
+		<nb_hits_with_time_server>6</nb_hits_with_time_server>
+		<min_time_server>0.743</min_time_server>
+		<max_time_server>1.543</max_time_server>
 		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
 		<min_time_transfer>0.232</min_time_transfer>
 		<max_time_transfer>0.232</max_time_transfer>
@@ -34,12 +34,12 @@
 		<exit_nb_visits>13</exit_nb_visits>
 		<avg_bandwidth>3030</avg_bandwidth>
 		<avg_time_network>0.01</avg_time_network>
-		<avg_time_server>0.096</avg_time_server>
+		<avg_time_server>0.385</avg_time_server>
 		<avg_time_transfer>0.232</avg_time_transfer>
 		<avg_time_dom_processing>0.312</avg_time_dom_processing>
 		<avg_time_dom_completion>0.255</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0.905</avg_page_load_time>
+		<avg_page_load_time>1.194</avg_page_load_time>
 		<avg_time_on_page>9</avg_time_on_page>
 		<bounce_rate>93%</bounce_rate>
 		<exit_rate>87%</exit_rate>
@@ -53,9 +53,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>5</nb_hits_with_time_server>
+				<min_time_server>0.647</min_time_server>
+				<max_time_server>1.447</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -90,9 +90,9 @@
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
-						<nb_hits_with_time_server>0</nb_hits_with_time_server>
-						<min_time_server />
-						<max_time_server />
+						<nb_hits_with_time_server>3</nb_hits_with_time_server>
+						<min_time_server>0.023</min_time_server>
+						<max_time_server>0.123</max_time_server>
 						<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 						<min_time_transfer />
 						<max_time_transfer />
@@ -127,9 +127,9 @@
 								<nb_hits_with_time_network>0</nb_hits_with_time_network>
 								<min_time_network />
 								<max_time_network />
-								<nb_hits_with_time_server>0</nb_hits_with_time_server>
-								<min_time_server />
-								<max_time_server />
+								<nb_hits_with_time_server>3</nb_hits_with_time_server>
+								<min_time_server>0.023</min_time_server>
+								<max_time_server>0.123</max_time_server>
 								<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 								<min_time_transfer />
 								<max_time_transfer />
@@ -170,9 +170,9 @@
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
-						<nb_hits_with_time_server>0</nb_hits_with_time_server>
-						<min_time_server />
-						<max_time_server />
+						<nb_hits_with_time_server>2</nb_hits_with_time_server>
+						<min_time_server>0.624</min_time_server>
+						<max_time_server>1.324</max_time_server>
 						<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 						<min_time_transfer />
 						<max_time_transfer />
@@ -207,9 +207,9 @@
 								<nb_hits_with_time_network>0</nb_hits_with_time_network>
 								<min_time_network />
 								<max_time_network />
-								<nb_hits_with_time_server>0</nb_hits_with_time_server>
-								<min_time_server />
-								<max_time_server />
+								<nb_hits_with_time_server>2</nb_hits_with_time_server>
+								<min_time_server>0.624</min_time_server>
+								<max_time_server>1.324</max_time_server>
 								<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 								<min_time_transfer />
 								<max_time_transfer />
@@ -689,9 +689,9 @@
 		<nb_hits_with_time_network>2</nb_hits_with_time_network>
 		<min_time_network>0.067</min_time_network>
 		<max_time_network>0.067</max_time_network>
-		<nb_hits_with_time_server>2</nb_hits_with_time_server>
-		<min_time_server>0.116</min_time_server>
-		<max_time_server>0.116</max_time_server>
+		<nb_hits_with_time_server>3</nb_hits_with_time_server>
+		<min_time_server>0.117</min_time_server>
+		<max_time_server>0.117</max_time_server>
 		<nb_hits_with_time_transfer>2</nb_hits_with_time_transfer>
 		<min_time_transfer>0.521</min_time_transfer>
 		<max_time_transfer>0.521</max_time_transfer>
@@ -718,12 +718,12 @@
 		<sum_daily_exit_nb_uniq_visitors>5</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>1176</avg_bandwidth>
 		<avg_time_network>0.034</avg_time_network>
-		<avg_time_server>0.058</avg_time_server>
+		<avg_time_server>0.039</avg_time_server>
 		<avg_time_transfer>0.261</avg_time_transfer>
 		<avg_time_dom_processing>0.327</avg_time_dom_processing>
 		<avg_time_dom_completion>0.35</avg_time_dom_completion>
 		<avg_time_on_load>0.068</avg_time_on_load>
-		<avg_page_load_time>1.098</avg_page_load_time>
+		<avg_page_load_time>1.079</avg_page_load_time>
 		<avg_time_on_page>5</avg_time_on_page>
 		<bounce_rate>71%</bounce_rate>
 		<exit_rate>71%</exit_rate>
@@ -738,9 +738,9 @@
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.013</min_time_network>
 		<max_time_network>0.013</max_time_network>
-		<nb_hits_with_time_server>1</nb_hits_with_time_server>
-		<min_time_server>0.121</min_time_server>
-		<max_time_server>0.121</max_time_server>
+		<nb_hits_with_time_server>3</nb_hits_with_time_server>
+		<min_time_server>0.464</min_time_server>
+		<max_time_server>0.664</max_time_server>
 		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
 		<min_time_transfer>0.244</min_time_transfer>
 		<max_time_transfer>0.244</max_time_transfer>
@@ -764,12 +764,12 @@
 		<exit_nb_visits>5</exit_nb_visits>
 		<avg_bandwidth>2867</avg_bandwidth>
 		<avg_time_network>0.013</avg_time_network>
-		<avg_time_server>0.121</avg_time_server>
+		<avg_time_server>0.336</avg_time_server>
 		<avg_time_transfer>0.244</avg_time_transfer>
 		<avg_time_dom_processing>0.345</avg_time_dom_processing>
 		<avg_time_dom_completion>0.09</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0.813</avg_page_load_time>
+		<avg_page_load_time>1.028</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>83%</exit_rate>
@@ -783,9 +783,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>2</nb_hits_with_time_server>
+				<min_time_server>0.343</min_time_server>
+				<max_time_server>0.543</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -820,9 +820,9 @@
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
-						<nb_hits_with_time_server>0</nb_hits_with_time_server>
-						<min_time_server />
-						<max_time_server />
+						<nb_hits_with_time_server>2</nb_hits_with_time_server>
+						<min_time_server>0.343</min_time_server>
+						<max_time_server>0.543</max_time_server>
 						<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 						<min_time_transfer />
 						<max_time_transfer />
@@ -1066,9 +1066,9 @@
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
-		<nb_hits_with_time_server>0</nb_hits_with_time_server>
-		<min_time_server />
-		<max_time_server />
+		<nb_hits_with_time_server>3</nb_hits_with_time_server>
+		<min_time_server>0.234</min_time_server>
+		<max_time_server>0.294</max_time_server>
 		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 		<min_time_transfer />
 		<max_time_transfer />
@@ -1092,12 +1092,12 @@
 		<exit_nb_visits>5</exit_nb_visits>
 		<avg_bandwidth>3574</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
-		<avg_time_server>0</avg_time_server>
+		<avg_time_server>0.255</avg_time_server>
 		<avg_time_transfer>0</avg_time_transfer>
 		<avg_time_dom_processing>0</avg_time_dom_processing>
 		<avg_time_dom_completion>0</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_page_load_time>0.255</avg_page_load_time>
 		<avg_time_on_page>7</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -1111,9 +1111,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>3</nb_hits_with_time_server>
+				<min_time_server>0.234</min_time_server>
+				<max_time_server>0.294</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -1314,9 +1314,9 @@
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
-		<nb_hits_with_time_server>0</nb_hits_with_time_server>
-		<min_time_server />
-		<max_time_server />
+		<nb_hits_with_time_server>4</nb_hits_with_time_server>
+		<min_time_server>0.718</min_time_server>
+		<max_time_server>0.718</max_time_server>
 		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 		<min_time_transfer />
 		<max_time_transfer />
@@ -1340,12 +1340,12 @@
 		<exit_nb_visits>3</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
-		<avg_time_server>0</avg_time_server>
+		<avg_time_server>0.359</avg_time_server>
 		<avg_time_transfer>0</avg_time_transfer>
 		<avg_time_dom_processing>0</avg_time_dom_processing>
 		<avg_time_dom_completion>0</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_page_load_time>0.359</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>67%</bounce_rate>
 		<exit_rate>75%</exit_rate>
@@ -1359,9 +1359,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>2</nb_hits_with_time_server>
+				<min_time_server>0.359</min_time_server>
+				<max_time_server>0.359</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -1396,9 +1396,9 @@
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
-						<nb_hits_with_time_server>0</nb_hits_with_time_server>
-						<min_time_server />
-						<max_time_server />
+						<nb_hits_with_time_server>2</nb_hits_with_time_server>
+						<min_time_server>0.359</min_time_server>
+						<max_time_server>0.359</max_time_server>
 						<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 						<min_time_transfer />
 						<max_time_transfer />
@@ -1433,9 +1433,9 @@
 								<nb_hits_with_time_network>0</nb_hits_with_time_network>
 								<min_time_network />
 								<max_time_network />
-								<nb_hits_with_time_server>0</nb_hits_with_time_server>
-								<min_time_server />
-								<max_time_server />
+								<nb_hits_with_time_server>2</nb_hits_with_time_server>
+								<min_time_server>0.359</min_time_server>
+								<max_time_server>0.359</max_time_server>
 								<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 								<min_time_transfer />
 								<max_time_transfer />
@@ -1470,9 +1470,9 @@
 										<nb_hits_with_time_network>0</nb_hits_with_time_network>
 										<min_time_network />
 										<max_time_network />
-										<nb_hits_with_time_server>0</nb_hits_with_time_server>
-										<min_time_server />
-										<max_time_server />
+										<nb_hits_with_time_server>2</nb_hits_with_time_server>
+										<min_time_server>0.3590</min_time_server>
+										<max_time_server>0.3590</max_time_server>
 										<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 										<min_time_transfer />
 										<max_time_transfer />
@@ -1517,9 +1517,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>2</nb_hits_with_time_server>
+				<min_time_server>0.359</min_time_server>
+				<max_time_server>0.359</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -1554,9 +1554,9 @@
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
-						<nb_hits_with_time_server>0</nb_hits_with_time_server>
-						<min_time_server />
-						<max_time_server />
+						<nb_hits_with_time_server>2</nb_hits_with_time_server>
+						<min_time_server>0.3590</min_time_server>
+						<max_time_server>0.3590</max_time_server>
 						<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 						<min_time_transfer />
 						<max_time_transfer />
@@ -2290,9 +2290,9 @@
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
-		<nb_hits_with_time_server>0</nb_hits_with_time_server>
-		<min_time_server />
-		<max_time_server />
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.009</min_time_server>
+		<max_time_server>0.009</max_time_server>
 		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 		<min_time_transfer />
 		<max_time_transfer />
@@ -2316,12 +2316,12 @@
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>267</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
-		<avg_time_server>0</avg_time_server>
+		<avg_time_server>0.009</avg_time_server>
 		<avg_time_transfer>0</avg_time_transfer>
 		<avg_time_dom_processing>0</avg_time_dom_processing>
 		<avg_time_dom_completion>0</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_page_load_time>0.009</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -2335,9 +2335,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>1</nb_hits_with_time_server>
+				<min_time_server>0.0090</min_time_server>
+				<max_time_server>0.0090</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -2721,9 +2721,9 @@
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
-		<nb_hits_with_time_server>0</nb_hits_with_time_server>
-		<min_time_server />
-		<max_time_server />
+		<nb_hits_with_time_server>2</nb_hits_with_time_server>
+		<min_time_server>0.109</min_time_server>
+		<max_time_server>0.109</max_time_server>
 		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 		<min_time_transfer />
 		<max_time_transfer />
@@ -2747,12 +2747,12 @@
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
-		<avg_time_server>0</avg_time_server>
+		<avg_time_server>0.109</avg_time_server>
 		<avg_time_transfer>0</avg_time_transfer>
 		<avg_time_dom_processing>0</avg_time_dom_processing>
 		<avg_time_dom_completion>0</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_page_load_time>0.109</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -2766,9 +2766,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>2</nb_hits_with_time_server>
+				<min_time_server>0.1090</min_time_server>
+				<max_time_server>0.1090</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -3385,9 +3385,9 @@
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
-		<nb_hits_with_time_server>0</nb_hits_with_time_server>
-		<min_time_server />
-		<max_time_server />
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.001</min_time_server>
+		<max_time_server>0.001</max_time_server>
 		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 		<min_time_transfer />
 		<max_time_transfer />
@@ -3411,12 +3411,12 @@
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>182</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
-		<avg_time_server>0</avg_time_server>
+		<avg_time_server>0.001</avg_time_server>
 		<avg_time_transfer>0</avg_time_transfer>
 		<avg_time_dom_processing>0</avg_time_dom_processing>
 		<avg_time_dom_completion>0</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_page_load_time>0.001</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -3430,9 +3430,9 @@
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
-				<nb_hits_with_time_server>0</nb_hits_with_time_server>
-				<min_time_server />
-				<max_time_server />
+				<nb_hits_with_time_server>1</nb_hits_with_time_server>
+				<min_time_server>0.001</min_time_server>
+				<max_time_server>0.001</max_time_server>
 				<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 				<min_time_transfer />
 				<max_time_transfer />
@@ -3467,9 +3467,9 @@
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
-						<nb_hits_with_time_server>0</nb_hits_with_time_server>
-						<min_time_server />
-						<max_time_server />
+						<nb_hits_with_time_server>1</nb_hits_with_time_server>
+						<min_time_server>0.0010</min_time_server>
+						<max_time_server>0.0010</max_time_server>
 						<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 						<min_time_transfer />
 						<max_time_transfer />

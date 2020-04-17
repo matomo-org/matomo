@@ -8,9 +8,9 @@
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
-		<nb_hits_with_time_server>0</nb_hits_with_time_server>
-		<min_time_server />
-		<max_time_server />
+		<nb_hits_with_time_server>17</nb_hits_with_time_server>
+		<min_time_server>0.024</min_time_server>
+		<max_time_server>1.325</max_time_server>
 		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 		<min_time_transfer />
 		<max_time_transfer />
@@ -30,12 +30,12 @@
 		<sum_daily_nb_uniq_visitors>33</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>3329</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
-		<avg_time_server>0</avg_time_server>
+		<avg_time_server>0.283</avg_time_server>
 		<avg_time_transfer>0</avg_time_transfer>
 		<avg_time_dom_processing>0</avg_time_dom_processing>
 		<avg_time_dom_completion>0</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_page_load_time>0.283</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
@@ -97,9 +97,9 @@
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
-		<nb_hits_with_time_server>0</nb_hits_with_time_server>
-		<min_time_server />
-		<max_time_server />
+		<nb_hits_with_time_server>2</nb_hits_with_time_server>
+		<min_time_server>0.3590</min_time_server>
+		<max_time_server>0.3590</max_time_server>
 		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
 		<min_time_transfer />
 		<max_time_transfer />
@@ -126,12 +126,12 @@
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
-		<avg_time_server>0</avg_time_server>
+		<avg_time_server>0.359</avg_time_server>
 		<avg_time_transfer>0</avg_time_transfer>
 		<avg_time_dom_processing>0</avg_time_dom_processing>
 		<avg_time_dom_completion>0</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
-		<avg_page_load_time>0</avg_page_load_time>
+		<avg_page_load_time>0.359</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
