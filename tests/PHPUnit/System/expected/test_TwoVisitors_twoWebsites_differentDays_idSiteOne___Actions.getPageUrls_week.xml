@@ -141,7 +141,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 		<row>
 			<label>/index.htm</label>
@@ -367,7 +367,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url />
-			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
+			<segment>pageUrl==</segment>
 		</row>
 	</result>
 	<result date="2010-01-18,2010-01-24" />

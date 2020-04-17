@@ -24,6 +24,7 @@ class EventAction extends ActionDimension
     protected $segmentName = 'eventAction';
     protected $nameSingular = 'Events_EventAction';
     protected $namePlural = 'Events_EventActions';
+    protected $suggestedValuesApi = 'Events.getAction';
     protected $category = 'Events_Events';
     protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
 

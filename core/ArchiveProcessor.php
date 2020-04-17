@@ -480,7 +480,8 @@ class ArchiveProcessor
 
     private function getIdSitesToComputeNbUniques()
     {
-        $sites = array($this->getParams()->getSite()->getId());
+        $params = $this->getParams();
+        $sites = array($params->getSite()->getId());
 
         /**
          * Triggered to change which site ids should be looked at when processing unique visitors and users.
@@ -488,8 +489,10 @@ class ArchiveProcessor
          * @param array &$idSites An array with one idSite. This site is being archived currently. To cancel the query
          *                        you can change this value to an empty array. To include other sites in the query you
          *                        can add more idSites to this list of idSites.
+         * @param Period $period  The period that is being requested to be archived.
+         * @param Segment $segment The segment that is request to be archived.
          */
-        Piwik::postEvent('ArchiveProcessor.ComputeNbUniques.getIdSites', array(&$sites));
+        Piwik::postEvent('ArchiveProcessor.ComputeNbUniques.getIdSites', array(&$sites, $params->getPeriod(), $params->getSegment()));
 
         return $sites;
     }

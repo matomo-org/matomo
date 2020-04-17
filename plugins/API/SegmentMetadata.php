@@ -94,6 +94,10 @@ class SegmentMetadata
                 ) {
                     unset($segment['suggestedValuesCallback']);
                 }
+
+                if (isset($segment['suggestedValuesApi'])) {
+                    unset($segment['suggestedValuesApi']);
+                }
             }
         }
 
