@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "%s IP-osoite on paikallinen osoite, eikä sitä voida geolokalisoida.",
+        "CannotLocalizeLocalIP": "IP-osoite %s on paikallinen osoite, eikä sitä voida geopaikantaa.",
         "City": "Kaupunki",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Maanosa",
@@ -24,6 +24,7 @@
         "getContinentDocumentation": "Tämä raportti näyttää missä maanosassa käyttäjät olivat käydessään verkkosivullasi.",
         "getCountryDocumentation": "Tämä raportti näyttää missä maassa käyttäjät olivat käydessään verkkosivullasi.",
         "getRegionDocumentation": "Tämä raportti näyttää millä alueella käyttäjät olivat käydessään verkkosivullasi.",
+        "HowToInstallGeoIPDatabases": "Kuinka saan paikkatietoa sisältäviä tietokantoja?",
         "Latitude": "Leveysaste",
         "Latitudes": "Leveyspiirit",
         "Location": "Sijainti",

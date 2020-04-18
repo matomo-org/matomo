@@ -11,6 +11,14 @@
         "CreateUser": "Luo käyttäjä",
         "SaveBasicInfo": "Tallenna perustiedot",
         "AllWebsites": "Kaikki sivut",
+        "LastUsed": "Viimeksi käytetty",
+        "ExpireDate": "Vanhenemispäivä",
+        "AuthTokens": "Auth-poletit",
+        "AuthTokenPurpose": "Mihin käytät tätä polettia?",
+        "NoTokenCreatedYetCreateNow": "Poletteja ei ole luotu. %1$sLuo uusi poletti nyt%2$s.",
+        "TokenSuccessfullyGenerated": "Poletti luotiin onnistuneesti",
+        "ConfirmTokenCopied": "Vahvistan kopioineeni poletin.",
+        "CreateNewToken": "Luo uusi poletti",
         "AnonymousUser": "Anonyymi käyttäjä",
         "AnonymousUserHasViewAccess": "Huom: käyttäjällä %1$s on %2$s pääsy tälle verkkosivulle.",
         "AnonymousUserHasViewAccess2": "Analyysiraporttisi ja kävijätietosi ovat julkisia.",
@@ -73,7 +81,11 @@
         "ThereAreCurrentlyNRegisteredUsers": "Matomossa on nyt %s rekisteröitynyttä käyttäjää.",
         "TokenAuth": "API:n autentikointiavain",
         "TokenRegenerateTitle": "Luo uudelleen",
+        "TokensSuccessfullyDeleted": "Kaikki poletit poistettiin onnistuneesti",
+        "TokenSuccessfullyDeleted": "Poletti poistettiin onnistuneesti",
+        "DeleteAllTokens": "Poista kaikki poletit",
         "TypeYourPasswordAgain": "Kirjoita uusi salasana uudelleen.",
+        "TypeYourCurrentPassword": "Kirjoita nykyinen salasanasi vahvistaaksesi salasanan vaihdon.",
         "User": "Käyttäjä",
         "UsersManagement": "Käyttäjien hallinta",
         "UsersManagementMainDescription": "Lisää uusia käyttäjiä tai päivitä olemassaolevia. Voit asettaa oikeudet alla.",
@@ -126,6 +138,8 @@
         "IfThisWasYouIgnoreIfNot": "Jos se olit sinä, tämä viesti ei aiheuta toimenpiteitä. Jos se et ollut sinä, kirjaudu Matomoon, vaihda sähköpostiosoitteesi ja salasanasi, ja ole lopuksi yhteydessä käyttämäsi Matomon ylläpitoon.",
         "PasswordChangeNotificationSubject": "Matomo-tilisi salasana on juuri vaihdettu",
         "PasswordChangedEmail": "Salasanasi on vaihdettu. Vaihto toteutettiin seuraavasta laitteesta: %1$s (IP-osoite = %2$s).",
-        "NewsletterSignupTitle": "Uutiskirjeen tilaus"
+        "NewsletterSignupTitle": "Uutiskirjeen tilaus",
+        "NewsletterSignupFailureMessage": "Hups, jokin meni pieleen. Uutiskirjeen tilaus ei onnistunut.",
+        "NewsletterSignupSuccessMessage": "Tilaus onnistui! Olemme yhteydessä pian."
     }
 }
