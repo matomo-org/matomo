@@ -134,7 +134,7 @@ class TrackerResponseTest extends SystemTestCase
         $response = Http::sendHttpRequest($url, 10, null, null, 0, false, false, true);
         $this->assertEquals(200, $response['status']);
 
-        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.";
         $this->assertEquals($expected, $response['data']);
     }
 
@@ -145,7 +145,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
 
         $response = $this->sendHttpRequest($url);
-        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.";
         $this->assertEquals($expected, $response['data']);
     }
 
