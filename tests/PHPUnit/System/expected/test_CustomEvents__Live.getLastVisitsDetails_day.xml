@@ -631,11 +631,11 @@
 				
 				
 				<pageId>1</pageId>
+				<pageLoadTime>0.57s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>333</generationTimeMilliseconds>
-				<generationTime>0.33s</generationTime>
+				<pageLoadTimeMilliseconds>572</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Welcome!</title>
 				<subtitle>http://example.org/webradio</subtitle>
@@ -965,11 +965,11 @@
 				
 				
 				<pageId>12</pageId>
+				<pageLoadTime>0.9s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>666</generationTimeMilliseconds>
-				<generationTime>0.67s</generationTime>
+				<pageLoadTimeMilliseconds>903</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Movie Theater</title>
 				<subtitle>http://example.org/movies</subtitle>
@@ -2010,11 +2010,11 @@
 				
 				
 				<pageId>35</pageId>
+				<pageLoadTime>0.9s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>666</generationTimeMilliseconds>
-				<generationTime>0.67s</generationTime>
+				<pageLoadTimeMilliseconds>903</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Movie Theater</title>
 				<subtitle>http://example.org/movies</subtitle>

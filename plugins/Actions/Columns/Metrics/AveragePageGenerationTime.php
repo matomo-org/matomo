@@ -21,6 +21,11 @@ use Piwik\Plugin\ProcessedMetric;
  *
  * The above metrics are calculated during archiving. This metric is calculated before
  * serving a report.
+ *
+ * Avg. page generation time has been deprecated in favor of new metrics in Page Performance plugin
+ * It won't be available for newly tracked data, but is still there to show the available data for the past
+ *
+ * @deprecated
  */
 class AveragePageGenerationTime extends ProcessedMetric
 {

@@ -118,7 +118,10 @@ class IniFileChainCacheTest extends IniFileChainTest
         unset($value['settingsChain']);
         $this->assertEquals(array('mergedSettings' => $expected), $value);
 
-        $this->assertArraySubset($defaultSettingFiles, array_keys($settingsChain));
+        foreach ($defaultSettingFiles as $defaultSettingFile) {
+            self::assertTrue(array_key_exists($defaultSettingFile, $settingsChain));
+        }
+
         $this->assertNotEmpty(array_keys($settingsChain));
     }
     

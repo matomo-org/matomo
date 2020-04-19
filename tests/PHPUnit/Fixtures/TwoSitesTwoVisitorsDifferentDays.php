@@ -100,13 +100,12 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         $visitorA->setUrlReferrer('http://referrer.com/page.htm?param=valuewith some spaces');
         $visitorA->setUrl('http://example.org/index.htm#ignoredFragment');
         $visitorA->DEBUG_APPEND_URL = '&_idts=' . Date::factory($datetimeSpanOverTwoDays)->getTimestamp();
-        $visitorA->setGenerationTime(123);
+        $visitorA->setPerformanceTimings(36, 228, 335, 1015, 209, 301);
         self::checkResponse($visitorA->doTrackPageView('first page view'));
 
         $visitorA->setForceVisitDateTime(Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
         // testing with empty URL and empty page title
         $visitorA->setUrl('  ');
-        $visitorA->setGenerationTime(223);
         self::checkResponse($visitorA->doTrackPageView('  '));
 
         // -
@@ -120,7 +119,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         $visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
         $visitorB->setUrl('http://example.org/products');
         $visitorB->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(1)->getTimestamp();
-        $visitorB->setGenerationTime(153);
+        $visitorB->setPerformanceTimings(62, 305, 440, 1159, 356, 440);
         self::assertTrue($visitorB->doTrackPageView('first page view'));
 
         // -
@@ -140,12 +139,12 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
                 $visitorB->setUrl('http://example.org/index.htm');
             }
 
-            $visitorB->setGenerationTime(323);
+            $visitorB->setPerformanceTimings(27, 268, 356, 1025, 296, 335);
             self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
             // Second page view 6 minutes later
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.1)->getDatetime());
             $visitorB->setUrl('http://example.org/thankyou');
-            $visitorB->setGenerationTime(173);
+            $visitorB->setPerformanceTimings(0, 199, 289, 998, 198, 299);
             self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
 
             // testing a strange combination causing an error in r3767
@@ -156,7 +155,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
 
             // Actions.getPageTitle tested with this title
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.25)->getDatetime());
-            $visitorB->setGenerationTime(452);
+            $visitorB->setPerformanceTimings(33, 356, 452, 1499, 356, 269);
             self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
             self::checkBulkTrackingResponse($visitorB->doBulkTrack());
         }
@@ -175,18 +174,18 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         $visitorAsite2->setUrlReferrer('http://only-homepage-referrer.com/');
         $visitorAsite2->setUrl('http://example2.com/home#notIgnoredFragment#');
         $visitorAsite2->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(24)->getTimestamp();
-        $visitorAsite2->setGenerationTime(193);
+        $visitorAsite2->setPerformanceTimings(33, 144, 318, 289, 35, 50);
         self::checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
 
         // test with invalid URL
         $visitorAsite2->setUrl('this is invalid url');
         // and an empty title
-        $visitorAsite2->setGenerationTime(203);
+        $visitorAsite2->setPerformanceTimings(0, 258, 444, 325, 999, 120);
         self::checkResponse($visitorAsite2->doTrackPageView(''));
 
         // track a page view with a domain alias to test the aggregation of both actions
         $visitorAsite2->setUrl('http://example2alias.org/home#notIgnoredFragment#');
-        $visitorAsite2->setGenerationTime(503);
+        $visitorAsite2->setPerformanceTimings(21, 344, 299, 245, 189, 350);
         self::checkResponse($visitorAsite2->doTrackPageView(''));
     }
 }

@@ -28,6 +28,8 @@
         "InstallingTheLatestVersion": "Sto installando l'ultima versione",
         "LatestBetaRelease": "Ultima release beta",
         "LatestStableRelease": "Ultima release stabile",
+        "LatestXStableRelease": "Ultima versione stabile %s",
+        "LatestXBetaRelease": "Ultima versione beta %s",
         "LtsSupportVersion": "Ultima release versione LTS",
         "ListOfSqlQueriesFYI": "INFO: queste sono le query SQL e i comandi di console che verranno eseguiti per aggiornare il tuo database a Matomo %s",
         "TheseSqlQueriesWillBeExecuted": "Verranno eseguite queste query SQL:",

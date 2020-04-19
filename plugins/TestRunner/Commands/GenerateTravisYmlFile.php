@@ -43,6 +43,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
              ->addOption('force-php-tests', null, InputOption::VALUE_NONE, "Forces the presence of the PHP tests jobs for plugin builds.")
              ->addOption('force-ui-tests', null, InputOption::VALUE_NONE, "Forces the presence of the UI tests jobs for plugin builds.")
              ->addOption('dist-trusty', null, InputOption::VALUE_NONE, "If supplied, the .travis.yml file will use travis' trusty distribution.")
+             ->addOption('distribution', null, InputOption::VALUE_REQUIRED, "If supplied, the .travis.yml file will use the given travis' distribution. Possible values are trusty, xenial or bionic")
              ->addOption('sudo-false', null, InputOption::VALUE_NONE, "If supplied, the .travis.yml file will use travis' container environment.");
     }
 

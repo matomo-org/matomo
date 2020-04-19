@@ -11,7 +11,6 @@
 				<bounce_rate>100%</bounce_rate>
 				<avg_time_on_page>0</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>0.45</avg_time_generation>
 			</row>
 		</result>
 		<result date="2010-03-04" />
@@ -45,8 +44,6 @@
 			</exit_rate>
 			<avg_time_generation>
 				<name>Avg. generation time</name>
-				<min>0</min>
-				<max>0.45</max>
 			</avg_time_generation>
 		</metrics>
 		<dimension>Page URL</dimension>

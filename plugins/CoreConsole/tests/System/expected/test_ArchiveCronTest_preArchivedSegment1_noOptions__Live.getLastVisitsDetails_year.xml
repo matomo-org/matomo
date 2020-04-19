@@ -18,8 +18,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>123</generationTimeMilliseconds>
-				<generationTime>0.12s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -60,8 +58,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>120</generationTimeMilliseconds>
-				<generationTime>0.12s</generationTime>
 				<pageviewPosition>5</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -87,8 +83,6 @@
 				<bandwidth />
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
-				<generationTimeMilliseconds>23</generationTimeMilliseconds>
-				<generationTime>0.02s</generationTime>
 				<pageviewPosition>9</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -114,8 +108,6 @@
 				<bandwidth />
 				<timeSpent>50</timeSpent>
 				<timeSpentPretty>50s</timeSpentPretty>
-				<generationTimeMilliseconds>234</generationTimeMilliseconds>
-				<generationTime>0.23s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -141,8 +133,6 @@
 				<bandwidth />
 				<timeSpent>49</timeSpent>
 				<timeSpentPretty>49s</timeSpentPretty>
-				<generationTimeMilliseconds>294</generationTimeMilliseconds>
-				<generationTime>0.29s</generationTime>
 				<pageviewPosition>6</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -168,8 +158,6 @@
 				<bandwidth />
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
-				<generationTimeMilliseconds>237</generationTimeMilliseconds>
-				<generationTime>0.24s</generationTime>
 				<pageviewPosition>10</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -195,8 +183,6 @@
 				<bandwidth />
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
-				<generationTimeMilliseconds>1324</generationTimeMilliseconds>
-				<generationTime>1.32s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
@@ -222,8 +208,6 @@
 				<bandwidth />
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
-				<generationTimeMilliseconds>624</generationTimeMilliseconds>
-				<generationTime>0.62s</generationTime>
 				<pageviewPosition>7</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
@@ -249,8 +233,6 @@
 				<bandwidth />
 				<timeSpent>8</timeSpent>
 				<timeSpentPretty>8s</timeSpentPretty>
-				<generationTimeMilliseconds>543</generationTimeMilliseconds>
-				<generationTime>0.54s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
@@ -274,8 +256,6 @@
 				
 				<pageId>77</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>343</generationTimeMilliseconds>
-				<generationTime>0.34s</generationTime>
 				<pageviewPosition>8</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>

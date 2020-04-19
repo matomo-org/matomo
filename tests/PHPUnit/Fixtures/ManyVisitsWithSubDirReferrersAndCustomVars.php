@@ -51,7 +51,6 @@ class ManyVisitsWithSubDirReferrersAndCustomVars extends Fixture
                 for ($page = 0; $page < 3; $page++) {
                     $t->setUrl('http://example.org/dir' . $referrerSite . '/sub/dir/page' . $page . '.html');
                     $t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue' . $page, 'page');
-                    $t->setGenerationTime($referrerPage * $referrerSite * ($page + 1) * 100);
                     self::checkResponse($t->doTrackPageView('title'));
                 }
             }

@@ -638,8 +638,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
 
-            var graphType;
-            if (viewDataTable == 'graphEvolution') {
+            var graphType = '';
+            if (viewDataTable == 'graphEvolution' || viewDataTable == 'graphStackedBarEvolution') {
                 graphType = 'evolution';
             } else if (viewDataTable == 'graphPie') {
                 graphType = 'pie';
@@ -1016,7 +1016,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.restore();
     }
 
-    // trigger the event jqplotPiwikTickOver when the mosue enters
+    // trigger the event jqplotPiwikTickOver when the mouse enters
     // and new tick. this is used for tooltips.
     function handleMouseMove(ev, gridpos, datapos, neighbor, plot) {
         var c = plot.plugins.piwikTicks;

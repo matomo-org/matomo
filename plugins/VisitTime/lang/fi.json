@@ -4,7 +4,7 @@
         "ColumnServerTime": "Palvelimen aika",
         "DayOfWeek": "Viikonpäivä",
         "LocalTime": "Käyntejä (paikallinen aika)",
-        "NHour": "%sh",
+        "NHour": "%s h",
         "PluginDescription": "Raportoi paikallisen ajan ja palvelimen ajan, kun kävijät katselevat sivustoasi tai sovellustasi.",
         "ServerTime": "Käyntejä (palvelimen aika)",
         "SubmenuTimes": "Ajat",

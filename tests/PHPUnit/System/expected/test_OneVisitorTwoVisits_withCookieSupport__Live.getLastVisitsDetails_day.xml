@@ -15,9 +15,9 @@
 				
 				
 				<pageId>9</pageId>
+				<pageLoadTime>4.11s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>134</generationTimeMilliseconds>
-				<generationTime>0.13s</generationTime>
+				<pageLoadTimeMilliseconds>4113</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Checkout/Purchasing...</title>
 				<subtitle>http://example.org/store/purchase.htm</subtitle>
@@ -154,11 +154,11 @@
 				
 				
 				<pageId>1</pageId>
+				<pageLoadTime>2.28s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>234</generationTimeMilliseconds>
-				<generationTime>0.23s</generationTime>
+				<pageLoadTimeMilliseconds>2280</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm?parameter=Should display</subtitle>
@@ -175,11 +175,11 @@
 				
 				
 				<pageId>2</pageId>
+				<pageLoadTime>2.45s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>224</generationTimeMilliseconds>
-				<generationTime>0.22s</generationTime>
+				<pageLoadTimeMilliseconds>2446</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view - should be registered as URL</title>
 				<subtitle>http://example.org/</subtitle>
@@ -292,8 +292,6 @@
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount />
-				<generationTimeMilliseconds>812</generationTimeMilliseconds>
-				<generationTime>0.81s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -310,9 +308,9 @@
 				
 				
 				<pageId>8</pageId>
+				<pageLoadTime>2.06s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>24</generationTimeMilliseconds>
-				<generationTime>0.02s</generationTime>
+				<pageLoadTimeMilliseconds>2059</pageLoadTimeMilliseconds>
 				<pageviewPosition>4</pageviewPosition>
 				<title>Looking at homepage after site search...</title>
 				<subtitle>http://example.org/index.htm</subtitle>

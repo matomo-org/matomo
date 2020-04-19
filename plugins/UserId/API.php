@@ -40,6 +40,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
+        $dataTable->queueFilter('AddSegmentByLabel', array('userId'));
 
         return $dataTable;
     }
