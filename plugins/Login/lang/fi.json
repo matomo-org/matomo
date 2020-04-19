@@ -14,6 +14,8 @@
         "SettingBruteForceEnable": "Ota käyttöön toistuvien kirjautumisyritysten seuranta",
         "SettingBruteForceWhitelistIp": "Älä koskaan estä seuraavia IP:itä kirjautumasta sisään",
         "SettingBruteForceBlacklistIp": "Estä aina kirjautuminen seuraavista IP:istä",
+        "SettingBruteForceMaxFailedLogins": "Sallittujen kirjautumisyritysten määrä ajanjaksolla",
+        "SettingBruteForceTimeRangeHelp": "Kirjoita numero minuuteissa.",
         "CurrentlyBlockedIPs": "Parhaillaan estetyt IP:t",
         "IPsAlwaysBlocked": "Nämä IP:t on estetty aina",
         "LoginPasswordNotCorrect": "Käyttäjätunnus tai salasana väärin.",

@@ -9,6 +9,7 @@
         "ReportingApiReference": "Segnalazione Riferimenti API",
         "TopLinkTooltip": "Accedi ai tuoi dati di Web Analytics tramite le semplici API in JSON, XML, ecc",
         "UserAuthentication": "Autenticazione utente",
+        "UsingTokenAuth": "Se desideri %1$s richiedere dati all'interno di uno script, un crontab, ecc., %2$sè necessario aggiungere il parametro URL %3$s agli URL delle chiamate API che richiedono l'autenticazione.",
         "Glossary": "Glossario",
         "LearnAboutCommonlyUsedTerms2": "Scopri i termini comunemente utilizzati per ottenere il massimo da Matomo Analytics.",
         "EvolutionMetricName": "%s Evoluzione"

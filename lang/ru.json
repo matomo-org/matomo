@@ -501,9 +501,11 @@
         "ThankYouForUsingMatomo": "Спасибо за использование Matomo",
         "TheMatomoTeam": "Команда Matomo",
         "PleaseTryAgain": "Пожалуйста, попробуйте еще раз",
+        "VisualizationDoesNotSupportComparison": "Эта визуализация не поддерживает сравнение сегментов \/ периодов.",
         "ChangeInX": "Изменения в %1$s",
         "Comparisons": "Сравнение",
         "ClickToRemoveComp": "Нажмите, чтобы удалить это сравнение.",
+        "MaximumNumberOfSegmentsComparedIs": "Максимальное количество сегментов, которые можно сравнивать одновременно, равно%s.",
         "MaximumNumberOfPeriodsComparedIs": "Максимальне количество периодов, которые можно сравнить одновременно: %s."
     },
     "Mobile": {

@@ -9,6 +9,7 @@
         "ReportingApiReference": "Rapporterings-API referens",
         "TopLinkTooltip": "Få åtkomst till webbanalysdata programmatiskt genom ett enkelt API i t.ex. json, xml etc.",
         "UserAuthentication": "Användarautentisering",
+        "UsingTokenAuth": "Om du vill %1$s begära data i ett skript, en crontab, osv., %2$s behöver du lägga till en URL-parameter %3$s till URL:erna för API-anropen som kräver autentisering.",
         "Glossary": "Ordbok",
         "LearnAboutCommonlyUsedTerms2": "Lär dig mer om de vanligaste termerna för att få ut mest av Matomo Analytics.",
         "EvolutionMetricName": "%s Utveckling"
