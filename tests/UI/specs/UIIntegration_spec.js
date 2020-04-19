@@ -12,8 +12,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
         idSite2Params = 'idSite=2&period=year&date=2012-08-09',
+        idSite3Params = 'idSite=3&period=year&date=2012-08-09',
         evolutionParams = 'idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30',
-        urlBase = 'module=CoreHome&action=index&' + generalParams,
+        urlBaseGeneric = 'module=CoreHome&action=index&',
+        urlBase = urlBaseGeneric + generalParams,
         widgetizeParams = "module=Widgetize&action=iframe",
         segment = encodeURIComponent("browserCode==FF") // from OmniFixture
         ;
@@ -235,7 +237,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the visitors > real-time visits page correctly', async function () {
-        await page.goto("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
+        await page.goto("?" + urlBaseGeneric + idSite3Params + "#?" + idSite3Params + "&category=General_Visitors&subcategory=General_RealTime");
         await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');

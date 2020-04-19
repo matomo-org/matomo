@@ -23,6 +23,10 @@ describe("UserSettings", function () {
 
     it('should show user security page', async function () {
         await page.goto(userSecurityUrl);
+        await page.waitFor('.listAuthTokens', { visible: true });
+        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+            $('table.listAuthTokens th').css('width', '25%');
+        });
         await page.waitFor(100);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security');
     });
