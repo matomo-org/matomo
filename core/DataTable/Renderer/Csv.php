@@ -311,8 +311,9 @@ class Csv extends Renderer
             $prettyDate = $period->getLocalizedLongString();
 
             $meta = $this->getApiMetaData();
+            $name = !empty($meta['name']) ? $meta['name'] : '';
 
-            $fileName .= ' _ ' . $meta['name']
+            $fileName .= ' _ ' . $name
                 . ' _ ' . $prettyDate . '.csv';
         }
 
