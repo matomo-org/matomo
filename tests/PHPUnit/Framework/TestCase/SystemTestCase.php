@@ -461,9 +461,7 @@ abstract class SystemTestCase extends TestCase
                     ProcessedMetric::class,
                 ], true);
 
-                if ($unserialized === false) {
-                    throw new \Exception("Unknown serialization error.");
-                }
+                self::assertTrue($unserialized !== false, "Unknown serialization error.");
             } catch (\Exception $ex) {
                 $this->comparisonFailures[] = new \Exception("Processed response in '$processedFilePath' could not be unserialized: " . $ex->getMessage());
             }

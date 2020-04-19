@@ -121,7 +121,7 @@ class NumberFormatter
      */
     public function formatPercentEvolution($value)
     {
-        $isPositiveEvolution = !empty($value) && ($value > 0 || $value[0] == '+');
+        $isPositiveEvolution = !empty($value) && ($value > 0 || substr($value, 0, 1) === '+');
 
         $formatted = self::formatPercent($value);
 

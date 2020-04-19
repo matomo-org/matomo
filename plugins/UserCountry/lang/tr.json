@@ -40,6 +40,8 @@
         "SubmenuLocations": "Konumlar",
         "TestIPLocatorFailed": "Matomo bilinen bir IP adresinin konumunu belirlemeyi denedi (%1$s) ancak sunucudan herhangi bir yanıt gelmedi. Bu hizöet sağlayıcı doğru yapılandırılmamış olabilir (coğrafi konum veritabanının adı ya da bulunduğu klasör yanlış olabilir).",
         "ToGeolocateOldVisits": "Eski ziyaretlerinizle ilgili konum bilgilerini almak için %1$sburada%2$s belirtilen betiği kullanın.",
-        "WidgetLocation": "Ziyaretçi Konumu"
+        "WidgetLocation": "Ziyaretçi Konumu",
+        "GeoIpDbIpAccuracyNote": "Not: DBIP veritabanları ücretsizdir ve otomatik olarak indirilebilir. Ancak coğrafi konum sonuçları (özellikle il sonuçları) MaxMind kadar tutarlı değildir. Bununla birlikte MaxMind ücretsiz veritabanı kullanıyor olsanız bile bir hesap açmanızı ister. MaxMind coğrafi konum veritabanını kullanmak istiyorsanız %1$sburaya tıklayarak%2$s başlayabilirsiniz",
+        "MaxMindLinkExplanation": "MaxMind coğrafi konum veritabanlarını kullanıyorsanız ve indirme adresinizi nasıl üreteceğinizi bilmiyorsanız %1$sbilgi almak için buraya tıklayın%2$s."
     }
 }

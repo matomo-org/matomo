@@ -9,6 +9,7 @@
         "ReportingApiReference": "Rapor API Referansı",
         "TopLinkTooltip": "Web istatistiği verilerine json, xml ve benzer yöntemlerle Temel API üzerinden erişilmesini sağlar.",
         "UserAuthentication": "Kullanıcı kimlik doğrulaması",
+        "UsingTokenAuth": "%1$sBir betik ya da bir zamanlanmış görev gibi yöntemlerle%2$s veri istiyorsanız, kimlik doğrulaması isteyen API çağrısı adresleri için adrese %3$s parametresini eklemelisiniz.",
         "Glossary": "Sözlük",
         "LearnAboutCommonlyUsedTerms2": "Matomo istatistiklerini daha iyi anlamak için kullanılan terimler hakkında bilgi alın.",
         "EvolutionMetricName": "%s Gelişme"

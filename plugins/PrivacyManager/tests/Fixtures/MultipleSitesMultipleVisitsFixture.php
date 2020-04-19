@@ -148,9 +148,18 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         'CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US'
     );
 
-    private static $generationTime = array(
-        false, 1030, 545, 392, 9831, false, 348, 585, 984, 1249, false
-    );
+    private static $performanceTimes = [
+        // [$network, $server, $transfer, $domProcessing, $domCompletion, $onload]
+        [26, 235, 36, 199, 155, 90],
+        [null, null, null, null, null, null],
+        [0, 365, 66, 256, 201, 105],
+        [0, 406, 105, 405, 122, 23],
+        [99, 110, 248, 321, 369, 201],
+        [106, 198, 168, 216, 188, 165],
+        [306, 200, 405, 169, 208, 99],
+        [null, null, null, null, null, null],
+        [36, 99, 206, 165, 359, 155],
+    ];
 
     private static $searchKeyword = array('piwik', 'analytics', 'web', 'mobile', 'ecommerce', 'custom');
     private static $searchCategory = array('', '', 'video', 'images', 'web', 'web');
@@ -464,9 +473,6 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
 
         $numCountries = count(self::$countryCode);
         $this->tracker->setCountry(strtolower(self::$countryCode[$userId % $numCountries]));
-
-        $numGenerationTimes = count(self::$generationTime);
-        $this->tracker->setGenerationTime(strtolower(self::$generationTime[$userId % $numGenerationTimes]));
     }
 
     private function trackVisit($userId, $referrer, $idGoal = null, $hoursAgo = null)
@@ -485,6 +491,10 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
             $trackingTime = Date::factory($this->trackingTime)->subHour($hoursAgo)->addHour(0.1)->getDatetime();
             $this->tracker->setForceVisitDateTime($trackingTime);
             $this->tracker->setUrl('http://www.helloworld.com/hello/world' . $userId . '/' . $j);
+
+            $numPerformanceTimes = count(self::$performanceTimes);
+            call_user_func_array([$this->tracker, 'setPerformanceTimings'], self::$performanceTimes[($userId+$j) % $numPerformanceTimes]);
+
             $this->tracker->doTrackPageView('Hello World ' . $j);
         }
 

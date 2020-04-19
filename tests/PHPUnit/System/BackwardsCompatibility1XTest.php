@@ -90,6 +90,46 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         $idSite = 1;
         $dateTime = '2012-03-06 11:22:33';
 
+        // page performance metrics added in Matomo 4
+        $performanceMetrics = [
+            'sum_time_generation',
+            'nb_hits_with_time_generation',
+            'min_time_generation',
+            'max_time_generation',
+            'sum_time_network',
+            'nb_hits_with_time_network',
+            'min_time_network',
+            'max_time_network',
+            'sum_time_server',
+            'nb_hits_with_time_server',
+            'min_time_server',
+            'max_time_server',
+            'sum_time_transfer',
+            'nb_hits_with_time_transfer',
+            'min_time_transfer',
+            'max_time_transfer',
+            'sum_time_dom_processing',
+            'nb_hits_with_time_dom_processing',
+            'min_time_dom_processing',
+            'max_time_dom_processing',
+            'sum_time_dom_completion',
+            'nb_hits_with_time_dom_completion',
+            'min_time_dom_completion',
+            'max_time_dom_completion',
+            'sum_time_on_load',
+            'nb_hits_with_time_on_load',
+            'min_time_on_load',
+            'max_time_on_load',
+            'avg_time_generation',
+            'avg_time_network',
+            'avg_time_server',
+            'avg_time_transfer',
+            'avg_time_dom_processing',
+            'avg_time_dom_completion',
+            'avg_time_on_load',
+            'avg_page_load_time',
+        ];
+
         $defaultOptions = array(
             'idSite' => $idSite,
             'date'   => $dateTime,
@@ -98,13 +138,13 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                 // when changing this, might also need to change the same line in OneVisitorTwoVisitsTest.php
                 'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
             ),
-            'xmlFieldsToRemove' => [
+            'xmlFieldsToRemove' => array_merge([
                 'entry_sum_visit_length',
                 'sum_visit_length',
                 'nb_visits_converted',
                 'interactionPosition',
                 'pageviewPosition',
-            ],
+            ], $performanceMetrics),
         );
 
         /**
@@ -204,16 +244,19 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
                                                'otherRequestParameters' => array('expanded' => '1'),
+                                               'xmlFieldsToRemove' => $performanceMetrics,
                                                'testSuffix' => '_expanded',
                                                'periods' => array('range'), 'disableArchiving' => true)),
 
             array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
                                                'otherRequestParameters' => array('flat' => '1'),
+                                               'xmlFieldsToRemove' => $performanceMetrics,
                                                'testSuffix' => '_flat',
                                                'periods' => array('range'), 'disableArchiving' => true)),
 
             array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06',
                                                'otherRequestParameters' => array('idSubtable' => '30'),
+                                               'xmlFieldsToRemove' => $performanceMetrics,
                                                'testSuffix' => '_subtable',
                                                'periods' => array('day'), 'disableArchiving' => true)),
 

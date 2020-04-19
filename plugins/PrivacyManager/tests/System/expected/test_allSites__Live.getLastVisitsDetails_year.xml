@@ -33,8 +33,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world200</subtitle>
@@ -51,11 +49,11 @@
 				
 				
 				<pageId>350</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world200/0</subtitle>
@@ -72,11 +70,11 @@
 				
 				
 				<pageId>351</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world200/1</subtitle>
@@ -96,8 +94,6 @@
 				<siteSearchKeyword>mobile</siteSearchKeyword>
 				<siteSearchCategory>images</siteSearchCategory>
 				<siteSearchCount>200</siteSearchCount>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -395,8 +391,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -413,9 +407,9 @@
 				
 				
 				<pageId>372</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -575,9 +569,11 @@
 				
 				
 				<pageId>392</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -594,7 +590,9 @@
 				
 				
 				<pageId>393</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -738,8 +736,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -757,8 +753,6 @@
 				
 				<pageId>411</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -902,8 +896,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -920,11 +912,11 @@
 				
 				
 				<pageId>422</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -941,9 +933,9 @@
 				
 				
 				<pageId>423</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -1248,9 +1240,11 @@
 				
 				
 				<pageId>446</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -1267,7 +1261,9 @@
 				
 				
 				<pageId>447</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -1407,8 +1403,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -1425,9 +1419,9 @@
 				
 				
 				<pageId>464</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -1571,8 +1565,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world200</subtitle>
@@ -1589,11 +1581,11 @@
 				
 				
 				<pageId>466</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world200/0</subtitle>
@@ -1610,11 +1602,11 @@
 				
 				
 				<pageId>467</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world200/1</subtitle>
@@ -1634,8 +1626,6 @@
 				<siteSearchKeyword>mobile</siteSearchKeyword>
 				<siteSearchCategory>images</siteSearchCategory>
 				<siteSearchCount>200</siteSearchCount>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -1933,8 +1923,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -1951,9 +1939,9 @@
 				
 				
 				<pageId>488</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -2113,9 +2101,11 @@
 				
 				
 				<pageId>508</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -2132,7 +2122,9 @@
 				
 				
 				<pageId>509</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -2276,8 +2268,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -2295,8 +2285,6 @@
 				
 				<pageId>527</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -2440,8 +2428,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -2458,11 +2444,11 @@
 				
 				
 				<pageId>538</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -2479,9 +2465,9 @@
 				
 				
 				<pageId>539</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -2786,9 +2772,11 @@
 				
 				
 				<pageId>562</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -2805,7 +2793,9 @@
 				
 				
 				<pageId>563</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -2945,8 +2935,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -2963,9 +2951,9 @@
 				
 				
 				<pageId>580</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -3109,8 +3097,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world200</subtitle>
@@ -3127,11 +3113,11 @@
 				
 				
 				<pageId>582</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world200/0</subtitle>
@@ -3148,11 +3134,11 @@
 				
 				
 				<pageId>583</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world200/1</subtitle>
@@ -3172,8 +3158,6 @@
 				<siteSearchKeyword>mobile</siteSearchKeyword>
 				<siteSearchCategory>images</siteSearchCategory>
 				<siteSearchCount>200</siteSearchCount>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -3471,8 +3455,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -3489,9 +3471,9 @@
 				
 				
 				<pageId>604</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -3651,9 +3633,11 @@
 				
 				
 				<pageId>624</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -3670,7 +3654,9 @@
 				
 				
 				<pageId>625</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -3814,8 +3800,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -3833,8 +3817,6 @@
 				
 				<pageId>643</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -3978,8 +3960,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -3996,11 +3976,11 @@
 				
 				
 				<pageId>654</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -4017,9 +3997,9 @@
 				
 				
 				<pageId>655</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -4324,9 +4304,11 @@
 				
 				
 				<pageId>678</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -4343,7 +4325,9 @@
 				
 				
 				<pageId>679</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -4483,8 +4467,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -4501,9 +4483,9 @@
 				
 				
 				<pageId>696</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -4645,8 +4627,6 @@
 				
 				<pageId>366</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -4790,8 +4770,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>348</generationTimeMilliseconds>
-				<generationTime>0.35s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -5177,8 +5155,6 @@
 				
 				<pageId>430</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -5322,8 +5298,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world210</subtitle>
@@ -5345,8 +5319,6 @@
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -5593,8 +5565,6 @@
 				
 				<pageId>482</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -5736,8 +5706,6 @@
 				
 				<pageId>510</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>348</generationTimeMilliseconds>
-				<generationTime>0.35s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -6125,8 +6093,6 @@
 				
 				<pageId>546</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -6270,8 +6236,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world210</subtitle>
@@ -6293,8 +6257,6 @@
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -6541,8 +6503,6 @@
 				
 				<pageId>598</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -6686,8 +6646,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>348</generationTimeMilliseconds>
-				<generationTime>0.35s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -7073,8 +7031,6 @@
 				
 				<pageId>662</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -7218,8 +7174,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world210</subtitle>
@@ -7241,8 +7195,6 @@
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -7492,9 +7444,11 @@
 				
 				
 				<pageId>389</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -7511,7 +7465,9 @@
 				
 				
 				<pageId>390</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -7640,8 +7596,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -7658,9 +7612,9 @@
 				
 				
 				<pageId>456</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -7805,9 +7759,11 @@
 				
 				
 				<pageId>505</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -7824,7 +7780,9 @@
 				
 				
 				<pageId>506</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -7953,8 +7911,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -8000,9 +7956,9 @@
 				
 				
 				<pageId>572</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -8147,9 +8103,11 @@
 				
 				
 				<pageId>621</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -8166,7 +8124,9 @@
 				
 				
 				<pageId>622</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -8295,8 +8255,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -8342,9 +8300,9 @@
 				
 				
 				<pageId>688</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -8473,8 +8431,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -8491,11 +8447,11 @@
 				
 				
 				<pageId>413</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -8512,9 +8468,9 @@
 				
 				
 				<pageId>414</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -8659,9 +8615,11 @@
 				
 				
 				<pageId>443</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -8678,7 +8636,9 @@
 				
 				
 				<pageId>444</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -8803,8 +8763,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -8821,11 +8779,11 @@
 				
 				
 				<pageId>529</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -8842,9 +8800,9 @@
 				
 				
 				<pageId>530</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -8989,9 +8947,11 @@
 				
 				
 				<pageId>559</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -9008,7 +8968,9 @@
 				
 				
 				<pageId>560</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -9133,8 +9095,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -9151,11 +9111,11 @@
 				
 				
 				<pageId>645</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -9172,9 +9132,9 @@
 				
 				
 				<pageId>646</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -9319,9 +9279,11 @@
 				
 				
 				<pageId>675</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -9338,7 +9300,9 @@
 				
 				
 				<pageId>676</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -9463,8 +9427,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -9698,8 +9660,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -9933,8 +9893,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -10184,9 +10142,11 @@
 				
 				
 				<pageId>386</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -10203,7 +10163,9 @@
 				
 				
 				<pageId>387</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -10332,8 +10294,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -10353,8 +10313,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -10374,8 +10332,6 @@
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
 				<siteSearchCategory>web</siteSearchCategory>
 				<siteSearchCount>205</siteSearchCount>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -10504,8 +10460,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -10522,11 +10476,11 @@
 				
 				
 				<pageId>419</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -10543,9 +10497,9 @@
 				
 				
 				<pageId>420</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -10690,9 +10644,11 @@
 				
 				
 				<pageId>502</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -10709,7 +10665,9 @@
 				
 				
 				<pageId>503</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -10838,8 +10796,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -10888,8 +10844,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -10909,8 +10863,6 @@
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
 				<siteSearchCategory>web</siteSearchCategory>
 				<siteSearchCount>205</siteSearchCount>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -11039,8 +10991,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -11057,11 +11007,11 @@
 				
 				
 				<pageId>535</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -11078,9 +11028,9 @@
 				
 				
 				<pageId>536</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -11225,9 +11175,11 @@
 				
 				
 				<pageId>618</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -11244,7 +11196,9 @@
 				
 				
 				<pageId>619</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -11373,8 +11327,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -11423,8 +11375,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -11444,8 +11394,6 @@
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
 				<siteSearchCategory>web</siteSearchCategory>
 				<siteSearchCount>205</siteSearchCount>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -11574,8 +11522,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -11592,11 +11538,11 @@
 				
 				
 				<pageId>651</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -11613,9 +11559,9 @@
 				
 				
 				<pageId>652</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -11744,8 +11690,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -11979,8 +11923,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -12214,8 +12156,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -12449,8 +12389,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -12467,9 +12405,9 @@
 				
 				
 				<pageId>370</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -12598,8 +12536,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -12616,9 +12552,9 @@
 				
 				
 				<pageId>462</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -12747,8 +12683,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -12765,9 +12699,9 @@
 				
 				
 				<pageId>486</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -12896,8 +12830,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -12914,9 +12846,9 @@
 				
 				
 				<pageId>578</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -13045,8 +12977,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -13063,9 +12993,9 @@
 				
 				
 				<pageId>602</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -13194,8 +13124,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -13212,9 +13140,9 @@
 				
 				
 				<pageId>694</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -13343,8 +13271,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -13361,11 +13287,11 @@
 				
 				
 				<pageId>416</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -13382,9 +13308,9 @@
 				
 				
 				<pageId>417</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -13513,8 +13439,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -13531,11 +13455,11 @@
 				
 				
 				<pageId>532</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -13552,9 +13476,9 @@
 				
 				
 				<pageId>533</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -13683,8 +13607,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -13701,11 +13623,11 @@
 				
 				
 				<pageId>648</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -13722,9 +13644,9 @@
 				
 				
 				<pageId>649</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -13869,9 +13791,11 @@
 				
 				
 				<pageId>383</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -13888,7 +13812,9 @@
 				
 				
 				<pageId>384</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -14356,9 +14282,11 @@
 				
 				
 				<pageId>499</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -14375,7 +14303,9 @@
 				
 				
 				<pageId>500</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -14843,9 +14773,11 @@
 				
 				
 				<pageId>615</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -14862,7 +14794,9 @@
 				
 				
 				<pageId>616</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -15329,8 +15263,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -15347,9 +15279,9 @@
 				
 				
 				<pageId>460</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -15493,8 +15425,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -15511,9 +15441,9 @@
 				
 				
 				<pageId>576</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -15657,8 +15587,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -15675,9 +15603,9 @@
 				
 				
 				<pageId>692</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -15822,9 +15750,11 @@
 				
 				
 				<pageId>380</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -15841,7 +15771,9 @@
 				
 				
 				<pageId>381</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -15985,8 +15917,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -16003,9 +15933,9 @@
 				
 				
 				<pageId>458</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -16150,9 +16080,11 @@
 				
 				
 				<pageId>496</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -16169,7 +16101,9 @@
 				
 				
 				<pageId>497</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -16313,8 +16247,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -16331,9 +16263,9 @@
 				
 				
 				<pageId>574</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -16478,9 +16410,11 @@
 				
 				
 				<pageId>612</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -16497,7 +16431,9 @@
 				
 				
 				<pageId>613</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -16641,8 +16577,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -16659,9 +16593,9 @@
 				
 				
 				<pageId>690</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -16806,9 +16740,11 @@
 				
 				
 				<pageId>377</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -16825,7 +16761,9 @@
 				
 				
 				<pageId>378</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -16970,9 +16908,11 @@
 				
 				
 				<pageId>493</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -16989,7 +16929,9 @@
 				
 				
 				<pageId>494</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -17134,9 +17076,11 @@
 				
 				
 				<pageId>609</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -17153,7 +17097,9 @@
 				
 				
 				<pageId>610</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -17282,8 +17228,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -17324,9 +17268,9 @@
 				
 				
 				<pageId>368</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -17471,9 +17415,11 @@
 				
 				
 				<pageId>374</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -17490,7 +17436,9 @@
 				
 				
 				<pageId>375</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -17619,8 +17567,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -17661,9 +17607,9 @@
 				
 				
 				<pageId>484</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -17808,9 +17754,11 @@
 				
 				
 				<pageId>490</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -17827,7 +17775,9 @@
 				
 				
 				<pageId>491</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -17956,8 +17906,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -17998,9 +17946,9 @@
 				
 				
 				<pageId>600</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -18145,9 +18093,11 @@
 				
 				
 				<pageId>606</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -18164,7 +18114,9 @@
 				
 				
 				<pageId>607</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -18308,8 +18260,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world200</subtitle>
@@ -18326,11 +18276,11 @@
 				
 				
 				<pageId>234</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world200/0</subtitle>
@@ -18347,11 +18297,11 @@
 				
 				
 				<pageId>235</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world200/1</subtitle>
@@ -18371,8 +18321,6 @@
 				<siteSearchKeyword>mobile</siteSearchKeyword>
 				<siteSearchCategory>images</siteSearchCategory>
 				<siteSearchCount>200</siteSearchCount>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -18670,8 +18618,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -18688,9 +18634,9 @@
 				
 				
 				<pageId>256</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -18850,9 +18796,11 @@
 				
 				
 				<pageId>276</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -18869,7 +18817,9 @@
 				
 				
 				<pageId>277</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -19013,8 +18963,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -19032,8 +18980,6 @@
 				
 				<pageId>295</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -19177,8 +19123,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -19195,11 +19139,11 @@
 				
 				
 				<pageId>306</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -19216,9 +19160,9 @@
 				
 				
 				<pageId>307</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -19523,9 +19467,11 @@
 				
 				
 				<pageId>330</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -19542,7 +19488,9 @@
 				
 				
 				<pageId>331</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -19682,8 +19630,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -19700,9 +19646,9 @@
 				
 				
 				<pageId>348</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -19844,8 +19790,6 @@
 				
 				<pageId>250</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -19989,8 +19933,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>348</generationTimeMilliseconds>
-				<generationTime>0.35s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -20376,8 +20318,6 @@
 				
 				<pageId>314</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -20521,8 +20461,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world210</subtitle>
@@ -20544,8 +20482,6 @@
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -20795,9 +20731,11 @@
 				
 				
 				<pageId>273</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -20814,7 +20752,9 @@
 				
 				
 				<pageId>274</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -20943,8 +20883,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -20961,9 +20899,9 @@
 				
 				
 				<pageId>340</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -21092,8 +21030,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -21110,11 +21046,11 @@
 				
 				
 				<pageId>297</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -21131,9 +21067,9 @@
 				
 				
 				<pageId>298</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -21278,9 +21214,11 @@
 				
 				
 				<pageId>327</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -21297,7 +21235,9 @@
 				
 				
 				<pageId>328</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -21422,8 +21362,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -21673,9 +21611,11 @@
 				
 				
 				<pageId>270</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -21692,7 +21632,9 @@
 				
 				
 				<pageId>271</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -21821,8 +21763,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -21842,8 +21782,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -21863,8 +21801,6 @@
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
 				<siteSearchCategory>web</siteSearchCategory>
 				<siteSearchCount>205</siteSearchCount>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -21993,8 +21929,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -22011,11 +21945,11 @@
 				
 				
 				<pageId>303</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -22032,9 +21966,9 @@
 				
 				
 				<pageId>304</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -22163,8 +22097,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -22398,8 +22330,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -22416,9 +22346,9 @@
 				
 				
 				<pageId>254</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -22547,8 +22477,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -22565,9 +22493,9 @@
 				
 				
 				<pageId>346</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -22696,8 +22624,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -22714,11 +22640,11 @@
 				
 				
 				<pageId>300</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -22735,9 +22661,9 @@
 				
 				
 				<pageId>301</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -22882,9 +22808,11 @@
 				
 				
 				<pageId>267</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -22901,7 +22829,9 @@
 				
 				
 				<pageId>268</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -23368,8 +23298,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -23386,9 +23314,9 @@
 				
 				
 				<pageId>344</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -23533,9 +23461,11 @@
 				
 				
 				<pageId>264</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -23552,7 +23482,9 @@
 				
 				
 				<pageId>265</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -23696,8 +23628,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -23714,9 +23644,9 @@
 				
 				
 				<pageId>342</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -23861,9 +23791,11 @@
 				
 				
 				<pageId>261</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -23880,7 +23812,9 @@
 				
 				
 				<pageId>262</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -24009,8 +23943,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -24051,9 +23983,9 @@
 				
 				
 				<pageId>252</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -24198,9 +24130,11 @@
 				
 				
 				<pageId>258</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -24217,7 +24151,9 @@
 				
 				
 				<pageId>259</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -24361,8 +24297,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world200</subtitle>
@@ -24379,11 +24313,11 @@
 				
 				
 				<pageId>118</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world200/0</subtitle>
@@ -24400,11 +24334,11 @@
 				
 				
 				<pageId>119</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world200/1</subtitle>
@@ -24424,8 +24358,6 @@
 				<siteSearchKeyword>mobile</siteSearchKeyword>
 				<siteSearchCategory>images</siteSearchCategory>
 				<siteSearchCount>200</siteSearchCount>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -24723,8 +24655,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -24741,9 +24671,9 @@
 				
 				
 				<pageId>140</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -24903,9 +24833,11 @@
 				
 				
 				<pageId>160</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -24922,7 +24854,9 @@
 				
 				
 				<pageId>161</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -25066,8 +25000,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -25085,8 +25017,6 @@
 				
 				<pageId>179</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -25230,8 +25160,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -25248,11 +25176,11 @@
 				
 				
 				<pageId>190</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -25269,9 +25197,9 @@
 				
 				
 				<pageId>191</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -25576,9 +25504,11 @@
 				
 				
 				<pageId>214</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -25595,7 +25525,9 @@
 				
 				
 				<pageId>215</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -25735,8 +25667,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -25753,9 +25683,9 @@
 				
 				
 				<pageId>232</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -25899,8 +25829,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world200</subtitle>
@@ -25917,11 +25845,11 @@
 				
 				
 				<pageId>698</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world200/0</subtitle>
@@ -25938,11 +25866,11 @@
 				
 				
 				<pageId>699</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world200/1</subtitle>
@@ -25962,8 +25890,6 @@
 				<siteSearchKeyword>mobile</siteSearchKeyword>
 				<siteSearchCategory>images</siteSearchCategory>
 				<siteSearchCount>200</siteSearchCount>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -26261,8 +26187,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -26279,9 +26203,9 @@
 				
 				
 				<pageId>720</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -26441,9 +26365,11 @@
 				
 				
 				<pageId>740</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -26460,7 +26386,9 @@
 				
 				
 				<pageId>741</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -26604,8 +26532,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -26623,8 +26549,6 @@
 				
 				<pageId>759</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -26768,8 +26692,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -26786,11 +26708,11 @@
 				
 				
 				<pageId>770</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -26807,9 +26729,9 @@
 				
 				
 				<pageId>771</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -27114,9 +27036,11 @@
 				
 				
 				<pageId>794</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -27133,7 +27057,9 @@
 				
 				
 				<pageId>795</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -27273,8 +27199,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -27291,9 +27215,9 @@
 				
 				
 				<pageId>812</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -27435,8 +27359,6 @@
 				
 				<pageId>134</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -27580,8 +27502,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>348</generationTimeMilliseconds>
-				<generationTime>0.35s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -27967,8 +27887,6 @@
 				
 				<pageId>198</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -28112,8 +28030,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world210</subtitle>
@@ -28135,8 +28051,6 @@
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -28383,8 +28297,6 @@
 				
 				<pageId>714</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -28528,8 +28440,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>348</generationTimeMilliseconds>
-				<generationTime>0.35s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -28915,8 +28825,6 @@
 				
 				<pageId>778</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -29060,8 +28968,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world210</subtitle>
@@ -29083,8 +28989,6 @@
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -29334,9 +29238,11 @@
 				
 				
 				<pageId>157</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -29353,7 +29259,9 @@
 				
 				
 				<pageId>158</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -29482,8 +29390,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -29500,9 +29406,9 @@
 				
 				
 				<pageId>224</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -29647,9 +29553,11 @@
 				
 				
 				<pageId>737</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -29666,7 +29574,9 @@
 				
 				
 				<pageId>738</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -29795,8 +29705,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -29813,9 +29721,9 @@
 				
 				
 				<pageId>804</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -29944,8 +29852,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -29962,11 +29868,11 @@
 				
 				
 				<pageId>181</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -29983,9 +29889,9 @@
 				
 				
 				<pageId>182</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -30130,9 +30036,11 @@
 				
 				
 				<pageId>211</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -30149,7 +30057,9 @@
 				
 				
 				<pageId>212</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -30274,8 +30184,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -30292,11 +30200,11 @@
 				
 				
 				<pageId>761</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -30313,9 +30221,9 @@
 				
 				
 				<pageId>762</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -30460,9 +30368,11 @@
 				
 				
 				<pageId>791</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -30479,7 +30389,9 @@
 				
 				
 				<pageId>792</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -30604,8 +30516,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -30839,8 +30749,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -31090,9 +30998,11 @@
 				
 				
 				<pageId>154</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -31109,7 +31019,9 @@
 				
 				
 				<pageId>155</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -31238,8 +31150,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -31259,8 +31169,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -31280,8 +31188,6 @@
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
 				<siteSearchCategory>web</siteSearchCategory>
 				<siteSearchCount>205</siteSearchCount>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -31410,8 +31316,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -31428,11 +31332,11 @@
 				
 				
 				<pageId>187</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -31449,9 +31353,9 @@
 				
 				
 				<pageId>188</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -31596,9 +31500,11 @@
 				
 				
 				<pageId>734</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -31615,7 +31521,9 @@
 				
 				
 				<pageId>735</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -31744,8 +31652,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -31765,8 +31671,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -31786,8 +31690,6 @@
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
 				<siteSearchCategory>web</siteSearchCategory>
 				<siteSearchCount>205</siteSearchCount>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -31916,8 +31818,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -31934,9 +31834,9 @@
 				
 				
 				<pageId>767</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -31953,11 +31853,11 @@
 				
 				
 				<pageId>768</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -32086,8 +31986,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -32321,8 +32219,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -32556,8 +32452,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -32574,9 +32468,9 @@
 				
 				
 				<pageId>138</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -32705,8 +32599,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -32723,9 +32615,9 @@
 				
 				
 				<pageId>230</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -32854,8 +32746,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -32872,9 +32762,9 @@
 				
 				
 				<pageId>718</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -33003,8 +32893,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -33021,9 +32909,9 @@
 				
 				
 				<pageId>810</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -33152,8 +33040,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -33170,11 +33056,11 @@
 				
 				
 				<pageId>184</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -33191,9 +33077,9 @@
 				
 				
 				<pageId>185</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -33322,8 +33208,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -33340,11 +33224,11 @@
 				
 				
 				<pageId>764</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -33361,9 +33245,9 @@
 				
 				
 				<pageId>765</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -33508,9 +33392,11 @@
 				
 				
 				<pageId>151</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -33527,7 +33413,9 @@
 				
 				
 				<pageId>152</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -33995,9 +33883,11 @@
 				
 				
 				<pageId>731</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -34014,7 +33904,9 @@
 				
 				
 				<pageId>732</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -34481,8 +34373,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -34499,9 +34389,9 @@
 				
 				
 				<pageId>228</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -34645,8 +34535,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -34663,9 +34551,9 @@
 				
 				
 				<pageId>808</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -34810,9 +34698,11 @@
 				
 				
 				<pageId>148</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -34829,7 +34719,9 @@
 				
 				
 				<pageId>149</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -34973,8 +34865,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -34991,9 +34881,9 @@
 				
 				
 				<pageId>226</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -35138,9 +35028,11 @@
 				
 				
 				<pageId>728</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -35157,7 +35049,9 @@
 				
 				
 				<pageId>729</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -35301,8 +35195,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -35319,9 +35211,9 @@
 				
 				
 				<pageId>806</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -35466,9 +35358,11 @@
 				
 				
 				<pageId>145</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -35485,7 +35379,9 @@
 				
 				
 				<pageId>146</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -35630,9 +35526,11 @@
 				
 				
 				<pageId>725</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -35649,7 +35547,9 @@
 				
 				
 				<pageId>726</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -35778,8 +35678,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -35820,9 +35718,9 @@
 				
 				
 				<pageId>136</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -35967,9 +35865,11 @@
 				
 				
 				<pageId>142</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -35986,7 +35886,9 @@
 				
 				
 				<pageId>143</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -36115,8 +36017,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -36157,9 +36057,9 @@
 				
 				
 				<pageId>716</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -36304,9 +36204,11 @@
 				
 				
 				<pageId>722</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -36323,7 +36225,9 @@
 				
 				
 				<pageId>723</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -36467,8 +36371,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world200</subtitle>
@@ -36485,11 +36387,11 @@
 				
 				
 				<pageId>2</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world200/0</subtitle>
@@ -36506,11 +36408,11 @@
 				
 				
 				<pageId>3</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world200/1</subtitle>
@@ -36530,8 +36432,6 @@
 				<siteSearchKeyword>mobile</siteSearchKeyword>
 				<siteSearchCategory>images</siteSearchCategory>
 				<siteSearchCount>200</siteSearchCount>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>4</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -36829,8 +36729,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -36847,9 +36745,9 @@
 				
 				
 				<pageId>24</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -37009,9 +36907,11 @@
 				
 				
 				<pageId>44</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -37028,7 +36928,9 @@
 				
 				
 				<pageId>45</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -37172,8 +37074,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -37191,8 +37091,6 @@
 				
 				<pageId>63</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -37336,8 +37234,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -37354,11 +37250,11 @@
 				
 				
 				<pageId>74</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -37375,9 +37271,9 @@
 				
 				
 				<pageId>75</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -37682,9 +37578,11 @@
 				
 				
 				<pageId>98</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -37701,7 +37599,9 @@
 				
 				
 				<pageId>99</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -37841,8 +37741,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -37859,9 +37757,9 @@
 				
 				
 				<pageId>116</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -38003,8 +37901,6 @@
 				
 				<pageId>18</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -38148,8 +38044,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>348</generationTimeMilliseconds>
-				<generationTime>0.35s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -38535,8 +38429,6 @@
 				
 				<pageId>82</pageId>
 				<bandwidth />
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -38680,8 +38572,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world210</subtitle>
@@ -38703,8 +38593,6 @@
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
-				<generationTimeMilliseconds>1030</generationTimeMilliseconds>
-				<generationTime>1.03s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -38954,9 +38842,11 @@
 				
 				
 				<pageId>41</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -38973,7 +38863,9 @@
 				
 				
 				<pageId>42</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -39102,8 +38994,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -39149,9 +39039,9 @@
 				
 				
 				<pageId>108</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -39280,8 +39170,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -39298,11 +39186,11 @@
 				
 				
 				<pageId>65</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -39319,9 +39207,9 @@
 				
 				
 				<pageId>66</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -39466,9 +39354,11 @@
 				
 				
 				<pageId>95</pageId>
+				<pageLoadTime>0.99s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>993</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world209/0</subtitle>
@@ -39485,7 +39375,9 @@
 				
 				
 				<pageId>96</pageId>
+				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world209/1</subtitle>
@@ -39610,8 +39502,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>392</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -39861,9 +39751,11 @@
 				
 				
 				<pageId>38</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -39880,7 +39772,9 @@
 				
 				
 				<pageId>39</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -40009,8 +39903,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world205</subtitle>
@@ -40059,8 +39951,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -40080,8 +39970,6 @@
 				<siteSearchKeyword>ecommerce</siteSearchKeyword>
 				<siteSearchCategory>web</siteSearchCategory>
 				<siteSearchCount>205</siteSearchCount>
-				<generationTimeMilliseconds>585</generationTimeMilliseconds>
-				<generationTime>0.59s</generationTime>
 				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
@@ -40210,8 +40098,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -40228,11 +40114,11 @@
 				
 				
 				<pageId>71</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -40249,9 +40135,9 @@
 				
 				
 				<pageId>72</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -40380,8 +40266,6 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>1249</generationTimeMilliseconds>
-				<generationTime>1.25s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -40615,8 +40499,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world202</subtitle>
@@ -40633,9 +40515,9 @@
 				
 				
 				<pageId>22</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>9831</generationTimeMilliseconds>
-				<generationTime>9.83s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world202/0</subtitle>
@@ -40764,8 +40646,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -40782,9 +40662,9 @@
 				
 				
 				<pageId>114</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -40913,8 +40793,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -40931,11 +40809,11 @@
 				
 				
 				<pageId>68</pageId>
+				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world206/0</subtitle>
@@ -40952,9 +40830,9 @@
 				
 				
 				<pageId>69</pageId>
+				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>984</generationTimeMilliseconds>
-				<generationTime>0.98s</generationTime>
+				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world206/1</subtitle>
@@ -41099,9 +40977,11 @@
 				
 				
 				<pageId>35</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -41118,7 +40998,9 @@
 				
 				
 				<pageId>36</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -41585,8 +41467,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -41603,9 +41483,9 @@
 				
 				
 				<pageId>112</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -41750,9 +41630,11 @@
 				
 				
 				<pageId>32</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -41769,7 +41651,9 @@
 				
 				
 				<pageId>33</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>
@@ -41913,8 +41797,6 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world211</subtitle>
@@ -41931,9 +41813,9 @@
 				
 				
 				<pageId>110</pageId>
+				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>545</generationTimeMilliseconds>
-				<generationTime>0.55s</generationTime>
+				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world211/0</subtitle>
@@ -42078,9 +41960,11 @@
 				
 				
 				<pageId>29</pageId>
+				<pageLoadTime>1.04s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1041</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world203/0</subtitle>
@@ -42097,7 +41981,9 @@
 				
 				
 				<pageId>30</pageId>
+				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
 				<subtitle>http://www.helloworld.com/hello/world203/1</subtitle>

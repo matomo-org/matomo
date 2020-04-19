@@ -15,6 +15,7 @@
 		<entry_bounce_count>10</entry_bounce_count>
 		<exit_nb_visits>10</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -36,6 +37,7 @@
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -58,6 +60,7 @@
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -80,6 +83,7 @@
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -105,6 +109,7 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -130,6 +135,7 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -155,6 +161,7 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>

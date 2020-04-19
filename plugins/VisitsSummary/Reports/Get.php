@@ -11,6 +11,7 @@ namespace Piwik\Plugins\VisitsSummary\Reports;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DbHelper;
 use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
@@ -175,7 +176,11 @@ class Get extends \Piwik\Plugin\Report
             $view->config->addSparklineMetric(array('nb_downloads', 'nb_uniq_downloads'), 70);
             $view->config->addSparklineMetric(array('nb_actions_per_visit'), 71);
             $view->config->addSparklineMetric(array('nb_outlinks', 'nb_uniq_outlinks'), 72);
-            $view->config->addSparklineMetric(array('avg_time_generation'), 73);
+
+            if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<')) {
+                $view->config->addSparklineMetric(array('avg_time_generation'), 73);
+            }
+
             $view->config->addSparklineMetric(array('max_actions'), 74);
         }
     }

@@ -39,8 +39,9 @@
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
-    performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
-    responseEnd, event, which, button, srcElement, type, target, data,
+    performance, mozPerformance, msPerformance, webkitPerformance, timing, connectEnd, requestStart, responseStart,
+    responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
+    event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
@@ -69,7 +70,7 @@
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
-    disablePerformanceTracking, setGenerationTimeMs, maq_confirm_opted_in,
+    disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
@@ -2250,8 +2251,11 @@ if (typeof window.Piwik !== 'object') {
                 // Is performance tracking enabled
                 configPerformanceTrackingEnabled = true,
 
-                // Generation time set from the server
-                configPerformanceGenerationTime = 0,
+                // will be set to true automatically once the onload event has finished
+                performanceAvailable = false,
+
+                // indicates if performance metrics for the page view have been sent with a request
+                performanceTracked = false,
 
                 // Whether Custom Variables scope "visit" should be stored in a cookie during the time of the visit
                 configStoreCustomVariablesInCookie = false,
@@ -3486,6 +3490,40 @@ if (typeof window.Piwik !== 'object') {
                 return id;
             }
 
+            function appendAvailablePerformanceMetrics(request) {
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.connectEnd && performanceAlias.timing.fetchStart) {
+                    request += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.requestStart) {
+                    request += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
+                    request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
+                    request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
+                    request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
+                    request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+                }
+
+                return request;
+            }
+
             /**
              * Returns the URL to call piwik.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
@@ -3702,13 +3740,9 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 // performance tracking
-                if (configPerformanceTrackingEnabled) {
-                    if (configPerformanceGenerationTime) {
-                        request += '&gt_ms=' + configPerformanceGenerationTime;
-                    } else if (performanceAlias && performanceAlias.timing
-                        && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                        request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
-                    }
+                if (configPerformanceTrackingEnabled && performanceAvailable && !performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                    performanceTracked = true;
                 }
 
                 if (configIdPageView) {
@@ -3850,6 +3884,11 @@ if (typeof window.Piwik !== 'object') {
                 configIdPageView = generateUniqueId();
 
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
+
+                // append already available performance metrics if they were not already tracked (or appended)
+                if (!performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                }
 
                 sendRequest(request, configTrackerPause, callback);
             }
@@ -5861,16 +5900,6 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set the server generation time.
-             * If set, the browser's performance.timing API in not used anymore to determine the time.
-             *
-             * @param int generationTime
-             */
-            this.setGenerationTimeMs = function (generationTime) {
-                configPerformanceGenerationTime = parseInt(generationTime, 10);
-            };
-
-            /**
              * Set visit standard length (in seconds). This should ideally match the visit_standard_length setting
              * in Matomo in case you customised it. This setting only has an effect if heart beat timer is active
              * currently.
@@ -6622,6 +6651,15 @@ if (typeof window.Piwik !== 'object') {
              * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
              */
             this.forgetUserOptOut = this.rememberConsentGiven;
+
+            /**
+             * Mark performance metrics as available, once onload event has finished
+             */
+            trackCallbackOnLoad(function(){
+                setTimeout(function(){
+                    performanceAvailable = true;
+                }, 0);
+            });
 
             Piwik.trigger('TrackerSetup', [this]);
         }

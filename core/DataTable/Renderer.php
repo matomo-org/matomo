@@ -265,7 +265,7 @@ abstract class Renderer extends BaseFactory
 
             $api = \Piwik\Plugins\API\API::getInstance();
             $meta = $api->getMetadata($this->idSite, $apiModule, $apiAction);
-            if (is_array($meta[0])) {
+            if (isset($meta[0]) && is_array($meta[0])) {
                 $meta = $meta[0];
             }
 

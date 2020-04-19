@@ -495,3 +495,7 @@
 .icon-segmented-visits-log::before {
   content: "\e900";
 }
+
+.icon-page-performance::before {
+  content: "\e9a6";
+}
