@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Core\DataTable\Filter;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Actions\Reports\GetOutlinks;
@@ -15,6 +16,7 @@ use Piwik\Plugins\DevicePlugins\Reports\GetPlugin;
 use Piwik\Plugins\UserCountry\Reports\GetCity;
 use Piwik\Plugins\UserCountry\Reports\GetCountry;
 use Piwik\Plugins\VisitsSummary\Reports\Get;
+use Piwik\Segment\SegmentsList;
 
 /**
  * @group AddSegmentBySegmentValueTest
