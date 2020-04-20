@@ -378,15 +378,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         let elem = await page.jQuery('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
         await elem.hover();
 
-        await page.jQuery('.columnDocumentation:visible', { waitFor: true });
+        let tip = await page.jQuery('.columnDocumentation:visible', { waitFor: true });
+
+        // manipulate the styles a bit, as it's otherwise not visible on screenshot
         await page.evaluate(function(){
             $('.columnDocumentation:visible').css({
                 display: 'block!important',
+                top: 50,
+                left: 100
             });
         });
-        await page.waitFor(500);
 
-        expect(await page.screenshotSelector('.columnDocumentation:visible')).to.matchImage('metric_tooltip');
+        expect(await tip.screenshot()).to.matchImage('metric_tooltip');
     });
 
     it('should load the referrers > search engines & keywords page correctly', async function () {
