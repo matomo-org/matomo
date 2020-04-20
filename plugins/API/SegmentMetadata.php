@@ -21,7 +21,7 @@ class SegmentMetadata
      */
     private $categoryOrder = array();
 
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $isAuthenticatedWithViewAccess, $_showAllSegments = false)
+    public function getSegmentsMetadata($idSites, $_hideImplementationData, $isRegisteredUser, $_showAllSegments = false)
     {
         $segments = array();
 
@@ -61,8 +61,8 @@ class SegmentMetadata
         $segments = array();
 
         foreach ($dimensionSegments as $segment) {
-            if ($segment->isRequiresAtLeastViewAccess()) {
-                $segment->setPermission($isAuthenticatedWithViewAccess);
+            if ($segment->isRequiresRegisteredUser()) {
+                $segment->setPermission($isRegisteredUser);
             }
 
             $segments[] = $segment->toArray();

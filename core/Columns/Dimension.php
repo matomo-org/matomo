@@ -640,7 +640,7 @@ abstract class Dimension
         }
 
         if (!$this->allowAnonymous) {
-            $segment->setRequiresAtLeastViewAccess(true);
+            $segment->setRequiresRegisteredUser(true);
         }
 
         $this->segments[] = $segment;
