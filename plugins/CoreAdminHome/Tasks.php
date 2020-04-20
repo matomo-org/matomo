@@ -252,11 +252,28 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function purgeInvalidatedArchives()
     {
+        $purgedDates = [];
+
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         foreach ($archivesToPurge->getAllAsDates() as $date) {
             $this->archivePurger->purgeInvalidatedArchivesFrom($date);
 
             $archivesToPurge->removeDate($date);
+
+            $purgedDates[$date->toString('Y-m')] = true;
+        }
+
+        $today = Date::today();
+        $todayStr = $today->toString('Y-m');
+        if (empty($purgedDates[$todayStr])) {
+            $this->archivePurger->purgeInvalidatedArchivesFrom($today);
+            $purgedDates[$todayStr] = true;
+        }
+
+        $yesterday = Date::yesterday();
+        $yesterdayStr = $yesterday->toString('Y-m');
+        if (empty($purgedDates[$yesterdayStr])) {
+            $this->archivePurger->purgeInvalidatedArchivesFrom($yesterday);
         }
     }
 
