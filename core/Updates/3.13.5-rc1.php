@@ -26,15 +26,16 @@ class Updates_3_13_5_rc1 extends PiwikUpdates
     {
         $archivesToPurge = new ArchivesToPurgeDistributedList();
 
-        $startOfProblem = Date::factory('2020-03-01 00:00:00');
+        $startOfProblem = Date::factory('2020-01-01 00:00:00');
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveTables as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
             list($year, $month) = explode('_', $date);
 
+            // only add if the table is for jan 2020 or above since tables w/ that date will be most affected
             $dateObj = Date::factory("$year-$month-01 00:00:00");
-            if ($dateObj->isEarlier($startOfProblem)) { // only add if the table is for march 2020 or above since that is when the problem appeared
+            if ($dateObj->isEarlier($startOfProblem)) {
                 continue;
             }
 
