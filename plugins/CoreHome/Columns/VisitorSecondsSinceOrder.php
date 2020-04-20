@@ -15,6 +15,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
+// TODO: unit test
 class VisitorSecondsSinceOrder extends VisitDimension
 {
     protected $columnName = 'visitor_seconds_since_order';
@@ -40,20 +41,24 @@ class VisitorSecondsSinceOrder extends VisitDimension
         $idorder = $request->getParam('ec_id');
         $isOrder = !empty($idorder);
         if ($isOrder) {
-            print "is order\n";
             return 0;
         }
 
-        $secondsSinceLastOrder = $visitor->getVisitorColumn($this->columnName);
-        if ($secondsSinceLastOrder === null) {
-            print "no order yet\n";
+        $existingValue = $visitor->getVisitorColumn($this->columnName);
+        if ($existingValue !== null && $existingValue !== false) { // already set
+            return $existingValue;
+        }
+
+        $prevSecondsSinceLastOrder = $visitor->getPreviousVisitColumn($this->columnName);
+        if ($prevSecondsSinceLastOrder === null || $prevSecondsSinceLastOrder === false) { // no order at all for visitor
             return null;
         }
 
-        $visitsLastActionTime = Date::factory($visitor->getVisitorColumn('visit_last_action_time'))->getTimestamp();
+        $visitsLastActionTime = Date::factory($visitor->getPreviousVisitColumn('visit_first_action_time'))->getTimestamp();
         $secondsSinceLastAction = $request->getCurrentTimestamp() - $visitsLastActionTime;
-print "$secondsSinceLastOrder - $visitsLastActionTime - $secondsSinceLastAction\n";
-        return $secondsSinceLastOrder + $secondsSinceLastAction;
+
+        $secondsSinceLastOrder = $prevSecondsSinceLastOrder + $secondsSinceLastAction;
+        return $secondsSinceLastOrder;
     }
 
     /**

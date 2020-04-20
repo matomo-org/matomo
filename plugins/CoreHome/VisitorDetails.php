@@ -25,7 +25,9 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['visitEcommerceStatus']        = $this->getVisitEcommerceStatus();
         $visitor['visitEcommerceStatusIcon']    = $this->getVisitEcommerceStatusIcon();
         $visitor['daysSinceFirstVisit']         = $this->getDaysSinceFirstVisit();
+        $visitor['secondsSinceFirstVisit']      = $this->getSecondsSinceFirstVisit();
         $visitor['daysSinceLastEcommerceOrder'] = $this->getDaysSinceLastEcommerceOrder();
+        $visitor['secondsSinceLastEcommerceOrder'] = $this->getSecondsSinceLastEcommerceOrder();
         $visitor['visitDuration']               = $this->getVisitLength();
         $visitor['visitDurationPretty']         = $this->getVisitLengthPretty();
     }
@@ -65,9 +67,19 @@ class VisitorDetails extends VisitorDetailsAbstract
         return floor($this->details['visitor_seconds_since_first'] / 86400);
     }
 
+    protected function getSecondsSinceFirstVisit()
+    {
+        return $this->details['visitor_seconds_since_first'];
+    }
+
     protected function getDaysSinceLastEcommerceOrder()
     {
         return floor($this->details['visitor_seconds_since_order'] / 86400);
+    }
+
+    protected function getSecondsSinceLastEcommerceOrder()
+    {
+        return $this->details['visitor_seconds_since_order'];
     }
 
     protected function getVisitorReturning()

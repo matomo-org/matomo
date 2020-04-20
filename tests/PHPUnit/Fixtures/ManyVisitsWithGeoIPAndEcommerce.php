@@ -24,16 +24,13 @@ class ManyVisitsWithGeoIPAndEcommerce extends ManyVisitsWithGeoIP
 
         // Add a few ecommerce orders
         if (($visitorCounter % 3) == 0) {
-            print "order\n";
             $orderId = $fixtureCounter * 1000 + $visitorCounter + 1;
 
             $t->addEcommerceItem('ABCD1234', 'My Product', 'My Category', 100, 1);
             $r = $t->doTrackEcommerceOrder($orderId, 111.11, 100, 11);
             if (!$doBulk) {
-                // self::checkResponse($r);
+                self::checkResponse($r);
             }
-        } else {
-            print "no order\n";
         }
     }
 }
