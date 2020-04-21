@@ -120,7 +120,7 @@ class API extends \Piwik\Plugin\API
     protected function prefixColumns($table, $period, $suffix)
     {
         $rename = array();
-        foreach (APIVisitsSummary::getInstance()->getColumns($period) as $oldColumn) {
+        foreach ($table->getColumns() as $oldColumn) {
             $rename[$oldColumn] = $oldColumn . $suffix;
         }
         $table->filter('ReplaceColumnNames', array($rename));
