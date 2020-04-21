@@ -34,7 +34,12 @@ class Updates_3_13_5_rc1 extends PiwikUpdates
             list($year, $month) = explode('_', $date);
 
             // only add if the table is for jan 2020 or above since tables w/ that date will be most affected
-            $dateObj = Date::factory("$year-$month-01 00:00:00");
+            try {
+                $dateObj = Date::factory("$year-$month-01 00:00:00");
+            } catch (\Exception $ex) {
+                continue; // date is too old for some reason
+            }
+
             if ($dateObj->isEarlier($startOfProblem)) {
                 continue;
             }
