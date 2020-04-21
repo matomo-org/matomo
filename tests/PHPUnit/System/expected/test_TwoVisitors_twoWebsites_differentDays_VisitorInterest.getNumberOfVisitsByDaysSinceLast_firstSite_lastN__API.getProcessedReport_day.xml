@@ -8,7 +8,7 @@
 		<name>Visits by days since last visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
-		<dimension>Days since last visit</dimension>
+		<dimension>Days since first visit</dimension>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -21,7 +21,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
 	</metadata>
 	<columns>
-		<label>Days since last visit</label>
+		<label>Days since first visit</label>
 		<nb_visits>Visits</nb_visits>
 	</columns>
 	<reportData>

@@ -11,7 +11,6 @@ namespace Piwik\Plugins\VisitorInterest\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\VisitorInterest\Columns\VisitorDaysSinceLast;
-use Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 

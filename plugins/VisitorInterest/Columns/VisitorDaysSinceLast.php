@@ -16,7 +16,7 @@ class VisitorDaysSinceLast extends VisitDimension
 {
     protected $category = 'General_Visitors';
     protected $type = self::TYPE_NUMBER;
-    protected $nameSingular = 'General_DaysSinceFirstVisit';
+    protected $nameSingular = 'General_DaysSinceLastVisit';
     protected $columnName = 'visitor_seconds_since_last';
     protected $sqlSegment = 'FLOOR(log_visit.visitor_seconds_since_last / 86400)';
     protected $segmentName = 'daysSinceLastVisit';

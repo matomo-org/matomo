@@ -112,13 +112,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
-        // replace days to ... dimensions w/ segments
+        // replace days to ... dimensions w/ seconds dimensions
         foreach (['log_visit', 'log_conversion'] as $table) {
-            $migrations[] = $this->migration->db->addColumn($table, 'visitor_days_since_first', VisitorSecondsSinceFirst::COLUMN_TYPE);
-            $migrations[] = $this->migration->db->addColumn($table, 'visitor_days_since_order', VisitorSecondsSinceFirst::COLUMN_TYPE);
+            $migrations[] = $this->migration->db->addColumn($table, 'visitor_seconds_since_first', VisitorSecondsSinceFirst::COLUMN_TYPE);
+            $migrations[] = $this->migration->db->addColumn($table, 'visitor_seconds_since_order', VisitorSecondsSinceFirst::COLUMN_TYPE);
         }
 
-        $migrations[] = $this->migration->db->addColumn('log_visit', 'visitor_days_since_last', VisitorSecondsSinceLast::COLUMN_TYPE);
+        $migrations[] = $this->migration->db->addColumn('log_visit', 'visitor_seconds_since_last', VisitorSecondsSinceLast::COLUMN_TYPE);
 
         $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_visit')
             . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
