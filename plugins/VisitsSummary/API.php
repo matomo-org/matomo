@@ -43,16 +43,6 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    /**
-     * @ignore
-     */
-    public function getColumns($period)
-    {
-        $columns = $this->getCoreColumns($period);
-        $columns = array_merge($columns, array('bounce_rate', 'nb_actions_per_visit', 'avg_time_on_site'));
-        return $columns;
-    }
-
     protected function getCoreColumns($period)
     {
         $columns = array(
