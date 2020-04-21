@@ -38,8 +38,8 @@ var walk = function (dir, pattern, result) {
 };
 
 var isCorePlugin = function (pathToPlugin) {
-    // if the plugin is a .git checkout, it's not part of core
-    var gitDir = path.join(pathToPlugin, '.git');
+    // skip plugins that have special needs in core build
+    var gitDir = path.join(pathToPlugin, 'tests/travis');
     return !fs.existsSync(gitDir);
 };
 
@@ -160,7 +160,7 @@ Application.prototype.loadTestModules = function () {
         // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
         // split tests into multiple jobs.
         var numTestsFirstHalf = Math.round(mocha.suite.suites.length / 2);
-        numTestsFirstHalf -= 3;
+        numTestsFirstHalf -= 4;
         mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
             if (options['run-first-half-only'] && index < numTestsFirstHalf) {
                 return true;
