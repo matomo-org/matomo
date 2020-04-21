@@ -61,6 +61,10 @@ class Rules
             return true;
         }
 
+        if (SettingsServer::isArchivePhpTriggered() && !Rules::isBrowserTriggerEnabled() && !Rules::isBrowserArchivingAvailableForSegments()) {
+            return true;
+        }
+
         return self::isSegmentPreProcessed($idSites, $segment);
     }
 
