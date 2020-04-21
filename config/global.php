@@ -219,4 +219,8 @@ return array(
     \Piwik\CronArchive\Performance\Logger::class => DI\object()->constructorParameter('logger', DI\get('archiving.performance.logger')),
 
     \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
+
+    \Piwik\Segment\SegmentsList::class => function(){
+        return \Piwik\Segment\SegmentsList::get();
+    }
 );
