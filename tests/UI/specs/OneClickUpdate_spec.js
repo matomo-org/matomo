@@ -75,6 +75,12 @@ describe("OneClickUpdate", function () {
             }
         }
 
+        await page.waitFor('#login_form_login', { visible: true });
+
+        await page.type('#login_form_login', 'superUserLogin');
+        await page.type('#login_form_password', 'superUserPass');
+        await page.click('#login_form_submit');
+
         await page.waitFor('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
 
