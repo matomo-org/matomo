@@ -139,7 +139,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getMetricDataSummary();
 
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\API::getArchiveTableYear'));
+        $dataTable->filter('GroupBy', array('label', function($tableName) { return $this->getArchiveTableYear($tableName); }));
 
         return $dataTable;
     }
@@ -168,7 +168,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getReportDataSummary();
 
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\API::getArchiveTableYear'));
+        $dataTable->filter('GroupBy', array('label', function($tableName) { return $this->getArchiveTableYear($tableName); }));
 
         return $dataTable;
     }
@@ -263,9 +263,8 @@ class API extends \Piwik\Plugin\API
      * @param string $tableName
      *
      * @return string  the year
-     * @ignore
      */
-    public static function getArchiveTableYear($tableName)
+    private function getArchiveTableYear($tableName)
     {
         if (preg_match("/archive_(?:numeric|blob)_([0-9]+)_/", $tableName, $matches) === 0) {
             return '';
