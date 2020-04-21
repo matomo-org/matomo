@@ -107,7 +107,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $phoneNumber = self::sanitizePhoneNumber($phoneNumber);
+        $phoneNumber = $this->sanitizePhoneNumber($phoneNumber);
 
         $verificationCode = "";
         for ($i = 0; $i < self::VERIFICATION_CODE_LENGTH; $i++) {
@@ -137,11 +137,10 @@ class API extends \Piwik\Plugin\API
     /**
      * sanitize phone number
      *
-     * @ignore
      * @param string $phoneNumber
      * @return string sanitized phone number
      */
-    public static function sanitizePhoneNumber($phoneNumber)
+    private function sanitizePhoneNumber($phoneNumber)
     {
         return str_replace(' ', '', $phoneNumber);
     }

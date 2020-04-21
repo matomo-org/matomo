@@ -40,8 +40,6 @@ class MobileMessagingTest extends IntegrationTestCase
 
     /**
      * When the MultiSites plugin is not activated, the SMS content should invite the user to activate it back
-     *
-     * @group Plugins
      */
     public function testWarnUserViaSMSMultiSitesDeactivated()
     {
@@ -157,8 +155,6 @@ class MobileMessagingTest extends IntegrationTestCase
     }
 
     /**
-     * @group Plugins
-     *
      * @dataProvider getTruncateTestCases
      */
     public function testTruncate($expected, $stringToTruncate, $maximumNumberOfConcatenatedSMS, $appendedString)
@@ -183,8 +179,6 @@ class MobileMessagingTest extends IntegrationTestCase
     }
 
     /**
-     * @group Plugins
-     *
      * @dataProvider getContainsUCS2CharactersTestCases
      */
     public function testContainsUCS2Characters($expected, $stringToTest)
@@ -195,17 +189,6 @@ class MobileMessagingTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @group Plugins
-     */
-    public function testSanitizePhoneNumber()
-    {
-        $this->assertEquals('676932647', APIMobileMessaging::sanitizePhoneNumber('  6  76 93 26 47'));
-    }
-
-    /**
-     * @group Plugins
-     */
     public function testPhoneNumberIsSanitized()
     {
         $mobileMessagingAPI = APIMobileMessaging::getInstance();
@@ -226,8 +209,6 @@ class MobileMessagingTest extends IntegrationTestCase
     }
 
     /**
-     * @group Plugins
-     *
      * @dataProvider getSendReportTestCases
      */
     public function testSendReport($expectedReportContent, $expectedPhoneNumber, $expectedFrom, $reportContent, $phoneNumber, $reportSubject)
