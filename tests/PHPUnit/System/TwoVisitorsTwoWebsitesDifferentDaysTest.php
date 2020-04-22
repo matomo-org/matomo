@@ -27,11 +27,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public function testImagesIncludedInTests()
-    {
-        $this->alertWhenImagesExcludedFromTests();
-    }
-
     /**
      * @dataProvider getApiForTesting
      */
