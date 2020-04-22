@@ -8,8 +8,10 @@
 
 namespace Piwik\Plugins\MobileMessaging\tests\Integration;
 
+use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
+use Piwik\Plugins\MobileMessaging\Model;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -192,9 +194,10 @@ class MobileMessagingTest extends IntegrationTestCase
     public function testPhoneNumberIsSanitized()
     {
         $mobileMessagingAPI = APIMobileMessaging::getInstance();
+        $model = new Model();
         $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', '');
         $mobileMessagingAPI->addPhoneNumber('  6  76 93 26 47');
-        $this->assertEquals('676932647', key($mobileMessagingAPI->getPhoneNumbers()));
+        $this->assertEquals('676932647', key($model->getPhoneNumbers(Piwik::getCurrentUserLogin())));
     }
 
     /**
@@ -217,22 +220,21 @@ class MobileMessagingTest extends IntegrationTestCase
             'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
         );
 
-        $stubbedAPIMobileMessaging = $this->getMockBuilder('\\Piwik\\Plugins\\MobileMessaging\\API')
-                                          ->setMethods(array('sendSMS', 'getInstance'))
-                                          ->disableOriginalConstructor()
-                                          ->getMock();
-        $stubbedAPIMobileMessaging->expects($this->once())->method('sendSMS')->with(
+        $stubbedModel = $this->getMockBuilder(Model::class)
+            ->onlyMethods(array('sendSMS'))
+            ->getMock();
+        $stubbedModel->expects($this->once())->method('sendSMS')->with(
             $this->equalTo($expectedReportContent, 0),
             $this->equalTo($expectedPhoneNumber, 1),
             $this->equalTo($expectedFrom, 2)
         );
 
-        \Piwik\Plugins\MobileMessaging\API::setSingletonInstance($stubbedAPIMobileMessaging);
+        $stubbedMobileMessaging = $this->getMockBuilder(MobileMessaging::class)
+            ->onlyMethods(['getModel'])
+            ->getMock();
 
-        $mobileMessaging = new MobileMessaging();
-        $mobileMessaging->sendReport(MobileMessaging::MOBILE_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
-
-        \Piwik\Plugins\MobileMessaging\API::unsetInstance();
+        $stubbedMobileMessaging->expects($this->once())->method('getModel')->will($this->returnValue($stubbedModel));
+        $stubbedMobileMessaging->sendReport(MobileMessaging::MOBILE_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
     }
 
     public function provideContainerConfig()
