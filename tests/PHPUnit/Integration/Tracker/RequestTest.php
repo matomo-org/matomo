@@ -55,7 +55,7 @@ class RequestTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Custom timestamp is 86500 seconds old');
 
-        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }

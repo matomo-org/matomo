@@ -26,10 +26,6 @@ class ArchiveWebTest extends SystemTestCase
 {
     public function test_WebArchiving()
     {
-        if (self::isMysqli() && self::isTravisCI()) {
-            $this->markTestSkipped('Skipping on Mysqli as it randomly fails.');
-        }
-
         $host  = Fixture::getRootUrl();
         $token = Fixture::getTokenAuth();
 

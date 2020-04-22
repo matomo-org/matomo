@@ -111,18 +111,6 @@ abstract class SystemTestCase extends TestCase
         return getenv('MYSQL_ADAPTER') == 'MYSQLI';
     }
 
-    protected function alertWhenImagesExcludedFromTests()
-    {
-        if (!Fixture::canImagesBeIncludedInScheduledReports()) {
-            $this->markTestSkipped(
-                '(This should not occur on Travis CI server as we expect these tests to run there). Scheduled reports generated during integration tests will not contain the image graphs. ' .
-                    'For tests to generate images, use a machine with the following specifications : ' .
-                    'OS = '.Fixture::IMAGES_GENERATED_ONLY_FOR_OS.', PHP = '.Fixture::IMAGES_GENERATED_FOR_PHP .
-                    ' and GD = ' . Fixture::IMAGES_GENERATED_FOR_GD
-            );
-        }
-    }
-
     /**
      * Return 4 Api Urls for testing scheduled reports :
      * - one in HTML format with all available reports
