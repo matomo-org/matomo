@@ -53,6 +53,10 @@ class VisitorSecondsSinceLast extends VisitDimension
         }
 
         $secondsSinceLast = $currentTimestamp - $previousVisitFirstActionTime;
+        if ($secondsSinceLast < 0) { // tracking a visit in the past
+            return null;
+        }
+
         return $secondsSinceLast;
     }
 }
