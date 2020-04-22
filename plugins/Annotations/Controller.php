@@ -67,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->period = $period;
         $view->lastN = $lastN;
 
-        list($startDate, $endDate) = API::getDateRangeForPeriod($date, $period, $lastN);
+        list($startDate, $endDate) = Annotations::getDateRangeForPeriod($date, $period, $lastN);
         $view->startDate = $startDate->toString();
         $view->endDate = $endDate->toString();
 
