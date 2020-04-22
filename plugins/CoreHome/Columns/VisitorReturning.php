@@ -15,6 +15,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
+// TODO: unit test this as well
 class VisitorReturning extends VisitDimension
 {
     const IS_RETURNING_CUSTOMER = 2;
@@ -71,7 +72,15 @@ class VisitorReturning extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        // TODO: why was there so much extra logic? i a visitor isn't detected as known, why would visit count/ects/idts/etc. not be 0/null?
+        $hasOrder = $visitor->getVisitorColumn('visitor_seconds_since_order')
+            ?: $visitor->getVisitorColumn('visitor_seconds_since_order')
+            ?: $request->getParam('ec_id');
+        $isReturningCustomer = (bool) $hasOrder;
+
+        if ($isReturningCustomer) {
+            return self::IS_RETURNING_CUSTOMER;
+        }
+
         if ($visitor->isVisitorKnown()) {
             return self::IS_RETURNING;
         }
