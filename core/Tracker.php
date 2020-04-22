@@ -111,6 +111,8 @@ class Tracker
 
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
+            StaticContainer::get(LoggerInterface::class)->debug("Tracker encountered an exception: {ex}", [$e]);
+
             $handler->onException($this, $requestSet, $e);
         }
 

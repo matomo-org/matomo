@@ -217,7 +217,6 @@ class Visit implements VisitInterface
 
             $processor->recordLogs($this->visitProperties, $this->request);
         }
-
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
     }
 

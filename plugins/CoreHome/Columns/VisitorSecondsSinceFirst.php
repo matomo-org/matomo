@@ -66,6 +66,10 @@ class VisitorSecondsSinceFirst extends VisitDimension
 
         $newVisitorSecondsSinceFirst = $prevSecondsSinceFirst + $timeBetweenVisitStarts;
 
+        if ($newVisitorSecondsSinceFirst < 0) { // visit in the past
+            return 0;
+        }
+
         return $newVisitorSecondsSinceFirst;
     }
 
