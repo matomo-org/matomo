@@ -41,7 +41,7 @@ class VisitorSecondsSinceLastTest extends TestCase
         $currentTime = time();
         $lastTime = $currentTime - 100;
 
-        $value = $dim->onNewVisit($this->makeMockRequest($currentTime), $this->makeMockVisitor($isKnown = true, [], ['visit_last_action_time' => $lastTime]), null);
+        $value = $dim->onNewVisit($this->makeMockRequest($currentTime), $this->makeMockVisitor($isKnown = true, [], ['visit_first_action_time' => $lastTime]), null);
         $this->assertEquals(100, $value);
     }
 

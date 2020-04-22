@@ -83,6 +83,8 @@ class UpdaterTest extends IntegrationTestCase
         $result = Fixture::updateDatabase($force = true);
         if ($result === false) {
             throw new \Exception("Failed to force update (nothing to update).");
+        } else {
+            $this->assertTrue(true); // pass
         }
     }
 

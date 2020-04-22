@@ -26,7 +26,7 @@ class VisitsCountTest extends TestCase
         $dim = new VisitsCount();
         $visitCount = $dim->onNewVisit($request, $visitor, null);
 
-        $this->assertEquals(0, $visitCount);
+        $this->assertEquals(1, $visitCount);
     }
 
     public function test_onNewVisit_returnsIncrementedValueIfPreviousVisitCountIsPresent()

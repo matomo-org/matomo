@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\DataAccess\TableMetadata;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
@@ -120,13 +121,25 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         $migrations[] = $this->migration->db->addColumn('log_visit', 'visitor_seconds_since_last', VisitorSecondsSinceLast::COLUMN_TYPE);
 
-        $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_visit')
-            . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
+        $tableMetadata = new TableMetadata();
+        $logVisitColumns = $tableMetadata->getColumns(Common::prefixTable('log_visit'));
+        $hasDaysColumnInVisit = in_array('visitor_days_since_first', $logVisitColumns);
+
+        $logConvColumns = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
+        $hasDaysColumnInConv = in_array('visitor_days_since_first', $logConvColumns);
+
+        if ($hasDaysColumnInVisit) {
+            $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_visit')
+                . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
                     visitor_seconds_since_order = visitor_days_since_order * 86400,
                     visitor_seconds_since_last = visitor_days_since_last * 86400");
-        $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_conversion')
-            . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
+        }
+
+        if ($hasDaysColumnInConv) {
+            $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_conversion')
+                . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
                     visitor_seconds_since_order = visitor_days_since_order * 86400");
+        }
 
         return $migrations;
     }
