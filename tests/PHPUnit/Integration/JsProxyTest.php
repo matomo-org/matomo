@@ -55,9 +55,6 @@ class JsProxyTest extends IntegrationTestCase
 
     public function testPiwikPhp()
     {
-        if(IntegrationTestCase::isMysqli()) {
-            $this->markTestSkipped('Sometimes fails with 500 error');
-        }
         $curlHandle = curl_init();
         $url = $this->getStaticSrvUrl() . '/js/?idsite=1';
         curl_setopt($curlHandle, CURLOPT_URL, $url);
@@ -69,9 +66,6 @@ class JsProxyTest extends IntegrationTestCase
         $this->assertEquals(200, $responseInfo["http_code"], var_export($responseInfo, true) . $fullResponse);
         $expected = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $processed = base64_encode($fullResponse);
-        if ($expected != $processed) {
-            $this->markTestSkipped("testPiwikPhp invalid response content: " . $fullResponse);
-        }
 
         $this->assertEquals(
             $expected,
