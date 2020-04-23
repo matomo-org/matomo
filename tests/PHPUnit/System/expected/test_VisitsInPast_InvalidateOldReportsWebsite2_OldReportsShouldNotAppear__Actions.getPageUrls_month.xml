@@ -223,4 +223,15 @@
 					<exit_nb_visits>1</exit_nb_visits>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
-					<avg_tim
+					<avg_time_on_page>0</avg_time_on_page>
+					<bounce_rate>0%</bounce_rate>
+					<exit_rate>100%</exit_rate>
+					<url>http://example.org/Contact/ThankYou</url>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252FContact%252FThankYou</segment>
+				</row>
+			</subtable>
+		</row>
+	</result>
+	<result date="2010-02" />
+	<result date="2010-03" />
+</results>
