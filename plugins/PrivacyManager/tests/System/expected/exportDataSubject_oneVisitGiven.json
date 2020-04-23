@@ -46,11 +46,10 @@
             "visit_total_searches": "1",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         }
     ],
     "log_link_visit_action": [
@@ -351,9 +350,8 @@
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world200",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         }
     ],
     "log_action_log_visit_visit_exit_idaction_name": [
