@@ -8,13 +8,15 @@
  */
 namespace Piwik\Plugins\CustomVariables\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Piwik;
+use Piwik\Segment\SegmentsList;
 
 class CustomVariableName extends Base
 {
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        $this->configureSegmentsFor('Name');
+        $this->configureSegmentsFor('Name', $segmentsList, $dimensionSegmentFactory);
     }
 
     public function getName()

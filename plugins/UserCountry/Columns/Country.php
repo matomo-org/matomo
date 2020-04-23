@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -19,6 +20,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugin\Segment;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -38,11 +40,11 @@ class Country extends Base
     protected $segmentName = 'countryCode';
     protected $acceptValues = 'ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)';
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setName('UserCountry_CountryCode');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
         $segment = new Segment();
         $segment->setSegment('countryName');
@@ -64,7 +66,7 @@ class Country extends Base
         $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) use ($countryList) {
             return array_values($countryList + ['Unknown']);
         });
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 
 

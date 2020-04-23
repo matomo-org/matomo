@@ -9,11 +9,13 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
 
 class LinkVisitActionIdPages extends ActionDimension
@@ -23,7 +25,7 @@ class LinkVisitActionIdPages extends ActionDimension
     protected $nameSingular = 'General_Actions';
     protected $type = self::TYPE_NUMBER;
 
-    public function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         // empty so we don't auto-generate a segment
     }
