@@ -449,5 +449,4 @@ class DataTable_Renderer_JSONTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
 }
