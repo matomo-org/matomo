@@ -15,7 +15,6 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
-// TODO: unit test
 class VisitorSecondsSinceOrder extends VisitDimension
 {
     protected $columnName = 'visitor_seconds_since_order';
@@ -54,8 +53,13 @@ class VisitorSecondsSinceOrder extends VisitDimension
             return null;
         }
 
-        $visitsLastActionTime = Date::factory($visitor->getPreviousVisitColumn('visit_first_action_time'))->getTimestamp();
-        $secondsSinceLastAction = $request->getCurrentTimestamp() - $visitsLastActionTime;
+        $visitFirstActionTime = $visitor->getPreviousVisitColumn('visit_first_action_time');
+        if ($visitFirstActionTime === null || $visitFirstActionTime === false) { // no previous visit
+            return null;
+        }
+
+        $visitFirstActionTime = Date::factory($visitFirstActionTime)->getTimestamp();
+        $secondsSinceLastAction = $request->getCurrentTimestamp() - $visitFirstActionTime;
 
         $secondsSinceLastOrder = $prevSecondsSinceLastOrder + $secondsSinceLastAction;
         return $secondsSinceLastOrder;
