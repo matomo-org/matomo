@@ -106,7 +106,7 @@
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
     getConfigIdPageView, newVisitor, uuid, createTs
-    , currentVisitTs, lastEcommerceOrderTs,
+    , currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
@@ -3318,15 +3318,12 @@ if (typeof window.Piwik !== 'object') {
                     cookieVisitorIdValue[6] = "";
                 }
 
-                var lastEcommerceOrderTs = cookieVisitorIdValue[6];
-
                 return {
                     newVisitor: newVisitor,
                     uuid: uuid,
                     createTs: createTs,
 
                     currentVisitTs: currentVisitTs,
-                    lastEcommerceOrderTs: lastEcommerceOrderTs
                 };
             }
 
@@ -3359,8 +3356,7 @@ if (typeof window.Piwik !== 'object') {
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
                     visitorIdCookieValues.createTs + '.' +
-                    nowTs + '.' +
-                    visitorIdCookieValues.lastEcommerceOrderTs;
+                    nowTs;
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
@@ -3522,7 +3518,7 @@ if (typeof window.Piwik !== 'object') {
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
              * Sends the pageview and browser settings with every request in case of race conditions.
              */
-            function getRequest(request, customData, pluginMethod, currentEcommerceOrderTs) {
+            function getRequest(request, customData, pluginMethod) {
                 var i,
                     now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
@@ -3550,9 +3546,6 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
-                if (!isDefined(currentEcommerceOrderTs)) {
-                    currentEcommerceOrderTs = "";
-                }
 
                 // send charset if document charset is not utf-8. sometimes encoding
                 // of urls will be the same as this and not utf-8, which will cause problems
@@ -3641,7 +3634,6 @@ if (typeof window.Piwik !== 'object') {
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
                     (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
                     '&_refts=' + referralTs +
-                    (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
@@ -3733,7 +3725,6 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 // update cookies
-                cookieVisitorIdValues.lastEcommerceOrderTs = isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : cookieVisitorIdValues.lastEcommerceOrderTs;
                 setVisitorIdCookie(cookieVisitorIdValues);
                 setSessionCookie();
 
@@ -3779,7 +3770,6 @@ if (typeof window.Piwik !== 'object') {
 
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
-                    lastEcommerceOrderTs,
                     now = new Date(),
                     items = [],
                     sku,
@@ -3787,8 +3777,6 @@ if (typeof window.Piwik !== 'object') {
 
                 if (isEcommerceOrder) {
                     request += '&ec_id=' + encodeWrapper(orderId);
-                    // Record date of order in the visitor cookie
-                    lastEcommerceOrderTs = Math.round(now.getTime() / 1000);
                 }
 
                 request += '&revenue=' + grandTotal;
@@ -3839,7 +3827,7 @@ if (typeof window.Piwik !== 'object') {
                     }
                     request += '&ec_items=' + encodeWrapper(windowAlias.JSON.stringify(items));
                 }
-                request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
+                request = getRequest(request, configCustomData, 'ecommerce');
                 sendRequest(request, configTrackerPause);
 
                 if (isEcommerceOrder) {

@@ -48,6 +48,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
 * The dimension and `log_link_visit_action` column interaction_position has been renamed to pageview_position. If your database queries rely on the column you can simply replace the name.
 * The metric (avg.) page generation time has been deprecated. It is no longer possible to track it. Already tracked values will still be shown in old reports. More detailed performance metrics are now available in PagePerformance plugin.
+* The following dimensions have been removed and replaced with versions that measure seconds: visitor_days_since_first, visitor_days_since_last, visitor_days_since_order
+* The _idvc, _idts, _viewts and _ects tracker parameters are no longer used, the values are calculated server side.
+  Note: tracking these values server side means replaying log data in the past will result in inaccurate values for these dimensions.
 
 ## Matomo 3.13.5
 
