@@ -2432,7 +2432,7 @@
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "259,200",
             "visitor_seconds_since_last": "248,400",
             "visitor_seconds_since_order": "0"
@@ -3104,7 +3104,7 @@
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "259,200",
             "visitor_seconds_since_last": "255,600",
             "visitor_seconds_since_order": "0"
@@ -3156,7 +3156,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "216,000",
             "visitor_seconds_since_last": "212,400",
             "visitor_seconds_since_order": "216,000"
@@ -3208,7 +3208,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "226,800",
             "visitor_seconds_since_last": "10,800",
             "visitor_seconds_since_order": "226,800"
@@ -3260,7 +3260,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "248,400",
             "visitor_seconds_since_last": "21,600",
             "visitor_seconds_since_order": "248,400"
@@ -4092,7 +4092,7 @@
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "518,400",
             "visitor_seconds_since_last": "248,400",
             "visitor_seconds_since_order": "0"
@@ -4764,7 +4764,7 @@
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "518,400",
             "visitor_seconds_since_last": "255,600",
             "visitor_seconds_since_order": "0"
@@ -4816,7 +4816,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "475,200",
             "visitor_seconds_since_last": "212,400",
             "visitor_seconds_since_order": "216,000"
@@ -4868,7 +4868,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "6",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "486,000",
             "visitor_seconds_since_last": "10,800",
             "visitor_seconds_since_order": "226,800"
@@ -4920,7 +4920,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "7",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "507,600",
             "visitor_seconds_since_last": "21,600",
             "visitor_seconds_since_order": "248,400"
@@ -5752,7 +5752,7 @@
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "7",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "777,600",
             "visitor_seconds_since_last": "248,400",
             "visitor_seconds_since_order": "0"
@@ -6424,7 +6424,7 @@
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "7",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "777,600",
             "visitor_seconds_since_last": "255,600",
             "visitor_seconds_since_order": "0"
@@ -6476,7 +6476,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "7",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "734,400",
             "visitor_seconds_since_last": "212,400",
             "visitor_seconds_since_order": "216,000"
@@ -6528,7 +6528,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "8",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "745,200",
             "visitor_seconds_since_last": "10,800",
             "visitor_seconds_since_order": "226,800"
@@ -6580,7 +6580,7 @@
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "9",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning",
+            "visitor_returning": "Returning Customer",
             "visitor_seconds_since_first": "766,800",
             "visitor_seconds_since_last": "21,600",
             "visitor_seconds_since_order": "248,400"
@@ -30129,7 +30129,7 @@
             "server_time": "2017-01-04 14:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "3",
-            "visitor_returning": "1",
+            "visitor_returning": "2",
             "visitor_seconds_since_first": "216000",
             "visitor_seconds_since_order": "216000"
         },
@@ -30150,7 +30150,7 @@
             "server_time": "2017-01-04 17:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "4",
-            "visitor_returning": "1",
+            "visitor_returning": "2",
             "visitor_seconds_since_first": "226800",
             "visitor_seconds_since_order": "226800"
         },
@@ -30422,7 +30422,7 @@
             "server_time": "2017-01-07 14:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "5",
-            "visitor_returning": "1",
+            "visitor_returning": "2",
             "visitor_seconds_since_first": "475200",
             "visitor_seconds_since_order": "216000"
         },
@@ -30443,7 +30443,7 @@
             "server_time": "2017-01-07 17:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "6",
-            "visitor_returning": "1",
+            "visitor_returning": "2",
             "visitor_seconds_since_first": "486000",
             "visitor_seconds_since_order": "226800"
         },
@@ -30715,7 +30715,7 @@
             "server_time": "2017-01-10 14:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "7",
-            "visitor_returning": "1",
+            "visitor_returning": "2",
             "visitor_seconds_since_first": "734400",
             "visitor_seconds_since_order": "216000"
         },
@@ -30736,7 +30736,7 @@
             "server_time": "2017-01-10 17:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "8",
-            "visitor_returning": "1",
+            "visitor_returning": "2",
             "visitor_seconds_since_first": "745200",
             "visitor_seconds_since_order": "226800"
         },
