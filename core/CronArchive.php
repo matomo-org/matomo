@@ -16,8 +16,10 @@ use Matomo\Cache\Lazy;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
+use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CronArchive\SharedSiteIds;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -68,9 +70,14 @@ class CronArchive
     private $todayArchiveTimeToLive;
 
     private $allWebsites = array();
-    private $websiteIdArchiveList = [];
+
+    /**
+     * @var FixedSiteIds|SharedSiteIds
+     */
+    private $websiteIdArchiveList;
     private $requests = 0;
     private $archiveAndRespectTTL = true;
+    private $shouldArchiveAllSites = false;
 
     private $idSitesNotUsingTracker = [];
 
@@ -287,7 +294,7 @@ class CronArchive
         $websitesIds = $this->initWebsiteIds($allWebsites);
         $this->filterWebsiteIds($websitesIds, $allWebsites);
         $this->allWebsites = $websitesIds;
-        $this->websiteIdArchiveList = $websitesIds;
+        $this->websiteIdArchiveList = $this->makeWebsiteIdArchiveList($websitesIds);
 
         if ($this->archiveFilter) {
             $this->archiveFilter->logFilterInfo($this->logger);
@@ -315,6 +322,8 @@ class CronArchive
         $pid = Common::getProcessId();
 
         $timer = new Timer;
+        $siteTimer = null;
+        $siteRequests = 0;
 
         $this->logSection("START");
         $this->logger->info("Starting Matomo reports archiving...");
@@ -363,6 +372,9 @@ class CronArchive
                 Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idSite, $pid));
 
                 $this->logger->info("Start processing archives for site {idSite}.", ['idSite' => $idSite]);
+
+                $siteTimer = new Timer();
+                $siteRequests = 0;
             }
 
             // get archives to process simultaneously
@@ -431,9 +443,18 @@ class CronArchive
                 Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idSite, $pid));
 
                 $idSite = null;
-                $this->logger->debug("No more archives for site {idSite}.", ['idSite' => $idSite]);
+                $this->logger->info("Finished archiving for site {idSite}, {requests} API requests, {timer} [{processed} / {totalNum} done]", [
+                    'idSite' => $idSite,
+                    'processed' => $this->websiteIdArchiveList->getNumProcessedWebsites(),
+                    'totalNum' => $this->websiteIdArchiveList->getNumSites(),
+                    'timer' => $siteTimer,
+                    'requests' => $siteRequests,
+                ]);
+
                 continue;
             }
+
+            $siteRequests += count($archivesToProcess);
 
             $successCount = $this->launchArchivingFor($archivesToProcess);
             $numArchivesFinished += $successCount;
@@ -1020,8 +1041,6 @@ class CronArchive
             return $this->shouldArchiveSpecifiedSites;
         }
 
-        $this->logger->info("- Will process all " . count($this->allWebsites) . " websites");
-
         return $allWebsites;
     }
 
@@ -1307,6 +1326,21 @@ class CronArchive
 
     private function getNextIdSiteToArchive()
     {
-        return array_shift($this->websiteIdArchiveList);
+        return $this->websiteIdArchiveList->getNextSiteId();
+    }
+
+    private function makeWebsiteIdArchiveList(array $websitesIds)
+    {
+        if ($this->shouldArchiveAllSites) {
+            $this->logger->info("- Will process all " . count($websitesIds) . " websites");
+            return new FixedSiteIds($websitesIds);
+        }
+
+        if (!empty($this->shouldArchiveSpecifiedSites)) {
+            $this->logger->info("- Will process specified sites: " . implode(', ', $websitesIds));
+            return new FixedSiteIds($websitesIds);
+        }
+
+        return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
     }
 }

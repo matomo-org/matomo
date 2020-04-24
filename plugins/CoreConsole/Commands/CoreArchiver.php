@@ -42,6 +42,7 @@ class CoreArchiver extends ConsoleCommand
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
         $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
         $archiver->skipSegmentsToday = $input->getOption('skip-segments-today');
+        $archiver->shouldArchiveAllSites = $input->getOption('force-all-websites');
         $archiver->setUrlToPiwik($url);
 
         $archiveFilter = new CronArchive\ArchiveFilter();
