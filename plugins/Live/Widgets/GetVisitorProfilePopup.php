@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live\Widgets;
 
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Widget\WidgetConfig;
 
 class GetVisitorProfilePopup extends \Piwik\Widget\Widget
@@ -21,6 +22,8 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
         $config->setOrder(25);
 
         if (Piwik::isUserIsAnonymous()) {
+            $config->disable();
+        } elseif (PrivacyManager::shouldAnonymiseFingerprint()) {
             $config->disable();
         }
     }

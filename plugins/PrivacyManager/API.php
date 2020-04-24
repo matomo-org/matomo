@@ -120,7 +120,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false)
+    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeFingerprint = false)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -142,6 +142,10 @@ class API extends \Piwik\Plugin\API
 
         if (false !== $anonymizeOrderId) {
             $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
+        }
+
+        if (false !== $anonymizeFingerprint) {
+            $privacyConfig->anonymizeFingerprint = (bool) $anonymizeFingerprint;
         }
 
         return true;

@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\EventDispatcher;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -87,7 +88,11 @@ class VisitorRecognizer
 
         $isVisitorIdToLookup = !empty($idVisitor);
 
-        if ($isVisitorIdToLookup) {
+        if (PrivacyManager::shouldAnonymiseFingerprint()) {
+            $isVisitorIdToLookup = false;
+            $idVisitor = false;
+            Common::printDebug("Visitor ID ignored as we anonymise the fingerprint...");
+        } elseif ($isVisitorIdToLookup) {
             $visitProperties->setProperty('idvisitor', $idVisitor);
             Common::printDebug("Matching visitors with: visitorId=" . bin2hex($idVisitor) . " OR configId=" . bin2hex($configId));
         } else {

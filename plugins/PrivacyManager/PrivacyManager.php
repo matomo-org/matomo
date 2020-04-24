@@ -186,6 +186,15 @@ class PrivacyManager extends Plugin
         );
     }
 
+    public static function shouldAnonymiseFingerprint()
+    {
+        if (Plugin\Manager::getInstance()->isPluginActivated('PrivacyManager')) {
+            $config = new Config();
+            return $config->anonymizeFingerprint;
+        }
+        return false;
+    }
+
     public function isTrackerPlugin()
     {
         return true;

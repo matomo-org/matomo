@@ -309,6 +309,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $anonymizeIP["maskLength"] = $privacyConfig->ipAddressMaskLength;
         $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
         $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
+        $anonymizeIP["anonymizeFingerprint"] = $privacyConfig->anonymizeFingerprint;
         $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $privacyConfig->useAnonymizedIpForVisitEnrichment;
         if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
             $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';

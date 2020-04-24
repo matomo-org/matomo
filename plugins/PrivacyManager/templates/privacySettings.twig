@@ -56,6 +56,13 @@
              inline-help="{{ 'PrivacyManager_AnonymizeOrderIdNote'|translate|e('html_attr') }}">
         </div>
 
+        <div piwik-field uicontrol="checkbox" name="anonymizeFingerprint"
+             ng-model="anonymizeIp.anonymizeFingerprint"
+             data-title="Anonymize fingerprint"
+             value="{{ anonymizeIP.anonymizeFingerprint }}"
+             inline-help="By anonymising the fingerprint, Matomo will still generate a fingerprint. However, this fingerprint will change for each visitor every 24 hours. This means a visitor can no longer be followed over multiple days, no profile can be generated, and an individual cannot be identfied. This setting currently applies to all websites. When enabled, it will ignore any visitorId and as a result, the unique visitor metric will become inaccurate and sometimes different visitors may be falsely identified as the same visitor if the used device is similar. It will partially also disable the visitor profile in the UI. Please note that this feature does not deactivate the UserId feature.">
+        </div>
+
         <div piwik-save-button onconfirm="anonymizeIp.save()" saving="anonymizeIp.isLoading"></div>
     </div>
 </div>

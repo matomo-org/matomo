@@ -8,8 +8,10 @@
  */
 namespace Piwik\Tracker;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
@@ -118,6 +120,10 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
         if (!$this->isSameFingerprintsAcrossWebsites) {
             $configString .= $request->getIdSite();
+        }
+
+        if (PrivacyManager::shouldAnonymiseFingerprint()) {
+            $configString .= Date::now()->setTimezone(Site::getTimezoneFor($request->getIdSite()))->toString();
         }
 
         $hash = md5($configString, $raw_output = true);

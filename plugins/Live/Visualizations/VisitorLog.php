@@ -117,8 +117,13 @@ class VisitorLog extends Visualization
             $this->config->custom_parameters['totalRows'] = 10000000;
         }
 
+        $hideProfileLink = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
+        if (PrivacyManager::shouldAnonymiseFingerprint()) {
+            $hideProfileLink = 1;
+        }
+
+        $this->config->custom_parameters['hideProfileLink'] = $hideProfileLink;
         $this->config->custom_parameters['smallWidth'] = (int)(1 == Common::getRequestVar('small', 0, 'int'));
-        $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
         if (!$this->isInPopover()) {
