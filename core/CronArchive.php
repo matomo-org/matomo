@@ -77,7 +77,7 @@ class CronArchive
     private $websiteIdArchiveList;
     private $requests = 0;
     private $archiveAndRespectTTL = true;
-    private $shouldArchiveAllSites = false;
+    public $shouldArchiveAllSites = false;
 
     private $idSitesNotUsingTracker = [];
 

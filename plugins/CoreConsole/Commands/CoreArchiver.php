@@ -108,5 +108,6 @@ class CoreArchiver extends ConsoleCommand
             "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be "
             . "useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
         $command->addOption('php-cli-options', null, InputOption::VALUE_OPTIONAL, 'Forwards the PHP configuration options to the PHP CLI command. For example "-d memory_limit=8G". Note: These options are only applied if the archiver actually uses CLI and not HTTP.', $default = '');
+        $command->addOption('force-all-websites', null, InputOption::VALUE_NONE, 'Force archiving all websites.');
     }
 }
