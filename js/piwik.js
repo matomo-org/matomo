@@ -1,5 +1,5 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * JavaScript tracking client
  *
