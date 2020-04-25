@@ -545,9 +545,9 @@ class Visit implements VisitInterface
     private function setIdVisitorForExistingVisit($valuesToUpdate)
     {
         // Might update the idvisitor when it was forced or overwritten for this visit
-        if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID) {
-            $binIdVisitor = $this->visitProperties->getProperty('idvisitor');
-            $valuesToUpdate['idvisitor'] = $binIdVisitor;
+        if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID &&
+            $this->visitProperties->getProperty('idvisitor') != $this->visitProperties->getProperty('originalIdvisitor')) {
+            $valuesToUpdate['idvisitor'] = $this->visitProperties->getProperty('idvisitor');
         }
 
         return $valuesToUpdate;

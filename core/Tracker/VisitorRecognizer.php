@@ -106,6 +106,7 @@ class VisitorRecognizer
             && count($visitRow) > 0
         ) {
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
+            $visitProperties->setProperty('originalIdvisitor', $visitRow['idvisitor']);
             $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->getProperty('idvisitor')) . ",
