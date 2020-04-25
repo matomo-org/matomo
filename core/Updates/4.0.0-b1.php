@@ -109,6 +109,19 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
+        // invalidations table
+        $migrations[] = $this->migration->db->createTable('archive_invalidations', [
+            'name' => 'VARCHAR(255)',
+            'idsite' => 'INTEGER',
+            'date1' => 'DATE',
+            'date2' => 'DATE',
+            'period' => 'TINYINT UNSIGNED',
+            'ts_invalidated' => 'DATETIME',
+            'value' => 'DOUBLE NULL',
+        ], ['idarchive', 'name']);
+
+        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'date2', 'period', 'ts_invalidated'], 'index_idsite_dates_period');
+
         return $migrations;
     }
 

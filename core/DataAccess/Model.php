@@ -184,39 +184,28 @@ class Model
             $allArchivesFoundIndexed[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
         }
 
+        $now = Date::getNowTimestamp();
+
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
             foreach ($allPeriodsToInvalidate as $period) {
-                $startDate = $period->getDateStart()->getDatetime();
-                $endDate = $period->getDateEnd()->getDatetime();
-                if (!empty($allArchivesFoundIndexed[$idSite][$period->getId()][$startDate][$endDate])
-                    || ($period->getLabel() == 'range'
-                        && !$forceInvalidateNonexistantRanges)
-                ) {
-                    continue;
-                }
-
                 $idArchive = $this->allocateNewArchiveId($archiveTable);
                 $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));;
 
-                $tableName = ArchiveTableCreator::getNumericTable($period->getDateStart());
-                $dummyArchives[$tableName][] = [
+                $dummyArchives[] = [
                     'idarchive' => $idArchive,
                     'name' => $doneFlag,
                     'idsite' => $idSite,
                     'date1' => $period->getDateStart()->getDatetime(),
                     'date2' => $period->getDateEnd()->getDatetime(),
                     'period' => $period->getId(),
-                    'ts_archived' => null,
-                    'value' => ArchiveWriter::DONE_INVALIDATED,
+                    'ts_invalidated' => $now,
                 ];
             }
         }
 
-        $fields = ['idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'];
-        foreach ($dummyArchives as $tableName => $tableDummyArchives) {
-            Db\BatchInsert::tableInsertBatch($tableName, $fields, $tableDummyArchives);
-        }
+        $fields = ['idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
+        Db\BatchInsert::tableInsertBatch('archive_invalidations', $fields, $dummyArchives);
 
         return count($idArchives);
     }
