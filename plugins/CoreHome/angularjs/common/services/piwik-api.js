@@ -133,7 +133,7 @@ var hasBlockedContent = false;
             };
 
             var requestFormat = format;
-            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json2') {
+            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json') {
                 requestFormat = getParams.format;
             }
 
@@ -262,7 +262,7 @@ var hasBlockedContent = false;
             getParams.module = getParams.module || 'API';
 
             if (!getParams.format) {
-                getParams.format = 'JSON2';
+                getParams.format = 'JSON';
             }
 
             addParams(getParams);

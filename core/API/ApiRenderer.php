@@ -96,9 +96,6 @@ abstract class ApiRenderer
     protected function buildDataTableRenderer($dataTable)
     {
         $format   = self::getFormatFromClass(get_class($this));
-        if ($format == 'json2') {
-            $format = 'json';
-        }
 
         $idSite = Common::getRequestVar('idSite', 0, 'int', $this->request);
 
