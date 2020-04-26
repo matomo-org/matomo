@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -121,7 +121,7 @@ class NumberFormatter
      */
     public function formatPercentEvolution($value)
     {
-        $isPositiveEvolution = !empty($value) && ($value > 0 || $value[0] == '+');
+        $isPositiveEvolution = !empty($value) && ($value > 0 || substr($value, 0, 1) === '+');
 
         $formatted = self::formatPercent($value);
 

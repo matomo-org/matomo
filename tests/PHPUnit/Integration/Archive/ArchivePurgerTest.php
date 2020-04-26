@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration\Archive;
@@ -73,6 +73,8 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
 
         $this->assertEquals(7 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+
+        $this->checkNoDuplicateArchives();
     }
 
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringDisabled()
@@ -87,6 +89,8 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
 
         $this->assertEquals(5 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+
+        $this->checkNoDuplicateArchives();
     }
 
     public function test_purgeInvalidatedArchivesFrom_PurgesAllInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
@@ -97,6 +101,8 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
 
         $this->assertEquals(6 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+
+        $this->checkNoDuplicateArchives();
     }
 
     public function test_purgeArchivesWithPeriodRange_PurgesAllRangeArchives()
@@ -115,10 +121,10 @@ class ArchivePurgerTest extends IntegrationTestCase
         Fixture::createWebsite($this->january);
         Fixture::createWebsite($this->january);
 
-        //There are 5 rows for website #3. We leave the other two because they're before our purge threshold.
+        //There are 5 rows for website #3 and 1. We leave the other two because they're before our purge threshold.
         $deletedRowCount = $this->archivePurger->purgeDeletedSiteArchives($this->january);
-        $this->assertEquals(5 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
-        self::$fixture->assertArchivesDoNotExist(array(3, 7, 10, 13, 18), $this->january);
+        $this->assertEquals(7 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        self::$fixture->assertArchivesDoNotExist(array(3, 7, 10, 13, 19), $this->january);
     }
 
     public function test_purgeNoSegmentArchives_PurgesSegmentForAppropriateSitesOnly()
@@ -136,7 +142,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         //Archive #29 also has a deleted segment but it's before the purge threshold so it stays for now.
         $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
         $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
-        self::$fixture->assertArchivesDoNotExist(array(22, 23, 24, 28), $this->january);
+        self::$fixture->assertArchivesDoNotExist(array(24, 25, 26, 30), $this->january);
     }
 
     public function test_purgeNoSegmentArchives_preservesSingleSiteSegmentArchivesForDeletedAllSiteSegment()
@@ -152,7 +158,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         // Archives for idsite=1 should be purged, but those for idsite=2 can stay
         $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
         $this->assertEquals(2 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
-        self::$fixture->assertArchivesDoNotExist(array(20, 21), $this->january);
+        self::$fixture->assertArchivesDoNotExist(array(22, 23), $this->january);
     }
 
     public function test_purgeNoSegmentArchives_blankSegmentName()
@@ -179,6 +185,16 @@ class ArchivePurgerTest extends IntegrationTestCase
     private function disableBrowserTriggeredArchiving()
     {
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+    }
+
+    private function checkNoDuplicateArchives()
+    {
+        $duplicateRows = Db::fetchAll("SELECT idsite, date1, date2, period, name, COUNT(*) AS count FROM "
+            . ArchiveTableCreator::getNumericTable(Date::factory($this->february))
+            . " WHERE name LIKE 'done%'
+             GROUP BY idarchive, idsite, date1, date2, period, name
+             HAVING count > 1");
+        $this->assertEmpty($duplicateRows);
     }
 }
 

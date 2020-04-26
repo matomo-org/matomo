@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,11 +9,13 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 
 /**
  * Dimension for the log_visit.idvisit column. This column is added in the CREATE TABLE
@@ -30,11 +32,11 @@ class VisitId extends VisitDimension
     protected $metricId = 'visits';
     protected $type = self::TYPE_TEXT;
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setName('General_VisitId');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

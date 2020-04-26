@@ -21,12 +21,6 @@
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
-		<name>Days since last visit</name>
-		<segment>daysSinceLastVisit</segment>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visitors</category>
 		<name>Events</name>
 		<segment>events</segment>
 		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
@@ -71,6 +65,12 @@
 		<segment>visitIp</segment>
 		<acceptedValues>13.54.122.1. &lt;/code&gt;Select IP ranges with notation: &lt;code&gt;visitIp&gt;13.54.122.0;visitIp&lt;13.54.122.255</acceptedValues>
 		<permission>1</permission>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
+		<name>Visits by days since last visit</name>
+		<segment>daysSinceLastVisit</segment>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -565,12 +565,6 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
-		<name>Category (Site Search)</name>
-		<segment>siteSearchCategory</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Actions</category>
 		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
 	</row>
@@ -656,6 +650,12 @@
 		<name>Page URL</name>
 		<segment>pageUrl</segment>
 		<acceptedValues>All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Search Category</name>
+		<segment>siteSearchCategory</segment>
 	</row>
 	<row>
 		<type>dimension</type>

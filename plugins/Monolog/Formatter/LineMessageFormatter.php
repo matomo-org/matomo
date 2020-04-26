@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -81,12 +81,15 @@ class LineMessageFormatter implements FormatterInterface
             }
 
             $level = $trace[$i];
+            $levelTrace = '';
             if (isset($level['file'], $level['line'])) {
                 $levelTrace = '#' . $i . (str_replace(PIWIK_DOCUMENT_ROOT, '', $level['file'])) . '(' . $level['line'] . ')';
-            } else {
+            } elseif (isset($level['class'], $level['type'], $level['function'])) {
                 $levelTrace = '[internal function]: ' . $level['class'] . $level['type'] . $level['function'] . '()';
             }
-            $strTrace .= $levelTrace . ",";
+            if ($levelTrace) {
+                $strTrace .= $levelTrace . ",";
+            }
         }
         return trim($strTrace, ",");
     }

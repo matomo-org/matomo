@@ -11,5 +11,6 @@
 		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>20</sum_daily_nb_users>
 		
+		<segment>userId==user2</segment>
 	</row>
 </result>

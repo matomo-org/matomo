@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -25,8 +25,6 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Cleans up outdated archives
- *
- * @package Piwik\DataAccess
  */
 class Model
 {
@@ -56,7 +54,7 @@ class Model
      * @return array
      * @throws Exception
      */
-    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, array $idSites)
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable)
     {
         try {
             Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
@@ -64,17 +62,13 @@ class Model
             $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
         }
 
-        $idSites = array_map('intval', $idSites);
-
-        // select all usable archives
         $sql = "SELECT idsite, date1, date2, period, name,
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ")
-                   AND idsite IN (" . implode(',', $idSites) . ")
                    AND ts_archived IS NOT NULL
-                 GROUP BY idsite, date1, date2, period, name";
+                   AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
+              GROUP BY idsite, date1, date2, period, name";
 
         $archiveIds = array();
 

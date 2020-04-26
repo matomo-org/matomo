@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -196,6 +196,7 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function notifyTrackingFailures()
     {
+        $this->cleanupTrackingFailures();
         $failures = $this->trackingFailures->getAllFailures();
         $general = Config::getInstance()->General;
         if (!empty($failures) && $general['enable_tracking_failures_notification']) {

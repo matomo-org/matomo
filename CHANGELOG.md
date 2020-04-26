@@ -48,6 +48,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
 * The `$completed` parameter for the 'CronArchive.archiveSingleSite.finish' event has been removed. For both this event and the CronArchive.archiveSingleSite.start event, a new
   parameter is added for the process' pid. Multiple processes can now trigger this event for the same site ID.
+* The dimension and `log_link_visit_action` column interaction_position has been renamed to pageview_position. If your database queries rely on the column you can simply replace the name.
+* The metric (avg.) page generation time has been deprecated. It is no longer possible to track it. Already tracked values will still be shown in old reports. More detailed performance metrics are now available in PagePerformance plugin.
+* The signature of `Dimension::configureSegments()` has been changed. Similar to configuring Metrics it now takes two parameters `SegmentsList $segmentsList` and `DimensionSegmentFactory $dimensionSegmentFactory`.
+* The method `Dimension::addSegment()` has been removed. See new implementation of `DimensionSegmentFactory::createSegment` for a replacement
+* The signature of the event `Segment.addSegments` has been changed. It now has one parameter `SegmentsList $list`, which allows adding new segments to the list
+* The json2 API format is now removed, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`.
+
+## Matomo 3.13.5
+
+### New API
+* A new event `ArchiveProcessor.ComputeNbUniques.getIdSites` was added so plugins can change which site IDs should be included when processing the number unique visitors and users for a specific site.
 
 ## Matomo 3.13.1
 

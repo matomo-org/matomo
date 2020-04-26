@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -52,7 +52,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
 
         // $vis will start with a pageview, while $vis2 will directly start with the event
         $vis->setUrl('http://example.org/webradio');
-        $vis->setGenerationTime(333);
+        $vis->setPerformanceTimings(5, 111, 245, 145, 66, 0);
         self::checkResponse($vis->doTrackPageView('Welcome!'));
 
         $this->trackMusicPlaying($vis);
@@ -145,7 +145,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         // First a pageview so the time on page is tracked properly
         $this->moveTimeForward($vis, 30);
         $vis->setUrl('http://example.org/movies');
-        $vis->setGenerationTime(666);
+        $vis->setPerformanceTimings(0, 455, 169, 20, 99, 160);
         self::checkResponse($vis->doTrackPageView('Movie Theater'));
 
         $this->moveTimeForward($vis, 31);

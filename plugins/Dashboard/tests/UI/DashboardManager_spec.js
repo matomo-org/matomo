@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Dashboard manager screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -29,7 +29,7 @@ describe("DashboardManager", function () {
         live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)');
         await live.hover();
 
-        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
+        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors - Overview):first');
         await visitors.hover();
         await visitors.click();
 

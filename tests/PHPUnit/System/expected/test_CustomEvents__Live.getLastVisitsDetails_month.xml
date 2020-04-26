@@ -17,7 +17,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -140,7 +140,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -265,7 +265,7 @@
 				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -286,7 +286,7 @@
 				<bandwidth />
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -307,7 +307,7 @@
 				<bandwidth />
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -328,7 +328,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -349,7 +349,7 @@
 				<bandwidth />
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -369,7 +369,7 @@
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -494,7 +494,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -619,7 +619,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -646,7 +646,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -673,7 +673,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -700,7 +700,7 @@
 				<bandwidth />
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -727,7 +727,7 @@
 				<bandwidth />
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -754,7 +754,7 @@
 				<bandwidth />
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -782,7 +782,7 @@
 				<bandwidth />
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -806,12 +806,12 @@
 				
 				
 				<pageId>58</pageId>
+				<pageLoadTime>0.9s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>666</generationTimeMilliseconds>
-				<generationTime>0.67s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageLoadTimeMilliseconds>903</pageLoadTimeMilliseconds>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Movie Theater</title>
 				<subtitle>http://example.org/movies</subtitle>
 				<icon />
@@ -831,7 +831,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -852,7 +852,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -873,7 +873,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -894,7 +894,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -915,7 +915,7 @@
 				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -934,7 +934,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1058,7 +1058,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1185,7 +1185,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1314,7 +1314,7 @@
 				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1335,7 +1335,7 @@
 				<bandwidth />
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1356,7 +1356,7 @@
 				<bandwidth />
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1377,7 +1377,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1398,7 +1398,7 @@
 				<bandwidth />
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1418,7 +1418,7 @@
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1547,7 +1547,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1672,12 +1672,12 @@
 				
 				
 				<pageId>1</pageId>
+				<pageLoadTime>0.57s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>333</generationTimeMilliseconds>
-				<generationTime>0.33s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageLoadTimeMilliseconds>572</pageLoadTimeMilliseconds>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Welcome!</title>
 				<subtitle>http://example.org/webradio</subtitle>
 				<icon />
@@ -1712,7 +1712,7 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1739,7 +1739,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Event</title>
 				<subtitle>Category: &quot;CategoryTriggersGoal here', Action: &quot;This is an event without a URL&quot;</subtitle>
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1774,7 +1774,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1801,7 +1801,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Event</title>
 				<subtitle>Category: &quot;CategoryTriggersGoal here', Action: &quot;This is an event without a URL&quot;</subtitle>
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1837,7 +1837,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1864,7 +1864,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Event</title>
 				<subtitle>Category: &quot;CategoryTriggersGoal here', Action: &quot;This is an event without a URL&quot;</subtitle>
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1900,7 +1900,7 @@
 				<bandwidth />
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1927,7 +1927,7 @@
 				<bandwidth />
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1954,7 +1954,7 @@
 				<bandwidth />
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -1982,7 +1982,7 @@
 				<bandwidth />
 				<timeSpent>1620</timeSpent>
 				<timeSpentPretty>27 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -2006,12 +2006,12 @@
 				
 				
 				<pageId>12</pageId>
+				<pageLoadTime>0.9s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>666</generationTimeMilliseconds>
-				<generationTime>0.67s</generationTime>
-				<interactionPosition>2</interactionPosition>
+				<pageLoadTimeMilliseconds>903</pageLoadTimeMilliseconds>
+				<pageviewPosition>2</pageviewPosition>
 				<title>Movie Theater</title>
 				<subtitle>http://example.org/movies</subtitle>
 				<icon />
@@ -2031,7 +2031,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -2052,7 +2052,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -2073,7 +2073,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -2094,7 +2094,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -2115,7 +2115,7 @@
 				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
@@ -2134,7 +2134,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>

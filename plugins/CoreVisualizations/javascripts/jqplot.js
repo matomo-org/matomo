@@ -1,10 +1,10 @@
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * DataTable UI class for JqplotGraph.
  *
  * @link http://www.jqplot.com
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -638,8 +638,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
 
-            var graphType;
-            if (viewDataTable == 'graphEvolution') {
+            var graphType = '';
+            if (viewDataTable == 'graphEvolution' || viewDataTable == 'graphStackedBarEvolution') {
                 graphType = 'evolution';
             } else if (viewDataTable == 'graphPie') {
                 graphType = 'pie';
@@ -1016,7 +1016,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.restore();
     }
 
-    // trigger the event jqplotPiwikTickOver when the mosue enters
+    // trigger the event jqplotPiwikTickOver when the mouse enters
     // and new tick. this is used for tooltips.
     function handleMouseMove(ev, gridpos, datapos, neighbor, plot) {
         var c = plot.plugins.piwikTicks;

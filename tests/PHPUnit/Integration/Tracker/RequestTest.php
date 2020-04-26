@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -55,7 +55,7 @@ class RequestTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Custom timestamp is 86500 seconds old');
 
-        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }

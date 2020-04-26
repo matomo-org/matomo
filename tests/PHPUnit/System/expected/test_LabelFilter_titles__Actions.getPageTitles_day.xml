@@ -6,9 +6,24 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>1116</sum_time_spent>
-		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
-		<min_time_generation>0.123</min_time_generation>
-		<max_time_generation>1.233</max_time_generation>
+		<nb_hits_with_time_network>3</nb_hits_with_time_network>
+		<min_time_network>0.0000</min_time_network>
+		<max_time_network>0.1120</max_time_network>
+		<nb_hits_with_time_server>3</nb_hits_with_time_server>
+		<min_time_server>0.1960</min_time_server>
+		<max_time_server>0.2210</max_time_server>
+		<nb_hits_with_time_transfer>3</nb_hits_with_time_transfer>
+		<min_time_transfer>0.2990</min_time_transfer>
+		<max_time_transfer>0.3500</max_time_transfer>
+		<nb_hits_with_time_dom_processing>3</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.3440</min_time_dom_processing>
+		<max_time_dom_processing>0.4480</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>3</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.1650</min_time_dom_completion>
+		<max_time_dom_completion>0.2260</max_time_dom_completion>
+		<nb_hits_with_time_on_load>3</nb_hits_with_time_on_load>
+		<min_time_on_load>0.0110</min_time_on_load>
+		<max_time_on_load>0.1200</max_time_on_load>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -19,10 +34,16 @@
 		<entry_sum_visit_length>1441</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_network>0.052</avg_time_network>
+		<avg_time_server>0.209</avg_time_server>
+		<avg_time_transfer>0.328</avg_time_transfer>
+		<avg_time_dom_processing>0.394</avg_time_dom_processing>
+		<avg_time_dom_completion>0.201</avg_time_dom_completion>
+		<avg_time_on_load>0.077</avg_time_on_load>
+		<avg_page_load_time>1.261</avg_page_load_time>
 		<avg_time_on_page>279</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0.626</avg_time_generation>
 		<segment>pageTitle==incredible%2Btitle%2521%2B%2526lt%253B%2526gt%253B%252C%253B</segment>
 	</row>
 </result>

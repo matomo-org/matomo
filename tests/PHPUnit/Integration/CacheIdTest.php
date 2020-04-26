@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -133,7 +133,6 @@ class CacheIdTest extends IntegrationTestCase
             ],
 
             // must support $_GET/$_POST values being arrays and not strings
-            // because of, eg, SegmentList::findSegment
             [
                 ['idSite' => ['1', '2'], 'idSites' => ['9', '9'], 'idsite' => ['12', '13']],
                 ['idSite' => ['4', '5'], 'idSites' => ['9', '8'], 'idsite' => ['14', '15']],

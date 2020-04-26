@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -152,21 +152,17 @@ class ModelTest extends IntegrationTestCase
         )), $tokens);
     }
 
-    /**
-     * @expectedException  \Exception
-     * @expectedExceptionMessage  does not exist
-     */
     public function test_addTokenAuth_throwsException_ifUserNotExists()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('does not exist');
         $this->model->addTokenAuth('foobar', 'token', 'MyDescription', '2020-01-02 03:04:05', '2030-01-05 03:04:05');
     }
 
-    /**
-     * @expectedException  \Exception
-     * @expectedExceptionMessage  Duplicate entry
-     */
     public function test_addTokenAuth_throwsException_FailsAddingSameTwice()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Duplicate entry');
         $this->model->addTokenAuth($this->login, 'token', 'My description', '2020-01-02 03:04:05');
         $this->model->addTokenAuth($this->login, 'token', 'My duplicate', '2020-01-03 03:04:05');
     }
@@ -179,12 +175,10 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(2, $id);
     }
 
-    /**
-     * @expectedException  \Exception
-     * @expectedExceptionMessage  General_ValidatorErrorEmptyValue
-     */
     public function test_addTokenAuth_throwsException_NoDescription()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
         $this->model->addTokenAuth($this->login, 'token', '', '2020-01-02 03:04:05');
     }
 

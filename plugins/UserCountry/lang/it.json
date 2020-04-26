@@ -14,6 +14,7 @@
         "VisitLocation": "Località della Visita",
         "CurrentLocationIntro": "In base a questo provider, la tua posizione attuale è",
         "DefaultLocationProviderDesc1": "L'individuatore di posizione predefinito desume il paese di un visitatore dalla lingua utilizzata.",
+        "DefaultLocationProviderDesc2": "Questo non è molto accurato, dunque %1$sconsigliamo di installare e di utilizzare%2$sun database di geolocalizzazione%3$s.%4$s",
         "DefaultLocationProviderExplanation": "Stai utilizzando il provier di posizione predefinito ciò significa che Matomo, presumibilmente, individuerà la posizione dei visitatori in base lingua che utilizzano. %1$sLeggi qui%2$s per capire come impostare una geolocalizzazione più accurata",
         "DistinctCountries": "%s continenti differenti",
         "FromDifferentCities": "città diverse",
@@ -24,6 +25,7 @@
         "getContinentDocumentation": "Questo report mostra in quale continente si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
         "getCountryDocumentation": "Questo report mostra in quale nazione si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
         "getRegionDocumentation": "Questo report mostra in quale regione si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
+        "HowToInstallGeoIPDatabases": "Come mi procuro un database di geolocalizzazione?",
         "Latitude": "Latitudine",
         "Latitudes": "Latitudini",
         "Location": "Posizione",
@@ -32,10 +34,14 @@
         "Longitudes": "Longitudini",
         "NoDataForGeoIPReport1": "Non vi sono dati per questo report perché non vi sono dati di localizzazione disponibili o gli indirizzi IP dei visitatori non possono essere geolocalizzati.",
         "NoDataForGeoIPReport2": "Per abilitare la geolocalizzazione accurata cambia le impostazioni %1$squi%2$s e usa un %3$sdatabase a livello città%4$s.",
+        "NoProviders": "Al momento non sono disponibili altri provider di geolocalizzazione. Matomo raccomanda di usare i database %1$sdbip%2$s, ma questo richiede l'attivazione del plugin GeoIp2. (In alternativa puoi installare dal marketplace un plugin di terze parti che fornisca una sua funzione di geolocalizzazione).",
         "PluginDescription": "Restituisce la provenienza dei tuoi visitatori: nazione, regione, città e coordinate geografiche (latitudine\/longitudine).",
         "Region": "Regione",
         "SubmenuLocations": "Località",
+        "TestIPLocatorFailed": "Matomo ha provato a controllare la posizione di un indirizzo IP noto (%1$s), ma il server non ha restituito informazioni. Questo provider potrebbe non essere configurato correttamente (il database di geolocalizzazione potrebbe essere nominato in modo errato o situato nella directory sbagliata, per esempio).",
         "ToGeolocateOldVisits": "Per avere i dati di localizzazione delle tue vecchie visite, usa lo script descritto %1$squi%2$s.",
-        "WidgetLocation": "Posizione Visitatore"
+        "WidgetLocation": "Posizione Visitatore",
+        "GeoIpDbIpAccuracyNote": "Nota: i database DBIP sono gratuiti e possono essere scaricati automaticamente, ma i risultati della geolocalizzazione (in particolare i risultati delle città) non sono accurati come quelli di MaxMind. MaxMind, tuttavia, richiede la creazione di un account anche per il database gratuito. Se si desidera utilizzare il database di geolocalizzazione di MaxMind, è possibile avviare il procedimento %1$squi%2$s",
+        "MaxMindLinkExplanation": "Se stai utilizzando i database di geolocalizzazione di MaxMind e non sai già come generare l'URL di download, %1$sclicca qui per sapere come%2$s."
     }
 }

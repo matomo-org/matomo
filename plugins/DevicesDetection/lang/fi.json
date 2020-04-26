@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Tämä kävijäagentti havaittiin olevan %1$s. Tällä käyttäjäagentilla tehtäviä käyntejä ei seurata oletuksena Matomossa.",
         "BrowserEngine": "Selainmoottori",
         "BrowserEngineDocumentation": "Tämä raportti näyttää käyttäjien selaimet jaoteltuna selainmoottorien mukaan. %s Tärkein tieto verkkosivujen kehittäjille on käyttäjien selaimen taustamoottori. Tässä esitetään taustamoottorin nimi ja nimen perässä suluissa moottoria yleisimmin hyödyntävät selaimet.",
         "BrowserEngines": "Selainmoottorit",
@@ -37,6 +38,7 @@
         "PluginDescription": "Tarjoaa laajempaa tietoa käyttäjän laitteesta, kuten merkin (valmistajan), mallin (laiteversion), laitetyypin (tv, pelikonsolit, älypuhelimet, työpöytä jne.) sekä paljon muuta.",
         "SmartDisplay": "Älynäyttö",
         "Smartphone": "Älypuhelin",
+        "SmartSpeaker": "Älykaiutin",
         "PortableMediaPlayer": "Kannettava mediasoitin",
         "Devices": "Laitteet",
         "GenericDevice": "Ylenen %s",
@@ -45,7 +47,7 @@
         "Phablet": "Phabletti",
         "TV": "TV",
         "UserAgent": "Käyttäjäagentti",
-        "XVisitsFromDevices": "%1$s vierailua %2$s laitteelta",
+        "XVisitsFromDevices": "Käyntien määrä: %1$s, laitteelta tyyppiä %2$s",
         "WidgetBrowsers": "Kävijöiden selaimet",
         "WidgetBrowsersDocumentation": "Tämä raportti näyttää, mitä selaimia kävijöilläsi oli. Jokainen selaimen versio näytetään erikseen."
     }

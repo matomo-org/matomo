@@ -11,6 +11,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		
+		<segment>userId==user3</segment>
 	</row>
 	<row>
 		<label>user2</label>
@@ -23,6 +24,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		
+		<segment>userId==user2</segment>
 	</row>
 	<row>
 		<label>user1</label>
@@ -35,5 +37,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		
+		<segment>userId==user1</segment>
 	</row>
 </result>

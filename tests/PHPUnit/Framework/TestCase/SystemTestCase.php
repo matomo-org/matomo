@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -109,20 +109,6 @@ abstract class SystemTestCase extends TestCase
     public static function isMysqli()
     {
         return getenv('MYSQL_ADAPTER') == 'MYSQLI';
-    }
-
-    protected function alertWhenImagesExcludedFromTests()
-    {
-        if (!Fixture::canImagesBeIncludedInScheduledReports()) {
-            $this->markTestSkipped(
-                '(This should not occur on Travis CI server as we expect these tests to run there). Scheduled reports generated during integration tests will not contain the image graphs. ' .
-                    'For tests to generate images, use a machine with the following specifications : ' .
-                    'OS = '.Fixture::IMAGES_GENERATED_ONLY_FOR_OS.', PHP = '.Fixture::IMAGES_GENERATED_FOR_PHP .
-                    ' and GD = ' . Fixture::IMAGES_GENERATED_FOR_GD
-            );
-        } else {
-            $this->assertTrue(true);
-        }
     }
 
     /**
@@ -463,11 +449,7 @@ abstract class SystemTestCase extends TestCase
                     ProcessedMetric::class,
                 ], true);
 
-                if ($unserialized === false) {
-                    throw new \Exception("Unknown serialization error.");
-                }
-
-                $this->assertTrue(true); // make sure phpunit doesn't complain
+                self::assertTrue($unserialized !== false, "Unknown serialization error.");
             } catch (\Exception $ex) {
                 $this->comparisonFailures[] = new \Exception("Processed response in '$processedFilePath' could not be unserialized: " . $ex->getMessage());
             }

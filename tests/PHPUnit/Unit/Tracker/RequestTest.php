@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -326,32 +326,6 @@ class RequestTest extends UnitTestCase
 
         $expected = array(1, 0, 1, 0, 0, 0, 0, 0, 1, 0);
         $this->assertEquals($expected, $request->getPlugins());
-    }
-
-    public function test_getPageGenerationTime_shouldDefaultToFalse_IfNotGiven()
-    {
-        $this->assertFalse($this->request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldIgnoreAnyValueLowerThan0()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '0'));
-        $this->assertFalse($request->getPageGenerationTime());
-
-        $request = $this->buildRequest(array('gt_ms' => '-5'));
-        $this->assertFalse($request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldIgnoreAnyValueThatIsTooHigh()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '3600002'));
-        $this->assertFalse($request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldReturnAValidValue()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '1942'));
-        $this->assertSame(1942, $request->getPageGenerationTime());
     }
 
     public function test_truncateCustomVariable_shouldNotTruncateAnything_IfValueIsShortEnough()
