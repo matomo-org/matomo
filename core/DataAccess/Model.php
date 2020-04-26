@@ -160,31 +160,45 @@ class Model
         }
 
         // these should not be included in the number of invalidated archives, so we count and subtract them
-        // (we do want them to be in $allArchivesFoundIndexed, so dummy archives won't be created for them)
         $countOfInProgress = 0;
 
-        // for every archive we need to invalidate, if one does not already exist, create a dummy archive so CronArchive
-        // will pick it up
-        //
-        // we do this by first indexing every archive we found (including DONE_IN_PROGRESS ones for whom we shouldn't
-        // create new rows). then below, if one of the period/site/segment combinations isn't in this array, we insert
-        // a row
-        $allArchivesFoundIndexed = [];
+        $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
+
+        // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
+        // except for archives that are DONE_IN_PROGRESS.
+        $archivesToCreateInvalidationRowsFor = [];
+        $inProgressArchives = [];
         foreach ($archivesToInvalidate as $row) {
-            if ($row['value'] == ArchiveWriter::DONE_IN_PROGRESS) {
-                ++$countOfInProgress;
+            if ($row['name'] != $doneFlag) { // only look at done flags that equal the one we are explicitly adding
+                continue;
             }
 
-            $allArchivesFoundIndexed[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
+            if ($row['value'] == ArchiveWriter::DONE_IN_PROGRESS) {
+                ++$countOfInProgress;
+                $inProgressArchives[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
+            } else {
+                $archivesToCreateInvalidationRowsFor[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
+            }
         }
 
-        $now = Date::getNowTimestamp();
+        $now = Date::now()->getDatetime();
 
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
             foreach ($allPeriodsToInvalidate as $period) {
-                $idArchive = $this->allocateNewArchiveId($archiveTable);
-                $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));;
+                if ($period->getLabel() == 'range'
+                    && !$forceInvalidateNonexistantRanges
+                ) {
+                    continue; // range
+                }
+
+                $date1 = $period->getDateStart()->toString();
+                $date2 = $period->getDateEnd()->toString();
+                if (isset($inProgressArchives[$idSite][$period->getId()][$date1][$date2])) {
+                    continue; // in progress archive
+                }
+
+                $idArchive = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2] ?? null;
 
                 $dummyArchives[] = [
                     'idarchive' => $idArchive,

@@ -280,7 +280,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
 
         // the day, day w/ a segment, week, month & year are invalidated
-        $this->assertEquals(5, $countInvalidatedArchives);
+        $this->assertEquals(1, $countInvalidatedArchives);
+
+        $invalidatedArchiveTableEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertCount(4, $invalidatedArchiveTableEntries);
     }
 
     public function test_markArchivesAsInvalidated_InvalidatesCorrectlyWhenNoArchiveTablesExist()
@@ -293,18 +296,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             '2016-03-04',
         ], $result->processedDates);
 
-        $expectedIdArchives = [
-            '2016_03' => [
-                '1.2016-03-04.2016-03-04.1.done',
-                '1.2016-03-01.2016-03-31.3.done',
-            ],
-            '2016_02' => [
-                '1.2016-02-29.2016-03-06.2.done',
-            ],
-            '2016_01' => [
-                '1.2016-01-01.2016-12-31.4.done',
-            ],
-        ];
+        $expectedIdArchives = [];
 
         $idArchives = $this->getInvalidatedArchives();
 
@@ -313,6 +305,44 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $expectedIdArchives = array_filter($expectedIdArchives);
 
         $this->assertEquals($expectedIdArchives, $idArchives);
+
+        $expectedEntries = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2016-01-01',
+                'date2' => '2016-12-31',
+                'period' => '4',
+                'name' => 'done',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2016-02-29',
+                'date2' => '2016-03-06',
+                'period' => '2',
+                'name' => 'done',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2016-03-01',
+                'date2' => '2016-03-31',
+                'period' => '3',
+                'name' => 'done',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2016-03-04',
+                'date2' => '2016-03-04',
+                'period' => '1',
+                'name' => 'done',
+            ],
+        ];
+
+        $invalidatedArchiveTableEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedEntries, $invalidatedArchiveTableEntries);
     }
 
     /**
@@ -340,6 +370,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $expectedIdArchives = array_filter($expectedIdArchives);
 
         $this->assertEquals($expectedIdArchives, $idArchives);
+
+        $invalidatedIdArchives = $this->getInvalidatedArchiveTableEntries();
+        try {
+            $this->assertEquals($expectedInvalidatedArchives, $invalidatedIdArchives);
+        } catch (\Exception $ex) {
+            print "\n";
+            var_export($invalidatedIdArchives);
+            print "\n";
+            throw $ex;
+        }
     }
 
     public function getTestDataForMarkArchivesAsInvalidated()
@@ -361,12 +401,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-04-30.2015-04-30.1.done',
-                        '1.2015-04-27.2015-05-03.2.done',
-                        '1.2015-04-01.2015-04-30.3.done',
-                        '2.2015-04-30.2015-04-30.1.done',
-                        '2.2015-04-27.2015-05-03.2.done',
-                        '2.2015-04-01.2015-04-30.3.done',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -376,12 +410,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '2.2015-01-01.2015-12-31.4.done',
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                        '1.2015-01-01.2015-01-01.1.done',
-                        '1.2015-01-01.2015-01-31.3.done',
-                        '1.2015-01-01.2015-12-31.4.done',
-                        '2.2015-01-01.2015-01-01.1.done',
-                        '2.2015-01-01.2015-01-31.3.done',
-                        '2.2015-01-01.2015-12-31.4.done',
                     ),
                     '2015_02' => array(
                         '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
@@ -390,20 +418,34 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
                         '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-02-05.2015-02-05.1.done',
-                        '1.2015-02-02.2015-02-08.2.done',
-                        '1.2015-02-01.2015-02-28.3.done',
-                        '2.2015-02-05.2015-02-05.1.done',
-                        '2.2015-02-02.2015-02-08.2.done',
-                        '2.2015-02-01.2015-02-28.3.done',
                     ),
                     '2014_12' => [
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                         '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
-                        '1.2014-12-29.2015-01-04.2.done',
-                        '2.2014-12-29.2015-01-04.2.done',
                     ],
                 ),
+                [
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => '110', 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done'],
+                ],
             ),
 
             // month period, one site, one date, cascade = false
@@ -417,10 +459,12 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-01.2015-01-31.3.done',
-                        '1.2015-01-01.2015-12-31.4.done',
                     ),
                 ),
+                [
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done'],
+                ],
             ),
 
             // month period, one site, one date, cascade = true
@@ -433,7 +477,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(
                     '2014_12' => array(
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2014-12-29.2015-01-04.2.done',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -474,45 +517,48 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                        '1.2015-01-01.2015-01-31.3.done',
-                        '1.2015-01-01.2015-01-01.1.done',
-                        '1.2015-01-01.2015-12-31.4.done',
-                        '1.2015-01-02.2015-01-02.1.done',
-                        '1.2015-01-03.2015-01-03.1.done',
-                        '1.2015-01-04.2015-01-04.1.done',
-                        '1.2015-01-05.2015-01-11.2.done',
-                        '1.2015-01-05.2015-01-05.1.done',
-                        '1.2015-01-06.2015-01-06.1.done',
-                        '1.2015-01-07.2015-01-07.1.done',
-                        '1.2015-01-08.2015-01-08.1.done',
-                        '1.2015-01-09.2015-01-09.1.done',
-                        '1.2015-01-10.2015-01-10.1.done',
-                        '1.2015-01-11.2015-01-11.1.done',
-                        '1.2015-01-12.2015-01-18.2.done',
-                        '1.2015-01-12.2015-01-12.1.done',
-                        '1.2015-01-13.2015-01-13.1.done',
-                        '1.2015-01-14.2015-01-14.1.done',
-                        '1.2015-01-15.2015-01-15.1.done',
-                        '1.2015-01-16.2015-01-16.1.done',
-                        '1.2015-01-17.2015-01-17.1.done',
-                        '1.2015-01-18.2015-01-18.1.done',
-                        '1.2015-01-19.2015-01-25.2.done',
-                        '1.2015-01-19.2015-01-19.1.done',
-                        '1.2015-01-20.2015-01-20.1.done',
-                        '1.2015-01-21.2015-01-21.1.done',
-                        '1.2015-01-22.2015-01-22.1.done',
-                        '1.2015-01-23.2015-01-23.1.done',
-                        '1.2015-01-24.2015-01-24.1.done',
-                        '1.2015-01-25.2015-01-25.1.done',
-                        '1.2015-01-26.2015-01-26.1.done',
-                        '1.2015-01-26.2015-02-01.2.done',
-                        '1.2015-01-27.2015-01-27.1.done',
-                        '1.2015-01-28.2015-01-28.1.done',
-                        '1.2015-01-29.2015-01-29.1.done',
-                        '1.2015-01-30.2015-01-30.1.done',
-                        '1.2015-01-31.2015-01-31.1.done',
                     ),
                 ),
+                [
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '25', 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '40', 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '55', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '70', 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done'],
+                ],
             ),
 
             // week period, one site, multiple dates w/ redundant dates & periods, cascade = true
@@ -530,11 +576,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
                         '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-                        '1.2014-12-29.2015-01-04.2.done',
-                        '1.2014-12-29.2014-12-29.1.done',
-                        '1.2014-12-01.2014-12-31.3.done',
-                        '1.2014-12-30.2014-12-30.1.done',
-                        '1.2014-12-31.2014-12-31.1.done',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -551,31 +592,38 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                        '1.2015-01-01.2015-01-01.1.done',
-                        '1.2015-01-01.2015-01-31.3.done',
-                        '1.2015-01-01.2015-12-31.4.done',
-                        '1.2015-01-02.2015-01-02.1.done',
-                        '1.2015-01-03.2015-01-03.1.done',
-                        '1.2015-01-04.2015-01-04.1.done',
-                        '1.2015-01-26.2015-02-01.2.done',
-                        '1.2015-01-26.2015-01-26.1.done',
-                        '1.2015-01-27.2015-01-27.1.done',
-                        '1.2015-01-28.2015-01-28.1.done',
-                        '1.2015-01-29.2015-01-29.1.done',
-                        '1.2015-01-30.2015-01-30.1.done',
-                        '1.2015-01-31.2015-01-31.1.done',
                     ),
                     '2015_02' => array(
                         '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
-                        '1.2015-02-01.2015-02-01.1.done',
-                        '1.2015-02-01.2015-02-28.3.done',
                     ),
                     '2014_01' => [
                         '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2014-01-01.2014-12-31.4.done',
                     ],
                 ),
+                [
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-01-01', 'date2' => '2014-12-31', 'period' => '4', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-01', 'date2' => '2014-12-31', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2014-12-29', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-30', 'date2' => '2014-12-30', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-31', 'date2' => '2014-12-31', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => '1', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done'],
+                ],
             ),
 
             // range period, exact match, cascade = true
@@ -590,6 +638,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                     ),
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // range period, overlapping a range in the DB
@@ -608,6 +659,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ],
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // week period, one site, cascade = true, segment
@@ -619,7 +673,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 true,
                 array(
                     '2014_12' => array(
-                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2015_01' => array(
@@ -638,45 +691,48 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-01.2015-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-02.2015-01-02.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-03.2015-01-03.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-04.2015-01-04.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-05.2015-01-11.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-07.2015-01-07.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-08.2015-01-08.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-09.2015-01-09.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-12.2015-01-18.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-12.2015-01-12.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-13.2015-01-13.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-14.2015-01-14.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-17.2015-01-17.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-18.2015-01-18.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-19.2015-01-25.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-19.2015-01-19.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-22.2015-01-22.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-23.2015-01-23.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-24.2015-01-24.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-27.2015-01-27.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-28.2015-01-28.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-29.2015-01-29.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                 ),
+                [
+                    ['idarchive' => '106', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '1', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '106', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '16', 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '31', 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '46', 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '61', 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '76', 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                    ['idarchive' => '91', 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341'],
+                ],
             ),
 
             // removing all periods
@@ -689,17 +745,19 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(
                     '2015_01' => array(
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-01.2015-12-31.4.done',
                     ),
                     '2015_05' => array(
                         '1.2015-05-05.2015-05-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-05-04.2015-05-10.2.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-05-05.2015-05-05.1.done',
-                        '1.2015-05-04.2015-05-10.2.done',
-                        '1.2015-05-01.2015-05-31.3.done',
                     ),
                 ),
+                [
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-05-01', 'date2' => '2015-05-31', 'period' => '3', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-05-04', 'date2' => '2015-05-10', 'period' => '2', 'name' => 'done'],
+                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-05-05', 'date2' => '2015-05-05', 'period' => '1', 'name' => 'done'],
+                ],
             ),
         );
     }
@@ -764,6 +822,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                     ),
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // range period, overlapping range = a match
@@ -780,6 +841,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ),
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // range period, small range within the 2014-12-05 to 2015-01-01 range should cause it to be invalidated
@@ -792,6 +856,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
                     ),
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // range period, range that overlaps start of archived range
@@ -804,6 +871,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
                     ),
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // range period, large range that includes the smallest archived range (3 to 4 March)
@@ -817,6 +887,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ),
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // range period, doesn't match any archived ranges
@@ -826,6 +899,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 array(
                 ),
+                [
+                    // empty
+                ],
             ),
 
             // three-month range period, there's a range archive for the middle month
@@ -838,6 +914,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2014-10-15.2014-10-20.5.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                 ),
+                [
+                    // empty
+                ],
             ),
         );
     }
@@ -855,14 +934,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator->markArchivesAsInvalidated([1], ['2015-03-04,2015-03-06', '2016-04-03,2016-05-12'], 'range', null, false, true);
 
         $archives = $this->getInvalidatedArchives();
-        $this->assertEquals([
-            '2015_03' => [
-                '1.2015-03-04.2015-03-06.5.done',
-            ],
-            '2016_04' => [
-                '1.2016-04-03.2016-05-12.5.done',
-            ],
-        ], $archives);
+        $this->assertEquals([], $archives);
+
+        $expectedInvalidatedTableEntries = [
+            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-03-04', 'date2' => '2015-03-06', 'period' => '5', 'name' => 'done'],
+            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2016-04-03', 'date2' => '2016-05-12', 'period' => '5', 'name' => 'done'],
+        ];
+
+        $invalidatedTableEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidatedTableEntries, $invalidatedTableEntries);
     }
 
     private function getInvalidatedIdArchives()
@@ -960,10 +1040,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         Db::query($sql);
     }
 
-    private function getArchivesToPurgeListContents()
+    private function getInvalidatedArchiveTableEntries()
     {
-        $list = new ArchivesToPurgeDistributedList();
-        $values = $list->getAll();
-        return array_values($values);
+        return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name FROM " . Common::prefixTable('archive_invalidations'));
     }
 }
