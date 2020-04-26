@@ -112,6 +112,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         // invalidations table
         $migrations[] = $this->migration->db->createTable('archive_invalidations', [
+            'idinvalidation' => 'BIGINT(11) NOT NULL AUTO_INCREMENT',
             'idarchive' => 'idarchive INTEGER UNSIGNED NULL',
             'name' => 'VARCHAR(255) NOT NULL',
             'idsite' => 'INTEGER NOT NULL',
@@ -119,7 +120,10 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             'date2' => 'DATE NOT NULL',
             'period' => 'TINYINT UNSIGNED NOT NULL',
             'ts_invalidated' => 'DATETIME NOT NULL',
-        ], ['idsite', 'date1', 'date2', 'period', 'name']);
+            'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
+        ], ['idinvalidation']);
+
+        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'date2', 'period'], 'index_idsite_dates_period_name');
 
         return $migrations;
     }

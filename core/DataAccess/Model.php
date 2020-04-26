@@ -567,56 +567,32 @@ class Model
      * Marks an archive as in progress if it has not been already. This method must be thread
      * safe.
      */
-    public function startArchive($idSite, $date1, $date2, $period, $doneFlag)
+    public function startArchive($invalidation)
     {
-        $table = ArchiveTableCreator::getNumericTable(Date::factory($date1));
+        $table = Common::prefixTable('archive_invalidations');
 
-        // find latest idarchive
-        $sql = "SELECT ts_archived, idarchive, `value`
-            FROM `$table`
-            WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND `name` = ?
-            ORDER BY ts_archived DESC
-            LIMIT 1";
-        $bind = [$idSite, $date1, $date2, $period, $doneFlag];
-        $latestArchive = Db::fetchRow($sql, $bind);
-
-        if (empty($latestArchive)) { // should never happen
-            return null;
-        }
-
-        // if the archive is done or being processed, we don't need to do anything so we abort
-        if (!empty($latestArchive)
-            && ($latestArchive['value'] == ArchiveWriter::DONE_OK
-                || $latestArchive['value'] == ArchiveWriter::DONE_IN_PROGRESS)
-        ) {
-            return null;
-        }
-
-        // set archive value to DONE_IN_PROGRESS IF NOT SET ALREADY
-        $statement = Db::query("UPDATE `$table` SET `value` = ? WHERE idarchive = ? AND `name` = ? AND value = ?", [
-            ArchiveWriter::DONE_IN_PROGRESS,
-            $latestArchive['idarchive'],
-            $doneFlag,
-            ArchiveWriter::DONE_INVALIDATED,
+        // set archive value to in progress if not set already
+        $statement = Db::query("UPDATE `$table` SET `status` = ? WHERE idinvalidation = ? AND status = ?", [
+            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+            $invalidation['idinvalidation'],
+            ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
         ]);
 
         if ($statement->rowCount() > 0) { // if we updated, then we've marked the archive as started
-            return $latestArchive['idarchive'];
+            return true;
         }
 
         // if we didn't get anything, some process either got there first, OR
         // the archive was started previously and failed in a way that kept it's done value
         // set to DONE_IN_PROGRESS. try to acquire the lock and if acquired, archiving isn' in process
         // so we can claim it.
-        $lock = $this->archivingStatus->acquireArchiveInProgressLock($idSite, $date1, $date2, $period, $doneFlag);
+        $lock = $this->archivingStatus->acquireArchiveInProgressLock($invalidation['idsite'], $invalidation['date1'],
+            $invalidation['date2'], $invalidation['period'], $invalidation['name']);
         if (!$lock->isLocked()) {
-            return null; // we couldn't claim the lock, archive is in progress
+            return false; // we couldn't claim the lock, archive is in progress
         }
 
-        Db::query("UPDATE `$table` SET `value` = ? WHERE idarchive = ? AND `name` = ?", [
-            ArchiveWriter::DONE_IN_PROGRESS, $latestArchive['idarchive'], $doneFlag]);
-
-        return $latestArchive['idarchive'];
+        return true;
     }
 
     /**
@@ -625,73 +601,35 @@ class Model
      * @param string[] $tables
      * @param int $count
      */
-    public function getNextInvalidatedArchive($table, $idSite, $period = null, $idSites = null, $idArchivesToExclude = null)
+    public function getNextInvalidatedArchive($idSite, $idInvalidationsToExclude = null)
     {
-        $sql = "SELECT idarchive, idsite, date1, date2, period, `name`
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`
                   FROM `$table`
-                 WHERE `name` LIKE 'done%' AND `value` = ? AND idsite = ?";
+                 WHERE idsite = ?";
         $bind = [
-            ArchiveWriter::DONE_INVALIDATED,
             $idSite,
         ];
 
-        if (!empty($period)) {
-            $sql .= " AND period = ?";
-            $bind[] = $period;
+        if (!empty($idInvalidationsToExclude)) {
+            $idInvalidationsToExclude = array_map('intval', $idInvalidationsToExclude);
+            $sql .= " AND idinvalidation NOT IN (" . implode(',', $idInvalidationsToExclude) . ')';
         }
 
-        if (!empty($idSites)) {
-            $idSites = array_map('intval', $idSites);
-            $sql .= " AND idsite IN (" . implode(',', $idSites) . ")";
-        }
-
-        if (!empty($idArchivesToExclude)) {
-            $idArchivesToExclude = array_map('intval', $idArchivesToExclude);
-            $sql .= " AND idarchive NOT IN (" . implode(',', $idArchivesToExclude) . ')';
-        }
-
-        $sql .= " ORDER BY idsite ASC, period ASC, date1 ASC, idarchive DESC LIMIT 1";
+        $sql .= " ORDER BY period ASC, date1 ASC, idinvalidation ASC LIMIT 1";
 
         return Db::fetchRow($sql, $bind);
     }
 
-    public function getTablesWithInvalidatedArchives()
+    public function deleteInvalidations($archiveInvalidations)
     {
-        $tables = [];
+        $ids = array_column($archiveInvalidations, 'idinvalidation');
+        $ids = array_map('intval', $ids);
 
-        $numericTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric', $forceReload = true);
-        rsort($numericTables); // sort by date desc so we report tables in the order we want to archive them in
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "DELETE FROM `$table` WHERE idinvalidation IN (" . implode(', ', $ids) . ")";
 
-        foreach ($numericTables as $table) {
-            // we look for both invalidated and in progress archives, since it's possible an in progress archive failed and was never set to invalidated
-            $sql = "SELECT idarchive FROM `$table` WHERE name LIKE 'done%' AND `value` IN (" . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ") LIMIT 1";
-            $idArchive = Db::fetchOne($sql);
-
-            if (!empty($idArchive)) {
-                $tables[] = $table;
-            }
-        }
-
-        return $tables;
-    }
-
-    private function createDummyArchive($idSite, Period $period, Segment $segment = null)
-    {
-        $archiveTable = ArchiveTableCreator::getNumericTable($period->getDateStart());
-        $idArchive = $this->allocateNewArchiveId($archiveTable);
-        $sql = "INSERT INTO `$archiveTable` (idarchive, `name`, idsite, date1, date2, period, ts_archived, `value`)
-            VALUES (?, ?, ?, ?, ?, ?, NULL, ?)";
-
-        $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
-
-        Db::query($sql, [
-            $idArchive,
-            $doneFlag,
-            $idSite,
-            $period->getDateStart()->getDatetime(),
-            $period->getDateEnd()->getDatetime(),
-            $period->getId(), ArchiveWriter::DONE_INVALIDATED,
-        ]);
+        Db::query($sql);
     }
 
     /**

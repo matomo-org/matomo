@@ -210,7 +210,7 @@ class CronArchive
     /**
      * @var array
      */
-    private $idArchivesToExclude = [];
+    private $invalidationsToExclude = [];
 
     /**
      * Constructor.
@@ -337,9 +337,12 @@ class CronArchive
 
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
+        // invalidate once at the start no matter when the last invalidation occurred
+        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+
         // if we skip or can't process an idarchive, we want to ignore it the next time we look for an invalidated
         // archive. these IDs are stored here (using a list like this serves to keep our SQL simple).
-        $this->idArchivesToExclude = [];
+        $this->invalidationsToExclude = [];
 
         $idSite = null;
         while (true) {
@@ -380,7 +383,7 @@ class CronArchive
             // get archives to process simultaneously
             $archivesToProcess = [];
             while (count($archivesToProcess) < $countOfProcesses) {
-                $invalidatedArchive = $this->getNextInvalidatedArchive($idSite, $periodToCheckFor = null);
+                $invalidatedArchive = $this->getNextInvalidatedArchive($idSite);
                 if (empty($invalidatedArchive)) {
                     $this->logger->debug("No next invalidated archive.");
                     break;
@@ -388,44 +391,38 @@ class CronArchive
 
                 if ($invalidatedArchive['segment'] === null) {
                     $this->logger->debug("Found archive for segment that is not auto archived, ignoring.");
-                    $this->addIdArchivesToExclude($invalidatedArchive);
+                    $this->addInvalidationToExclude($invalidatedArchive);
                     continue;
                 }
 
                 if ($this->isDoneFlagForPlugin($invalidatedArchive['name'])) {
                     $this->logger->debug("Found plugin specific invalidated archive, ignoring.");
-                    $this->addIdArchivesToExclude($invalidatedArchive);
+                    $this->addInvalidationToExclude($invalidatedArchive);
                     continue;
                 }
 
                 if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
                     $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring.");
-                    $this->addIdArchivesToExclude($invalidatedArchive);
+                    $this->addInvalidationToExclude($invalidatedArchive);
+                    $this->model->deleteInvalidations([$invalidatedArchive]);
                     continue;
                 }
 
                 $reason = $this->shouldSkipArchive($invalidatedArchive);
                 if ($reason) {
                     $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
-                    $this->addIdArchivesToExclude($invalidatedArchive);
+                    $this->addInvalidationToExclude($invalidatedArchive);
                     continue;
                 }
 
-                $idArchive = $this->model->startArchive(
-                    $invalidatedArchive['idsite'],
-                    $invalidatedArchive['date1'],
-                    $invalidatedArchive['date2'],
-                    $invalidatedArchive['period'],
-                    $invalidatedArchive['name']
-                );
-
-                if (empty($idArchive)) { // another process started on this archive, pull another one
-                    $this->logger->debug("Archive {$invalidatedArchive['idarchive']} has been invalidated, but being handled by another process.");
-                    $this->addIdArchivesToExclude($invalidatedArchive);
+                $started = $this->model->startArchive($invalidatedArchive);
+                if (!$started) { // another process started on this archive, pull another one
+                    $this->logger->debug("Archive invalidation {$invalidatedArchive['idinvalidation']} is being handled by another process.");
+                    $this->addInvalidationToExclude($invalidatedArchive);
                     continue;
                 }
 
-                $this->addIdArchivesToExclude($invalidatedArchive);
+                $this->addInvalidationToExclude($invalidatedArchive);
 
                 $archivesToProcess[] = $invalidatedArchive;
             }
@@ -442,7 +439,6 @@ class CronArchive
                  */
                 Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idSite, $pid));
 
-                $idSite = null;
                 $this->logger->info("Finished archiving for site {idSite}, {requests} API requests, {timer} [{processed} / {totalNum} done]", [
                     'idSite' => $idSite,
                     'processed' => $this->websiteIdArchiveList->getNumProcessedWebsites(),
@@ -450,6 +446,8 @@ class CronArchive
                     'timer' => $siteTimer,
                     'requests' => $siteRequests,
                 ]);
+
+                $idSite = null;
 
                 continue;
             }
@@ -496,73 +494,35 @@ class CronArchive
         return false;
     }
 
-    private function getNextInvalidatedArchive($idSite, $periodToGet)
+    // TODO: remove DONE_IN_PROGRESS
+    // TODO: need to also delete rows from archive_invalidations via scheduled task, eg, if ts_invalidated is older than 3 days or something.
+    private function getNextInvalidatedArchive($idSite)
     {
-        $tables = $this->getTablesWithInvalidatedArchives($idSite);
+        $lastInvalidationTime = self::getLastInvalidationTime();
+        if (empty($lastInvalidationTime)
+            || (time() - $lastInvalidationTime) >= 3600
+        ) {
+            $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+        }
 
-        foreach ($tables as $table) {
-            $tableMonth = substr($table, strlen($table) - 7, 7);
-            $tableMonth = str_replace('_', '-', $tableMonth);
-
-            if (!isset($this->idArchivesToExclude[$tableMonth])) {
-                $this->idArchivesToExclude[$tableMonth] = [];
+        $iterations = 0;
+        while ($iterations < 100) {
+            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->invalidationsToExclude);
+            if (empty($nextArchive)) {
+                break;
             }
 
-            $nextArchive = $this->model->getNextInvalidatedArchive($table, $idSite, $periodToGet, $this->allWebsites, $this->idArchivesToExclude[$tableMonth]);
-
-            if (!empty($nextArchive)) {
-                $isCronArchivingEnabled = $this->findSegmentForArchive($nextArchive);
-                if ($isCronArchivingEnabled) {
-                    return $nextArchive;
-                }
+            $isCronArchivingEnabled = $this->findSegmentForArchive($nextArchive);
+            if ($isCronArchivingEnabled) {
+                return $nextArchive;
             }
 
-            $this->removeTableThatHasNoInvalidatedArchives($idSite, $table);
-            unset($this->idArchivesToExclude[$tableMonth]);
+            $this->invalidationsToExclude[] = $nextArchive['idinvalidation'];
+
+            ++$iterations;
         }
 
         return null;
-    }
-
-    private function getTablesWithInvalidatedArchives($idSite)
-    {
-        $cacheKey = self::TABLES_WITH_INVALIDATED_ARCHIVES . '.' . (int) $idSite;
-
-        /** @var Lazy $cache */
-        $cache = Cache::getLazyCache();
-        $result = $cache->fetch($cacheKey);
-        $result = @json_decode($result, true);
-
-        if (!is_array($result)) {
-            $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
-
-            // make sure tables are reloaded
-            ArchiveTableCreator::$tablesAlreadyInstalled = null;
-            DbHelper::getTablesInstalled(true);
-
-            $result = $this->model->getTablesWithInvalidatedArchives();
-            $cache->save($cacheKey, json_encode($result), $lifeTime = self::TABLES_WITH_INVALIDATED_ARCHIVES_TTL);
-        }
-        return $result;
-    }
-
-    private function removeTableThatHasNoInvalidatedArchives($idSite, $table)
-    {
-        $cacheKey = self::TABLES_WITH_INVALIDATED_ARCHIVES . '.' . (int) $idSite;
-
-        /** @var Lazy $cache */
-        $cache = Cache::getLazyCache();
-        $cachedTables = $cache->fetch($cacheKey);
-        $cachedTables = @json_decode($cachedTables, true);
-        if (empty($cachedTables)) {
-            return;
-        }
-
-        $index = array_search($table, $cachedTables);
-        unset($cachedTables[$index]);
-
-        $cache->save($cacheKey, json_encode($cachedTables), $lifeTime = self::TABLES_WITH_INVALIDATED_ARCHIVES_TTL);
-
     }
 
     private function launchArchivingFor($archives)
@@ -629,7 +589,7 @@ class CronArchive
 
             $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod);
 
-            // remove old archive (could also do this in archivewriter, but it's a bit simpler here)
+            // TODO: do in ArchiveWriter
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
 
             ++$successCount;
@@ -643,13 +603,12 @@ class CronArchive
     private function deleteInvalidatedArchives($archive)
     {
         $idArchives = $this->model->getInvalidatedArchiveIdsAsOldOrOlderThan($archive);
-        if (empty($idArchives)) {
-            $this->logger->info("Unexpected: found no invalidated archives to delete for archive: " . json_encode($idArchives));
-            return;
+        if (!empty($idArchives)) {
+            $date = Date::factory($archive['date1']);
+            $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), $idArchives);
         }
 
-        $date = Date::factory($archive['date1']);
-        $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), $idArchives);
+        $this->model->deleteInvalidations([$archive]);
     }
 
     private function generateUrlToArchiveFromArchiveInfo($archive)
@@ -706,7 +665,7 @@ class CronArchive
         $visits = (int) $visits;
 
         $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
-            . "{$params['date']}, segment = " . (isset($params['segment']) ? $params['segment'] : '') . ", $visits visits found. $timer");
+            . "{$params['date']}, segment = '" . (isset($params['segment']) ? $params['segment'] : '') . "', $visits visits found. $timer");
     }
 
     public function getErrors()
@@ -962,7 +921,9 @@ class CronArchive
             }
         }
 
-        Option::set(self::CRON_INVALIDATION_TIME_OPTION_NAME, time());
+        Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, name, status FROM " . Common::prefixTable('archive_invalidations'));
+
+        $this->setInvalidationTime();
 
         $this->logger->info("Done invalidating");
     }
@@ -1018,14 +979,36 @@ class CronArchive
         return !empty($idArchive);
     }
 
+    private function setInvalidationTime()
+    {
+        $cache = Cache::getTransientCache();
+
+        Option::set(self::CRON_INVALIDATION_TIME_OPTION_NAME, time());
+
+        $cacheKey = 'CronArchive.getLastInvalidationTime';
+
+        $cache->delete($cacheKey);
+    }
+
     public static function getLastInvalidationTime()
     {
+        $cache = Cache::getTransientCache();
+
+        $cacheKey = 'CronArchive.getLastInvalidationTime';
+        $result = $cache->fetch($cacheKey);
+        if ($result !== false) {
+            return $result;
+        }
+
         Option::clearCachedOption(self::CRON_INVALIDATION_TIME_OPTION_NAME);
         $result = Option::get(self::CRON_INVALIDATION_TIME_OPTION_NAME);
         if (empty($result)) {
             Option::clearCachedOption(self::OPTION_ARCHIVING_FINISHED_TS);
             $result = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         }
+
+        $cache->save($cacheKey, $result, self::TABLES_WITH_INVALIDATED_ARCHIVES_TTL);
+
         return $result;
     }
 
@@ -1318,10 +1301,16 @@ class CronArchive
         $this->archiveFilter = $archiveFilter;
     }
 
-    private function addIdArchivesToExclude(array $invalidatedArchive)
+    private function addInvalidationToExclude(array $invalidatedArchive)
     {
-        $tableMonth = substr($invalidatedArchive['date1'], 0, 7);
-        $this->idArchivesToExclude[$tableMonth][] = $invalidatedArchive['idarchive'];
+        $id = $invalidatedArchive['idinvalidation'];
+        if ($id == 12) {
+            $ex = new \Exception();
+            print $ex->getTraceAsString()."\n";
+        }
+        if (empty($this->invalidationsToExclude[$id])) {
+            $this->invalidationsToExclude[$id] = $id;
+        }
     }
 
     private function getNextIdSiteToArchive()

@@ -8,8 +8,12 @@
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Interop\Container\ContainerInterface;
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\CronArchive;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
@@ -90,6 +94,10 @@ class ArchiveCronTest extends SystemTestCase
     {
         $output = $this->runArchivePhpCron();
 
+        $expectedInvalidations = [];
+        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidations, $invalidationEntries);
+
         $this->compareArchivePhpOutputAgainstExpected($output);
 
         foreach ($this->getApiForTesting() as $testInfo) {
@@ -123,6 +131,10 @@ class ArchiveCronTest extends SystemTestCase
 
         $output = $this->runArchivePhpCron(['--force-periods' => 'range', '--force-idsites' => 1]);
 
+        $expectedInvalidations = [];
+        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidations, $invalidationEntries);
+
         $this->runApiTests(array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
             array('idSite'     => '1',
@@ -136,6 +148,10 @@ class ArchiveCronTest extends SystemTestCase
     public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
+
+        $expectedInvalidations = [];
+        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
         $this->assertRegExp('/Usage:\s*core:archive/', $output);
         self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
@@ -203,6 +219,11 @@ class ArchiveCronTest extends SystemTestCase
     public static function getPathToTestDirectory()
     {
         return dirname(__FILE__);
+    }
+
+    private function getInvalidatedArchiveTableEntries()
+    {
+        return Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, name, status FROM " . Common::prefixTable('archive_invalidations'));
     }
 }
 

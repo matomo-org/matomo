@@ -300,6 +300,7 @@ class Mysql implements SchemaInterface
             ",
 
             'archive_invalidations' => "CREATE TABLE archive_invalidations (
+                                            idinvalidation BIGINT(11) NOT NULL AUTO_INCREMENT,
                                             idarchive INTEGER UNSIGNED NULL,
                                             name VARCHAR(255) NOT NULL,
                                             idsite INTEGER UNSIGNED NOT NULL,
@@ -307,7 +308,9 @@ class Mysql implements SchemaInterface
                                             date2 DATE NOT NULL,
                                             period TINYINT UNSIGNED NOT NULL,
                                             ts_invalidated DATETIME NULL,
-                                            PRIMARY KEY(idsite, date1, date2, period, name)
+                                            status TINYINT(1) UNSIGNED DEFAULT 0,
+                                            PRIMARY KEY(idinvalidation),
+                                            INDEX index_idsite_dates_period_name(idsite, date1, date2, period, name)
                                         ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
