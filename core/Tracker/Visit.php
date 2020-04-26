@@ -546,7 +546,8 @@ class Visit implements VisitInterface
     {
         // Might update the idvisitor when it was forced or overwritten for this visit
         if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID &&
-            $this->visitProperties->getProperty('idvisitor') != $this->visitProperties->getProperty('originalIdvisitor')) {
+            (empty($this->visitProperties->getProperty('originalIdvisitor')) ||
+            bin2hex($this->visitProperties->getProperty('idvisitor')) != bin2hex($this->visitProperties->getProperty('originalIdvisitor')))) {
             $valuesToUpdate['idvisitor'] = $this->visitProperties->getProperty('idvisitor');
         }
 
