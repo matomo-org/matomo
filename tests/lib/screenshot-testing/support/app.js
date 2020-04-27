@@ -38,9 +38,15 @@ var walk = function (dir, pattern, result) {
 };
 
 var isCorePlugin = function (pathToPlugin) {
-    // skip plugins that have special needs in core build
-    var gitDir = path.join(pathToPlugin, 'tests/travis');
+    // if the plugin is a .git checkout, it's not part of core
+    var gitDir = path.join(pathToPlugin, '.git');
     return !fs.existsSync(gitDir);
+};
+
+var hasSpecialNeeds = function (pathToPlugin) {
+    // skip plugins that have special needs in core build
+    var travisDir = path.join(pathToPlugin, 'tests/travis');
+    return !!fs.existsSync(travisDir);
 };
 
 var Application = function () {
@@ -123,9 +129,15 @@ Application.prototype.loadTestModules = function () {
     // load all UI tests we can find
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
 
-    if (options.core) {
+    if (options.core && !options['store-in-ui-tests-repo']) {
         plugins = plugins.filter(function (path) {
             return isCorePlugin(path);
+        });
+    }
+
+    if (!options.plugin) {
+        plugins = plugins.filter(function (path) {
+            return !hasSpecialNeeds(path);
         });
     }
 
