@@ -1002,7 +1002,9 @@ class CronArchive
 
         Option::clearCachedOption(self::CRON_INVALIDATION_TIME_OPTION_NAME);
         $result = Option::get(self::CRON_INVALIDATION_TIME_OPTION_NAME);
+        print "1\n";
         if (empty($result)) {
+            print "2\n";
             Option::clearCachedOption(self::OPTION_ARCHIVING_FINISHED_TS);
             $result = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         }

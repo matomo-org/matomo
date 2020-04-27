@@ -130,7 +130,7 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['archiving_custom_ranges'][] = '';
 
         $output = $this->runArchivePhpCron(['--force-periods' => 'range', '--force-idsites' => 1]);
-
+print "\n$output\n";
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidations, $invalidationEntries);
@@ -148,10 +148,6 @@ class ArchiveCronTest extends SystemTestCase
     public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
-
-        $expectedInvalidations = [];
-        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
-        $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
         $this->assertRegExp('/Usage:\s*core:archive/', $output);
         self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
