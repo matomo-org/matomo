@@ -14,8 +14,6 @@ use Piwik\View;
 
 /**
  * Class ImportantVisits
- *
- * @api
  */
 class ImportantVisits extends ProfileSummaryAbstract
 {
