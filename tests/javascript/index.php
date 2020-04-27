@@ -4694,7 +4694,7 @@ if ($mysql) {
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests, via scroll. " );
 
             start();
-        }, 7000);
+        }, 13000);
 
         expected =
             [
