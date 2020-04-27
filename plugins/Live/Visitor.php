@@ -39,27 +39,6 @@ class Visitor implements VisitorInterface
             $instance->extendVisitorDetails($visitor);
         }
 
-        /**
-         * This event can be used to add any details to a visitor. The visitor's details are for instance used in
-         * API requests like 'Live.getVisitorProfile' and 'Live.getLastVisitDetails'. This can be useful for instance
-         * in case your plugin defines any visit dimensions and you want to add the value of your dimension to a user.
-         * It can be also useful if you want to enrich a visitor with custom fields based on other fields or if you
-         * want to change or remove any fields from the user.
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Live.getAllVisitorDetails', function (&visitor, $details) {
-         *         $visitor['userPoints'] = $details['actions'] + $details['events'] + $details['searches'];
-         *         unset($visitor['anyFieldYouWantToRemove']);
-         *     });
-         *
-         * @param array &visitor You can add or remove fields to the visitor array and it will reflected in the API output
-         * @param array $details The details array contains all visit dimensions (columns of log_visit table)
-         *
-         * @deprecated  will be removed in Piwik 4
-         */
-        Piwik::postEvent('Live.getAllVisitorDetails', array(&$visitor, $this->details));
-
         return $visitor;
     }
 
