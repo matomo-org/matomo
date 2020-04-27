@@ -70,27 +70,7 @@ class ActionsRequestProcessor extends RequestProcessor
 
         if (!empty($action)) { // other plugins can unset the action if they want
             $action->loadIdsFromLogActionTable();
-            if ($action instanceof ActionContent && !$request->getParam('c_i') && !$this->shouldUpdateLastVisit($visitProperties)) {
-                // impressions dont extend visit
-                $request->setMetadata('Actions', 'doNotExtendVisit', true);
-            }
         }
-    }
-    private function shouldUpdateLastVisit(VisitProperties $visitProperties)
-    {
-        $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
-        if (!empty($lastActionTime)) {
-            // it is only numeric when directly being called afterRequestProcessed() and not eg handleExistingVisit
-            // because the VisitLastActionTime dimension will overwrite the original value of the visitor.
-            // we want to make sure to work on the value from the DB
-            $lastActionTimeDate = Date::factory($lastActionTime)->addPeriod(1, 'minutes');
-            if ($lastActionTimeDate->isEarlier(Date::now())) {
-                // we update visit_last_action_time only if visit_last_action_time was updated more than 5 min ago
-                // we do not update all the time or every minute as not needed and to save resources
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -105,7 +85,11 @@ class ActionsRequestProcessor extends RequestProcessor
      */
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
-        if ($request->getMetadata('Actions', 'doNotExtendVisit')) {
+        /** @var Action $action */
+        $action = $request->getMetadata('Actions', 'action');
+
+        if (!empty($action) && $action instanceof ActionContent && !$request->getParam('c_i')) {
+            // content impressions should not extend the visit, only content interactions
             unset($valuesToUpdate['visit_last_action_time']);
             unset($valuesToUpdate['visit_total_time']);
         }
