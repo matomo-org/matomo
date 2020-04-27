@@ -58,13 +58,13 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertFalse($result);
 
         $result = $filter->filterArchive(['segment' => 'actions>=2', 'period' => 1]);
-        $this->assertEquals($result, 'segment is not in --force-idsegments');
+        $this->assertEquals('segment \'actions>=2\' is not in --force-idsegments', $result);
 
         $result = $filter->filterArchive(['segment' => 'actions>=3', 'period' => 1]);
         $this->assertFalse($result);
 
         $result = $filter->filterArchive(['segment' => 'actions>=4', 'period' => 1]);
-        $this->assertEquals($result, 'segment is not in --force-idsegments');
+        $this->assertEquals('segment \'actions>=4\' is not in --force-idsegments', $result);
     }
 
     public function test_filterArchive_filtersArchivesWhoseDateIsNotWithinArchiveDateRange()

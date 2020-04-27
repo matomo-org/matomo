@@ -152,13 +152,10 @@ class Model
             $idArchives = array_map('intval', $idArchives);
 
             $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-                . implode(',', $idArchives) . ") AND $nameCondition AND value <> " . ArchiveWriter::DONE_IN_PROGRESS;
+                . implode(',', $idArchives) . ") AND $nameCondition";
 
             Db::query($sql);
         }
-
-        // these should not be included in the number of invalidated archives, so we count and subtract them
-        $countOfInProgress = 0;
 
         $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
 
@@ -171,12 +168,7 @@ class Model
                 continue;
             }
 
-            if ($row['value'] == ArchiveWriter::DONE_IN_PROGRESS) {
-                ++$countOfInProgress;
-                $inProgressArchives[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
-            } else {
-                $archivesToCreateInvalidationRowsFor[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
-            }
+            $archivesToCreateInvalidationRowsFor[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
         }
 
         $now = Date::now()->getDatetime();
@@ -192,10 +184,6 @@ class Model
 
                 $date1 = $period->getDateStart()->toString();
                 $date2 = $period->getDateEnd()->toString();
-                if (isset($inProgressArchives[$idSite][$period->getId()][$date1][$date2])) {
-                    continue; // in progress archive
-                }
-
                 $idArchive = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2] ?? null;
 
                 $dummyArchives[] = [
@@ -294,7 +282,7 @@ class Model
     {
         $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
         $sql = "SELECT idarchive FROM `$table` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `value` IN ("
-            . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ") AND idarchive <= ?";
+            . ArchiveWriter::DONE_INVALIDATED . ") AND idarchive <= ?";
         $bind = [
             $archive['idsite'],
             $archive['period'],
@@ -442,8 +430,8 @@ class Model
      */
     public function getSitesWithInvalidatedArchive($numericTable)
     {
-        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE `name` LIKE 'done%' AND value IN ("
-            . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ")");
+        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE `name` LIKE 'done%' AND `value` IN ("
+            . ArchiveWriter::DONE_INVALIDATED . ")");
 
         $result = array();
         foreach ($rows as $row) {

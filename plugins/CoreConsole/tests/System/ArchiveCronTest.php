@@ -130,7 +130,7 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['archiving_custom_ranges'][] = '';
 
         $output = $this->runArchivePhpCron(['--force-periods' => 'range', '--force-idsites' => 1]);
-print "\n$output\n";
+
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidations, $invalidationEntries);

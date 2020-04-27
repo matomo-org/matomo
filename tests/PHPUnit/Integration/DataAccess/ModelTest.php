@@ -59,9 +59,7 @@ class ModelTest extends IntegrationTestCase
             ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 3, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
             ['date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
             ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-            ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'doneafdsadf', 'value' => ArchiveWriter::DONE_IN_PROGRESS],
             ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-            ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_IN_PROGRESS],
             ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
         ]);
 

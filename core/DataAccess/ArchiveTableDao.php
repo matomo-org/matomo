@@ -62,7 +62,7 @@ class ArchiveTableDao
               GROUP BY idsite, date1, date2, period";
 
         $rows = Db::fetchAll($sql, array(ArchiveWriter::DONE_INVALIDATED, ArchiveWriter::DONE_OK_TEMPORARY,
-            ArchiveWriter::DONE_ERROR, ArchiveWriter::DONE_IN_PROGRESS));
+            ArchiveWriter::DONE_ERROR));
 
         // index result
         $result = array();

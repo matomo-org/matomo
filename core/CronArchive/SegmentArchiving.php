@@ -140,7 +140,6 @@ class SegmentArchiving
         }
 
         $lastInvalidationTime = CronArchive::getLastInvalidationTime();
-        print "\nlast invalidation time: $lastInvalidationTime\n";
         if (!empty($lastInvalidationTime)) {
             $lastInvalidationTime = Date::factory((int) $lastInvalidationTime);
         }

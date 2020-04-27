@@ -100,7 +100,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertInvalidatedArchivesPurged($this->february);
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
 
-        $this->assertEquals(6 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(9 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
 
         $this->checkNoDuplicateArchives();
     }

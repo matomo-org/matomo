@@ -494,7 +494,6 @@ class CronArchive
         return false;
     }
 
-    // TODO: remove DONE_IN_PROGRESS
     // TODO: need to also delete rows from archive_invalidations via scheduled task, eg, if ts_invalidated is older than 3 days or something.
     private function getNextInvalidatedArchive($idSite)
     {
@@ -944,7 +943,7 @@ class CronArchive
 
             $loader = new Loader($params);
             if ($loader->canSkipThisArchive()) {
-                $this->logger->debug("  $dateStr archive can be skipped due to no visits, skipping invalidation...");
+                $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits, skipping invalidation...");
                 continue;
             }
 
@@ -1002,9 +1001,8 @@ class CronArchive
 
         Option::clearCachedOption(self::CRON_INVALIDATION_TIME_OPTION_NAME);
         $result = Option::get(self::CRON_INVALIDATION_TIME_OPTION_NAME);
-        print "1\n";
+
         if (empty($result)) {
-            print "2\n";
             Option::clearCachedOption(self::OPTION_ARCHIVING_FINISHED_TS);
             $result = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         }
@@ -1306,10 +1304,6 @@ class CronArchive
     private function addInvalidationToExclude(array $invalidatedArchive)
     {
         $id = $invalidatedArchive['idinvalidation'];
-        if ($id == 12) {
-            $ex = new \Exception();
-            print $ex->getTraceAsString()."\n";
-        }
         if (empty($this->invalidationsToExclude[$id])) {
             $this->invalidationsToExclude[$id] = $id;
         }
