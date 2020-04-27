@@ -96,11 +96,9 @@ class Model
         return $archiveIds;
     }
 
-    public function getPlaceholderArchiveIds($archiveTable, array $idSites)
+    public function getPlaceholderArchiveIds($archiveTable)
     {
-        $idSites = array_map('intval', $idSites);
-
-        $sql = "SELECT DISTINCT idarchive FROM `$archiveTable` WHERE ts_archived IS NULL AND idsite IN (" . implode(',', $idSites) . ")";
+        $sql = "SELECT DISTINCT idarchive FROM `$archiveTable` WHERE ts_archived IS NULL";
         $result = Db::fetchAll($sql);
         $result = array_column($result, 'idarchive');
         return $result;

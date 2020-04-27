@@ -299,8 +299,8 @@ class Mysql implements SchemaInterface
                                       ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
-            'archive_invalidations' => "CREATE TABLE archive_invalidations (
-                                            idinvalidation BIGINT(11) NOT NULL AUTO_INCREMENT,
+            'archive_invalidations' => "CREATE TABLE `{$prefixTables}archive_invalidations` (
+                                            idinvalidation BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                                             idarchive INTEGER UNSIGNED NULL,
                                             name VARCHAR(255) NOT NULL,
                                             idsite INTEGER UNSIGNED NOT NULL,

@@ -112,8 +112,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         // invalidations table
         $migrations[] = $this->migration->db->createTable('archive_invalidations', [
-            'idinvalidation' => 'BIGINT(11) NOT NULL AUTO_INCREMENT',
-            'idarchive' => 'idarchive INTEGER UNSIGNED NULL',
+            'idinvalidation' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
+            'idarchive' => 'INTEGER UNSIGNED NULL',
             'name' => 'VARCHAR(255) NOT NULL',
             'idsite' => 'INTEGER NOT NULL',
             'date1' => 'DATE NOT NULL',

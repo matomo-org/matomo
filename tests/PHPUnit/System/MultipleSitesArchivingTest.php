@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
@@ -35,6 +36,12 @@ class MultipleSitesArchivingTest extends SystemTestCase
 
         Piwik::addAction('CronArchive.getIdSitesNotUsingTracker', function (&$idSitesNotUsingTradker) use ($extraSite) {
             $idSitesNotUsingTradker[] = $extraSite;
+        });
+
+        Piwik::addAction('ArchiveProcessor.shouldAggregateFromRawData', function (&$shouldAggregateFromRawData, Parameters $params) {
+            if ($params->getSite()->getId() == 4) {
+                $shouldAggregateFromRawData = true;
+            }
         });
 
         Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] = 1;
