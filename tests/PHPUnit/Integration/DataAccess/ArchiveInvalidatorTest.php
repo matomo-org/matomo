@@ -349,7 +349,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
     public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives,
-                                                                                     $expectedInvalidatedArchives)
+                                                                                     $expectedInvalidatedArchives, $name = null)
     {
         $this->insertArchiveRowsForTest();
 
@@ -922,6 +922,25 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $invalidatedTableEntries = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidatedTableEntries, $invalidatedTableEntries);
+    }
+
+    public function test_markArchivesAsInvalidated_invalidatesIndividualPluginNames()
+    {
+        $idSites = [1];
+        $dates = ;
+        $period = ;
+        $segment = ;
+        $cascadeDown = ;
+        $expectedIdArchives = [
+            // TODO
+        ];
+        $expectedInvalidatedArchives = [
+            // TODO
+        ];
+        $plugin = 'ExampleTracker';
+
+        $this->test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives,
+            $expectedInvalidatedArchives, $plugin);
     }
 
     private function getInvalidatedIdArchives()

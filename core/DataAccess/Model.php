@@ -104,7 +104,8 @@ class Model
         return $result;
     }
 
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null, $forceInvalidateNonexistantRanges = false)
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
+                                               $forceInvalidateNonexistantRanges = false, $plugin = null)
     {
         // select all idarchive/name pairs we want to invalidate
         $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
@@ -136,11 +137,13 @@ class Model
             $sql .= ")";
         }
 
-        if ($segment) {
-            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
+        if (empty($name)) {
+            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
         } else {
-            $nameCondition = "name LIKE 'done%'";
+            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin($segment ?: new Segment('', []), $plugin);
         }
+
+        $nameCondition = "name LIKE '$doneFlag%'";
 
         $sql .= " AND $nameCondition";
 
@@ -157,12 +160,9 @@ class Model
             Db::query($sql);
         }
 
-        $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
-
         // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
         // except for archives that are DONE_IN_PROGRESS.
         $archivesToCreateInvalidationRowsFor = [];
-        $inProgressArchives = [];
         foreach ($archivesToInvalidate as $row) {
             if ($row['name'] != $doneFlag) { // only look at done flags that equal the one we are explicitly adding
                 continue;

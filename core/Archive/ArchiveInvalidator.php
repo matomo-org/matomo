@@ -292,7 +292,7 @@ class ArchiveInvalidator
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges, $name);
 
         foreach ($idSites as $idSite) {
             Loader::invalidateMinVisitTimeCache($idSite);
@@ -428,7 +428,8 @@ class ArchiveInvalidator
      * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false, $forceInvalidateNonexistantRanges = false)
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false,
+                                             $forceInvalidateNonexistantRanges = false, $name = null)
     {
         $idSites = array_map('intval', $idSites);
 
@@ -440,7 +441,7 @@ class ArchiveInvalidator
             $table = ArchiveTableCreator::getNumericTable($tableDateObj);
             $yearMonths[] = $tableDateObj->toString('Y_m');
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges, $name);
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
