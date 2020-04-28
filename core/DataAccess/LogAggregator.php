@@ -170,6 +170,11 @@ class LogAggregator
     private $allowUsageSegmentCache = false;
 
     /**
+     * @var \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
+     */
+    private $readerDb;
+
+    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
@@ -1182,9 +1187,12 @@ class LogAggregator
 
     public function getDb()
     {
-        /** @var ArchivingStatus $archivingStatus */
-        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-        $archivingLock = $archivingStatus->getCurrentArchivingLock();
-        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
+        if (empty($this->readerDb)) {
+            /** @var ArchivingStatus $archivingStatus */
+            $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+            $archivingLock = $archivingStatus->getCurrentArchivingLock();
+            $this->readerDb = new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
+        }
+        return $this->readerDb;
     }
 }
