@@ -100,9 +100,9 @@ class ArchiveSelector
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
-        $idArchive = isset($result['idarchive']) ? $result['idarchive'] : false;
+        $idArchives = isset($result['idarchive']) ? $result['idarchive'] : false;
 
-        return [$idArchive, $visits, $visitsConverted, true, $tsArchived];
+        return [$idArchives, $visits, $visitsConverted, true, $tsArchived];
     }
 
     /**
@@ -371,9 +371,7 @@ class ArchiveSelector
         $idArchives = [];
         foreach ($results as $row) {
             $doneFlag = $row['name'];
-            if (preg_match('/^done/', $doneFlag)
-                && !isset($idArchives[$doneFlag])
-            ) {
+            if (preg_match('/^done/', $doneFlag)) {
                 $idArchives[$doneFlag] = $row['idarchive'];
             }
         }
@@ -383,8 +381,7 @@ class ArchiveSelector
         // gather the latest visits/visits_converted metrics
         foreach ($results as $row) {
             $name = $row['name'];
-            if (!isset($archiveData[$name])
-                && in_array($name, [self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])
+            if (in_array($name, [self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])
                 && in_array($row['idarchive'], $idArchives)
             ) {
                 $archiveData[$name] = $row['value'];
@@ -406,10 +403,9 @@ class ArchiveSelector
         foreach ($results as $row) {
             $name = $row['name'];
             if (in_array($name, $requestedPluginDoneFlags)) {
-                $archiveData['idarchive'] = $row['idarchive'];
+                $archiveData['idarchive'][] = $row['idarchive'];
                 $archiveData['ts_archived'] = $row['ts_archived'];
                 $archiveData['value'] = $row['value'];
-                break;
             }
         }
 

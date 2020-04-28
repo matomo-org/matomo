@@ -19,6 +19,7 @@ use Piwik\Db;
 use Piwik\Option;
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
@@ -232,12 +233,21 @@ class ArchiveInvalidator
      * @param $period string
      * @param $segment Segment
      * @param bool $cascadeDown
+     * @param bool $forceInvalidateNonexistantRanges set true to force inserting rows for ranges in archive_invalidations
+     * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
+     *                     or a plugin name to only archive the specific plugin.
      * @return InvalidationResult
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistantRanges = false)
+                                              $forceInvalidateNonexistantRanges = false, $name = null)
     {
+        if ($name
+            && !Manager::getInstance()->isPluginActivated($name)
+        ) {
+            throw new \Exception("Plugin is not activated: '$name'");
+        }
+
         $invalidationInfo = new InvalidationResult();
 
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites

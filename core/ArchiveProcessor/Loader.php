@@ -98,9 +98,9 @@ class Loader
     {
         $this->params->setRequestedPlugin($pluginName);
 
-        list($idArchive, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchive)) { // we have a usable idarchive (it's not invalidated and it's new enough)
-            return $idArchive;
+        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
+        if (!empty($idArchives)) { // we have a usable idarchive (it's not invalidated and it's new enough)
+            return $idArchives;
         }
 
         // NOTE: this optimization helps when archiving large periods. eg, if archiving a year w/ a segment where
@@ -135,7 +135,7 @@ class Loader
         }
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return $idArchive;
+            return [$idArchive];
         }
 
         return false;

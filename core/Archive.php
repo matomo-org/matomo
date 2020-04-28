@@ -800,10 +800,12 @@ class Archive implements ArchiveQuery
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
             $this->initializeArchiveIdCache($doneFlag);
 
-            $idArchive = $archiveLoader->prepareArchive($plugin);
+            $idArchives = $archiveLoader->prepareArchive($plugin);
 
-            if ($idArchive) {
-                $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+            if (!empty($idArchives)) {
+                foreach ($idArchives as $idArchive) {
+                    $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                }
             }
         }
     }
