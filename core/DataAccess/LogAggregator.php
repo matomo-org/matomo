@@ -170,11 +170,6 @@ class LogAggregator
     private $allowUsageSegmentCache = false;
 
     /**
-     * @var \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
-     */
-    private $readerDb;
-
-    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
