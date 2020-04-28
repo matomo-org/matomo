@@ -9,12 +9,14 @@
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
@@ -57,6 +59,10 @@ class Rules
 
     public static function shouldProcessReportsAllPlugins(array $idSites, Segment $segment, $periodLabel)
     {
+        if (self::isForceArchivingSinglePlugin()) {
+            return false;
+        }
+
         if ($segment->isEmpty() && ($periodLabel != 'range' || SettingsServer::isArchivePhpTriggered())) {
             return true;
         }
@@ -317,5 +323,14 @@ class Rules
         }
 
         return $possibleValues;
+    }
+
+    public static function isForceArchivingSinglePlugin()
+    {
+        if (!SettingsServer::isArchivePhpTriggered()) {
+            return false;
+        }
+
+        return !empty($_GET['pluginOnly']) || !empty($_POST['pluginOnly']);
     }
 }

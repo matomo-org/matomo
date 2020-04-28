@@ -331,6 +331,26 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
+    public function test_forcePluginArchiving_createsPluginSpecificArchive()
+    {
+        $_GET['trigger'] = 'archivephp';
+        $_GET['pluginOnly'] = '1';
+
+        $params = new Parameters(new Site(1), Factory::build('day', '2016-02-03'), new Segment('', [1]));
+        $loader = new Loader($params);
+
+        $tracker = Fixture::getTracker(1, '2016-02-03 00:00:00');
+        $tracker->setUrl('http://example.org/abc');
+        Fixture::checkResponse($tracker->doTrackPageView('abc'));
+
+        $idArchive = $loader->prepareArchive('Actions');
+        $this->assertNotEmpty($idArchive);
+
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2016-02-03'));
+        $doneFlag = Db::fetchOne("SELECT `name` FROM `$table` WHERE `name` LIKE 'done%' AND idarchive = $idArchive");
+        $this->assertEquals('done.Actions', $doneFlag);
+    }
+
     private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)
     {
         $archiveWriter = new ArchiveWriter($params);
