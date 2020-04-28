@@ -4576,7 +4576,7 @@ if ($mysql) {
 
             // trackAllContentImpressions()
             var results = fetchTrackedRequests(token);
-            debugger;
+
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count trackAllContentImpressions requests. all content blocks should be tracked" );
 
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
