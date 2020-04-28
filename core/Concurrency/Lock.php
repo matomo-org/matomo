@@ -42,7 +42,9 @@ class Lock
         $timeBetweenReexpires = $this->defaultTtl - ($this->defaultTtl / 4);
 
         $now = Date::getNowTimestamp();
-        if ($now <= $this->lastExpireTime + $timeBetweenReexpires) {
+        if (!empty($this->lastExpireTime) &&
+            $now <= $this->lastExpireTime + $timeBetweenReexpires
+        ) {
             return false;
         }
 
@@ -120,7 +122,6 @@ class Lock
     {
         if ($ttlInSeconds > 0) {
             if ($this->lockValue) {
-                print "reexpiring\n";
                 $success = $this->backend->expireIfKeyHasValue($this->lockKey, $this->lockValue, $ttlInSeconds);
                 if (!$success) {
                     $value = $this->backend->get($this->lockKey);
