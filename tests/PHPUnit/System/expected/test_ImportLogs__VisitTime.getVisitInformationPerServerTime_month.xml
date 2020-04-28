@@ -287,23 +287,23 @@
 	</row>
 	<row>
 		<label>17</label>
-		<nb_visits>8</nb_visits>
+		<nb_visits>7</nb_visits>
 		<nb_actions>11</nb_actions>
-		<max_actions>2</max_actions>
+		<max_actions>3</max_actions>
 		<sum_visit_length>6</sum_visit_length>
-		<bounce_count>5</bounce_count>
-		<nb_visits_converted>7</nb_visits_converted>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>7</nb_conversions>
-				<nb_visits_converted>7</nb_visits_converted>
-				<revenue>35</revenue>
+				<nb_conversions>6</nb_conversions>
+				<nb_visits_converted>6</nb_visits_converted>
+				<revenue>30</revenue>
 			</row>
 		</goals>
-		<nb_conversions>7</nb_conversions>
-		<revenue>35</revenue>
+		<nb_conversions>6</nb_conversions>
+		<revenue>30</revenue>
 		<segment>visitStartServerHour==17</segment>
 	</row>
 	<row>
