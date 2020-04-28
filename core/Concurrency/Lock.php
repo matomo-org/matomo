@@ -8,11 +8,14 @@
  */
 namespace Piwik\Concurrency;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\Common;
+use Piwik\Date;
 
 class Lock
 {
     const MAX_KEY_LEN = 70;
+    const DEFAULT_TTL = 60;
 
     /**
      * @var LockBackend
@@ -24,18 +27,26 @@ class Lock
     private $lockKey   = null;
     private $lockValue = null;
     private $defaultTtl = null;
+    private $lastExpireTime = null;
 
     public function __construct(LockBackend $backend, $lockKeyStart, $defaultTtl = null)
     {
         $this->backend = $backend;
         $this->lockKeyStart = $lockKeyStart;
         $this->lockKey = $this->lockKeyStart;
-        $this->defaultTtl = $defaultTtl;
+        $this->defaultTtl = $defaultTtl ?: self::DEFAULT_TTL;
     }
 
     public function reexpireLock()
     {
-        $this->expireLock($this->defaultTtl);
+        $timeBetweenReexpires = $this->defaultTtl - ($this->defaultTtl / 4);
+
+        $now = Date::getNowTimestamp();
+        if ($now <= $this->lastExpireTime + $timeBetweenReexpires) {
+            return false;
+        }
+
+        return $this->expireLock($this->defaultTtl);
     }
 
     public function getNumberOfAcquiredLocks()
@@ -81,6 +92,8 @@ class Lock
 
         if ($locked) {
             $this->lockValue = $lockValue;
+            $this->ttlUsed = $ttlInSeconds;
+            $this->lastExpireTime = Date::getNowTimestamp();
         }
 
         return $locked;
@@ -107,6 +120,7 @@ class Lock
     {
         if ($ttlInSeconds > 0) {
             if ($this->lockValue) {
+                print "reexpiring\n";
                 $success = $this->backend->expireIfKeyHasValue($this->lockKey, $this->lockValue, $ttlInSeconds);
                 if (!$success) {
                     $value = $this->backend->get($this->lockKey);
@@ -124,6 +138,8 @@ class Lock
 
                     return false;
                 }
+
+                $this->lastExpireTime = Date::getNowTimestamp();
 
                 return true;
             } else {

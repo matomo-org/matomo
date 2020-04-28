@@ -1187,12 +1187,9 @@ class LogAggregator
 
     public function getDb()
     {
-        if (empty($this->readerDb)) {
-            /** @var ArchivingStatus $archivingStatus */
-            $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-            $archivingLock = $archivingStatus->getCurrentArchivingLock();
-            $this->readerDb = new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
-        }
-        return $this->readerDb;
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $archivingLock = $archivingStatus->getCurrentArchivingLock();
+        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
     }
 }
