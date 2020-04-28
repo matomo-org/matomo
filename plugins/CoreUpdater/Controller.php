@@ -175,11 +175,19 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickUpdatePartTwo()
     {
-        Piwik::checkUserHasSuperUserAccess();
-
         Json::sendHeaderJSON();
 
-        $messages = $this->updater->oneClickUpdatePartTwo();
+        $messages = [];
+
+        try {
+            Piwik::checkUserHasSuperUserAccess();
+            $messages = $this->updater->oneClickUpdatePartTwo();
+        } catch (UpdaterException $e) {
+            $messages = $e->getUpdateLogMessages();
+            $messages[] = $e->getMessage();
+        } catch (Exception $e) {
+            $messages[] = $e->getMessage();
+        }
 
         echo json_encode($messages);
     }
