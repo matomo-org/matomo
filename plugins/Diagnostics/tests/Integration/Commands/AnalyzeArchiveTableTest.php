@@ -41,17 +41,17 @@ Statistics for the archive_numeric_2010_03 and archive_blob_2010_03 tables:
 +-------------------------------------------+------------+---------------+-------------+---------+-----------+----------------+-------------+-------------+
 | Group                                     | # Archives | # Invalidated | # Temporary | # Error | # Segment | # Numeric Rows | # Blob Rows | # Blob Data |
 +-------------------------------------------+------------+---------------+-------------+---------+-----------+----------------+-------------+-------------+
-| week[2010-03-01 - 2010-03-07] idSite = 1  | 8          | 1             | 0           | 0       | 7         | 61             | 97          | %d        |
-| month[2010-03-01 - 2010-03-31] idSite = 1 | 8          | 1             | 0           | 0       | 7         | 61             | 97          | %d        |
-| day[2010-03-06 - 2010-03-06] idSite = 1   | 8          | 1             | 0           | 0       | 7         | 61             | 73          | %d        |
+| week[2010-03-01 - 2010-03-07] idSite = 1  | 7          | 0             | 0           | 0       | 6         | 73             | 97          | %d       |
+| month[2010-03-01 - 2010-03-31] idSite = 1 | 7          | 0             | 0           | 0       | 6         | 73             | 97          | %d       |
+| day[2010-03-06 - 2010-03-06] idSite = 1   | 7          | 0             | 0           | 0       | 6         | 73             | 73          | %d       |
 +-------------------------------------------+------------+---------------+-------------+---------+-----------+----------------+-------------+-------------+
 
-Total # Archives: 24
-Total # Invalidated Archives: 3
+Total # Archives: 21
+Total # Invalidated Archives: 0
 Total # Temporary Archives: 0
 Total # Error Archives: 0
-Total # Segment Archives: 21
-Total Size of Blobs: 26.%d K
+Total # Segment Archives: 18
+Total Size of Blobs: 31.%d K
 
 
 OUTPUT;

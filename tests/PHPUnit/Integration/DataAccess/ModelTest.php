@@ -72,7 +72,7 @@ class ModelTest extends IntegrationTestCase
             'name' => 'done',
         ]);
 
-        $this->assertEquals([3, 5, 6], $idArchives);
+        $this->assertEquals([3, 4], $idArchives);
     }
 
     /**
