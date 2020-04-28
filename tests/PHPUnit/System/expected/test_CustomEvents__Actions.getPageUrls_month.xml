@@ -32,7 +32,7 @@
 		<label>/webradio</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>1620</sum_time_spent>
+		<sum_time_spent>1499</sum_time_spent>
 		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 		<min_time_generation>0.333</min_time_generation>
 		<max_time_generation>0.333</max_time_generation>
@@ -47,7 +47,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>1620</avg_time_on_page>
+		<avg_time_on_page>1499</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.333</avg_time_generation>
