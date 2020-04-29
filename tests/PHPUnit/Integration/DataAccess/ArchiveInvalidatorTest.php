@@ -359,7 +359,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
-        $result = $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown);
+        $result = $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, false, $name);
 
         $this->assertEquals($dates, $result->processedDates);
 
@@ -927,17 +927,22 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     public function test_markArchivesAsInvalidated_invalidatesIndividualPluginNames()
     {
         $idSites = [1];
-        $dates = ;
-        $period = ;
-        $segment = ;
-        $cascadeDown = ;
+        $dates = ['2015-01-11'];
+        $period = 'day';
+        $segment = new Segment('', [1]);
+        $cascadeDown = false;
         $expectedIdArchives = [
-            // TODO
+            '2015_01' => [
+                // empty
+            ],
         ];
         $expectedInvalidatedArchives = [
-            // TODO
+            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done.ExamplePlugin'],
+            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done.ExamplePlugin'],
+            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done.ExamplePlugin'],
+            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done.ExamplePlugin'],
         ];
-        $plugin = 'ExampleTracker';
+        $plugin = 'ExamplePlugin';
 
         $this->test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives,
             $expectedInvalidatedArchives, $plugin);

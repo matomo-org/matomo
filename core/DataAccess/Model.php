@@ -137,7 +137,7 @@ class Model
             $sql .= ")";
         }
 
-        if (empty($name)) {
+        if (empty($plugin)) {
             $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
         } else {
             $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin($segment ?: new Segment('', []), $plugin);

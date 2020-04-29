@@ -259,7 +259,7 @@ class ArchiveInvalidator
 
             if (($period == 'day' || $period === false)
                 && count($dates) == 1
-                && $dates[0]->toString() == Date::factoryInTimezone('today', $tz)
+                && ((string)$dates[0]) == ((string)Date::factoryInTimezone('today', $tz))
             ) {
                 $hasMoreThanJustToday[$idSite] = false;
             }
