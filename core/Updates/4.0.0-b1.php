@@ -143,7 +143,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
 
-        // switch default charset to utf8mb4 in config if available
+        // update currently used database charset in config
         $config = Config::getInstance();
         $config->database['charset'] = DbHelper::getDefaultCharset();
         $config->forceSave();

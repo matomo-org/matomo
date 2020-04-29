@@ -257,7 +257,7 @@ class DbHelper
 
     public static function getUsedCharset()
     {
-        return Config::getInstance()->database['charset'] ?? self::getDefaultCharset();
+        return strtolower(Config::getInstance()->database['charset'] ?? self::getDefaultCharset());
     }
 
     /**

@@ -10,6 +10,7 @@
         "Sections": "Sections",
         "DatabaseReaderConnection": "Database Reader Connection",
         "DatabaseUtf8mb4CharsetRecommended": "Your database doesn't support utf8mb4 charset. This is required to be able to store four byte UTF8 characters. Unless utf8mb4 is available those characters will be replaced.",
+        "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Your database supports utf8mb4 charset, but your database tables have not been converted yet. You can do this by executing the command %1$s",
         "CronArchivingLastRunCheck": "Last Successful Archiving Completion",
         "CronArchivingHasNotRun": "Archiving has not yet run successfully.",
         "CronArchivingHasNotRunInAWhile": "Archiving last ran successfully on %1$s which is %2$s ago.",

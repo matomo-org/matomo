@@ -52,8 +52,12 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
     protected function checkUtf8mb4Charset()
     {
-        if (DbHelper::getDefaultCharset() === 'utf8mb4') {
+        if (DbHelper::getDefaultCharset() === 'utf8mb4' && DbHelper::getUsedCharset() === 'utf8mb4') {
             return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, 'UTF8mb4 charset');
+        }
+
+        if (DbHelper::getDefaultCharset() === 'utf8mb4') {
+            return new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' . $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetAvailableButNotUsed', '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>'));
         }
 
         return new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' . $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetRecommended'));
