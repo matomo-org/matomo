@@ -111,13 +111,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         // Convert all tables to utf8mb4 if it is available
         if ('utf8mb4' === DbHelper::getDefaultCharset()) {
-            $allTables = DbHelper::getTablesInstalled();
-            $database = Config::getInstance()->database['dbname'];
-
-            $migrations[] = $this->migration->db->sql("ALTER DATABASE $database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;");
-
-            foreach ($allTables as $table) {
-                $migrations[] = $this->migration->db->sql("ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            foreach (DbHelper::getUtf8mb4ConversionQueries() as $utf8mb4ConversionQuery) {
+                $migrations[] = $this->migration->db->sql($utf8mb4ConversionQuery);
             }
         }
 
