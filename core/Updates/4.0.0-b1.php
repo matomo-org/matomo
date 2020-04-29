@@ -95,20 +95,24 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
         }
 
+        // Prepare all installed tables for utf8mb4 conversions. e.g. make some indexed fields smaller so they don't exceed the maximum key length
+        $allTables = DbHelper::getTablesInstalled();
+
+        $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
+        $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
+        $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
+
+        foreach ($allTables as $table) {
+            if (preg_match('/archive_/', $table) == 1) {
+                $tableNameUnprefixed = Common::unprefixTable($table);
+                $migrations[] = $this->migration->db->changeColumnType($tableNameUnprefixed, 'name', 'VARCHAR(190)');
+            }
+        }
+
+        // Convert all tables to utf8mb4 if it is available
         if ('utf8mb4' === DbHelper::getDefaultCharset()) {
             $allTables = DbHelper::getTablesInstalled();
             $database = Config::getInstance()->database['dbname'];
-
-            $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
-            $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
-            $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
-
-            foreach ($allTables as $table) {
-                if (preg_match('/archive_/', $table) == 1) {
-                    $tableNameUnprefixed = Common::unprefixTable($table);
-                    $migrations[] = $this->migration->db->changeColumnType($tableNameUnprefixed, 'name', 'VARCHAR(190)');
-                }
-            }
 
             $migrations[] = $this->migration->db->sql("ALTER DATABASE $database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;");
 
