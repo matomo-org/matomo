@@ -365,52 +365,21 @@ class ArchiveSelector
      */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
     {
-        // find latest idarchive for each done flag
-        $idArchives = [];
-        foreach ($results as $row) {
-            $doneFlag = $row['name'];
-            if (preg_match('/^done/', $doneFlag)
-                && !isset($idArchives[$doneFlag])
-            ) {
-                $idArchives[$doneFlag] = $row['idarchive'];
+        foreach ($results as &$result) {
+            if (in_array($result['name'], $requestedPluginDoneFlags)) {
+                if (empty($result[self::NB_VISITS_RECORD_LOOKED_UP])) {
+                    $result[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
+                }
+                if (empty($result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])) {
+                    $result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] = 0;
+                }
+                return $result;
             }
         }
 
-        $archiveData = [];
-
-        // gather the latest visits/visits_converted metrics
-        foreach ($results as $row) {
-            $name = $row['name'];
-            if (!isset($archiveData[$name])
-                && in_array($name, [self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])
-                && in_array($row['idarchive'], $idArchives)
-            ) {
-                $archiveData[$name] = $row['value'];
-            }
-        }
-
-        // if an  archive is found, but the metric data isn't found, we set the value to 0,
-        // so it won't get returned as false. this is here because the code used to do this before this change
-        // and we didn't want to introduce any side effects. it may be removable in the future.
-        foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
-            if (!empty($idArchives)
-                && !isset($archiveData[$metric])
-            ) {
-                $archiveData[$metric] = 0;
-            }
-        }
-
-        // set the idarchive & ts_archived for the archive we're looking for
-        foreach ($results as $row) {
-            $name = $row['name'];
-            if (in_array($name, $requestedPluginDoneFlags)) {
-                $archiveData['idarchive'] = $row['idarchive'];
-                $archiveData['ts_archived'] = $row['ts_archived'];
-                $archiveData['value'] = $row['value'];
-                break;
-            }
-        }
-
-        return $archiveData;
+        return array(
+            self::NB_VISITS_RECORD_LOOKED_UP => 0,
+            self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => 0
+        );
     }
 }

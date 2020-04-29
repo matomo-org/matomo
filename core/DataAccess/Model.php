@@ -220,21 +220,22 @@ class Model
 
         $timeStampWhere = '';
         if ($minDatetimeIsoArchiveProcessedUTC) {
-            $timeStampWhere = " AND ts_archived >= ? ";
+            $timeStampWhere = " AND arc1.ts_archived >= ? ";
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
         // NOTE: we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
-        $sqlQuery = "SELECT idarchive, value, name, ts_archived, date1 as startDate FROM $numericTable
-                     WHERE idsite = ?
-                         AND date1 = ?
-                         AND date2 = ?
-                         AND period = ?
-                         AND ( ($sqlWhereArchiveName)
-                               OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
-                               OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
+        $sqlQuery = "SELECT arc1.idarchive, arc1.value, arc1.name, arc1.ts_archived, arc1.date1 as startDate, arc2.value as nb_vists, arc3.value as nb_visits_converted
+                     FROM $numericTable arc1
+                     LEFT JOIN $numericTable arc2 on arc2.idarchive = arc1.idarchive and (arc2.name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "')
+                     LEFT JOIN $numericTable arc3 on arc3.idarchive = arc1.idarchive and (arc3.name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
+                     WHERE arc1.idsite = ?
+                         AND arc1.date1 = ?
+                         AND arc1.date2 = ?
+                         AND arc1.period = ?
+                         AND ($sqlWhereArchiveName)
                          $timeStampWhere
-                     ORDER BY ts_archived DESC, idarchive DESC";
+                     ORDER BY arc1.ts_archived DESC, arc1.idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
         return $results;
@@ -422,10 +423,10 @@ class Model
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         // create the SQL to find archives that are DONE
-        $result = "((name IN ($allDoneFlags))";
+        $result = "((arc1.name IN ($allDoneFlags))";
 
         if (!empty($possibleValues)) {
-            $result .= " AND (value IN (" . implode(',', $possibleValues) . ")))";
+            $result .= " AND (arc1.value IN (" . implode(',', $possibleValues) . ")))";
         }
         $result .= ')';
 
