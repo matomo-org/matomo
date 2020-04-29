@@ -529,7 +529,7 @@ class CronArchive
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
-            list($url, $segment) = $this->generateUrlToArchiveFromArchiveInfo($archive);
+            list($url, $segment, $plugin) = $this->generateUrlToArchiveFromArchiveInfo($archive);
             if (empty($url)) {
                 // can happen if, for example, a segment was deleted after an archive was invalidated
                 // in this case, we can just delete the archive entirely.
@@ -541,6 +541,11 @@ class CronArchive
             $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
             $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite]));
+
+            if (!empty($plugin)) {
+                $params->setRequestedPlugin($plugin);
+                $params->onlyArchiveRequestedPlugin();
+            }
 
             $loader = new Loader($params);
             if ($loader->canSkipThisArchive()) {
@@ -612,6 +617,7 @@ class CronArchive
 
     private function generateUrlToArchiveFromArchiveInfo($archive)
     {
+        $plugin = $this->getPluginNameForArchiveIfAny($archive);
         $period = $this->periodIdsToLabels[$archive['period']];
 
         if ($period == 'range') {
@@ -624,7 +630,7 @@ class CronArchive
 
         $segment = isset($archive['segment']) ? $archive['segment'] : '';
 
-        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment);
+        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment, $plugin);
         $url = $this->makeRequestUrl($url);
 
         if (!empty($segment)) {
@@ -636,7 +642,11 @@ class CronArchive
             }
         }
 
-        return [$url, $segment];
+        if (!empty($plugin)) {
+            $url .= "&pluginOnly=1";
+        }
+
+        return [$url, $segment, $plugin];
     }
 
     private function findSegmentForArchive(&$archive)
@@ -738,11 +748,16 @@ class CronArchive
      * @param bool|false $segment
      * @return string
      */
-    private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
+    private function getVisitsRequestUrl($idSite, $period, $date, $segment = false, $plugin = null)
     {
-        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=json";
+        $request = "?module=API&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
             $request .= '&segment=' . urlencode($segment);
+        }
+        if (empty($plugin)) {
+            $request .= "&method=API.get";
+        } else {
+            $request .= $this->getArchivingAPIMethod($plugin);
         }
         return $request;
     }
@@ -1327,5 +1342,46 @@ class CronArchive
         }
 
         return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
+    }
+
+    private function getPluginNameForArchiveIfAny($archive)
+    {
+        $name = $archive['name'];
+        if (strpos($name, '.') === false) {
+            return null;
+        }
+
+        $parts = explode(',', $name);
+        return $parts[1];
+    }
+
+    private function getArchivingAPIMethod($plugin)
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKey = 'CronArchive.getArchivingAPIMethodForPlugin.' . $plugin;
+
+        $method = $cache->fetch($cacheKey);
+        if (!empty($method)) {
+            return $method;
+        }
+
+        $method = "$plugin.get";
+
+        /**
+         * By default the core:archive command will use `YourPlugin.get` to initiate archiving for
+         * a plugin when archiving for just one plugin.
+         *
+         * If your plugin has an archiver but does not provide a `get` API method for general metrics,
+         * then you can use this method to specify which API method to use to make sure the plugin data
+         * is archived.
+         *
+         * @param string &$method Set this value to the method if `$plugin` is your plugin.
+         * @param string $plugin The name of the plugin.
+         */
+        Piwik::postEvent('CronArchive.getArchivingAPIMethodForPlugin', [&$method, $plugin]);
+
+        $cache->save($cacheKey, $method);
+
+        return $method;
     }
 }
