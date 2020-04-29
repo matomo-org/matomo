@@ -31,11 +31,6 @@ class ArchivingDbAdapter
      */
     private $logger;
 
-    /**
-     * @var int
-     */
-    private $lastReexpireTime = null;
-
     public function __construct($wrapped, Lock $archivingLock = null, LoggerInterface $logger = null)
     {
         $this->wrapped = $wrapped;
@@ -107,11 +102,7 @@ class ArchivingDbAdapter
     private function reexpireLock()
     {
         if ($this->archivingLock) {
-            $timeBetweenReexpires = ArchivingStatus::DEFAULT_ARCHIVING_TTL / 4;
-            if ($this->lastReexpireTime + $timeBetweenReexpires < time()) {
-                $this->archivingLock->reexpireLock();
-                $this->lastReexpireTime = time();
-            }
+            $this->archivingLock->reexpireLock();
         }
     }
 }
