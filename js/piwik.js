@@ -4549,6 +4549,10 @@ if (typeof window.Piwik !== 'object') {
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
+                if (configCookiesDisabled) {
+                    request += '&cd=1';
+                }
+
                 var browserFeatures = detectBrowserFeatures();
                 // browser features
                 for (i in browserFeatures) {
