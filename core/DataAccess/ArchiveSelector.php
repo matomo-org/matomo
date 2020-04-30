@@ -79,7 +79,7 @@ class ArchiveSelector
             return [false, false, false, false];
         }
 
-        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $doneFlags);
+        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
 
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
@@ -363,7 +363,7 @@ class ArchiveSelector
      * @param $requestedPluginDoneFlags
      * @return array
      */
-    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $doneFlags)
+    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
     {
         $archiveData = [
             self::NB_VISITS_RECORD_LOOKED_UP => false,
@@ -373,14 +373,24 @@ class ArchiveSelector
         foreach ($results as &$result) {
             if (in_array($result['name'], $requestedPluginDoneFlags)) {
                 $archiveData = $result;
+                if (empty($archiveData[self::NB_VISITS_RECORD_LOOKED_UP])) {
+                    $archiveData[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
+                }
+                if (empty($archiveData[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])) {
+                    $archiveData[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] = 0;
+                }
                 break;
             }
         }
 
         foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
             foreach ($results as $result) {
-                if (!empty($result[$metric]) && empty($archiveData[$metric])) {
-                    $archiveData[$metric] = $result[$metric];
+                if (empty($archiveData[$metric])) {
+                    if (!empty($result[$metric])) {
+                        $archiveData[$metric] = $result[$metric];
+                    } elseif ($result[$metric] === 0 || $result[$metric] === '0') {
+                        $archiveData[$metric] = $result[$metric];
+                    }
                 }
             }
         }
