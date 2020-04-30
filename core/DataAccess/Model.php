@@ -225,7 +225,7 @@ class Model
         }
 
         // NOTE: we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
-        $sqlQuery = "SELECT arc1.idarchive, arc1.value, arc1.name, arc1.ts_archived, arc1.date1 as startDate, arc2.value as nb_vists, arc3.value as nb_visits_converted
+        $sqlQuery = "SELECT arc1.idarchive, arc1.value, arc1.name, arc1.ts_archived, arc1.date1 as startDate, arc2.value as " . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . ", arc3.value as " . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "
                      FROM $numericTable arc1
                      LEFT JOIN $numericTable arc2 on arc2.idarchive = arc1.idarchive and (arc2.name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "')
                      LEFT JOIN $numericTable arc3 on arc3.idarchive = arc1.idarchive and (arc3.name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
