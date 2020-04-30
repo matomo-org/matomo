@@ -95,7 +95,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
 
-        $this->assertEquals(['1', '10', '0', true], $archiveInfo);
+        $this->assertEquals([['1'], '10', '0', true], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndNewEnough()
@@ -110,7 +110,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
 
-        $this->assertEquals(['1', '10', '0', true], $archiveInfo);
+        $this->assertEquals([['1'], '10', '0', true], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreNewEnough()
@@ -343,7 +343,7 @@ class LoaderTest extends IntegrationTestCase
         $tracker->setUrl('http://example.org/abc');
         Fixture::checkResponse($tracker->doTrackPageView('abc'));
 
-        $idArchive = $loader->prepareArchive('Actions');
+        $idArchive = $loader->prepareArchive('Actions')[0];
         $this->assertNotEmpty($idArchive);
 
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2016-02-03'));

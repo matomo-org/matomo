@@ -109,7 +109,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 0, 0, true],
+                [false, 20, 40, true],
             ],
             [
                 [
@@ -143,7 +143,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 0, 0, true],
+                [false, 30, 50, true],
             ],
 
             // archive is too old
@@ -201,7 +201,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [1, false, false, true],
+                [[1], 0, 0, true],
             ],
             [
                 [
@@ -212,7 +212,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [1, 5, 10, true],
+                [[1], 5, 10, true],
             ],
         ];
     }
