@@ -357,7 +357,7 @@ class ArchiveSelector
      *   ($requestedPluginDoneFlags will have the done flag for the overall archive plus a done flag for
      *   VisitsSummary by itself)
      * - the ts_archived for the latest idarchive
-     * - the doneFlag value for the latest archive
+     * - the doneFlag value for the latest archivej
      *
      * @param $results
      * @param $requestedPluginDoneFlags
@@ -376,20 +376,18 @@ class ArchiveSelector
                 return $result;
             }
         }
-        foreach ($results as &$result) {
-            if (in_array($result['name'], $doneFlags)) { // here we match visits summary basically
-                $result['idarchive'] = false;
-                if (empty($result[self::NB_VISITS_RECORD_LOOKED_UP])) {
-                    $result[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
+        $archiveData = [
+            self::NB_VISITS_RECORD_LOOKED_UP => 0,
+            self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => 0,
+        ];
+        foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
+            foreach ($results as $result) {
+                if (!empty($result[$metric]) && empty($archiveData[$metric])) {
+                    $archiveData[$metric] = $result[$metric];
                 }
-                if (empty($result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])) {
-                    $result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] = 0;
-                }
-                return $result;
             }
         }
 
-        return array(
-        );
+        return $archiveData;
     }
 }
