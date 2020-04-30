@@ -378,8 +378,6 @@ class ArchiveSelector
         }
 
         return array(
-            self::NB_VISITS_RECORD_LOOKED_UP => 0,
-            self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => 0
         );
     }
 }
