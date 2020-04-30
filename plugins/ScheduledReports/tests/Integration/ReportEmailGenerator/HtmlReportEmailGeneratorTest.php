@@ -42,9 +42,11 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
         );
 
         $mail = $this->testInstance->makeEmail($generatedReport);
+        $mail->addAddress('noreply@localhost');
+        $mail->preSend();
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertEquals(Mail::CONTENT_TYPE_MULTIPART_RELATED, $mail->ContentType);
+        $this->assertEquals(Mail::CONTENT_TYPE_MULTIPART_ALTERNATIVE, $mail->ContentType);
         $this->assertEquals('report contents', $mail->getBodyHtml());
     }
 }

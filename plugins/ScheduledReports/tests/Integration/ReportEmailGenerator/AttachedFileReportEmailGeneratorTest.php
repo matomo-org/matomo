@@ -61,9 +61,9 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
         self::assertStringContainsString('ScheduledReports_PleaseFindAttachedFile', $mailContent);
         self::assertStringContainsString('ScheduledReports_SentFromX', $mailContent);
-        $this->assertEquals("Content-Type: text/html; charset=utf-8\r
-Content-Transfer-Encoding: quoted-printable\r
-", $mail->getMailMIME());
+        $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+", $mail->createBody());
 
         $attachments = $mail->getAttachments();
         $this->assertEquals([
@@ -103,9 +103,9 @@ Content-Transfer-Encoding: quoted-printable\r
 
         $this->assertStringStartsWith('<html', $mailContent);
         self::assertStringContainsString('ScheduledReports_PleaseFindAttachedFile', $mailContent);
-        $this->assertEquals("Content-Type: text/html; charset=utf-8\r
-Content-Transfer-Encoding: quoted-printable\r
-", $mail->getMailMIME());
+        $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+", $mail->createBody());
     }
 
     public function test_makeEmail_AddsSegmentInformation_IfReportIsForSavedSegment()
@@ -134,13 +134,15 @@ Content-Transfer-Encoding: quoted-printable\r
         self::assertStringContainsString("ScheduledReports_PleaseFindAttachedFile", $mailContent);
         self::assertStringContainsString('ScheduledReports_SentFromX', $mailContent);
         self::assertStringContainsString('ScheduledReports_CustomVisitorSegment', $mailContent);
-        $this->assertEquals("Content-Type: text/html; charset=utf-8\r
-Content-Transfer-Encoding: quoted-printable\r
-", $mail->getMailMIME());
+        $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+", $mail->createBody());
     }
 
     private function getMailContent(Mail $mail)
     {
+        $mail->addAddress('noreply@localhost');
+        $mail->preSend();
         return $mail->getBodyHtml();
     }
 }
