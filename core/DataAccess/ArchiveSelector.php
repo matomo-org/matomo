@@ -79,7 +79,7 @@ class ArchiveSelector
             return [false, false, false, false];
         }
 
-        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
+        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $doneFlags);
 
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
@@ -363,9 +363,10 @@ class ArchiveSelector
      * @param $requestedPluginDoneFlags
      * @return array
      */
-    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
+    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $doneFlags)
     {
         foreach ($results as &$result) {
+            if (in_array($result['name'], $requestedPluginDoneFlags)) {
                 if (empty($result[self::NB_VISITS_RECORD_LOOKED_UP])) {
                     $result[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
                 }
@@ -373,6 +374,19 @@ class ArchiveSelector
                     $result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] = 0;
                 }
                 return $result;
+            }
+        }
+        foreach ($results as &$result) {
+            if (in_array($result['name'], $doneFlags)) { // here we match visits summary basically
+                $result['idarchive'] = false;
+                if (empty($result[self::NB_VISITS_RECORD_LOOKED_UP])) {
+                    $result[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
+                }
+                if (empty($result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])) {
+                    $result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] = 0;
+                }
+                return $result;
+            }
         }
 
         return array(
