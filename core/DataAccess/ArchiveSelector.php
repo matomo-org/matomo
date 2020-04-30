@@ -365,21 +365,18 @@ class ArchiveSelector
      */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $doneFlags)
     {
+        $archiveData = [
+            self::NB_VISITS_RECORD_LOOKED_UP => false,
+            self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => false,
+        ];
+
         foreach ($results as &$result) {
             if (in_array($result['name'], $requestedPluginDoneFlags)) {
-                if (empty($result[self::NB_VISITS_RECORD_LOOKED_UP])) {
-                    $result[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
-                }
-                if (empty($result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])) {
-                    $result[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] = 0;
-                }
-                return $result;
+                $archiveData = $result;
+                break;
             }
         }
-        $archiveData = [
-            self::NB_VISITS_RECORD_LOOKED_UP => 0,
-            self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => 0,
-        ];
+
         foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
             foreach ($results as $result) {
                 if (!empty($result[$metric]) && empty($archiveData[$metric])) {
