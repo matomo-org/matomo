@@ -11,6 +11,8 @@ namespace PHPUnit\Integration;
 
 use Piwik\Archive;
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Period\Factory;
 use Piwik\Segment;
@@ -20,9 +22,16 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ArchiveTest extends IntegrationTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Fixture::createWebsite('2014-05-06');
+    }
+
     public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive()
     {
-        $idSite = Fixture::createWebsite('2014-05-06');
+        $idSite = 1;
 
         // insert all plugin archive
         $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
@@ -33,6 +42,9 @@ class ArchiveTest extends IntegrationTestCase
         $archiveWriter->finalizeArchive();
 
         // insert single plugin archive
+        $_GET['pluginOnly'] = 1;
+        $_GET['trigger'] = 'archivephp';
+
         $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
         $params->setRequestedPlugin('ExamplePlugin');
         $params->onlyArchiveRequestedPlugin();
@@ -62,5 +74,17 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $metrics);
     }
 
+    public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive_WithBrowserArchivingDisabled()
+    {
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
+        self::$fixture->getTestEnvironment()->save();
 
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['archiving_range_force_on_browser_request'] = 0;
+
+        $this->assertTrue(Rules::isArchivingDisabledFor([1], new Segment('', [1]), 'day'));
+
+        $this->test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive();
+    }
 }

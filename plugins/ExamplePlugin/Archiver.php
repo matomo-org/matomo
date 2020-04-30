@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\ExamplePlugin;
 
+use Piwik\Date;
+
 /**
  * Class Archiver
  *
@@ -31,6 +33,9 @@ class Archiver extends \Piwik\Plugin\Archiver
      * This is only an example record name, so feel free to change it to suit your needs.
      */
     const EXAMPLEPLUGIN_ARCHIVE_RECORD = "ExamplePlugin_archive_record";
+    const EXAMPLEPLUGIN_METRIC_NAME = 'ExamplePlugin_example_metric';
+
+    private $daysFrom = '2016-07-08';
 
     public function aggregateDayReport()
     {
@@ -45,6 +50,16 @@ class Archiver extends \Piwik\Plugin\Archiver
          * $visitorReport = $visitorMetrics->getSerialized();
          * $this->getProcessor()->insertBlobRecord(self::EXAMPLEPLUGIN_ARCHIVE_RECORD, $visitorReport);
          */
+
+        // insert a test numeric metric that is the difference in days between the day we're archiving and
+        // $this->daysFrom.
+        $daysFrom = Date::factory($this->daysFrom);
+        $date = $this->getProcessor()->getParams()->getPeriod()->getDateStart();
+
+        $differenceInSeconds = $daysFrom->getTimestamp() - $date->getTimestamp();
+        $differenceInDays = round($differenceInSeconds / 86400);
+
+        $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_METRIC_NAME, $differenceInDays);
     }
 
     public function aggregateMultipleReports()
@@ -57,5 +72,7 @@ class Archiver extends \Piwik\Plugin\Archiver
          *
          * $this->getProcessor()->aggregateDataTableRecords(self::EXAMPLEPLUGIN_ARCHIVE_RECORD);
          */
+
+        $this->getProcessor()->aggregateNumericMetrics([self::EXAMPLEPLUGIN_METRIC_NAME]);
     }
 }

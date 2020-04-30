@@ -395,12 +395,6 @@ class CronArchive
                     continue;
                 }
 
-                if ($this->isDoneFlagForPlugin($invalidatedArchive['name'])) {
-                    $this->logger->debug("Found plugin specific invalidated archive, ignoring.");
-                    $this->addInvalidationToExclude($invalidatedArchive);
-                    continue;
-                }
-
                 if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
                     $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring.");
                     $this->addInvalidationToExclude($invalidatedArchive);
@@ -474,11 +468,6 @@ class CronArchive
         $this->logger->info($timer->__toString());
     }
 
-    private function isDoneFlagForPlugin($doneFlag)
-    {
-        return strpos($doneFlag, '.') !== false;
-    }
-
     private function archiveArrayContainsArchive($archiveArray, $archive)
     {
         foreach ($archiveArray as $entry) {
@@ -510,6 +499,8 @@ class CronArchive
             if (empty($nextArchive)) {
                 break;
             }
+
+            $this->detectPluginForArchive($nextArchive);
 
             $isCronArchivingEnabled = $this->findSegmentForArchive($nextArchive);
             if ($isCronArchivingEnabled) {
@@ -591,7 +582,7 @@ class CronArchive
 
             $visitsForPeriod = $this->getVisitsFromApiResponse($stats);
 
-            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod);
+            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod, $archivesBeingQueried[$index]['plugin']);
 
             // TODO: do in ArchiveWriter
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
@@ -617,7 +608,7 @@ class CronArchive
 
     private function generateUrlToArchiveFromArchiveInfo($archive)
     {
-        $plugin = $this->getPluginNameForArchiveIfAny($archive);
+        $plugin = $archive['plugin'];
         $period = $this->periodIdsToLabels[$archive['period']];
 
         if ($period == 'range') {
@@ -668,13 +659,14 @@ class CronArchive
         return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
     }
 
-    private function logArchiveJobFinished($url, $timer, $visits)
+    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null)
     {
         $params = UrlHelper::getArrayFromQueryString($url);
         $visits = (int) $visits;
 
         $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
-            . "{$params['date']}, segment = '" . (isset($params['segment']) ? $params['segment'] : '') . "', $visits visits found. $timer");
+            . "{$params['date']}, segment = '" . (isset($params['segment']) ? $params['segment'] : '') . "', "
+            . ($plugin ? "plugin = $plugin, " : "") . "$visits visits found. $timer");
     }
 
     public function getErrors()
@@ -757,7 +749,7 @@ class CronArchive
         if (empty($plugin)) {
             $request .= "&method=API.get";
         } else {
-            $request .= $this->getArchivingAPIMethod($plugin);
+            $request .= "&method=" . $this->getArchivingAPIMethod($plugin);
         }
         return $request;
     }
@@ -1351,7 +1343,7 @@ class CronArchive
             return null;
         }
 
-        $parts = explode(',', $name);
+        $parts = explode('.', $name);
         return $parts[1];
     }
 
@@ -1383,5 +1375,10 @@ class CronArchive
         $cache->save($cacheKey, $method);
 
         return $method;
+    }
+
+    private function detectPluginForArchive(&$archive)
+    {
+        $archive['plugin'] = $this->getPluginNameForArchiveIfAny($archive);
     }
 }

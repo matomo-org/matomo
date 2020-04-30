@@ -8,13 +8,17 @@
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Interop\Container\ContainerInterface;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\Fixture;
@@ -48,14 +52,26 @@ class ArchiveCronTest extends SystemTestCase
                                                           'periods'    => array('day', 'week', 'month', 'year'),
                                                           'segment'    => $info['definition'],
                                                           'testSuffix' => '_' . $segmentName));
-
-
         }
+
+        // ExamplePlugin metric
+        $results[] = ['ExamplePlugin.getExampleArchivedMetric', [
+            'idSite' => 'all',
+            'date' => '2007-04-05',
+            'periods' => ['day', 'week'],
+        ]];
+        $results[] = ['Actions.get', [
+            'idSite' => 'all',
+            'date' => '2007-04-05',
+            'periods' => ['day', 'week'],
+            'testSuffix' => '_examplePluginNoMetricsBecauseNoOtherPluginsArchived',
+        ]];
 
         // API Call Without segments
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
                                                       'periods' => array('day', 'month', 'year',  'week')));
+        return [end($results)];
         $results[] = array($apiRequiringSegments, array('idSite'  => 'all',
             'date'    => '2012-08-09',
             'periods' => array('month')));
@@ -92,6 +108,18 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCron()
     {
+        // invalidate exampleplugin only archives in past
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
+
+        // track a visit in 2007-04-05 so it will archive (don't want to force archiving because then this test will take another 15 mins)
+        $tracker = Fixture::getTracker(1, '2007-04-05');
+        $tracker->setUrl('http://example.com/test/url');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // empty the list so nothing is invalidated during core:archive (so we only archive ExamplePlugin and not all plugins)
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
+
         $output = $this->runArchivePhpCron();
 
         $expectedInvalidations = [];

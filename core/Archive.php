@@ -524,7 +524,7 @@ class Archive implements ArchiveQuery
         // then we have the archive IDs in $this->idarchives)
         $doneFlags     = array();
         $archiveGroups = array();
-        foreach ($plugins as $plugin) {
+        foreach (array_merge($plugins, ['all']) as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $this->params->getIdSites());
 
             $doneFlags[$doneFlag] = true;
@@ -537,11 +537,12 @@ class Archive implements ArchiveQuery
                 $archiveGroups[] = $archiveGroup;
             }
 
-            $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
-            if ($globalDoneFlag !== $doneFlag) {
-                $doneFlags[$globalDoneFlag] = true;
-            }
+            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin($this->params->getSegment(), $plugin);
+            $doneFlags[$doneFlag] = true;
         }
+
+        $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
+        $doneFlags[$globalDoneFlag] = true;
 
         $archiveGroups = array_unique($archiveGroups);
 

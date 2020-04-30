@@ -229,7 +229,7 @@ class ArchiveInvalidator
 
     /**
      * @param $idSites int[]
-     * @param $dates Date[]
+     * @param $dates Date[]|string[]
      * @param $period string
      * @param $segment Segment
      * @param bool $cascadeDown
