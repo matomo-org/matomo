@@ -8,29 +8,30 @@
  */
 namespace Piwik;
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
-use Zend_Mail;
 
 /**
- * Class for sending mails, for more information see:
- * {@link http://framework.zend.com/manual/en/zend.mail.html}
+ * Class for sending mails
  *
- * @see Zend_Mail, libs/Zend/Mail.php
+ * @see PHPMailer
  * @api
  */
-class Mail extends Zend_Mail
+class Mail extends PHPMailer
 {
     /**
      * Constructor.
-     *
-     * @param string $charset charset, defaults to utf-8
      */
-    public function __construct($charset = 'utf-8')
+    public function __construct()
     {
-        parent::__construct($charset);
+        parent::__construct(true);
+        static::$validator = 'pcre8';
+        $this->CharSet = self::CHARSET_UTF8;
+        $this->Encoding = self::ENCODING_QUOTED_PRINTABLE;
+        $this->XMailer = 'Matomo ' . Version::VERSION;
         $this->initSmtpTransport();
     }
 
@@ -61,7 +62,35 @@ class Mail extends Zend_Mail
     {
         $contentGenerator = StaticContainer::get(ContentGenerator::class);
         $bodyHtml = $contentGenerator->generateHtmlContent($body);
-        $this->setBodyHtml($bodyHtml);
+        $this->msgHTML($bodyHtml);
+    }
+
+    public function setBodyHtml($html)
+    {
+        $this->msgHTML($html);
+    }
+
+    /**
+     * Alias method for addAddress to keep BC to Zend_Mail
+     *
+     * @deprecated
+     * @param        $address
+     * @param string $name
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
+    public function addTo($address, $name = '')
+    {
+        $this->addAddress($address, $name);
+    }
+
+    public function setBodyText($txt)
+    {
+        if ($this->ContentType == static::CONTENT_TYPE_TEXT_HTML) {
+            $this->AltBody = $txt;
+            return;
+        }
+
+        $this->Body = $txt;
     }
 
     /**
@@ -69,26 +98,40 @@ class Mail extends Zend_Mail
      *
      * @param string $email Email address of the sender.
      * @param null|string $name Name of the sender.
-     * @return Zend_Mail
+     * @return bool
      */
-    public function setFrom($email, $name = null)
+    public function setFrom($email, $name = null, $auto = true)
     {
         return parent::setFrom(
             $this->parseDomainPlaceholderAsPiwikHostName($email),
-            $name
+            $name,
+            $auto
         );
     }
 
     /**
-     * Set Reply-To Header
+     * Alias method for addReplyTo to keep BC to Zend_Mail
      *
-     * @param string $email
-     * @param null|string $name
-     * @return Zend_Mail
+     * @deprecated
+     * @param      $email
+     * @param null $name
+     * @return bool
      */
     public function setReplyTo($email, $name = null)
     {
-        return parent::setReplyTo(
+        return $this->addReplyTo($email, $name);
+    }
+
+    /**
+     * Add Reply-To Header
+     *
+     * @param string $email
+     * @param null|string $name
+     * @return bool
+     */
+    public function addReplyTo($email, $name = null)
+    {
+        return parent::addReplyTo(
             $this->parseDomainPlaceholderAsPiwikHostName($email),
             $name
         );
@@ -99,15 +142,42 @@ class Mail extends Zend_Mail
      */
     private function initSmtpTransport()
     {
-        $tr = StaticContainer::get('Zend_Mail_Transport_Abstract');
-        if (empty($tr)) {
+        $mailConfig = Config::getInstance()->mail;
+
+        if (empty($mailConfig['host'])
+            || $mailConfig['transport'] != 'smtp'
+        ) {
             return;
         }
 
-        Mail::setDefaultTransport($tr);
+        $this->isSMTP();
+
+        if (!empty($mailConfig['type'])) {
+            $this->SMTPAuth = true;
+            $this->AuthType = $mailConfig['type'];
+            $smtpConfig['auth'] = strtolower($mailConfig['type']);
+        }
+
+        if (!empty($mailConfig['username'])) {
+            $this->Username = $mailConfig['username'];
+        }
+
+        if (!empty($mailConfig['password'])) {
+            $this->Password = $mailConfig['password'];
+        }
+
+        if (!empty($mailConfig['encryption'])) {
+            $this->SMTPSecure = $mailConfig['encryption'];
+        }
+
+        if (!empty($mailConfig['port'])) {
+            $this->Port = $mailConfig['port'];
+        }
+
+        $this->Host = trim($mailConfig['host']);
     }
 
-    public function send($transport = null)
+    public function send()
     {
         if (!$this->shouldSendMail()) {
             return $this;
@@ -130,20 +200,54 @@ class Mail extends Zend_Mail
              */
             Piwik::postTestEvent("Test.Mail.send", array($this));
         } else {
-            return parent::send($transport);
+            return parent::send();
         }
     }
 
-    public function createAttachment($body, $mimeType = null, $disposition = null, $encoding = null, $filename = null)
+    public function createAttachment($body, $mimeType = '', $disposition = 'attachment', $encoding = self::ENCODING_BASE64, $filename = null)
     {
         $filename = $this->sanitiseString($filename);
-        return parent::createAttachment($body, $mimeType, $disposition, $encoding, $filename);
+        return parent::addStringAttachment(
+            $body,
+            $filename,
+            $encoding,
+            $mimeType,
+            $disposition);
     }
 
     public function setSubject($subject)
     {
         $subject = $this->sanitiseString($subject);
-        return parent::setSubject($subject);
+        $this->Subject = $subject;
+    }
+
+    public function getSubject()
+    {
+        return $this->Subject;
+    }
+
+    public function getRecipients()
+    {
+        return $this->getAllRecipientAddresses();
+    }
+
+    public function getFrom()
+    {
+        return $this->From;
+    }
+
+    public function getBodyHtml()
+    {
+        return $this->Body;
+    }
+
+    public function getBodyText()
+    {
+        if ($this->ContentType == static::CONTENT_TYPE_TEXT_HTML) {
+            return $this->AltBody;
+        }
+
+        return $this->Body;
     }
 
     public function getMailHost()
@@ -185,7 +289,7 @@ class Mail extends Zend_Mail
      * @param $string
      * @return mixed
      */
-    function sanitiseString($string)
+    public function sanitiseString($string)
     {
         $search = array('–', '’');
         $replace = array('-', '\'');

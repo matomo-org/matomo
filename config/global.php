@@ -171,40 +171,6 @@ return array(
 
         return $ipsResolved;
     },
-    'Zend_Mail_Transport_Abstract' => function () {
-        $mailConfig = Config::getInstance()->mail;
-
-        if (empty($mailConfig['host'])
-            || $mailConfig['transport'] != 'smtp'
-        ) {
-            return;
-        }
-
-        $smtpConfig = array();
-        if (!empty($mailConfig['type'])) {
-            $smtpConfig['auth'] = strtolower($mailConfig['type']);
-        }
-
-        if (!empty($mailConfig['username'])) {
-            $smtpConfig['username'] = $mailConfig['username'];
-        }
-
-        if (!empty($mailConfig['password'])) {
-            $smtpConfig['password'] = $mailConfig['password'];
-        }
-
-        if (!empty($mailConfig['encryption'])) {
-            $smtpConfig['ssl'] = $mailConfig['encryption'];
-        }
-
-        if (!empty($mailConfig['port'])) {
-            $smtpConfig['port'] = $mailConfig['port'];
-        }
-
-        $host = trim($mailConfig['host']);
-        $transport = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
-        return $transport;
-    },
 
     'Piwik\Tracker\VisitorRecognizer' => DI\object()
         ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))

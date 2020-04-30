@@ -9,10 +9,10 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration\ReportEmailGenerator;
 
+use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\HtmlReportEmailGenerator;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Zend_Mime;
 
 class HtmlReportEmailGeneratorTest extends IntegrationTestCase
 {
@@ -44,11 +44,7 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
         $mail = $this->testInstance->makeEmail($generatedReport);
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertEquals(Zend_Mime::MULTIPART_RELATED, $mail->getType());
-        $this->assertEquals('report contents', $mail->getBodyHtml()->getContent());
-        $this->assertEquals('Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-', $mail->getBodyHtml()->getHeaders());
+        $this->assertEquals(Mail::CONTENT_TYPE_MULTIPART_RELATED, $mail->ContentType);
+        $this->assertEquals('report contents', $mail->getBodyHtml());
     }
 }

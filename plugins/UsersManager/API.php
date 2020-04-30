@@ -1429,14 +1429,14 @@ class API extends \Piwik\Plugin\API
 
         $mail = new Mail();
 
-        $mail->addTo($emailTo, $user['login']);
+        $mail->addAddress($emailTo, $user['login']);
         $mail->setSubject(Piwik::translate($subject));
         $mail->setDefaultFromPiwik();
         $mail->setWrappedHtmlBody($view);
 
         $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
         $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         $mail->send();
     }

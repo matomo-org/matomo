@@ -72,7 +72,7 @@ class API extends \Piwik\Plugin\API
 
         $mail = new Mail();
         $mail->setFrom(Piwik::getCurrentUserEmail());
-        $mail->addTo($feedbackEmailAddress, 'Matomo Team');
+        $mail->addAddress($feedbackEmailAddress, 'Matomo Team');
         $mail->setSubject($subject);
         $mail->setBodyText($body);
         @$mail->send();

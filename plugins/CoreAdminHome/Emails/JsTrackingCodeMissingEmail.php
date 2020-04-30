@@ -71,9 +71,9 @@ class JsTrackingCodeMissingEmail extends Mail
     private function setUpEmail()
     {
         $this->setDefaultFromPiwik();
-        $this->addTo($this->emailAddress);
+        $this->addAddress($this->emailAddress);
         $this->setSubject($this->getDefaultSubject());
-        $this->setReplyTo($this->getFrom());
+        $this->addReplyTo($this->From);
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 

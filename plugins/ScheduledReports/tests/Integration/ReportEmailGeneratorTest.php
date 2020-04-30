@@ -28,7 +28,11 @@ class TestReportEmailGenerator extends ReportEmailGenerator
     }
 }
 
-
+/**
+ * @group ReportEmailGeneratorTest
+ * @group ScheduledReports
+ * @group Plugins
+ */
 class ReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
@@ -55,17 +59,15 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
             [
                 [
                     'mimeType' => 'mimetype1',
-                    'encoding' => 'utf-8',
+                    'encoding' => Mail::ENCODING_8BIT,
                     'content' => 'content 1',
                     'filename' => 'file1.txt',
-                    'cid' => 'cid1',
                 ],
                 [
                     'mimeType' => 'mimetype2',
-                    'encoding' => 'utf-8',
+                    'encoding' => Mail::ENCODING_BASE64,
                     'content' => 'content 2',
                     'filename' => 'file2.txt',
-                    'cid' => 'cid2',
                 ],
             ]
         );
@@ -74,30 +76,29 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
 
-        $parts = array_map(function (\Zend_Mime_Part $part) {
-            return [
-                'content' => $part->getContent(),
-                'headers' => $part->getHeaders(),
-            ];
-        }, $mail->getParts());
+        $attachments = $mail->getAttachments();
         $this->assertEquals([
             [
-                'content' => 'content 1',
-                'headers' => 'Content-Type: mimetype1
-Content-Transfer-Encoding: utf-8
-Content-ID: <cid1>
-Content-Disposition: inline; filename="file1.txt"
-',
+                'content 1',
+                'file1.txt',
+                'file1.txt',
+                '8bit',
+                'mimetype1',
+                true,
+                'inline',
+                0
             ],
             [
-                'content' => 'content 2',
-                'headers' => 'Content-Type: mimetype2
-Content-Transfer-Encoding: utf-8
-Content-ID: <cid2>
-Content-Disposition: inline; filename="file2.txt"
-',
+                'content 2',
+                'file2.txt',
+                'file2.txt',
+                'base64',
+                'mimetype2',
+                true,
+                'inline',
+                0
             ],
-        ], $parts);
+        ], $attachments);
     }
 
     public function test_makeEmail_UsesCustomReplyTo_IfSupplied()
@@ -118,20 +119,10 @@ Content-Disposition: inline; filename="file2.txt"
         ]);
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertEquals('test@testytesterson.com', $mail->getReplyTo());
-        $this->assertEquals([
-            'From' => [
-                0 => 'TagManager_MatomoTagName <noreply@localhost>',
-                'append' => true,
-            ],
-            'Subject' => [
-                0 => 'General_Report report - pretty date',
-            ],
-            'Reply-To' => [
-                0 => 'test person <test@testytesterson.com>',
-                'append' => true,
-            ],
-        ], $mail->getHeaders());
-        $this->assertEquals([], $mail->getParts());
+        $this->assertEquals(['test@testytesterson.com'], array_keys($mail->getReplyToAddresses()));
+        $header = $mail->createHeader();
+        $this->assertStringContainsString('From: TagManager_MatomoTagName <noreply@localhost>', $header);
+        $this->assertStringContainsString('Reply-To: test person <test@testytesterson.com>', $header);
+        $this->assertEquals([], $mail->getAttachments());
     }
 }

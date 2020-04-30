@@ -438,7 +438,7 @@ class PasswordResetter
 
         // send email with new password
         $mail = new Mail();
-        $mail->addTo($email, $login);
+        $mail->addAddress($email, $login);
         $mail->setSubject(Piwik::translate('Login_MailTopicPasswordChange'));
         $bodyText = '<p>' . str_replace(
                 "\n\n",
@@ -451,7 +451,7 @@ class PasswordResetter
 
         $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
         $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         @$mail->send();
     }

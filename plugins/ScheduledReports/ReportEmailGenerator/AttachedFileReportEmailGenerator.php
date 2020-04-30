@@ -16,7 +16,6 @@ use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
 use Piwik\ReportRenderer\Html;
 use Piwik\SettingsPiwik;
 use Piwik\View;
-use Zend_Mime;
 
 class AttachedFileReportEmailGenerator extends ReportEmailGenerator
 {
@@ -50,8 +49,8 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
         $mail->createAttachment(
             $report->getContents(),
             $this->attachedFileMimeType,
-            Zend_Mime::DISPOSITION_INLINE,
-            Zend_Mime::ENCODING_BASE64,
+            'inline',
+            Mail::ENCODING_BASE64,
             $report->getReportDescription() . $this->attachedFileExtension
         );
     }
