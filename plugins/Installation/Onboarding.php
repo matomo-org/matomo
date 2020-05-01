@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Installation;
 
 use Piwik\Mail;
 use Piwik\Option;
+use Piwik\Piwik;
 
 class Onboarding
 {
@@ -17,6 +18,9 @@ class Onboarding
 
     public static function sendSysAdminMail($email)
     {
+        if (!Piwik::isValidEmailString($email)) {
+            return;
+        }
         if (Option::get(self::OPTION_NAME_INSTALL_MAIL)) {
             return;
         }
