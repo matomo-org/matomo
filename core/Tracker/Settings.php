@@ -60,10 +60,11 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
         }
 
         $browserLang = substr($request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
+        $trackerConfig = Config::getInstance()->Tracker;
 
         if ($this->isSameFingerprintsAcrossWebsites) {
             $fingerprintSalt = ''; // fingerprint salt won't work when across multiple sites since all sites could have different timezones
-        } else {
+        } elseif (!empty($trackerConfig['create_new_visit_after_midnight'])) {
             $cache = Cache::getCacheWebsiteAttributes($request->getIdSite());
             $date = Date::factory($request->getCurrentTimestamp());
             $fingerprintSaltKey = new FingerprintSalt();
