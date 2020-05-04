@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Plugin\ConsoleCommand;
@@ -38,6 +39,7 @@ class TestEmail extends ConsoleCommand
         $subject = "This is a test email sent from $matomoUrl";
 
         $mail = new Mail();
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $mail->addAddress($email, 'Matomo User');
         $mail->setFrom($config->General['noreply_email_address'], $config->General['noreply_email_name']);
         $mail->setSubject($subject);
