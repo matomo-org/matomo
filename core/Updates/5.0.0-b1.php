@@ -39,6 +39,8 @@ class Updates_5_0_0_b1 extends PiwikUpdates
             foreach (DbHelper::getUtf8mb4ConversionQueries() as $utf8mb4ConversionQuery) {
                 $migrations[] = $this->migration->db->sql($utf8mb4ConversionQuery);
             }
+
+            $migrations[] = $this->migration->config->set('database', 'charset', 'utf8mb4');
         }
 
         return $migrations;
@@ -47,9 +49,5 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
-
-        $config = Config::getInstance();
-        $config->database['charset'] = 'utf8mb4';
-        $config->forceSave();
     }
 }

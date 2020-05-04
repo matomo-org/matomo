@@ -131,6 +131,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
+        $migrations[] = $this->migration->config->set('database', 'charset', DbHelper::getDefaultCharset());
+
         return $migrations;
     }
 
@@ -142,11 +144,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
-
-        // update currently used database charset in config
-        $config = Config::getInstance();
-        $config->database['charset'] = DbHelper::getDefaultCharset();
-        $config->forceSave();
     }
 
     protected function usesGeoIpLegacyLocationProvider()
