@@ -38,19 +38,23 @@ class FingerprintSalt
         // for the same day and this takes more than five days, then it could technically happen that we delete a
         // fingerprint that is still in use now and as such after deletion a few visitors would have a new configId
         // within one visit and such a new visit would be created. That should be very much edge case though.
-        $deleteSaltsCreatedBefore = time() - self::DELETE_FINGERPRINT_OLDER_THAN_SECONDS;
+        $deleteSaltsCreatedBefore = Date::getNowTimestamp() - self::DELETE_FINGERPRINT_OLDER_THAN_SECONDS;
         $options = Option::getLike(self::OPTION_PREFIX . '%');
+        $deleted = array();
         foreach ($options as $name => $value) {
             $value = $this->decode($value);
             if (empty($value['time']) || $value['time'] < $deleteSaltsCreatedBefore) {
                 Option::delete($name);
+                $deleted[] = $name;
             }
         }
+
+        return $deleted;
     }
 
     public function getDateString(Date $date, $timezone)
     {
-        $dateString = $date->setTimezone($timezone)->toString();
+        $dateString = Date::factory($date->getTimestampUTC(), $timezone)->toString();
         return $dateString;
     }
 
@@ -72,11 +76,11 @@ class FingerprintSalt
             $salt = $this->decode($salt);
         }
         if (empty($salt['value'])) {
-            $salt = $this->generateSalt();
-            Option::set($fingerprintSaltKey, $this->encode(array(
-                'salt' => $salt,
-                'time' => time()
-            )));
+            $salt = array(
+                'value' => $this->generateSalt(),
+                'time' => Date::getNowTimestamp()
+            );
+            Option::set($fingerprintSaltKey, $this->encode($salt));
         }
         return $salt['value'];
     }
