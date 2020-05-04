@@ -32,6 +32,7 @@ class Mail extends PHPMailer
         $this->CharSet = self::CHARSET_UTF8;
         $this->Encoding = self::ENCODING_QUOTED_PRINTABLE;
         $this->XMailer = 'Matomo ' . Version::VERSION;
+        $this->setLanguage(StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage());
         $this->initSmtpTransport();
     }
 
@@ -154,8 +155,7 @@ class Mail extends PHPMailer
 
         if (!empty($mailConfig['type'])) {
             $this->SMTPAuth = true;
-            $this->AuthType = $mailConfig['type'];
-            $smtpConfig['auth'] = strtolower($mailConfig['type']);
+            $this->AuthType = strtoupper($mailConfig['type']);
         }
 
         if (!empty($mailConfig['username'])) {
