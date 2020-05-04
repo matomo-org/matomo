@@ -119,6 +119,8 @@ abstract class Base extends VisitDimension
             }
         }
 
+        $this->excludeQueryParamsFromReferrerUrl();
+
         $referrerInformation = array(
             'referer_type'    => $this->typeReferrerAnalyzed,
             'referer_name'    => $this->nameReferrerAnalyzed,
@@ -135,6 +137,32 @@ abstract class Base extends VisitDimension
         }
 
         return $referrerInformation;
+    }
+
+    protected function excludeQueryParamsFromReferrerUrl()
+    {
+        // Add additional excludes for specific referrers
+        Piwik::addAction('Tracker.PageUrl.getQueryParametersToExclude', function(&$parametersToExclude) {
+            if (!empty($this->referrerHost) && strpos($this->referrerHost, 'instagram.com') !== false) {
+                $parametersToExclude[] = 'e';
+                $parametersToExclude[] = 's';
+            }
+            if (!empty($this->referrerHost) && strpos($this->referrerHost, 'facebook.com') !== false) {
+                $parametersToExclude[] = 'h';
+            }
+            if (!empty($this->referrerHost) && strpos($this->referrerHost, 'google.') !== false) {
+                $parametersToExclude[] = 'ust';
+                $parametersToExclude[] = 'usg';
+            }
+            if (!empty($this->referrerHost) && strpos($this->referrerHost, 'bing.com') !== false) {
+                $parametersToExclude[] = 'cvid';
+                $parametersToExclude[] = 'refig';
+                $parametersToExclude[] = 'elv';
+                $parametersToExclude[] = 'plvar';
+            }
+        });
+
+        $this->referrerUrl = PageUrl::excludeQueryParametersFromUrl($this->referrerUrl, $this->idsite);
     }
 
     protected function getReferrerInformationFromRequest(Request $request, Visitor $visitor)
