@@ -761,15 +761,6 @@ enable_tracking_failures_notification = 1
 ; Note: setting this to 0 increases your users' privacy.
 enable_fingerprinting_across_websites = 0
 
-; When enabled (set to 1) and cookies are disabled in the tracker, then the fingerprint will be restricted even further
-; to prevent a visitor to be tracked over multiple days. This means typically that no cookie consent is needed when cookies
-; are disabled. You may disable this feature if you don't want to use cookies in the browser, but still be able to get more
-; accurate unique visitor numbers.
-; When this feature is set to "0", a visitor will be identified as the same visitor over a longer period even though
-; cookies are disabled which means a cookie consent may be needed. When "enable_fingerprinting_across_websites"
-; is enabled, this feature is always assumed disabled and cookie consent may be needed.
-enable_fingerprinting_limited_when_cookie_disabled = 1
-
 ; Matomo uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Matomo server domain as well
 ; this is useful when you want to do cross websites analysis

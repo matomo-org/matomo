@@ -135,11 +135,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
             . $ip
             . $browserLang
-            . $salt;
-
-        if ($request->getParam('cd') && Config::getInstance()->Tracking['enable_fingerprinting_limited_when_cookie_disabled']) {
-            $configString .= md5($fingerprintHash);
-        }
+            . $salt
+            . $fingerprintHash;
 
         if (!$this->isSameFingerprintsAcrossWebsites) {
             $configString .= $request->getIdSite();

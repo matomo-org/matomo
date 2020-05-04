@@ -366,7 +366,6 @@ class Request
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),
             'idgoal'       => array(-1, 'int'),
             'ping'         => array(0, 'int'),
-            'cd'           => array(0, 'int'), // cookie disabled when value is 1
 
             // other
             'bots'         => array(0, 'int'),
