@@ -94,7 +94,10 @@ class Request
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
-        if ('utf8mb4' === DbHelper::getUsedCharset()) {
+        $dbSettings   = new \Piwik\Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
+
+        if ('utf8mb4' === $charset) {
             return $value; // no need to replace anything if utf8mb4 is supported
         }
 

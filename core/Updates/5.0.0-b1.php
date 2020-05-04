@@ -34,8 +34,10 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     {
         $migrations = [];
 
+        $dbSettings   = new \Piwik\Db\Settings();
+
         // force utf8mb4 conversion in Matomo 5
-        if (DbHelper::getUsedCharset() !== 'utf8mb4') {
+        if ($dbSettings->getUsedCharset() !== 'utf8mb4') {
             foreach (DbHelper::getUtf8mb4ConversionQueries() as $utf8mb4ConversionQuery) {
                 $migrations[] = $this->migration->db->sql($utf8mb4ConversionQuery);
             }

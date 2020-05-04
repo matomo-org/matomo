@@ -34,11 +34,14 @@ class Settings
         return $this->getDbSetting('dbname');
     }
 
+    public function getUsedCharset()
+    {
+        return strtolower($this->getDbSetting('charset'));
+    }
+
     private function getDbSetting($key)
     {
         $dbInfos = Db::getDatabaseConfig();
-        $engine  = $dbInfos[$key];
-
-        return $engine;
+        return $dbInfos[$key];
     }
 }

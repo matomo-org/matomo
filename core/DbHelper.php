@@ -255,11 +255,6 @@ class DbHelper
         return $queries;
     }
 
-    public static function getUsedCharset()
-    {
-        return strtolower(Config::getInstance()->database['charset'] ?? self::getDefaultCharset());
-    }
-
     /**
      * Get the SQL to create Piwik tables
      *

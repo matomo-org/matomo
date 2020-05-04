@@ -34,7 +34,10 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
     public function isEnabled()
     {
-        return strtolower(DbHelper::getUsedCharset()) !== 'utf8mb4';
+        $dbSettings   = new Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
+
+        return $charset !== 'utf8mb4';
     }
 
     /**

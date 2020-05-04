@@ -38,7 +38,8 @@ class Mysql implements SchemaInterface
     {
         $engine       = $this->getTableEngine();
         $prefixTables = $this->getTablePrefix();
-        $charset      = DbHelper::getUsedCharset();
+        $dbSettings   = new Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
 
         $tables = array(
             'user'    => "CREATE TABLE {$prefixTables}user (
@@ -450,7 +451,8 @@ class Mysql implements SchemaInterface
         }
 
         $dbName = str_replace('`', '', $dbName);
-        $charset = DbHelper::getUsedCharset();
+        $dbSettings = new Db\Settings();
+        $charset    = $dbSettings->getUsedCharset();
 
         Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET ".$charset);
     }
@@ -465,11 +467,14 @@ class Mysql implements SchemaInterface
      */
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
+        $dbSettings   = new Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
+
         $statement = sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s ;",
                              Common::prefixTable($nameWithoutPrefix),
                              $createDefinition,
                              $this->getTableEngine(),
-                             DbHelper::getUsedCharset());
+                             $charset);
 
         try {
             Db::exec($statement);

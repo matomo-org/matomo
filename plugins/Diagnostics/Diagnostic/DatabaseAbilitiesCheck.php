@@ -52,7 +52,10 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
     protected function checkUtf8mb4Charset()
     {
-        if (DbHelper::getDefaultCharset() === 'utf8mb4' && DbHelper::getUsedCharset() === 'utf8mb4') {
+        $dbSettings   = new Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
+
+        if (DbHelper::getDefaultCharset() === 'utf8mb4' && $charset === 'utf8mb4') {
             return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, 'UTF8mb4 charset');
         }
 
