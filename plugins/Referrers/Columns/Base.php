@@ -153,6 +153,10 @@ abstract class Base extends VisitDimension
             if (!empty($this->referrerHost) && strpos($this->referrerHost, 'google.') !== false) {
                 $parametersToExclude[] = 'ust';
                 $parametersToExclude[] = 'usg';
+                $parametersToExclude[] = 'ei';
+                $parametersToExclude[] = 'bvm';
+                $parametersToExclude[] = 'usg';
+                $parametersToExclude[] = 'ved';
             }
             
             if (!empty($this->referrerHost) && strpos($this->referrerHost, 'main.exoclick.com') !== false) {
