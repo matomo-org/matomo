@@ -116,8 +116,6 @@ class CoreHome extends \Piwik\Plugin
         //$stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css"; TODO
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
         $stylesheets[] = "node_modules/materialize-css/dist/css/materialize.min.css";
-        $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
-        $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/bootstrap.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/icons.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
@@ -160,9 +158,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "node_modules/jquery.scrollto/jquery.scrollTo.min.js";
-        $jsFiles[] = "node_modules/jscrollpane/script/jquery.jscrollpane.min.js";
-        $jsFiles[] = "node_modules/jquery-mousewheel/jquery.mousewheel.js";
-        $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "node_modules/mousetrap/mousetrap.min.js";
         $jsFiles[] = 'node_modules/angular/angular.min.js';
