@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,13 +21,19 @@ class MultipleSitesArchivingTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         $extraSite = Fixture::createWebsite(self::$fixture->dateTime, $ecommerce = 1, "the site");
 
         Piwik::addAction("ArchiveProcessor.Parameters.getIdSites", function (&$sites, $period) use ($extraSite) {
+            if (reset($sites) == $extraSite) {
+                $sites = array(1, 2, 3);
+            }
+        });
+
+        Piwik::addAction("ArchiveProcessor.ComputeNbUniques.getIdSites", function (&$sites) use ($extraSite) {
             if (reset($sites) == $extraSite) {
                 $sites = array(1, 2, 3);
             }

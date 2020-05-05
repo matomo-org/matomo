@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -106,7 +106,7 @@ class FrontController extends Singleton
      * @param Exception $e
      * @return string
      */
-    private static function generateSafeModeOutputFromException($e)
+    public static function generateSafeModeOutputFromException($e)
     {
         StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
             'exception' => $e,
@@ -392,6 +392,7 @@ class FrontController extends Singleton
 
         $loggedIn = false;
 
+        // don't use sessionauth in cli mode
         // try authenticating w/ session first...
         $sessionAuth = $this->makeSessionAuthenticator();
         if ($sessionAuth) {
@@ -647,12 +648,18 @@ class FrontController extends Singleton
 
     private function makeSessionAuthenticator()
     {
+        if (Common::isPhpClimode()
+            && !defined('PIWIK_TEST_MODE')
+        ) { // don't use the session auth during CLI requests
+            return null;
+        }
+
         $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         $action = Common::getRequestVar('action', false);
 
         // the session must be started before using the session authenticator,
         // so we do it here, if this is not an API request.
-        if (SettingsPiwik::isPiwikInstalled()
+        if (SettingsPiwik::isMatomoInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
             /**

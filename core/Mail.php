@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
-use Piwik\View\HtmlReportEmailHeaderView;
 use Zend_Mail;
 
 /**

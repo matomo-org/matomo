@@ -30,7 +30,7 @@ class SystemSettingsTest extends IntegrationTestCase
         '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -63,12 +63,11 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame($this->exampleIps, $this->settings->whitelisteBruteForceIps->getValue());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage SitesManager_ExceptionInvalidIPFormat
-     */
     public function test_whitelisteBruteForceIps_failsWhenContainsInvalidValue()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');
+
         $this->settings->whitelisteBruteForceIps->setValue(array(
             '127.0.0.1', 'foobar'
         ));
@@ -100,12 +99,11 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame($this->exampleIps, $this->settings->blacklistedBruteForceIps->getValue());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage SitesManager_ExceptionInvalidIPFormat
-     */
     public function test_blacklistedBruteForceIps_failsWhenContainsInvalidValue()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');
+
         $this->settings->blacklistedBruteForceIps->setValue(array(
             '127.0.0.1', 'foobar'
         ));

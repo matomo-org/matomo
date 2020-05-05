@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
     public $period = 'month';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         // add one site
         Fixture::createWebsite(

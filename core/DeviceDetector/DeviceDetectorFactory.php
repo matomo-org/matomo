@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@ namespace Piwik\DeviceDetector;
 
 use DeviceDetector\DeviceDetector;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 
 class DeviceDetectorFactory
 {

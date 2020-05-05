@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Unit\Config;
@@ -45,7 +45,7 @@ class IniFileChainCacheTest extends IniFileChainTest
 
     private $testHost = 'mytest.matomo.org';
 
-    public function setUp()
+    public function setUp(): void
     {
         $GLOBALS['ENABLE_CONFIG_PHP_CACHE'] = true;
         $_SERVER['HTTP_HOST'] = $this->testHost;
@@ -59,7 +59,7 @@ class IniFileChainCacheTest extends IniFileChainTest
         Config::setSetting('General', 'trusted_hosts', array($this->testHost, 'foonot.exists'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
         unset($GLOBALS['ENABLE_CONFIG_PHP_CACHE']);
@@ -118,7 +118,10 @@ class IniFileChainCacheTest extends IniFileChainTest
         unset($value['settingsChain']);
         $this->assertEquals(array('mergedSettings' => $expected), $value);
 
-        $this->assertArraySubset($defaultSettingFiles, array_keys($settingsChain));
+        foreach ($defaultSettingFiles as $defaultSettingFile) {
+            self::assertTrue(array_key_exists($defaultSettingFile, $settingsChain));
+        }
+
         $this->assertNotEmpty(array_keys($settingsChain));
     }
     
@@ -130,14 +133,18 @@ class IniFileChainCacheTest extends IniFileChainTest
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertEquals(false, $value);
 
+        $userSettingsFileCopy = dirname($userSettingsFile) . '/copy.' . basename($userSettingsFile);
+        copy($userSettingsFile, $userSettingsFileCopy);
+
         // reading the chain should populate the cache
-        $fileChain = new TestIniFileChain($defaultSettingFiles, $userSettingsFile, $this->testHost);
+        $fileChain = new TestIniFileChain($defaultSettingFiles, $userSettingsFileCopy, $this->testHost);
         $expected['General'] = array('trusted_hosts' => array($this->testHost));
         $this->assertEquals($expected, $fileChain->getAll(), "'$testDescription' failed");
 
         // even though the passed config files don't exist it still returns the same result as it is fetched from
         // cache
-        $testChain = new TestIniFileChain(array('foo'), 'bar');
+        unlink($userSettingsFileCopy);
+        $testChain = new TestIniFileChain(array('foo'), $userSettingsFileCopy);
         $this->assertEquals($expected, $testChain->getAll(), "'$testDescription' failed");
     }
 

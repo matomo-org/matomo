@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -254,7 +254,7 @@ class GoalManager
         $goals = $this->getGoalDefinitions($idSite);
 
         if (!isset($goals[$idGoal])) {
-            return null;
+            throw new InvalidRequestParameterException('idGoal ' . $idGoal . ' does not exist');
         }
 
         $goal = $goals[$idGoal];
@@ -877,10 +877,14 @@ class GoalManager
 
     private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
     {
+        $lastVisitTime = $visitProperties->getProperty('visit_last_action_time');
+        if (!$lastVisitTime) {
+            $lastVisitTime = $request->getCurrentTimestamp();
+        }
         $goal = array(
             'idvisit'     => $visitProperties->getProperty('idvisit'),
             'idvisitor'   => $visitProperties->getProperty('idvisitor'),
-            'server_time' => Date::getDatetimeFromTimestamp($visitProperties->getProperty('visit_last_action_time')),
+            'server_time' => Date::getDatetimeFromTimestamp($lastVisitTime),
         );
 
         $visitDimensions = VisitDimension::getAllDimensions();

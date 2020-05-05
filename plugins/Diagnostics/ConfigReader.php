@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,7 @@
 namespace Piwik\Plugins\Diagnostics;
 
 use Piwik\Development;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Settings as PiwikSettings;
 use Piwik\Plugin\Settings as PluginSettings;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,8 +15,6 @@ namespace Piwik\UpdateCheck;
  * with custom plugins etc.
  *
  * This is not a public API and it may change without any announcement.
- *
- * @package Piwik\UpdateCheck
  */
 abstract class ReleaseChannel
 {

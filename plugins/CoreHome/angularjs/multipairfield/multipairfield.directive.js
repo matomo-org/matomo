@@ -20,7 +20,9 @@
             scope: {
                 name: '=',
                 field1: '=',
-                field2: '='
+                field2: '=',
+                field3: '=',
+                field4: '='
             },
             require: "?ngModel",
             templateUrl: 'plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.html?cb=' + piwik.cacheBuster,

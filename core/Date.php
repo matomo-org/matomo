@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 
@@ -443,9 +442,9 @@ class Date
      */
     public function isLeapYear()
     {
-        $currentYear = date('Y', $this->getTimestamp());
+        $isLeap = (bool)(date('L', $this->getTimestamp()));
 
-        return ($currentYear % 400) == 0 || (($currentYear % 4) == 0 && ($currentYear % 100) != 0);
+        return $isLeap;
     }
 
     /**

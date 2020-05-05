@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -21,7 +21,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
     public $idSite2 = 2;
     public $idGoalStandard = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         self::setUpScheduledReports($this->idSite);
@@ -30,7 +30,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         $this->trackVisitsSite2($url = 'http://example-site2.com/index.htm');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

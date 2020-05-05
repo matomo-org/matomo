@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -154,7 +154,7 @@ class UIControl extends \Piwik\View
     /**
      * Returns the array of property names whose values are passed to the UIControl JavaScript class.
      *
-     * Should be overriden by descendants.
+     * Should be overridden by descendants.
      *
      * @return array
      */
@@ -168,7 +168,7 @@ class UIControl extends \Piwik\View
      * These values differ from those in {@link $clientSideProperties} in that they are meant to passed as
      * request parameters when the JavaScript code makes an AJAX request.
      *
-     * Should be overriden by descendants.
+     * Should be overridden by descendants.
      *
      * @return array
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,7 +17,6 @@ use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\IP;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreHome\LoginWhitelist;
@@ -85,7 +84,7 @@ class Request
     private $request = null;
 
     /**
-     * Converts the supplied request string into an array of query paramater name/value
+     * Converts the supplied request string into an array of query parameter name/value
      * mappings. The current query parameters (everything in `$_GET` and `$_POST`) are
      * forwarded to request array before it is returned.
      *
@@ -215,6 +214,8 @@ class Request
      */
     public function process()
     {
+        $shouldReloadAuth = false;
+
         try {
             ++self::$nestedApiInvocationCount;
 
@@ -233,7 +234,6 @@ class Request
             $corsHandler->handle();
 
             $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $this->request);
-            $shouldReloadAuth = false;
 
             // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
             // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
@@ -266,7 +266,7 @@ class Request
 
             // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
             // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters
-            // which may only exist in $this->request, if the request was called programatically)
+            // which may only exist in $this->request, if the request was called programmatically)
             $toReturn = Context::executeWithQueryParameters($this->request, function () use ($response, $returnedValue, $module, $method) {
                 return $response->getResponse($returnedValue, $module, $method);
             });
@@ -276,6 +276,10 @@ class Request
                 'ignoreInScreenWriter' => true,
             ]);
 
+            if (empty($response)) {
+               $response = new ResponseBuilder('console', $this->request);
+            }
+            
             $toReturn = $response->getResponseException($e);
         } finally {
             --self::$nestedApiInvocationCount;

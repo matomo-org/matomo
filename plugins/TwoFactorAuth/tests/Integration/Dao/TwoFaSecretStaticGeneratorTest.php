@@ -23,7 +23,7 @@ class TwoFaSecretStaticGeneratorTest extends IntegrationTestCase
      */
     private $generator;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

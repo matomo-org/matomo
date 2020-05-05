@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -50,7 +50,7 @@ abstract class Base extends \Piwik\Plugin\Report
                     $footerMessage .= ' ' . Piwik::translate('UserCountry_NoDataForGeoIPReport2',
                             array('<a target="_blank" href="' . Url::getCurrentQueryStringWithParametersModified($params) . '">',
                                 '</a>',
-                                '<a rel="noreferrer noopener" target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
+                                '<a rel="noreferrer noopener" target="_blank" href="https://db-ip.com/?refid=mtm">',
                                 '</a>'));
                 } else {
                     $footerMessage .= ' ' . Piwik::translate('UserCountry_ToGeolocateOldVisits',

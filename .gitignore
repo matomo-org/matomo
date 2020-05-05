@@ -60,6 +60,7 @@ php_errors.log
 /misc/cron/.htaccess
 /plugins/.htaccess
 /tests/resources/overlay-test-site-real/
+/tests/PHPUnit/.phpunit.result.cache
 /tests/PHPUnit/proxy/libs
 /tests/PHPUnit/proxy/piwik.js
 /tests/PHPUnit/proxy/matomo.js
@@ -75,4 +76,5 @@ php_errors.log
 /plugins/.gitignore
 /js/container*.js
 /node_modules/*/node_modules
-
+/.docker
+docker-compose.yml

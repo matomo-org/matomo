@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ class Updates_2_16_3_b2 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         try {
-            \Piwik\Plugin\Manager::getInstance()->activatePlugin('CustomPiwikJs');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('CustomJsTracker');
         } catch (\Exception $e) {
         }
     }

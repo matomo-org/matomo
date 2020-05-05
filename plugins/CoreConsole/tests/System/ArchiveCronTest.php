@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\CoreConsole\tests\System;
@@ -142,7 +142,7 @@ class ArchiveCronTest extends SystemTestCase
         $output = implode("\n", $output);
 
         $this->assertRegExp('/Usage:\s*core:archive/', $output);
-        $this->assertNotContains("Starting Piwik reports archiving...", $output);
+        self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
     }
 
     private function setLastRunArchiveOptions()

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -59,7 +59,7 @@ class UpdaterTest extends IntegrationTestCase
      */
     private $columnsUpdater;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -92,33 +92,6 @@ class UpdaterTest extends IntegrationTestCase
         $this->tableColumnsCache = array();
     }
 
-    public function test_getMigrationQueries_ReturnsCorrectQueries_IfDimensionIsNotInTable()
-    {
-        $updater = $this->getMockUpdater();
-        $actualMigrationQueries = $this->columnsUpdater->getMigrationQueries($updater);
-
-        $expectedMigrationQueries = array(
-            'ALTER TABLE `log_visit` ADD COLUMN `test_visit_col_1` INTEGER(10) UNSIGNED NOT NULL, ADD COLUMN `test_visit_col_2` VARCHAR(32) NOT NULL;' => array('1091', '1060'),
-            'ALTER TABLE `log_link_visit_action` ADD COLUMN `test_action_col_1` VARCHAR(32) NOT NULL, ADD COLUMN `test_action_col_2` INTEGER(10) UNSIGNED DEFAULT NULL;' => array('1091', '1060'),
-            'ALTER TABLE `log_conversion` ADD COLUMN `test_conv_col_1` FLOAT DEFAULT NULL, ADD COLUMN `test_conv_col_2` VARCHAR(32) NOT NULL;' => array('1091', '1060'),
-        );
-        $this->assertEquals($expectedMigrationQueries, $this->flattenQueries($actualMigrationQueries));
-    }
-
-    public function test_getMigrationQueries_ReturnsCorrectQueries_IfDimensionIsInTable_ButHasNewVersion()
-    {
-        $this->addDimensionsToTables();
-
-        $updater = $this->getMockUpdater();
-        $actualMigrationQueries = $this->columnsUpdater->getMigrationQueries($updater);
-
-        $expectedMigrationQueries = array(
-            'ALTER TABLE `log_visit` MODIFY COLUMN `test_visit_col_1` INTEGER(10) UNSIGNED NOT NULL, MODIFY COLUMN `test_visit_col_2` VARCHAR(32) NOT NULL;' => array('1091', '1060'),
-            'ALTER TABLE `log_link_visit_action` MODIFY COLUMN `test_action_col_1` VARCHAR(32) NOT NULL, MODIFY COLUMN `test_action_col_2` INTEGER(10) UNSIGNED DEFAULT NULL;' => array('1091', '1060'),
-            'ALTER TABLE `log_conversion` MODIFY COLUMN `test_conv_col_1` FLOAT DEFAULT NULL, MODIFY COLUMN `test_conv_col_2` VARCHAR(32) NOT NULL;' => array('1091', '1060')
-        );
-        $this->assertEquals($expectedMigrationQueries, $this->flattenQueries($actualMigrationQueries));
-    }
 
     /**
      * @param Migration\Db\Sql[] $queries
@@ -131,16 +104,6 @@ class UpdaterTest extends IntegrationTestCase
             $response[$query->__toString()] = $query->getErrorCodesToIgnore();
         }
         return $response;
-    }
-
-    public function test_getMigrationQueries_ReturnsNoQueries_IfDimensionsAreInTable_ButHaveNoNewVersions()
-    {
-        $this->addDimensionsToTables();
-
-        $updater = $this->getMockUpdater($hasNewVersion = false);
-        $actualMigrationQueries = $this->columnsUpdater->getMigrationQueries($updater);
-
-        $this->assertEquals(array(), $actualMigrationQueries);
     }
 
     public function test_doUpdate_AddsDimensions_WhenDimensionsNotInTables()
@@ -226,7 +189,7 @@ class UpdaterTest extends IntegrationTestCase
 
     private function getMockUpdater($hasNewVersion = true)
     {
-        $result = $this->getMockBuilder("Piwik\\Updater")->setMethods(array('hasNewVersion'))->getMock();
+        $result = $this->getMockBuilder("Piwik\\Updater")->onlyMethods(array('hasNewVersion'))->getMock();
 
         $result->expects($this->any())->method('hasNewVersion')->will($this->returnCallback(function () use ($hasNewVersion) {
             return $hasNewVersion;

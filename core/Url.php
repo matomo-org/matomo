@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 
 /**
  * Provides URL related helper methods.
@@ -373,7 +373,7 @@ class Url
     }
 
     /**
-     * Returns an array mapping query paramater names with query parameter values for
+     * Returns an array mapping query parameter names with query parameter values for
      * the current URL.
      *
      * @return array If current URL is `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
@@ -613,8 +613,8 @@ class Url
      */
     public static function getHostSanitized($host)
     {
-        if (!class_exists("Piwik\\Network\\IPUtils")) {
-            throw new Exception("Piwik\\Network\\IPUtils could not be found, maybe you are using Matomo from git and need to update Composer. $ php composer.phar update");
+        if (!class_exists("Matomo\\Network\\IPUtils")) {
+            throw new Exception("Matomo\\Network\\IPUtils could not be found, maybe you are using Matomo from git and need to update Composer. $ php composer.phar update");
         }
         return IPUtils::sanitizeIp($host);
     }

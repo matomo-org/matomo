@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -33,7 +33,7 @@ class SegmentTest extends IntegrationTestCase
 
     private $exampleSegment = 'visitCount>=1';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -1696,17 +1696,17 @@ log_visit.visit_total_actions
     {
         $self = $this;
 
-        $cacheProxy = $this->getMockBuilder('Piwik\Cache\Lazy')
+        $cacheProxy = $this->getMockBuilder('Matomo\Cache\Lazy')
                            ->setMethods(array('fetch', 'contains', 'save', 'delete', 'flushAll'))
                            ->disableOriginalConstructor()
                            ->getMock();
 
         $cacheProxy->expects($this->any())->method('fetch')->willReturnCallback(function ($id) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->fetch($id);
         });
         $cacheProxy->expects($this->any())->method('contains')->willReturnCallback(function ($id) use ($self) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
 
             $result = $realCache->contains($id);
             if ($result) {
@@ -1716,15 +1716,15 @@ log_visit.visit_total_actions
             return $result;
         });
         $cacheProxy->expects($this->any())->method('save')->willReturnCallback(function ($id, $data, $lifetime = 0) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->save($id, $data, $lifetime);
         });
         $cacheProxy->expects($this->any())->method('delete')->willReturnCallback(function ($id) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->delete($id);
         });
         $cacheProxy->expects($this->any())->method('flushAll')->willReturnCallback(function () {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->flushAll();
         });
 
@@ -1883,13 +1883,13 @@ log_visit.visit_total_actions
     {
         return [
             'observers.global' => [
-                ['Segment.addSegments', function (&$segments) {
+                ['Segment.addSegments', function (Segment\SegmentsList $list) {
                     $segment = new \Piwik\Plugin\Segment();
                     $segment->setSegment('customSegment');
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
                     $segment->setName('Custom Segment');
                     $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_days_since_first * 86400)');
-                    $segments[] = $segment;
+                    $list->addSegment($segment);
                 }],
             ],
         ];

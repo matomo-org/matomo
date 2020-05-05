@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,13 +9,11 @@
 namespace Piwik\Archive;
 
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Piwik;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -95,16 +93,7 @@ class ArchivePurger
     {
         $numericTable = ArchiveTableCreator::getNumericTable($date);
 
-        // we don't want to do an INNER JOIN on every row in a archive table that can potentially have tens to hundreds of thousands of rows,
-        // so we first look for sites w/ invalidated archives, and use this as a constraint in getInvalidatedArchiveIdsSafeToDelete() below.
-        // the constraint will hit an INDEX and speed up the inner join that happens in getInvalidatedArchiveIdsSafeToDelete().
-        $idSites = $this->model->getSitesWithInvalidatedArchive($numericTable);
-        if (empty($idSites)) {
-            $this->logger->debug("No sites with invalidated archives found in {table}.", array('table' => $numericTable));
-            return 0;
-        }
-
-        $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
+        $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable);
         if (empty($archiveIds)) {
             $this->logger->debug("No invalidated archives found in {table} with newer, valid archives.", array('table' => $numericTable));
             return 0;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -119,7 +119,7 @@ class Social extends Singleton
 
 
     /**
-     * Get's social network name from URL.
+     * Gets social network name from URL.
      *
      * @param string $url
      * @return string

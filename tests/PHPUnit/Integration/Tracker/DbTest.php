@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,7 +22,7 @@ use Piwik\Tracker;
 class DbTest extends IntegrationTestCase
 {
     private $tableName;
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->tableName = Common::prefixTable('option');
@@ -60,24 +60,22 @@ class DbTest extends IntegrationTestCase
         $this->assertSame(1, $db->rowCount($result));
     }
 
-    /**
-     * @expectedExceptionMessage doesn't exist
-     * @expectedException  \Piwik\Tracker\Db\DbException
-     */
     public function test_fetchOne_notExistingTable()
     {
+        $this->expectException(\Piwik\Tracker\Db\DbException::class);
+        $this->expectExceptionMessage('doesn\'t exist');
+
         $db = Tracker::getDatabase();
         $this->insertRowId(3);
         $val = $db->fetchOne('SELECT option_value FROM foobarbaz where option_value = "rowid"');
         $this->assertEquals('3', $val);
     }
 
-    /**
-     * @expectedExceptionMessage Duplicate entry
-     * @expectedException  \Piwik\Tracker\Db\DbException
-     */
     public function test_query_error_whenInsertingDuplicateRow()
     {
+        $this->expectException(\Piwik\Tracker\Db\DbException::class);
+        $this->expectExceptionMessage('Duplicate entry');
+
         $this->insertRowId();
         $this->insertRowId();
     }

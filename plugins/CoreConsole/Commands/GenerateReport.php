@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,11 +10,10 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Columns\Dimension;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -210,7 +209,7 @@ class GenerateReport extends GeneratePluginBase
             $validate($category);
         }
 
-        $translationKey = Translate::findTranslationKeyForTranslation($category);
+        $translationKey = StaticContainer::get('Piwik\Translation\Translator')->findTranslationKeyForTranslation($category);
         if (!empty($translationKey)) {
             return $translationKey;
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PluginNameTest extends IntegrationTestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['pluginName']);
     }
@@ -32,12 +32,11 @@ class PluginNameTest extends IntegrationTestCase
         $this->assertSame('CoreFooBar', $pluginName->getPluginName());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid plugin name given
-     */
     public function test_throws_exception_ifInvalidName()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid plugin name given');
+
         $this->setPluginName('CoreFooBar-?4');
 
         $pluginName = new PluginName();

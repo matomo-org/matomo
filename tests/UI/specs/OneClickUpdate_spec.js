@@ -3,7 +3,7 @@
  *
  * OneClickUpdate screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -67,10 +67,19 @@ describe("OneClickUpdate", function () {
                 await submitButton.click();
                 await page.waitForNetworkIdle();
                 await page.waitFor(250);
+
+                await page.click('.footer a');
+                await page.waitForNetworkIdle();
             } else {
                 break;
             }
         }
+
+        await page.waitFor('#login_form_login', { visible: true });
+
+        await page.type('#login_form_login', 'superUserLogin');
+        await page.type('#login_form_password', 'superUserPass');
+        await page.click('#login_form_submit');
 
         await page.waitFor('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();

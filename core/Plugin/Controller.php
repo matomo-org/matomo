@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
@@ -1035,6 +1034,7 @@ abstract class Controller
     {
         if (!empty($this->idSite)) {
             Access::getInstance()->checkUserHasViewAccess($this->idSite);
+            new Site($this->idSite);
         } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Matomo and have permission to access the specified website.");

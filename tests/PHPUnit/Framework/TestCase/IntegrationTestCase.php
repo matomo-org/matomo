@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -46,18 +46,18 @@ abstract class IntegrationTestCase extends SystemTestCase
      * If your test modifies table columns, you will need to recreate the database
      * completely. This can be accomplished by:
      *
-     *     public function setUp()
+     *     public function setUp(): void
      *     {
      *         self::$fixture->performSetUp();
      *     }
      *
-     *     public function tearDown()
+     *     public function tearDown(): void
      *     {
      *         parent::tearDown();
      *         self::$fixture->performTearDown();
      *     }
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         static::configureFixture(static::$fixture);
         parent::setUpBeforeClass();
@@ -66,7 +66,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         self::$tableData = self::getDbTablesWithData();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$tableData = array();
     }
@@ -74,7 +74,7 @@ abstract class IntegrationTestCase extends SystemTestCase
     /**
      * Setup the database and create the base tables for all tests
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -92,14 +92,13 @@ abstract class IntegrationTestCase extends SystemTestCase
 
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
-        MenuAbstract::clearMenus();
         Option::clearCache();
     }
 
     /**
      * Resets all caches and drops the database
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         static::$fixture->clearInMemoryCaches();
         static::$fixture->destroyEnvironment();

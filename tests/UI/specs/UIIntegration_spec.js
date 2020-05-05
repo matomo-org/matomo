@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot integration tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,8 +12,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
         idSite2Params = 'idSite=2&period=year&date=2012-08-09',
+        idSite3Params = 'idSite=3&period=year&date=2012-08-09',
         evolutionParams = 'idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30',
-        urlBase = 'module=CoreHome&action=index&' + generalParams,
+        urlBaseGeneric = 'module=CoreHome&action=index&',
+        urlBase = urlBaseGeneric + generalParams,
         widgetizeParams = "module=Widgetize&action=iframe",
         segment = encodeURIComponent("browserCode==FF") // from OmniFixture
         ;
@@ -57,7 +59,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
         await page.waitForNetworkIdle();
         await page.evaluate(function () {
-            // Prevent random sizing error eg. http://builds-artifacts.piwik.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
+            // Prevent random sizing error eg. http://builds-artifacts.matomo.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
             $("[widgetid=widgetActionsgetOutlinks] .widgetContent").text('Displays different at random -> hidden');
         });
 
@@ -235,7 +237,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the visitors > real-time visits page correctly', async function () {
-        await page.goto("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
+        await page.goto("?" + urlBaseGeneric + idSite3Params + "#?" + idSite3Params + "&category=General_Visitors&subcategory=General_RealTime");
         await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');
@@ -373,13 +375,21 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should display metric tooltip correctly', async function () {
-        let elem = await page.$('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
+        let elem = await page.jQuery('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
         await elem.hover();
 
-        elem = await page.jQuery('.columnDocumentation:visible', { waitFor: true });
-        await page.waitFor(500);
+        let tip = await page.jQuery('.columnDocumentation:visible', { waitFor: true });
 
-        expect(await elem.screenshot()).to.matchImage('metric_tooltip');
+        // manipulate the styles a bit, as it's otherwise not visible on screenshot
+        await page.evaluate(function(){
+            $('.columnDocumentation:visible').css({
+                display: 'block!important',
+                top: 50,
+                left: 100
+            });
+        });
+
+        expect(await tip.screenshot()).to.matchImage('metric_tooltip');
     });
 
     it('should load the referrers > search engines & keywords page correctly', async function () {
@@ -598,7 +608,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the ecommerce log page with segment', async function () {
-        await page.goto("?" + urlBase + "&segment=countryCode%3D%3DUS#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog&segment=countryCode%3D%3DUS");
+        await page.goto("?" + urlBase + "&segment=countryCode%3D%3DCN#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog&segment=countryCode%3D%3DCN");
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('ecommerce_log_segmented');
@@ -636,6 +646,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the Manage > Tracking Code admin page correctly', async function () {
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
+
+        // replace container id in tagmanager code, as it changes when updating omnifixture
+        await page.evaluate(function() {
+            $('.tagManagerTrackingCode pre').html($('.tagManagerTrackingCode pre').html().replace(/container_[A-z0-9]+\.js/, 'container_REPLACED.js'));
+        });
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('admin_manage_tracking_code');
@@ -813,7 +828,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the widgets listing page correctly', async function() {
         await page.goto("?" + generalParams + "&module=Widgetize&action=index");
 
-        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
+        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors - Overview):first');
         await visitors.hover();
         await visitors.click();
         await page.waitFor(100);
@@ -885,6 +900,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto("?" + widgetizeParams + "&" + idSite2Params + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorProfilePopup"
                 + "&enableAnimation=0");
 
+        await page.evaluate(function() {
+            $('.visitor-profile-widget-link > span').text('{REPLACED_ID}');
+        });
+
         await (await page.waitForSelector('.visitor-profile-show-map')).click();
         await page.waitForNetworkIdle();
         await page.waitFor(200);
@@ -932,6 +951,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.waitForNetworkIdle();
         await page.evaluate(function(){
             $('.segmentationTitle').click();
+        });
+        await page.waitFor(100);
+        await page.evaluate(function(){
             $('.segname:contains(From Europe)').click();
         });
         await page.waitForNetworkIdle();
@@ -963,6 +985,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         await page.waitForNetworkIdle();
+
+        await page.evaluate(function() {
+            $('.visitor-profile-widget-link > span').text('{REPLACED_ID}');
+        });
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visitor_profile_not_segmented');
     });

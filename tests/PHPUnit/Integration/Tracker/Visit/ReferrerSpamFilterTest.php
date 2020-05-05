@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -25,7 +25,7 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
      */
     private $filter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
         $this->filter = new ReferrerSpamFilter;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

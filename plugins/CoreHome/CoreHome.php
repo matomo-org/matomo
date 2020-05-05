@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,13 +11,16 @@ namespace Piwik\Plugins\CoreHome;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DbHelper;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
 use Piwik\SettingsServer;
+use Piwik\Tracker\Model as TrackerModel;
 
 /**
  *
@@ -59,6 +62,9 @@ class CoreHome extends \Piwik\Plugin
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = StaticContainer::get(ArchiveInvalidator::class);
         $cacheGeneral[ArchiveInvalidator::TRACKER_CACHE_KEY] = $archiveInvalidator->getAllRememberToInvalidateArchivedReportsLater();
+
+        $hasIndex = DbHelper::tableHasIndex(Common::prefixTable('log_visit'), 'index_idsite_idvisitor');
+        $cacheGeneral[TrackerModel::CACHE_KEY_INDEX_IDSITE_IDVISITOR] = $hasIndex;
     }
 
     public function addStylesheets(&$mergedContent)
@@ -205,6 +211,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/escape.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/htmldecode.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/urldecode.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/ucfirst.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";

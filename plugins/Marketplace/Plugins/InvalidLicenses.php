@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Marketplace\Plugins;
 
-use Piwik\Cache;
+use Matomo\Cache\Eager;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
@@ -37,7 +37,7 @@ class InvalidLicenses
     private $translator;
 
     /**
-     * @var Cache\Eager
+     * @var Eager
      */
     private $cache;
 
@@ -50,7 +50,7 @@ class InvalidLicenses
 
     private $cacheKey = 'Marketplace_ExpiredPlugins';
 
-    public function __construct(Client $client, Cache\Eager $cache, Translator $translator, Plugins $plugins)
+    public function __construct(Client $client, Eager $cache, Translator $translator, Plugins $plugins)
     {
         $this->client = $client;
         $this->translator = $translator;

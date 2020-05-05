@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,10 +13,8 @@ use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
-use Piwik\Version;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
@@ -44,15 +42,6 @@ class Console extends Application
             null,
             InputOption::VALUE_OPTIONAL,
             'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
-        );
-
-        $this->getDefinition()->addOption($option);
-
-        // @todo  Remove this alias in Matomo 4.0
-        $option = new InputOption('piwik-domain',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            '[DEPRECATED] Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
         );
 
         $this->getDefinition()->addOption($option);
@@ -88,6 +77,21 @@ class Console extends Application
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        try {
+            return $this->doRunImpl($input, $output);
+        } catch (\Exception $ex) {
+            try {
+                FrontController::generateSafeModeOutputFromException($ex);
+            } catch (\Exception $ex) {
+                // ignore, we re-throw the original exception, not a wrapped one
+            }
+
+            throw $ex;
+        }
+    }
+
+    private function doRunImpl(InputInterface $input, OutputInterface $output)
     {
         if ($input->hasParameterOption('--xhprof')) {
             Profiler::setupProfilerXHProf(true, true);
@@ -214,10 +218,6 @@ class Console extends Application
     protected function initMatomoHost(InputInterface $input)
     {
         $matomoHostname = $input->getParameterOption('--matomo-domain');
-
-        if (empty($matomoHostname)) {
-            $matomoHostname = $input->getParameterOption('--piwik-domain');
-        }
 
         if (empty($matomoHostname)) {
             $matomoHostname = $input->getParameterOption('--url');

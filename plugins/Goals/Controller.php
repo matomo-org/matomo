@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,16 +24,11 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const CONVERSION_RATE_PRECISION = 1;
-
     /**
      * Number of "Your top converting keywords/etc are" to display in the per Goal overview page
      * @var int
      */
     const COUNT_TOP_ROWS_TO_DISPLAY = 3;
-
-    const ECOMMERCE_LOG_SHOW_ORDERS = 1;
-    const ECOMMERCE_LOG_SHOW_ABANDONED_CARTS = 2;
 
     protected $goalColumnNameToLabel = array(
         'avg_order_revenue' => 'General_AverageOrderValue',
@@ -57,10 +52,6 @@ class Controller extends \Piwik\Plugin\Controller
             } else {
                 $conversionRate = $conversionRate->getFirstRow()->getColumn($columnName);
             }
-        }
-
-        if (!is_numeric($conversionRate)) {
-            $conversionRate = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRate);
         }
 
         return $conversionRate;

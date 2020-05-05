@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -23,7 +23,7 @@ class LockTest extends IntegrationTestCase
      */
     public $lock;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ class LockTest extends IntegrationTestCase
         $this->lock = $this->createLock($mysql);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

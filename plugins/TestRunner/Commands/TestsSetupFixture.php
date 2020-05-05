@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -256,8 +256,6 @@ class TestsSetupFixture extends ConsoleCommand
 
     private function requireFixtureFiles(InputInterface $input)
     {
-        require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
         $file = $input->getOption('file');
         if ($file) {
             if (is_file($file)) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -76,7 +76,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL);
 
-        if (in_array($recordName, array(self::DEVICE_TYPE_RECORD_NAME, self::DEVICE_BRAND_RECORD_NAME, self::DEVICE_MODEL_RECORD_NAME))) {
+        if (in_array($recordName, array(self::DEVICE_TYPE_RECORD_NAME, self::DEVICE_BRAND_RECORD_NAME, self::DEVICE_MODEL_RECORD_NAME, self::BROWSER_RECORD_NAME))) {
 
             $labelSQL = str_replace('log_visit.', 'log_conversion.', $labelSQL);
 

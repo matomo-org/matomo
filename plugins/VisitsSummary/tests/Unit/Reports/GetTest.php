@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,7 +17,7 @@ use Piwik\Plugins\VisitsSummary\Reports\Get;
  * @group GetTest
  * @group Plugins
  */
-class GetTest extends \PHPUnit_Framework_TestCase
+class GetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Get
@@ -26,7 +26,7 @@ class GetTest extends \PHPUnit_Framework_TestCase
 
     private $column = 'nb_users';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->get = new Get();

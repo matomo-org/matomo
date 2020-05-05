@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,7 +19,7 @@ class ManySites extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
 
-    public function setUp()
+    public function setUp(): void
     {
         for ($idSite = 1; $idSite < 64; $idSite++) {
             if (!self::siteCreated($idSite)) {

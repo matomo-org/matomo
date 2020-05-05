@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByParameterCount;
 /**
  * @group LanguagesManager
  */
-class ByParameterCountTest extends \PHPUnit_Framework_TestCase
+class ByParameterCountTest extends \PHPUnit\Framework\TestCase
 {
     public function getFilterTestData()
     {

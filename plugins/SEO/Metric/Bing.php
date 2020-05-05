@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,7 +35,7 @@ class Bing implements MetricsProvider
 
         try {
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
-            $response = str_replace('&#160;', '', $response); // number uses nbsp as thousand seperator
+            $response = str_replace('&#160;', '', $response); // number uses nbsp as thousand separator
 
             if (preg_match('#([0-9,\.]+) results#i', $response, $p)) {
                 $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace(array(',', '.'), '', $p[1]));

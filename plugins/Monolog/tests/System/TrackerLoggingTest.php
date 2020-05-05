@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,12 +10,10 @@ namespace Piwik\Plugins\Monolog\tests\System;
 
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Plugins\Monolog\Handler\EchoHandler;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use PiwikTracker;
-use Psr\Container\ContainerInterface;
+use MatomoTracker;
 
 /**
  * @group Monolog
@@ -26,7 +24,7 @@ class TrackerLoggingTest extends SystemTestCase
 {
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -72,7 +70,7 @@ class TrackerLoggingTest extends SystemTestCase
         return $t;
     }
 
-    private function assertTrackerResponseContainsLogOutput(PiwikTracker $t)
+    private function assertTrackerResponseContainsLogOutput(MatomoTracker $t)
     {
         $response = $t->doTrackPageView('incredible title!');
 

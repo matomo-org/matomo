@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,14 +11,14 @@ namespace Piwik\Tests\Integration\AssetManager;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetMinifier;
 
-class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
+class UIAssetMinifierTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var UIAssetMinifier
      */
     private $assetMinifier;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->assetMinifier = UIAssetMinifier::getInstance();
     }

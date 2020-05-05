@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\DbHelper;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -176,7 +175,7 @@ class TrackerCodeGenerator
          *                                        the JavaScript tracker inside of anonymous function before
          *                                        adding setTrackerUrl into paq.
          *                         - **protocol**: Piwik url protocol.
-         *                         - **loadAsync**: boolean whether piwik.js should be loaded syncronous or asynchronous
+         *                         - **loadAsync**: boolean whether piwik.js should be loaded synchronous or asynchronous
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.

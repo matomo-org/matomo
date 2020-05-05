@@ -1,0 +1,8 @@
+{
+    "CustomJsTracker": {
+        "PluginDescription": "Gör att insticksprogram kan bygga vidare på Matomos JavaScript-spårare (matomo.js) för att lägga till nya funktioner och möjligheter för att mäta webbplatser.",
+        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-spårare (%s)",
+        "DiagnosticPiwikJsNotWritable": "JavaScript-filen innehållande Matomos spårare (%s) är skrivskyddad, vilket innebär att insticksprogram inte kan utöka JavaScript-spåraren. I framtiden kan även vissa andra grundfunktioner upphöra fungera som väntat.",
+        "DiagnosticPiwikJsMakeWritable": "Vi rekommenderar att ta bort skrivskyddet från filen %1$s genom att använda följande kommando: %2$s"
+    }
+}

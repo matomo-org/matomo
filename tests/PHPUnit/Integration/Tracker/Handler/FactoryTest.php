@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -53,12 +53,11 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame($handlerToUse, $handler);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The Handler object set in the plugin
-     */
     public function test_make_shouldTriggerExceptionInCaseWrongInstanceCreatedInHandler()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The Handler object set in the plugin');
+
         Piwik::addAction('Tracker.newHandler', function (&$handler) {
             $handler = new Tracker();
         });

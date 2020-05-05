@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,8 +26,8 @@ class AnonymizeRawData extends ConsoleCommand
         $this->setName('privacymanager:anonymize-some-raw-data');
         $this->setDescription('Anonymize some of the stored raw data (logs). The reason it only anonymizes "some" data is that personal data can be present in many various data collection points, for example some of your page URLs or page titles may include personal data and these will not be anonymized by this command as it is not possible to detect personal data for example in a URL automatically.');
         $this->addOption('date', null, InputOption::VALUE_REQUIRED, 'Date or date range to invalidate raw data for (UTC). Either a date like "2015-01-03" or a range like "2015-01-05,2015-02-12". By default, all data including today will be anonymized.', $defaultDate);
-        $this->addOption('unset-visit-columns', null, InputOption::VALUE_REQUIRED, 'Comma seperated list of log_visit columns that you want to unset. Each value for that column will be set to its default value. If the same column exists in "log_conversion" table as well, the column will be unset there as well. This action cannot be undone.', '');
-        $this->addOption('unset-link-visit-action-columns', null, InputOption::VALUE_REQUIRED, 'Comma seperated list of log_link_visit_action columns that you want to unset. Each value for that column will be set to its default value. This action cannot be undone.', '');
+        $this->addOption('unset-visit-columns', null, InputOption::VALUE_REQUIRED, 'Comma separated list of log_visit columns that you want to unset. Each value for that column will be set to its default value. If the same column exists in "log_conversion" table as well, the column will be unset there as well. This action cannot be undone.', '');
+        $this->addOption('unset-link-visit-action-columns', null, InputOption::VALUE_REQUIRED, 'Comma separated list of log_link_visit_action columns that you want to unset. Each value for that column will be set to its default value. This action cannot be undone.', '');
         $this->addOption('anonymize-ip', null, InputOption::VALUE_NONE, 'If set, the IP will be anonymized with a mask of at least 2. This action cannot be undone.');
         $this->addOption('anonymize-location', null, InputOption::VALUE_NONE, 'If set, the location will be re-evaluated based on the anonymized IP. This action cannot be undone.');
         $this->addOption('anonymize-userid', null, InputOption::VALUE_NONE, 'If set, any set user-id will be anonymized. This action cannot be undone.');

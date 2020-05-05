@@ -1,9 +1,0 @@
-{
-    "Provider": {
-        "ColumnProvider": "Fornecedor",
-        "PluginDescription": "Regista os fornecedores do serviço de Internet dos visitantes.",
-        "ProviderReportDocumentation": "Este relatório mostra quais os fornecedores do serviço de Internet que os seus visitantes utilizaram para aceder ao site. Pode clicar num nome de um fornecedor para obter mais detalhes. %s Se o Matomo não conseguir determinar um fornecedor para o visitante, este será listado como um IP.",
-        "WidgetProviders": "Fornecedores",
-        "ProviderReportFooter": "Um fornecedor desconhecido, significa que não foi possível procurar o endereço de IP."
-    }
-}

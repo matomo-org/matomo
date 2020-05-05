@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,8 +14,6 @@ use Piwik\SettingsServer;
 
 /**
  * Factory to create an instance of a storage. The storage can be created with different backends depending on the need.
- *
- * @package Piwik\Settings\Storage
  */
 class Factory
 {

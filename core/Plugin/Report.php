@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -496,8 +496,8 @@ class Report
             } elseif ($metric instanceof Metric) {
                 $name = $metric->getName();
                 $metricDocs = $metric->getDocumentation();
-                if (empty($metricDocs)) {
-                    $metricDocs = @$translations[$name];
+                if (empty($metricDocs) && !empty($translations[$name])) {
+                    $metricDocs = $translations[$name];
                 }
 
                 if (!empty($metricDocs)) {
@@ -513,8 +513,8 @@ class Report
             } elseif ($processedMetric instanceof Metric) {
                 $name = $processedMetric->getName();
                 $metricDocs = $processedMetric->getDocumentation();
-                if (empty($metricDocs)) {
-                    $metricDocs = @$translations[$name];
+                if (empty($metricDocs) && !empty($translations[$name])) {
+                    $metricDocs = $translations[$name];
                 }
 
                 if (!empty($metricDocs)) {

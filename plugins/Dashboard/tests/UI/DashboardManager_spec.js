@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Dashboard manager screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -29,7 +29,7 @@ describe("DashboardManager", function () {
         live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)');
         await live.hover();
 
-        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
+        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors - Overview):first');
         await visitors.hover();
         await visitors.click();
 
@@ -65,8 +65,25 @@ describe("DashboardManager", function () {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
         await page.waitFor('#createDashboardName', { visible: true });
-        await page.type('#createDashboardName', 'newdash2');
-        await page.waitFor(200); // sometimes the text doesn't seem to type fast enough
+
+        // try to type the text a few times, as it sometimes doesn't get the full value
+        var name = 'newdash2';
+        for (var i=0; i<5; i++) {
+            await page.evaluate(function() {
+                $('#createDashboardName').val('');
+            });
+            await page.type('#createDashboardName', name);
+            await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+
+            var value = await page.evaluate(function() {
+                return $('#createDashboardName').attr('value');
+            });
+
+            if (value === name) {
+                break;
+            }
+        }
+
         button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
 

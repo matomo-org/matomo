@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -245,6 +245,21 @@ abstract class Period
     {
         $this->generate();
         return $this->subperiods;
+    }
+
+    /**
+     * Returns whether the date `$date` is within the current period or not.
+     *
+     * Note: the time component of the period's dates and `$date` is ignored.
+     *
+     * @param Date $today
+     * @return bool
+     */
+    public function isDateInPeriod(Date $date)
+    {
+        $ts = $date->getStartOfDay()->getTimestamp();
+        return $ts >= $this->getDateStart()->getStartOfDay()->getTimestamp()
+            && $ts < $this->getDateEnd()->addDay(1)->getStartOfDay()->getTimestamp();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -786,7 +786,7 @@ class Db
     {
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
-                Db::lockTables(Common::prefixTable('log_visit'));
+                Db::lockTables(Common::prefixTable('site_url'));
                 Db::unlockAllTables();
 
                 self::$lockPrivilegeGranted = true;

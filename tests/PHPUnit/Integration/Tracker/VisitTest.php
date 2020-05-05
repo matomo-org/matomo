@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
@@ -27,7 +27,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class VisitTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -392,7 +392,7 @@ class VisitTest extends IntegrationTestCase
         $currentActionTime = Date::today()->getDatetime();
         $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
 
-        $expectedRemembered = array(Date::today()->toString() => [1]);
+        $expectedRemembered = array();
 
         $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
     }
@@ -414,7 +414,6 @@ class VisitTest extends IntegrationTestCase
         // The double-handling below is needed to work around weird behaviour when UTC and UTC+5 are different dates
         // Example: 4:32am on 1 April in UTC+5 is 11:32pm on 31 March in UTC
         $midnight = Date::factoryInTimezone('today', 'UTC+5')->setTimezone('UTC+5');
-        $today = Date::factoryInTimezone('today', 'UTC+5');
 
         $oneHourAfterMidnight = $midnight->addHour(1)->getDatetime();
         $oneHourBeforeMidnight = $midnight->subHour(1)->getDatetime();
@@ -428,11 +427,10 @@ class VisitTest extends IntegrationTestCase
 
         $expectedRemembered = array(
             substr($oneHourAfterMidnight, 0, 10) => array($idsite),
-            $today->toString() => [$idsite],
         );
 
         // if website timezone was von considered both would be today (expected = array())
-        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $oneHourAfterMidnight, array($today->toString() => [$idsite]));
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $oneHourAfterMidnight, array());
         $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $oneHourBeforeMidnight, $expectedRemembered);
     }
 
@@ -451,7 +449,22 @@ class VisitTest extends IntegrationTestCase
         $archive = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
 
-        $this->assertSame($expectedRemeberedArchivedReports, $remembered);
+        $this->assertSameReportsInvalidated($expectedRemeberedArchivedReports, $remembered);
+    }
+
+    private function assertSameReportsInvalidated($expected, $actual)
+    {
+        $keys1 = array_keys($expected);
+        $keys2 = array_keys($actual);
+        sort($keys1);
+        sort($keys2);
+
+        $this->assertSame($keys1, $keys2);
+        foreach ($expected as $index => $values) {
+            sort($values);
+            sort($actual[$index]);
+            $this->assertSame($values, $actual[$index]);
+        }
     }
 
     private function prepareVisitWithRequest($requestParams, $requestDate)

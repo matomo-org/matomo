@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -327,7 +327,7 @@ class CliMulti
         $posStart = strpos($commandToCheck, 'console climulti');
         $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
         $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
-        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
+        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=json&trigger=archivephp
         $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
         $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
 
@@ -365,8 +365,7 @@ class CliMulti
         }
 
         if ($this->runAsSuperUser) {
-            $tokenAuths = self::getSuperUserTokenAuths();
-            $tokenAuth = reset($tokenAuths);
+            $tokenAuth = self::getSuperUserTokenAuth();
 
             if (strpos($url, '?') === false) {
                 $url .= '?';
@@ -433,18 +432,9 @@ class CliMulti
         return $results;
     }
 
-    private static function getSuperUserTokenAuths()
+    private static function getSuperUserTokenAuth()
     {
-        $tokens = array();
-
-        /**
-         * Used to be in CronArchive, moved to CliMulti.
-         *
-         * @ignore
-         */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
-
-        return $tokens;
+        return Piwik::requestTemporarySystemAuthToken('CliMultiNonAsyncArchive', 36);
     }
 
     public function setUrlToPiwik($urlToPiwik)

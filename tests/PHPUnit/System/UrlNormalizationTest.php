@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -28,9 +28,6 @@ class UrlNormalizationTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        if(self::isMysqli()) {
-            $this->markTestSkipped('Sometimes fail on MYSQLI (at random)');
-        }
         $this->runApiTests($api, $params);
     }
 

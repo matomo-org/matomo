@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Cookie;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
@@ -29,7 +29,7 @@ class RequestTest extends UnitTestCase
     private $request;
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -284,12 +284,11 @@ class RequestTest extends UnitTestCase
         $this->assertEquals('05:20:17', $request->getLocalTime());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Requested parameter myCustomFaKeParaM is not a known Tracking API Parameter
-     */
     public function test_getParam_shouldThrowException_IfTryingToAccessInvalidParam()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Requested parameter myCustomFaKeParaM is not a known Tracking API Parameter');
+
         $this->request->getParam('myCustomFaKeParaM');
     }
 
@@ -327,32 +326,6 @@ class RequestTest extends UnitTestCase
 
         $expected = array(1, 0, 1, 0, 0, 0, 0, 0, 1, 0);
         $this->assertEquals($expected, $request->getPlugins());
-    }
-
-    public function test_getPageGenerationTime_shouldDefaultToFalse_IfNotGiven()
-    {
-        $this->assertFalse($this->request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldIgnoreAnyValueLowerThan0()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '0'));
-        $this->assertFalse($request->getPageGenerationTime());
-
-        $request = $this->buildRequest(array('gt_ms' => '-5'));
-        $this->assertFalse($request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldIgnoreAnyValueThatIsTooHigh()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '3600002'));
-        $this->assertFalse($request->getPageGenerationTime());
-    }
-
-    public function test_getPageGenerationTime_shouldReturnAValidValue()
-    {
-        $request = $this->buildRequest(array('gt_ms' => '1942'));
-        $this->assertSame(1942, $request->getPageGenerationTime());
     }
 
     public function test_truncateCustomVariable_shouldNotTruncateAnything_IfValueIsShortEnough()
@@ -433,7 +406,7 @@ class RequestTest extends UnitTestCase
 
     private function assertCookieContains($needle, Cookie $cookie)
     {
-        $this->assertContains($needle, $cookie . '');
+        self::assertStringContainsString($needle, $cookie . '');
     }
 
     public function test_getLocalTime()

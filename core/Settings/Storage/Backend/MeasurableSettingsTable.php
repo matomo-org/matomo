@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,11 +10,8 @@
 namespace Piwik\Settings\Storage\Backend;
 
 use Piwik\Common;
-use Piwik\Concurrency\Lock;
-use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Exception;
-use Piwik\Version;
 
 /**
  * Measurable settings backend. Stores all settings in a "site_setting" database table.

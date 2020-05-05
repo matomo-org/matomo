@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -24,9 +24,9 @@ class FrontControllerTest extends SystemTestCase
         $header = $this->getResponseHeader($url);
 
         if ($redirection) {
-            $this->assertContains('Location: ' . Fixture::getRootUrl() . 'tests/PHPUnit/proxy/' . $redirection . "\r\n", $header);
+            self::assertStringContainsString('Location: ' . Fixture::getRootUrl() . 'tests/PHPUnit/proxy/' . $redirection . "\r\n", $header);
         } else {
-            $this->assertNotContains('Location: ', $header);
+            self::assertStringNotContainsString('Location: ', $header);
         }
     }
 

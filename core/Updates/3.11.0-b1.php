@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,7 +11,6 @@ namespace Piwik\Updates;
 
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
-use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -58,9 +58,18 @@ class TestConfig extends Config
 
         // Ensure local mods do not affect tests
         if (empty($pathGlobal)) {
+            $general = $chain->getFrom($this->getLocalPath(), 'General');
+            $instanceId = isset($general['instance_id']) ? $general['instance_id'] : null;
+
             $chain->set('Debug', $chain->getFrom($this->getGlobalPath(), 'Debug'));
             $chain->set('mail', $chain->getFrom($this->getGlobalPath(), 'mail'));
-            $chain->set('General', $chain->getFrom($this->getGlobalPath(), 'General'));
+
+            $globalGeneral = $chain->getFrom($this->getGlobalPath(), 'General');
+            if ($instanceId) {
+                $globalGeneral['instance_id'] = $instanceId;
+            }
+            $chain->set('General', $globalGeneral);
+
             $chain->set('Segments', $chain->getFrom($this->getGlobalPath(), 'Segments'));
             $chain->set('Tracker', $chain->getFrom($this->getGlobalPath(), 'Tracker'));
             $chain->set('Deletelogs', $chain->getFrom($this->getGlobalPath(), 'Deletelogs'));
@@ -80,10 +89,6 @@ class TestConfig extends Config
         $general =& $chain->get('General');
         $log =& $chain->get('log');
         $database =& $chain->get('database');
-
-        if ($testingEnvironment->configFileLocal) {
-            $general['session_save_handler'] = 'dbtable';
-        }
 
         $log['log_writers'] = array('file');
 

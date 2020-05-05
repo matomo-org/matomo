@@ -7,6 +7,7 @@
         "AnonymizeIpMaskLength": "%1$s 字節，例如 %2$s",
         "AskingForConsent": "要求同意",
         "ClickHereSettings": "點擊這裡查看 %s 設定。",
+        "AnonymizeUserId": "以假名取代使用者 ID",
         "CurrentDBSize": "目前資料庫大小",
         "DBPurged": "資料庫已清理。",
         "DeleteBothConfirm": "你將啟用原始資料刪除和報表刪除功能。這將永久刪除舊資料，你將無法再查看舊有分析資料。確定要繼續嗎？",

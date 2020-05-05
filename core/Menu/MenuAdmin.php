@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,6 @@
 namespace Piwik\Menu;
 
 use Piwik\Development;
-use Piwik\Piwik;
 
 /**
  * Contains menu entries for the Admin menu.
@@ -109,7 +108,7 @@ class MenuAdmin extends MenuAbstract
     /**
      * Triggers the Menu.MenuAdmin.addItems hook and returns the admin menu.
      *
-     * @return Array
+     * @return array
      */
     public function getMenu()
     {

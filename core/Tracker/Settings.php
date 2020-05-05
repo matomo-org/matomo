@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
  */
 namespace Piwik\Tracker;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
@@ -41,7 +40,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
         $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent);
         $aBrowserInfo   = $deviceDetector->getClient();
 
-        if ($aBrowserInfo['type'] != 'browser') {
+        if (empty($aBrowserInfo['type']) || 'browser' !== $aBrowserInfo['type']) {
             // for now only track browsers
             unset($aBrowserInfo);
         }
@@ -78,7 +77,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
     }
 
     /**
-     * Returns a 64-bit hash that attemps to identify a user.
+     * Returns a 64-bit hash that attempts to identify a user.
      * Maintaining some privacy by default, eg. prevents the merging of several Piwik serve together for matching across instances..
      *
      * @param $os

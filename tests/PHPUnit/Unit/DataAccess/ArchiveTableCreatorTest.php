@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,11 +13,11 @@ use Piwik\DataAccess\ArchiveTableCreator;
 /**
  * @group Core
  */
-class ArchiveTableCreatorTest extends \PHPUnit_Framework_TestCase
+class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
 {
     private $tables;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class ArchiveTableCreatorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         ArchiveTableCreator::clear();
 

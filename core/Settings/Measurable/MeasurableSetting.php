@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ namespace Piwik\Settings\Measurable;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Settings\Storage;
 
 /**
  * Describes a Measurable setting for a measurable type such as a website, a mobile app, ...

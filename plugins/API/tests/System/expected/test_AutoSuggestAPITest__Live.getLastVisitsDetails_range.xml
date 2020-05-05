@@ -16,7 +16,7 @@
 				
 				<pageId>95</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -155,7 +155,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -189,18 +189,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>48</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 48</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -229,7 +225,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -248,7 +244,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -266,12 +262,12 @@
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
+				<subtitle>Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -398,7 +394,7 @@
 				
 				<pageId>45</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -555,7 +551,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -604,7 +600,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -623,7 +619,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -641,12 +637,12 @@
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
+				<subtitle>Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -718,13 +714,13 @@
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Macedonia</country>
+		<country>North Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Gevgelija</region>
 		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, North Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -773,7 +769,7 @@
 				
 				<pageId>40</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -873,13 +869,13 @@
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Macedonia</country>
+		<country>North Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Gevgelija</region>
 		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, North Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -930,7 +926,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -964,18 +960,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>36</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 36</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1004,7 +996,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -1023,7 +1015,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -1070,12 +1062,12 @@
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat6', Action: &quot;Action6&quot;</subtitle>
+				<subtitle>Category: &quot;Cat6', Action: &quot;Action6&quot;</subtitle>
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1202,7 +1194,7 @@
 				
 				<pageId>34</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -1359,7 +1351,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -1408,7 +1400,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -1427,7 +1419,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -1445,12 +1437,12 @@
 				<eventCategory>Cat5</eventCategory>
 				<eventAction>Action5</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat5', Action: &quot;Action5&quot;</subtitle>
+				<subtitle>Category: &quot;Cat5', Action: &quot;Action5&quot;</subtitle>
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1577,7 +1569,7 @@
 				
 				<pageId>29</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -1734,7 +1726,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -1768,18 +1760,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>24</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 24</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1808,7 +1796,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -1827,7 +1815,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -1845,12 +1833,12 @@
 				<eventCategory>Cat4</eventCategory>
 				<eventAction>Action4</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat4', Action: &quot;Action4&quot;</subtitle>
+				<subtitle>Category: &quot;Cat4', Action: &quot;Action4&quot;</subtitle>
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1977,7 +1965,7 @@
 				
 				<pageId>23</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -2134,7 +2122,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -2183,7 +2171,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -2202,7 +2190,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -2249,12 +2237,12 @@
 				<eventCategory>Cat3</eventCategory>
 				<eventAction>Action3</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
+				<subtitle>Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2383,7 +2371,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -2432,7 +2420,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -2451,7 +2439,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -2498,12 +2486,12 @@
 				<eventCategory>Cat3</eventCategory>
 				<eventAction>Action3</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
+				<subtitle>Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2622,7 +2610,7 @@
 				
 				<pageId>18</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -2777,7 +2765,7 @@
 				
 				<pageId>79</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -2934,7 +2922,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -2968,18 +2956,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>12</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 12</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -3008,7 +2992,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -3027,7 +3011,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -3045,12 +3029,12 @@
 				<eventCategory>Cat2</eventCategory>
 				<eventAction>Action2</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
+				<subtitle>Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3179,7 +3163,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -3213,18 +3197,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>12</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT - Search Results Count: 12</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -3253,7 +3233,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -3272,7 +3252,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -3290,12 +3270,12 @@
 				<eventCategory>Cat2</eventCategory>
 				<eventAction>Action2</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
+				<subtitle>Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3414,7 +3394,7 @@
 				
 				<pageId>12</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -3569,7 +3549,7 @@
 				
 				<pageId>73</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -3726,7 +3706,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -3775,7 +3755,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -3794,7 +3774,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -3812,12 +3792,12 @@
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3946,7 +3926,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -3995,7 +3975,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -4014,7 +3994,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -4032,12 +4012,12 @@
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4166,7 +4146,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -4215,7 +4195,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -4234,7 +4214,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -4252,12 +4232,12 @@
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4378,7 +4358,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -4427,7 +4407,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -4446,7 +4426,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -4464,12 +4444,12 @@
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
+				<subtitle>Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4596,7 +4576,7 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -4751,7 +4731,7 @@
 				
 				<pageId>57</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -4906,7 +4886,7 @@
 				
 				<pageId>68</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -5061,7 +5041,7 @@
 				
 				<pageId>90</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -5218,7 +5198,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -5252,18 +5232,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>0</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -5292,7 +5268,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -5311,7 +5287,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -5358,12 +5334,12 @@
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5492,7 +5468,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -5526,18 +5502,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>0</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -5566,7 +5538,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -5585,7 +5557,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -5632,12 +5604,12 @@
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5766,7 +5738,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -5800,18 +5772,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>0</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -5840,7 +5808,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -5859,7 +5827,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -5906,12 +5874,12 @@
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6032,7 +6000,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
@@ -6066,18 +6034,14 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
+				<siteSearchCategory>CAT</siteSearchCategory>
+				<siteSearchCount>0</siteSearchCount>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
-				<subtitle>Bring on the party</subtitle>
+				<subtitle>Bring on the party - Search Category: CAT</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -6106,7 +6070,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -6125,7 +6089,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -6172,12 +6136,12 @@
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
-				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
+				<subtitle>Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -6304,7 +6268,7 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -6459,7 +6423,7 @@
 				
 				<pageId>51</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -6614,7 +6578,7 @@
 				
 				<pageId>62</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
@@ -6769,7 +6733,7 @@
 				
 				<pageId>84</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />

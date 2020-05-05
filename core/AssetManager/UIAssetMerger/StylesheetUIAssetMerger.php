@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,6 +13,7 @@ use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -46,6 +47,9 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         try {
             $compiled = $this->lessCompiler->compile($concatenatedAssets);
         } catch(\Exception $e) {
+            // save the concated less files so we can debug the issue
+            $this->saveConcatenatedAssets($concatenatedAssets);
+
             throw new StylesheetLessCompileException($e->getMessage());
         }
 
@@ -256,5 +260,13 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         }
         $rootDirectoryLen = strlen($rootDirectory);
         return $rootDirectoryLen;
+    }
+
+    private function saveConcatenatedAssets($concatenatedAssets)
+    {
+        $file = StaticContainer::get('path.tmp') . '/assets/uimergedassets.concat.less';
+        if (is_writable(dirname($file))) {
+            file_put_contents($file, $concatenatedAssets);
+        }
     }
 }

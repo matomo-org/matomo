@@ -1,14 +1,17 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive\ArchivePurger;
 use Piwik\Archive\Chunk;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -23,6 +26,9 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  */
 class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCase
 {
+    /**
+     * @var VisitsOverSeveralDays
+     */
     public static $fixture = null; // initialized below test definition
 
     public static function getOutputPrefix()
@@ -101,9 +107,14 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      */
     public function test_checkArchiveRecords_whenPeriodIsRange()
     {
-        // we expect 5 blobs for Actions plugins, because flat=1 or expanded=1 was not set
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        foreach (self::$fixture->dateTimes as $date) {
+            $archivePurger->purgeInvalidatedArchivesFrom(Date::factory($date));
+        }
+
+        // we expect 6 blobs for Actions plugins, because flat=1 or expanded=1 was not set
         // so we only archived the parent table
-        $expectedActionsBlobs = 5;
+        $expectedActionsBlobs = 6;
 
         // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
@@ -171,6 +172,25 @@ class Controller extends \Piwik\Plugin\Controller
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
         return $view->render();
+    }
+
+    public function oneClickUpdatePartTwo()
+    {
+        Json::sendHeaderJSON();
+
+        $messages = [];
+
+        try {
+            Piwik::checkUserHasSuperUserAccess();
+            $messages = $this->updater->oneClickUpdatePartTwo();
+        } catch (UpdaterException $e) {
+            $messages = $e->getUpdateLogMessages();
+            $messages[] = $e->getMessage();
+        } catch (Exception $e) {
+            $messages[] = $e->getMessage();
+        }
+
+        echo json_encode($messages);
     }
 
     public function oneClickResults()

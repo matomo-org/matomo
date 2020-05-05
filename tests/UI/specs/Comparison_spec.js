@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Bar graph screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,7 +11,7 @@ describe("Comparison", function () {
     const generalParams = 'idSite=1&period=range&date=2012-01-12,2012-01-17',
         urlBase = 'module=CoreHome&action=index&' + generalParams,
         dashboardUrl = "?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5",
-        tokenAuth = "9ad1de7f8b329ab919d854c556f860c1", // md5('superUserLogin' . md5('superUserPass'))
+        tokenAuth = "c4ca4238a0b923820dcc509a6f75849b", // md5('superUserLogin' . md5('superUserPass'))
         comparePeriod = "&compareDates[]=2012-01-01,2012-01-31&comparePeriods[]=range",
         compareSegment = "&compareSegments[]=continentCode%3D%3Deur",
         compareParams = comparePeriod + compareSegment,

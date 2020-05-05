@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -108,7 +108,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Default action
      *
-     * @param none
      * @return string
      */
     function index()
@@ -472,7 +471,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Logout current user
      *
-     * @param none
      * @return void
      */
     public function logout()

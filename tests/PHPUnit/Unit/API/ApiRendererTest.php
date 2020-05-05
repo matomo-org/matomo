@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,23 +15,23 @@ use Piwik\Plugin\Manager;
  * @group Core
  * @group Only2
  */
-class ApiRendererTest extends \PHPUnit_Framework_TestCase
+class ApiRendererTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Manager::getInstance()->loadPlugins(array('API'));
     }
 
     public function test_factory_shouldCreateAnInstance_IfValidFormatGiven()
     {
-        $renderer = ApiRenderer::factory('php', array());
-        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Php', $renderer);
+        $renderer = ApiRenderer::factory('xml', array());
+        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
 
-        $renderer = ApiRenderer::factory('PHP', array());
-        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Php', $renderer);
+        $renderer = ApiRenderer::factory('XML', array());
+        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
 
-        $renderer = ApiRenderer::factory('pHp', array());
-        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Php', $renderer);
+        $renderer = ApiRenderer::factory('cSv', array());
+        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Csv', $renderer);
 
         $renderer = ApiRenderer::factory('xmL', array());
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
@@ -40,12 +40,11 @@ class ApiRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Original', $renderer);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidRendererFormat
-     */
     public function test_factory_shouldThrowAnException_IfInvalidFormatGiven()
     {
-        ApiRenderer::factory('phpi', array());
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidRendererFormat');
+
+        ApiRenderer::factory('csvi', array());
     }
 }

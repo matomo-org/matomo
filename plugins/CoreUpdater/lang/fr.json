@@ -28,8 +28,6 @@
         "InstallingTheLatestVersion": "Installation de la dernière version",
         "LatestBetaRelease": "Dernière version beta",
         "LatestStableRelease": "Dernière version stable",
-        "Latest2XStableRelease": "Dernière stable 2.X",
-        "Latest2XBetaRelease": "Dernière beta 2.X",
         "LtsSupportVersion": "Version Long Term Support",
         "ListOfSqlQueriesFYI": "PVI : ce sont les requêtes SQL et les commandes console qui seront exécutées pour mettre à jour votre base de données vers Matomo %s",
         "TheseSqlQueriesWillBeExecuted": "Ces requêtes SQL seront exécutées :",

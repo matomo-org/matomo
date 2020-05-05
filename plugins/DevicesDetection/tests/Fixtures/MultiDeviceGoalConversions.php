@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -20,7 +20,7 @@ class MultiDeviceGoalConversions extends Fixture
     public $idSite   = 1;
     public $idGoal   = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackSmartphoneVisits();
@@ -28,7 +28,7 @@ class MultiDeviceGoalConversions extends Fixture
         $this->trackOtherVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

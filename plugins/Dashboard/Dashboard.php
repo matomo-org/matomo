@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -150,15 +150,17 @@ class Dashboard extends \Piwik\Plugin
         $defaultLayout = $this->getLayoutForUser('', 1);
 
         if (empty($defaultLayout)) {
+            $pluginManager = Plugin\Manager::getInstance();
+
             $advertisingWidget = '';
             $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
-            if ($advertising->areAdsForProfessionalServicesEnabled() && Plugin\Manager::getInstance()->isPluginActivated('ProfessionalServices')) {
+            if ($advertising->areAdsForProfessionalServicesEnabled() && $pluginManager->isPluginActivated('ProfessionalServices')) {
                 $advertisingWidget = '{"uniqueId":"widgetProfessionalServicespromoServices","parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
             }
-            if (Piwik::hasUserSuperUserAccess()) {
-                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetDonateForm","parameters":{"module":"CoreHome","action":"getDonateForm"}}';
-            } else {
-                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
+            $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
+            $insightsWidget = '';
+            if ($pluginManager->isPluginActivated('Insights')) {
+                $insightsWidget = '{"uniqueId":"widgetInsightsgetOverallMoversAndShakers","parameters":{"module":"Insights","action":"getOverallMoversAndShakers"}},';
             }
             $defaultLayout = '[
                 [
@@ -168,6 +170,7 @@ class Dashboard extends \Piwik\Plugin
                 [
                     {"uniqueId":"widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution","parameters":{"forceView":"1","viewDataTable":"graphEvolution","module":"VisitsSummary","action":"getEvolutionGraph"}},
                     ' . $advertisingWidget . '
+                    ' . $insightsWidget . '
                     {"uniqueId":"widgetVisitsSummarygetforceView1viewDataTablesparklines","parameters":{"forceView":"1","viewDataTable":"sparklines","module":"VisitsSummary","action":"get"}}
                 ],
                 [

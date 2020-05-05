@@ -139,6 +139,33 @@
 		</widgets>
 	</row>
 	<row>
+		<name>Evolution of page performance metrics</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory>
+			<id>General_Overview</id>
+			<name>Overview</name>
+			<order>2</order>
+		</subcategory>
+		<module>PagePerformance</module>
+		<action>getEvolutionGraph</action>
+		<order>20</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>graphStackedBarEvolution</viewDataTable>
+			<module>PagePerformance</module>
+			<action>getEvolutionGraph</action>
+		</parameters>
+		<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>graphStackedBarEvolution</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Visits Over Time</name>
 		<category>
 			<id>General_Visitors</id>
@@ -2139,6 +2166,36 @@
 			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
 		<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Sales by User location: Browsers</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+		</subcategory>
+		<module>DevicesDetection</module>
+		<action>getBrowsers</action>
+		<order>208</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>DevicesDetection</module>
+			<action>getBrowsers</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>

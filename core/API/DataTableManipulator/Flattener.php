@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,6 @@
 namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
-use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\ReportsProvider;

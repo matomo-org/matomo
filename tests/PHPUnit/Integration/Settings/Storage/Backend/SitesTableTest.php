@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -32,7 +32,7 @@ class SitesTableTest extends IntegrationTestCase
      */
     private $backendSite2;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -48,12 +48,11 @@ class SitesTableTest extends IntegrationTestCase
         return new SitesTable($idSite);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage No idSite given
-     */
     public function test_construct_shouldThrowAnException_IfPluginNameIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No idSite given');
+
         $this->createSettings(0);
     }
 
@@ -63,11 +62,10 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded(array('idsite' => '2'), $this->backendSite2);
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     */
     public function test_load_shouldThrowException_IfSiteDoesNotExist()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+
         $this->createSettings($idSite = 999)->load();
     }
 

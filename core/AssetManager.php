@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -84,7 +84,7 @@ class AssetManager extends Singleton
         $assetManager = parent::getInstance();
 
         /**
-         * Triggered when creating an instance of the asset manager. Lets you overwite the
+         * Triggered when creating an instance of the asset manager. Lets you overwrite the
          * asset manager behavior.
          *
          * @param AssetManager &$assetManager
@@ -139,7 +139,7 @@ class AssetManager extends Singleton
      */
     public function getJsInclusionDirective()
     {
-        $result = "<script type=\"text/javascript\">\n" . Translate::getJavascriptTranslations() . "\n</script>";
+        $result = "<script type=\"text/javascript\">\n" . StaticContainer::get('Piwik\Translation\Translator')->getJavascriptTranslations() . "\n</script>";
 
         if ($this->isMergedAssetsDisabled()) {
             $this->getMergedCoreJSAsset()->delete();

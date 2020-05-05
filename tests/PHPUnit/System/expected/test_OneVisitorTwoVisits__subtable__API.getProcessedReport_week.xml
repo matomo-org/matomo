@@ -20,7 +20,6 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
@@ -40,7 +39,6 @@
 		<avg_time_on_page>Avg. time on page</avg_time_on_page>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>
-		<avg_time_generation>Avg. generation time</avg_time_generation>
 	</columns>
 	<reportData>
 		<row>
@@ -50,7 +48,6 @@
 			<bounce_rate>100%</bounce_rate>
 			<avg_time_on_page>00:00:00</avg_time_on_page>
 			<exit_rate>100%</exit_rate>
-			<avg_time_generation>0.13s</avg_time_generation>
 		</row>
 	</reportData>
 	<reportMetadata>
@@ -63,9 +60,24 @@
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>1080</sum_time_spent>
-		<nb_hits_with_time_generation>4</nb_hits_with_time_generation>
-		<min_time_generation>0.615</min_time_generation>
-		<max_time_generation>0.615</max_time_generation>
+		<nb_hits_with_time_network>4</nb_hits_with_time_network>
+		<min_time_network>0.117</min_time_network>
+		<max_time_network>0.117</max_time_network>
+		<nb_hits_with_time_server>4</nb_hits_with_time_server>
+		<min_time_server>0.682</min_time_server>
+		<max_time_server>0.682</max_time_server>
+		<nb_hits_with_time_transfer>4</nb_hits_with_time_transfer>
+		<min_time_transfer>1.057</min_time_transfer>
+		<max_time_transfer>1.057</max_time_transfer>
+		<nb_hits_with_time_dom_processing>4</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>5.995</min_time_dom_processing>
+		<max_time_dom_processing>5.995</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>4</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>2.28</min_time_dom_completion>
+		<max_time_dom_completion>2.28</max_time_dom_completion>
+		<nb_hits_with_time_on_load>4</nb_hits_with_time_on_load>
+		<min_time_on_load>1.373</min_time_on_load>
+		<max_time_on_load>1.373</max_time_on_load>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>

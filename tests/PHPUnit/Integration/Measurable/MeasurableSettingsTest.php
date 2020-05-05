@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,7 +29,7 @@ class MeasurableSettingsTest extends IntegrationTestCase
      */
     private $settings;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -56,12 +56,11 @@ class MeasurableSettingsTest extends IntegrationTestCase
         $this->assertStoredSettingsValue(array('value3'), 'sitesearch_category_parameters');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function test_save_shouldCheckAdminPermissionsForThatSite()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         FakeAccess::clearAccess();
 
         $this->settings = $this->createSettings();

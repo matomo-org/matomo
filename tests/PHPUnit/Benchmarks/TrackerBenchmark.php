@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -20,7 +20,7 @@ class TrackerBenchmark extends BenchmarkTestCase
     private $visitTimes = array();
     private $t = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         // set up action URLs
         for ($i = 0; $i != 100; ++$i) {

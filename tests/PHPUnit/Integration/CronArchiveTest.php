@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,9 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Tests\Framework\Fixture;
@@ -40,12 +42,27 @@ class CronArchiveTest extends IntegrationTestCase
         $cronarchive->setApiToInvalidateArchivedReport($api);
         $cronarchive->init();
 
-        $expectedInvalidations = array(
-            array(array(1,2), '2014-04-05'),
-            array(array(2), '2014-04-06')
-        );
+        /**
+         * should look like this but the result is random
+         *  array(
+        array(array(1,2), '2014-04-05'),
+        array(array(2), '2014-04-06')
+        )
+         */
+        $invalidatedReports = $api->getInvalidatedReports();
+        $this->assertCount(2, $invalidatedReports);
+        sort($invalidatedReports[0][0]);
+        sort($invalidatedReports[1][0]);
+        usort($invalidatedReports, function ($a, $b) {
+            return strcmp($a[1], $b[1]);
+        });
 
-        $this->assertEquals($expectedInvalidations, $api->getInvalidatedReports());
+        $this->assertSame(array(1,2), $invalidatedReports[0][0]);
+        $this->assertSame('2014-04-05', $invalidatedReports[0][1]);
+
+        $this->assertSame(array(2), $invalidatedReports[1][0]);
+        $this->assertSame('2014-04-06', $invalidatedReports[1][1]);
+
     }
 
     public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
@@ -87,9 +104,9 @@ class CronArchiveTest extends IntegrationTestCase
     public function test_skipSegmentsToday()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
         );
-        
+
         Fixture::createWebsite('2014-12-12 00:01:02');
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
@@ -106,15 +123,15 @@ class CronArchiveTest extends IntegrationTestCase
         $archiver->init();
         $archiver->run();
 
-        $this->assertContains('Will skip segments archiving for today unless they were created recently', $logger->output);
-        $this->assertContains('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
-        $this->assertNotContains('Segment "actions>=2" was created recently', $logger->output);
+        self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
+        self::assertStringContainsString('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
+        self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
     }
 
     public function test_output()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -190,7 +207,7 @@ LOG;
     public function test_shouldNotStopProcessingWhenOneSiteIsInvalid()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -212,7 +229,182 @@ Will pre-process for website id = 1, period = day, date = last52
 - pre-processing all visits
 LOG;
 
-        $this->assertContains($expected, $logger->output);
+        self::assertStringContainsString($expected, $logger->output);
+    }
+
+    /**
+     * @dataProvider getTestDataForIsThereAValidArchiveForPeriod
+     */
+    public function test_isThereAValidArchiveForPeriod_modifiesLastNCorrectly($archiveRows, $idSite, $period, $date, $expected)
+    {
+        Date::$now = strtotime('2015-03-04 05:05:05');
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        $this->insertArchiveData($archiveRows);
+
+        $cronArchive = new CronArchive();
+        $result = $cronArchive->isThereAValidArchiveForPeriod($idSite, $period, $date);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function getTestDataForIsThereAValidArchiveForPeriod()
+    {
+        return [
+            // single periods that include today (we don't perform the check and just archive since we assume today is invalid)
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'day',
+                '2015-03-04',
+                [false, '2015-03-04'],
+            ],
+            [
+                [],
+                1,
+                'week',
+                '2015-03-04',
+                [false, '2015-03-04'],
+            ],
+            [
+                [],
+                1,
+                'month',
+                '2015-03-04',
+                [false, '2015-03-04'],
+            ],
+            [
+                [],
+                1,
+                'year',
+                '2015-03-04',
+                [false, '2015-03-04'],
+            ],
+
+            // single periods that do not include today
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-02', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'day',
+                '2015-03-02',
+                [true, '2015-03-02'],
+            ],
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-01', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'day',
+                '2015-03-02',
+                [false, '2015-03-02'],
+            ],
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2015-02-16', 'date2' => '2015-02-22', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'week',
+                '2015-02-17',
+                [true, '2015-02-17'],
+            ],
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2015-02-15', 'date2' => '2015-02-21', 'name' => 'done', 'value' => 4],
+                ],
+                1,
+                'week',
+                '2015-02-17',
+                [false, '2015-02-17'],
+            ],
+
+            // lastN periods
+            [ // last day invalid, some valid in between
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-03', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2015-02-28', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
+                ],
+                1,
+                'day',
+                'last5',
+                [false, 'last5'],
+            ],
+            [ // last two invalid, rest valid
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-03', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 4],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-02', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-01', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2015-02-28', 'date2' => '2015-02-28', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'day',
+                'last5',
+                [false, 'last2'],
+            ],
+            [ // all valid
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-03', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-02', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-01', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2015-02-28', 'date2' => '2015-02-28', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'day',
+                'last5',
+                [false, 'last2'],
+            ],
+            [ // month w/ last 3 invalid, today valid
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2015-03-01', 'date2' => '2015-03-31', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 3, 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'name' => 'done', 'value' => 4],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 3, 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'name' => 'done', 'value' => 4],
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 3, 'date1' => '2014-12-01', 'date2' => '2014-12-31', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 3, 'date1' => '2014-11-01', 'date2' => '2014-11-30', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'month',
+                'last5',
+                [false, 'last3'],
+            ],
+
+            // range periods
+            [ // includes today
+                [
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 5, 'date1' => '2015-03-02', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'range',
+                '2015-03-02,2015-03-04',
+                [false, '2015-03-02,2015-03-04'],
+            ],
+            [ // does not include today, invalid
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2015-03-01', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 4],
+                ],
+                1,
+                'range',
+                '2015-03-01,2015-03-03',
+                [false, '2015-03-01,2015-03-03'],
+            ],
+            [ // does not include today, valid
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2015-03-01', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                'range',
+                '2015-03-01,2015-03-03',
+                [true, '2015-03-01,2015-03-03'],
+            ],
+        ];
     }
 
     public function provideContainerConfig()
@@ -220,6 +412,17 @@ LOG;
         return array(
             'Piwik\CliMulti' => \DI\object('Piwik\Tests\Framework\Mock\FakeCliMulti')
         );
+    }
+
+    private function insertArchiveData($archiveRows)
+    {
+        foreach ($archiveRows as $row) {
+            $table = ArchiveTableCreator::getNumericTable(Date::factory($row['date1']));
+
+            $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
+            Db::query("INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]);
+        }
     }
 }
 

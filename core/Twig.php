@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -240,7 +240,7 @@ class Twig
     {
         $getJavascriptTranslations = new Twig_SimpleFunction(
             'getJavascriptTranslations',
-            array('Piwik\\Translate', 'getJavascriptTranslations')
+            array(StaticContainer::get('Piwik\Translation\Translator'), 'getJavascriptTranslations')
         );
         $this->twig->addFunction($getJavascriptTranslations);
     }
@@ -362,7 +362,7 @@ class Twig
             if (!empty($options['raw'])) {
                 $template .= piwik_fix_lbrace($message);
             } else {
-                $template .= twig_escape_filter($twigEnv, $message, 'html');
+                $template .= piwik_escape_filter($twigEnv, $message, 'html');
             }
 
             $template .= '</div>';

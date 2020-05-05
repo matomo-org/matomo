@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
@@ -19,11 +18,11 @@ use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
-use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
@@ -274,6 +273,8 @@ class CronArchive
      */
     private $isArchiveProfilingEnabled = false;
 
+    private $lastDbReset = false;
+
     /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
@@ -305,6 +306,7 @@ class CronArchive
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
+        $this->lastDbReset = time();
     }
 
     private function isMaintenanceModeEnabled()
@@ -324,10 +326,14 @@ class CronArchive
 
         $self = $this;
         Access::doAsSuperUser(function () use ($self) {
-            $self->init();
-            $self->run();
-            $self->runScheduledTasks();
-            $self->end();
+            try {
+                $self->init();
+                $self->run();
+                $self->runScheduledTasks();
+                $self->end();
+            } catch (StopArchiverException $e) {
+                $this->logger->info("Archiving stopped by stop archiver exception");
+            }
         });
     }
 
@@ -411,10 +417,7 @@ class CronArchive
                     (!$instanceId
                       || strpos($process, '--matomo-domain=' . $instanceId) !== false
                       || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
-                      || strpos($process, '--piwik-domain=' . $instanceId) !== false
-                      || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false)) {
                     $numRunning++;
                 }
             }
@@ -445,9 +448,9 @@ class CronArchive
                 // `list of SharedSiteIds` have been potentially emptied and filled again from the beginning.
                 // This means 5 hours later, even though all websites that were originally in the list have been
                 // finished by now, the `cron:archive` will stay active and continue processing because the list of
-                // siteIds to archive was resetted by another `cron:archive` command. Potentially some `cron:archive`
+                // siteIds to archive was reset by another `cron:archive` command. Potentially some `cron:archive`
                 // will basically never end because by the time the `cron:archive` finishes, the sharedSideIds have
-                // been resettet. This can eventually lead to some random concurrency issues when there are like
+                // been reset. This can eventually lead to some random concurrency issues when there are like
                 // 40 `core:archive` active at the same time.
                 $this->logger->info("Stopping archiving as the initial list of websites has been processed.");
                 return;
@@ -832,7 +835,7 @@ class CronArchive
      */
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
-        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
+        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
             $request .= '&segment=' . urlencode($segment);
         }
@@ -898,6 +901,8 @@ class CronArchive
 
         $visitsLastDays = 0;
 
+        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+
         list($isThereArchive, $newDate) = $this->isThereAValidArchiveForPeriod($idSite, 'day', $date, $segment = '');
         if ($isThereArchive) {
             $visitsToday = Archive::build($idSite, 'day', $date)->getNumeric('nb_visits');
@@ -912,7 +917,7 @@ class CronArchive
             $this->logArchiveWebsite($idSite, "day", $date);
 
             $content = $this->request($url);
-            $daysResponse = Common::safe_unserialize($content);
+            $daysResponse = json_decode($content, true);
 
             if (empty($content)
                 || !is_array($daysResponse)
@@ -924,7 +929,12 @@ class CronArchive
                     $store->add($idSite);
                 }
 
-                $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                if (empty($content)) {
+                    $this->logError("Empty response for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                } else {
+                    $this->logError("Invalid json response '$content' (" . json_last_error_msg() . ") for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                }
+
                 $this->skippedDayOnApiError++;
                 $this->skipped++;
                 return false;
@@ -972,18 +982,29 @@ class CronArchive
         return $dayArchiveWasSuccessful;
     }
 
-    private function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
+    // public for tests
+    public function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
     {
+        $this->disconnectDb();
+
         if (Range::isMultiplePeriod($date, $period)) {
-            $rangePeriod = Factory::build($period, $date, Site::getTimezoneFor($idSite));
+            $rangePeriod = PeriodFactory::build($period, $date, Site::getTimezoneFor($idSite));
             $periodsToCheck = $rangePeriod->getSubperiods();
         } else {
-            $periodsToCheck = [Factory::build($period, $date, Site::getTimezoneFor($idSite))];
+            $periodsToCheck = [PeriodFactory::build($period, $date, Site::getTimezoneFor($idSite))];
+        }
+
+        $isTodayIncluded = $this->isTodayIncludedInPeriod($idSite, $periodsToCheck);
+        $isLast = preg_match('/^last([0-9]+)/', $date, $matches);
+
+        // don't do this check for a single period that includes today
+        if ($isTodayIncluded
+            && !$isLast
+        ) {
+            return [false, $date];
         }
 
         $periodsToCheckRanges = array_map(function (Period $p) { return $p->getRangeString(); }, $periodsToCheck);
-
-        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
         $archiveIds = ArchiveSelector::getArchiveIds(
             [$idSite], $periodsToCheck, new Segment($segment, [$idSite]), $plugins = [], // empty plugins param since we only check for an 'all' archive
@@ -1003,34 +1024,57 @@ class CronArchive
         // if there is an invalidated archive within the range, find out the oldest one and how far it is from today,
         // and change the lastN $date to be value so it is correctly re-processed.
         $newDate = $date;
-        if (!$isThereArchiveForAllPeriods
-            && preg_match('/^last([0-9]+)/', $date, $matches)
-        ) {
-            $lastNValue = (int) $matches[1];
+        if ($isLast) {
+            if (!$isThereArchiveForAllPeriods) {
+                $lastNValue = (int)$matches[1];
 
-            usort($diff, function ($lhs, $rhs) {
-                $lhsDate = explode(',', $lhs)[0];
-                $rhsDate = explode(',', $rhs)[0];
+                usort($diff, function ($lhs, $rhs) {
+                    $lhsDate = explode(',', $lhs)[0];
+                    $rhsDate = explode(',', $rhs)[0];
 
-                if ($lhsDate == $rhsDate) {
-                    return 1;
-                } else if (Date::factory($lhsDate)->isEarlier(Date::factory($rhsDate))) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            });
+                    if ($lhsDate == $rhsDate) {
+                        return 1;
+                    } else if (Date::factory($lhsDate)->isEarlier(Date::factory($rhsDate))) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
 
-            $oldestDateWithoutArchive = explode(',', reset($diff))[0];
-            $todayInTimezone = Date::factoryInTimezone('today', Site::getTimezoneFor($idSite));
+                $oldestDateWithoutArchive = explode(',', reset($diff))[0];
+                $todayInTimezone = Date::factoryInTimezone('today', Site::getTimezoneFor($idSite));
 
-            /** @var Range $newRangePeriod */
-            $newRangePeriod = PeriodFactory::build($period, $oldestDateWithoutArchive . ',' . $todayInTimezone);
+                /** @var Range $newRangePeriod */
+                $newRangePeriod = PeriodFactory::build($period, $oldestDateWithoutArchive . ',' . $todayInTimezone);
 
-            $newDate = 'last' . min($lastNValue, $newRangePeriod->getNumberOfSubperiods());
+                $newDate = 'last' . max(min($lastNValue, $newRangePeriod->getNumberOfSubperiods()), 2);
+            } else if ($isTodayIncluded) {
+                $isThereArchiveForAllPeriods = false;
+                $newDate = 'last2';
+            }
         }
 
         return [$isThereArchiveForAllPeriods, $newDate];
+    }
+
+    /**
+     * @param int $idSite
+     * @param Period[] $periods
+     * @return bool
+     * @throws Exception
+     */
+    private function isTodayIncludedInPeriod($idSite, $periods)
+    {
+        $timezone = Site::getTimezoneFor($idSite);
+        $today = Date::factoryInTimezone('today', $timezone);
+
+        foreach ($periods as $period) {
+            if ($period->isDateInPeriod($today)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -1102,13 +1146,24 @@ class CronArchive
                     return Request::ABORT;
                 }
 
+                $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+
                 list($isThereArchive, $newDate) = $this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment);
                 if ($isThereArchive) {
                     $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date);
                     return Request::ABORT;
                 }
 
+                $urlBefore = $request->getUrl();
                 $request->changeDate($newDate);
+                $request->makeSureDateIsNotSingleDayRange();
+
+                // check again if we are already archiving the URL since we just changed it
+                if ($request->getUrl() !== $urlBefore
+                    && $self->isAlreadyArchivingSegment($request->getUrl(), $idSite, $period, $segment)
+                ) {
+                    return Request::ABORT;
+                }
 
                 $this->logArchiveWebsite($idSite, $period, $newDate);
             });
@@ -1134,7 +1189,7 @@ class CronArchive
             $success = $success && $this->checkResponse($content, $url);
 
             if ($noSegmentUrl == $url && $success) {
-                $stats = Common::safe_unserialize($content);
+                $stats = json_decode($content, true);
 
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
@@ -1185,8 +1240,13 @@ class CronArchive
     public function logError($m)
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
-            $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
             $m = str_replace(array("\n", "\t"), " ", $m);
+            if (Common::mb_strlen($m) > self::TRUNCATE_ERROR_MESSAGE_SUMMARY) {
+                $numCharactersKeepFromEnd = 100;
+                $m = Common::mb_substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY - $numCharactersKeepFromEnd)
+                     . ' ... ' .
+                    Common::mb_substr($m, -1 * $numCharactersKeepFromEnd);
+            }
         }
         $this->errors[] = $m;
         $this->logger->error($m);
@@ -1212,7 +1272,7 @@ class CronArchive
     }
 
     /**
-     * Issues a request to $url eg. "?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1"
+     * Issues a request to $url eg. "?module=API&method=API.getDefaultMetricTranslations&format=json"
      *
      * @param string $url
      * @return string
@@ -1229,10 +1289,23 @@ class CronArchive
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }
+        $this->disconnectDb();
         if ($this->checkResponse($response, $url)) {
             return $response;
         }
         return false;
+    }
+
+    private function disconnectDb()
+    {
+        $twoHoursInSeconds = 60 * 60 * 2;
+
+        if (time() > ($this->lastDbReset + $twoHoursInSeconds)) {
+            // we aim to through DB connections away only after 2 hours
+            $this->lastDbReset = time();
+            Db::destroyDatabaseObject();
+            Tracker::disconnectCachedDbConnection();
+        }
     }
 
     private function checkResponse($response, $url)
@@ -1970,15 +2043,25 @@ class CronArchive
                     return Request::ABORT;
                 }
 
+                $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+
                 list($isThereArchive, $newDate) = $this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment);
                 if ($isThereArchive) {
                     $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment);
                     return Request::ABORT;
                 }
 
-                $url = $request->getUrl();
-                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $url);
+                $urlBefore = $request->getUrl();
+                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $urlBefore);
                 $request->setUrl($url);
+                $request->makeSureDateIsNotSingleDayRange();
+
+                // check again if we are already archiving the URL since we just changed it
+                if ($request->getUrl() !== $urlBefore
+                    && $self->isAlreadyArchivingSegment($request->getUrl(), $idSite, $period, $segment)
+                ) {
+                    return Request::ABORT;
+                }
 
                 $processedSegmentCount++;
                 $logger->info(sprintf(

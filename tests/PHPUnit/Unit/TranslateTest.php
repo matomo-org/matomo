@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,12 +8,12 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\Translate;
+use Piwik\Container\StaticContainer;
 
 /**
  * @group Translation
  */
-class TranslateTest extends \PHPUnit_Framework_TestCase
+class TranslateTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Dataprovider for testClean
@@ -42,6 +42,6 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      */
     public function testClean($data, $expected)
     {
-        $this->assertEquals($expected, Translate::clean($data));
+        $this->assertEquals($expected, StaticContainer::get('Piwik\Translation\Translator')->clean($data));
     }
 }

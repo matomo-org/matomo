@@ -12,6 +12,7 @@
 	<totalUniquePageViews>6</totalUniquePageViews>
 	<totalRevisitedPages>5</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<totalPageViewsWithLoadTime>0</totalPageViewsWithLoadTime>
 	<searches>
 	</searches>
 	<totalGoalConversions>0</totalGoalConversions>
@@ -36,7 +37,7 @@
 					
 					<pageId>44</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -158,7 +159,7 @@
 					
 					<pageId>43</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
@@ -280,7 +281,7 @@
 					
 					<pageId>42</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
@@ -402,7 +403,7 @@
 					
 					<pageId>41</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
@@ -524,7 +525,7 @@
 					
 					<pageId>40</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -646,7 +647,7 @@
 					
 					<pageId>39</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
@@ -768,7 +769,7 @@
 					
 					<pageId>38</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
@@ -890,7 +891,7 @@
 					
 					<pageId>37</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
@@ -1012,7 +1013,7 @@
 					
 					<pageId>36</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -1134,7 +1135,7 @@
 					
 					<pageId>35</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />

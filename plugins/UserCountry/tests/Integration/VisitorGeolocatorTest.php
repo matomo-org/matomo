@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,10 +8,9 @@
  */
 namespace Piwik\Plugins\UserCountry\tests\Integration;
 
-use PHPUnit_Framework_MockObject_MockObject;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -34,7 +33,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
      */
     private $logInserter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -236,13 +235,13 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $geolocator = new VisitorGeolocator($mockLocationProvider);
         $valuesUpdated = $geolocator->attributeExistingVisit($visit, $useCache = false);
 
-        $this->assertEquals($expectedVisitProperties, $this->logInserter->getVisit($visit['idvisit']), $message = '', $delta = 0.001);
+        $this->assertEqualsWithDelta($expectedVisitProperties, $this->logInserter->getVisit($visit['idvisit']), $delta = 0.001);
 
         $expectedUpdateValues = $expectedUpdateValues === null ? $expectedVisitProperties : $expectedUpdateValues;
-        $this->assertEquals($expectedUpdateValues, $valuesUpdated, $message = '', $delta = 0.001);
+        $this->assertEqualsWithDelta($expectedUpdateValues, $valuesUpdated, $delta = 0.001);
 
         $conversions = $this->getConversions($visit);
-        $this->assertEquals(array($expectedVisitProperties, $expectedVisitProperties), $conversions, $message = '', $delta = 0.001);
+        $this->assertEqualsWithDelta(array($expectedVisitProperties, $expectedVisitProperties), $conversions, $delta = 0.001);
     }
 
     public function test_attributeExistingVisit_ReturnsNull_AndSkipsAttribution_IfIdVisitMissingFromInput()
@@ -359,7 +358,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|LocationProvider
+     * @return \PHPUnit\Framework\MockObject\MockObject|LocationProvider
      */
     protected function getProviderMock()
     {

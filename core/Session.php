@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -25,18 +25,6 @@ class Session extends Zend_Session
     public static $sessionName = self::SESSION_NAME;
 
     protected static $sessionStarted = false;
-
-    /**
-     * Are we using file-based session store?
-     *
-     * @return bool  True if file-based; false otherwise
-     */
-    public static function isSessionHandler($handler)
-    {
-        $config = Config::getInstance();
-        return !isset($config->General['session_save_handler'])
-        || $config->General['session_save_handler'] === $handler;
-    }
 
     /**
      * Start the session
@@ -91,7 +79,7 @@ class Session extends Zend_Session
 
         $currentSaveHandler = ini_get('session.save_handler');
 
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             // Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
             // for "files", use our own folder to prevent local session file hijacking
@@ -101,10 +89,7 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } elseif (self::isSessionHandler('dbtable')
-            || self::isSessionHandler('files')
-            || in_array($currentSaveHandler, array('user', 'mm'))
-        ) {
+        } else {
             // as of Matomo 3.7.0 we only support files session handler during installation
 
             // We consider these to be misconfigurations, in that:
@@ -143,7 +128,7 @@ class Session extends Zend_Session
                 'ignoreInScreenWriter' => true,
             ]);
 
-            if (SettingsPiwik::isPiwikInstalled()) {
+            if (SettingsPiwik::isMatomoInstalled()) {
                 $pathToSessions = '';
             } else {
                 $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
@@ -186,6 +171,25 @@ class Session extends Zend_Session
         return self::$sessionStarted;
     }
 
+    public static function getSameSiteCookieValue()
+    {
+        $config = Config::getInstance();
+        $general = $config->General;
+
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        $isOptOutRequest = $module == 'CoreAdminHome' && $action == 'optOut';
+        $isOverlay = $module == 'Overlay';
+        $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || $isOverlay;
+
+        if ($shouldUseNone && ProxyHttp::isHttps()) {
+            return 'None';
+        }
+
+        return 'Lax';
+    }
+
     /**
      * Write cookie header.  Similar to the native setcookie() function but also supports
      * the SameSite cookie property.
@@ -203,10 +207,10 @@ class Session extends Zend_Session
     {
         $headerStr = 'Set-Cookie: ' . rawurlencode($name) . '=' . rawurlencode($value);
         if ($expires) {
-            $headerStr .= '; expires=' . rawurlencode($expires);
+            $headerStr .= '; expires=' . gmdate('D, d-M-Y H:i:s', $expires) . ' GMT';
         }
         if ($path) {
-            $headerStr .= '; path=' . rawurlencode($path);
+            $headerStr .= '; path=' . $path;
         }
         if ($domain) {
             $headerStr .= '; domain=' . rawurlencode($domain);
@@ -218,8 +222,10 @@ class Session extends Zend_Session
             $headerStr .= '; httponly';
         }
         if ($sameSite) {
-            $headerStr .= '; SameSite=' . rawurlencode($sameSite);
+            $headerStr .= '; SameSite=' . $sameSite;
         }
+
+        Common::sendHeader($headerStr);
         return $headerStr;
     }
 }

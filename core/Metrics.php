@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
-use Piwik\Columns\MetricsList;
 use Piwik\Container\StaticContainer;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
@@ -179,7 +178,7 @@ class Metrics
 
     public static function getMappingFromIdToName()
     {
-        $cache = StaticContainer::get(PiwikCache\Transient::class);
+        $cache = PiwikCache::getTransientCache();
         $cacheKey = CacheId::siteAware(CacheId::pluginAware('Metrics.mappingFromIdToName'));
 
         $value = $cache->fetch($cacheKey);

@@ -227,7 +227,7 @@ segments_subquery_cache_ttl  = 3600
 maintenance_mode = 0
 
 ; Defines the release channel that shall be used. Currently available values are:
-; "latest_stable", "latest_beta", "latest_2x_stable", "latest_2x_beta"
+; "latest_stable", "latest_beta", "latest_4x_stable", "latest_4x_beta"
 release_channel = "latest_stable"
 
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
@@ -292,7 +292,7 @@ adding_segment_requires_access = "view"
 allow_adding_segments_for_all_websites = 1
 
 ; When archiving segments for the first time, this determines the oldest date that will be archived.
-; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
+; This option can be used to avoid archiving (for instance) the lastN years for every new segment.
 ; Valid option values include: "beginning_of_time" (start date of archiving will not be changed)
 ;                              "segment_last_edit_time" (start date of archiving will be the earliest last edit date found,
 ;                                                        if none is found, the created date is used)
@@ -332,8 +332,8 @@ default_day = yesterday
 default_period = day
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
-; This setting is overriden in the UI, under "General Settings".
-; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
+; This setting is overridden in the UI, under "General Settings".
+; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 900
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
@@ -350,7 +350,7 @@ time_before_year_archive_considered_outdated = -1
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
 time_before_range_archive_considered_outdated = -1
 
-; This setting is overriden in the UI, under "General Settings".
+; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
@@ -399,10 +399,6 @@ disable_checks_usernames_attributes = 0
 ; Matomo will use the configured hash algorithm where possible.
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
-
-; Matomo uses PHP's dbtable for session.
-; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
-session_save_handler = dbtable
 
 ; If set to 1, Matomo will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Matomo
@@ -668,7 +664,12 @@ absolute_chroot_path =
 ; Defaults to ./tmp (the tmp/ folder inside the Matomo directory)
 tmp_path = "/tmp"
 
-; In some rare cases it may be useful to explicitely tell Matomo not to use LOAD DATA INFILE
+; The absolute path to a PHP binary file in case Matomo cannot detect your PHP binary. If async CLI archiving cannot be
+; used on your server this may make it work. Ensure the configured PHP binary is of type CLI and not for example cgi or
+; litespeed. To find out the type of interface for a PHP binary execute this command: php -r "echo php_sapi_name();"
+php_binary_path = ""
+
+; In some rare cases it may be useful to explicitly tell Matomo not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
 
@@ -894,6 +895,9 @@ tracking_requests_require_authentication_when_custom_timestamp_newer_than = 8640
 ; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
 enable_sql_profiler = 0
 
+; Enables using referrer spam blacklist.
+enable_spam_filter = 1
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
@@ -910,12 +914,17 @@ enable_sql_profiler = 0
 [Deletelogs]
 ; delete_logs_enable - enable (1) or disable (0) delete log feature. Make sure that all archives for the given period have been processed (setup a cronjob!),
 ; otherwise you may lose tracking data.
-; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes (in days, 1|7|30). Default: 7.
+; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes, for tables named log_* (in days, 1|7|30). Default: 7.
 ; delete_logs_older_than - delete data older than XX (days). Default: 180
+; delete_logs_unused_actions_schedule_lowest_interval - lowest possible interval between two table deletes, for table log_action (in days, 1|7|30). Default: 30.
+; delete_logs_max_rows_per_query and delete_logs_unused_actions_max_rows_per_query can be increased for large sites to speed up delete processes
+;
+; The higher value one assign to *_schedule_lowest_interval, the longer the data pruning/deletion will take. This is caused by the fact there is more data to evaluate and process every month, than every week.
 delete_logs_enable = 0
 delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
 delete_logs_max_rows_per_query = 100000
+delete_logs_unused_actions_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
 enable_database_size_estimate = 1
 delete_logs_unused_actions_schedule_lowest_interval = 30
@@ -1011,8 +1020,9 @@ Plugins[] = Intl
 Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
-Plugins[] = CustomPiwikJs
+Plugins[] = CustomJsTracker
 Plugins[] = Tour
+Plugins[] = PagePerformance
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

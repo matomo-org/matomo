@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,10 +16,11 @@ use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\ProxyHttp;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 
@@ -94,7 +95,7 @@ class Request
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
         if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
-            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            Common::printDebug("Unsupported character detected in $key. Replacing with \xEF\xBF\xBD");
             return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
         }
 
@@ -207,6 +208,8 @@ class Request
         // Now checking the list of admin token_auth cached in the Tracker config file
         if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
+            $userModel = new \Piwik\Plugins\UsersManager\Model();
+            $tokenAuth = $userModel->hashTokenAuth($tokenAuth);
             $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuth, $idSite);
 
             if (array_key_exists('tracking_token_auth', $website)
@@ -401,7 +404,12 @@ class Request
             'search_cat'   => array('', 'string'),
             'pv_id'        => array('', 'string'),
             'search_count' => array(-1, 'int'),
-            'gt_ms'        => array(-1, 'int'),
+            'pf_net'       => array(-1, 'int'),
+            'pf_srv'       => array(-1, 'int'),
+            'pf_tfr'       => array(-1, 'int'),
+            'pf_dm1'       => array(-1, 'int'),
+            'pf_dm2'       => array(-1, 'int'),
+            'pf_onl'       => array(-1, 'int'),
 
             // Content
             'c_p'          => array('', 'string'),
@@ -686,7 +694,12 @@ class Request
         $cookie = $this->makeThirdPartyCookieUID();
         $idVisitor = bin2hex($idVisitor);
         $cookie->set(0, $idVisitor);
-        $cookie->save('None');
+        if (ProxyHttp::isHttps()) {
+            $cookie->setSecure(true);
+            $cookie->save('None');
+        } else {
+            $cookie->save('Lax');
+        }
 
         Common::printDebug(sprintf("We set the visitor ID to %s in the 3rd party cookie...", $idVisitor));
     }
@@ -845,20 +858,6 @@ class Request
         return $this->isEmptyRequest;
     }
 
-    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
-
-    public function getPageGenerationTime()
-    {
-        $generationTime = $this->getParam('gt_ms');
-        if ($generationTime > 0
-            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
-        ) {
-            return (int)$generationTime;
-        }
-
-        return false;
-    }
-
     /**
      * @param $idVisitor
      * @return string
@@ -869,7 +868,7 @@ class Request
     }
 
     /**
-     * Matches implementation of PiwikTracker::getUserIdHashed
+     * Matches implementation of MatomoTracker::getUserIdHashed
      *
      * @param $userId
      * @return string

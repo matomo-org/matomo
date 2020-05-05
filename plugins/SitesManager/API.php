@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,7 +14,8 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Network\IPUtils;
+use Piwik\Intl\Data\Provider\CurrencyDataProvider;
+use Matomo\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -1371,10 +1372,12 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currency = Site::getCurrencyList();
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        $currency = $dataProvider->getCurrencyList();
 
         $return = array();
-        foreach (array_keys(Site::getCurrencyList()) as $currencyCode) {
+        foreach (array_keys($currency) as $currencyCode) {
             $return[$currencyCode] = Piwik::translate('Intl_Currency_' . $currencyCode) .
               ' (' . Piwik::translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
         }
@@ -1391,7 +1394,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencySymbols()
     {
-        $currencies = Site::getCurrencyList();
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        $currencies =  $dataProvider->getCurrencyList();
+
         return array_map(function ($a) {
             return $a[0];
         }, $currencies);

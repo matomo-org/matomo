@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Widgetize\tests\Fixtures;
@@ -26,13 +26,13 @@ class WidgetizeFixture extends Fixture
         array('name' => 'Visit Docs',         'match' => 'url', 'pattern' => 'docs',       'patternType' => 'contains', 'revenue' => false),
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsite();
         $this->setUpGoals();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

@@ -1,5 +1,7 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "匿名化数据",
+        "AnonymizeIpDescription": "如果您不希望Matomo跟踪完全限定的IP地址，请选择“是”。",
         "AnonymizeIpInlineHelp": "隐藏访客IP位址最后一个字符以符合您当地的隐私条例\/政策。",
         "AnonymizeIpMaskLengtDescription": "隐藏的访客IP的字节数",
         "AnonymizeIpMaskLength": "%1$s 字节 - 例如 %2$s",

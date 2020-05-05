@@ -1,10 +1,10 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Visitors Map with zoom in continents / countries. Cities + Region view.
  * Using Kartograph.js http://kartograph.org/
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -69,7 +69,6 @@
                 citySelectedLabelColor = colors['city-selected-label-color'],
                 regionLayerStrokeColor = colors['region-layer-stroke-color'],
                 hasUserZoomed = false;
-                ;
 
             /*
              * our own custom selector to only select stuff of this widget
@@ -123,7 +122,7 @@
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
                     dataType: dataType,
-                    data: { token_auth: token_auth },
+                    data: { token_auth: token_auth, force_api_session: '1' },
                     type: 'POST'
                 });
             }
@@ -375,8 +374,8 @@
                 infobtn.off('mouseenter').on('mouseenter',function (e) {
                     $(infobtn.data('tooltip-target')).show();
                 }).off('mouseleave').on('mouseleave', function (e) {
-                        $(infobtn.data('tooltip-target')).hide();
-                    });
+                    $(infobtn.data('tooltip-target')).hide();
+                });
                 $('.UserCountryMap-tooltip').hide();
             }
 
@@ -700,6 +699,11 @@
             }
 
             function displayUnlocatableCount(unlocated, total, regionOrCity) {
+
+                if (0 == unlocated) {
+                    return;
+                }
+
                 $('.unlocated-stats').html(
                     $('.unlocated-stats').data('tpl')
                         .replace('%s', unlocated)

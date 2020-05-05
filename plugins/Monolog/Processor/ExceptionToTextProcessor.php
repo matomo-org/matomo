@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -85,6 +85,10 @@ class ExceptionToTextProcessor
 
     public static function getWholeBacktrace(\Exception $exception, $shouldPrintBacktrace = true)
     {
+        if (!$shouldPrintBacktrace) {
+            return $exception->getMessage();
+        }
+
         $message = "";
 
         $e = $exception;

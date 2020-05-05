@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 class ReferrerUrl extends Base
 {
     protected $columnName = 'referer_url';
-    protected $columnType = 'TEXT NULL';
+    protected $columnType = 'VARCHAR(4000) NULL';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'referrerUrl';
     protected $nameSingular = 'Live_Referrer_URL';

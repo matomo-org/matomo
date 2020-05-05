@@ -1,0 +1,8 @@
+{
+    "CustomJsTracker": {
+        "PluginDescription": "允许任何插件扩展Matomo JavaScript追踪文件（matomo.js）并添加新功能和网站评估功能。",
+        "DiagnosticPiwikJsWritable": "可写的JavaScript追踪器（%s）",
+        "DiagnosticPiwikJsNotWritable": "Matomo JavaScript追踪器文件%s不可写，这意味着其他插件无法扩展JavaScript追踪器。 将来，甚至某些核心功能可能也无法按预期运行。",
+        "DiagnosticPiwikJsMakeWritable": "我们建议通过运行以下命令使%1$s可写：%2$s"
+    }
+}

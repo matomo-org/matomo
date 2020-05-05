@@ -25,7 +25,7 @@ class TagManagerTeaserTest extends IntegrationTestCase
      */
     private $teaser;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

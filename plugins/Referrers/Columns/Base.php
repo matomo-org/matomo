@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -599,7 +599,7 @@ abstract class Base extends VisitDimension
 
     private function truncateReferrerName($name)
     {
-        return Common::mb_substr($name, 0, 70);
+        return Common::mb_substr($name, 0, 255);
     }
 
     private function truncateReferrerKeyword($refererKeyword)

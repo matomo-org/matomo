@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 class VisitTotalInteractions extends VisitDimension
 {
     protected $columnName = 'visit_total_interactions';
-    protected $columnType = 'SMALLINT UNSIGNED DEFAULT 0';
+    protected $columnType = 'MEDIUMINT UNSIGNED DEFAULT 0';
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'interactions';
     protected $nameSingular = 'General_NbInteractions';
@@ -83,10 +83,7 @@ class VisitTotalInteractions extends VisitDimension
     {
         $position = self::getCurrentInteractionPosition($request);
 
-        $position = $position + 1;
-
-        // Remove this in Piwik 4
-        return min($position, 32765);
+        return $position + 1;
     }
 
     /**

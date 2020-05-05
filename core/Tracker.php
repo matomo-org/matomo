@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -97,7 +97,7 @@ class Tracker
     public function isInstalled()
     {
         if (is_null($this->isInstalled)) {
-            $this->isInstalled = SettingsPiwik::isPiwikInstalled();
+            $this->isInstalled = SettingsPiwik::isMatomoInstalled();
         }
 
         return $this->isInstalled;

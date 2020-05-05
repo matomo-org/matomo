@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -57,7 +57,13 @@ class Sparkline implements ViewInterface
 
     public function main()
     {
-        $sparkline = new \Davaxi\Sparkline();
+        try {
+            $sparkline = new \Davaxi\Sparkline();
+        } catch (\Exception $exception) {
+            // Ignore GD not installed exception
+            return;
+        }
+
 
         $thousandSeparator = Piwik::translate('Intl_NumberSymbolGroup');
         $decimalSeparator = Piwik::translate('Intl_NumberSymbolDecimal');
@@ -205,7 +211,9 @@ class Sparkline implements ViewInterface
     }
 
     public function render() {
-        $this->sparkline->display();
-        $this->sparkline->destroy();
+        if ($this->sparkline instanceof \Davaxi\Sparkline) {
+            $this->sparkline->display();
+            $this->sparkline->destroy();
+        }
     }
 }

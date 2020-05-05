@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * UI screenshot test runner Application class
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -41,6 +41,12 @@ var isCorePlugin = function (pathToPlugin) {
     // if the plugin is a .git checkout, it's not part of core
     var gitDir = path.join(pathToPlugin, '.git');
     return !fs.existsSync(gitDir);
+};
+
+var hasSpecialNeeds = function (pathToPlugin) {
+    // skip plugins that have special needs in core build
+    var travisDir = path.join(pathToPlugin, 'tests/travis');
+    return !!fs.existsSync(travisDir);
 };
 
 var Application = function () {
@@ -121,9 +127,15 @@ Application.prototype.loadTestModules = function () {
     // load all UI tests we can find
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
 
-    if (options.core) {
+    if (options.core && !options['store-in-ui-tests-repo']) {
         plugins = plugins.filter(function (path) {
             return isCorePlugin(path);
+        });
+    }
+
+    if (!options.plugin) {
+        plugins = plugins.filter(function (path) {
+            return !hasSpecialNeeds(path);
         });
     }
 
@@ -157,11 +169,12 @@ Application.prototype.loadTestModules = function () {
         // run only N% of the test suites.
         // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
         // split tests into multiple jobs.
+
         var numberOfGroupsToSplitTestsInto = parseInt(options['num-test-groups']);
         var testGroupToRun = parseInt(options['test-group']);
 
         mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
-            return index % numberOfGroupsToSplitTestsInto === testGroupToRun;
+            return Math.floor(index / numberOfGroupsToSplitTestsInto) === testGroupToRun;
         });
     }
 
@@ -230,10 +243,17 @@ Application.prototype.loadTestModules = function () {
             message += "\n" + indent + indent + "Url to reproduce: " + url + "\n";
 
             if (message.indexOf('Generated screenshot') === -1) {
-                if (!fs.existsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'))) {
-                    fsExtra.mkdirsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'));
+
+                var processedPath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots');
+
+                if (options.plugin) {
+                    processedPath = path.join(PIWIK_INCLUDE_PATH, 'plugins', options.plugin, 'tests/UI/processed-ui-screenshots');
                 }
-                const failurePath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots', test.title.replace(/(\s|[^a-zA-Z0-9_])+/g, '_') + '_failure.png');
+
+                if (!fs.existsSync(processedPath)) {
+                    fsExtra.mkdirsSync(processedPath);
+                }
+                const failurePath = path.join(processedPath, test.title.replace(/(\s|[^a-zA-Z0-9_])+/g, '_') + '_failure.png');
 
                 message += indent + indent + "Screenshot of failure: " + failurePath + "\n";
 

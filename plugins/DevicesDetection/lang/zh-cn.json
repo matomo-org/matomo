@@ -38,6 +38,7 @@
         "PluginDescription": "提供使用者设备的品牌（制造商）、型号（版本）、类型（电视、手机或电脑等）以及更多扩展信息。",
         "SmartDisplay": "智能显示器",
         "Smartphone": "智能手机",
+        "SmartSpeaker": "智能音箱",
         "PortableMediaPlayer": "便携媒体播放器",
         "Devices": "设备",
         "GenericDevice": "通用%s",

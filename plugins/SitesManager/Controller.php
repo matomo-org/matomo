@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -102,6 +102,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      *  User will download a file called PiwikTracker.php that is the content of the actual script
+     *
+     * @deprecated  seems unused and PiwikTracker is now MatomoTracker
      */
     function downloadPiwikTracker()
     {
@@ -176,6 +178,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
             'emailBody'     => $emailContent,
+            'showMatomoLinks' => $showMatomoLinks,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
     }

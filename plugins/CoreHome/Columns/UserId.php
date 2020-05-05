@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,6 +12,7 @@ use Piwik\Cache;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
+use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 use Piwik\Tracker\Request;
@@ -38,6 +39,13 @@ class UserId extends VisitDimension
      * @var string
      */
     protected $columnType = 'VARCHAR(200) NULL';
+
+    public function __construct()
+    {
+        if (Plugin\Manager::getInstance()->isPluginActivated('UserId')) {
+            $this->suggestedValuesApi = 'UserId.getUsers';
+        }
+    }
 
     /**
      * @param Request $request

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,7 @@ use Piwik\Plugins\Monolog\Formatter\LineMessageFormatter;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Formatter\LineMessageFormatter
  */
-class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
+class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

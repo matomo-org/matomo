@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,8 +21,6 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Cleans up outdated archives
- *
- * @package Piwik\DataAccess
  */
 class Model
 {
@@ -46,7 +44,7 @@ class Model
      * @return array
      * @throws Exception
      */
-    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, array $idSites)
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable)
     {
         try {
             Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
@@ -54,17 +52,12 @@ class Model
             $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
         }
 
-        $idSites = array_map(function ($v) { return (int)$v; }, $idSites);
-
         $sql = "SELECT idsite, date1, date2, period, name,
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ','
-                                   . ArchiveWriter::DONE_OK . ','
-                                   . ArchiveWriter::DONE_OK_TEMPORARY . ")
-                   AND idsite IN (" . implode(',', $idSites) . ")
-                 GROUP BY idsite, date1, date2, period, name";
+                   AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
+              GROUP BY idsite, date1, date2, period, name";
 
         $archiveIds = array();
 
@@ -73,11 +66,10 @@ class Model
             $duplicateArchives = explode(',', $row['archives']);
             $countOfArchives = count($duplicateArchives);
 
-            $firstArchive = array_shift($duplicateArchives);
-            list($firstArchiveId, $firstArchiveValue) = explode('.', $firstArchive);
-
             // if there is more than one archive, the older invalidated ones can be deleted
             if ($countOfArchives > 1) {
+                array_shift($duplicateArchives); // we don't want to delete the latest archive if it is usable
+
                 foreach ($duplicateArchives as $pair) {
                     if (strpos($pair, '.') === false) {
                         $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");
@@ -85,9 +77,7 @@ class Model
                     }
 
                     list($idarchive, $value) = explode('.', $pair);
-                    if ($value == ArchiveWriter::DONE_INVALIDATED) {
-                        $archiveIds[] = $idarchive;
-                    }
+                    $archiveIds[] = $idarchive;
                 }
             }
         }
@@ -215,7 +205,8 @@ class Model
         return $deletedRows;
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC,
+                                          $doneFlags, $doneFlagValues = null)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
@@ -231,7 +222,8 @@ class Model
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
-        $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
+        // NOTE: we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
+        $sqlQuery = "SELECT idarchive, value, name, ts_archived, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
                          AND date2 = ?
@@ -240,7 +232,7 @@ class Model
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
                          $timeStampWhere
-                     ORDER BY idarchive DESC";
+                     ORDER BY ts_archived DESC, idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
         return $results;
@@ -428,7 +420,14 @@ class Model
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         // create the SQL to find archives that are DONE
-        return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
+        $result = "((name IN ($allDoneFlags))";
+
+        if (!empty($possibleValues)) {
+            $result .= " AND (value IN (" . implode(',', $possibleValues) . ")))";
+        }
+        $result .= ')';
+
+        return $result;
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,8 +11,6 @@ namespace Piwik\Tests\Integration;
 use Piwik\Access;
 use Piwik\AuthResult;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API;
-use Piwik\Translate;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -32,11 +30,6 @@ class PiwikTest extends IntegrationTestCase
             '-1', '0', '1', '1.5', '-1.5', '21111', '89898', '99999999999', '-4565656',
             '1e3', 0x123, "-1e-2",
         );
-
-        if (!self::isPhp7orLater()) {
-            // this seems to be no longer considered valid in PHP 7+
-            $value[] = '0x123';
-        }
 
         foreach ($valid as $key => $value) {
             $valid[$key] = array($value);
@@ -110,10 +103,10 @@ class PiwikTest extends IntegrationTestCase
 
     /**
      * @dataProvider getInvalidLoginStringData
-     * @expectedException \Exception
      */
     public function testCheckInvalidLoginString($toTest)
     {
+        $this->expectException(\Exception::class);
         Piwik::checkValidLoginString($toTest);
     }
 
@@ -249,7 +242,7 @@ class PiwikTest extends IntegrationTestCase
     private function createPiwikAuthMockInstance()
     {
         return $this->getMockBuilder('Piwik\\Auth')
-            ->setMethods(array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
+            ->onlyMethods(array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
                 'setPassword', 'setPasswordHash'))
             ->getMock();
     }

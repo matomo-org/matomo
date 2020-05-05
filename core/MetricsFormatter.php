@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -63,14 +63,5 @@ class MetricsFormatter
     public static function getCurrencySymbol($idSite)
     {
         return Site::getCurrencySymbolFor($idSite);
-    }
-
-    /**
-     * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
-     */
-    public static function getCurrencyList()
-    {
-        return Site::getCurrencyList();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,7 +31,7 @@ class VisitsSummaryTest extends IntegrationTestCase
     protected $date = '2014-04-04';
     private $column = 'nb_users';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->plugin = new VisitsSummary();
@@ -42,7 +42,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // clean up your test here if needed
         $tables = ArchiveTableCreator::getTablesArchivesInstalled();
@@ -150,7 +150,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         }
     }
 
-    private function trackPageview(\PiwikTracker $tracker, $userId, $url)
+    private function trackPageview(\MatomoTracker $tracker, $userId, $url)
     {
         $tracker->setUrl('http://www.example.org' . $url);
         $tracker->setUserId($userId);

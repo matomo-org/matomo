@@ -11,9 +11,9 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 /**
  * @group DataTableTest
  */
-class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
+class Test_DataTable_Map extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Manager::getInstance()->deleteAll();

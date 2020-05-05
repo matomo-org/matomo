@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -34,6 +34,8 @@ var Piwik_Popover = (function () {
                 }
 
                 $('.ui-widget-overlay').on('click.popover', function () {
+                    // if clicking outside of the dialog, close entire stack
+                    broadcast.resetPopoverStack();
                     container.dialog('close');
                 });
 
@@ -46,11 +48,6 @@ var Piwik_Popover = (function () {
                 }, 0);
             },
             close: function (event, ui) {
-                // if clicking outside of the dialog, close entire stack
-                if (!event.currentTarget && !$(event.currentTarget).is('button')) {
-                    broadcast.resetPopoverStack();
-                }
-
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
                 container[0].innerHTML = '';
                 container.dialog('destroy').remove();
@@ -69,7 +66,7 @@ var Piwik_Popover = (function () {
 
                 // if we were not called by Piwik_Popover.close(), then the user clicked the close button or clicked
                 // the overlay, in which case we want to handle the popover URL as well as the actual modal.
-                if (!isProgrammaticClose) {
+                if (!isProgrammaticClose || isEscapeKey(event)) {
                     broadcast.propagateNewPopoverParameter(false);
                 }
             }

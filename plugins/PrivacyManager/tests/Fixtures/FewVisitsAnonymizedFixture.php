@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
@@ -20,7 +20,7 @@ class FewVisitsAnonymizedFixture extends Fixture
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
         Cache::clearCacheGeneral();
@@ -30,7 +30,7 @@ class FewVisitsAnonymizedFixture extends Fixture
         $this->trackAnonymizedOrderId();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

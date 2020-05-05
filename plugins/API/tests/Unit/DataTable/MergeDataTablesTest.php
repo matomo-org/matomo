@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,14 +13,14 @@ namespace Piwik\Plugins\API\tests\Unit\DataTable;
 use Piwik\DataTable;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 
-class MergeDataTablesTest extends \PHPUnit_Framework_TestCase
+class MergeDataTablesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MergeDataTables
      */
     private $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->instance = new MergeDataTables();

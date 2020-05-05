@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<avg_time_network>0.03</avg_time_network>
+	<avg_time_server>0.16</avg_time_server>
+	<avg_time_transfer>0.3</avg_time_transfer>
+	<avg_time_dom_processing>1.08</avg_time_dom_processing>
+	<avg_time_dom_completion>0.34</avg_time_dom_completion>
+	<avg_time_on_load>0.18</avg_time_on_load>
+	<avg_page_load_time>2.1</avg_page_load_time>
+</result>

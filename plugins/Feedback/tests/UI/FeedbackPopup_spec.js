@@ -37,6 +37,10 @@ describe("FeedbackPopup", function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector('#root')).to.matchImage('dashboard_no_popup');
+        // check dashboard is present
+        await page.waitForSelector('#dashboardWidgetsArea');
+
+        // check modal isn't opened
+        await page.waitForFunction("$('.modal.open').length == 0");
     });
 });

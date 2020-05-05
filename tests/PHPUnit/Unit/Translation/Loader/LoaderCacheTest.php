@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,18 +8,18 @@
 
 namespace Piwik\Tests\Unit\Translation\Loader;
 
-use Piwik\Cache\Backend\ArrayCache;
-use Piwik\Cache\Lazy;
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Lazy;
 use Piwik\Translation\Loader\LoaderCache;
 
 /**
  * @group Translation
  */
-class LoaderCacheTest extends \PHPUnit_Framework_TestCase
+class LoaderCacheTest extends \PHPUnit\Framework\TestCase
 {
     public function test_shouldNotLoad_ifInCache()
     {
-        $cache = $this->getMock('Piwik\Cache\Lazy', array(), array(), '', false);
+        $cache = $this->getMockBuilder('Matomo\Cache\Lazy')->disableOriginalConstructor()->getMock();
         $cache->expects($this->any())
             ->method('fetch')
             ->willReturn(array('translations!'));
@@ -35,7 +35,7 @@ class LoaderCacheTest extends \PHPUnit_Framework_TestCase
 
     public function test_shouldLoad_ifNotInCache()
     {
-        $cache = $this->getMock('Piwik\Cache\Lazy', array(), array(), '', false);
+        $cache = $this->getMockBuilder('Matomo\Cache\Lazy')->disableOriginalConstructor()->getMock();
         $cache->expects($this->any())
             ->method('fetch')
             ->willReturn(null);

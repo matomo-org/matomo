@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,12 +16,8 @@ use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Translation\Translator;
-
-/**
- * @see core/Translate.php
- */
-require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 
 /**
  * Main piwik helper class.
@@ -263,6 +259,51 @@ class Piwik
     }
 
     /**
+     * Request a token auth to authenticate in a request.
+     *
+     * Note: During one request the token is only being requested once and used throughout the request. So you want to make
+     * sure the token is valid for enough time for the whole request to finish.
+     *
+     * @param string $reason some short string/text explaining the reason for the token generation, eg "CliMultiAsyncHttpArchiving"
+     * @param int $validForHours For how many hours the token should be valid. Should not be valid for more than 14 days.
+     * @return mixed
+     */
+    public static function requestTemporarySystemAuthToken($reason, $validForHours)
+    {
+        static $token = array();
+
+        if (isset($token[$reason])) {
+            // note: For now we do not increase the expire time when it is already requested
+            return $token[$reason];
+        }
+
+        $twoWeeksInHours = 14 * 24;
+        if ($validForHours > $twoWeeksInHours) {
+            throw new Exception('The token cannot be valid for so many hours: ' . $validForHours);
+        }
+
+        $model = new Model();
+        $users = $model->getUsersHavingSuperUserAccess();
+        if (!empty($users)) {
+            $user = reset($users);
+            $expireDate = Date::now()->addHour($validForHours)->getDatetime();
+
+            $token[$reason] = $model->generateRandomTokenAuth();
+
+            $model->addTokenAuth(
+                $user['login'],
+                $token[$reason],
+                'System generated ' . $reason,
+                Date::now()->getDatetime(),
+                $expireDate,
+            true);
+
+            return $token[$reason];
+        }
+
+    }
+
+    /**
      * Check whether the given user has superuser access.
      *
      * @param string $theUser A username.
@@ -333,20 +374,6 @@ class Piwik
     public static function checkUserIsNotAnonymous()
     {
         Access::getInstance()->checkUserIsNotAnonymous();
-    }
-
-    /**
-     * Helper method user to set the current as superuser.
-     * This should be used with great care as this gives the user all permissions.
-     *
-     * This method is deprecated, use {@link Access::doAsSuperUser()} instead.
-     *
-     * @param bool $bool true to set current user as Super User
-     * @deprecated
-     */
-    public static function setUserHasSuperUserAccess($bool = true)
-    {
-        Access::getInstance()->setSuperUserAccess($bool);
     }
 
     /**
@@ -818,20 +845,5 @@ class Piwik
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         return $translator->translate($translationId, $args, $language);
-    }
-
-    /**
-     * Executes a callback with superuser privileges, making sure those privileges are rescinded
-     * before this method exits. Privileges will be rescinded even if an exception is thrown.
-     *
-     * @param callback $function The callback to execute. Should accept no arguments.
-     * @return mixed The result of `$function`.
-     * @throws Exception rethrows any exceptions thrown by `$function`.
-     * @api
-     * @deprecated since Matomo 3.8.0 use `Piwik\Access::doAsSuperUser` instead
-     */
-    public static function doAsSuperUser($function)
-    {
-        return Access::doAsSuperUser($function);
     }
 }

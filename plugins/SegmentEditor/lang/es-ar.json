@@ -47,7 +47,6 @@
         "UnprocessedSegmentApiError3": "Luego de unas horas, los datos de tu segmento deberían estar disponibles a través de la API (si no lo está, puede haber algún problema).",
         "CustomUnprocessedSegmentApiError1": "El segmento que solicitaste no fue creado en el editor de segmento y por lo tanto los datos del informe no fueron preprocesados.",
         "CustomUnprocessedSegmentApiError2": "Para ver datos de este segmento, tenés que ir a Matomo y crear este segmento manualmente en el Editor de segmento.",
-        "CustomUnprocessedSegmentApiError3": "(Alternativamente, podés crear un nuevo segmento de forma programada usando el método de la API \"SegmentEditor.add\".)",
         "CustomUnprocessedSegmentApiError4": "Una vez creado el segmento en el editor (o vía API), este mensaje de error desaparecerá y a las pocas horas vas a ver tus datos de informe segmentado, luego de que los datos de segmento hayan sido preprocesados (si no lo son, puede haber un problema).",
         "CustomUnprocessedSegmentApiError5": "Por favor, tené en cuenta que podés probar si tu segmento funcionará sin tener que esperar a que sea procesado, usando la API \"Live.getLastVisitsDetails\".",
         "CustomUnprocessedSegmentApiError6": "Al usar este método de API, vas a ver cuáles usuarios y acciones coincidieron con tu parámetro \"&segment=\".",

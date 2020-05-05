@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -208,7 +208,7 @@ class Evolution extends JqplotDataGenerator
      * @param DataTable[] $dataTables
      * @throws \Exception
      */
-    private function addSelectedSeriesXLabels(array &$xLabels, array $dataTables)
+    protected function addSelectedSeriesXLabels(array &$xLabels, array $dataTables)
     {
         $xTicksCount = count($dataTables);
         foreach ($xLabels as $labelSeries) {

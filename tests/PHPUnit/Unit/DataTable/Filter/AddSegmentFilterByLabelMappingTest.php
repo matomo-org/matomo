@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
  * @group DataTable
  * @group Filter
  */
-class AddSegmentByLabelMappingTest extends \PHPUnit_Framework_TestCase
+class AddSegmentByLabelMappingTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'AddSegmentByLabelMapping';
 
@@ -25,7 +25,7 @@ class AddSegmentByLabelMappingTest extends \PHPUnit_Framework_TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

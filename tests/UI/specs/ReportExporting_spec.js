@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Export link screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -94,7 +94,7 @@ describe("ReportExporting", function () {
         });
     }
 
-    var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
+    var formats = ['CSV', 'TSV', 'XML', 'JSON'];
     formats.forEach(normalReportTest);
     formats.forEach(evolutionReportTest);
     formats.forEach(rowEvolutionReportTest);

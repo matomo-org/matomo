@@ -11,5 +11,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		
+		<segment>userId==user2</segment>
 	</row>
 </result>

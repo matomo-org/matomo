@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -44,7 +44,7 @@ class RawLogDaoTest extends SystemTestCase
 
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -85,12 +85,11 @@ class RawLogDaoTest extends SystemTestCase
         $this->assertSame('idvisit', $this->dao->getIdFieldForLogTable('log_visit'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Unknown log table 'log_foobarbaz'
-     */
     public function test_getIdFieldForLogTable_whenUnknownTable()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unknown log table \'log_foobarbaz\'');
+
         $this->dao->getIdFieldForLogTable('log_foobarbaz');
     }
 

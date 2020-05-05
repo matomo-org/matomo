@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,6 @@ use Piwik\Option;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Tracker\Visit;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -20,14 +20,14 @@ class DbTest extends IntegrationTestCase
 {
     private $dbReaderConfigBackup;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->dbReaderConfigBackup = Config::getInstance()->database_reader;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Db::destroyDatabaseObject();
         Config::getInstance()->database_reader = $this->dbReaderConfigBackup;
@@ -130,12 +130,11 @@ class DbTest extends IntegrationTestCase
         $this->assertSame($expected, $result);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessagelock name has to be 64 characters or less
-     */
     public function test_getDbLock_shouldThrowAnException_IfDbLockNameIsTooLong()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('name has to be 64 characters or less');
+
         Db::getDbLock(str_pad('test', 65, '1'));
     }
 

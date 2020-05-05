@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\WebsiteMeasurable;
 use Piwik\IP;
 use Piwik\Measurable\Type\TypeManager;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
