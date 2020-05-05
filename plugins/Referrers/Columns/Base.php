@@ -154,6 +154,15 @@ abstract class Base extends VisitDimension
                 $parametersToExclude[] = 'ust';
                 $parametersToExclude[] = 'usg';
             }
+            
+            if (!empty($this->referrerHost) && strpos($this->referrerHost, 'main.exoclick.com') !== false) {
+                $parametersToExclude[] = 'data';
+            }
+            if (!empty($this->referrerHost) && strpos($this->referrerHost, 'youtube.com') !== false) {
+                $parametersToExclude[] = 'redir_token';
+                $parametersToExclude[] = 'html_redirect';
+                $parametersToExclude[] = 'continuation';
+            }
             if (!empty($this->referrerHost) && strpos($this->referrerHost, 'bing.com') !== false) {
                 $parametersToExclude[] = 'cvid';
                 $parametersToExclude[] = 'refig';
