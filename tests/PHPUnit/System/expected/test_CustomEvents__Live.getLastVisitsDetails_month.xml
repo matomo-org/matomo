@@ -5,7 +5,7 @@
 		<idVisit>15</idVisit>
 		<visitIp>111.1.1.2</visitIp>
 		
-		<fingerprint>adc0885357af4334</fingerprint>
+		<fingerprint>ffe0985bd1418a06</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -128,7 +128,7 @@
 		<idVisit>14</idVisit>
 		<visitIp>111.1.1.2</visitIp>
 		
-		<fingerprint>adc0885357af4334</fingerprint>
+		<fingerprint>ffe0985bd1418a06</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -251,7 +251,7 @@
 		<idVisit>13</idVisit>
 		<visitIp>111.1.1.2</visitIp>
 		
-		<fingerprint>adc0885357af4334</fingerprint>
+		<fingerprint>ffe0985bd1418a06</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -482,7 +482,7 @@
 		<idVisit>12</idVisit>
 		<visitIp>111.1.1.2</visitIp>
 		
-		<fingerprint>adc0885357af4334</fingerprint>
+		<fingerprint>ffe0985bd1418a06</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -605,7 +605,7 @@
 		<idVisit>11</idVisit>
 		<visitIp>111.1.1.2</visitIp>
 		
-		<fingerprint>adc0885357af4334</fingerprint>
+		<fingerprint>ffe0985bd1418a06</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1046,7 +1046,7 @@
 		<idVisit>5</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>34944d4f9aeebd80</fingerprint>
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1173,7 +1173,7 @@
 		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>34944d4f9aeebd80</fingerprint>
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1300,7 +1300,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>34944d4f9aeebd80</fingerprint>
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1535,7 +1535,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>34944d4f9aeebd80</fingerprint>
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1662,7 +1662,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>34944d4f9aeebd80</fingerprint>
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>

@@ -4,7 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>24.125.31.147</visitIp>
-		<fingerprint>bdb469065e7d9682</fingerprint>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -118,7 +118,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>24.125.31.147</visitIp>
-		<fingerprint>bdb469065e7d9682</fingerprint>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -232,7 +232,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>24.125.31.147</visitIp>
-		<fingerprint>bdb469065e7d9682</fingerprint>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>

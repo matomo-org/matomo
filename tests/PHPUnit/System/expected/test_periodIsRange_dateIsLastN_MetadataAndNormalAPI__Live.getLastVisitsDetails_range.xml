@@ -5,7 +5,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>efa36e6d392a4746</fingerprint>
+		<fingerprint>d5089722a4391cf9</fingerprint>
 		<actionDetails>
 			<row>
 				<type>outlink</type>
@@ -126,7 +126,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>efa36e6d392a4746</fingerprint>
+		<fingerprint>d5089722a4391cf9</fingerprint>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -262,7 +262,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>c2cc540c21ab719c</fingerprint>
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>goal</type>

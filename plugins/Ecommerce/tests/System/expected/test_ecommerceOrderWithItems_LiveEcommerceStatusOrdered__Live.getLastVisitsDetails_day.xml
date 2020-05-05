@@ -5,7 +5,7 @@
 		<idVisit>5</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>9f77fb6964f57710</fingerprint>
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>ecommerceOrder</type>
@@ -170,7 +170,7 @@
 		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>9f77fb6964f57710</fingerprint>
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
