@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
@@ -62,11 +63,13 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
         $browserLang = substr($request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
         $trackerConfig = Config::getInstance()->Tracker;
 
-        if ($this->isSameFingerprintsAcrossWebsites) {
-            $fingerprintSalt = ''; // fingerprint salt won't work when across multiple sites since all sites could have different timezones
-        } elseif (!empty($trackerConfig['create_new_visit_after_midnight'])) {
+        $fingerprintSalt = '';
+
+        // fingerprint salt won't work when across multiple sites since all sites could have different timezones
+        // also cant add fingerprint salt for a specific day when we dont create new visit after midnight
+        if (!$this->isSameFingerprintsAcrossWebsites && !empty($trackerConfig['create_new_visit_after_midnight'])) {
             $cache = Cache::getCacheWebsiteAttributes($request->getIdSite());
-            $date = Date::factory($request->getCurrentTimestamp());
+            $date = Date::factory((int) $request->getCurrentTimestamp());
             $fingerprintSaltKey = new FingerprintSalt();
             $dateString = $fingerprintSaltKey->getDateString($date, $cache['timezone']);
 
@@ -75,6 +78,10 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             } else {
                 // we query the DB directly for requests older than 2-3 days...
                 $fingerprintSalt = $fingerprintSaltKey->getSalt($dateString, $request->getIdSite());
+            }
+
+            if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+                $fingerprintSalt = md5('123456'); // use fixed value so they don't change randomly in tests
             }
         }
 

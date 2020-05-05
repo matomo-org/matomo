@@ -26,10 +26,6 @@ class FingerprintSalt
 
     public function generateSalt()
     {
-        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE && SettingsServer::isTrackerApiRequest()) {
-            return md5('123456'); // use fixed value so they don't change randomly in tests but only for tracking requests
-        }
-
         return Common::getRandomString(32);
     }
 
