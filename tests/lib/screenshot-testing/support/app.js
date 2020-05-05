@@ -174,7 +174,7 @@ Application.prototype.loadTestModules = function () {
         var testGroupToRun = parseInt(options['test-group']);
 
         mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
-            return Math.floor(index / numberOfGroupsToSplitTestsInto) === testGroupToRun;
+            return index % numberOfGroupsToSplitTestsInto === testGroupToRun;
         });
     }
 
