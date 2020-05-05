@@ -74,14 +74,16 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             $dateString = $fingerprintSaltKey->getDateString($date, $cache['timezone']);
 
             if (!empty($cache[FingerprintSalt::OPTION_PREFIX . $dateString])) {
-                $fingerprintSalt = $cache[FingerprintSalt::OPTION_PREFIX . $dateString] . $dateString;
+                $fingerprintSalt = $cache[FingerprintSalt::OPTION_PREFIX . $dateString];
             } else {
                 // we query the DB directly for requests older than 2-3 days...
                 $fingerprintSalt = $fingerprintSaltKey->getSalt($dateString, $request->getIdSite());
             }
 
+            $fingerprintSalt .= $dateString;
+
             if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-                $fingerprintSalt = md5('123456'); // use fixed value so they don't change randomly in tests
+                $fingerprintSalt = ''; // use fixed value so they don't change randomly in tests
             }
         }
 
