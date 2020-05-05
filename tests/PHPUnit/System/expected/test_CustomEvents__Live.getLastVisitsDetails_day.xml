@@ -5,7 +5,7 @@
 		<idVisit>5</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<fingerprint>34944d4f9aeebd80</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -132,7 +132,7 @@
 		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<fingerprint>34944d4f9aeebd80</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -259,7 +259,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<fingerprint>34944d4f9aeebd80</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -494,7 +494,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<fingerprint>34944d4f9aeebd80</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -621,7 +621,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<fingerprint>34944d4f9aeebd80</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -731,8 +731,8 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play25%</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -794,8 +794,8 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -939,8 +939,8 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
-				<timeSpent>1620</timeSpent>
-				<timeSpentPretty>27 min 0s</timeSpentPretty>
+				<timeSpent>1499</timeSpent>
+				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1209,7 +1209,7 @@
 		<idVisit>10</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>59a45d710d0e79e3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1332,7 +1332,7 @@
 		<idVisit>9</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>59a45d710d0e79e3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1455,7 +1455,7 @@
 		<idVisit>8</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>59a45d710d0e79e3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1686,7 +1686,7 @@
 		<idVisit>7</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>59a45d710d0e79e3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1809,7 +1809,7 @@
 		<idVisit>6</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>59a45d710d0e79e3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>

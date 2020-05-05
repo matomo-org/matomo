@@ -133,6 +133,7 @@ class TasksTest extends IntegrationTestCase
 
         $expected = [
             'invalidateOutdatedArchives.',
+            'deleteOldFingerprintSalts.',
             'purgeOutdatedArchives.',
             'purgeInvalidatedArchives.',
             'purgeOrphanedArchives.',
