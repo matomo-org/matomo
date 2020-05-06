@@ -6861,6 +6861,9 @@ if (typeof window.Piwik !== 'object') {
                     trackCallbackOnReady(function () {
                         addClickListeners(enable, self);
                     });
+                    trackCallbackOnLoad(function () {
+                        addClickListeners(enable, self);
+                    });
                 });
             };
 
