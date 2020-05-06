@@ -10,13 +10,6 @@ namespace Piwik\Db;
 
 use Piwik\Db;
 
-/**
- * Schema abstraction
- *
- * Note: no relation to the ZF proposals for Zend_Db_Schema_Manager
- *
- * @method static \Piwik\Db\Schema getInstance()
- */
 class Settings
 {
     public function getEngine()

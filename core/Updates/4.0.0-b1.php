@@ -109,13 +109,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             }
         }
 
-        // Convert all tables to utf8mb4 if it is available
-        if ('utf8mb4' === DbHelper::getDefaultCharset()) {
-            foreach (DbHelper::getUtf8mb4ConversionQueries() as $utf8mb4ConversionQuery) {
-                $migrations[] = $this->migration->db->sql($utf8mb4ConversionQuery);
-            }
-        }
-
         // Move the site search fields of log_visit out of custom variables into their own fields
         $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_cat', 'VARCHAR(200) NULL');
         $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_count', 'INTEGER(10) UNSIGNED NULL');
@@ -130,8 +123,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
-
-        $migrations[] = $this->migration->config->set('database', 'charset', DbHelper::getDefaultCharset());
 
         return $migrations;
     }
