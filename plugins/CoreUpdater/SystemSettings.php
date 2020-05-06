@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\CoreUpdater;
 
+use Piwik\Db\Settings;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminController;
@@ -30,6 +32,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     /** @var Setting */
     public $sendPluginUpdateEmail;
+
+    /** @var Setting */
+    public $updateToUtf8mb4;
 
     /**
      * @var ReleaseChannels
@@ -54,6 +59,13 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $isWritable = $isWritable && PluginUpdateCommunication::canBeEnabled();
         $this->sendPluginUpdateEmail = $this->createSendPluginUpdateEmail();
         $this->sendPluginUpdateEmail->setIsWritableByCurrentUser($isWritable);
+
+        $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
+        $dbSettings = new Settings();
+        if ($dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4') {
+            $this->updateToUtf8mb4 = $this->createUpdateToUtf8mb4();
+            $this->updateToUtf8mb4->setIsWritableByCurrentUser($isWritable);
+        }
     }
 
     private function createReleaseChannel()
@@ -101,6 +113,16 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->availableValues = array('1' => sprintf('%s (%s)', Piwik::translate('General_Yes'), Piwik::translate('General_Default')),
                                             '0' => Piwik::translate('General_No'));
             $field->inlineHelp = Piwik::translate('CoreAdminHome_SendPluginUpdateCommunicationHelp');
+        });
+    }
+
+    private function createUpdateToUtf8mb4()
+    {
+        return $this->makeSetting('update_to_utf8mb4', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->introduction = 'Convert database to UTF8mb4 charset';
+            $field->title = 'Trigger conversion in background';
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+            $field->inlineHelp = 'Your database supports utf8mb4 charset, but your database tables have not been converted yet. ';
         });
     }
 
