@@ -34,6 +34,30 @@ class DbTest extends IntegrationTestCase
         parent::tearDown();
     }
 
+    // this test is for PDO which will fail if execute() is called w/ a null param value
+    public function test_insertWithNull()
+    {
+        $GLOBALS['abc']=1;
+        $table = Common::prefixTable('testtable');
+        Db::exec("CREATE TABLE `$table` (
+                      testid BIGINT NOT NULL AUTO_INCREMENT,
+                      testvalue BIGINT NULL,
+                      PRIMARY KEY (testid)
+                  )");
+
+        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", ['a' => 4]);
+        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", ['b' => null]);
+
+        $values = Db::fetchAll("SELECT testid, testvalue FROM `$table`");
+
+        $expected = [
+            ['testid' => 1, 'testvalue' => 4],
+            ['testid' => 2, 'testvalue' => null],
+        ];
+
+        $this->assertEquals($expected, $values);
+    }
+
     public function test_getColumnNamesFromTable()
     {
         $this->assertColumnNames('access', array('idaccess', 'login', 'idsite', 'access'));
@@ -171,29 +195,6 @@ class DbTest extends IntegrationTestCase
 
         $result = $db->query('select 21');
         $this->assertEquals(1, $db->rowCount($result));
-    }
-
-    // this test is for PDO which will fail if execute() is called w/ a null param value
-    public function test_insertWithNull()
-    {
-        $table = Common::prefixTable('testtable');
-        Db::exec("CREATE TABLE `$table` (
-                      testid INT NOT NULL AUTO_INCREMENT,
-                      testvalue INT NULL,
-                      PRIMARY KEY (testid)
-                  )");
-
-        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [4]);
-        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [null]);
-
-        $values = Db::fetchAll("SELECT testid, testvalue FROM `$table`");
-
-        $expected = [
-            ['testid' => 1, 'testvalue' => 4],
-            ['testid' => 2, 'testvalue' => null],
-        ];
-
-        $this->assertEquals($expected, $values);
     }
 
     public function getDbAdapter()
