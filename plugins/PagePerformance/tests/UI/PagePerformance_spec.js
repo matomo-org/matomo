@@ -44,7 +44,7 @@ describe("PagePerformance", function () {
         pageWrap = await page.waitForSelector('.ui-dialog');
 
         await page.hover('.piwik-graph');
-        await page.waitFor(50);
+        await page.waitFor(250);
 
         expect(await pageWrap.screenshot()).to.matchImage('pageurl_overlay');
     });
@@ -55,6 +55,7 @@ describe("PagePerformance", function () {
         // hover visualization selection
         const icon = await page.jQuery('.activateVisualizationSelection');
         await icon.click();
+        await page.waitFor(250); // animation
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visualizations');
@@ -104,7 +105,7 @@ describe("PagePerformance", function () {
         pageWrap = await page.waitForSelector('.ui-dialog');
 
         await page.hover('.piwik-graph');
-        await page.waitFor(50);
+        await page.waitFor(250);
 
         expect(await pageWrap.screenshot()).to.matchImage('pagetitle_overlay');
     });
