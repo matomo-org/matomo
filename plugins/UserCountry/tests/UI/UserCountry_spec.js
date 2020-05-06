@@ -30,7 +30,7 @@ describe("UserCountry", function () {
         await page.goto("?module=UserCountry&action=adminIndex");
 
         await page.evaluate(function(){
-            $('#geoipdb-update-info').html($('#geoipdb-update-info').html().replace(/dbip-city-lite-[\d]{4}-[\d]{2}\.mmdb\.gz/, 'dbip-city-lite-2020-04.mmdb.gz'));
+            $('#geoipdb-update-info').html($('#geoipdb-update-info').html().replace(/dbip-city-lite-[\d]{4}-[\d]{2}\.mmdb\.gz</, 'dbip-city-lite-2020-04.mmdb.gz<'));
         });
 
         expect(await page.screenshotSelector('#content')).to.matchImage('admin_geoip2');
