@@ -185,7 +185,8 @@ var Piwik_Popover = (function () {
             
             container.children().each(function (i, childNode) {
                 piwikHelper.compileAngularComponents(childNode);
-            })
+            });
+
             centerPopover();
         },
 
