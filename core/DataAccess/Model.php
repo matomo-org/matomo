@@ -162,7 +162,6 @@ class Model
         // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
         // except for archives that are DONE_IN_PROGRESS.
         $archivesToCreateInvalidationRowsFor = [];
-        $inProgressArchives = [];
         foreach ($archivesToInvalidate as $row) {
             if ($row['name'] != $doneFlag) { // only look at done flags that equal the one we are explicitly adding
                 continue;
@@ -199,7 +198,7 @@ class Model
         }
 
         $fields = ['idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
-        Db\BatchInsert::tableInsertBatch('archive_invalidations', $fields, $dummyArchives);
+        Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $dummyArchives);
 
         return count($idArchives);
     }

@@ -123,7 +123,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
         ], ['idinvalidation']);
 
-        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'date2', 'period'], 'index_idsite_dates_period_name');
+        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
 
         return $migrations;
     }
