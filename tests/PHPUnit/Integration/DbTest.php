@@ -173,6 +173,29 @@ class DbTest extends IntegrationTestCase
         $this->assertEquals(1, $db->rowCount($result));
     }
 
+    // this test is for PDO which will fail if execute() is called w/ a null param value
+    public function test_insertWithNull()
+    {
+        $table = Common::prefixTable('testtable');
+        Db::exec("CREATE TABLE `$table` (
+                      testid INT NOT NULL AUTO_INCREMENT,
+                      testvalue INT NULL,
+                      PRIMARY KEY (testid)
+                  )");
+
+        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [4]);
+        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [null]);
+
+        $values = Db::fetchAll("SELECT testid, testvalue FROM `$table`");
+
+        $expected = [
+            ['testid' => 1, 'testvalue' => 4],
+            ['testid' => 2, 'testvalue' => null],
+        ];
+
+        $this->assertEquals($expected, $values);
+    }
+
     public function getDbAdapter()
     {
         return array(
