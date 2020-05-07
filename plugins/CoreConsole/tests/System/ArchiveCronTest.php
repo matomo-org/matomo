@@ -133,6 +133,9 @@ class ArchiveCronTest extends SystemTestCase
 
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+        $invalidationEntries = array_filter($invalidationEntries, function ($entry) {
+            return $entry['period'] != 5;
+        });
         $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
         $this->runApiTests(array(
