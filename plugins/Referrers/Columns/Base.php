@@ -119,6 +119,8 @@ abstract class Base extends VisitDimension
             }
         }
 
+        $this->excludeQueryParamsFromReferrerUrl();
+
         $referrerInformation = array(
             'referer_type'    => $this->typeReferrerAnalyzed,
             'referer_name'    => $this->nameReferrerAnalyzed,
@@ -135,6 +137,60 @@ abstract class Base extends VisitDimension
         }
 
         return $referrerInformation;
+    }
+
+    protected function excludeQueryParamsFromReferrerUrl()
+    {
+        $parametersToExclude = [];
+
+        if (!empty($this->referrerHost) && strpos($this->referrerHost, 'instagram.com') !== false) {
+            $parametersToExclude[] = 'e';
+            $parametersToExclude[] = 's';
+        }
+        if (!empty($this->referrerHost) && strpos($this->referrerHost, 'facebook.com') !== false) {
+            $parametersToExclude[] = 'h';
+            $parametersToExclude[] = 'p';
+        }
+        if (!empty($this->referrerHost) && (strpos($this->referrerHost, 'google.') !== false || strpos($this->referrerHost, 'googleusercontent.') !== false)) {
+            $parametersToExclude[] = 'ust';
+            $parametersToExclude[] = 'usg';
+            $parametersToExclude[] = 'usd';
+            $parametersToExclude[] = 'sa';
+            $parametersToExclude[] = 'sntz';
+            $parametersToExclude[] = 'ei';
+            $parametersToExclude[] = 'sa';
+            $parametersToExclude[] = 'bvm';
+            $parametersToExclude[] = 'usg';
+            $parametersToExclude[] = 'ved';
+            $parametersToExclude[] = 'client';
+            $parametersToExclude[] = 'channel';
+        }
+
+        if (!empty($this->referrerHost) && strpos($this->referrerHost, 'main.exoclick.com') !== false) {
+            $parametersToExclude[] = 'data';
+            $parametersToExclude[] = 'wpn';
+        }
+        if (!empty($this->referrerHost) && strpos($this->referrerHost, 'youtube.com') !== false) {
+            $parametersToExclude[] = 'redir_token';
+            $parametersToExclude[] = 'html_redirect';
+            $parametersToExclude[] = 'continuation';
+            $parametersToExclude[] = 'feature';
+        }
+        if (!empty($this->referrerHost) && strpos($this->referrerHost, 'bing.com') !== false) {
+            $parametersToExclude[] = 'cvid';
+            $parametersToExclude[] = 'refig';
+            $parametersToExclude[] = 'elv';
+            $parametersToExclude[] = 'plvar';
+            $parametersToExclude[] = 'setlang';
+            $parametersToExclude[] = 'qs';
+            $parametersToExclude[] = 'cc';
+            $parametersToExclude[] = 'mkt';
+            $parametersToExclude[] = 'PC';
+            $parametersToExclude[] = 'form';
+            $parametersToExclude[] = 'src';
+        }
+
+        $this->referrerUrl = PageUrl::excludeQueryParametersFromUrl($this->referrerUrl, $this->idsite, $parametersToExclude);
     }
 
     protected function getReferrerInformationFromRequest(Request $request, Visitor $visitor)
