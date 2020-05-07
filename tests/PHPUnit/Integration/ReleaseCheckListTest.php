@@ -284,11 +284,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'DBStats'
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
-            if (in_array($pluginName, $this->globalConfig['Plugins']['Plugins'])) {
-                throw new Exception("Plugin $pluginName is enabled by default but shouldn't.");
-            }
+            $this->assertNotContains($pluginName, $this->globalConfig['Plugins']['Plugins'],
+                "Plugin $pluginName is enabled by default but shouldn't.");
         }
-
     }
 
     /**

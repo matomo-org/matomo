@@ -199,7 +199,8 @@ class Model
         }
 
         $fields = ['idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
-        Db\BatchInsert::tableInsertBatch('archive_invalidations', $fields, $dummyArchives);
+
+        Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $dummyArchives);
 
         return count($idArchives);
     }

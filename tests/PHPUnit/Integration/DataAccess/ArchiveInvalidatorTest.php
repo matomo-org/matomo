@@ -304,7 +304,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $idArchives = array_filter($idArchives);
         $expectedIdArchives = array_filter($expectedIdArchives);
 
-        $this->assertEquals($expectedIdArchives, $idArchives);
+        $this->assertEqualsSorted($expectedIdArchives, $idArchives);
 
         $expectedEntries = [
             [
@@ -342,7 +342,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         ];
 
         $invalidatedArchiveTableEntries = $this->getInvalidatedArchiveTableEntries();
-        $this->assertEqualsCanonicalizing($expectedEntries, $invalidatedArchiveTableEntries);
+        $this->assertEqualsSorted($expectedEntries, $invalidatedArchiveTableEntries);
     }
 
     /**
@@ -359,6 +359,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+
         $result = $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, false, $name);
 
         $this->assertEquals($dates, $result->processedDates);
@@ -372,7 +373,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedIdArchives, $idArchives);
 
         $invalidatedIdArchives = $this->getInvalidatedArchiveTableEntries();
-        $this->assertEqualsCanonicalizing($expectedInvalidatedArchives, $invalidatedIdArchives);
+
+        $this->assertEqualsSorted($expectedInvalidatedArchives, $invalidatedIdArchives);
     }
 
     public function getTestDataForMarkArchivesAsInvalidated()
@@ -1046,5 +1048,20 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     private function getInvalidatedArchiveTableEntries()
     {
         return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name FROM " . Common::prefixTable('archive_invalidations'));
+    }
+
+    private function assertEqualsSorted(array $expectedEntries, array $invalidatedArchiveTableEntries)
+    {
+        $this->sortArray($expectedEntries);
+        $this->sortArray($invalidatedArchiveTableEntries);
+
+        $this->assertEquals($expectedEntries, $invalidatedArchiveTableEntries);
+    }
+
+    private function sortArray(array &$expectedEntries)
+    {
+        usort($expectedEntries, function ($lhs, $rhs) {
+            return strcmp(json_encode($lhs), json_encode($rhs));
+        });
     }
 }

@@ -12,12 +12,8 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
-use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
-use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
@@ -161,6 +157,11 @@ class ArchiveCronTest extends SystemTestCase
 
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+
+        $invalidationEntries = array_filter($invalidationEntries, function ($entry) {
+            return $entry['period'] == 5;
+        });
+
         $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
         $this->runApiTests(array(

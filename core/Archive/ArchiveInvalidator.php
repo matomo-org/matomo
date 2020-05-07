@@ -442,6 +442,7 @@ class ArchiveInvalidator
             $yearMonths[] = $tableDateObj->toString('Y_m');
 
             $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges, $name);
+
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }

@@ -770,8 +770,13 @@ class CronArchive
     public function logError($m)
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
-            $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
             $m = str_replace(array("\n", "\t"), " ", $m);
+            if (Common::mb_strlen($m) > self::TRUNCATE_ERROR_MESSAGE_SUMMARY) {
+                $numCharactersKeepFromEnd = 100;
+                $m = Common::mb_substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY - $numCharactersKeepFromEnd)
+                     . ' ... ' .
+                    Common::mb_substr($m, -1 * $numCharactersKeepFromEnd);
+            }
         }
         $this->errors[] = $m;
         $this->logger->error($m);

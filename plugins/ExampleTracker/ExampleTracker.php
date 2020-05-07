@@ -8,25 +8,10 @@
  */
 namespace Piwik\Plugins\ExampleTracker;
 
-use Piwik\Common;
-use Piwik\Plugins\Live\Visitor;
-
 class ExampleTracker extends \Piwik\Plugin
 {
-    public function registerEvents()
-    {
-        return [
-            'Live.getAllVisitorDetails' => 'getAllVisitorDetails',
-        ];
-    }
-
     public function isTrackerPlugin()
     {
         return true;
-    }
-
-    public function getAllVisitorDetails(&$visitor, $visitorRawData)
-    {
-        $visitor['myCustomVisitParam'] = isset($visitorRawData['example_visit_dimension']) ? $visitorRawData['example_visit_dimension'] : 'no-value';
     }
 }

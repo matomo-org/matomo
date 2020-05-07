@@ -310,7 +310,7 @@ class Mysql implements SchemaInterface
                                             ts_invalidated DATETIME NULL,
                                             status TINYINT(1) UNSIGNED DEFAULT 0,
                                             PRIMARY KEY(idinvalidation),
-                                            INDEX index_idsite_dates_period_name(idsite, date1, date2, period, name)
+                                            INDEX index_idsite_dates_period_name(idsite, date1, period, name)
                                         ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
