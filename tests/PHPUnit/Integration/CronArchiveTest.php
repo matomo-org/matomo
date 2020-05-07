@@ -19,6 +19,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
+use Piwik\Version;
 
 /**
  * @group Archiver
@@ -134,10 +135,11 @@ class CronArchiveTest extends IntegrationTestCase
         $archiver->init();
         $archiver->run();
 
+        $version = Version::VERSION;
         $expected = <<<LOG
 ---------------------------
 INIT
-Running Matomo 4.0.0-b1 as Super User
+Running Matomo $version as Super User
 ---------------------------
 NOTES
 - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
