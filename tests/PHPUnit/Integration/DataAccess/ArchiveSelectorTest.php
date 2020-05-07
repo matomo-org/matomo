@@ -40,6 +40,13 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
         $params = new Parameters(new Site(1), Factory::build('day', '2019-10-05'), new Segment($segment, [1]));
         $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDateProcessed, $includeInvalidated);
+
+        if ($result[4] !== false) {
+            Date::factory($result[4]);
+        }
+
+        unset($result[4]);
+
         $this->assertEquals($expected, $result);
     }
 

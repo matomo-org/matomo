@@ -103,7 +103,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->add("1,2,3", "2012-01-01", "whatever");
             $this->fail("add should fail when given multiple sites in idSite");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -113,7 +113,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->add(self::$fixture->idSite1, "invaliddate", "whatever");
             $this->fail("add should fail when given invalid date");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -123,7 +123,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->save("1,2,3", 0);
             $this->fail("save should fail when given multiple sites");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -133,7 +133,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->save(self::$fixture->idSite1, 0, "invaliddate");
             $this->fail("save should fail when given an invalid date");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -143,7 +143,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->save(self::$fixture->idSite1, -1);
             $this->fail("save should fail when given an invalid note id");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -153,7 +153,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->delete("1,2,3", 0);
             $this->fail("delete should fail when given multiple site IDs");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -163,7 +163,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->delete(self::$fixture->idSite1, -1);
             $this->fail("delete should fail when given an invalid site ID");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -173,7 +173,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->get("1,2,3", 0);
             $this->fail("get should fail when given multiple site IDs");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -183,7 +183,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->get(self::$fixture->idSite1, -1);
             $this->fail("get should fail when given an invalid note ID");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -226,7 +226,7 @@ class AnnotationsTest extends SystemTestCase
             API::getInstance()->get(self::$fixture->idSite1, 1);
             $this->fail("failed to delete annotation");
         } catch (Exception $ex) {
-            // pass
+            $this->assertTrue(true); // pass
         }
     }
 
@@ -275,7 +275,7 @@ class AnnotationsTest extends SystemTestCase
                 $request->process();
                 $this->fail($failMessage);
             } catch (Exception $ex) {
-                // pass
+                $this->assertTrue(true); // pass
             }
         } else {
             $request = new Request($request);
