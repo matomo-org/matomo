@@ -18,8 +18,6 @@ use Piwik\View;
 
 /**
  * Class LocationSummary
- *
- * @api
  */
 class LocationSummary extends ProfileSummaryAbstract
 {

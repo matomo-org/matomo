@@ -63,6 +63,7 @@ class Controller extends ControllerAdmin
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
         $mobileMessagingAPI = API::getInstance();
+        $model = new Model();
         $view->delegatedManagement = $mobileMessagingAPI->getDelegatedManagement();
         $view->credentialSupplied = $mobileMessagingAPI->areSMSAPICredentialProvided();
         $view->accountManagedByCurrentUser = $view->isSuperUser || $view->delegatedManagement;
@@ -131,7 +132,7 @@ class Controller extends ControllerAdmin
         }
         $view->countries = $countries;
 
-        $view->phoneNumbers = $mobileMessagingAPI->getPhoneNumbers();
+        $view->phoneNumbers = $model->getPhoneNumbers(Piwik::getCurrentUserLogin());
 
         $this->setBasicVariablesView($view);
     }

@@ -16,8 +16,6 @@ use Piwik\View;
 
 /**
  * Class EcommerceSummary
- *
- * @api
  */
 class EcommerceSummary extends ProfileSummaryAbstract
 {

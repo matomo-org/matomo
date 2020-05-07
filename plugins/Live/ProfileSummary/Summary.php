@@ -15,11 +15,9 @@ use Piwik\View;
 use Piwik\Plugins\Goals\API as APIGoals;
 
 /**
- * Class ProfileSummaryAbstract
+ * Class Summary
  *
- * This class can be implemented in a plugin to provide a new profile summary
- *
- * @api
+ * Displays some general details in the profile summary
  */
 class Summary extends ProfileSummaryAbstract
 {

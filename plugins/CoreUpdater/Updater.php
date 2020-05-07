@@ -134,7 +134,9 @@ class Updater
         $response = Http::sendHttpRequest($partTwoUrl, 300);
         $response = @json_decode($response, $assoc = true);
 
-        $messages = array_merge($messages, $response);
+        if (!empty($response)) {
+            $messages = array_merge($messages, $response);
+        }
 
         try {
             $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);

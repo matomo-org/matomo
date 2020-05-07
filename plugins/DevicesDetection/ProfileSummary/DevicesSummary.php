@@ -15,8 +15,6 @@ use Piwik\View;
 
 /**
  * Class DevicesSummary
- *
- * @api
  */
 class DevicesSummary extends ProfileSummaryAbstract
 {
