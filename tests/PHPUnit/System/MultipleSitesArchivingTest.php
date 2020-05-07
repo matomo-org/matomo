@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
@@ -33,9 +34,13 @@ class MultipleSitesArchivingTest extends SystemTestCase
             }
         });
 
-        Piwik::addAction("ArchiveProcessor.ComputeNbUniques.getIdSites", function (&$sites) use ($extraSite) {
-            if (reset($sites) == $extraSite) {
-                $sites = array(1, 2, 3);
+        Piwik::addAction('CronArchive.getIdSitesNotUsingTracker', function (&$idSitesNotUsingTradker) use ($extraSite) {
+            $idSitesNotUsingTradker[] = $extraSite;
+        });
+
+        Piwik::addAction('ArchiveProcessor.shouldAggregateFromRawData', function (&$shouldAggregateFromRawData, Parameters $params) {
+            if ($params->getSite()->getId() == 4) {
+                $shouldAggregateFromRawData = true;
             }
         });
 

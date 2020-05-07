@@ -70,6 +70,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     public function testCustomByteRange($method)
     {
         if ($method == 'fopen') {
+            $this->assertTrue(true); // pass
             return; // not supported w/ this method
         }
 
@@ -99,6 +100,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     public function testHEADOperation($method)
     {
         if ($method == 'fopen') {
+            $this->assertTrue(true); // pass
             return; // not supported w/ this method
         }
 

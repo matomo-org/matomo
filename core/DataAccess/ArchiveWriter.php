@@ -54,6 +54,14 @@ class ArchiveWriter
      */
     const DONE_INVALIDATED = 4;
 
+    /**
+     * Flag indicating that the archive is currently being archived. If the archiving process is aborted or killed, the
+     * archive may remain w/ this flag.
+     *
+     * @var int
+     */
+    const DONE_IN_PROGRESS = 5;
+
     protected $fields = array('idarchive',
         'idsite',
         'date1',
@@ -76,7 +84,7 @@ class ArchiveWriter
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
      * @throws Exception
      */
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary = false)
+    public function __construct(ArchiveProcessor\Parameters $params)
     {
         $this->idArchive = false;
         $this->idSite    = $params->getSite()->getId();
