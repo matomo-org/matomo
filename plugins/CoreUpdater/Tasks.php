@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Option;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {

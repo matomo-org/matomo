@@ -119,10 +119,15 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     private function createUpdateToUtf8mb4()
     {
         return $this->makeSetting('update_to_utf8mb4', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $field->introduction = 'Convert database to UTF8mb4 charset';
-            $field->title = 'Trigger conversion in background';
+            $field->introduction = Piwik::translate('CoreUpdater_ConvertToUtf8mb4');
+            $field->title = Piwik::translate('CoreUpdater_TriggerDatabaseConversion');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->inlineHelp = 'Your database supports utf8mb4 charset, but your database tables have not been converted yet. ';
+            $field->inlineHelp = Piwik::translate('CoreUpdater_Utf8mb4ConversionHelp', [
+                '�',
+                '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>',
+                '<a href="https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/" rel="noreferrer noopener" target="_blank">',
+                '</a>'
+            ]);
         });
     }
 
