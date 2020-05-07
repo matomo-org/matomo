@@ -451,8 +451,7 @@ class Mysql implements SchemaInterface
         }
 
         $dbName = str_replace('`', '', $dbName);
-        $dbSettings = new Db\Settings();
-        $charset    = $dbSettings->getUsedCharset();
+        $charset    = DbHelper::getDefaultCharset();
 
         Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET ".$charset);
     }
