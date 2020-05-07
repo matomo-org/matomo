@@ -1095,6 +1095,7 @@ $(document).ready(function() {
 
         this.onMouseUp = function(e) {
             if ($(e.target).closest('.segment-element').length === 0
+                && !$(e.target).is('.ui-menu-item-wrapper')
                 && !$(e.target).is('.segment-element')
                 && $(e.target).hasClass("ui-corner-all") == false
                 && $(e.target).hasClass("ddmetric") == false

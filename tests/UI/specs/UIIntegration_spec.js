@@ -473,12 +473,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             // manipulate the styles a bit, as it's otherwise not visible on screenshot
             await page.evaluate(function () {
-                $('.columnDocumentation:visible').css({
-                    display: 'block !important',
-                    top: 50,
-                    left: 100
-                });
+                var style = document.createElement('style');
+                style.innerHTML = 'permadocs { display: block !important; }';
+                $('body').append(style);
+
+                $('.columnDocumentation:visible').addClass('permadocs');
             });
+
             await page.waitFor(100);
 
             expect(await tip.screenshot()).to.matchImage('metric_tooltip');
