@@ -44,5 +44,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
     public function test_removeNonExistingFile_shouldNotThrowException()
     {
         Filesystem::remove('foo');
+        $this->assertTrue(true); // pass
     }
 }

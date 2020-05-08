@@ -46,6 +46,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
 * Site search category and count are no longer stored as custom variables. That also means they will now have an extra field in action details and no longer appear in custom variables.
 * The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
+* The `$completed` parameter for the 'CronArchive.archiveSingleSite.finish' event has been removed. For both this event and the CronArchive.archiveSingleSite.start event, a new
+  parameter is added for the process' pid. Multiple processes can now trigger this event for the same site ID.
 * The dimension and `log_link_visit_action` column interaction_position has been renamed to pageview_position. If your database queries rely on the column you can simply replace the name.
 * The metric (avg.) page generation time has been deprecated. It is no longer possible to track it. Already tracked values will still be shown in old reports. More detailed performance metrics are now available in PagePerformance plugin.
 * The signature of `Dimension::configureSegments()` has been changed. Similar to configuring Metrics it now takes two parameters `SegmentsList $segmentsList` and `DimensionSegmentFactory $dimensionSegmentFactory`.

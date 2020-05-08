@@ -14,6 +14,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Metrics\Formatter;
+use Piwik\Tracker\VisitorRecognizer;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
@@ -67,7 +68,15 @@ class VisitLastActionTime extends VisitDimension
         if ($request->getParam('ping') == 1) {
             return false;
         }
-        
+
+        $originalVisit = $visitor->getVisitorColumn(VisitorRecognizer::KEY_ORIGINAL_VISIT_ROW);
+
+        if (!empty($originalVisit['visit_last_action_time'])
+            && Date::factory($originalVisit['visit_last_action_time'])->getTimestamp() > $request->getCurrentTimestamp()) {
+            // make sure to not set visit_last_action_time to an earlier time eg if tracking requests aren't sent in order
+            return $originalVisit['visit_last_action_time'];
+        }
+
         return $this->onNewVisit($request, $visitor, $action);
     }
 }

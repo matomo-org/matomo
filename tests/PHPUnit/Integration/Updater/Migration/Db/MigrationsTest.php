@@ -209,6 +209,7 @@ class MigrationsTest extends IntegrationTestCase
             'column5' => 'VARCHAR(10) DEFAULT ""',
             'column11' => 'VARCHAR(255) DEFAULT "test"',
         ))->exec();
+        $this->assertTrue(true); // pass
     }
 
     /**

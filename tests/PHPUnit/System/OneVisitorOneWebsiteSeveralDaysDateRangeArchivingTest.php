@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
@@ -164,6 +165,10 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             'archive_numeric_2011_02' => 0,
         );
         foreach ($tests as $table => $expectedRows) {
+            if ($expectedRows === 0 && !$this->tableExists($table)) {
+                continue;
+            }
+
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Db::get()->fetchOne($sql);
 
@@ -223,6 +228,11 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             $numericTable = str_replace("blob", "numeric", Common::prefixTable($table));
             var_export(Db::get()->fetchAll("SELECT idarchive, name FROM " . $numericTable . " WHERE idarchive = ? AND name LIKE 'done%' LIMIT 1 ", $idArchive));
         }
+    }
+
+    private function tableExists($table)
+    {
+        return (bool) Db::fetchOne("SHOW TABLES LIKE '$table'");
     }
 
 }

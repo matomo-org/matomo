@@ -76,7 +76,7 @@
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
+    requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -4745,11 +4745,25 @@ if (typeof window.Piwik !== 'object') {
                         sendBulkRequest(requestsToTrack, configTrackerPause);
                     }
                 },
+                canQueue: function () {
+                    return !isPageUnloading && this.enabled;
+                },
+                pushMultiple: function (requests) {
+                    if (!this.canQueue()) {
+                        sendBulkRequest(requests, configTrackerPause);
+                        return;
+                    }
+
+                    var i;
+                    for (i = 0; i < requests.length; i++) {
+                        this.push(requests[i]);
+                    }
+                },
                 push: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
-                    if (isPageUnloading || !this.enabled) {
+                    if (!this.canQueue()) {
                         // we don't queue as we need to ensure the request will be sent when the page is unloading...
                         sendRequest(requestUrl, configTrackerPause);
                         return;
@@ -5844,6 +5858,9 @@ if (typeof window.Piwik !== 'object') {
                     trackCallbackOnReady(function () {
                         addClickListeners(enable, self);
                     });
+                    trackCallbackOnLoad(function () {
+                        addClickListeners(enable, self);
+                    });
                 });
             };
 
@@ -6052,7 +6069,7 @@ if (typeof window.Piwik !== 'object') {
                         var contentNodes = content.findContentNodes();
                         var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
 
-                        sendBulkRequest(requests, configTrackerPause);
+                        requestQueue.pushMultiple(requests);
                     });
                 });
             };
@@ -6112,7 +6129,7 @@ if (typeof window.Piwik !== 'object') {
                         var contentNodes = content.findContentNodes();
                         var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
 
-                        sendBulkRequest(requests, configTrackerPause);
+                        requestQueue.pushMultiple(requests);
                     });
                 });
             };
@@ -6142,7 +6159,7 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    requestQueue.push(request);
                 });
             };
 
@@ -6166,7 +6183,7 @@ if (typeof window.Piwik !== 'object') {
                             var contentNodes = content.findContentNodesWithinNode(domNode);
 
                             var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            requestQueue.pushMultiple(requests);
                         });
                     } else {
                         trackCallbackOnReady(function () {
@@ -6174,7 +6191,7 @@ if (typeof window.Piwik !== 'object') {
                             var contentNodes = content.findContentNodesWithinNode(domNode);
 
                             var requests = getContentImpressionsRequestsFromNodes(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            requestQueue.pushMultiple(requests);
                         });
                     }
                 });
@@ -6209,7 +6226,7 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
                     if (request) {
-                        sendRequest(request, configTrackerPause);
+                        requestQueue.push(request);
                     }
                 });
             };
@@ -6238,7 +6255,7 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     theRequest = buildContentInteractionRequestNode(domNode, contentInteraction);
                     if (theRequest) {
-                        sendRequest(theRequest, configTrackerPause);
+                        requestQueue.push(theRequest);
                     }
                 });
                 //note: return value is only for tests... will only work if dom is already ready...

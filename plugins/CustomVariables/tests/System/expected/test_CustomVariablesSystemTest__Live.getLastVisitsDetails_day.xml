@@ -108,7 +108,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>this keyword should be ranked</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB4QFjAA&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;ei=V8WfTePkKKLfiALrpZWGAw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
+		<referrerUrl>http://www.google.com/url?source=web&amp;cd=1&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />

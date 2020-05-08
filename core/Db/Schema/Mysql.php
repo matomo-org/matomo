@@ -302,6 +302,21 @@ class Mysql implements SchemaInterface
                                       ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
 
+            'archive_invalidations' => "CREATE TABLE `{$prefixTables}archive_invalidations` (
+                                            idinvalidation BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            idarchive INTEGER UNSIGNED NULL,
+                                            name VARCHAR(255) NOT NULL,
+                                            idsite INTEGER UNSIGNED NOT NULL,
+                                            date1 DATE NOT NULL,
+                                            date2 DATE NOT NULL,
+                                            period TINYINT UNSIGNED NOT NULL,
+                                            ts_invalidated DATETIME NULL,
+                                            status TINYINT(1) UNSIGNED DEFAULT 0,
+                                            PRIMARY KEY(idinvalidation),
+                                            INDEX index_idsite_dates_period_name(idsite, date1, period, name)
+                                        ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
             'sequence'        => "CREATE TABLE {$prefixTables}sequence (
                                       `name` VARCHAR(120) NOT NULL,
                                       `value` BIGINT(20) UNSIGNED NOT NULL ,
