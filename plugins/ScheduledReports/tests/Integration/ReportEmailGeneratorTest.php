@@ -64,6 +64,7 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
                     'filename' => 'file1.txt',
                 ],
                 [
+                    'cid' => 'file1',
                     'mimeType' => 'mimetype2',
                     'encoding' => Mail::ENCODING_BASE64,
                     'content' => 'content 2',
@@ -85,7 +86,7 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
                 '8bit',
                 'mimetype1',
                 true,
-                'inline',
+                'attachment',
                 0
             ],
             [
@@ -96,7 +97,7 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
                 'mimetype2',
                 true,
                 'inline',
-                0
+                'file1'
             ],
         ], $attachments);
     }
