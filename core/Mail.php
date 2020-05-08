@@ -97,8 +97,9 @@ class Mail extends PHPMailer
     /**
      * Sets the sender.
      *
-     * @param string $email Email address of the sender.
-     * @param null|string $name Name of the sender.
+     * @param string      $email Email address of the sender.
+     * @param null|string $name  Name of the sender.
+     * @param bool        $auto  Whether to also set the Sender address, defaults to true
      * @return bool
      */
     public function setFrom($email, $name = null, $auto = true)

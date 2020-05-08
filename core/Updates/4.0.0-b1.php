@@ -121,6 +121,14 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
+
+        // @todo migrate that to a config migration. See utf8mb4 branch
+        $config = Config::getInstance();
+
+        if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
+            $config->mail['type'] === 'Cram-md5';
+            $config->forceSave();
+        }
     }
 
     protected function usesGeoIpLegacyLocationProvider()
