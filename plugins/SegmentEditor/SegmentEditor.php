@@ -48,9 +48,20 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.onNoData' => 'onNoData',
-            'Archive.noArchivedData' => 'onNoArchiveData',
+            'Visualization.onNoData'                     => 'onNoData',
+            'Archive.noArchivedData'                     => 'onNoArchiveData',
+            'Db.getTablesInstalled'                      => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('segment');
     }
 
     public function addSystemSummaryItems(&$systemSummary)

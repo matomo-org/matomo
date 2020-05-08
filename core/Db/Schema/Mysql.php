@@ -16,6 +16,7 @@ use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Version;
 
@@ -414,6 +415,19 @@ class Mysql implements SchemaInterface
             // all the tables to be installed
             $allMyTables = $this->getTablesNames();
 
+            /**
+             * Triggered when detecting which tables have already been created by Matomo.
+             * This should be used by plugins to define it's database tables. Table names need to be added prefixed.
+             *
+             * **Example**
+             *
+             *     Piwik::addAction('Db.getTablesInstalled', function(&$allTablesInstalled) {
+             *         $allTablesInstalled = 'log_custom';
+             *     });
+             * @param array $result
+             */
+            Piwik::postEvent('Db.getTablesInstalled', [&$allMyTables]);
+
             // we get the intersection between all the tables in the DB and the tables to be installed
             $tablesInstalled = array_intersect($allMyTables, $allTables);
 
@@ -422,6 +436,8 @@ class Mysql implements SchemaInterface
             $allArchiveBlob    = $db->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "archive_blob%'");
 
             $allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
+
+            $allTablesReallyInstalled = array_unique($allTablesReallyInstalled);
 
             $this->tablesInstalled = $allTablesReallyInstalled;
         }

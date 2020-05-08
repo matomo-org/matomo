@@ -96,7 +96,19 @@ class ScheduledReports extends \Piwik\Plugin
             'SegmentEditor.update'                      => 'segmentUpdated',
             'Translate.getClientSideTranslationKeys'    => 'getClientSideTranslationKeys',
             'Request.getRenamedModuleAndAction'         => 'renameDeprecatedModuleAndAction',
+            'Db.getTablesInstalled'                     => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('report');
+        $allTablesInstalled[] = Common::prefixTable('report_subscriptions');
     }
 
     public function renameDeprecatedModuleAndAction(&$module, &$action)
