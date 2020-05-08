@@ -68,7 +68,7 @@ class Model
                  WHERE name LIKE 'done%'
                    AND ts_archived IS NOT NULL
                    AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
-              GROUP BY idsite, date1, date2, period, name";
+              GROUP BY idsite, date1, date2, period, name HAVING count(*) > 1";
 
         $archiveIds = array();
 
