@@ -168,7 +168,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', $period, $date);
         $segment = new Segment('', []);
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
-        $writer  = new TestArchiveWriter($params, false);
+        $writer  = new TestArchiveWriter($params);
         return $writer;
     }
 

@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>1 visit</label>
-		<nb_visits>50</nb_visits>
+		<nb_visits>49</nb_visits>
 		<nb_visits_percentage>88%</nb_visits_percentage>
 		<segment>visitCount==1</segment>
 	</row>

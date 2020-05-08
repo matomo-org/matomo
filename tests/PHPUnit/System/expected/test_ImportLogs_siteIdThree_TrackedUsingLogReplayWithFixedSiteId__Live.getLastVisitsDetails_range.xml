@@ -520,7 +520,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCcQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=8vwgU8TYDZTI2wWTi4CQCA&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.b2I</referrerUrl>
+		<referrerUrl>http://www.google.com/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;url=http%3A%2F%2Fpiwik.org%2F</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -948,7 +948,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>2</referrerKeywordPosition>
-		<referrerUrl>https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;ved=0CDAQFjAB&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F&amp;ei=rogdU5OuK43pkgXZmYGICA&amp;usg=AFQjCNH4nR8bKYaliCj2egiJ0H_CX4sFJg&amp;bvm=bv.62578216,d.dGI</referrerUrl>
+		<referrerUrl>https://www.google.co.jp/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -1414,7 +1414,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.ru/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCoQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=ffwgU57VGuf44QT3-oCQCw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.bGE&amp;cad=rjt</referrerUrl>
+		<referrerUrl>http://www.google.ru/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;cad=rjt</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />

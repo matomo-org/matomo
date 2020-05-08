@@ -11,7 +11,7 @@ namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
-use Piwik\CronArchive\SitesToReprocessDistributedList;
+use Piwik\ArchiveProcessor\Loader;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -53,6 +53,9 @@ use Piwik\Tracker\Cache;
 class ArchiveInvalidator
 {
     const TRACKER_CACHE_KEY = 'ArchiveInvalidator.rememberToInvalidate';
+
+    const INVALIDATION_STATUS_QUEUED = 0;
+    const INVALIDATION_STATUS_IN_PROGRESS = 1;
 
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
@@ -232,7 +235,8 @@ class ArchiveInvalidator
      * @return InvalidationResult
      * @throws \Exception
      */
-    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
+    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
+                                              $forceInvalidateNonexistantRanges = false)
     {
         $invalidationInfo = new InvalidationResult();
 
@@ -274,31 +278,98 @@ class ArchiveInvalidator
         // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
         // idSite does not need to be added to $segment.
 
-        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
+        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $period, $invalidationInfo);
 
-        if (empty($period)) {
-            // if the period is empty, we don't need to cascade in any way, since we'll remove all periods
-            $periodDates = $this->getDatesByYearMonthAndPeriodType($dates);
-        } else {
-            $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
-            $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
-        }
+        $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $periodDates = $this->getUniqueDates($periodDates);
-
-        $this->markArchivesInvalidated($idSites, $periodDates, $segment);
-
-        $yearMonths = array_keys($periodDates);
-        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths, $hasMoreThanJustToday);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges);
 
         foreach ($idSites as $idSite) {
-            foreach ($dates as $date) {
-                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+            Loader::invalidateMinVisitTimeCache($idSite);
+        }
+
+        if ($period != 'range') {
+            foreach ($idSites as $idSite) {
+                foreach ($dates as $date) {
+                    if (is_string($date)) {
+                        $date = Date::factory($date);
+                    }
+
+                    $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+                }
             }
         }
         Cache::clearCacheGeneral();
 
         return $invalidationInfo;
+    }
+
+    private function getAllPeriodsByYearMonth($periodOrAll, $dates, $cascadeDown, &$result = [])
+    {
+        $periods = $periodOrAll ? [$periodOrAll] : ['day', 'week', 'month', 'year'];
+        foreach ($periods as $period) {
+            foreach ($dates as $date) {
+                $periodObj = $this->makePeriod($date, $period);
+
+                $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
+
+                // cascade down
+                if ($cascadeDown
+                    && $period != 'range'
+                ) {
+                    $this->addChildPeriodsByYearMonth($result, $periodObj);
+                }
+
+                // cascade up
+                // if the period spans multiple years or months, it won't be used when aggregating parent periods, so
+                // we can avoid invalidating it
+                if ($this->shouldPropagateUp($periodObj)
+                    && $period != 'range'
+                ) {
+                    $this->addParentPeriodsByYearMonth($result, $periodObj);
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    private function shouldPropagateUp(Period $periodObj)
+    {
+        return $periodObj->getDateStart()->toString('Y') == $periodObj->getDateEnd()->toString('Y')
+            && $periodObj->getDateStart()->toString('m') == $periodObj->getDateEnd()->toString('m');
+    }
+
+    private function addChildPeriodsByYearMonth(&$result, Period $period)
+    {
+        if ($period->getLabel() == 'range') {
+            return;
+        } else if ($period->getLabel() == 'day'
+            && $this->shouldPropagateUp($period)
+        ) {
+            $this->addParentPeriodsByYearMonth($result, $period);
+            return;
+        }
+
+        foreach ($period->getSubperiods() as $subperiod) {
+            $result[$this->getYearMonth($subperiod)][$this->getUniquePeriodId($subperiod)] = $subperiod;
+            $this->addChildPeriodsByYearMonth($result, $subperiod);
+        }
+    }
+
+    private function addParentPeriodsByYearMonth(&$result, Period $period, Date $originalDate = null)
+    {
+        if ($period->getLabel() == 'year'
+            || $period->getLabel() == 'range'
+        ) {
+            return;
+        }
+
+        $originalDate = $originalDate ?? $period->getDateStart();
+
+        $parentPeriod = Period\Factory::build($period->getParentPeriodLabel(), $originalDate);
+        $result[$this->getYearMonth($parentPeriod)][$this->getUniquePeriodId($parentPeriod)] = $parentPeriod;
+        $this->addParentPeriodsByYearMonth($result, $parentPeriod, $originalDate);
     }
 
     /**
@@ -316,17 +387,15 @@ class ArchiveInvalidator
 
         $ranges = array();
         foreach ($dates as $dateRange) {
-            $ranges[] = $dateRange[0] . ',' . $dateRange[1];
+            $ranges[] = Period\Factory::build('range', $dateRange[0] . ',' . $dateRange[1]);
         }
-        $periodsByType = array(Period\Range::PERIOD_ID => $ranges);
 
         $invalidatedMonths = array();
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
-            $result = $this->model->updateArchiveAsInvalidated($table, $idSites, $periodsByType, $segment);
-            $rowsAffected = $result->rowCount();
+            $rowsAffected = $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment);
             if ($rowsAffected > 0) {
                 $invalidatedMonths[] = $tableDate;
             }
@@ -341,99 +410,7 @@ class ArchiveInvalidator
 
         Cache::clearCacheGeneral();
 
-        $archivesToPurge = new ArchivesToPurgeDistributedList();
-        $archivesToPurge->add($invalidatedMonths);
-
         return $invalidationInfo;
-    }
-
-    /**
-     * @param string[][][] $periodDates
-     * @return string[][][]
-     */
-    private function getUniqueDates($periodDates)
-    {
-        $result = array();
-        foreach ($periodDates as $yearMonth => $periodsByYearMonth) {
-            foreach ($periodsByYearMonth as $periodType => $periods) {
-                $result[$yearMonth][$periodType] = array_unique($periods);
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * @param Date[] $dates
-     * @param string $periodType
-     * @param bool $cascadeDown
-     * @return Period[]
-     */
-    private function getPeriodsToInvalidate($dates, $periodType, $cascadeDown)
-    {
-        $periodsToInvalidate = array();
-
-        if ($periodType == 'range') {
-            $rangeString = $dates[0] . ',' . $dates[1];
-            $periodsToInvalidate[] = Period\Factory::build('range', $rangeString);
-            return $periodsToInvalidate;
-        }
-
-        foreach ($dates as $date) {
-            $period = Period\Factory::build($periodType, $date);
-            $periodsToInvalidate[] = $period;
-
-            if ($cascadeDown) {
-                $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
-            }
-
-            if ($periodType != 'year') {
-                $periodsToInvalidate[] = Period\Factory::build('year', $date);
-            }
-        }
-
-        return $periodsToInvalidate;
-    }
-
-    /**
-     * @param Period[] $periods
-     * @return string[][][]
-     */
-    private function getPeriodDatesByYearMonthAndPeriodType($periods)
-    {
-        $result = array();
-        foreach ($periods as $period) {
-            $date = $period->getDateStart();
-            $periodType = $period->getId();
-
-            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
-            $dateString = $date->toString();
-            if ($periodType == Period\Range::PERIOD_ID) {
-                $dateString = $period->getRangeString();
-            }
-            $result[$yearMonth][$periodType][] = $dateString;
-        }
-        return $result;
-    }
-
-    /**
-     * Called when deleting all periods.
-     *
-     * @param Date[] $dates
-     * @return string[][][]
-     */
-    private function getDatesByYearMonthAndPeriodType($dates)
-    {
-        $result = array();
-        foreach ($dates as $date) {
-            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
-            $result[$yearMonth][null][] = $date->toString();
-
-            // since we're removing all periods, we must make sure to remove year periods as well.
-            // this means we have to make sure the january table is processed.
-            $janYearMonth = $date->toString('Y') . '_01';
-            $result[$janYearMonth][null][] = $date->toString();
-        }
-        return $result;
     }
 
     /**
@@ -441,17 +418,25 @@ class ArchiveInvalidator
      * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null)
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false, $forceInvalidateNonexistantRanges = false)
     {
-        $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
-        foreach ($archiveNumericTables as $table) {
-            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
-            if (empty($dates[$tableDate])) {
-                continue;
-            }
+        $idSites = array_map('intval', $idSites);
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
+        $yearMonths = [];
+
+        foreach ($dates as $tableDate => $datesForTable) {
+            $tableDateObj = Date::factory($tableDate);
+
+            $table = ArchiveTableCreator::getNumericTable($tableDateObj);
+            $yearMonths[] = $tableDateObj->toString('Y_m');
+
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges);
+            if ($removeRanges) {
+                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
+            }
         }
+
+        $this->markInvalidatedArchivesForReprocessAndPurge($yearMonths);
     }
 
     /**
@@ -459,22 +444,25 @@ class ArchiveInvalidator
      * @param InvalidationResult $invalidationInfo
      * @return \Piwik\Date[]
      */
-    private function removeDatesThatHaveBeenPurged($dates, InvalidationResult $invalidationInfo)
+    private function removeDatesThatHaveBeenPurged($dates, $period, InvalidationResult $invalidationInfo)
     {
         $this->findOlderDateWithLogs($invalidationInfo);
 
         $result = array();
         foreach ($dates as $date) {
+            $periodObj = $this->makePeriod($date, $period ?: 'day');
+
             // we should only delete reports for dates that are more recent than N days
             if ($invalidationInfo->minimumDateWithLogs
-                && $date->isEarlier($invalidationInfo->minimumDateWithLogs)
+                && ($periodObj->getDateEnd()->isEarlier($invalidationInfo->minimumDateWithLogs)
+                    || $periodObj->getDateStart()->isEarlier($invalidationInfo->minimumDateWithLogs))
             ) {
-                $invalidationInfo->warningDates[] = $date->toString();
+                $invalidationInfo->warningDates[] = $date;
                 continue;
             }
 
             $result[] = $date;
-            $invalidationInfo->processedDates[] = $date->toString();
+            $invalidationInfo->processedDates[] = $date;
         }
         return $result;
     }
@@ -497,16 +485,31 @@ class ArchiveInvalidator
      * @param array $idSites
      * @param array $yearMonths
      */
-    private function markInvalidatedArchivesForReprocessAndPurge(array $idSites, $yearMonths, $hasMoreThanJustToday)
+    private function markInvalidatedArchivesForReprocessAndPurge($yearMonths)
     {
-        $store = new SitesToReprocessDistributedList();
-        foreach ($idSites as $idSite) {
-            if (!empty($hasMoreThanJustToday[$idSite])) {
-                $store->add($idSite);
-            }
-        }
-
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);
+    }
+
+    private function getYearMonth(Period $period)
+    {
+        return $period->getDateStart()->toString('Y-m-01');
+    }
+
+    private function getUniquePeriodId(Period $period)
+    {
+        return $period->getId() . '.' . $period->getRangeString();
+    }
+
+    private function makePeriod($date, $period)
+    {
+        if ($period === 'range'
+            && strpos($date, ',') === false
+        ) {
+            $date = $date . ',' . $date;
+            return new Period\Range('range', $date);
+        } else {
+            return Period\Factory::build($period, $date);
+        }
     }
 }

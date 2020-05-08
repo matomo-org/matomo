@@ -23,21 +23,21 @@
 	</row>
 	<row>
 		<label>Apple - Generic Desktop</label>
-		<nb_visits>17</nb_visits>
+		<nb_visits>16</nb_visits>
 		<nb_actions>22</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>309</sum_visit_length>
-		<bounce_count>13</bounce_count>
-		<nb_visits_converted>16</nb_visits_converted>
+		<bounce_count>12</bounce_count>
+		<nb_visits_converted>15</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>16</nb_conversions>
-				<nb_visits_converted>16</nb_visits_converted>
-				<revenue>80</revenue>
+				<nb_conversions>15</nb_conversions>
+				<nb_visits_converted>15</nb_visits_converted>
+				<revenue>75</revenue>
 			</row>
 		</goals>
-		<nb_conversions>16</nb_conversions>
-		<revenue>80</revenue>
+		<nb_conversions>15</nb_conversions>
+		<revenue>75</revenue>
 		<sum_daily_nb_uniq_visitors>15</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<segment>deviceBrand==Apple;deviceModel==generic+desktop</segment>
