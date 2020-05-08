@@ -27,14 +27,25 @@ abstract class ReportEmailGenerator
 
         foreach ($report->getAdditionalFiles() as $additionalFile) {
             $fileContent = $additionalFile['content'];
-            $mail->addStringEmbeddedImage(
-                $fileContent,
-                $additionalFile['cid'],
-                $additionalFile['filename'],
-                $additionalFile['encoding'],
-                $additionalFile['mimeType'],
-                'inline'
-            );
+
+            if (!empty($additionalFile['cid'])) {
+                $mail->addStringEmbeddedImage(
+                    $fileContent,
+                    $additionalFile['cid'],
+                    $additionalFile['filename'],
+                    $additionalFile['encoding'],
+                    $additionalFile['mimeType'],
+                    'inline'
+                );
+            } else {
+                $mail->createAttachment(
+                    $fileContent,
+                    $additionalFile['mimeType'],
+                    'attachment',
+                    $additionalFile['encoding'],
+                    $additionalFile['filename']
+                );
+            }
 
             unset($fileContent);
         }
