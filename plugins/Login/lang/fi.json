@@ -18,6 +18,8 @@
         "SettingBruteForceTimeRangeHelp": "Kirjoita numero minuuteissa.",
         "CurrentlyBlockedIPs": "Parhaillaan estetyt IP:t",
         "IPsAlwaysBlocked": "Nämä IP:t on estetty aina",
+        "UnblockAllIPs": "Poista kaikki voimassa olevat IP-osoitteiden estot",
+        "CurrentlyBlockedIPsUnblockConfirm": "Haluatko varmasti poistaa kaikki voimassa olevat IP-osoitteiden estot?",
         "LoginPasswordNotCorrect": "Käyttäjätunnus tai salasana väärin.",
         "LostYourPassword": "Unohtuiko salasana?",
         "ChangeYourPassword": "Vaihda salasanasi",
