@@ -32,17 +32,18 @@ class PageUrl
      * Given the Input URL, will exclude all query parameters set for this site
      *
      * @static
-     * @param $originalUrl
+     * @param string $originalUrl
      * @param $idSite
+     * @param array $additionalParametersToExclude
      * @return bool|string Returned URL is HTML entities decoded
      */
-    public static function excludeQueryParametersFromUrl($originalUrl, $idSite)
+    public static function excludeQueryParametersFromUrl($originalUrl, $idSite, $additionalParametersToExclude = [])
     {
         $originalUrl = self::cleanupUrl($originalUrl);
 
         $parsedUrl = @parse_url($originalUrl);
         $parsedUrl = self::cleanupHostAndHashTag($parsedUrl, $idSite);
-        $parametersToExclude = self::getQueryParametersToExclude($idSite);
+        $parametersToExclude = array_merge(self::getQueryParametersToExclude($idSite), $additionalParametersToExclude);
 
         if (empty($parsedUrl['query'])) {
             if (empty($parsedUrl['fragment'])) {

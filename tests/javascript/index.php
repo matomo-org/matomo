@@ -4299,6 +4299,7 @@ if ($mysql) {
 
         function resetTracker(track, token, replace)
         {
+            tracker.getRequestQueue().sendRequests(); // make sure to send any remaining queued requests
             tracker.clearTrackedContentImpressions();
             tracker.clearEnableTrackOnlyVisibleContent();
             tracker.setCustomData('token', token);
@@ -4371,7 +4372,7 @@ if ($mysql) {
         tracker.trackAllContentImpressions();
         strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should mark 7 content blocks as tracked');
 
-        wait(300);
+        wait(3000);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
@@ -4383,7 +4384,7 @@ if ($mysql) {
         tracker.trackContentImpressionsWithinNode(_e('click1'));
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track anything as does not contain content block');
 
-        wait(300);
+        wait(3000);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
@@ -4393,17 +4394,17 @@ if ($mysql) {
         tracker.trackContentImpression('Any://Name', 'AnyPiece?', 'http://www.example.com');
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'manual impression call should not be marked as already tracked');
 
-        wait(300);
+        wait(3000);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
         tracker.trackContentInteraction(); // should not track anything as interaction and name is required
         tracker.trackContentInteraction('Clicki'); // should not track anything as interaction and name is required
         tracker.trackContentInteraction('Clicke', 'IntName'); // should use default for piece and ignore target as it is not set
-        wait(500);
+        wait(300);
         tracker.trackContentInteraction('Clicki', 'IntN:/ame', 'IntPiece?', 'http://int.example.com');
 
-        wait(300);
+        wait(3000);
 
         setupContentTrackingFixture('trackingContent', document.body);
 
@@ -4411,7 +4412,7 @@ if ($mysql) {
         resetTracker(tracker, token5);
         tracker.trackContentInteractionNode(_s('#ex5'), 'Clicki?iii');
 
-        wait(300);
+        wait(3000);
 
         var token6 = '6' + token;
         resetTracker(tracker, token6);
@@ -4419,6 +4420,8 @@ if ($mysql) {
         tracker.trackAllContentImpressions();
         expected = [contentBlocks[7], contentBlocks[6], contentBlocks[5], contentBlocks[1], contentBlocks[4], contentBlocks[3], contentBlocks[2]];
         propEqual(tracker.getTrackedContentImpressions().length, 7, 'should still track all impressions even if visible enabled');
+
+        wait(3000);
 
         var token7 = '7' + token;
         resetTracker(tracker, token7);
@@ -4431,8 +4434,7 @@ if ($mysql) {
         expected = [contentBlocks[6], contentBlocks[5]];
         propEqual(tracker.getTrackedContentImpressions(), expected, 'should track the two visible ones');
 
-
-        wait(300);
+        wait(3000);
 
         var token8 = '8' + token;
         resetTracker(tracker, token8);
@@ -4440,8 +4442,7 @@ if ($mysql) {
         expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
         propEqual(tracker.getTrackedContentImpressions(), expected, 'should only track all visible impressions');
 
-
-        wait(300);
+        wait(3000);
 
         // test detection of content via interval
         var token9  = '9' + token;
@@ -4496,6 +4497,7 @@ if ($mysql) {
 
             // trackAllContentImpressions()
             var results = fetchTrackedRequests(token);
+
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count trackAllContentImpressions requests. all content blocks should be tracked" );
 
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
@@ -4615,7 +4617,7 @@ if ($mysql) {
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests, via scroll. " );
 
             start();
-        }, 7000);
+        }, 13000);
 
         expected =
             [
@@ -4733,6 +4735,7 @@ if ($mysql) {
 
         function resetTracker(track, token)
         {
+            tracker.getRequestQueue().sendRequests(); // make sure to send any remaining queued requests
             tracker.clearTrackedContentImpressions();
             tracker.clearEnableTrackOnlyVisibleContent();
             tracker.setCustomData('token', token);

@@ -1,17 +1,18 @@
 {
     "Feedback": {
-        "DoYouHaveBugReportOrFeatureRequest": "Onko sinulle virheraportti tai pyyntö uudesta ominaisuudesta?",
+        "DoYouHaveBugReportOrFeatureRequest": "Onko sinulla virheraportti tai pyyntö uudesta ominaisuudesta?",
         "IWantTo": "Haluan:",
         "LearnWaysToParticipate": "Katso erilaisia tapoja %1$s osallistua%2$s",
         "ManuallySendEmailTo": "Ole hyvä ja lähetä viesti osoitteeseen",
         "RateFeatureLeaveMessageDislike": "Harmillista kuulla että et pidä siitä! Voisitko kertoa meille, miten voimme korjata tämän?",
         "RateFeatureLeaveMessageLike": "Olemme iloisia että pidit siitä! Kerro meille mistä pidit eniten tai jos sinulla on ehdotuksia uusiksi ominaisuuksiksi.",
-        "RateFeatureThankYouTitle": "Kiitos '%s':n arvostelemisesta!",
+        "RateFeatureThankYouTitle": "Kiitos '%s'n arvostelemisesta!",
         "RateFeatureTitle": "Pidätkö ominaisuudesta '%s'? Jätä arvostelu ja kommentti",
         "SendFeedback": "Lähetä palaute",
         "ThankYou": "Kiitos että autat parantamaan Matomoa!",
         "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi).",
         "ViewAnswersToFAQ": "Katso vastauksia %1$susein kysyttyihin kysymyksiin%2$s",
+        "FAQs": "UKK:t",
         "ViewUserGuides": "Lue kuinka Matomo määritellään ja kuinka analysoida kerättyjä tietoja tehokkaasti %1$skäyttäjäoppaasta%2$s",
         "UserGuides": "Käyttäjäoppaat",
         "CommunityHelp": "Yhteisön apu",
@@ -20,11 +21,15 @@
         "ContactUs": "Ota yhteyttä",
         "VisitTheForums": "Käy %1$skeskustelupalstalla%2$s ja saa apua Matomo-käyttäjien yhteisöltä",
         "Forums": "Foorumit",
+        "ReviewMatomoTitle": "Uskotko Matomoon?",
         "RemindMeLater": "Muistuta myöhemmin",
         "NeverAskMeAgain": "Älä kysy uudestaan",
         "HowCanWeHelp": "Miten voimme auttaa?",
         "NotTrackingVisits": "Matomo ei seuraa käyntejä",
         "TrackMultipleSites": "Minun pitää seurata useita sivustoja tai aliverkkotunnuksia",
-        "PurgeOldData": "Haluan poistaa vanhoja tietoja"
+        "PurgeOldData": "Haluan poistaa vanhoja tietoja",
+        "SearchHelpResources": "Hae ohjeita matomo.orgista",
+        "PopularHelpTopics": "Suositut ohjeaiheet",
+        "SearchOnMatomo": "Hae '%1$s' Matomo.orgista"
     }
 }

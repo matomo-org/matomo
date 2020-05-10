@@ -30,6 +30,7 @@
         "JSTracking_CampaignKwdParam": "Kampanjan avainsanojen parametri",
         "JSTracking_CampaignNameParam": "Kampanjan nimen parametri",
         "JSTracking_CodeNoteBeforeClosingHead": "Huolehdi, että tämä koodi on sivustosi jokaisella sivulla. Suositamme, että liität sen sivulle juuri ennen sulkevaa %1$stägiä.",
+        "JSTracking_CodeNoteBeforeClosingHeadEmail": "Varmista, että tämä koodi on upotettu script-elementtiin sivustosi jokaisella sivulla. Suosittelemme liittämään koodin välittömästi ennen sulkevaa head-tagia.",
         "JSTracking_CustomCampaignQueryParam": "Käytä omia parametrejä kampanjoiden nimille ja avainsanoille",
         "JSTracking_CrossDomain": "Matomo tallentaa jokaisen kävijän selaimeen hänet yksilöivän kävijätunnuksen. Tämä tunnus on rajoitettu näkymään ainoastaan saman verkkotunnuksen alla oleviin sivustoihin. Jos kytket verkkotunnusrajan ylittävän seurannan päälle, voit seurata kävijää kaikilla sivustoillasi, vaikka ne käyttäisivät eri verkkotunnusta. Matomo toteuttaa tämän lisäämällä jokaiseen omalle sivustollesi vievään linkkiin kävijätunnuksen sisältävän URL-parametrin (pk_vid).",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Hyödyntääksesi verkkotunnusrajan ylittävää seurantaa, pitää sinun määritellä sivustollesi useampia verkkotunnuksia (URLeja).",
