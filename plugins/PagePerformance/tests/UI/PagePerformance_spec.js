@@ -114,6 +114,9 @@ describe("PagePerformance", function () {
         pageWrap = await page.waitForSelector('.ui-dialog');
 
         await page.hover('.piwik-graph');
+        await page.waitFor('.ui-tooltip', { visible: true });
+
+        await ensureTooltipIsVisibleInScreenshot();
         await page.waitFor(250);
 
         expect(await pageWrap.screenshot()).to.matchImage('pagetitle_overlay');
