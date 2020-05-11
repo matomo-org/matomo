@@ -8,6 +8,9 @@
  */
 namespace Piwik\Plugins\GeoIp2;
 
+use Piwik\Option;
+use Piwik\Piwik;
+use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
@@ -18,8 +21,10 @@ class GeoIp2 extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
+            'Installation.defaultSettingsForm.init'   => 'installationFormInit',
+            'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
         );
     }
 
@@ -49,5 +54,44 @@ class GeoIp2 extends \Piwik\Plugin
         $translationKeys[] = "General_Done";
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Continue";
+    }
+
+    /**
+     * Customize the Installation "default settings" form.
+     *
+     * @param FormDefaultSettings $form
+     */
+    public function installationFormInit(FormDefaultSettings $form)
+    {
+        $form->addElement('checkbox', 'setup_geoip2', null,
+            [
+                'content' => '<div class="form-help">' . Piwik::translate('GeoIp2_AutomaticSetupDescription', ['<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm">','</a>']) . '</div> &nbsp;&nbsp;' . Piwik::translate('GeoIp2_AutomaticSetup')
+            ]
+        );
+
+        // default values
+        $form->addDataSource(new \HTML_QuickForm2_DataSource_Array([
+            'setup_geoip2' => true,
+        ]));
+    }
+
+    /**
+     * Process the submit on the Installation "default settings" form.
+     *
+     * @param FormDefaultSettings $form
+     */
+    public function installationFormSubmit(FormDefaultSettings $form)
+    {
+        $setupGeoIp2 = (bool) $form->getSubmitValue('setup_geoip2');
+
+        if ($setupGeoIp2) {
+            GeoIP2AutoUpdater::setUpdaterOptions([
+                'loc' => \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2::getDbIpLiteUrl(),
+                'period' => GeoIP2AutoUpdater::SCHEDULE_PERIOD_MONTHLY
+            ]);
+
+            // Note, this will be reported as broken in admin, until the first database has been downloaded
+            Option::set(LocationProvider::CURRENT_PROVIDER_OPTION_NAME, \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\Php::ID);
+        }
     }
 }

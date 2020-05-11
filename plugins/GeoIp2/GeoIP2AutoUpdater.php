@@ -262,7 +262,8 @@ class GeoIP2AutoUpdater extends Task
                 $dbFilename = $php->detectDatabaseType($dbType) . '.mmdb';
             }
         } else {
-            $ext = end(explode(basename($path), '.', 2));
+            $parts = explode(basename($path), '.', 2);
+            $ext = end($parts);
             throw new Exception(Piwik::translate('GeoIp2_UnsupportedArchiveType', "'$ext'"));
         }
 
