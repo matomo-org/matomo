@@ -81,6 +81,10 @@ class RequestCommand extends ConsoleCommand
         if (!empty($process)) {
             $process->finishProcess();
         }
+
+        while (ob_get_level()) {
+           echo ob_get_clean();
+        }
     }
 
     private function isTestModeEnabled()
