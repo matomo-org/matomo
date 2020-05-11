@@ -66,13 +66,10 @@ Matomo Founder<br>
         $mail->setSubject('3 quick wins to improve your Matomo right now');
         $mail->setBodyHtml($message);
 
-        $testMode = (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
-        if (!$testMode) {
-            try {
-                $mail->send();
-            } catch (\Exception $e) {
-                // Mail might not be configured yet and it won't work...
-            }
+        try {
+            $mail->send();
+        } catch (\Exception $e) {
+            // Mail might not be configured yet and it won't work...
         }
     }
 
