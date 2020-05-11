@@ -17,6 +17,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Version;
 
@@ -412,7 +413,7 @@ class Mysql implements SchemaInterface
     }
 
     /**
-     * Get list of tables installed
+     * Get list of tables installed (including tables defined by deactivated plugins)
      *
      * @param bool $forceReload Invalidate cache
      * @return array  installed Tables
@@ -441,7 +442,10 @@ class Mysql implements SchemaInterface
              *     });
              * @param array $result
              */
+            Manager::getInstance()->loadPlugins(Manager::getAllPluginsNames());
             Piwik::postEvent('Db.getTablesInstalled', [&$allMyTables]);
+            Manager::getInstance()->unloadPlugins();
+            Manager::getInstance()->loadActivatedPlugins();
 
             // we get the intersection between all the tables in the DB and the tables to be installed
             $tablesInstalled = array_intersect($allMyTables, $allTables);
