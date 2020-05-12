@@ -56,6 +56,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The json2 API format is now removed, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`.
 * The event `Live.getAllVisitorDetails` has been removed. Use a `VisitorDetails` class instead (see Live plugin).
 * Zend_Validate and all subclasses have been completely removed.
+* Zend_Mail has been removed. PHPMailer is now used for sending mails instead.
 
 ## Matomo 3.13.5
 

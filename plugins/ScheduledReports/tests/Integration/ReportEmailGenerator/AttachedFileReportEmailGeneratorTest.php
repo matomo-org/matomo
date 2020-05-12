@@ -71,7 +71,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
 Content-Transfer-Encoding: quoted-printable
 ", $this->mail->createBody());
 
-        $attachments = $mail->getAttachments();
+        $attachments = $this->mail->getAttachments();
         $this->assertEquals([
             [
                 'report contents',
@@ -147,8 +147,8 @@ Content-Transfer-Encoding: quoted-printable
 
     private function getMailContent(Mail $mail)
     {
-        $mail->send();
         $mail->addTo('noreply@localhost');
+        $mail->send();
         return $mail->getBodyHtml();
     }
 
@@ -159,6 +159,7 @@ Content-Transfer-Encoding: quoted-printable
             'observers.global' => \DI\add([
                 ['Test.Mail.send', function (PHPMailer $mail) {
                     $this->mail = $mail;
+                    $this->mail->preSend();
                 }],
             ]),
         ];

@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -34,6 +33,10 @@ class Mail
     protected $replyTos = [];
     protected $attachments = [];
     protected $smtpDebug = false;
+
+    public function __construct()
+    {
+    }
 
     /**
      * Sets the sender.
@@ -221,7 +224,7 @@ class Mail
             'content' => $body,
             'filename' => $filename,
             'encoding' => $encoding,
-            'mimytype' => $mimeType,
+            'mimetype' => $mimeType,
             'disposition' => $disposition,
             'cid' => $cid
         ];

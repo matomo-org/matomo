@@ -52,7 +52,6 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
         $mail = $this->testInstance->makeEmail($generatedReport);
         $mail->addTo('noreply@localhost');
         $mail->send();
-        $this->mail->preSend();
 
         $this->assertEquals('General_Report report - pretty date', $this->mail->Subject);
         $this->assertEquals(PHPMailer::CONTENT_TYPE_MULTIPART_ALTERNATIVE, $this->mail->ContentType);
@@ -66,6 +65,7 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
             'observers.global' => \DI\add([
                 ['Test.Mail.send', function (PHPMailer $mail) {
                     $this->mail = $mail;
+                    $this->mail->preSend();
                 }],
             ]),
         ];

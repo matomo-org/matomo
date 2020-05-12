@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Plugin\ConsoleCommand;

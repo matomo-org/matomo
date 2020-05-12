@@ -15,6 +15,7 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
@@ -39,6 +40,11 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
      * @var TestReportEmailGenerator
      */
     private $testInstance;
+
+    /**
+     * @var PHPMailer
+     */
+    private $mail;
 
     public function setUp(): void
     {
@@ -80,24 +86,20 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
         $attachments = $mail->getAttachments();
         $this->assertEquals([
             [
-                'content 1',
-                'file1.txt',
-                'file1.txt',
-                '8bit',
-                'mimetype1',
-                true,
-                'attachment',
-                0
+                'content' => 'content 1',
+                'filename' => 'file1.txt',
+                'encoding' => '8bit',
+                'mimetype' => 'mimetype1',
+                'disposition' => 'attachment',
+                'cid' => null
             ],
             [
-                'content 2',
-                'file2.txt',
-                'file2.txt',
-                'base64',
-                'mimetype2',
-                true,
-                'inline',
-                'file1'
+                'content' => 'content 2',
+                'filename' => 'file2.txt',
+                'encoding' => 'base64',
+                'mimetype' => 'mimetype2',
+                'disposition' => 'inline',
+                'cid' => 'file1'
             ],
         ], $attachments);
     }
@@ -118,12 +120,25 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
             'email' => 'test@testytesterson.com',
             'login' => 'test person',
         ]);
+        $mail->send();
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertEquals(['test@testytesterson.com'], array_keys($mail->getReplyToAddresses()));
-        $header = $mail->createHeader();
-        $this->assertStringContainsString('From: TagManager_MatomoTagName <noreply@localhost>', $header);
+        $this->assertEquals(['test@testytesterson.com'], array_keys($mail->getReplyTos()));
+        $header = $this->mail->createHeader();
+        $this->assertStringContainsString('From: TagManager_MatomoTagName <noreply@', $header);
         $this->assertStringContainsString('Reply-To: test person <test@testytesterson.com>', $header);
         $this->assertEquals([], $mail->getAttachments());
+    }
+
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
+                    $this->mail = $mail;
+                }],
+            ]),
+        ];
     }
 }
