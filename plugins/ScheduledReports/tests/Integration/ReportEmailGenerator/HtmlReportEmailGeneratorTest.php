@@ -9,17 +9,25 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration\ReportEmailGenerator;
 
-use Piwik\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\HtmlReportEmailGenerator;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+/**
+ * @group HtmlReportEmailGeneratorTest
+ */
 class HtmlReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
      * @var HtmlReportEmailGenerator
      */
     private $testInstance;
+
+    /**
+     * @var PHPMailer
+     */
+    private $mail;
 
     public function setUp(): void
     {
@@ -42,11 +50,24 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
         );
 
         $mail = $this->testInstance->makeEmail($generatedReport);
-        $mail->addAddress('noreply@localhost');
-        $mail->preSend();
+        $mail->addTo('noreply@localhost');
+        $mail->send();
+        $this->mail->preSend();
 
-        $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertEquals(Mail::CONTENT_TYPE_MULTIPART_ALTERNATIVE, $mail->ContentType);
-        $this->assertEquals('report contents', $mail->getBodyHtml());
+        $this->assertEquals('General_Report report - pretty date', $this->mail->Subject);
+        $this->assertEquals(PHPMailer::CONTENT_TYPE_MULTIPART_ALTERNATIVE, $this->mail->ContentType);
+        $this->assertEquals('report contents', $this->mail->Body);
+    }
+
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
+                    $this->mail = $mail;
+                }],
+            ]),
+        ];
     }
 }

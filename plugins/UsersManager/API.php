@@ -1429,7 +1429,7 @@ class API extends \Piwik\Plugin\API
 
         $mail = new Mail();
 
-        $mail->addAddress($emailTo, $user['login']);
+        $mail->addTo($emailTo, $user['login']);
         $mail->setSubject(Piwik::translate($subject));
         $mail->setDefaultFromPiwik();
         $mail->setWrappedHtmlBody($view);

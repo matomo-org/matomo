@@ -9,10 +9,10 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
-use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -20,6 +20,9 @@ use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 
+/**
+ * @group PasswordResetterTest
+ */
 class PasswordResetterTest extends IntegrationTestCase
 {
     const NEWPASSWORD = 'newpassword';
@@ -197,9 +200,8 @@ class PasswordResetterTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => [
-                ['Mail.send', function (Mail $mail) {
-                    $mail->preSend();
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
                     $body = $mail->createBody();
                     $body = preg_replace("/=[\r\n]+/", '', $body);
                     preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
@@ -209,7 +211,7 @@ class PasswordResetterTest extends IntegrationTestCase
                         $this->capturedToken = $capturedToken;
                     }
                 }],
-            ],
+            ]),
         ];
     }
 }

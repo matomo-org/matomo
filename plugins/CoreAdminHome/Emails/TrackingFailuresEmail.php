@@ -71,9 +71,9 @@ class TrackingFailuresEmail extends Mail
     private function setUpEmail()
     {
         $this->setDefaultFromPiwik();
-        $this->addAddress($this->emailAddress);
+        $this->addTo($this->emailAddress);
         $this->setSubject($this->getDefaultSubject());
-        $this->addReplyTo($this->From);
+        $this->addReplyTo($this->getFrom(), $this->getFromName());
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 

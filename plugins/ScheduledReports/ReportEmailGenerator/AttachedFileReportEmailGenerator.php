@@ -46,7 +46,7 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
         $message = $this->getMessageBody($report);
         $mail->setBodyHtml($message);
 
-        $mail->createAttachment(
+        $mail->addAttachment(
             $report->getContents(),
             $this->attachedFileMimeType,
             'inline',

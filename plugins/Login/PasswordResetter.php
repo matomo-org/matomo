@@ -438,7 +438,7 @@ class PasswordResetter
 
         // send email with new password
         $mail = new Mail();
-        $mail->addAddress($email, $login);
+        $mail->addTo($email, $login);
         $mail->setSubject(Piwik::translate('Login_MailTopicPasswordChange'));
         $bodyText = '<p>' . str_replace(
                 "\n\n",

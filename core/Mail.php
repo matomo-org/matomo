@@ -17,25 +17,41 @@ use Piwik\Translation\Translator;
 /**
  * Class for sending mails
  *
- * @see PHPMailer
  * @api
  */
-class Mail extends PHPMailer
+class Mail
 {
+    const ENCODING_8BIT = '8bit';
+    const ENCODING_BASE64 = 'base64';
+    const ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
+
+    protected $fromEmail = '';
+    protected $fromName = '';
+    protected $bodyHTML = '';
+    protected $bodyText = '';
+    protected $subject = '';
+    protected $recipients = [];
+    protected $replyTos = [];
+    protected $attachments = [];
+    protected $smtpDebug = false;
+
     /**
-     * Constructor.
+     * Sets the sender.
+     *
+     * @param string      $email Email address of the sender.
+     * @param null|string $name  Name of the sender.
      */
-    public function __construct()
+    public function setFrom($email, $name = null)
     {
-        parent::__construct(true);
-        static::$validator = 'pcre8';
-        $this->CharSet = self::CHARSET_UTF8;
-        $this->Encoding = self::ENCODING_QUOTED_PRINTABLE;
-        $this->XMailer = 'Matomo ' . Version::VERSION;
-        $this->setLanguage(StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage());
-        $this->initSmtpTransport();
+        $this->fromName = $name;
+        $this->fromEmail = $this->parseDomainPlaceholderAsPiwikHostName($email);
     }
 
+    /**
+     * Sets the default sender
+     *
+     * @throws \DI\NotFoundException
+     */
     public function setDefaultFromPiwik()
     {
         $customLogo = new CustomLogo();
@@ -56,6 +72,26 @@ class Mail extends PHPMailer
     }
 
     /**
+     * Returns the address the mail will be sent from
+     *
+     * @return string
+     */
+    public function getFrom()
+    {
+        return $this->fromEmail;
+    }
+
+    /**
+     * Returns the address the mail will be sent from
+     *
+     * @return string
+     */
+    public function getFromName()
+    {
+        return $this->fromName;
+    }
+
+    /**
      * @param View|string $body
      * @throws \DI\NotFoundException
      */
@@ -63,125 +99,149 @@ class Mail extends PHPMailer
     {
         $contentGenerator = StaticContainer::get(ContentGenerator::class);
         $bodyHtml = $contentGenerator->generateHtmlContent($body);
-        $this->msgHTML($bodyHtml);
-    }
-
-    public function setBodyHtml($html)
-    {
-        $this->msgHTML($html);
+        $this->bodyHTML = $bodyHtml;
     }
 
     /**
-     * Alias method for addAddress to keep BC to Zend_Mail
+     * Sets the HTML part of the mail
      *
-     * @deprecated
-     * @param        $address
+     * @param $html
+     */
+    public function setBodyHtml($html)
+    {
+        $this->bodyHTML = $html;
+    }
+
+    /**
+     * Sets the text part of the mail.
+     * If bodyHtml is set, this will be used as alternative text part
+     *
+     * @param $txt
+     */
+    public function setBodyText($txt)
+    {
+        $this->bodyText = $txt;
+    }
+
+    /**
+     * Returns html content of the mail
+     *
+     * @return string
+     */
+    public function getBodyHtml()
+    {
+        return $this->bodyHTML;
+    }
+
+    /**
+     * Returns text content of the mail
+     *
+     * @return string
+     */
+    public function getBodyText()
+    {
+        return $this->bodyText;
+    }
+
+    /**
+     * Sets the subject of the mail
+     *
+     * @param $subject
+     */
+    public function setSubject($subject)
+    {
+        $subject = $this->sanitiseString($subject);
+        $this->subject = $subject;
+    }
+
+    /**
+     * Return the subject of the mail
+     *
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * Adds a recipient
+     *
+     * @param string $address
      * @param string $name
-     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function addTo($address, $name = '')
     {
-        $this->addAddress($address, $name);
-    }
-
-    public function setBodyText($txt)
-    {
-        if ($this->ContentType == static::CONTENT_TYPE_TEXT_HTML) {
-            $this->AltBody = $txt;
-            return;
-        }
-
-        $this->Body = $txt;
+        $this->recipients[$address] = $name;
     }
 
     /**
-     * Sets the sender.
+     * Returns the list of recipients
      *
-     * @param string      $email Email address of the sender.
-     * @param null|string $name  Name of the sender.
-     * @param bool        $auto  Whether to also set the Sender address, defaults to true
-     * @return bool
+     * @return array
      */
-    public function setFrom($email, $name = null, $auto = true)
+    public function getRecipients()
     {
-        return parent::setFrom(
-            $this->parseDomainPlaceholderAsPiwikHostName($email),
-            $name,
-            $auto
-        );
+        return $this->recipients;
     }
 
     /**
-     * Alias method for addReplyTo to keep BC to Zend_Mail
-     *
-     * @deprecated
-     * @param      $email
-     * @param null $name
-     * @return bool
+     * Removes all recipients from the list
      */
-    public function setReplyTo($email, $name = null)
+    public function clearAllRecipients()
     {
-        return $this->addReplyTo($email, $name);
+        $this->recipients = [];
     }
 
     /**
-     * Add Reply-To Header
+     * Add Reply-To address
      *
      * @param string $email
      * @param null|string $name
-     * @return bool
      */
     public function addReplyTo($email, $name = null)
     {
-        return parent::addReplyTo(
-            $this->parseDomainPlaceholderAsPiwikHostName($email),
-            $name
-        );
+        $this->replyTos[$this->parseDomainPlaceholderAsPiwikHostName($email)] = $name;
     }
 
     /**
-     * @return void
+     * Returns the list of reply to addresses
+     *
+     * @return array
      */
-    private function initSmtpTransport()
+    public function getReplyTos()
     {
-        $mailConfig = Config::getInstance()->mail;
-
-        if (empty($mailConfig['host'])
-            || $mailConfig['transport'] != 'smtp'
-        ) {
-            return;
-        }
-
-        $this->isSMTP();
-
-        if (!empty($mailConfig['type'])) {
-            $this->SMTPAuth = true;
-            $this->AuthType = strtoupper($mailConfig['type']);
-        }
-
-        if (!empty($mailConfig['username'])) {
-            $this->Username = $mailConfig['username'];
-        }
-
-        if (!empty($mailConfig['password'])) {
-            $this->Password = $mailConfig['password'];
-        }
-
-        if (!empty($mailConfig['encryption'])) {
-            $this->SMTPSecure = $mailConfig['encryption'];
-        }
-
-        if (!empty($mailConfig['port'])) {
-            $this->Port = $mailConfig['port'];
-        }
-
-        $this->Host = trim($mailConfig['host']);
+        return $this->replyTos;
     }
 
+    public function addAttachment($body, $mimeType = '', $disposition = 'attachment', $encoding = self::ENCODING_BASE64, $filename = null, $cid = null)
+    {
+        $filename = $this->sanitiseString($filename);
+        $this->attachments[] = [
+            'content' => $body,
+            'filename' => $filename,
+            'encoding' => $encoding,
+            'mimytype' => $mimeType,
+            'disposition' => $disposition,
+            'cid' => $cid
+        ];
+    }
+
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * Sends the mail
+     *
+     * @return bool
+     * @throws \DI\NotFoundException
+     */
     public function send()
     {
         if (!$this->shouldSendMail()) {
-            return $this;
+            return false;
         }
 
         $mail = $this;
@@ -190,67 +250,51 @@ class Mail extends PHPMailer
          * This event is posted right before an email is sent. You can use it to customize the email by, for example, replacing
          * the subject/body, changing the from address, etc.
          *
-         * @param Mail $this The Mail instance that is about to be sent.
+         * @param Mail $mail The Mail instance that is about to be sent.
          */
         Piwik::postEvent('Mail.send', [$mail]);
 
-        if (defined('PIWIK_TEST_MODE')) { // hack
-            /**
-             * @ignore
-             * @deprecated
-             */
-            Piwik::postTestEvent("Test.Mail.send", array($this));
-        } else {
-            return parent::send();
-        }
+        return StaticContainer::get('Piwik\Mail\Transport')->send($mail);
     }
 
-    public function createAttachment($body, $mimeType = '', $disposition = 'attachment', $encoding = self::ENCODING_BASE64, $filename = null)
+    /**
+     * Enables SMTP debugging
+     *
+     * @param bool $smtpDebug
+     */
+    public function setSmtpDebug($smtpDebug = true)
     {
-        $filename = $this->sanitiseString($filename);
-        return parent::addStringAttachment(
-            $body,
-            $filename,
-            $encoding,
-            $mimeType,
-            $disposition);
+        $this->smtpDebug = $smtpDebug;
     }
 
-    public function setSubject($subject)
+    /**
+     * Returns whether SMTP debugging is enabled or not
+     *
+     * @return bool
+     */
+    public function isSmtpDebugEnabled()
     {
-        $subject = $this->sanitiseString($subject);
-        $this->Subject = $subject;
+        return $this->smtpDebug;
     }
 
-    public function getSubject()
+    /**
+     * Alias method for addReplyTo to keep BC to Zend_Mail
+     *
+     * @deprecated
+     * @param      $email
+     * @param null $name
+     */
+    public function setReplyTo($email, $name = null)
     {
-        return $this->Subject;
+        $this->addReplyTo($email, $name);
     }
 
-    public function getRecipients()
-    {
-        return $this->getAllRecipientAddresses();
-    }
 
-    public function getFrom()
-    {
-        return $this->From;
-    }
-
-    public function getBodyHtml()
-    {
-        return $this->Body;
-    }
-
-    public function getBodyText()
-    {
-        if ($this->ContentType == static::CONTENT_TYPE_TEXT_HTML) {
-            return $this->AltBody;
-        }
-
-        return $this->Body;
-    }
-
+    /**
+     * Returns the hostname mails will be sent from
+     *
+     * @return string
+     */
     public function getMailHost()
     {
         $hostname  = Config::getInstance()->mail['defaultHostnameIfEmpty'];

@@ -361,7 +361,7 @@ class ScheduledReports extends \Piwik\Plugin
             if (empty($email)) {
                 continue;
             }
-            $mail->addAddress($email);
+            $mail->addTo($email);
 
             // add unsubscribe links to content
             if ($htmlContent) {

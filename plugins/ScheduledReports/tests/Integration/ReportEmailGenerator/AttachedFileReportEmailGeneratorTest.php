@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ScheduledReports\tests\Integration\ReportEmailGenerator;
 
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\AttachedFileReportEmailGenerator;
@@ -28,6 +29,11 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
      * @var AttachedFileReportEmailGenerator
      */
     private $testInstance;
+
+    /**
+     * @var PHPMailer
+     */
+    private $mail;
 
     public function setUp(): void
     {
@@ -63,7 +69,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
         self::assertStringContainsString('ScheduledReports_SentFromX', $mailContent);
         $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-", $mail->createBody());
+", $this->mail->createBody());
 
         $attachments = $mail->getAttachments();
         $this->assertEquals([
@@ -105,7 +111,7 @@ Content-Transfer-Encoding: quoted-printable
         self::assertStringContainsString('ScheduledReports_PleaseFindAttachedFile', $mailContent);
         $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-", $mail->createBody());
+", $this->mail->createBody());
     }
 
     public function test_makeEmail_AddsSegmentInformation_IfReportIsForSavedSegment()
@@ -136,13 +142,26 @@ Content-Transfer-Encoding: quoted-printable
         self::assertStringContainsString('ScheduledReports_CustomVisitorSegment', $mailContent);
         $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-", $mail->createBody());
+", $this->mail->createBody());
     }
 
     private function getMailContent(Mail $mail)
     {
-        $mail->addAddress('noreply@localhost');
-        $mail->preSend();
+        $mail->send();
+        $mail->addTo('noreply@localhost');
         return $mail->getBodyHtml();
     }
+
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
+                    $this->mail = $mail;
+                }],
+            ]),
+        ];
+    }
+
 }

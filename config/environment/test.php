@@ -120,15 +120,15 @@ return array(
             }
         }),
 
-        array('Test.Mail.send', function (\Piwik\Mail $mail) {
+        array('Test.Mail.send', function (\PHPMailer\PHPMailer\PHPMailer $mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
-            $outputContent = str_replace("=\n", "", $mail->getBodyHtml() ?: $mail->getBodyText());
+            $outputContent = str_replace("=\n", "", $mail->Body ?: $mail->AltBody);
             $outputContent = str_replace("=0A", "\n", $outputContent);
             $outputContent = str_replace("=3D", "=", $outputContent);
             $outputContents = array(
-                'from' => $mail->getFrom(),
-                'to' => $mail->getRecipients(),
-                'subject' => $mail->getSubject(),
+                'from' => $mail->From,
+                'to' => $mail->getAllRecipientAddresses(),
+                'subject' => $mail->Subject,
                 'contents' => $outputContent
             );
             file_put_contents($outputFile, json_encode($outputContents));
