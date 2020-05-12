@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -297,6 +297,21 @@ class Mysql implements SchemaInterface
                                         PRIMARY KEY(idarchive, name),
                                         INDEX index_period_archived(period, ts_archived)
                                       ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'archive_invalidations' => "CREATE TABLE `{$prefixTables}archive_invalidations` (
+                                            idinvalidation BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            idarchive INTEGER UNSIGNED NULL,
+                                            name VARCHAR(255) NOT NULL,
+                                            idsite INTEGER UNSIGNED NOT NULL,
+                                            date1 DATE NOT NULL,
+                                            date2 DATE NOT NULL,
+                                            period TINYINT UNSIGNED NOT NULL,
+                                            ts_invalidated DATETIME NULL,
+                                            status TINYINT(1) UNSIGNED DEFAULT 0,
+                                            PRIMARY KEY(idinvalidation),
+                                            INDEX index_idsite_dates_period_name(idsite, date1, period, name)
+                                        ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
             'sequence'        => "CREATE TABLE {$prefixTables}sequence (

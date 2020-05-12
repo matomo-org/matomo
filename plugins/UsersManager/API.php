@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -1036,7 +1036,7 @@ class API extends \Piwik\Plugin\API
         $capabilities = array();
 
         if (is_array($access)) {
-            // we require one role, and optionally multiple capabilties
+            // we require one role, and optionally multiple capabilities
             list($roles, $capabilities) = $this->getRoleAndCapabilitiesFromAccess($access);
 
             if (count($roles) < 1) {

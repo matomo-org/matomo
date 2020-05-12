@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -73,7 +73,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_filterUser_WithSuperUserAccess_ShouldAlwaysReturnTrue()
     {
-        $this->configureAcccessForLogin('login1');
+        $this->configureAccessForLogin('login1');
         foreach ($this->getAllLogins() as $login) {
             $this->assertSame(array('login' => $login), $this->filter->filterUser(array('login' => $login)));
         }
@@ -82,7 +82,7 @@ class UserAccessFilterTest extends IntegrationTestCase
     public function test_filterUser_WithViewUserAccess_ShouldOnlyReturnUserForOwnLogin()
     {
         $identity = 'login4';
-        $this->configureAcccessForLogin($identity);
+        $this->configureAccessForLogin($identity);
         $this->assertSame(array('login' => $identity), $this->filter->filterUser(array('login' => $identity)));
         foreach ($this->getAllLogins() as $login) {
             if ($login !== $identity) {
@@ -96,7 +96,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterUser_WithAdminAccess_ShouldOnlyReturnUserForOwnLogin($expectedAllowed, $loginToSee)
     {
-        $this->configureAcccessForLogin('login2');
+        $this->configureAccessForLogin('login2');
         if ($expectedAllowed) {
             $this->assertSame(array('login' => $loginToSee), $this->filter->filterUser(array('login' => $loginToSee)));
         } else {
@@ -109,7 +109,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithAdminAccess_IsAllowedToSeeAnyUserHavingAccessToSameAdminSites($expectedAllowed, $loginToSee)
     {
-        $this->configureAcccessForLogin('login2');
+        $this->configureAccessForLogin('login2');
         $this->assertSame($expectedAllowed, $this->filter->isNonSuperUserAllowedToSeeThisLogin($loginToSee));
     }
 
@@ -129,7 +129,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithAdminAccess_IsAllowedToSeeAnyUserHavingAccessToSameAdminSites_UserHasAccessToOnlyOneAdminSite()
     {
-        $this->configureAcccessForLogin('login5');
+        $this->configureAccessForLogin('login5');
 
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login2'));
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login5'));
@@ -144,7 +144,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithOnlyViewAccess_IsAllowedToSeeOnlyOwnUser()
     {
-        $this->configureAcccessForLogin('login7');
+        $this->configureAccessForLogin('login7');
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login7')); // a view user is allowed to see itself
 
         $this->assertFalse($this->filter->isNonSuperUserAllowedToSeeThisLogin('login1')); // a user having view access only is not allowed to see any other user
@@ -158,7 +158,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithNoAccess_IsStillAllowedToSeeAnyUser()
     {
-        $this->configureAcccessForLogin('login3');
+        $this->configureAccessForLogin('login3');
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login3')); // a view user is allowed to see itself
 
         $this->assertFalse($this->filter->isNonSuperUserAllowedToSeeThisLogin('login1'));
@@ -175,7 +175,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterLogins($expectedLogins, $loginIdentity, $logins)
     {
-        $this->configureAcccessForLogin($loginIdentity);
+        $this->configureAccessForLogin($loginIdentity);
         $this->assertSame($expectedLogins, $this->filter->filterLogins($logins)); // a view user is allowed to see itself
     }
 
@@ -184,7 +184,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterUsers($expectedLogins, $loginIdentity, $logins)
     {
-        $this->configureAcccessForLogin($loginIdentity);
+        $this->configureAccessForLogin($loginIdentity);
 
         $users = array();
         $expectedUsers = array();
@@ -206,7 +206,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterLoginIndexedArray($expectedLogins, $loginIdentity, $logins)
     {
-        $this->configureAcccessForLogin($loginIdentity);
+        $this->configureAccessForLogin($loginIdentity);
 
         $testArray = array();
         $expectedTestArray = array();
@@ -303,7 +303,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         }
     }
 
-    private function configureAcccessForLogin($login)
+    private function configureAccessForLogin($login)
     {
         $hasSuperUser = false;
         $idSitesAdmin = array();

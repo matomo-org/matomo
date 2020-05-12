@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -64,6 +64,13 @@ class CliMulti
      */
     private $onProcessFinish = null;
 
+    /**
+     * @var Timer[]
+     */
+    private $timers = [];
+
+    private $isTimingRequests = false;
+
     public function __construct()
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -84,6 +91,12 @@ class CliMulti
      */
     public function request(array $piwikUrls)
     {
+        if ($this->isTimingRequests) {
+            foreach ($piwikUrls as $url) {
+                $this->timers[] = new Timer();
+            }
+        }
+
         $chunks = array($piwikUrls);
         if ($this->concurrentProcessesLimit) {
             $chunks = array_chunk($piwikUrls, $this->concurrentProcessesLimit);
@@ -217,6 +230,10 @@ class CliMulti
             if ($process->hasFinished()) {
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
+
+                if ($this->isTimingRequests) {
+                    $this->timers[$index]->finish();
+                }
 
                 if ($this->onProcessFinish) {
                     $onProcessFinish = $this->onProcessFinish;
@@ -457,5 +474,16 @@ class CliMulti
     public static function isCliMultiRequest()
     {
         return Common::getRequestVar('pid', false) !== false;
+    }
+
+    public function timeRequests()
+    {
+        $this->timers = [];
+        $this->isTimingRequests = true;
+    }
+
+    public function getTimers()
+    {
+        return $this->timers;
     }
 }

@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -834,7 +834,7 @@ Segmentation = (function($) {
                 this.content = this.target.find(".segmentationContainer");
             }
 
-            // assign content to object attribute to make it easil accesible through all widget methods
+            // assign content to object attribute to make it easily accessible through all widget methods
             this.markCurrentSegment();
             setTimeout(function () {
                 self.markComparedSegments();

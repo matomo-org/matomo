@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\DataTable;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;
@@ -89,6 +90,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Live/getLastVisitsStart');
         $view->idSite = (int) $this->idSite;
         $error = '';
+        $visitors = new DataTable();
         try {
             $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=original&serialize=0&disable_generic_filters=1");
             $visitors = $api->process();
@@ -194,6 +196,8 @@ class Controller extends \Piwik\Plugin\Controller
         if (empty($nextVisits)) {
             return '';
         }
+
+        VisitorLog::groupActionsByPageviewId($nextVisits);
 
         $view = new View('@Live/getVisitList.twig');
         $view->idSite = $this->idSite;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -206,7 +206,7 @@ class Updater
      * Component has a new version?
      *
      * @param string $componentName
-     * @return bool TRUE if compoment is to be updated; FALSE if not
+     * @return bool TRUE if component is to be updated; FALSE if not
      */
     public function hasNewVersion($componentName)
     {
@@ -653,12 +653,4 @@ class Updater
     {
         return 'version_' . $name;
     }
-}
-
-/**
- * Exception thrown by updater if a non-recoverable error occurs
- *
- */
-class UpdaterErrorException extends \Exception
-{
 }

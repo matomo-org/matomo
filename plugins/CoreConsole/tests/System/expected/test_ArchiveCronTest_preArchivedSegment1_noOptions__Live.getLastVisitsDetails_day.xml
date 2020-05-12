@@ -16,7 +16,7 @@
 				
 				<pageId>9</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-users/</subtitle>
 				<icon />
@@ -144,7 +144,7 @@
 				
 				<pageId>8</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/</subtitle>
 				<icon />
@@ -272,7 +272,7 @@
 				
 				<pageId>7</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/translations/</subtitle>
 				<icon />
@@ -400,7 +400,7 @@
 				
 				<pageId>6</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/download/counter/</subtitle>
 				<icon />
@@ -528,7 +528,7 @@
 				
 				<pageId>5</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
 				<icon />
@@ -656,7 +656,7 @@
 				
 				<pageId>4</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
 				<icon />
@@ -784,7 +784,7 @@
 				
 				<pageId>3</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
 				<icon />
@@ -912,7 +912,7 @@
 				
 				<pageId>2</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
 				<icon />
@@ -1040,7 +1040,7 @@
 				
 				<pageId>81</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://www.included4.com/blog/category/meta/</subtitle>
 				<icon />
@@ -1168,7 +1168,7 @@
 				
 				<pageId>83</pageId>
 				<bandwidth>3574</bandwidth>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://www.included2.com/blog/category/meta/</subtitle>
 				<icon />

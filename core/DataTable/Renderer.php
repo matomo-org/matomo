@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -265,7 +265,7 @@ abstract class Renderer extends BaseFactory
 
             $api = \Piwik\Plugins\API\API::getInstance();
             $meta = $api->getMetadata($this->idSite, $apiModule, $apiAction);
-            if (is_array($meta[0])) {
+            if (isset($meta[0]) && is_array($meta[0])) {
                 $meta = $meta[0];
             }
 

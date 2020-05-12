@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,6 +21,7 @@ class EntryPageTitle extends VisitDimension
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'entryPageTitle';
+    protected $suggestedValuesApi = 'Actions.getEntryPageTitles';
     protected $nameSingular = 'Actions_ColumnEntryPageTitle';
     protected $namePlural = 'Actions_WidgetEntryPageTitles';
     protected $category = 'General_Actions';

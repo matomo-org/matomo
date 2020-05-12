@@ -57,6 +57,8 @@
         "SiteSearchCategories": "Kategori (Site Araması)",
         "SiteSearchKeyword": "Anahtar Sözcük (Site Araması)",
         "SiteSearchKeywords": "Anahtar Sözcük (Site Araması)",
+        "SiteSearchKeywordCount": "Anahtar sözcük sayısı (Site Arama)",
+        "SiteSearchKeywordCounts": "Anahtar sözcük sayısı (Site Arama)",
         "SiteSearchKeywordsDocumentation": "Bu rapor, ziyaretçilerinizin sitenizdeki arama motorunda aradığı anahtar sözcükleri içerir.",
         "SiteSearchKeywordsNoResultDocumentation": "Bu rapor, herhangi bir sonuç vermeyen arama anahtar sözcüklerini içerir. Arama motoru algoritmasının geliştirilmesi gerekebilir ya da ziyaretçiler (henüz) sitenizde olmayan bir içeriği arıyor olabilir.",
         "SubmenuPagesEntry": "Giriş sayfaları",

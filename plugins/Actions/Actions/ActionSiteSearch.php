@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -67,11 +67,6 @@ class ActionSiteSearch extends Action
     public function getIdActionNameForEntryAndExitIds()
     {
         return $this->getIdActionName();
-    }
-
-    public function getCustomFloatValue()
-    {
-        return $this->request->getPageGenerationTime();
     }
 
     protected function isSearchDetected()

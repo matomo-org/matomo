@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -142,7 +142,7 @@ class MySQLMetadataProvider
     }
 
     /**
-     * Retruns table statuses for every admin table.
+     * Returns table statuses for every admin table.
      *
      * @return array An array of status arrays. See http://dev.mysql.com/doc/refman/5.5/en/show-table-status.html.
      */

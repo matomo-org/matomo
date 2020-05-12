@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -159,8 +159,9 @@ class LogAggregatorTest extends IntegrationTestCase
         $t->setUrl('http://example.com/here/we/go');
         $t->doTrackPageView('here we go');
 
-        $params = new Parameters(new Site(self::$fixture->idSite), Period\Factory::build('day', self::$fixture->dateTime), new Segment('', [self::$fixture->idSite]));
+        Date::$now = strtotime('2015-03-04 00:08:04');
 
+        $params = new Parameters(new Site(self::$fixture->idSite), Period\Factory::build('day', self::$fixture->dateTime), new Segment('', [self::$fixture->idSite]));
         $archiveStatus = StaticContainer::get(ArchivingStatus::class);
         $archiveStatus->archiveStarted($params);
 
@@ -169,6 +170,8 @@ class LogAggregatorTest extends IntegrationTestCase
         $expireTime = $locks[0]['expiry_time'];
 
         sleep(1);
+
+        Date::$now = strtotime('2015-03-04 10:08:04');
 
         $this->logAggregator->queryVisitsByDimension(['visit_total_time']);
 

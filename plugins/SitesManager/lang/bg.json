@@ -29,6 +29,7 @@
         "ListOfIpsToBeExcludedOnAllWebsites": "IP адресите по-долу ще бъдат изключени от броячите на всички сайтове.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Заявка на URL адресните параметри по-долу, ще бъдат изключени от URL адресите на всички уеб сайтове.",
         "MainDescription": "За да работи брояча е необходимо да добавите САЙТОВЕ! Добавете, редактирайте, изтрийте Сайт и вземете кода за вмъкване.",
+        "MenuManage": "Управление",
         "NotAnEcommerceSite": "Не сайт за Електронна търговия",
         "NotFound": "Не са намерени уеб сайтове",
         "NoWebsites": "Вие нямате сайт, който да администрирате.",
@@ -50,6 +51,7 @@
         "Type": "Тип",
         "UTCTimeIs": "UTC часът е %s.",
         "WebsitesManagement": "Управление на сайтове",
+        "XManagement": "Управление на %s",
         "YouCurrentlyHaveAccessToNWebsites": "В момента имате достъп до %s уебсайта.",
         "YourCurrentIpAddressIs": "Вашият IP адрес е: %s"
     }

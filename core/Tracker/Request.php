@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -95,7 +95,7 @@ class Request
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
         if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
-            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            Common::printDebug("Unsupported character detected in $key. Replacing with \xEF\xBF\xBD");
             return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
         }
 
@@ -404,7 +404,12 @@ class Request
             'search_cat'   => array('', 'string'),
             'pv_id'        => array('', 'string'),
             'search_count' => array(-1, 'int'),
-            'gt_ms'        => array(-1, 'int'),
+            'pf_net'       => array(-1, 'int'),
+            'pf_srv'       => array(-1, 'int'),
+            'pf_tfr'       => array(-1, 'int'),
+            'pf_dm1'       => array(-1, 'int'),
+            'pf_dm2'       => array(-1, 'int'),
+            'pf_onl'       => array(-1, 'int'),
 
             // Content
             'c_p'          => array('', 'string'),
@@ -853,20 +858,6 @@ class Request
         return $this->isEmptyRequest;
     }
 
-    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
-
-    public function getPageGenerationTime()
-    {
-        $generationTime = $this->getParam('gt_ms');
-        if ($generationTime > 0
-            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
-        ) {
-            return (int)$generationTime;
-        }
-
-        return false;
-    }
-
     /**
      * @param $idVisitor
      * @return string
@@ -901,7 +892,7 @@ class Request
 
         if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
-            return IP::getIpFromHeader();
+            throw new InvalidRequestParameterException("Tracker API 'cip' was used, requires valid token_auth");
         }
 
         return $cip;

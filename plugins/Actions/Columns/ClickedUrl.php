@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -20,6 +20,7 @@ class ClickedUrl extends ActionDimension
     protected $nameSingular = 'Actions_ColumnClickedURL';
     protected $namePlural = 'Actions_ColumnClickedURLs';
     protected $category = 'General_Actions';
+    protected $suggestedValuesApi = 'Actions.getOutlinks';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_URL;
 

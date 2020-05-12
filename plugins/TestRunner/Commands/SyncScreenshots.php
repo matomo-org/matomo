@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -146,7 +146,7 @@ echo -e \"\n--> Check the commit above is correct... <---\n\"
 sleep 7
 git push";
 
-        if ($repository === 'piwik/piwik') {
+        if ($repository === 'matomo-org/matomo') {
             $commands .= "
 cd ../../../";
         } else {

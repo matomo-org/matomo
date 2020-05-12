@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -55,7 +55,7 @@
             piwikApi.fetch({
                 method: "SomePlugin.action"
             }).then(function (response) {
-                expect(response).to.equal("Request url: index.php?method=SomePlugin.action&module=API&format=JSON2&idSite=1&period=day&date=");
+                expect(response).to.equal("Request url: index.php?method=SomePlugin.action&module=API&format=JSON&idSite=1&period=day&date=");
 
                 done();
             }).catch(function (ex) {
@@ -115,7 +115,7 @@
             piwikApi.fetch({
                 method: "SomePlugin.action"
             }).then(function (response) {
-                expect(response).to.equal("Request url: index.php?method=SomePlugin.action&module=API&format=JSON2&idSite=1&period=day&date=");
+                expect(response).to.equal("Request url: index.php?method=SomePlugin.action&module=API&format=JSON&idSite=1&period=day&date=");
 
                 request1Done = true;
 
@@ -127,7 +127,7 @@
             piwikApi.fetch({
                 method: "SomeOtherPlugin.action"
             }).then(function (response) {
-                expect(response).to.equal("Request url: index.php?method=SomeOtherPlugin.action&module=API&format=JSON2&idSite=1&period=day&date=");
+                expect(response).to.equal("Request url: index.php?method=SomeOtherPlugin.action&module=API&format=JSON&idSite=1&period=day&date=");
 
                 request2Done = true;
 
@@ -160,7 +160,7 @@
             piwikApi.fetch({
                 method: "SomeOtherPlugin.action"
             }).then(function (response) {
-                expect(response).to.equal("Request url: index.php?method=SomeOtherPlugin.action&module=API&format=JSON2&idSite=1&period=day&date=");
+                expect(response).to.equal("Request url: index.php?method=SomeOtherPlugin.action&module=API&format=JSON&idSite=1&period=day&date=");
 
                 request2Done = true;
 
@@ -216,7 +216,7 @@
                     method: "SomeOtherPlugin.action"
                 }
             ]).then(function (response) {
-                var restOfExpected = "index.php?method=API.getBulkRequest&module=API&format=JSON2&idSite=1&period=day&date= - "
+                var restOfExpected = "index.php?method=API.getBulkRequest&module=API&format=JSON&idSite=1&period=day&date= - "
                     + "urls%5B%5D=%3Fmethod%3DSomePlugin.action%26param%3Dvalue&urls%5B%5D=%3Fmethod%3DSomeOtherPlugin.action"
                     + "&token_auth=100bf5eeeed1468f3f9d93750044d3dd&force_api_session=1";
 
@@ -251,7 +251,7 @@
             $httpBackend.flush();
         });
 
-        it("shuld correctly handle errors in a bulk request response, regardless of error location", function (done) {
+        it("should correctly handle errors in a bulk request response, regardless of error location", function (done) {
             piwikApi.bulkFetch([
                 {
                     method: "SomeOtherPlugin.whatever"

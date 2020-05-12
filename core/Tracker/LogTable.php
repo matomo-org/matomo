@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -44,7 +44,7 @@ abstract class LogTable {
      * Get the name of the column that can be used to join an action with another table. This is the name of the column
      * that represents the "idaction".
      *
-     * This could be more generic eg by specifiying "$this->joinableOn = array('action' => 'idaction') and this
+     * This could be more generic eg by specifying "$this->joinableOn = array('action' => 'idaction') and this
      * would allow to also add more complex structures in the future but not needed for now I'd say. Let's go with
      * simpler, more clean and expressive solution for now until needed.
      *

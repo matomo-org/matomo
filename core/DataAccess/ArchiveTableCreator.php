@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -74,10 +74,12 @@ class ArchiveTableCreator
      * @param string $type The type of table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`.
      * @return array
      */
-    public static function getTablesArchivesInstalled($type = null)
+    public static function getTablesArchivesInstalled($type = null, $forceReload = false)
     {
-        if (is_null(self::$tablesAlreadyInstalled)) {
-            self::refreshTableList();
+        if (is_null(self::$tablesAlreadyInstalled)
+            || $forceReload
+        ) {
+            self::refreshTableList($forceReload);
         }
 
         if (empty($type)) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -663,7 +663,7 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
     /**
-     * normal case,  set different acccess to different websites for one user
+     * normal case, set different access to different websites for one user
      */
     public function testSetUserAccessMultipleCallDistinctAccessSameUser()
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -54,6 +54,8 @@ class MeasurableSettingsTest extends IntegrationTestCase
 
         $this->assertStoredSettingsValue(array('value2'), 'sitesearch_keyword_parameters');
         $this->assertStoredSettingsValue(array('value3'), 'sitesearch_category_parameters');
+
+        $this->assertTrue(true); // pass
     }
 
     public function test_save_shouldCheckAdminPermissionsForThatSite()

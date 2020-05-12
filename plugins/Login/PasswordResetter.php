@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -98,7 +98,7 @@ class PasswordResetter
     /**
      * The from email to use in the confirm password reset email.
      *
-     * Deafults to the `[General] login_password_recovery_email_address` INI config option.
+     * Defaults to the `[General] login_password_recovery_email_address` INI config option.
      *
      * @var
      */

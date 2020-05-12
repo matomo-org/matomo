@@ -143,7 +143,7 @@ DataTable_RowAction.prototype.initTr = function (tr) {
     // for multi-row evolution) wouldn't be possible. Also, sub-tables might have different
     // API actions. For the label filter to work, we need to use the parent action.
     // We use jQuery events to let subtables access their parents.
-    tr.bind(self.trEventName, function (e, params) {
+    tr.unbind(self.trEventName).bind(self.trEventName, function (e, params) {
         self.trigger($(this), params.originalEvent, params.label, params.originalRow);
     });
 };

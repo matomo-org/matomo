@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,13 +17,13 @@ use Exception;
  * Plugins that provide Auth implementations must provide a class that implements
  * this interface. Additionally, an instance of that class must be set in the
  * container with the 'Piwik\Auth' key during the
- * [Request.initAuthenticationObject](http://developer.piwik.org/api-reference/events#requestinitauthenticationobject)
+ * [Request.initAuthenticationObject](https://developer.matomo.org/api-reference/events#requestinitauthenticationobject)
  * event.
  *
  * Authentication implementations must support authentication via username and
  * clear-text password and authentication via username and token auth. They can
  * additionally support authentication via username and an MD5 hash of a password. If
- * they don't support it, then [formless authentication](http://piwik.org/faq/how-to/faq_30/) will fail.
+ * they don't support it, then [formless authentication](https://matomo.org/faq/how-to/faq_30/) will fail.
  *
  * Derived implementations should favor authenticating by password over authenticating
  * by token auth. That is to say, if a token auth and a password are set, password
@@ -111,7 +111,7 @@ interface Auth
      * Note: this method must successfully authenticate if the token auth supplied is a special hash
      * of the user's real token auth. This is because the SessionInitializer class stores a
      * hash of the token auth in the session cookie. You can calculate the token auth hash using the
-     * {@link Piwik\Plugins\Login\SessionInitializer::getHashTokenAuth()} method.
+     * {@link \Piwik\Plugins\Login\SessionInitializer::getHashTokenAuth()} method.
      *
      * @return AuthResult
      * @throws Exception if the Auth implementation has an invalid state (ie, no login
@@ -119,103 +119,4 @@ interface Auth
      *                   exceptions for invalid state, but they are allowed to.
      */
     public function authenticate();
-}
-
-/**
- * Authentication result. This is what is returned by authentication attempts using {@link Auth}
- * implementations.
- *
- * @api
- */
-class AuthResult
-{
-    const FAILURE = 0;
-    const SUCCESS = 1;
-    const SUCCESS_SUPERUSER_AUTH_CODE = 42;
-
-    /**
-     * token_auth parameter used to authenticate in the API
-     *
-     * @var string
-     */
-    protected $tokenAuth = null;
-
-    /**
-     * The login used to authenticate.
-     *
-     * @var string
-     */
-    protected $login = null;
-
-    /**
-     * The authentication result code. Can be self::FAILURE, self::SUCCESS, or
-     * self::SUCCESS_SUPERUSER_AUTH_CODE.
-     *
-     * @var int
-     */
-    protected $code = null;
-
-    /**
-     * Constructor for AuthResult
-     *
-     * @param int $code
-     * @param string $login identity
-     * @param string $tokenAuth
-     */
-    public function __construct($code, $login, $tokenAuth)
-    {
-        $this->code = (int)$code;
-        $this->login = $login;
-        $this->tokenAuth = $tokenAuth;
-    }
-
-    /**
-     * Returns the login used to authenticate.
-     *
-     * @return string
-     */
-    public function getIdentity()
-    {
-        return $this->login;
-    }
-
-    /**
-     * Returns the token_auth to authenticate the current user in the API
-     *
-     * @return string
-     */
-    public function getTokenAuth()
-    {
-        return $this->tokenAuth;
-    }
-
-    /**
-     * Returns the authentication result code.
-     *
-     * @return int
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * Returns true if the user has Super User access, false otherwise.
-     *
-     * @return bool
-     */
-    public function hasSuperUserAccess()
-    {
-        return $this->getCode() == self::SUCCESS_SUPERUSER_AUTH_CODE;
-    }
-
-    /**
-     * Returns true if this result was successfully authentication.
-     *
-     * @return bool
-     */
-    public function wasAuthenticationSuccessful()
-    {
-        return $this->code > self::FAILURE;
-    }
 }

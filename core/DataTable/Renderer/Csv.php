@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -311,8 +311,9 @@ class Csv extends Renderer
             $prettyDate = $period->getLocalizedLongString();
 
             $meta = $this->getApiMetaData();
+            $name = !empty($meta['name']) ? $meta['name'] : '';
 
-            $fileName .= ' _ ' . $meta['name']
+            $fileName .= ' _ ' . $name
                 . ' _ ' . $prettyDate . '.csv';
         }
 

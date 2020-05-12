@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -44,7 +44,7 @@ abstract class Updates
     /**
      * Perform the incremental version update.
      *
-     * This method should preform all updating logic. If you define migrations in an overridden `getMigrations()`
+     * This method should perform all updating logic. If you define migrations in an overridden `getMigrations()`
      * method, you must call {@link Updater::executeMigrations()} here.
      *
      * See {@link \Piwik\Plugins\ExamplePlugin\Updates\Updates_0_0_2} for an example.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,6 +9,9 @@
 
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Cache;
+use Piwik\DataAccess\Model;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Period;

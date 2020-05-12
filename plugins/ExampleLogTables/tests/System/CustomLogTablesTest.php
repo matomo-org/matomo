@@ -56,6 +56,8 @@ class CustomLogTablesTest extends SystemTestCase
                 $this->fail('API returned an error when requesting ' . http_build_query($requestUrl) . "\nMessage: " . $decoded['message']);
             }
         }
+
+        $this->assertTrue(true);
     }
 
     public function getSegmentsToTest()

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -120,7 +120,7 @@ class API extends \Piwik\Plugin\API
     protected function prefixColumns($table, $period, $suffix)
     {
         $rename = array();
-        foreach (APIVisitsSummary::getInstance()->getColumns($period) as $oldColumn) {
+        foreach ($table->getColumns() as $oldColumn) {
             $rename[$oldColumn] = $oldColumn . $suffix;
         }
         $table->filter('ReplaceColumnNames', array($rename));

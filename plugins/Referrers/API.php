@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,6 @@ use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
 use Piwik\Site;
 
@@ -753,8 +752,12 @@ class API extends \Piwik\Plugin\API
             $result = new DataTable\Map();
             $result->setKeyName($table->getKeyName());
             foreach ($table->getDataTables() as $label => $childTable) {
-                $referrerTypeTable = $this->createReferrerTypeTable($childTable);
-                $result->addTable($referrerTypeTable, $label);
+                if ($childTable->getRowsCount() > 0) {
+                    $referrerTypeTable = $this->createReferrerTypeTable($childTable);
+                    $result->addTable($referrerTypeTable, $label);
+                } else {
+                    $result->addTable(new DataTable(), $label);
+                }
             }
         } else {
             throw new \Exception("Unexpected DataTable type: " . get_class($table)); // sanity check

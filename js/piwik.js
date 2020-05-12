@@ -1,5 +1,5 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * JavaScript tracking client
  *
@@ -39,8 +39,9 @@
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
-    performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
-    responseEnd, event, which, button, srcElement, type, target, data,
+    performance, mozPerformance, msPerformance, webkitPerformance, timing, connectEnd, requestStart, responseStart,
+    responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
+    event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
@@ -69,13 +70,13 @@
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
-    disablePerformanceTracking, setGenerationTimeMs, maq_confirm_opted_in,
+    disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
+    requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -1901,7 +1902,7 @@ if (typeof window.Piwik !== 'object') {
                     return this.getLocation().origin + this.getLocation().pathname + url;
                 }
 
-                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javasript:... ecmascript: ... and many more
+                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javascript:... ecmascript: ... and many more
                 if (0 === url.search('^[a-zA-Z]{2,11}:')) {
                     return url;
                 }
@@ -2250,8 +2251,11 @@ if (typeof window.Piwik !== 'object') {
                 // Is performance tracking enabled
                 configPerformanceTrackingEnabled = true,
 
-                // Generation time set from the server
-                configPerformanceGenerationTime = 0,
+                // will be set to true automatically once the onload event has finished
+                performanceAvailable = false,
+
+                // indicates if performance metrics for the page view have been sent with a request
+                performanceTracked = false,
 
                 // Whether Custom Variables scope "visit" should be stored in a cookie during the time of the visit
                 configStoreCustomVariablesInCookie = false,
@@ -2300,7 +2304,7 @@ if (typeof window.Piwik !== 'object') {
                 // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
                 // the window had focus at least once.
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
-                timeWindowLastFocussed = null,
+                timeWindowLastFocused = null,
 
                 // Timestamp of last tracker request sent to Piwik
                 lastTrackerRequestTime = null,
@@ -2629,6 +2633,15 @@ if (typeof window.Piwik !== 'object') {
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
+            function shouldForcePost(request)
+            {
+                if (configRequestMethod === 'POST') {
+                    return true;
+                }
+                // we force long single request urls and bulk requests over post
+                return request && (request.length > 2000 || request.indexOf('{"requests"') === 0);
+            }
+
             function supportsSendBeacon()
             {
                 return 'object' === typeof navigatorAlias
@@ -2636,7 +2649,7 @@ if (typeof window.Piwik !== 'object') {
                     && 'function' === typeof Blob;
             }
 
-            function sendPostRequestViaSendBeacon(request, callback)
+            function sendPostRequestViaSendBeacon(request, callback, fallbackToGet)
             {
                 var isSupported = supportsSendBeacon();
 
@@ -2652,7 +2665,7 @@ if (typeof window.Piwik !== 'object') {
                 try {
                     var blob = new Blob([request], headers);
 
-                    if (request.length <= 2000) {
+                    if (fallbackToGet && !shouldForcePost(request)) {
                         blob = new Blob([], headers);
                         url = url + (url.indexOf('?') < 0 ? '?' : '&') + request;
                     }
@@ -2680,7 +2693,7 @@ if (typeof window.Piwik !== 'object') {
                     fallbackToGet = true;
                 }
 
-                if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
+                if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet)) {
                     return;
                 }
 
@@ -2688,14 +2701,14 @@ if (typeof window.Piwik !== 'object') {
                     // we execute it with a little delay in case the unload event occurred just after sending this request
                     // this is to avoid the following behaviour: Eg on form submit a tracking request is sent via POST
                     // in this method. Then a few ms later the browser wants to navigate to the new page and the unload
-                    // event occurrs and the browser cancels the just triggered POST request. This causes or fallback
+                    // event occurs and the browser cancels the just triggered POST request. This causes or fallback
                     // method to be triggered and we execute the same request again (either as fallbackGet or sendBeacon).
-                    // The problem is that we do not know whether the inital POST request was already fully transferred
+                    // The problem is that we do not know whether the initial POST request was already fully transferred
                     // to the server or not when the onreadystatechange callback is executed and we might execute the
                     // same request a second time. To avoid this, we delay the actual execution of this POST request just
                     // by 50ms which gives it usually enough time to detect the unload event in most cases.
 
-                    if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
+                    if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet)) {
                         return;
                     }
                     var sentViaBeacon;
@@ -2715,7 +2728,7 @@ if (typeof window.Piwik !== 'object') {
                         // fallback on error
                         xhr.onreadystatechange = function () {
                             if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
-                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
+                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet);
 
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
@@ -2736,7 +2749,7 @@ if (typeof window.Piwik !== 'object') {
 
                         xhr.send(request);
                     } catch (e) {
-                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
+                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback, fallbackToGet);
                         if (!sentViaBeacon && fallbackToGet) {
                             getImage(request, callback);
                         } else if (typeof callback === 'function') {
@@ -2809,7 +2822,7 @@ if (typeof window.Piwik !== 'object') {
 
             function heartBeatOnFocus() {
                 hadWindowFocusAtLeastOnce = true;
-                timeWindowLastFocussed = new Date().getTime();
+                timeWindowLastFocused = new Date().getTime();
             }
 
             function hadWindowMinimalFocusToConsiderViewed() {
@@ -2817,7 +2830,7 @@ if (typeof window.Piwik !== 'object') {
                 // the page otherwise we can assume user was not really on the page and for example only switching
                 // through tabs
                 var now = new Date().getTime();
-                return !timeWindowLastFocussed || (now - timeWindowLastFocussed) > configHeartBeatDelay;
+                return !timeWindowLastFocused || (now - timeWindowLastFocused) > configHeartBeatDelay;
             }
 
             function heartBeatOnBlur() {
@@ -2917,12 +2930,12 @@ if (typeof window.Piwik !== 'object') {
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
 
-                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback)) {
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
                             setExpireDateTime(100);
                             return;
                         }
 
-                        if (configRequestMethod === 'POST' || String(request).length > 2000) {
+                        if (shouldForcePost(request)) {
                             sendXmlHttpRequest(request, callback);
                         } else {
                             getImage(request, callback);
@@ -2982,7 +2995,13 @@ if (typeof window.Piwik !== 'object') {
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
                         bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
-                        sendXmlHttpRequest(bulk, null, false);
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
+                            // makes sure to load the next page faster by not waiting as long
+                            // we apply this once we know send beacon works
+                            setExpireDateTime(100);
+                        } else {
+                            sendXmlHttpRequest(bulk, null, false);
+                        }
                     }
 
                     setExpireDateTime(delay);
@@ -3102,7 +3121,7 @@ if (typeof window.Piwik !== 'object') {
                 var cookieName = getCookieName('cvar'),
                     cookie = getCookie(cookieName);
 
-                if (cookie.length) {
+                if (cookie && cookie.length) {
                     cookie = windowAlias.JSON.parse(cookie);
 
                     if (isObject(cookie)) {
@@ -3471,6 +3490,40 @@ if (typeof window.Piwik !== 'object') {
                 return id;
             }
 
+            function appendAvailablePerformanceMetrics(request) {
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.connectEnd && performanceAlias.timing.fetchStart) {
+                    request += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.requestStart) {
+                    request += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
+                    request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
+                    request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
+                    request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
+                    request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+                }
+
+                return request;
+            }
+
             /**
              * Returns the URL to call piwik.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
@@ -3687,13 +3740,9 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 // performance tracking
-                if (configPerformanceTrackingEnabled) {
-                    if (configPerformanceGenerationTime) {
-                        request += '&gt_ms=' + configPerformanceGenerationTime;
-                    } else if (performanceAlias && performanceAlias.timing
-                        && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                        request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
-                    }
+                if (configPerformanceTrackingEnabled && performanceAvailable && !performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                    performanceTracked = true;
                 }
 
                 if (configIdPageView) {
@@ -3835,6 +3884,11 @@ if (typeof window.Piwik !== 'object') {
                 configIdPageView = generateUniqueId();
 
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
+
+                // append already available performance metrics if they were not already tracked (or appended)
+                if (!performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                }
 
                 sendRequest(request, configTrackerPause, callback);
             }
@@ -4691,11 +4745,25 @@ if (typeof window.Piwik !== 'object') {
                         sendBulkRequest(requestsToTrack, configTrackerPause);
                     }
                 },
+                canQueue: function () {
+                    return !isPageUnloading && this.enabled;
+                },
+                pushMultiple: function (requests) {
+                    if (!this.canQueue()) {
+                        sendBulkRequest(requests, configTrackerPause);
+                        return;
+                    }
+
+                    var i;
+                    for (i = 0; i < requests.length; i++) {
+                        this.push(requests[i]);
+                    }
+                },
                 push: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
-                    if (isPageUnloading || !this.enabled) {
+                    if (!this.canQueue()) {
                         // we don't queue as we need to ensure the request will be sent when the page is unloading...
                         sendRequest(requestUrl, configTrackerPause);
                         return;
@@ -5538,7 +5606,9 @@ if (typeof window.Piwik !== 'object') {
             this.setCookieNamePrefix = function (cookieNamePrefix) {
                 configCookieNamePrefix = cookieNamePrefix;
                 // Re-init the Custom Variables cookie
-                customVariables = getCustomVariablesFromCookie();
+                if (customVariables) {
+                    customVariables = getCustomVariablesFromCookie();
+                }
             };
 
             /**
@@ -5788,6 +5858,9 @@ if (typeof window.Piwik !== 'object') {
                     trackCallbackOnReady(function () {
                         addClickListeners(enable, self);
                     });
+                    trackCallbackOnLoad(function () {
+                        addClickListeners(enable, self);
+                    });
                 });
             };
 
@@ -5841,16 +5914,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disablePerformanceTracking = function () {
                 configPerformanceTrackingEnabled = false;
-            };
-
-            /**
-             * Set the server generation time.
-             * If set, the browser's performance.timing API in not used anymore to determine the time.
-             *
-             * @param int generationTime
-             */
-            this.setGenerationTimeMs = function (generationTime) {
-                configPerformanceGenerationTime = parseInt(generationTime, 10);
             };
 
             /**
@@ -6006,7 +6069,7 @@ if (typeof window.Piwik !== 'object') {
                         var contentNodes = content.findContentNodes();
                         var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
 
-                        sendBulkRequest(requests, configTrackerPause);
+                        requestQueue.pushMultiple(requests);
                     });
                 });
             };
@@ -6066,7 +6129,7 @@ if (typeof window.Piwik !== 'object') {
                         var contentNodes = content.findContentNodes();
                         var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
 
-                        sendBulkRequest(requests, configTrackerPause);
+                        requestQueue.pushMultiple(requests);
                     });
                 });
             };
@@ -6096,7 +6159,7 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    requestQueue.push(request);
                 });
             };
 
@@ -6120,7 +6183,7 @@ if (typeof window.Piwik !== 'object') {
                             var contentNodes = content.findContentNodesWithinNode(domNode);
 
                             var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            requestQueue.pushMultiple(requests);
                         });
                     } else {
                         trackCallbackOnReady(function () {
@@ -6128,7 +6191,7 @@ if (typeof window.Piwik !== 'object') {
                             var contentNodes = content.findContentNodesWithinNode(domNode);
 
                             var requests = getContentImpressionsRequestsFromNodes(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            requestQueue.pushMultiple(requests);
                         });
                     }
                 });
@@ -6163,7 +6226,7 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
                     if (request) {
-                        sendRequest(request, configTrackerPause);
+                        requestQueue.push(request);
                     }
                 });
             };
@@ -6192,7 +6255,7 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     theRequest = buildContentInteractionRequestNode(domNode, contentInteraction);
                     if (theRequest) {
-                        sendRequest(theRequest, configTrackerPause);
+                        requestQueue.push(theRequest);
                     }
                 });
                 //note: return value is only for tests... will only work if dom is already ready...
@@ -6606,6 +6669,15 @@ if (typeof window.Piwik !== 'object') {
              */
             this.forgetUserOptOut = this.rememberConsentGiven;
 
+            /**
+             * Mark performance metrics as available, once onload event has finished
+             */
+            trackCallbackOnLoad(function(){
+                setTimeout(function(){
+                    performanceAvailable = true;
+                }, 0);
+            });
+
             Piwik.trigger('TrackerSetup', [this]);
         }
 
@@ -6658,7 +6730,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {

@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -804,8 +804,8 @@ var broadcast = {
             var value = url.substring(startPos + lookFor.length, endStr);
 
             // we sanitize values to add a protection layer against XSS
-            // &segment= (and &popover=) value is not sanitized, since segments are designed to accept any user input
-            if(param != 'segment' && param != 'popover') {
+            // parameters 'segment', 'popover' and 'compareSegments' are not sanitized, since segments are designed to accept any user input
+            if(param != 'segment' && param != 'popover' && param != 'compareSegments') {
                 value = value.replace(/[^_%~\*\+\-\<\>!@\$\.()=,;0-9a-zA-Z]/gi, '');
             }
             return value;

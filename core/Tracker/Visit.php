@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -243,6 +243,15 @@ class Visit implements VisitInterface
         foreach ($this->requestProcessors as $processor) {
             $processor->onExistingVisit($valuesToUpdate, $this->visitProperties, $this->request);
         }
+
+        // we we remove values that haven't actually changed and are still the same when comparing to the initially
+        // selected visit row. In best case this avoids the update completely. Eg when there is a bulk tracking request
+        // of many content impressions. Then it will update the visit in the first request of the bulk request, and
+        // all other visits that have same visit_last_action_time etc will be ignored and won't issue an update SQL
+        // statement at all avoiding potential lock wait time when too many requests try to update the same visit at
+        // same time
+        $visitorRecognizer = StaticContainer::get(VisitorRecognizer::class);
+        $valuesToUpdate = $visitorRecognizer->removeUnchangedValues($this->visitProperties, $valuesToUpdate);
 
         $this->updateExistingVisit($valuesToUpdate);
 
@@ -549,8 +558,7 @@ class Visit implements VisitInterface
     {
         // Might update the idvisitor when it was forced or overwritten for this visit
         if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID) {
-            $binIdVisitor = $this->visitProperties->getProperty('idvisitor');
-            $valuesToUpdate['idvisitor'] = $binIdVisitor;
+            $valuesToUpdate['idvisitor'] = $this->visitProperties->getProperty('idvisitor');
         }
 
         return $valuesToUpdate;

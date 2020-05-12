@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * UI screenshot test runner Application class
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -41,6 +41,12 @@ var isCorePlugin = function (pathToPlugin) {
     // if the plugin is a .git checkout, it's not part of core
     var gitDir = path.join(pathToPlugin, '.git');
     return !fs.existsSync(gitDir);
+};
+
+var hasSpecialNeeds = function (pathToPlugin) {
+    // skip plugins that have special needs in core build
+    var travisDir = path.join(pathToPlugin, 'tests/travis');
+    return !!fs.existsSync(travisDir);
 };
 
 var Application = function () {
@@ -123,9 +129,15 @@ Application.prototype.loadTestModules = function () {
     // load all UI tests we can find
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
 
-    if (options.core) {
+    if (options.core && !options['store-in-ui-tests-repo']) {
         plugins = plugins.filter(function (path) {
             return isCorePlugin(path);
+        });
+    }
+
+    if (!options.plugin) {
+        plugins = plugins.filter(function (path) {
+            return !hasSpecialNeeds(path);
         });
     }
 
@@ -160,7 +172,7 @@ Application.prototype.loadTestModules = function () {
         // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
         // split tests into multiple jobs.
         var numTestsFirstHalf = Math.round(mocha.suite.suites.length / 2);
-        numTestsFirstHalf -= 3;
+        numTestsFirstHalf -= 4;
         mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
             if (options['run-first-half-only'] && index < numTestsFirstHalf) {
                 return true;
