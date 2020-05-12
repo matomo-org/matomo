@@ -1297,7 +1297,7 @@ class API extends \Piwik\Plugin\API
      * If the username/password combination is incorrect an invalid token will be returned.
      *
      * @param string $userLogin Login or Email address
-     * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
+     * @param string $passwordConfirmation hashed string of the password (using current hash function; MD5-named for historical reasons)
      * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
      * @param string $expireDate Optionally a date when the token should expire
      * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires. 
@@ -1305,10 +1305,8 @@ class API extends \Piwik\Plugin\API
      *                            If expireDate is set and expireHours, then expireDate will be used.
      * @return string
      */
-    public function createAppSpecificTokenAuth($userLogin, $md5Password, $description, $expireDate = null, $expireHours = 0)
+    public function createAppSpecificTokenAuth($userLogin, $passwordConfirmation, $description, $expireDate = null, $expireHours = 0)
     {
-        UsersManager::checkPasswordHash($md5Password, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
-
         $user = $this->model->getUser($userLogin);
         if (empty($user) && Piwik::isValidEmailString($userLogin)) {
             $user = $this->model->getUserByEmail($userLogin);
@@ -1317,7 +1315,7 @@ class API extends \Piwik\Plugin\API
             }
         }
         
-        if (empty($user) || !$this->password->verify($md5Password, $user['password'])) {
+        if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             /**
              * @ignore
              * @internal
@@ -1325,11 +1323,6 @@ class API extends \Piwik\Plugin\API
             Piwik::postEvent('Login.authenticate.failed', array($userLogin));
 
             return md5($userLogin . microtime(true) . Common::generateUniqId());
-        }
-
-        if ($this->password->needsRehash($user['password'])) {
-            $userUpdater = new UserUpdater();
-            $userUpdater->updateUserWithoutCurrentPassword($userLogin, $this->password->hash($md5Password));
         }
 
         if (empty($expireDate) && !empty($expireHours) && is_numeric($expireHours)) {

@@ -73,7 +73,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     {
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWithout2Fa,
-            'md5Password' => md5($this->userPassword),
+            'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test'
         ));
         $this->assertEquals(32, strlen($token));
@@ -83,7 +83,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     {
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5('invalidPAssword'),
+            'passwordConfirmation' => 'invalidPAssword',
             'description' => 'twofa test'
         ));
         $this->assertEquals(32, strlen($token));
@@ -97,7 +97,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
 
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5($this->userPassword),
+            'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test'
         ));
     }
@@ -110,7 +110,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $_GET['authCode'] = '111222';
         Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5($this->userPassword),
+            'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test'
         ));
     }
@@ -120,7 +120,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5($this->userPassword),
+            'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test'
         ));
         $this->assertEquals(32, strlen($token));
