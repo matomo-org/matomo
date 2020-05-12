@@ -8,10 +8,12 @@
  */
 namespace Piwik\Plugins\GeoIp2;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Scheduler\Scheduler;
 
 /**
  *
@@ -85,13 +87,15 @@ class GeoIp2 extends \Piwik\Plugin
         $setupGeoIp2 = (bool) $form->getSubmitValue('setup_geoip2');
 
         if ($setupGeoIp2) {
+            Option::set(GeoIP2AutoUpdater::AUTO_SETUP_OPTION_NAME, true);
             GeoIP2AutoUpdater::setUpdaterOptions([
                 'loc' => \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2::getDbIpLiteUrl(),
                 'period' => GeoIP2AutoUpdater::SCHEDULE_PERIOD_MONTHLY
             ]);
 
-            // Note, this will be reported as broken in admin, until the first database has been downloaded
-            Option::set(LocationProvider::CURRENT_PROVIDER_OPTION_NAME, \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\Php::ID);
+            /** @var Scheduler $scheduler */
+            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+            $scheduler->rescheduleTask(new GeoIP2AutoUpdater());
         }
     }
 }
