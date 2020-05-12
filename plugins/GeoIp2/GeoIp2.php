@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\GeoIp2;
 
+use Piwik\CliMulti;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -96,6 +97,15 @@ class GeoIp2 extends \Piwik\Plugin
             /** @var Scheduler $scheduler */
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
             $scheduler->rescheduleTask(new GeoIP2AutoUpdater());
+
+            $cliMulti = new CliMulti();
+
+            if ($cliMulti->supportsAsync()) {
+                $phpCli = new CliMulti\CliPhp();
+                $command = sprintf('%s %s/console core:run-scheduled-tasks > %s/tmp/out.txt 2>&1 &',
+                    $phpCli->findPhpBinary(), PIWIK_INCLUDE_PATH, PIWIK_INCLUDE_PATH);
+                shell_exec($command);
+            }
         }
     }
 }
