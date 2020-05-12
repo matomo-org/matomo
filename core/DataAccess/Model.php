@@ -382,6 +382,14 @@ class Model
         }
     }
 
+    public function getInstalledArchiveTables()
+    {
+        $allArchiveNumeric = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_numeric%') . "'");
+        $allArchiveBlob    = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_blob%') ."'");
+
+        return array_merge($allArchiveBlob, $allArchiveNumeric);
+    }
+
     public function allocateNewArchiveId($numericTable)
     {
         $sequence  = new Sequence($numericTable);
