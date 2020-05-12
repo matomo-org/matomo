@@ -967,10 +967,10 @@ class CronArchive
         $today = Date::factoryInTimezone('today', $timezone);
 
         $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
-        $minArchiveProcessedTtl = $isPeriodIncludesToday ? Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel()) : null;
+        $minArchiveProcessedTime = $isPeriodIncludesToday ? Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel())) : null;
 
         // empty plugins param since we only check for an 'all' archive
-        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTtl, $includeInvalidated = false);
+        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = false);
 
         // day has changed since the archive was created, we need to reprocess it
         if ($isYesterday
