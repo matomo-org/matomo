@@ -1322,7 +1322,7 @@ class API extends \Piwik\Plugin\API
              */
             Piwik::postEvent('Login.authenticate.failed', array($userLogin));
 
-            return md5($userLogin . microtime(true) . Common::generateUniqId());
+            throw new \Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
 
         if (empty($expireDate) && !empty($expireHours) && is_numeric($expireHours)) {
