@@ -1297,7 +1297,7 @@ class API extends \Piwik\Plugin\API
      * If the username/password combination is incorrect an invalid token will be returned.
      *
      * @param string $userLogin Login or Email address
-     * @param string $passwordConfirmation hashed string of the password (using current hash function; MD5-named for historical reasons)
+     * @param string $passwordConfirmation the current user's password.
      * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
      * @param string $expireDate Optionally a date when the token should expire
      * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires. 
