@@ -94,17 +94,19 @@ class GeoIp2 extends \Piwik\Plugin
                 'period' => GeoIP2AutoUpdater::SCHEDULE_PERIOD_MONTHLY
             ]);
 
-            /** @var Scheduler $scheduler */
-            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
-            $scheduler->rescheduleTask(new GeoIP2AutoUpdater());
-
             $cliMulti = new CliMulti();
 
+            // directly trigger the update task if possible
+            // otherwise ensure it will be run soonish as scheduled task
             if ($cliMulti->supportsAsync()) {
                 $phpCli = new CliMulti\CliPhp();
-                $command = sprintf('%s %s/console core:run-scheduled-tasks > %s/tmp/out.txt 2>&1 &',
-                    $phpCli->findPhpBinary(), PIWIK_INCLUDE_PATH, PIWIK_INCLUDE_PATH);
+                $command = sprintf('%s %s/console core:run-scheduled-tasks --force "Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater.update" > /dev/null 2>&1 &',
+                    $phpCli->findPhpBinary(), PIWIK_INCLUDE_PATH);
                 shell_exec($command);
+            } else {
+                /** @var Scheduler $scheduler */
+                $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+                $scheduler->rescheduleTask(new GeoIP2AutoUpdater());
             }
         }
     }
