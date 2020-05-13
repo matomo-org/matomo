@@ -24,12 +24,9 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
         $this->tables = array(
             'archive_numeric_2015_02',
             'archive_blob_2015_05',
-            'garbage',
             'archive_numeric_2014_03',
             'archive_blob_2015_01',
             'archive_blob_2015_02',
-            'aslkdfjsd',
-            'prefixed_archive_numeric_2012_01',
         );
     }
 
@@ -69,7 +66,6 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
                 array(
                     'archive_numeric_2015_02',
                     'archive_numeric_2014_03',
-                    'prefixed_archive_numeric_2012_01',
                 ),
             ),
 
@@ -86,7 +82,6 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
                     'archive_numeric_2014_03',
                     'archive_blob_2015_01',
                     'archive_blob_2015_02',
-                    'prefixed_archive_numeric_2012_01',
                 ),
             ),
 

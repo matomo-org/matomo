@@ -243,13 +243,11 @@ class DbHelper
     public static function getUtf8mb4ConversionQueries()
     {
         $allTables = DbHelper::getTablesInstalled();
-        $database  = Config::getInstance()->database['dbname'];
 
         $queries   = [];
-        $queries[] ="ALTER DATABASE $database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;";
 
         foreach ($allTables as $table) {
-            $queries[] = "ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
+            $queries[] = "ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8mb4;";
         }
 
         return $queries;
