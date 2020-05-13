@@ -591,6 +591,11 @@ class GeoIP2AutoUpdater extends Task
             try {
                 // check database directly, as location provider ignores invalid database errors
                 $pathToDb = LocationProviderGeoIp2::getPathToGeoIpDatabase($customNames[$type]);
+
+                if (empty($pathToDb)) {
+                    continue; // skip, as no database for this type is available
+                }
+
                 $reader = new Reader($pathToDb);
 
                 $location = $provider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));

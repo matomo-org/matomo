@@ -53,7 +53,7 @@ class ComponentFactory
 
         $components = $plugin->findMultipleComponents($subnamespace, $componentTypeClass);
         foreach ($components as $class) {
-            if ($class == $desiredComponentClass) {
+            if ($class === $desiredComponentClass) {
                 return new $class();
             }
         }
