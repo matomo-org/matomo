@@ -34,7 +34,7 @@ class Transport
         PHPMailer::$validator = 'pcre8';
         $phpMailer->CharSet = PHPMailer::CHARSET_UTF8;
         $phpMailer->Encoding = PHPMailer::ENCODING_QUOTED_PRINTABLE;
-        $phpMailer->XMailer = 'Matomo ' . Version::VERSION;
+        $phpMailer->XMailer = ' ';
         $phpMailer->setLanguage(StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage());
         $this->initSmtpTransport($phpMailer);
 
