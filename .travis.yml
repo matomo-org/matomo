@@ -107,7 +107,7 @@ install:
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
   - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install' 
- 
+  - '[ "$SKIP_NPM_INSTALL" ] || travis_retry npm install'
 
 
 before_script:
