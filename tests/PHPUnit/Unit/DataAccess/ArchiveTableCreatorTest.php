@@ -93,7 +93,6 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
                     'archive_numeric_2014_03',
                     'archive_blob_2015_01',
                     'archive_blob_2015_02',
-                    'prefixed_archive_numeric_2012_01',
                 ),
             ),
         );
