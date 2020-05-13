@@ -20,10 +20,6 @@ use Piwik\Translation\Translator;
  */
 class Mail
 {
-    const ENCODING_8BIT = '8bit';
-    const ENCODING_BASE64 = 'base64';
-    const ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
-
     protected $fromEmail = '';
     protected $fromName = '';
     protected $bodyHTML = '';
@@ -217,15 +213,13 @@ class Mail
         return $this->replyTos;
     }
 
-    public function addAttachment($body, $mimeType = '', $disposition = 'attachment', $encoding = self::ENCODING_BASE64, $filename = null, $cid = null)
+    public function addAttachment($body, $mimeType = '', $filename = null, $cid = null)
     {
         $filename = $this->sanitiseString($filename);
         $this->attachments[] = [
             'content' => $body,
             'filename' => $filename,
-            'encoding' => $encoding,
             'mimetype' => $mimeType,
-            'disposition' => $disposition,
             'cid' => $cid
         ];
     }

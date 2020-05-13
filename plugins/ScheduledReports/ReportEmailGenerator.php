@@ -29,8 +29,6 @@ abstract class ReportEmailGenerator
             $mail->addAttachment(
                 $additionalFile['content'],
                 $additionalFile['mimeType'],
-                !empty($additionalFile['cid']) ? 'inline' : 'attachment',
-                $additionalFile['encoding'],
                 $additionalFile['filename'],
                 $additionalFile['cid'] ?? null
             );

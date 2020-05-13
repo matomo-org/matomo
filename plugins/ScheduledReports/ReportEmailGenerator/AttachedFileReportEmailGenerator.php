@@ -49,8 +49,6 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
         $mail->addAttachment(
             $report->getContents(),
             $this->attachedFileMimeType,
-            'inline',
-            Mail::ENCODING_BASE64,
             $report->getReportDescription() . $this->attachedFileExtension
         );
     }

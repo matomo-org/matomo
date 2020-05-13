@@ -80,7 +80,7 @@ Content-Transfer-Encoding: quoted-printable
                 'base64',
                 'generic/thing',
                 true,
-                'inline',
+                'attachment',
                 0
             ],
         ], $attachments);

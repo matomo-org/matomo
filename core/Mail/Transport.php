@@ -73,17 +73,15 @@ class Transport
                     $attachment['content'],
                     $attachment['cid'],
                     $attachment['filename'],
-                    $attachment['encoding'],
-                    $attachment['mimetype'],
-                    $attachment['disposition']
+                    PHPMailer::ENCODING_BASE64,
+                    $attachment['mimetype']
                 );
             } else {
                 $phpMailer->addStringAttachment(
                     $attachment['content'],
                     $attachment['filename'],
-                    $attachment['encoding'],
-                    $attachment['mimetype'],
-                    $attachment['disposition']
+                    PHPMailer::ENCODING_BASE64,
+                    $attachment['mimetype']
                 );
             }
         }

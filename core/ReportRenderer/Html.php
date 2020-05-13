@@ -178,8 +178,6 @@ class Html extends ReportRenderer
 
         $additionalFile['mimeType'] = 'image/png';
 
-        $additionalFile['encoding'] = Mail::ENCODING_BASE64;
-
         return $additionalFile;
     }
 }
