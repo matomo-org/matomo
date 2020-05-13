@@ -55,7 +55,6 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        // TODO: get rid of libs/jquery-ui
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
@@ -67,7 +66,7 @@ class CoreAdminHome extends \Piwik\Plugin
     {
         $jsFiles[] = "node_modules/jquery/dist/jquery.min.js";
         $jsFiles[] = "node_modules/jquery-ui-dist/jquery-ui.min.js";
-        $jsFiles[] = "libs/jquery/jquery.browser.js";
+        $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";

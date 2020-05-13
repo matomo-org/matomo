@@ -36,6 +36,7 @@
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",
     "jquery-ui-dist": "^1.12.1",
+    "jquery.browser": "^0.1.0",
     "jquery.dotdotdot": "^1.8.3",
     "jquery.scrollto": "^1.4.14",
     "jscrollpane": "^2.2.1",

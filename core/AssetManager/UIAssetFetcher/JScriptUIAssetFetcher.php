@@ -74,7 +74,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'node_modules/materialize-css/dist/js/materialize.min.js', // so jquery ui datepicker overrides materializecss
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
-            'libs/jquery/jquery.browser.js',
+            "node_modules/jquery.browser/dist/jquery.browser.js",
             'node_modules/',
             'libs/',
             'js/',

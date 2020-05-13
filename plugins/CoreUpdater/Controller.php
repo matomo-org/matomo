@@ -70,7 +70,7 @@ class Controller extends \Piwik\Plugin\Controller
         $files = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
-            'libs/jquery/themes/base/jquery-ui.min.css',
+            "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
             'node_modules/materialize-css/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
