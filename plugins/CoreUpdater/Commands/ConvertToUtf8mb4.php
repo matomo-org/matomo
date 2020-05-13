@@ -29,7 +29,9 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
         $this->setDescription('Converts the database to utf8mb4');
 
+        $this->addOption('show', null, InputOption::VALUE_NONE, Piwik::translate('Show all commands / queries only.'));
         $this->addOption('yes', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
+        $this->addOption('keep-tracking', null, InputOption::VALUE_NONE, 'Do not disable tracking while conversion is running');
     }
 
     public function isEnabled()
@@ -46,24 +48,42 @@ class ConvertToUtf8mb4 extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $yes = $input->getOption('yes');
+        $keepTracking = $input->getOption('keep-tracking');
+        $show = $input->getOption('show');
 
         $queries = DbHelper::getUtf8mb4ConversionQueries();
-        $output->writeln("This command will convert all Matomo database tables to utf8mb4. The following database queries will be executed:\n");
+
+        if ($show) {
+            $this->showCommands($queries, $keepTracking, $output);
+            return;
+        }
+
+        $output->writeln("This command will convert all Matomo database tables to utf8mb4.\n");
 
         if (DbHelper::getDefaultCharset() !== 'utf8mb4') {
             $this->writeSuccessMessage($output, array('Your database does not support utf8mb4'));
             return;
         }
 
-        $output->writeln(implode("\n", $queries));
-        $output->writeln("\nIn addition this command will be executed to adjust the database configuration:");
-        $output->writeln('./console config:set --section=database --key=charset --value=utf8mb4');
+        if (!$keepTracking) {
+            $output->writeln("Tracking will be disabled during this process.\n");
+        }
+
+        $output->writeln('If you want to see what this command is going to do use the --show option.');
 
         if (!$yes) {
             $yes = $this->askForUpdateConfirmation($input, $output);
         }
 
         if ($yes) {
+
+            if (!$keepTracking) {
+                $output->writeln("\n" . Piwik::translate('Disabling Matomo Tracking'));
+                $config                               = Config::getInstance();
+                $config->Tracker['record_statistics'] = '0';
+                $config->forceSave();
+            }
+
             $output->writeln("\n" . Piwik::translate('CoreUpdater_ConsoleStartingDbUpgrade'));
 
             foreach ($queries as $query) {
@@ -72,20 +92,42 @@ class ConvertToUtf8mb4 extends ConsoleCommand
                 $output->write(' done.');
             }
 
-            try {
-                $output->writeln("\n" . 'Updating used database charset in config.ini.php.');
-                $config = Config::getInstance();
-                $config->database['charset'] = 'utf8mb4';
-                $config->forceSave();
+            $output->writeln("\n" . 'Updating used database charset in config.ini.php.');
+            $config = Config::getInstance();
+            $config->database['charset'] = 'utf8mb4';
 
-                $this->writeSuccessMessage($output, array('Conversion to utf8mb4 successful.'));
-
-            } catch (\Exception $e) {
-                $this->writeSuccessMessage($output, array("All database tables have been converted successfully, but the database charset in config.ini.php could not be updated. Please manually update your config.ini.php with:\n[database]\ncharset = \"utf8mb4\""));
+            if (!$keepTracking) {
+                $output->writeln("\n" . Piwik::translate('Enabling Matomo Tracking'));
+                $config->Tracker['record_statistics'] = '1';
             }
+
+            $config->forceSave();
+
+            $this->writeSuccessMessage($output, array('Conversion to utf8mb4 successful.'));
 
         } else {
             $this->writeSuccessMessage($output, array('Database conversion skipped.'));
+        }
+    }
+
+    protected function showCommands($queries, $keepTracking, OutputInterface $output)
+    {
+        $output->writeln("To manually convert all Matomo database tables to utf8mb4 follow these steps.");
+        if (!$keepTracking) {
+            $output->writeln('');
+            $output->writeln('** Disable Matomo Tracking with this command: **');
+            $output->writeln('./console config:set --section=Tracker --key=record_statistics --value=0');
+        }
+        $output->writeln('');
+        $output->writeln('** Execute the following database queries: **');
+        $output->writeln(implode("\n", $queries));
+        $output->writeln('');
+        $output->writeln('** Change configured database charset to utf8mb4 with this command: **');
+        $output->writeln('./console config:set --section=database --key=charset --value=utf8mb4');
+        if (!$keepTracking) {
+            $output->writeln('');
+            $output->writeln('** Enable Matomo Tracking again with this command: **');
+            $output->writeln('./console config:set --section=Tracker --key=record_statistics --value=1');
         }
     }
 
