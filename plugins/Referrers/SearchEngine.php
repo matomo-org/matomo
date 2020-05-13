@@ -65,27 +65,7 @@ class SearchEngine extends Singleton
 
         Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$this->definitionList));
 
-        $this->convertLegacyDefinitions();
-
         return $this->definitionList;
-    }
-
-    /**
-     * @deprecated remove in 3.0
-     */
-    protected function convertLegacyDefinitions()
-    {
-        foreach ($this->definitionList as $url => $definition) {
-            if (!array_key_exists('name', $definition) && isset($definition[0]) && isset($definition[1])) {
-                $this->definitionList[$url] = array(
-                    'name' => $definition[0],
-                    'params' => $definition[1],
-                    'backlink' => @$definition[2],
-                    'charsets' => @$definition[3]
-                );
-            }
-        }
-
     }
 
     /**

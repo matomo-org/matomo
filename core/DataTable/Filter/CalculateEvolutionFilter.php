@@ -60,7 +60,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 
         $this->pastDataTable = $pastDataTable;
 
-        $this->isRevenueEvolution = $columnToAdd == 'revenue_evolution';
+        $this->isRevenueEvolution = $columnToAdd === 'revenue_evolution';
     }
 
     /**
