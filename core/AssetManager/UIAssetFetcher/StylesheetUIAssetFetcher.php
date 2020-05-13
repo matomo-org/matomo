@@ -69,6 +69,8 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         Piwik::postEvent('AssetManager.getStylesheetFiles', array(&$this->fileLocations));
 
         $this->addThemeFiles();
+
+        $this->mapBowerComponentFilesForBC($this->fileLocations);
     }
 
     protected function addThemeFiles()

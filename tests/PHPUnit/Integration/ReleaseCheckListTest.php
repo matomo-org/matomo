@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
@@ -666,6 +667,20 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         // eg this here shows the plugins that have update files but from older matomo versions.
         $this->assertSame(array('DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_unique($pluginsWithUpdates));
     }
+
+    public function test_bowerComponentsBc_referencesFilesThatExists()
+    {
+        $filesThatDoNotExist = [];
+        foreach (UIAssetFetcher::$bowerComponentFileMappings as $oldFile => $newFile) {
+            if (!file_exists($newFile)) {
+                $filesThatDoNotExist[] = $newFile;
+            }
+        }
+
+        $this->assertEmpty($filesThatDoNotExist, 'The following asset files in UIAssetFetcher::$bowerComponentFileMappings do not exist: '
+            . implode(', ', $filesThatDoNotExist));
+    }
+
     /**
      * @param $file
      * @return bool

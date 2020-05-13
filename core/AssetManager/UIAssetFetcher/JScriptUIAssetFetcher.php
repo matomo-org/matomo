@@ -46,6 +46,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
         }
 
         $this->addThemeFiles();
+
+        $this->mapBowerComponentFilesForBC($this->fileLocations);
     }
 
     protected function addThemeFiles()
