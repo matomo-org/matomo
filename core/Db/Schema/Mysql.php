@@ -315,7 +315,7 @@ class Mysql implements SchemaInterface
                                             status TINYINT(1) UNSIGNED DEFAULT 0,
                                             PRIMARY KEY(idinvalidation),
                                             INDEX index_idsite_dates_period_name(idsite, date1, period, name)
-                                        ) ENGINE=$engine DEFAULT CHARSET=utf8
+                                        ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
 
             'sequence'        => "CREATE TABLE {$prefixTables}sequence (
