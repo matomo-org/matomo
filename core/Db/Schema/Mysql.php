@@ -442,10 +442,13 @@ class Mysql implements SchemaInterface
              *     });
              * @param array $result
              */
-            Manager::getInstance()->loadPlugins(Manager::getAllPluginsNames());
-            Piwik::postEvent('Db.getTablesInstalled', [&$allMyTables]);
-            Manager::getInstance()->unloadPlugins();
-            Manager::getInstance()->loadActivatedPlugins();
+            if (count($allTables)) {
+                $loadedPlugins = Manager::getInstance()->getLoadedPlugins();
+                Manager::getInstance()->loadPlugins(Manager::getAllPluginsNames());
+                Piwik::postEvent('Db.getTablesInstalled', [&$allMyTables]);
+                Manager::getInstance()->unloadPlugins();
+                Manager::getInstance()->loadPlugins(array_keys($loadedPlugins));
+            }
 
             // we get the intersection between all the tables in the DB and the tables to be installed
             $tablesInstalled = array_intersect($allMyTables, $allTables);
@@ -539,7 +542,7 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $prefixTables = $this->getTablePrefix();
 
-        $tablesAlreadyInstalled = $this->getTablesInstalled();
+        $tablesAlreadyInstalled = $this->getAllExistingTables($prefixTables);
         $tablesToCreate = $this->getTablesCreateSql();
         unset($tablesToCreate['archive_blob']);
         unset($tablesToCreate['archive_numeric']);
