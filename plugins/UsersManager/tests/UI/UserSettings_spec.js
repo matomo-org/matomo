@@ -64,7 +64,7 @@ describe("UserSettings", function () {
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('signup_success');
     });
-    UIAssetMinifierTest
+
     it('should not prompt user to subscribe to newsletter again', async function () {
         // Assumes previous test has clicked on the signup button - so we shouldn't see it this time
         await page.goto(userSettingsUrl);
@@ -81,7 +81,7 @@ describe("UserSettings", function () {
         let pageWrap = await page.$('.modal.open');
         expect(await pageWrap.screenshot()).to.matchImage('asks_confirmation');
     });
-return;
+
     it('should load error when wrong password specified', async function () {
         await page.type('.modal.open #currentPassword', 'foobartest123');
         btnNo = await page.jQuery('.modal.open .modal-action:not(.modal-no)');
