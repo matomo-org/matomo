@@ -699,7 +699,8 @@ class API extends \Piwik\Plugin\API
      * @param string   $userLogin          the user login.
      * @param bool|int $hasSuperUserAccess true or '1' to grant Super User access, false or '0' to remove Super User
      *                                     access.
-     * @param string $passwordConfirmation the current user's password.
+     * @param string $passwordConfirmation the current user's password. For security purposes, this value should be
+     *                                     sent as a POST parameter.
      * @throws \Exception
      */
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess, $passwordConfirmation = null)
@@ -1297,7 +1298,8 @@ class API extends \Piwik\Plugin\API
      * If the username/password combination is incorrect an invalid token will be returned.
      *
      * @param string $userLogin Login or Email address
-     * @param string $passwordConfirmation the current user's password.
+     * @param string $passwordConfirmation the current user's password. For security purposes, this value should be
+     *                                     sent as a POST parameter.
      * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
      * @param string $expireDate Optionally a date when the token should expire
      * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires. 
@@ -1316,11 +1318,13 @@ class API extends \Piwik\Plugin\API
         }
         
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
-            /**
-             * @ignore
-             * @internal
-             */
-            Piwik::postEvent('Login.authenticate.failed', array($userLogin));
+            if (empty($user)) {
+                /**
+                 * @ignore
+                 * @internal
+                 */
+                Piwik::postEvent('Login.authenticate.failed', array($userLogin));
+            }
 
             throw new \Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
