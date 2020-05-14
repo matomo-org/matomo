@@ -63,6 +63,10 @@ class Transport
             $phpMailer->addAddress($address, $name);
         }
 
+        foreach ($mail->getBccs() as $address => $name) {
+            $phpMailer->addBCC($address, $name);
+        }
+
         foreach ($mail->getReplyTos() as $address => $name) {
             $phpMailer->addReplyTo($address, $name);
         }

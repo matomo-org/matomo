@@ -27,6 +27,7 @@ class Mail
     protected $subject = '';
     protected $recipients = [];
     protected $replyTos = [];
+    protected $bccs = [];
     protected $attachments = [];
     protected $smtpDebug = false;
 
@@ -185,11 +186,33 @@ class Mail
     }
 
     /**
-     * Removes all recipients from the list
+     * Add Bcc address
+     *
+     * @param string $email
+     * @param null|string $name
+     */
+    public function addBcc($email, $name = null)
+    {
+        $this->bccs[$email] = $name;
+    }
+
+    /**
+     * Returns the list of bcc addresses
+     *
+     * @return array
+     */
+    public function getBccs()
+    {
+        return $this->bccs;
+    }
+
+    /**
+     * Removes all recipients and bccs from the list
      */
     public function clearAllRecipients()
     {
         $this->recipients = [];
+        $this->bcc = [];
     }
 
     /**
