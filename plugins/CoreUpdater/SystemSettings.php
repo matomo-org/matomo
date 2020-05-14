@@ -62,9 +62,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
         $dbSettings = new Settings();
-        if ($dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4') {
+        if ($isWritable && $dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4') {
             $this->updateToUtf8mb4 = $this->createUpdateToUtf8mb4();
-            $this->updateToUtf8mb4->setIsWritableByCurrentUser($isWritable);
         }
     }
 
