@@ -66,7 +66,7 @@ class CoreAdminHome extends \Piwik\Plugin
     {
         $jsFiles[] = "node_modules/jquery/dist/jquery.min.js";
         $jsFiles[] = "node_modules/jquery-ui-dist/jquery-ui.min.js";
-        $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.js";
+        $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.min.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";

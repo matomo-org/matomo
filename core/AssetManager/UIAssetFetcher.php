@@ -165,7 +165,7 @@ abstract class UIAssetFetcher
         "libs/bower_components/iframe-resizer/js/iframeResizer.min.js" => "node_modules/iframe-resizer/js/iframeResizer.min.js",
         "libs/bower_components/qrcode.js/qrcode.js" => "node_modules/qrcodejs2/qrcode.min.js",
         "libs/bower_components/chroma-js/chroma.min.js" => "node_modules/chroma-js/chroma.min.js",
-        "libs/jquery/jquery.browser.js" => "node_modules/jquery.browser/dist/jquery.browser.js",
+        "libs/jquery/jquery.browser.js" => "node_modules/jquery.browser/dist/jquery.browser.min.js",
         "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.directive.js" => null,
         "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.controller.js" => null,
         "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-urllistener.service.js" => null,

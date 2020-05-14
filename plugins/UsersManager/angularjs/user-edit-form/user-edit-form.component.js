@@ -80,11 +80,11 @@
         }
 
         function confirmSuperUserChange() {
-            $element.find('.superuser-confirm-modal').openModal({ dismissible: false });
+            $element.find('.superuser-confirm-modal').modal({ dismissible: false });
         }
 
         function confirmReset2FA() {
-            $element.find('.twofa-confirm-modal').openModal({ dismissible: false });
+            $element.find('.twofa-confirm-modal').modal({ dismissible: false });
         }
 
         function confirmUserChange() {
@@ -92,12 +92,12 @@
             function onEnter(event){
                 var keycode = (event.keyCode ? event.keyCode : event.which);
                 if (keycode == '13'){
-                    $element.find('.change-password-modal').closeModal();
+                    $element.find('.change-password-modal').modal('closeModal');
                     vm.updateUser();
                 }
             }
 
-            $element.find('.change-password-modal').openModal({ dismissible: false, ready: function () {
+            $element.find('.change-password-modal').modal({ dismissible: false, ready: function () {
                 $('.modal.open #currentUserPassword').focus();
                 $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
             }});

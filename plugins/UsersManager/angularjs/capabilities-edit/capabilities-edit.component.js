@@ -138,7 +138,7 @@
                 }
             });
 
-            $element.find('.confirmCapabilityToggle').openModal({
+            $element.find('.confirmCapabilityToggle').modal({
                 dismissible: false,
                 yes: function () {
                 },

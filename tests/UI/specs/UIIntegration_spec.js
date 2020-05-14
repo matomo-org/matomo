@@ -933,7 +933,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
             await page.waitForNetworkIdle();
             await page.click('#date.title');
-            await page.click('label[for=period_id_range]');
+            await page.click('input#period_id_range');
             await page.evaluate(function () {
                 $('#inputCalendarFrom').val('2012-08-02');
                 $('#inputCalendarTo').val('2012-08-12');

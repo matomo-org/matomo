@@ -81,13 +81,13 @@
         this.save = function () {
 
             if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
-                angular.element('#confirmChangesWithPassword').openModal({ dismissible: false, ready: function () {
+                angular.element('#confirmChangesWithPassword').modal({ dismissible: false, ready: function () {
                     $('.modal.open #currentPassword').focus();
                 }});
                 return;
             }
 
-            angular.element('#confirmChangesWithPassword').closeModal();
+            angular.element('#confirmChangesWithPassword').modal("closeModal");
 
             var postParams = {
                 email: this.email,

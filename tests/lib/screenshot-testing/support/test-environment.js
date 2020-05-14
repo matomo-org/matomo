@@ -95,18 +95,19 @@ TestingEnvironment.prototype.callController = function (method, params) {
 };
 
 TestingEnvironment.prototype._call = async function (params) {
+    let queryString = Object.keys(params).reduce(function (obj, name) {
+        if (params[name] instanceof Array) {
+            params[name].forEach(function(value, index) {
+                obj[name+'['+index+']'] = value;
+            });
+            return obj;
+        }
+        obj[name] = params[name];
+        return obj;
+    }, {});
     let response = await request({
         uri: resolveUrl(config.piwikUrl, '/tests/PHPUnit/proxy/index.php'),
-        qs: Object.keys(params).reduce(function (obj, name) {
-            if (params[name] instanceof Array) {
-                params[name].forEach(function(value, index) {
-                    obj[name+'['+index+']'] = value;
-                });
-                return obj;
-            }
-            obj[name] = params[name];
-            return obj;
-        }, {}),
+        qs: queryString,
     });
 
     if (response === '') {
@@ -118,11 +119,11 @@ TestingEnvironment.prototype._call = async function (params) {
     try {
         response = JSON.parse(response);
     } catch (e) {
-        throw new Error("Unable to parse JSON response: " + response);
+        throw new Error("Unable to parse JSON response: " + response + " for query " + queryString);
     }
 
     if (response.result === "error") {
-        throw new Error("API returned error: " + response.message);
+        throw new Error("API returned error: " + response.message + " for query " + queryString);
     }
 
     return response;
