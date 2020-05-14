@@ -80,11 +80,12 @@
         }
 
         function confirmSuperUserChange() {
-            $element.find('.superuser-confirm-modal').modal({ dismissible: false });
+            $element.find('.superuser-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 
         function confirmReset2FA() {
-            $element.find('.twofa-confirm-modal').modal({ dismissible: false });
+            console.log($element.find('.twofa-confirm-modal')[0]);
+            $element.find('.twofa-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 
         function confirmUserChange() {
@@ -100,7 +101,7 @@
             $element.find('.change-password-modal').modal({ dismissible: false, ready: function () {
                 $('.modal.open #currentUserPassword').focus();
                 $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
-            }});
+            }}).modal('open');
         }
 
         function toggleSuperuserAccess() {

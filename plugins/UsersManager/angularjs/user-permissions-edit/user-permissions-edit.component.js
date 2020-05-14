@@ -94,7 +94,7 @@
         }
 
         function showChangeAccessAllSitesModal() {
-            $element.find('.confirm-give-access-all-sites').modal({ dismissible: false });
+            $element.find('.confirm-give-access-all-sites').modal({ dismissible: false }).modal('open');
         }
 
         function $onInit() {
@@ -255,15 +255,15 @@
         }
 
         function showRemoveAccessConfirm() {
-            $element.find('.delete-access-confirm-modal').modal({ dismissible: false });
+            $element.find('.delete-access-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 
         function showChangeAccessConfirm() {
-            $element.find('.change-access-confirm-modal').modal({ dismissible: false });
+            $element.find('.change-access-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 
         function showAddExistingUserModal() {
-            $element.find('.add-existing-user-modal').modal({ dismissible: false });
+            $element.find('.add-existing-user-modal').modal({ dismissible: false }).modal('open');
         }
 
         function getSelectedRowsCount() {

@@ -83,7 +83,7 @@
             if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
                 angular.element('#confirmChangesWithPassword').modal({ dismissible: false, ready: function () {
                     $('.modal.open #currentPassword').focus();
-                }});
+                }}).modal('open');
                 return;
             }
 

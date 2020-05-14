@@ -142,7 +142,7 @@
                 dismissible: false,
                 yes: function () {
                 },
-            });
+            }).modal('open');
         }
 
         function toggleCapability() {

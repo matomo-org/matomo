@@ -185,7 +185,7 @@
         }
 
         function showAddExistingUserModal() {
-            $element.find('.add-existing-user-modal').modal({ dismissible: false });
+            $element.find('.add-existing-user-modal').modal({ dismissible: false }).modal('open');
         }
 
         function addExistingUser() {
