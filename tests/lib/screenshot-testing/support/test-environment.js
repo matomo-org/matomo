@@ -119,11 +119,11 @@ TestingEnvironment.prototype._call = async function (params) {
     try {
         response = JSON.parse(response);
     } catch (e) {
-        throw new Error("Unable to parse JSON response: " + response + " for query " + queryString);
+        throw new Error("Unable to parse JSON response: " + response + " for query " + JSON.stringify(queryString));
     }
 
     if (response.result === "error") {
-        throw new Error("API returned error: " + response.message + " for query " + queryString);
+        throw new Error("API returned error: " + response.message + " for query " + JSON.stringify(queryString));
     }
 
     return response;
