@@ -27,7 +27,6 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
-
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
