@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\CoreUpdater\tests\Fixtures;
 
-use Piwik\Config;
 use Piwik\Tests\Fixtures\SqlDump;
 
 class DbUpdaterTestFixture extends SqlDump
@@ -18,10 +17,6 @@ class DbUpdaterTestFixture extends SqlDump
         $this->dumpUrl = PIWIK_INCLUDE_PATH . "/tests/UI/resources/piwik1.0.sql.gz";
         $this->dropDatabaseInSetUp = true;
         $this->resetPersistedFixture = true;
-
-        Config::getInstance()->database['charset'] = 'utf8';
-        Config::getInstance()->database_tests['charset'] = 'utf8';
-        Config::getInstance()->forceSave();
 
         parent::performSetUp($setupEnvironmentOnly);
     }
