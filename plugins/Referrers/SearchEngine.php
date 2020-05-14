@@ -12,6 +12,7 @@ use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Singleton;
 use Piwik\UrlHelper;
 
@@ -53,7 +54,7 @@ class SearchEngine extends Singleton
             // Read first from the auto-updated list in database
             $list = Option::get(self::OPTION_STORAGE_NAME);
 
-            if ($list) {
+            if ($list && SettingsPiwik::isInternetEnabled()) {
                 $this->definitionList = Common::safe_unserialize(base64_decode($list));
             } else {
                 // Fallback to reading the bundled list
