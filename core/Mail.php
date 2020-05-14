@@ -227,6 +227,18 @@ class Mail
     }
 
     /**
+     * Sets the reply to address (all previously added addresses will be removed)
+     *
+     * @param string $email
+     * @param string $name
+     */
+    public function setReplyTo($email, $name = null)
+    {
+        $this->replyTos = [];
+        $this->addReplyTo($email, $name);
+    }
+
+    /**
      * Returns the list of reply to addresses
      *
      * @return array
@@ -296,19 +308,6 @@ class Mail
     {
         return $this->smtpDebug;
     }
-
-    /**
-     * Alias method for addReplyTo to keep BC to Zend_Mail
-     *
-     * @deprecated
-     * @param      $email
-     * @param null $name
-     */
-    public function setReplyTo($email, $name = null)
-    {
-        $this->addReplyTo($email, $name);
-    }
-
 
     /**
      * Returns the hostname mails will be sent from
