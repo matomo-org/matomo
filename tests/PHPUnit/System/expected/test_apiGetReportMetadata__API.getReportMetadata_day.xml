@@ -69,35 +69,6 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Overview</subcategory>
-		<name>Performance overview</name>
-		<module>PagePerformance</module>
-		<action>get</action>
-		<onlineGuideUrl>https://matomo.org/docs/page-performance/</onlineGuideUrl>
-		<metrics>
-			<avg_time_network>Avg. network time</avg_time_network>
-			<avg_time_server>Avg. server time</avg_time_server>
-			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
-			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
-			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
-			<avg_time_on_load>Avg. on load time</avg_time_on_load>
-			<avg_page_load_time>Avg. page load time</avg_page_load_time>
-		</metrics>
-		<metricsDocumentation>
-			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
-			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
-			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
-			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
-			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
-			<avg_time_on_load>Average time (in seconds) how long it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.</avg_time_on_load>
-			<avg_page_load_time>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
-		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>PagePerformance_get</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Overview</subcategory>
 		<name>Visits Summary</name>
 		<module>VisitsSummary</module>
 		<action>get</action>
@@ -125,6 +96,35 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitsSummary_get</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Overview</subcategory>
+		<name>Performance overview</name>
+		<module>PagePerformance</module>
+		<action>get</action>
+		<onlineGuideUrl>https://matomo.org/docs/page-performance/</onlineGuideUrl>
+		<metrics>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+		</metrics>
+		<metricsDocumentation>
+			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
+			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
+			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
+			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
+			<avg_time_on_load>Average time (in seconds) how long it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.</avg_time_on_load>
+			<avg_page_load_time>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>PagePerformance_get</uniqueId>
 	</row>
 	<row>
 		<category>Visitors</category>
