@@ -116,6 +116,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
+
+        $config = Config::getInstance();
+
+        if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
+            $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
+        }
+
         return $migrations;
     }
 
@@ -126,14 +133,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
-        }
-
-        // @todo migrate that to a config migration. See utf8mb4 branch
-        $config = Config::getInstance();
-
-        if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
-            $config->mail['type'] === 'Cram-md5';
-            $config->forceSave();
         }
     }
 
