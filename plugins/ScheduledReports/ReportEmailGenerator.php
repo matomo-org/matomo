@@ -10,8 +10,6 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Mail;
-use Piwik\Piwik;
-use Zend_Mime;
 
 abstract class ReportEmailGenerator
 {
@@ -22,23 +20,18 @@ abstract class ReportEmailGenerator
         $mail->setSubject($report->getReportDescription());
 
         if (!empty($customReplyTo)) {
-            $mail->setReplyTo($customReplyTo['email'], $customReplyTo['login']);
+            $mail->addReplyTo($customReplyTo['email'], $customReplyTo['login']);
         }
 
         $this->configureEmail($mail, $report);
 
         foreach ($report->getAdditionalFiles() as $additionalFile) {
-            $fileContent = $additionalFile['content'];
-            $at = $mail->createAttachment(
-                $fileContent,
+            $mail->addAttachment(
+                $additionalFile['content'],
                 $additionalFile['mimeType'],
-                Zend_Mime::DISPOSITION_INLINE,
-                $additionalFile['encoding'],
-                $additionalFile['filename']
+                $additionalFile['filename'],
+                $additionalFile['cid'] ?? null
             );
-            $at->id = $additionalFile['cid'];
-
-            unset($fileContent);
         }
 
         return $mail;

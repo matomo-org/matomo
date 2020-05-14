@@ -27,6 +27,7 @@ class Get extends \Piwik\Plugin\Report
         $this->dimension = null;
         $this->categoryId = 'General_Visitors';
         $this->subcategoryId = 'General_Overview';
+        $this->order = 5;
 
         $this->name = Piwik::translate('PagePerformance_Overview');
         $this->documentation = '';

@@ -368,9 +368,6 @@ class ScheduledReports extends \Piwik\Plugin
 
         $textContent = $mail->getBodyText();
         $htmlContent = $mail->getBodyHtml();
-        if ($htmlContent instanceof \Zend_Mime_Part) {
-            $htmlContent = $htmlContent->getRawContent();
-        }
 
         foreach ($emails as $email) {
             if (empty($email)) {
@@ -403,7 +400,7 @@ class ScheduledReports extends \Piwik\Plugin
                         ". Error was '" . $e->getMessage() . "'");
                 }
             }
-            $mail->clearRecipients();
+            $mail->clearAllRecipients();
         }
     }
 

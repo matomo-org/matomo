@@ -26,7 +26,7 @@ class MailTest extends \PHPUnit\Framework\TestCase
      */
     public function test_EmailFilenamesAreSanitised($raw, $expected)
     {
-        $mail = new Mail;
+        $mail = new Mail();
         $this->assertEquals($expected, $mail->sanitiseString($raw));
     }
 }

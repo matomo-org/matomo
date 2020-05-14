@@ -8,6 +8,7 @@
  */
 namespace Piwik\ReportRenderer;
 
+use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\ReportRenderer;
 use Piwik\View;
@@ -176,8 +177,6 @@ class Html extends ReportRenderer
             );
 
         $additionalFile['mimeType'] = 'image/png';
-
-        $additionalFile['encoding'] = \Zend_Mime::ENCODING_BASE64;
 
         return $additionalFile;
     }

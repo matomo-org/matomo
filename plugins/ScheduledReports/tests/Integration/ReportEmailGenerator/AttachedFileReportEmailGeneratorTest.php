@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ScheduledReports\tests\Integration\ReportEmailGenerator;
 
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\AttachedFileReportEmailGenerator;
@@ -17,12 +18,22 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 
+/**
+ * @group AttachedFileReportEmailGeneratorTest
+ * @group ScheduledReports
+ * @group Plugins
+ */
 class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
      * @var AttachedFileReportEmailGenerator
      */
     private $testInstance;
+
+    /**
+     * @var PHPMailer
+     */
+    private $mail;
 
     public function setUp(): void
     {
@@ -52,30 +63,27 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
         $mail = $this->testInstance->makeEmail($generatedReport);
         $mailContent = $this->getMailContent($mail);
 
-        $this->assertStringStartsWith('<html', $mail->getBodyHtml()->getContent());
+        $this->assertStringStartsWith('<html', $mail->getBodyHtml());
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
         self::assertStringContainsString('ScheduledReports_PleaseFindAttachedFile', $mailContent);
         self::assertStringContainsString('ScheduledReports_SentFromX', $mailContent);
-        $this->assertEquals('Content-Type: text/html; charset=utf-8
+        $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-', $mail->getBodyHtml()->getHeaders());
+", $this->mail->createBody());
 
-        $parts = array_map(function (\Zend_Mime_Part $part) {
-            return [
-                'content' => $part->getContent(),
-                'headers' => $part->getHeaders(),
-            ];
-        }, $mail->getParts());
+        $attachments = $this->mail->getAttachments();
         $this->assertEquals([
             [
-                'content' => 'cmVwb3J0IGNvbnRlbnRz',
-                'headers' => 'Content-Type: generic/thing
-Content-Transfer-Encoding: base64
-Content-Disposition: inline; filename="General_Report report - pretty date.thing"
-',
+                'report contents',
+                'General_Report report - pretty date.thing',
+                'General_Report report - pretty date.thing',
+                'base64',
+                'generic/thing',
+                true,
+                'attachment',
+                0
             ],
-        ], $parts);
+        ], $attachments);
     }
 
     public function test_makeEmail_OmitsSentFrom_IfPiwikUrlDoesNotExist()
@@ -101,10 +109,9 @@ Content-Disposition: inline; filename="General_Report report - pretty date.thing
 
         $this->assertStringStartsWith('<html', $mailContent);
         self::assertStringContainsString('ScheduledReports_PleaseFindAttachedFile', $mailContent);
-        $this->assertEquals('Content-Type: text/html; charset=utf-8
+        $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-', $mail->getBodyHtml()->getHeaders());
+", $this->mail->createBody());
     }
 
     public function test_makeEmail_AddsSegmentInformation_IfReportIsForSavedSegment()
@@ -131,16 +138,31 @@ Content-Disposition: inline
 
         $this->assertStringStartsWith('<html', $mailContent);
         self::assertStringContainsString("ScheduledReports_PleaseFindAttachedFile", $mailContent);
-        self::assertStringContainsString('ScheduledReports_SentFromX=', $mailContent);
+        self::assertStringContainsString('ScheduledReports_SentFromX', $mailContent);
         self::assertStringContainsString('ScheduledReports_CustomVisitorSegment', $mailContent);
-        $this->assertEquals('Content-Type: text/html; charset=utf-8
+        $this->assertStringContainsString("Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-', $mail->getBodyHtml()->getHeaders());
+", $this->mail->createBody());
     }
 
     private function getMailContent(Mail $mail)
     {
-        return str_replace("=\n", '', $mail->getBodyHtml()->getContent());
+        $mail->addTo('noreply@localhost');
+        $mail->send();
+        return $mail->getBodyHtml();
     }
+
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
+                    $this->mail = $mail;
+                    $this->mail->preSend();
+                }],
+            ]),
+        ];
+    }
+
 }
