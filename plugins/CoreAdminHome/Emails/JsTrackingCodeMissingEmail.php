@@ -73,7 +73,7 @@ class JsTrackingCodeMissingEmail extends Mail
         $this->setDefaultFromPiwik();
         $this->addTo($this->emailAddress);
         $this->setSubject($this->getDefaultSubject());
-        $this->setReplyTo($this->getFrom());
+        $this->addReplyTo($this->getFrom(), $this->getFromName());
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 

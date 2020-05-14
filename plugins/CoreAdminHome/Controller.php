@@ -118,7 +118,7 @@ class Controller extends ControllerAdmin
             '' => '',
             'Plain' => 'Plain',
             'Login' => 'Login',
-            'Crammd5' => 'Crammd5',
+            'Cram-md5' => 'Cram-md5',
         );
         $view->mailEncryptions = array(
             '' => '',

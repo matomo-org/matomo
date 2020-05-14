@@ -70,15 +70,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
-
-        // we don't delete the token_auth column so users can still downgrade to 3.X if they want to. However, the original
-        // token_auth will be regenerated for security reasons to no longer have it in plain text. So this column will be no longer used
-        // unless someone downgrades to 3.x
-        $columns = DbHelper::getTableColumns(Common::prefixTable('user'));
-        if (isset($columns['token_auth'])) {
-            $sql = sprintf('UPDATE %s set token_auth = MD5(CONCAT(NOW(), UUID()))', Common::prefixTable('user'));
-            $migrations[] = $this->migration->db->sql($sql, Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN);
-        }
+        $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
 
         /** APP SPECIFIC TOKEN END */
 
@@ -120,6 +112,14 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
+        }
+
+        // @todo migrate that to a config migration. See utf8mb4 branch
+        $config = Config::getInstance();
+
+        if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
+            $config->mail['type'] === 'Cram-md5';
+            $config->forceSave();
         }
     }
 
