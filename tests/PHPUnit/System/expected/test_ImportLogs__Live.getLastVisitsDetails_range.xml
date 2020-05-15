@@ -2712,8 +2712,8 @@
 				<url>http://hello.example.com/hello/world/6,681965</url>
 				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
 				<pageIdAction>60</pageIdAction>
-
-
+				
+				
 				<pageId>93</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
@@ -2745,8 +2745,8 @@
 				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<pageTitle />
 				<pageIdAction>61</pageIdAction>
-
-
+				
+				
 				<pageId>83</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
@@ -2756,7 +2756,7 @@
 				<subtitle>http://hello.example.com/hello/from/another/world/6,681965</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -2778,15 +2778,15 @@
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($5 revenue)</subtitle>
-
+				
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<pageTitle />
 				<pageIdAction>61</pageIdAction>
-
-
+				
+				
 				<pageId>94</pageId>
 				<bandwidth />
 				<pageviewPosition>3</pageviewPosition>
@@ -2794,7 +2794,7 @@
 				<subtitle>http://hello.example.com/hello/from/another/world/6,681965</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>

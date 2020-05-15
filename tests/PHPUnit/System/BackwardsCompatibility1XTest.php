@@ -193,6 +193,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'DevicesDetection.getBrand',
             'DevicesDetection.getModel',
 
+            // different result as some plugins have been removed in Matomo 4
+            'DevicePlugins.getPlugin',
+
             // has different output before and after
             'PrivacyManager.getAvailableVisitColumnsToAnonymize',
 
