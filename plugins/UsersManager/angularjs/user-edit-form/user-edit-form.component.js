@@ -93,7 +93,7 @@
             function onEnter(event){
                 var keycode = (event.keyCode ? event.keyCode : event.which);
                 if (keycode == '13'){
-                    $element.find('.change-password-modal').modal('closeModal');
+                    $element.find('.change-password-modal').modal('close');
                     vm.updateUser();
                 }
             }
