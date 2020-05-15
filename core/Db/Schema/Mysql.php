@@ -443,11 +443,10 @@ class Mysql implements SchemaInterface
              * @param array $result
              */
             if (count($allTables)) {
-                $loadedPlugins = Manager::getInstance()->getLoadedPlugins();
                 Manager::getInstance()->loadPlugins(Manager::getAllPluginsNames());
                 Piwik::postEvent('Db.getTablesInstalled', [&$allMyTables]);
                 Manager::getInstance()->unloadPlugins();
-                Manager::getInstance()->loadPlugins(array_keys($loadedPlugins));
+                Manager::getInstance()->loadActivatedPlugins();
             }
 
             // we get the intersection between all the tables in the DB and the tables to be installed
