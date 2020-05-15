@@ -731,8 +731,8 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play25%</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -794,8 +794,8 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -939,8 +939,8 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
-				<timeSpent>1620</timeSpent>
-				<timeSpentPretty>27 min 0s</timeSpentPretty>
+				<timeSpent>1499</timeSpent>
+				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>

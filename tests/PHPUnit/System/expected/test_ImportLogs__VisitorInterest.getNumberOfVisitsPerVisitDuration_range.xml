@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>0-10s</label>
-		<nb_visits>51</nb_visits>
+		<nb_visits>50</nb_visits>
 		<segment>visitDuration&gt;=0;visitDuration&lt;=10</segment>
 	</row>
 	<row>

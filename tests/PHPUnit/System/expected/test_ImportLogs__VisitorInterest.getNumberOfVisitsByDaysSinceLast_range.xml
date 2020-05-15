@@ -7,7 +7,7 @@
 	</row>
 	<row>
 		<label>0 days</label>
-		<nb_visits>5</nb_visits>
+		<nb_visits>4</nb_visits>
 		<segment>daysSinceLastVisit==0</segment>
 	</row>
 	<row>

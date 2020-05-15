@@ -877,10 +877,22 @@ class GoalManager
 
     private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
     {
+        $lastVisitTime = $visitProperties->getProperty('visit_last_action_time');
+        if (!$lastVisitTime) {
+            $lastVisitTime = $request->getCurrentTimestamp(); // fallback in case visit_last_action_time is not set
+        }
+
+        if (!empty($lastVisitTime) && is_numeric($lastVisitTime)) {
+            // visit last action time might be 2020-05-05 00:00:00
+            // we want it to prevent this being converted to a timestamp of 2020
+            // resulting in some day in 1970
+            $lastVisitTime = Date::getDatetimeFromTimestamp($lastVisitTime);
+        }
+
         $goal = array(
             'idvisit'     => $visitProperties->getProperty('idvisit'),
             'idvisitor'   => $visitProperties->getProperty('idvisitor'),
-            'server_time' => Date::getDatetimeFromTimestamp($visitProperties->getProperty('visit_last_action_time')),
+            'server_time' => $lastVisitTime,
         );
 
         $visitDimensions = VisitDimension::getAllDimensions();

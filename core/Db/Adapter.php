@@ -25,7 +25,7 @@ class Adapter
     public static function factory($adapterName, & $dbInfos, $connect = true)
     {
         if ($connect) {
-            if ($dbInfos['port'][0] == '/') {
+            if (isset($dbInfos['port']) && is_string($dbInfos['port']) && $dbInfos['port'][0] == '/') {
                 $dbInfos['unix_socket'] = $dbInfos['port'];
                 unset($dbInfos['host']);
                 unset($dbInfos['port']);

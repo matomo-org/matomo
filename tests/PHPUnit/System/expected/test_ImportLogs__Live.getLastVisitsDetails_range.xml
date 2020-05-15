@@ -582,7 +582,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCcQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=8vwgU8TYDZTI2wWTi4CQCA&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.b2I</referrerUrl>
+		<referrerUrl>http://www.google.com/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;url=http%3A%2F%2Fpiwik.org%2F</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -1042,7 +1042,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>2</referrerKeywordPosition>
-		<referrerUrl>https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;ved=0CDAQFjAB&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F&amp;ei=rogdU5OuK43pkgXZmYGICA&amp;usg=AFQjCNH4nR8bKYaliCj2egiJ0H_CX4sFJg&amp;bvm=bv.62578216,d.dGI</referrerUrl>
+		<referrerUrl>https://www.google.co.jp/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -1557,7 +1557,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.ru/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCoQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=ffwgU57VGuf44QT3-oCQCw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.bGE&amp;cad=rjt</referrerUrl>
+		<referrerUrl>http://www.google.ru/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;cad=rjt</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -2050,8 +2050,8 @@
 				
 				<pageId>71</pageId>
 				<bandwidth />
-				<timeSpent>50</timeSpent>
-				<timeSpentPretty>50s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<generationTimeMilliseconds>234</generationTimeMilliseconds>
 				<generationTime>0.23s</generationTime>
 				<interactionPosition>2</interactionPosition>
@@ -2077,8 +2077,8 @@
 				
 				<pageId>75</pageId>
 				<bandwidth />
-				<timeSpent>49</timeSpent>
-				<timeSpentPretty>49s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<generationTimeMilliseconds>294</generationTimeMilliseconds>
 				<generationTime>0.29s</generationTime>
 				<interactionPosition>6</interactionPosition>
@@ -2131,8 +2131,8 @@
 				
 				<pageId>72</pageId>
 				<bandwidth />
-				<timeSpent>26</timeSpent>
-				<timeSpentPretty>26s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<generationTimeMilliseconds>1324</generationTimeMilliseconds>
 				<generationTime>1.32s</generationTime>
 				<interactionPosition>3</interactionPosition>
@@ -2185,8 +2185,8 @@
 				
 				<pageId>73</pageId>
 				<bandwidth />
-				<timeSpent>8</timeSpent>
-				<timeSpentPretty>8s</timeSpentPretty>
+				<timeSpent>1</timeSpent>
+				<timeSpentPretty>1s</timeSpentPretty>
 				<generationTimeMilliseconds>543</generationTimeMilliseconds>
 				<generationTime>0.54s</generationTime>
 				<interactionPosition>4</interactionPosition>
@@ -2447,7 +2447,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>73</idVisit>
+		<idVisit>72</idVisit>
 		<visitIp>175.41.191.47</visitIp>
 		
 		
@@ -2732,11 +2732,88 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>68</idVisit>
+		<idVisit>61</idVisit>
 		<visitIp>173.5.0.0</visitIp>
 		
 		
 		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://hello.example.com/hello/world/6,681965</url>
+				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
+				<pageIdAction>60</pageIdAction>
+				
+				
+				<pageId>93</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<generationTimeMilliseconds>359</generationTimeMilliseconds>
+				<generationTime>0.36s</generationTime>
+				<interactionPosition>2</interactionPosition>
+				<title>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</title>
+				<subtitle>http://hello.example.com/hello/world/6,681965</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Generation Time</customVariablePageName1>
+						<customVariablePageValue1>359</customVariablePageValue1>
+					</row>
+					<row>
+						<customVariablePageName2>Windows Status Code</customVariablePageName2>
+						<customVariablePageValue2>24</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName3>HTTP-code</customVariablePageName3>
+						<customVariablePageValue3>404</customVariablePageValue3>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
+				<pageTitle />
+				<pageIdAction>61</pageIdAction>
+				
+				
+				<pageId>83</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<generationTimeMilliseconds>359</generationTimeMilliseconds>
+				<generationTime>0.36s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://hello.example.com/hello/from/another/world/6,681965</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				
+				<revenue>5</revenue>
+				<goalPageId>83</goalPageId>
+				
+				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($5 revenue)</subtitle>
+				
+			</row>
 			<row>
 				<type>action</type>
 				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
@@ -2748,7 +2825,7 @@
 				<bandwidth />
 				<generationTimeMilliseconds>359</generationTimeMilliseconds>
 				<generationTime>0.36s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<interactionPosition>3</interactionPosition>
 				<title />
 				<subtitle>http://hello.example.com/hello/from/another/world/6,681965</subtitle>
 				<icon />
@@ -2770,21 +2847,6 @@
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				
-				<revenue>5</revenue>
-				<goalPageId>94</goalPageId>
-				
-				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
-				<title>Goal conversion</title>
-				<subtitle>all ($5 revenue)</subtitle>
-				
-			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -2800,7 +2862,7 @@
 		
 		
 		
-		<userId />
+		<userId>user2</userId>
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -2810,11 +2872,11 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>1</visitDuration>
-		<visitDurationPretty>1s</visitDurationPretty>
+		<visitDuration>2</visitDuration>
+		<visitDurationPretty>2s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>1</actions>
-		<interactions>1</interactions>
+		<actions>3</actions>
+		<interactions>3</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3336,173 +3398,6 @@
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
 		<visitLocalTime>17:00:00</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>61</idVisit>
-		<visitIp>173.5.0.0</visitIp>
-		
-		
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://hello.example.com/hello/world/6,681965</url>
-				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
-				<pageIdAction>60</pageIdAction>
-				
-				
-				<pageId>93</pageId>
-				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<generationTimeMilliseconds>359</generationTimeMilliseconds>
-				<generationTime>0.36s</generationTime>
-				<interactionPosition>2</interactionPosition>
-				<title>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</title>
-				<subtitle>http://hello.example.com/hello/world/6,681965</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<customVariables>
-					<row>
-						<customVariablePageName1>Generation Time</customVariablePageName1>
-						<customVariablePageValue1>359</customVariablePageValue1>
-					</row>
-					<row>
-						<customVariablePageName2>Windows Status Code</customVariablePageName2>
-						<customVariablePageValue2>24</customVariablePageValue2>
-					</row>
-					<row>
-						<customVariablePageName3>HTTP-code</customVariablePageName3>
-						<customVariablePageValue3>404</customVariablePageValue3>
-					</row>
-				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
-				<pageTitle />
-				<pageIdAction>61</pageIdAction>
-				
-				
-				<pageId>83</pageId>
-				<bandwidth />
-				<generationTimeMilliseconds>359</generationTimeMilliseconds>
-				<generationTime>0.36s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<title />
-				<subtitle>http://hello.example.com/hello/from/another/world/6,681965</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				
-				<revenue>5</revenue>
-				<goalPageId>83</goalPageId>
-				
-				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
-				<title>Goal conversion</title>
-				<subtitle>all ($5 revenue)</subtitle>
-				
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId>user2</userId>
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>1</visitDuration>
-		<visitDurationPretty>1s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>2</actions>
-		<interactions>2</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Apple</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Mac 10.10</operatingSystem>
-		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemVersion>10.10</operatingSystemVersion>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 37.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>37.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>United States</location>
-		<latitude>38</latitude>
-		<longitude>-97</longitude>
-		<visitLocalTime>17:30:00</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<customVariables>
@@ -6619,7 +6514,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>69</idVisit>
+		<idVisit>68</idVisit>
 		<visitIp>175.41.193.45</visitIp>
 		
 		
@@ -6749,7 +6644,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>71</idVisit>
+		<idVisit>70</idVisit>
 		<visitIp>175.41.191.45</visitIp>
 		
 		
@@ -7919,7 +7814,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>70</idVisit>
+		<idVisit>69</idVisit>
 		<visitIp>175.41.193.46</visitIp>
 		
 		
@@ -8049,7 +7944,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>72</idVisit>
+		<idVisit>71</idVisit>
 		<visitIp>175.41.191.46</visitIp>
 		
 		

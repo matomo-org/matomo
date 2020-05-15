@@ -270,6 +270,17 @@ class Profiler
                     $outputDir . DIRECTORY_SEPARATOR . $runId . '.' . $profilerNamespace . '.xhprof',
                     serialize($xhprofData)
                 );
+                $meta = array('time' => time(), 'instance' => SettingsPiwik::getPiwikInstanceId());
+                if (!empty($_GET)) {
+                    $meta['get'] = $_GET;
+                }
+                if (!empty($_POST)) {
+                    $meta['post'] = $_POST;
+                }
+                file_put_contents(
+                    $outputDir . DIRECTORY_SEPARATOR . $runId . '.' . $profilerNamespace . '.meta',
+                    serialize($meta)
+                );
             }
 
             if (empty($runId)) {

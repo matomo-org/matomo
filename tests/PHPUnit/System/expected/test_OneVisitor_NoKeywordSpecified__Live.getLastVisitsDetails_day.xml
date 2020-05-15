@@ -59,7 +59,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</referrerKeyword>
 		<referrerKeywordPosition>4</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com.vn/url?sa=t&amp;rct=j&amp;q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&amp;source=web&amp;cd=4&amp;ved=0FjAD&amp;url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&amp;ei=y-HHAQ&amp;usg=AFQjCN2-nt5_GgDeg&amp;cad=rja</referrerUrl>
+		<referrerUrl>http://www.google.com.vn/url?rct=j&amp;q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&amp;source=web&amp;cd=4&amp;url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&amp;cad=rja</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -198,7 +198,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Mot clef indéfini</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CC&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=&amp;usg=</referrerUrl>
+		<referrerUrl>http://www.google.com/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;url=http%3A%2F%2Fpiwik.org%2F</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
