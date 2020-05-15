@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function ($) {
@@ -9,7 +9,7 @@
     $.widget('piwik.dashboardWidget', {
 
         /**
-         * Boolean indicating wether the widget is currently maximised
+         * Boolean indicating weather the widget is currently maximised
          * @type {Boolean}
          */
         isMaximised: false,

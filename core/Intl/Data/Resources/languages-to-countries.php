@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -45,7 +45,7 @@ return array(
     'nn' => 'no', // Nynorsk    => Norway
     'no' => 'no', // Norwegian  => Norway
     'pl' => 'pl', // Polish     => Poland
-    'pt' => 'pt', // Portugese  => Portugal
+    'pt' => 'pt', // Portuguese  => Portugal
     'ro' => 'ro', // Romanian   => Romania
     'ru' => 'ru', // Russian    => Russia
     'sk' => 'sk', // Slovak     => Slovakia

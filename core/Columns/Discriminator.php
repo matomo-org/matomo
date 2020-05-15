@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -45,8 +45,7 @@ class Discriminator
 
     public function isValid()
     {
-        return isset($this->discriminatorColumn)
-            && (is_numeric($this->discriminatorValue) || $this->discriminatorValue == ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY);
+        return isset($this->discriminatorColumn) && is_numeric($this->discriminatorValue);
     }
 
     /**

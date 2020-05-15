@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,14 +24,14 @@ class ApiRendererTest extends \PHPUnit\Framework\TestCase
 
     public function test_factory_shouldCreateAnInstance_IfValidFormatGiven()
     {
-        $renderer = ApiRenderer::factory('php', array());
-        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Php', $renderer);
+        $renderer = ApiRenderer::factory('xml', array());
+        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
 
-        $renderer = ApiRenderer::factory('PHP', array());
-        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Php', $renderer);
+        $renderer = ApiRenderer::factory('XML', array());
+        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
 
-        $renderer = ApiRenderer::factory('pHp', array());
-        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Php', $renderer);
+        $renderer = ApiRenderer::factory('cSv', array());
+        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Csv', $renderer);
 
         $renderer = ApiRenderer::factory('xmL', array());
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
@@ -45,6 +45,6 @@ class ApiRendererTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidRendererFormat');
 
-        ApiRenderer::factory('phpi', array());
+        ApiRenderer::factory('csvi', array());
     }
 }

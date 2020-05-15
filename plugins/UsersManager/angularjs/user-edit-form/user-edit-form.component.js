@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -166,7 +166,6 @@
                 userLogin: vm.user.login,
                 password: vm.user.password,
                 email: vm.user.email,
-                alias: vm.user.alias,
                 initialIdSite: vm.firstSiteAccess ? vm.firstSiteAccess.id : undefined
             }).catch(function (e) {
                 vm.isSavingUserInfo = false;
@@ -190,8 +189,7 @@
                 userLogin: vm.user.login,
                 password: (vm.isPasswordModified && vm.user.password) ? vm.user.password : undefined,
                 passwordConfirmation: vm.passwordConfirmation ? vm.passwordConfirmation : undefined,
-                email: vm.user.email,
-                alias: vm.user.alias
+                email: vm.user.email
             }).catch(function (e) {
                 vm.isSavingUserInfo = false;
                 vm.passwordConfirmation = false;

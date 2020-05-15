@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -83,6 +83,7 @@ class FactoryTest extends IntegrationTestCase
 
             ['range', '2015-01-01,2015-01-10', 'UTC', Range::class, '2015-01-01,2015-01-10'],
             ['range', '2015-01-01,2015-01-10', 'Antarctica/Casey', Range::class, '2015-01-01,2015-01-10'],
+            ['range', '2015-01-01,2015-01-01', 'Antarctica/Casey', Day::class, '2015-01-01,2015-01-01'],
 
             // multiple periods
             ['day', '2015-01-01,2015-01-10', 'UTC', Range::class, '2015-01-01,2015-01-10'],
@@ -90,6 +91,13 @@ class FactoryTest extends IntegrationTestCase
             ['month', '2015-01-01,2015-02-10', 'UTC', Range::class, '2015-01-01,2015-02-28'],
             ['year', '2015-01-01,2016-01-10', 'UTC', Range::class, '2015-01-01,2016-12-31'],
         ];
+    }
+
+    public function test_makePeriodFromQueryParams()
+    {
+        $factory = Period\Factory::makePeriodFromQueryParams('UTC', 'range', '2019-01-01,2019-01-01');
+        $this->assertTrue($factory instanceof Day);
+        $this->assertEquals('2019-01-01', $factory->toString());
     }
 
     public function test_build_CreatesCustomPeriodInstances()

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,7 +35,7 @@ class AllWebsitesTest extends SystemTestCase
             UsersManagerAPI::getInstance()->addUser('limitedUser', 'smartypants', 'user@limited.com');
             UsersManagerAPI::getInstance()->setUserAccess('limitedUser', 'view', array(2, 3));
             $userModel = new UsersManagerModel();
-            $userModel->updateUserTokenAuth('limitedUser', self::$userTokenAuth);
+            $userModel->addTokenAuth('limitedUser', self::$userTokenAuth, 'desc', '2020-01-02 03:04:05');
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -1181,7 +1181,7 @@ class ApiTest extends IntegrationTestCase
     {
         API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com", "fb://special-url"));
 
-        APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com");
         APIUsersManager::getInstance()->setUserAccess("user1", "view", array(1));
 
         // Make sure we're not Super user
@@ -1225,14 +1225,14 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site2", array("http://piwik.com", "http://piwik.net"));
         API::getInstance()->addSite("site3", array("http://piwik.com", "http://piwik.org"));
 
-        APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com");
         APIUsersManager::getInstance()->setUserAccess("user1", "view", array(1));
 
-        APIUsersManager::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
+        APIUsersManager::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com");
         APIUsersManager::getInstance()->setUserAccess("user2", "view", array(1));
         APIUsersManager::getInstance()->setUserAccess("user2", "admin", array(3));
 
-        APIUsersManager::getInstance()->addUser("user3", "geqgegagae", "tegst3@tesgt.com", "alias");
+        APIUsersManager::getInstance()->addUser("user3", "geqgegagae", "tegst3@tesgt.com");
         APIUsersManager::getInstance()->setUserAccess("user3", "view", array(1, 2));
         APIUsersManager::getInstance()->setUserAccess("user3", "admin", array(3));
 

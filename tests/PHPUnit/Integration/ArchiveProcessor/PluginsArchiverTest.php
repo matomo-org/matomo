@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration\Archive;
@@ -68,10 +68,10 @@ class PluginsArchiverTest extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
         Fixture::createWebsite('2015-01-01 00:00:00');
 
-        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters());
+        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParameters());
     }
 
-    private function createArchiveProcessorParamaters()
+    private function createArchiveProcessorParameters()
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', '2015-01-01');
 
@@ -105,9 +105,11 @@ class PluginsArchiverTest extends IntegrationTestCase
             }
         });
 
-        $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParamaters());
+        $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParameters());
         $this->pluginsArchiver->callAggregateCoreMetrics();
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
+
+        $this->assertTrue(true); // pass
     }
 
 }

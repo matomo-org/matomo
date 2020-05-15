@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -44,7 +44,7 @@ class ArchivingStatusTest extends IntegrationTestCase
 
         $this->assertEquals([
             [
-                'key' => 'Archiving.1.fab0afcc3a068ecd91b14d50f3bc911d.' . Common::getProcessId(),
+                'key' => 'Archiving.1.368dfa07fd4c27385c87c819538ef078',
                 'expiry_time' => time() + ArchivingStatus::DEFAULT_ARCHIVING_TTL,
             ],
         ], $this->getLockKeysAndTtls());

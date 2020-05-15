@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -34,32 +34,28 @@ class CoreArchiver extends ConsoleCommand
 
         $archiver->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
         $archiver->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
-        $archiver->shouldArchiveAllSites = (bool) $input->getOption("force-all-websites");
         $archiver->shouldStartProfiler = (bool) $input->getOption("xhprof");
         $archiver->shouldArchiveSpecifiedSites = self::getSitesListOption($input, "force-idsites");
         $archiver->shouldSkipSpecifiedSites = self::getSitesListOption($input, "skip-idsites");
-        $archiver->forceTimeoutPeriod = $input->getOption("force-timeout-for-periods");
-        $archiver->shouldArchiveAllPeriodsSince = $input->getOption("force-all-periods");
-        $archiver->restrictToDateRange = $input->getOption("force-date-range");
         $archiver->phpCliConfigurationOptions = $input->getOption("php-cli-options");
-
-        $restrictToPeriods = $input->getOption("force-periods");
-        $restrictToPeriods = explode(',', $restrictToPeriods);
-        $archiver->restrictToPeriods = array_map('trim', $restrictToPeriods);
-
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
         $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
-
-        $archiver->disableSegmentsArchiving = $input->getOption('skip-all-segments');
         $archiver->skipSegmentsToday = $input->getOption('skip-segments-today');
+        $archiver->shouldArchiveAllSites = $input->getOption('force-all-websites');
+        $archiver->setUrlToPiwik($url);
+
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setDisableSegmentsArchiving($input->getOption('skip-all-segments'));
+        $archiveFilter->setRestrictToDateRange($input->getOption("force-date-range"));
+        $archiveFilter->setRestrictToPeriods($input->getOption("force-periods"));
 
         $segmentIds = $input->getOption('force-idsegments');
         $segmentIds = explode(',', $segmentIds);
         $segmentIds = array_map('trim', $segmentIds);
-        $archiver->setSegmentsToForceFromSegmentIds($segmentIds);
+        $archiveFilter->setSegmentsToForceFromSegmentIds($segmentIds);
 
-        $archiver->setUrlToPiwik($url);
+        $archiver->setArchiveFilter($archiveFilter);
 
         return $archiver;
     }
@@ -84,18 +80,6 @@ class CoreArchiver extends ConsoleCommand
             "Forces the value of this option to be used as the URL to Piwik. \nIf your system does not support"
             . " archiving with CLI processes, you may need to set this in order for the archiving HTTP requests to use"
             . " the desired URLs.");
-        $command->addOption('force-all-websites', null, InputOption::VALUE_NONE,
-            "If specified, the script will trigger archiving on all websites.\nUse with --force-all-periods=[seconds] "
-            . "to also process those websites that had visits in the last [seconds] seconds.\nLaunching several processes"
-            . " with this option will make them share the list of sites to process.");
-        $command->addOption('force-all-periods', null, InputOption::VALUE_OPTIONAL,
-            "Limits archiving to websites with some traffic in the last [seconds] seconds. \nFor example "
-            . "--force-all-periods=86400 will archive websites that had visits in the last 24 hours. \nIf [seconds] is "
-            . "not specified, all websites with visits in the last " . CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
-            . " seconds (" . round(CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400) . " days) will be archived.");
-        $command->addOption('force-timeout-for-periods', null, InputOption::VALUE_OPTIONAL,
-            "The current week/ current month/ current year will be processed at most every [seconds].\nIf not "
-            . "specified, defaults to " . CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES . ".");
         $command->addOption('skip-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).');
         $command->addOption('skip-all-segments', null, InputOption::VALUE_NONE,
@@ -107,7 +91,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
             "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
         $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED,
-            "This script calls the API with period=lastN. You can force the N in lastN by specifying this value.");
+            "This last N number of years of data to invalidate when a recently created or updated segment is found.", 7);
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL,
             "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
         $command->addOption('force-idsegments', null, InputOption::VALUE_REQUIRED,
@@ -124,5 +108,6 @@ class CoreArchiver extends ConsoleCommand
             "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be "
             . "useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
         $command->addOption('php-cli-options', null, InputOption::VALUE_OPTIONAL, 'Forwards the PHP configuration options to the PHP CLI command. For example "-d memory_limit=8G". Note: These options are only applied if the archiver actually uses CLI and not HTTP.', $default = '');
+        $command->addOption('force-all-websites', null, InputOption::VALUE_NONE, 'Force archiving all websites.');
     }
 }

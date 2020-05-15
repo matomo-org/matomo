@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,7 +31,7 @@ namespace Piwik;
  *
  * **Display a temporary success message**
  *
- *     $notification = new Notificiation('Success');
+ *     $notification = new Notification('Success');
  *     $notification->context = Notification::CONTEXT_SUCCESS;
  *     $notification->type = Notification::TYPE_TOAST;
  *     Notification\Manager::notify('myUniqueNotificationId', $notification);

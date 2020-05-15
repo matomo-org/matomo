@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -392,9 +392,6 @@ Segmentation = (function($) {
                         || $(e.target).hasClass("filterNoResults")) {
                         e.stopPropagation();
                     } else {
-                        if (self.jscroll) {
-                            self.jscroll.destroy();
-                        }
                         self.target.closest('.segmentEditorPanel').removeClass('expanded');
                     }
                 } else {
@@ -402,10 +399,6 @@ Segmentation = (function($) {
                     closeAllOpenLists();
                     self.target.closest('.segmentEditorPanel').addClass('expanded');
                     self.target.find('.segmentFilter').val(self.translations['General_Search']).trigger('keyup');
-                    self.jscroll = self.target.find(".segmentList").jScrollPane({
-                        autoReinitialise: true,
-                        showArrows:true
-                    }).data().jsp;
                 }
             });
 
@@ -841,7 +834,7 @@ Segmentation = (function($) {
                 this.content = this.target.find(".segmentationContainer");
             }
 
-            // assign content to object attribute to make it easil accesible through all widget methods
+            // assign content to object attribute to make it easily accessible through all widget methods
             this.markCurrentSegment();
             setTimeout(function () {
                 self.markComparedSegments();

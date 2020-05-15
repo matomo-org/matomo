@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -360,9 +360,9 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     private function assertTableRowsEquals($expectedRows, $table)
     {
-        $renderer = new DataTable\Renderer\Php();
-        $renderer->setSerialize(false);
-        $actualRows = $renderer->render($table);
+        $renderer = new DataTable\Renderer\Json();
+        $renderer->setTable($table);
+        $actualRows = json_decode($renderer->render(), true);
 
         $this->assertEquals($expectedRows, $actualRows);
     }

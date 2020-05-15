@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -132,7 +132,7 @@ class Sparklines extends ViewDataTable
             foreach ($comparisons->getRows() as $comparisonRow) {
                 $segment = $comparisonRow->getMetadata('compareSegment');
                 if ($segment === false) {
-                    $segment = Request::getRawSegmentFromRequest() ?: '';;
+                    $segment = Request::getRawSegmentFromRequest() ?: '';
                 }
 
                 $date = $comparisonRow->getMetadata('compareDate');

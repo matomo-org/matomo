@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -136,7 +136,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->theFixture->trackVisits($idSite = 2, 1);
         $result1 = $this->anonymizer->anonymizeVisitInformation($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', $anonymizeIp = true, $anonimizeLocation = true, $anonymizeUserId = false);
         $result2 = $this->anonymizer->unsetLogVisitTableColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['config_os', 'config_os_version', 'location_browser_lang', 'referer_url', 'referer_name', 'referer_type']);
-        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['idaction_name', 'idaction_event_category', 'interaction_position', 'idpageview']);
+        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['idaction_name', 'idaction_event_category', 'pageview_position', 'idpageview']);
         $this->assertAnonymizedDb('allSitesAllDates');
         $this->assertNotEmpty($result1);
         $this->assertNotEmpty($result2);
@@ -159,7 +159,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->theFixture->trackVisits($idSite = 2, 1);
         $result1 = $this->anonymizer->anonymizeVisitInformation($idSites = array(1,3), $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', $anonymizeIp = true, $anonimizeLocation = true, $anonymizeUserId = false);
         $result2 = $this->anonymizer->unsetLogVisitTableColumns($idSites = array(1,3), $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['config_os', 'config_os_version', 'location_browser_lang', 'referer_url', 'referer_name', 'referer_type']);
-        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = array(1,3), $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['idaction_name', 'idaction_event_category', 'interaction_position', 'idpageview']);
+        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = array(1,3), $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['idaction_name', 'idaction_event_category', 'pageview_position', 'idpageview']);
         $this->assertAnonymizedDb('restrictSites');
         $this->assertNotEmpty($result1);
         $this->assertNotEmpty($result2);
@@ -175,7 +175,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->theFixture->trackVisits($idSite = 2, 1);
         $result1 = $this->anonymizer->anonymizeVisitInformation($idSites = null, $startDate, $endDate, $anonymizeIp = true, $anonimizeLocation = true, $anonimizeUserId = false);
         $result2 = $this->anonymizer->unsetLogVisitTableColumns($idSites = null, $startDate, $endDate, ['config_os', 'config_os_version', 'location_browser_lang', 'referer_url', 'referer_name', 'referer_type']);
-        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = null, $startDate, $endDate, ['idaction_name', 'idaction_event_category', 'interaction_position', 'idpageview']);
+        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = null, $startDate, $endDate, ['idaction_name', 'idaction_event_category', 'pageview_position', 'idpageview']);
         $this->assertAnonymizedDb('restrictDate');
         $this->assertNotEmpty($result1);
         $this->assertNotEmpty($result2);

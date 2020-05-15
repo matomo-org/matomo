@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
 use Piwik\Plugins\SegmentEditor\SegmentFormatter;
-use Piwik\Plugins\SegmentEditor\SegmentList;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -32,10 +32,10 @@ class SegmentFormatterTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->idSite = Fixture::createWebsite('2012-01-01 00:00:00');
-        $this->formatter   = new SegmentFormatter(new SegmentList());
-
         Fixture::loadAllTranslations();
+
+        $this->idSite = Fixture::createWebsite('2012-01-01 00:00:00');
+        $this->formatter   = new SegmentFormatter(SegmentsList::get());
     }
 
     public function tearDown(): void

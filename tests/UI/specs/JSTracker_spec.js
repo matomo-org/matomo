@@ -1,14 +1,19 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * JS tracker UI tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("JSTracker", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\JSTrackingUIFixture';
+
+    before(function () {
+        testEnvironment.pluginsToLoad = ['CustomJsTracker', 'ExampleTracker'];
+        testEnvironment.save();
+    });
 
     var testWebsiteUrl = 'tests/resources/overlay-test-site-real/index.html';
     var generalParams = 'idSite=1&period=day&date=today',

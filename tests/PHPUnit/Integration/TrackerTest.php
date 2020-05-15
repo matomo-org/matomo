@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -259,7 +259,7 @@ class TrackerTest extends IntegrationTestCase
 
         $response = $this->tracker->main($this->getDefaultHandler(), $requestSet);
 
-        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.";
         $this->assertEquals($expected, $response);
     }
 
@@ -369,7 +369,7 @@ class TrackerTest extends IntegrationTestCase
     public function test_archiveInvalidation_differentServerAndWebsiteTimezones()
     {
         // Server timezone is UTC
-        ini_set('date.timezone', 'America/New_York');
+        ini_set('date.timezone', 'UTC');
 
         // Website timezone is New York
         $idSite = Fixture::createWebsite('2014-01-01 00:00:00', 0, false, false,
@@ -385,8 +385,8 @@ class TrackerTest extends IntegrationTestCase
         $this->request->setCurrentTimestamp(Date::$now);
         $this->tracker->trackRequest($this->request);
 
-        // make sure today archives are also invalidated
-        $this->assertEquals(['report_to_invalidate_2_2019-04-02_' . getmypid() => '1'], Option::getLike('report_to_invalidate_2_2019-04-02%'));
+        // make sure today archives are not invalidated
+        $this->assertEquals([], Option::getLike('report_to_invalidate_2_2019-04-02%'));
     }
 
     public function test_TrackingNewVisitOfKnownVisitor()

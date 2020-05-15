@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,6 +24,7 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  */
 class CommonTest extends TestCase
 {
+
     public function test_getProcessId()
     {
         $this->assertEquals(getmypid(), Common::getProcessId());

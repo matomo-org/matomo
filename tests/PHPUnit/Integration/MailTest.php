@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,7 +26,7 @@ class MailTest extends \PHPUnit\Framework\TestCase
      */
     public function test_EmailFilenamesAreSanitised($raw, $expected)
     {
-        $mail = new Mail;
+        $mail = new Mail();
         $this->assertEquals($expected, $mail->sanitiseString($raw));
     }
 }

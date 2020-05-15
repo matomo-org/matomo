@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -55,7 +55,7 @@ class RequestTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Custom timestamp is 86500 seconds old');
 
-        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
@@ -395,11 +395,12 @@ class RequestTest extends IntegrationTestCase
         $login = 'myadmin';
         $passwordHash = UsersManager::getPasswordHash('password');
 
-        $token = API::getInstance()->createTokenAuth($login);
-
         $user = new Model();
-        $user->addUser($login, $passwordHash, 'admin@piwik', 'alias', $token, '2014-01-01 00:00:00');
+        $token = $user->generateRandomTokenAuth();
+
+        $user->addUser($login, $passwordHash, 'admin@piwik', '2014-01-01 00:00:00');
         $user->addUserAccess($login, 'admin', array($idSite));
+        $user->addTokenAuth($login, $token, 'createAdminUserForSite', '2014-01-01 00:00:00');
 
         return $token;
     }

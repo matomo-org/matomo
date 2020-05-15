@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -82,10 +82,6 @@ class ApiGetReportMetadataTest extends SystemTestCase
                 'testSuffix' => '_defaultFormatValue',
                 'format' => 'asldjkf',
             ]],
-
-            // test php renderer w/ array data
-            array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,
-                                                            'format' => 'php', 'testSuffix' => '_phpRenderer')),
         );
     }
 

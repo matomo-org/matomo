@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -63,7 +63,7 @@ class Option
      *
      * @param string $name The option name.
      * @param string $value The value to set the option to.
-     * @param int $autoLoad If set to 1, this option value will be automatically loaded when Piwik is initialzed;
+     * @param int $autoLoad If set to 1, this option value will be automatically loaded when Piwik is initialized;
      *                      should be set to 1 for options that will be used in every Piwik request.
      */
     public static function set($name, $value, $autoload = 0)

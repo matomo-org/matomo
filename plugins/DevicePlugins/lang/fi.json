@@ -4,7 +4,7 @@
         "BrowserWithPluginsEnabled": "%1$s liitännäisillä %2$s on aktivoitu",
         "PluginDescription": "Lista liitännäisistä, joita kävijöiden selaimet tukevat.",
         "PluginDetectionDoesNotWorkInIE": "Huom. Liitännäisten tunnistus ei toimi Internet Explorerissa ennen versiota 11. Tässä raportissa on mukana vain uudet IE:t ja muut selaimet.",
-        "WidgetPlugins": "Lista liitännäisistä",
+        "WidgetPlugins": "Selainliitännäiset",
         "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainliitännäisiä kävijöilläsi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään kävijöille."
     }
 }

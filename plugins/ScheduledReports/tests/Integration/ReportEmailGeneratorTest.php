@@ -15,6 +15,7 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
@@ -28,13 +29,22 @@ class TestReportEmailGenerator extends ReportEmailGenerator
     }
 }
 
-
+/**
+ * @group ReportEmailGeneratorTest
+ * @group ScheduledReports
+ * @group Plugins
+ */
 class ReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
      * @var TestReportEmailGenerator
      */
     private $testInstance;
+
+    /**
+     * @var PHPMailer
+     */
+    private $mail;
 
     public function setUp(): void
     {
@@ -55,17 +65,14 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
             [
                 [
                     'mimeType' => 'mimetype1',
-                    'encoding' => 'utf-8',
                     'content' => 'content 1',
                     'filename' => 'file1.txt',
-                    'cid' => 'cid1',
                 ],
                 [
+                    'cid' => 'file1',
                     'mimeType' => 'mimetype2',
-                    'encoding' => 'utf-8',
                     'content' => 'content 2',
                     'filename' => 'file2.txt',
-                    'cid' => 'cid2',
                 ],
             ]
         );
@@ -74,30 +81,21 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
 
-        $parts = array_map(function (\Zend_Mime_Part $part) {
-            return [
-                'content' => $part->getContent(),
-                'headers' => $part->getHeaders(),
-            ];
-        }, $mail->getParts());
+        $attachments = $mail->getAttachments();
         $this->assertEquals([
             [
                 'content' => 'content 1',
-                'headers' => 'Content-Type: mimetype1
-Content-Transfer-Encoding: utf-8
-Content-ID: <cid1>
-Content-Disposition: inline; filename="file1.txt"
-',
+                'filename' => 'file1.txt',
+                'mimetype' => 'mimetype1',
+                'cid' => null
             ],
             [
                 'content' => 'content 2',
-                'headers' => 'Content-Type: mimetype2
-Content-Transfer-Encoding: utf-8
-Content-ID: <cid2>
-Content-Disposition: inline; filename="file2.txt"
-',
+                'filename' => 'file2.txt',
+                'mimetype' => 'mimetype2',
+                'cid' => 'file1'
             ],
-        ], $parts);
+        ], $attachments);
     }
 
     public function test_makeEmail_UsesCustomReplyTo_IfSupplied()
@@ -114,24 +112,27 @@ Content-Disposition: inline; filename="file2.txt"
 
         $mail = $this->testInstance->makeEmail($generatedReport, [
             'email' => 'test@testytesterson.com',
-            'alias' => 'test person',
+            'login' => 'test person',
         ]);
+        $mail->send();
 
         $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertEquals('test@testytesterson.com', $mail->getReplyTo());
-        $this->assertEquals([
-            'From' => [
-                0 => 'TagManager_MatomoTagName <noreply@localhost>',
-                'append' => true,
-            ],
-            'Subject' => [
-                0 => 'General_Report report - pretty date',
-            ],
-            'Reply-To' => [
-                0 => 'test person <test@testytesterson.com>',
-                'append' => true,
-            ],
-        ], $mail->getHeaders());
-        $this->assertEquals([], $mail->getParts());
+        $this->assertEquals(['test@testytesterson.com'], array_keys($mail->getReplyTos()));
+        $header = $this->mail->createHeader();
+        $this->assertStringContainsString('From: TagManager_MatomoTagName <noreply@', $header);
+        $this->assertStringContainsString('Reply-To: test person <test@testytesterson.com>', $header);
+        $this->assertEquals([], $mail->getAttachments());
+    }
+
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
+                    $this->mail = $mail;
+                }],
+            ]),
+        ];
     }
 }

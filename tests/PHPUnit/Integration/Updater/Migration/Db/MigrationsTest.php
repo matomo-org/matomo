@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -209,6 +209,7 @@ class MigrationsTest extends IntegrationTestCase
             'column5' => 'VARCHAR(10) DEFAULT ""',
             'column11' => 'VARCHAR(255) DEFAULT "test"',
         ))->exec();
+        $this->assertTrue(true); // pass
     }
 
     /**

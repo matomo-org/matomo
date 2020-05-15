@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Live\tests\Fixtures;
@@ -62,6 +62,9 @@ class ManyVisitsOfSameVisitor extends Fixture
 
             if ($numVisits > 0) {
                 $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
+                $t->setForceVisitDateTime($visitDateTime);
+            } else {
+                $visitDateTime = Date::factory($this->dateTime)->subHour(-$numVisits/10)->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
             }
 

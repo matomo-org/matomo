@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,12 +9,10 @@
 namespace Piwik\Plugins\ExampleUI\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\View;
 use Piwik\Widget\WidgetsList;
 
 /**
@@ -57,7 +55,7 @@ class GetTemperatures extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        if ($view->isViewDataTableId(BAR::ID)) {
+        if ($view->isViewDataTableId(Bar::ID)) {
 
             $view->config->y_axis_unit = '°C';
             $view->config->show_footer = false;

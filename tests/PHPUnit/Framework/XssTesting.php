@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -138,8 +138,6 @@ JS;
             'angular-(useragent)',
             'twig-(annotation)',
             'angular-(Annotation note 3)',
-            'twig-(useralias)',
-            'angular-(useralias)',
             'twig-(scheduledreport)',
             'twig-(dimensionname)',
             'twig-(category)',

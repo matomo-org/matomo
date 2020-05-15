@@ -2,21 +2,21 @@
 <result>
 	<row>
 		<label>Desktop</label>
-		<nb_visits>36</nb_visits>
+		<nb_visits>35</nb_visits>
 		<nb_actions>42</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>551</sum_visit_length>
-		<bounce_count>31</bounce_count>
-		<nb_visits_converted>35</nb_visits_converted>
+		<bounce_count>30</bounce_count>
+		<nb_visits_converted>34</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>35</nb_conversions>
-				<nb_visits_converted>35</nb_visits_converted>
-				<revenue>175</revenue>
+				<nb_conversions>34</nb_conversions>
+				<nb_visits_converted>34</nb_visits_converted>
+				<revenue>170</revenue>
 			</row>
 		</goals>
-		<nb_conversions>35</nb_conversions>
-		<revenue>175</revenue>
+		<nb_conversions>34</nb_conversions>
+		<revenue>170</revenue>
 		<sum_daily_nb_uniq_visitors>34</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<segment>deviceType==desktop</segment>
@@ -124,5 +124,11 @@
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==tv</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/tv.png</logo>
+	</row>
+	<row>
+		<label>Wearable</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==wearable</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/wearable.png</logo>
 	</row>
 </result>

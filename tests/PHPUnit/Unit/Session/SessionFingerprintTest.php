@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,6 +12,7 @@ namespace Piwik\Tests\Unit\Session;
 
 use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
+use Piwik\Tests\Framework\Fixture;
 
 class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 {
@@ -64,9 +65,10 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 
     public function test_initialize_SetsSessionVarsToCurrentRequest()
     {
-        $this->testInstance->initialize('testuser', true, self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, true, self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
+        $this->assertEquals(Fixture::ADMIN_USER_TOKEN, $_SESSION[SessionFingerprint::SESSION_INFO_TEMP_TOKEN_AUTH]);
         $this->assertEquals(
             ['ts' => self::TEST_TIME_VALUE, 'remembered' => true, 'expiration' => self::TEST_TIME_VALUE + 3600],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
@@ -75,7 +77,7 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 
     public function test_initialize_hasVerifiedTwoFactor()
     {
-        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, self::TEST_TIME_VALUE);
 
         // after logging in, the user has by default not verified two factor, important
         $this->assertFalse($this->testInstance->hasVerifiedTwoFactor());
@@ -87,7 +89,7 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 
     public function test_updateSessionExpireTime_SetsANewExpirationTime()
     {
-        $this->testInstance->initialize('testuser', false, self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, false, self::TEST_TIME_VALUE);
 
         Date::$now = self::TEST_TIME_VALUE + 100;
 

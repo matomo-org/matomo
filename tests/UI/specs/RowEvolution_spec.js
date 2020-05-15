@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * row evolution screenshot tests
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -48,7 +48,10 @@ describe("RowEvolution", function () {
     });
 
     it('should load multi-row evolution correctly', async function() {
-        await page.click('.rowevolution-startmulti');
+        await page.evaluate(function() {
+            $('.rowevolution-startmulti').click();
+        });
+        await page.waitForFunction("$('.ui-dialog').length === 0");
 
         const row = await page.waitForSelector('tbody tr:nth-child(2)');
         await row.hover();

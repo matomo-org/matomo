@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -546,7 +546,7 @@ class API extends \Piwik\Plugin\API
         $ordinateValue = @str_replace(',', '.', $ordinateValue);
 
         // convert hh:mm:ss formatted time values to number of seconds
-        if (preg_match('/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/', $ordinateValue, $matches)) {
+        if (preg_match('/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\.[0-9]{2})?)/', $ordinateValue, $matches)) {
             $hour = $matches[1];
             $min = $matches[2];
             $sec = $matches[3];

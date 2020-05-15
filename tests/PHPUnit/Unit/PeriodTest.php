@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -254,5 +254,30 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
         return array_map(function (Period $period) {
             return array($period->getLabel(), $period->getRangeString());
         }, $periods);
+    }
+
+    /**
+     * @dataProvider getTestDataForIsDateInPeriod
+     */
+    public function test_isDateInPeriod($date, $period, $periodDate, $expected)
+    {
+        $date = Date::factory($date);
+        $period = Period\Factory::build($period, $periodDate);
+
+        $actual = $period->isDateInPeriod($date);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForIsDateInPeriod()
+    {
+        return [
+            ['2014-02-03 00:00:00', 'day', '2014-02-03 03:04:05', true],
+            ['2014-02-03 00:00:00', 'week', '2014-02-03 03:04:05', true],
+            ['2014-02-03 00:00:00', 'month', '2014-02-03 03:04:05', true],
+            ['2014-02-02 23:59:59', 'day', '2014-02-03 03:04:05', false],
+            ['2014-01-31 23:59:59', 'month', '2014-02-03 03:04:05', false],
+            ['2014-03-01 00:00:00', 'month', '2014-02-03 03:04:05', false],
+            ['2014-03-31 23:59:59', 'month', '2014-03-03 03:04:05', true],
+        ];
     }
 }

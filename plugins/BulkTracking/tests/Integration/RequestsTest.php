@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,8 +8,10 @@
 
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -88,7 +90,7 @@ class RequestsTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('token_auth specified does not have Admin permission for idsite=1');
 
-        $dummyToken = API::getInstance()->createTokenAuth('test');
+        $dummyToken = StaticContainer::get(Model::class)->generateRandomTokenAuth();
         $superUserToken = $this->getSuperUserToken();
 
         $requests = array($this->buildDummyRequest($superUserToken), $this->buildDummyRequest($dummyToken));

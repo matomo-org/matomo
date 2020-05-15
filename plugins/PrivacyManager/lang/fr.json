@@ -8,6 +8,7 @@
         "AnonymizeIpMaskLength": "%1$s byte(s) - ex %2$s",
         "AskingForConsent": "Demande de permission",
         "ClickHereSettings": "Cliquez ici pour accéder aux paramètres %s.",
+        "AnonymizeUserId": "Remplacer l'identifiant utilisateur par un pseudonyme",
         "CurrentDBSize": "Taille actuelle de la base de données",
         "DBPurged": "BDD purgée.",
         "DeleteBothConfirm": "Vous êtes sur le point d'activer la suppression des données primaires et des données de rapports. Ceci vous empêchera définitivement de visualiser d'anciennes données de statistique. Êtes-vous sûr(e) de vouloir effectuer cela ?",

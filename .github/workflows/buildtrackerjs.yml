@@ -36,6 +36,7 @@ jobs:
         fi
         
         echo ::set-output name=branch::$REF
+      if: github.event.comment.body == 'build js'
     - uses: actions/setup-java@v1
       with:
         java-version: 9

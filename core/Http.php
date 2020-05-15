@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -934,9 +934,12 @@ class Http
          * With HTTP/2 Cloudflare is passing headers in lowercase (e.g. 'content-type' instead of 'Content-Type')
          * which breaks any code which uses the header data.
          */
-        $camelName = ucwords($name, '-');
-        if ($camelName !== $name) {
-            $headers[$camelName] = trim($value);
+        if (version_compare(PHP_VERSION, '5.5.16', '>=')) {
+            // Passing a second arg to ucwords is not supported by older versions of PHP
+            $camelName = ucwords($name, '-');
+            if ($camelName !== $name) {
+                $headers[$camelName] = trim($value);
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -87,8 +87,9 @@
                 function closeExistingNotificationHavingSameIdIfNeeded(id, notificationElement) {
                     // TODO: instead of doing a global query for notification, there should be a notification-container
                     //       directive that manages notifications.
+                    var notificationStillExists = !!notificationElement.parents('body').length;
                     var existingNode = angular.element('[notification-id=' + id + ']').not(notificationElement);
-                    if (existingNode && existingNode.length) {
+                    if (notificationStillExists && existingNode && existingNode.length) {
                         existingNode.remove();
                     }
                 }

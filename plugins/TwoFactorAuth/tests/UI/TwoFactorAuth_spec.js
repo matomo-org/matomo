@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot integration tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,7 +13,7 @@ describe("TwoFactorAuth", function () {
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
-        userSettings = '?module=UsersManager&action=userSettings&' + generalParams,
+        userSettings = '?module=UsersManager&action=userSecurity&' + generalParams,
         logoutUrl = '?module=Login&action=logout&period=day&date=yesterday';
 
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -132,6 +132,7 @@ class TasksTest extends IntegrationTestCase
         $tasks = array_map(function (Task $task) { return $task->getMethodName() . '.' . $task->getMethodParameter(); }, $tasks);
 
         $expected = [
+            'invalidateOutdatedArchives.',
             'purgeOutdatedArchives.',
             'purgeInvalidatedArchives.',
             'purgeOrphanedArchives.',

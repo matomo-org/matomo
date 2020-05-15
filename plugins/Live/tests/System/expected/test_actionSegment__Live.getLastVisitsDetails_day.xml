@@ -16,7 +16,7 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title 0</title>
 				<subtitle>http://example.org/my/dir/page0</subtitle>
 				<icon />
@@ -138,7 +138,7 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title -1</title>
 				<subtitle>http://example.org/my/dir/page-1</subtitle>
 				<icon />

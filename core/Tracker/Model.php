@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,6 +16,7 @@ use Psr\Log\LoggerInterface;
 
 class Model
 {
+    const CACHE_KEY_INDEX_IDSITE_IDVISITOR = 'log_visit_has_index_idsite_idvisitor';
 
     public function createAction($visitAction)
     {
@@ -70,10 +71,10 @@ class Model
             $sqlBind[]          = $value;
         }
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_conversion');
 
-        $sql   = "UPDATE $table SET $parts WHERE " . implode($updateWhereParts, ' AND ');
+        $sql   = "UPDATE $table SET $parts WHERE " . implode(' AND ', $updateWhereParts);
 
         try {
             $this->getDb()->query($sql, $sqlBind);
@@ -285,7 +286,7 @@ class Model
             $sqlBind[]     = $value;
         }
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_conversion_item');
 
         $sql = "UPDATE $table SET $parts WHERE idvisit = ? AND idorder = ? AND idaction_sku = ?";
@@ -428,7 +429,13 @@ class Model
 
     private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
     {
-        // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        $cache = Cache::getCacheGeneral();
+
+        // use INDEX index_idsite_idvisitor (idsite, idvisitor) if available
+        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR, $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR]) {
+            $from .= ' FORCE INDEX (index_idsite_idvisitor) ';
+        }
+
         $where .= ' AND idvisitor = ?';
         $bindSql[] = $idVisitor;
 

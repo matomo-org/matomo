@@ -54,7 +54,7 @@
     ],
     "log_link_visit_action": [
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "1",
             "idaction_name_ref": "0",
             "idaction_url": "2",
@@ -64,12 +64,18 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "1",
+            "pageview_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "3",
             "idaction_name_ref": "1",
             "idaction_url": "4",
@@ -79,12 +85,18 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "2",
+            "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:06:00"
+            "time_dom_completion": "3 min 21s",
+            "time_dom_processing": "4 min 16s",
+            "time_network": "0s",
+            "time_on_load": "1 min 45s",
+            "time_server": "6 min 5s",
+            "time_spent_ref_action": "00:06:00",
+            "time_transfer": "1 min 6s"
         },
         {
-            "custom_float": "9 min 5s",
+            "custom_float": "0s",
             "idaction_name": "5",
             "idaction_name_ref": "3",
             "idaction_url": "6",
@@ -94,16 +106,18 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "3",
+            "pageview_position": "3",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "2 min 2s",
+            "time_dom_processing": "6 min 45s",
+            "time_network": "0s",
+            "time_on_load": "23s",
+            "time_server": "6 min 46s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "1 min 45s"
         },
         {
-            "custom_float": "9 min 5s",
-            "custom_var_k4": "_pk_scat",
-            "custom_var_k5": "_pk_scount",
-            "custom_var_v4": "images",
-            "custom_var_v5": "200",
+            "custom_float": "0s",
             "idaction_name": "7",
             "idaction_name_ref": "5",
             "idaction_url_ref": "6",
@@ -112,9 +126,17 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
+            "search_cat": "images",
+            "search_count": "200",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -128,9 +150,15 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -144,9 +172,15 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -160,9 +194,15 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -176,9 +216,15 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -191,9 +237,15 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -208,9 +260,15 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         },
         {
             "custom_float": "0s",
@@ -224,9 +282,15 @@
             "idsite": "1",
             "idvisit": "1",
             "idvisitor": "08aa728aec13d68d",
-            "interaction_position": "4",
+            "pageview_position": "4",
             "server_time": "2017-01-02 03:10:05",
-            "time_spent_ref_action": "00:00:00"
+            "time_dom_completion": "0s",
+            "time_dom_processing": "0s",
+            "time_network": "0s",
+            "time_on_load": "0s",
+            "time_server": "0s",
+            "time_spent_ref_action": "00:00:00",
+            "time_transfer": "0s"
         }
     ],
     "log_foo_bar_baz": [

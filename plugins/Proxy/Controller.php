@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Proxy;
 use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
+use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
 use Piwik\Url;
@@ -33,7 +34,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getCss()
     {
-        $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        try {
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        } catch (StylesheetLessCompileException $exception) {
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        }
         ProxyHttp::serverStaticFile($cssMergedFile->getAbsoluteLocation(), "text/css");
     }
 

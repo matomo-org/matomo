@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -77,11 +77,11 @@ class ArchiveQueryFactory
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
         $timezone = false;
-        if (count($websiteIds) == 1) {
+        if (count($websiteIds) === 1) {
             $timezone = Site::getTimezoneFor($websiteIds[0]);
         }
 
-        $idSiteIsAll = $idSites == Archive::REQUEST_ALL_WEBSITES_FLAG;
+        $idSiteIsAll = $idSites === Archive::REQUEST_ALL_WEBSITES_FLAG;
 
         return [$websiteIds, $timezone, $idSiteIsAll];
     }

@@ -42,7 +42,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Dashboard_Dashboard' => 1,
             'General_Actions' => 22,
             'General_KpiMetric' => 1,
-            'General_Visitors' => 31,
+            'General_Visitors' => 33,
             'SEO' => 1,
             'Goals_Goals' => 3,
             'Insights_WidgetCategory' => 2,

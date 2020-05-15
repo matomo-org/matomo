@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -32,6 +32,8 @@ class IdSiteTest extends IntegrationTestCase
         $this->validate('2');
         $this->validate(1);
         $this->validate(2);
+
+        $this->assertTrue(true); // pass
     }
 
     public function test_validate_failValueDoesNotExist()

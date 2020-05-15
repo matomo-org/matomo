@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,6 +12,7 @@ use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Singleton;
 use Piwik\UrlHelper;
 
@@ -53,7 +54,7 @@ class SearchEngine extends Singleton
             // Read first from the auto-updated list in database
             $list = Option::get(self::OPTION_STORAGE_NAME);
 
-            if ($list) {
+            if ($list && SettingsPiwik::isInternetEnabled()) {
                 $this->definitionList = Common::safe_unserialize(base64_decode($list));
             } else {
                 // Fallback to reading the bundled list
@@ -65,27 +66,7 @@ class SearchEngine extends Singleton
 
         Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$this->definitionList));
 
-        $this->convertLegacyDefinitions();
-
         return $this->definitionList;
-    }
-
-    /**
-     * @deprecated remove in 3.0
-     */
-    protected function convertLegacyDefinitions()
-    {
-        foreach ($this->definitionList as $url => $definition) {
-            if (!array_key_exists('name', $definition) && isset($definition[0]) && isset($definition[1])) {
-                $this->definitionList[$url] = array(
-                    'name' => $definition[0],
-                    'params' => $definition[1],
-                    'backlink' => @$definition[2],
-                    'charsets' => @$definition[3]
-                );
-            }
-        }
-
     }
 
     /**

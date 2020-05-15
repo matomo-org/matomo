@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -78,6 +78,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
         foreach ($bulkUrls as &$url) {
             $url = urlencode($url);
         }
+
         return array(
             array('all', array('idSite' => $idSite,
                                'date' => $dateTime,

@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Medel baseras på %1$s träff(ar) %2$s mellan %3$s och %4$s",
+        "ColumnClickedURL": "Klickade utlänkar",
+        "ColumnClickedURLs": "Klickade utlänkar",
         "ColumnActionURL": "Åtgärds-URL",
         "ColumnClicks": "Klick",
         "ColumnClicksDocumentation": "Antalet gånger som denna länk klickades på.",
@@ -30,6 +32,7 @@
         "ColumnUniqueOutlinks": "Unika utlänkar",
         "ColumnIdPageview": "Pageview ID",
         "ColumnInteractionPosition": "Interaktionsplats",
+        "ColumnPageViewPosition": "Position för sidvisning",
         "ActionsInVisit": "Aktiviteter under besök",
         "DownloadsReportDocumentation": "I denna rapport kan du se vilka filer som besökarna har laddat ner. %s Vad Matomo räknar som en nedladdning är klicket på en nedladdningslänk. Oavsett om nedladdningen slutfördes eller inte.",
         "EntryPagesReportDocumentation": "Denna rapport innehåller information om ingångssidor som användes under perioden. En ingångssida är den första sida en användare landar på under sitt besök. %s Ingångs-URL:er visas i en katalogstruktur.",
@@ -55,6 +58,8 @@
         "SiteSearchCategories": "Kategorier (Sajtsökning)",
         "SiteSearchKeyword": "Nyckelord (Webbplatssökning)",
         "SiteSearchKeywords": "Nyckelord (Sajtsökning)",
+        "SiteSearchKeywordCount": "Antal sökord (webbplatssökning)",
+        "SiteSearchKeywordCounts": "Antal sökord (webbplatssökning)",
         "SiteSearchKeywordsDocumentation": "Den här rapporten listar nyckelorden som besökare sökt efter med din interna sökmotor.",
         "SiteSearchKeywordsNoResultDocumentation": "Den här rapporten listar nyckelorden som inte gav något resultat. Möjligtvis kan webbplatsens sökmotor förbättras eller så letar besökarna efter innehåll som inte finns (ännu?)",
         "SubmenuPagesEntry": "Målsidor",

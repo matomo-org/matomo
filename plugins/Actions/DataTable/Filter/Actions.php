@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;
 
 class Actions extends BaseFilter
@@ -54,6 +55,9 @@ class Actions extends BaseFilter
                 }
             }
 
+            $notDefinedUrl = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_URL);
+            $notDefinedTitle = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
+
             foreach ($dataTable->getRows() as $row) {
                 if (!$row->isSummaryRow()) {
                     $url = $row->getMetadata('url');
@@ -75,10 +79,18 @@ class Actions extends BaseFilter
                         if ($row->getIdSubDataTable()) {
                             $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($label))));
                         } else {
-                            $row->setMetadata('segmentValue', urlencode(trim($label)));
+                            if (trim($label) == $notDefinedTitle) {
+                                $row->setMetadata('segmentValue', '');
+                            } else {
+                                $row->setMetadata('segmentValue', urlencode(trim($label)));
+                            }
                         }
                     } else if ($this->actionType == Action::TYPE_PAGE_URL && $urlPrefix) { // folder for older data w/ no folder URL metadata
-                        $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
+                        if ($label === $notDefinedUrl) {
+                            $row->setMetadata('segmentValue', '');
+                        } else {
+                            $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
+                        }
                     }
                 }
 

@@ -1,0 +1,29 @@
+#token_auth { 
+	background-color:#E8FFE9; 
+	border-color:#00CC3A; 
+	border-style: solid;
+	border-width: 1px;
+	margin: 0pt 0pt 16px 8px;
+	padding: 12px;			
+	line-height:4em;
+}
+.example, .example A {
+	color:#9E9E9E;
+}
+
+.page_api{
+	padding:0px 15px 0 15px; 
+	font-size:13px; 
+}
+
+.page_api h2 {
+	border-bottom:1px solid #DADADA;
+	margin:10px -15px 15px 0px;
+	padding:0pt 0px 5px 0pt;
+	font-size:24px;
+}
+
+.page_api p {
+	line-height:140%;
+	padding-bottom:20px;
+}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -167,6 +167,12 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             '/vendor',
             '/plugins',
         );
+
+        $additionForPlugins = '
+        <alwaysAllowedUrls>
+          <add url="/plugins/HeatmapSessionRecording/configs.php" />
+        </alwaysAllowedUrls>';
+
         foreach ($directoriesToProtect as $directoryToProtect) {
             @file_put_contents(PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
                 '<?xml version="1.0" encoding="UTF-8"?>
@@ -176,7 +182,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <requestFiltering>
         <denyUrlSequences>
           <add sequence=".php" />
-        </denyUrlSequences>
+        </denyUrlSequences>' . ($directoryToProtect === '/plugins' ? $additionForPlugins : '') . '
       </requestFiltering>
     </security>
   </system.webServer>

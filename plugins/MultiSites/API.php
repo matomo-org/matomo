@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -66,7 +66,7 @@ class API extends \Piwik\Plugin\API
      * well as the evolution of these values, of all existing sites over a
      * specified period of time.
      *
-     * If the specified period is not a 'range', this function will calculcate
+     * If the specified period is not a 'range', this function will calculate
      * evolution metrics. Evolution metrics are metrics that display the
      * percent increase/decrease of another metric since the last period.
      *
@@ -161,7 +161,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Same as getAll but for a unique Matomo site
-     * @see Piwik\Plugins\MultiSites\API::getAll()
+     * @see \Piwik\Plugins\MultiSites\API::getAll()
      *
      * @param int $idSite Id of the Matomo site
      * @param string $period The period type to get data for.
@@ -455,7 +455,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets the number of total visits in tha pastTable on the dataTable as metadata.
+     * Sets the number of total visits in the pastTable on the dataTable as metadata.
      *
      * @param DataTable $dataTable
      * @param DataTable $pastTable

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,7 +12,7 @@ namespace Piwik\Category;
  *
  * All widgets within a subcategory will be rendered in the Piwik reporting UI under the same page. By default
  * you do not have to specify any subcategory as they are created automatically. Only create a subcategory if you
- * want to change the name for a specific subcategoryId or if you want to specifiy a different order so the subcategory
+ * want to change the name for a specific subcategoryId or if you want to specify a different order so the subcategory
  * appears eg at a different order in the reporting menu. It also affects the order of reports in
  * `API.getReportMetadata` and wherever we display any reports.
  *
@@ -77,7 +77,7 @@ class Subcategory
     }
 
     /**
-     * Get the specifed categoryId see {@link $categoryId}.
+     * Get the specified categoryId see {@link $categoryId}.
      *
      * @return string
      */
