@@ -65,7 +65,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should change segment when another available segment clicked in segment editor's available segments dropdown", async function() {
-        await (await page.jQuery('.ui-menu-item a:contains(Add new segment)')).click();
+        await (await page.jQuery('.segmentationContainer div:contains(Add new segment)')).click();
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('6_segment_editor_different');
     });

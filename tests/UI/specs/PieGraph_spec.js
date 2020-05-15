@@ -31,7 +31,7 @@ describe("PieGraph", function () {
 
     it("should change displayed metric when another metric picked", async function () {
         await page.waitForSelector('.jqplot-seriespicker-popover input');
-        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):eq(0)');
         await element.click();
 
         await page.waitForNetworkIdle();

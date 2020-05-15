@@ -116,7 +116,7 @@ describe("UsersManager", function () {
         await page.click('.toggle-select-all-in-search'); // reselect all in search
 
         await page.click('.bulk-actions.btn');
-        await (await page.jQuery('#user-list-bulk-actions>li:first > a')).hover();
+        await (await page.jQuery('a[data-activates=user-list-bulk-actions]')).hover();
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitFor(350); // wait for animation
 
