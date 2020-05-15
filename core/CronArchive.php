@@ -2119,6 +2119,12 @@ class CronArchive
 
     public function isAlreadyArchivingUrl($url, $idSite, $period, $date)
     {
+        if (!empty($this->segmentsToForce)) {
+            // we ignore checking for any running command in the background so a user can launch multiple cronjob entries
+            // at the same time where each of them forces a differet segment
+            return false;
+        }
+
         $periodInProgress = $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
         if ($periodInProgress) {
             $this->logger->info("- skipping archiving for period '{period}' because processing the period '{periodcheck}' is already in progress.", array('period' => $period, 'periodcheck' => $periodInProgress));
