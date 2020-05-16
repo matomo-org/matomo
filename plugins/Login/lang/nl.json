@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Brute Force Log",
         "ConfirmationLinkSent": "Een bevestigingslink is naar uw inbox verstuurd. Controleer uw e-mail en bezoek deze link om uw aanvraag voor een wijziging van uw wachtwoord te autoriseren.",
         "ContactAdmin": "Mogelijke oorzaak: Je host heeft de mail() functie uitgeschakeld. <br \/>Contacteer je Matomo-beheerder.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Een gebruiker met Super User toegang kan niet geauthenticeerd worden met het '%s' mechanisme.",
@@ -10,6 +11,16 @@
         "InvalidUsernameEmail": "Ongeldige gebruikersnaam of e-mailadres.",
         "LogIn": "Inloggen",
         "LoginOrEmail": "Gebruikersnaam of e-mail",
+        "SettingBruteForceEnable": "Schakel Brute Force Detection in",
+        "SettingBruteForceWhitelistIp": "Blokkeer nooit deze IP's om in te loggen",
+        "SettingBruteForceBlacklistIp": "Blokkeer altijd deze IP's om in te loggen",
+        "SettingBruteForceMaxFailedLogins": "Aantal toegestane inlogpogingen binnen tijdsperiode",
+        "SettingBruteForceTimeRange": "Tel aanmeldingspogingen binnen dit tijdsbereik in minuten",
+        "SettingBruteForceTimeRangeHelp": "Voer een aantal minuten in",
+        "CurrentlyBlockedIPs": "Momenteel geblokkeerde IP's",
+        "IPsAlwaysBlocked": "Deze IP's zijn altijd geblokkeerd",
+        "UnblockAllIPs": "Deblokkeer alle momenteel geblokkeerde IP's",
+        "CurrentlyBlockedIPsUnblockConfirm": "Weet je zeker dat je alle geblokkeerde IP's wilt deblokkeren?",
         "LoginPasswordNotCorrect": "Verkeerde gebruikersnaam- en wachtwoordcombinatie.",
         "LostYourPassword": "Wachtwoord vergeten?",
         "ChangeYourPassword": "Wijzig je wachtwoord",
