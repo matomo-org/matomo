@@ -79,14 +79,16 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($token));
     }
 
-    public function test_onCreateAppSpecificTokenAuth_returnsRandomTokenWhenNotAuthenticatedEvenWhen2FAenabled()
+    public function test_onCreateAppSpecificTokenAuth_failsWhenNotAuthenticatedEvenWhen2FAenabled()
     {
-        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The current password you entered is not correct.');
+
+        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => 'invalidPAssword',
             'description' => 'twofa test'
         ));
-        $this->assertEquals(32, strlen($token));
     }
 
     public function test_onCreateAppSpecificTokenAuth_throwsErrorWhenMissingTokenWhenUsing2FaAndAuthenticatedCorrectly()

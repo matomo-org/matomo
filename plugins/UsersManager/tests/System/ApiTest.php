@@ -103,14 +103,13 @@ class ApiTest extends SystemTestCase
         $this->assertSame('login1', $user['login']);
     }
 
-    public function test_createAppSpecificTokenAuth_generatesRandomTokenWhenPasswordNotValid()
+    public function test_createAppSpecificTokenAuth_failsWhenPasswordNotValid()
     {
-        $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', 'foooooo', 'test');
-        $this->assertMd5($token);
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The current password you entered is not correct.');
 
-        $user = $this->model->getUserByTokenAuth($token);
-        $this->assertEmpty($user);
+        $this->model->deleteAllTokensForUser('login1');
+        $this->api->createAppSpecificTokenAuth('login1', 'foooooo', 'test');
     }
 
     public function test_createAppSpecificTokenAuth_withExpireDate()
