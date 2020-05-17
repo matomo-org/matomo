@@ -82,7 +82,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function test_onCreateAppSpecificTokenAuth_failsWhenNotAuthenticatedEvenWhen2FAenabled()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('The current password you entered is not correct.');
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
         Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
