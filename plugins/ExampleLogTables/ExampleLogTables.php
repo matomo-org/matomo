@@ -8,11 +8,19 @@
  */
 namespace Piwik\Plugins\ExampleLogTables;
 
+use Piwik\Common;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 
 class ExampleLogTables extends \Piwik\Plugin
 {
+    public function registerEvents()
+    {
+        return [
+            'Db.getTablesInstalled' => 'getTablesInstalled'
+        ];
+    }
+
     public function install()
     {
         // Install custom log table [disabled as example only]
@@ -22,5 +30,16 @@ class ExampleLogTables extends \Piwik\Plugin
 
         // $userLog = new CustomGroupLog();
         // $userLog->install();
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('log_group');
+        $allTablesInstalled[] = Common::prefixTable('log_custom');
     }
 }

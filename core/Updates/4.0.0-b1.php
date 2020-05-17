@@ -46,7 +46,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             'idusertokenauth' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
             'login' => 'VARCHAR(100) NOT NULL',
             'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
-            'password' => 'VARCHAR(255) NOT NULL',
+            'password' => 'VARCHAR(191) NOT NULL',
             'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
             'hash_algo' => 'VARCHAR(30) NOT NULL',
             'last_used' => 'DATETIME NULL',
@@ -87,6 +87,20 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
         }
 
+        // Prepare all installed tables for utf8mb4 conversions. e.g. make some indexed fields smaller so they don't exceed the maximum key length
+        $allTables = DbHelper::getTablesInstalled();
+
+        $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
+        $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
+        $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
+
+        foreach ($allTables as $table) {
+            if (preg_match('/archive_/', $table) == 1) {
+                $tableNameUnprefixed = Common::unprefixTable($table);
+                $migrations[] = $this->migration->db->changeColumnType($tableNameUnprefixed, 'name', 'VARCHAR(190)');
+            }
+        }
+
         // Move the site search fields of log_visit out of custom variables into their own fields
         $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_cat', 'VARCHAR(200) NULL');
         $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_count', 'INTEGER(10) UNSIGNED NULL');
@@ -102,6 +116,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
+
+        $config = Config::getInstance();
+
+        if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
+            $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
+        }
+
         return $migrations;
     }
 
@@ -112,14 +133,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
-        }
-
-        // @todo migrate that to a config migration. See utf8mb4 branch
-        $config = Config::getInstance();
-
-        if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
-            $config->mail['type'] === 'Cram-md5';
-            $config->forceSave();
         }
     }
 
