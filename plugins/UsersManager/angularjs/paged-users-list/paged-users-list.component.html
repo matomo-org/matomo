@@ -5,7 +5,7 @@
                 <a
                         class='dropdown-trigger btn bulk-actions'
                         href=''
-                        data-activates='user-list-bulk-actions'
+                        data-target='user-list-bulk-actions'
                         piwik-dropdown-menu
                         ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
                 >
@@ -15,7 +15,7 @@
                     <li>
                         <a
                                 class='dropdown-trigger'
-                                data-activates="bulk-set-access"
+                                data-target="bulk-set-access"
                                 piwik-dropdown-menu
                         >
                             {{:: 'UsersManager_SetPermission'|translate }}

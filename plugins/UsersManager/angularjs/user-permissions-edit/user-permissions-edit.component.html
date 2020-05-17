@@ -34,7 +34,7 @@
                 <a
                     class='dropdown-trigger btn'
                     href=''
-                    data-activates='user-permissions-edit-bulk-actions'
+                    data-target='user-permissions-edit-bulk-actions'
                     piwik-dropdown-menu
                     ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
                 >
@@ -42,7 +42,7 @@
                 </a>
                 <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
                     <li>
-                        <a class='dropdown-trigger' data-activates="user-permissions-bulk-set-access" piwik-dropdown-menu>{{:: 'UsersManager_SetPermission'|translate }}</a>
+                        <a class='dropdown-trigger' data-target="user-permissions-bulk-set-access" piwik-dropdown-menu>{{:: 'UsersManager_SetPermission'|translate }}</a>
                         <ul id="user-permissions-bulk-set-access" class="dropdown-content">
                             <li ng-repeat="access in $ctrl.accessLevels">
                                 <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showChangeAccessConfirm();">{{ access.value }}</a>
