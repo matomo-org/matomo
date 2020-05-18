@@ -86,18 +86,6 @@ request_uri = "@REQUEST_URI@"
 port =
 enable_logging = 0
 
-; access key and secret as listed in AWS -> IAM -> Users
-aws_accesskey = ""
-aws_secret = ""
-; key pair name as listed in AWS -> EC2 -> Key Pairs. Key name should be different per user.
-aws_keyname = ""
-; PEM file can be downloaded after creating a new key pair in AWS -> EC2 -> Key Pairs
-aws_pem_file = "<path to pem file>"
-aws_securitygroups[] = "default"
-aws_region = "us-east-1"
-aws_ami = "ami-ac24bac4"
-aws_instance_type = "c3.large"
-
 [log]
 ; possible values for log: screen, database, file
 log_writers[] = screen
