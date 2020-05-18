@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
+
 /**
  * Convenient key-value storage for user specified options and temporary
  * data that needs to be persisted beyond one request.
@@ -163,6 +165,7 @@ class Option
 
     protected function clearCachedOptionByName($name)
     {
+        $name = $this->trimOptionNameIfNeeded($name);
         if (isset($this->all[$name])) {
             unset($this->all[$name]);
         }
@@ -170,6 +173,7 @@ class Option
 
     protected function getValue($name)
     {
+        $name = $this->trimOptionNameIfNeeded($name);
         $this->autoload();
         if (isset($this->all[$name])) {
             return $this->all[$name];
@@ -185,6 +189,7 @@ class Option
     protected function setValue($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
+        $name     = $this->trimOptionNameIfNeeded($name);
 
         $sql  = 'UPDATE `' . Common::prefixTable('option') . '` SET option_value = ?, autoload = ? WHERE option_name = ?';
         $bind = array($value, $autoLoad, $name);
@@ -209,6 +214,7 @@ class Option
 
     protected function deleteValue($name, $value)
     {
+        $name   = $this->trimOptionNameIfNeeded($name);
         $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?';
         $bind[] = $name;
 
@@ -224,6 +230,7 @@ class Option
 
     protected function deleteNameLike($name, $value = null)
     {
+        $name   = $this->trimOptionNameIfNeeded($name);
         $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind[] = $name;
 
@@ -239,6 +246,7 @@ class Option
 
     protected function getNameLike($name)
     {
+        $name = $this->trimOptionNameIfNeeded($name);
         $sql  = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind = array($name);
         $rows = Db::fetchAll($sql, $bind);
@@ -271,5 +279,15 @@ class Option
         }
 
         $this->loaded = true;
+    }
+
+    private function trimOptionNameIfNeeded($name)
+    {
+        if (strlen($name) > 191) {
+            StaticContainer::get('Psr\Log\LoggerInterface')->debug("Option name '$name' is too long and was trimmed to 191 chars");
+            $name = substr($name, 0, 191);
+        }
+
+        return $name;
     }
 }

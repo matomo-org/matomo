@@ -24,6 +24,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
+use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
@@ -182,9 +183,20 @@ class PrivacyManager extends Plugin
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Template.pageFooter' => 'renderPrivacyPolicyLinks',
+            'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
+            'Template.pageFooter'                     => 'renderPrivacyPolicyLinks',
+            'Db.getTablesInstalled'                   => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable(LogDataAnonymizations::getDbTableName());
     }
 
     public function isTrackerPlugin()

@@ -39,8 +39,19 @@ class LanguagesManager extends \Piwik\Plugin
             'Platform.initialized'                       => 'initLanguage',
             'UsersManager.deleteUser'                    => 'deleteUserLanguage',
             'Template.topBar'                            => 'addLanguagesManagerToOtherTopBar',
-            'Template.jsGlobalVariables'                 => 'jsGlobalVariables'
+            'Template.jsGlobalVariables'                 => 'jsGlobalVariables',
+            'Db.getTablesInstalled'                      => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('user_language');
     }
 
     public function getJsFiles(&$jsFiles)

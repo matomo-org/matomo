@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IPUtils;
+use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\API;
@@ -447,10 +448,22 @@ class RequestTest extends IntegrationTestCase
      * @group invalidChars
      * @dataProvider getInvalidCharacterUrls
      */
-    public function testInvalidCharacterRemoval($url, $expectedUrl)
+    public function testInvalidCharacterRemovalForUtf8($url, $expectedUrl)
     {
+        Config::getInstance()->database['charset'] = 'utf8';
         $request = $this->buildRequest(array('url' => $url));
         $this->assertEquals($expectedUrl, $request->getParam('url'));
+    }
+
+    /**
+     * @group invalidChars
+     * @dataProvider getInvalidCharacterUrls
+     */
+    public function test4ByteCharacterRemainForUtf8mb4($url, $expectedUrl)
+    {
+        Config::getInstance()->database['charset'] = 'utf8mb4';
+        $request = $this->buildRequest(array('url' => $url));
+        $this->assertEquals($url, $request->getParam('url'));
     }
 
     public function getInvalidCharacterUrls()

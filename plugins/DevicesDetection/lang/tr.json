@@ -48,6 +48,7 @@
         "TV": "TV",
         "UserAgent": "User-Agent",
         "XVisitsFromDevices": "%2$s aygıttan %1$s ziyaret",
+        "Wearable": "Giyilebilir",
         "WidgetBrowsers": "Ziyaretçi Tarayıcısı",
         "WidgetBrowsersDocumentation": "Bu rapor ziyaretçilerinizin kullandığı tarayıcı türlerini kapsar. Tarayıcı sürümleri ayrı ayrı listelenmiştir."
     }
