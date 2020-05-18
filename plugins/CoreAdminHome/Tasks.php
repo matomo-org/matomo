@@ -277,6 +277,12 @@ class Tasks extends \Piwik\Plugin\Tasks
         if (empty($purgedDates[$yesterdayStr])) {
             $this->archivePurger->purgeInvalidatedArchivesFrom($yesterday);
         }
+
+        // handle year start table
+        $yearStart = $today->toString('Y-01');
+        if (empty($purgedDates[$yearStart])) {
+            $this->archivePurger->purgeInvalidatedArchivesFrom(Date::factory($yearStart . '-01'));
+        }
     }
 
     public function optimizeArchiveTable()
