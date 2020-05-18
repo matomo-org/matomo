@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -261,7 +261,7 @@ class Archive implements ArchiveQuery
         // if only one metric is returned, just return it as a numeric value
         if (empty($resultIndices)
             && count($result) <= 1
-            && (!is_array($names) || count($names) == 1)
+            && (!is_array($names) || count($names) === 1)
         ) {
             $result = (float)reset($result); // convert to float in case $result is empty
         }
@@ -461,7 +461,7 @@ class Archive implements ArchiveQuery
 
         // apply idSubtable
         if ($idSubtable !== null
-            && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
+            && $idSubtable !== self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             // this is also done in ArchiveSelector. It should be actually only done in ArchiveSelector but DataCollection
             // does require to have the subtableId appended. Needs to be changed in refactoring to have it only in one
@@ -489,7 +489,7 @@ class Archive implements ArchiveQuery
 
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
 
-        $isNumeric = $archiveDataType == 'numeric';
+        $isNumeric = $archiveDataType === 'numeric';
 
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
@@ -531,7 +531,7 @@ class Archive implements ArchiveQuery
             if (!isset($this->idarchives[$doneFlag])) {
                 $archiveGroup = $this->getArchiveGroupOfPlugin($plugin);
 
-                if ($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
+                if ($archiveGroup === self::ARCHIVE_ALL_PLUGINS_FLAG) {
                     $archiveGroup = reset($plugins);
                 }
                 $archiveGroups[] = $archiveGroup;
@@ -581,7 +581,7 @@ class Archive implements ArchiveQuery
                 if ($period->getLabel() === 'day'
                     && !$this->params->getSegment()->isEmpty()
                     && Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
-                    && $period->getDateStart()->toString() == Date::factory('now', $site->getTimezone())->toString()
+                    && $period->getDateStart()->toString() === Date::factory('now', $site->getTimezone())->toString()
                 ) {
 
                     Log::debug("Skipping archive %s for %s as segment today is disabled", $period->getLabel(), $period->getPrettyString());

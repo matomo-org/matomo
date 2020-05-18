@@ -2,10 +2,10 @@
 <result>
 	<nb_uniq_visitors>42</nb_uniq_visitors>
 	<nb_users>3</nb_users>
-	<nb_visits>44</nb_visits>
+	<nb_visits>43</nb_visits>
 	<nb_actions>51</nb_actions>
-	<nb_visits_converted>40</nb_visits_converted>
-	<bounce_count>38</bounce_count>
+	<nb_visits_converted>39</nb_visits_converted>
+	<bounce_count>37</bounce_count>
 	<sum_visit_length>553</sum_visit_length>
 	<max_actions>3</max_actions>
 	<bounce_rate>86%</bounce_rate>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -202,6 +202,55 @@ class DbHelper
     {
         $result = Db::get()->fetchOne('SHOW INDEX FROM '.$table.' WHERE Key_name = ?', [$indexName]);
         return !empty($result);
+    }
+
+    /**
+     * Returns the default database charset to use
+     *
+     * Returns utf8mb4 if supported, with fallback to utf8
+     *
+     * @return string
+     * @throws Tracker\Db\DbException
+     */
+    public static function getDefaultCharset()
+    {
+        $result = Db::get()->fetchRow("SHOW CHARACTER SET LIKE 'utf8mb4'");
+
+        if (empty($result)) {
+            return 'utf8'; // charset not available
+        }
+
+        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'character_set_database'");
+
+        if (!empty($result) && $result['Value'] === 'utf8mb4') {
+            return 'utf8mb4'; // database has utf8mb4 charset, so assume it can be used
+        }
+
+        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'innodb_file_per_table'");
+
+        if (empty($result) || $result['Value'] !== 'ON') {
+            return 'utf8'; // innodb_file_per_table is required for utf8mb4
+        }
+
+        return 'utf8mb4';
+    }
+
+    /**
+     * Returns sql queries to convert all installed tables to utf8mb4
+     *
+     * @return array
+     */
+    public static function getUtf8mb4ConversionQueries()
+    {
+        $allTables = DbHelper::getTablesInstalled();
+
+        $queries   = [];
+
+        foreach ($allTables as $table) {
+            $queries[] = "ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8mb4;";
+        }
+
+        return $queries;
     }
 
     /**

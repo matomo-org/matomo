@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,6 +19,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
+use Piwik\Version;
 
 /**
  * @group Archiver
@@ -40,7 +41,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
         $cronarchive->setApiToInvalidateArchivedReport($api);
-        $cronarchive->init();
+        $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
         /**
          * should look like this but the result is random
@@ -63,21 +64,6 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertSame(array(2), $invalidatedReports[1][0]);
         $this->assertSame('2014-04-06', $invalidatedReports[1][1]);
 
-    }
-
-    public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
-    {
-        Fixture::createWebsite('2014-12-12 00:01:02');
-        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
-        SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
-        SegmentAPI::getInstance()->add('burb', 'actions>=3', 1, true, true);
-        SegmentAPI::getInstance()->add('sub', 'actions>=4', 1, true, true);
-
-        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
-        $cronarchive->setSegmentsToForceFromSegmentIds(array(2, 4));
-
-        $expectedSegments = array('actions>=2', 'actions>=4');
-        $this->assertEquals($expectedSegments, array_values($cronarchive->segmentsToForce));
     }
 
     public function test_wasSegmentCreatedRecently()
@@ -141,66 +127,121 @@ class CronArchiveTest extends IntegrationTestCase
         $logger = new FakeLogger();
 
         $archiver = new CronArchive(null, $logger);
-        $archiver->shouldArchiveAllSites = true;
-        $archiver->shouldArchiveAllPeriodsSince = true;
-        $archiver->segmentsToForce = array('actions>=2;browserCode=FF', 'actions>=2');
+
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setSegmentsToForce(['actions>=2;browserCode=FF', 'actions>=2']);
+        $archiver->setArchiveFilter($archiveFilter);
+
         $archiver->init();
         $archiver->run();
 
+        $version = Version::VERSION;
         $expected = <<<LOG
 ---------------------------
 INIT
-Running Matomo %s as Super User
+Running Matomo $version as Super User
 ---------------------------
 NOTES
 - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
   See the doc at: https://matomo.org/docs/setup-auto-archiving/
 - Async process archiving supported, using CliMulti.
-- Reports for today will be processed at most every %s seconds. You can change this value in Matomo UI > Settings > General Settings.
-- Reports for the current week/month/year will be requested at most every %s seconds.
-- Will process all 1 websites
+- Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
 - Limiting segment archiving to following segments:
   * actions>=2;browserCode=FF
   * actions>=2
 ---------------------------
 START
 Starting Matomo reports archiving...
-Will pre-process for website id = 1, period = day, date = last%s
-- pre-processing all visits
-- skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2 [date = last52]
-Archived website id = 1, period = day, 1 segments, 1 visits in last %s days, 1 visits today, Time elapsed: %s
-- skipping segment archiving for 'actions>=4'.
-Will pre-process for website id = 1, period = week, date = last%s
-- pre-processing all visits
-- pre-processing segment 1/1 actions>=2 [date = last260]
-Archived website id = 1, period = week, 1 segments, 1 visits in last %s weeks, 1 visits this week, Time elapsed: %s
-- skipping segment archiving for 'actions>=4'.
-Will pre-process for website id = 1, period = month, date = last%s
-- pre-processing all visits
-- pre-processing segment 1/1 actions>=2 [date = last52]
-Archived website id = 1, period = month, 1 segments, 1 visits in last %s months, 1 visits this month, Time elapsed: %s
-- skipping segment archiving for 'actions>=4'.
-Will pre-process for website id = 1, period = year, date = last%s
-- pre-processing all visits
-- pre-processing segment 1/1 actions>=2 [date = last7]
-Archived website id = 1, period = year, 1 segments, 1 visits in last %s years, 1 visits this year, Time elapsed: %s
-Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]
-Done archiving!
----------------------------
-SUMMARY
-Total visits for today across archived websites: 1
-Archived today's reports for 1 websites
-Archived week/month/year for 1 websites
-Skipped 0 websites
-- 0 skipped because no new visit since the last script execution
-- 0 skipped because existing daily reports are less than 900 seconds old
-- 0 skipped because existing week/month/year periods reports are less than 3600 seconds old
-Total API requests: %s
-done: 1/1 100%, 1 vtoday, 1 wtoday, 1 wperiods, %s req, %s ms, no error
-Time elapsed: %s
+Checking for queued invalidations...
+  Today archive can be skipped due to no visits, skipping invalidation...
+  Yesterday archive can be skipped due to no visits, skipping invalidation...
+  Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
+  Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
+Done invalidating
+Start processing archives for site 1.
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, day (2014-12-11,2014-12-11), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2014-12-12,2014-12-12), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2014-12-13,2014-12-13), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, day (2014-12-14,2014-12-14), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2014-12-15,2014-12-15), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2014-12-22,2014-12-22), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, day (2014-12-29,2014-12-29), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2014-12-30,2014-12-30), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2014-12-31,2014-12-31), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, day (2015-01-01,2015-01-01), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2016-01-01,2016-01-01), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2017-01-01,2017-01-01), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, day (2018-01-01,2018-01-01), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2019-01-01,2019-01-01), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, day (2020-01-01,2020-01-01), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, week (2014-12-08,2014-12-14), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, week (2014-12-15,2014-12-21), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, week (2014-12-22,2014-12-28), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, week (2014-12-29,2015-01-04), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, week (2015-12-28,2016-01-03), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, week (2016-12-26,2017-01-01), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, week (2018-01-01,2018-01-07), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, week (2018-12-31,2019-01-06), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, week (2019-12-30,2020-01-05), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, month (2014-12-01,2014-12-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, month (2015-01-01,2015-01-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, month (2016-01-01,2016-01-31), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, month (2017-01-01,2017-01-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, month (2018-01-01,2018-01-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, month (2019-01-01,2019-01-31), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, month (2020-01-01,2020-01-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, year (2014-01-01,2014-12-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, year (2015-01-01,2015-12-31), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found no visits for site ID = 1, year (2016-01-01,2016-12-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, year (2017-01-01,2017-12-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, year (2018-01-01,2018-12-31), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+No next invalidated archive.
+Found no visits for site ID = 1, year (2019-01-01,2019-12-31), site is using the tracker so skipping archiving...
+Found no visits for site ID = 1, year (2020-01-01,2020-12-31), site is using the tracker so skipping archiving...
+No next invalidated archive.
+Finished archiving for site 1, 38 API requests, Time elapsed: %d.%ds [1 / 1 done]
+No more sites left to archive, stopping.
 
 LOG;
+
         $this->assertStringMatchesFormat($expected, $logger->output);
     }
 
@@ -221,194 +262,25 @@ LOG;
 
         $expected = <<<LOG
 - Will process 2 websites (--force-idsites)
-Will ignore websites and help finish a previous started queue instead. IDs: 1
+- Will process specified sites: 1
 ---------------------------
 START
 Starting Matomo reports archiving...
-Will pre-process for website id = 1, period = day, date = last52
-- pre-processing all visits
+Checking for queued invalidations...
+  Today archive can be skipped due to no visits, skipping invalidation...
+  Yesterday archive can be skipped due to no visits, skipping invalidation...
+Done invalidating
+Start processing archives for site 1.
+No next invalidated archive.
 LOG;
 
         self::assertStringContainsString($expected, $logger->output);
     }
 
-    /**
-     * @dataProvider getTestDataForIsThereAValidArchiveForPeriod
-     */
-    public function test_isThereAValidArchiveForPeriod_modifiesLastNCorrectly($archiveRows, $idSite, $period, $date, $expected)
-    {
-        Date::$now = strtotime('2015-03-04 05:05:05');
-
-        Fixture::createWebsite('2014-12-12 00:01:02');
-
-        $this->insertArchiveData($archiveRows);
-
-        $cronArchive = new CronArchive();
-        $result = $cronArchive->isThereAValidArchiveForPeriod($idSite, $period, $date);
-
-        $this->assertEquals($expected, $result);
-    }
-
-    public function getTestDataForIsThereAValidArchiveForPeriod()
-    {
-        return [
-            // single periods that include today (we don't perform the check and just archive since we assume today is invalid)
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'day',
-                '2015-03-04',
-                [false, '2015-03-04'],
-            ],
-            [
-                [],
-                1,
-                'week',
-                '2015-03-04',
-                [false, '2015-03-04'],
-            ],
-            [
-                [],
-                1,
-                'month',
-                '2015-03-04',
-                [false, '2015-03-04'],
-            ],
-            [
-                [],
-                1,
-                'year',
-                '2015-03-04',
-                [false, '2015-03-04'],
-            ],
-
-            // single periods that do not include today
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-02', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'day',
-                '2015-03-02',
-                [true, '2015-03-02'],
-            ],
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-01', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'day',
-                '2015-03-02',
-                [false, '2015-03-02'],
-            ],
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2015-02-16', 'date2' => '2015-02-22', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'week',
-                '2015-02-17',
-                [true, '2015-02-17'],
-            ],
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2015-02-15', 'date2' => '2015-02-21', 'name' => 'done', 'value' => 4],
-                ],
-                1,
-                'week',
-                '2015-02-17',
-                [false, '2015-02-17'],
-            ],
-
-            // lastN periods
-            [ // last day invalid, some valid in between
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
-                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-03', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
-                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2015-02-28', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
-                ],
-                1,
-                'day',
-                'last5',
-                [false, 'last5'],
-            ],
-            [ // last two invalid, rest valid
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 4],
-                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-03', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 4],
-                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-02', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-01', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2015-02-28', 'date2' => '2015-02-28', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'day',
-                'last5',
-                [false, 'last2'],
-            ],
-            [ // all valid
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-04', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-03', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-02', 'date2' => '2015-03-02', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2015-03-01', 'date2' => '2015-03-01', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2015-02-28', 'date2' => '2015-02-28', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'day',
-                'last5',
-                [false, 'last2'],
-            ],
-            [ // month w/ last 3 invalid, today valid
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2015-03-01', 'date2' => '2015-03-31', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 2, 'idsite' => 1, 'period' => 3, 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'name' => 'done', 'value' => 4],
-                    ['idarchive' => 3, 'idsite' => 1, 'period' => 3, 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'name' => 'done', 'value' => 4],
-                    ['idarchive' => 4, 'idsite' => 1, 'period' => 3, 'date1' => '2014-12-01', 'date2' => '2014-12-31', 'name' => 'done', 'value' => 1],
-                    ['idarchive' => 5, 'idsite' => 1, 'period' => 3, 'date1' => '2014-11-01', 'date2' => '2014-11-30', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'month',
-                'last5',
-                [false, 'last3'],
-            ],
-
-            // range periods
-            [ // includes today
-                [
-                    ['idarchive' => 5, 'idsite' => 1, 'period' => 5, 'date1' => '2015-03-02', 'date2' => '2015-03-04', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'range',
-                '2015-03-02,2015-03-04',
-                [false, '2015-03-02,2015-03-04'],
-            ],
-            [ // does not include today, invalid
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2015-03-01', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 4],
-                ],
-                1,
-                'range',
-                '2015-03-01,2015-03-03',
-                [false, '2015-03-01,2015-03-03'],
-            ],
-            [ // does not include today, valid
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2015-03-01', 'date2' => '2015-03-03', 'name' => 'done', 'value' => 1],
-                ],
-                1,
-                'range',
-                '2015-03-01,2015-03-03',
-                [true, '2015-03-01,2015-03-03'],
-            ],
-        ];
-    }
-
     public function provideContainerConfig()
     {
+        Date::$now = strtotime('2020-02-03 04:05:06');
+
         return array(
             'Piwik\CliMulti' => \DI\object('Piwik\Tests\Framework\Mock\FakeCliMulti')
         );

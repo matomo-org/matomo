@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -26,11 +26,6 @@ use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
-
-    public function testImagesIncludedInTests()
-    {
-        $this->alertWhenImagesExcludedFromTests();
-    }
 
     /**
      * @dataProvider getApiForTesting

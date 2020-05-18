@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -759,8 +759,8 @@ class   Config
         list($module, $action) = explode('.', $relatedReport);
 
         // don't add the related report if it references this report
-        if ($this->controllerName == $module
-            && $this->controllerAction == $action) {
+        if ($this->controllerName === $module
+            && $this->controllerAction === $action) {
             if (empty($queryParams)) {
                 return;
             }

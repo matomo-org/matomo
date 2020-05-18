@@ -1,6 +1,8 @@
 {
   "GeoIp2": {
     "AssumingNonApache": "Cannot find apache_get_modules function, assuming non-Apache webserver.",
+    "AutomaticSetup": "Automatically configure geolocation using a dbip database",
+    "AutomaticSetupDescription": "For a proper geolocation Matomo requires an external database. Using this option, Matomo will automatically be configured to download and use the latest dbip city level database. [%1$sView licensing terms%2$s]",
     "CannotFindGeoIPDatabaseInArchive": "No valid DBIP / GeoIP database could be found in tar archive %1$s!",
     "CannotFindGeoIPServerVar": "The %s variable is not set. Your server may not be configured correctly.",
     "CannotListContent": "Couldn't list content for %1$s: %2$s",

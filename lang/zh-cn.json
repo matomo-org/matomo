@@ -112,6 +112,7 @@
         "Continue": "继续",
         "ContinueToPiwik": "继续使用Matomo",
         "CurrentlyUsingUnsecureHttp": "您当前正在通过不安全的HTTP使用Matomo。 这会使您的Matomo容易受到安全漏洞的攻击。 您可能还违反了隐私法，因为某些功能（包括选择退出Cookie）将无法使用。 我们建议您将Matomo设置为使用SSL（HTTPS），以提高安全性。",
+        "CreationDate": "创建日期",
         "CreatedByUser": "版权所有 %s",
         "CurrentMonth": "本月",
         "CurrentWeek": "本周",

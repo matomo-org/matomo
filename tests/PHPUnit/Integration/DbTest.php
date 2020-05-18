@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -32,6 +32,30 @@ class DbTest extends IntegrationTestCase
         Db::destroyDatabaseObject();
         Config::getInstance()->database_reader = $this->dbReaderConfigBackup;
         parent::tearDown();
+    }
+
+    // this test is for PDO which will fail if execute() is called w/ a null param value
+    public function test_insertWithNull()
+    {
+        $GLOBALS['abc']=1;
+        $table = Common::prefixTable('testtable');
+        Db::exec("CREATE TABLE `$table` (
+                      testid BIGINT NOT NULL AUTO_INCREMENT,
+                      testvalue BIGINT NULL,
+                      PRIMARY KEY (testid)
+                  )");
+
+        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", ['a' => 4]);
+        Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", ['b' => null]);
+
+        $values = Db::fetchAll("SELECT testid, testvalue FROM `$table`");
+
+        $expected = [
+            ['testid' => 1, 'testvalue' => 4],
+            ['testid' => 2, 'testvalue' => null],
+        ];
+
+        $this->assertEquals($expected, $values);
     }
 
     public function test_getColumnNamesFromTable()

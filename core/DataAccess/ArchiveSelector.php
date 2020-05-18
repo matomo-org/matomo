@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -54,6 +54,7 @@ class ArchiveSelector
      *               - the latest visits converted value for the latest archive, regardless of whether the archive is invalidated or not
      *               - whether there is an archive that exists or not. if this is true and the latest archive is false, it means
      *                 the archive found was not usable (for example, it was invalidated and we are not looking for invalidated archives)
+     *               - the ts_archived for the latest usable archive
      * @throws Exception
      */
     public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = true)
@@ -76,40 +77,41 @@ class ArchiveSelector
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
-            return [false, false, false, false];
+            return [false, false, false, false, false];
         }
 
         $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
 
+        $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
 
         if (isset($result['value'])
             && !in_array($result['value'], $doneFlagValues)
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, $visits, $visitsConverted, true];
+            return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
             && isset($result['idarchive'])
-            && Date::factory($result['ts_archived'])->isEarlier(Date::factory($minDatetimeArchiveProcessedUTC))
+            && Date::factory($tsArchived)->isEarlier(Date::factory($minDatetimeArchiveProcessedUTC))
         ) {
-            return [false, $visits, $visitsConverted, true];
+            return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
         $idArchive = isset($result['idarchive']) ? $result['idarchive'] : false;
 
-        return array($idArchive, $visits, $visitsConverted, true);
+        return [$idArchive, $visits, $visitsConverted, true, $tsArchived];
     }
 
     /**
      * Queries and returns archive IDs for a set of sites, periods, and a segment.
      *
-     * @param array $siteIds
-     * @param array $periods
+     * @param int[] $siteIds
+     * @param Period[] $periods
      * @param Segment $segment
-     * @param array $plugins List of plugin names for which data is being requested.
+     * @param string[] $plugins List of plugin names for which data is being requested.
      * @param bool $includeInvalidated true to include archives that are DONE_INVALIDATED, false if only DONE_OK.
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
@@ -133,6 +135,7 @@ class ArchiveSelector
                                FROM %s
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
+                                AND ts_archived IS NOT NULL
                                 AND %s
                            GROUP BY idsite, date1, date2, name";
 
@@ -178,7 +181,6 @@ class ArchiveSelector
             }
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
-
             $archiveIds = $db->fetchAll($sql, $bind);
 
             // get the archive IDs
@@ -212,7 +214,7 @@ class ArchiveSelector
         $db = Db::get();
 
         // create the SQL to select archive data
-        $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
+        $loadAllSubtables = $idSubtable === Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
         if ($loadAllSubtables) {
             $name = reset($recordNames);
 
@@ -262,7 +264,7 @@ class ArchiveSelector
             // $period = "2009-01-04,2009-01-04",
             $date = Date::factory(substr($period, 0, 10));
 
-            $isNumeric = $archiveDataType == 'numeric';
+            $isNumeric = $archiveDataType === 'numeric';
             if ($isNumeric) {
                 $table = ArchiveTableCreator::getNumericTable($date);
             } else {

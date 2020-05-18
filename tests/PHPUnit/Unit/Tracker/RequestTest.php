@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Cookie;
+use Piwik\Exception\InvalidRequestParameterException;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -298,6 +299,8 @@ class RequestTest extends UnitTestCase
 
     public function test_getIpString_ShouldDefaultToServerAddress_IfCustomIpIsSetButNotAuthenticated()
     {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage('requires valid token_auth');
         $request = $this->buildRequest(array('cip' => '192.192.192.192'));
         $this->assertEquals($_SERVER['REMOTE_ADDR'], $request->getIpString());
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -32,8 +32,19 @@ class Dashboard extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Widget.addWidgetConfigs'                => 'addWidgetConfigs',
             'Category.addSubcategories'              => 'addSubcategories',
-            'Widgetize.shouldEmbedIframeEmpty'       => 'shouldEmbedIframeEmpty'
+            'Widgetize.shouldEmbedIframeEmpty'       => 'shouldEmbedIframeEmpty',
+            'Db.getTablesInstalled'                  => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('user_dashboard');
     }
 
     public function shouldEmbedIframeEmpty(&$shouldEmbedEmpty, $controllerName, $actionName)

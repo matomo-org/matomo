@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -134,7 +134,9 @@ class Updater
         $response = Http::sendHttpRequest($partTwoUrl, 300);
         $response = @json_decode($response, $assoc = true);
 
-        $messages = array_merge($messages, $response);
+        if (!empty($response)) {
+            $messages = array_merge($messages, $response);
+        }
 
         try {
             $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);

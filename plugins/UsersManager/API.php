@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -699,7 +699,8 @@ class API extends \Piwik\Plugin\API
      * @param string   $userLogin          the user login.
      * @param bool|int $hasSuperUserAccess true or '1' to grant Super User access, false or '0' to remove Super User
      *                                     access.
-     * @param string $passwordConfirmation the current user's password.
+     * @param string $passwordConfirmation the current user's password. For security purposes, this value should be
+     *                                     sent as a POST parameter.
      * @throws \Exception
      */
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess, $passwordConfirmation = null)
@@ -1297,7 +1298,8 @@ class API extends \Piwik\Plugin\API
      * If the username/password combination is incorrect an invalid token will be returned.
      *
      * @param string $userLogin Login or Email address
-     * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
+     * @param string $passwordConfirmation the current user's password. For security purposes, this value should be
+     *                                     sent as a POST parameter.
      * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
      * @param string $expireDate Optionally a date when the token should expire
      * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires. 
@@ -1305,10 +1307,8 @@ class API extends \Piwik\Plugin\API
      *                            If expireDate is set and expireHours, then expireDate will be used.
      * @return string
      */
-    public function createAppSpecificTokenAuth($userLogin, $md5Password, $description, $expireDate = null, $expireHours = 0)
+    public function createAppSpecificTokenAuth($userLogin, $passwordConfirmation, $description, $expireDate = null, $expireHours = 0)
     {
-        UsersManager::checkPasswordHash($md5Password, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
-
         $user = $this->model->getUser($userLogin);
         if (empty($user) && Piwik::isValidEmailString($userLogin)) {
             $user = $this->model->getUserByEmail($userLogin);
@@ -1317,19 +1317,16 @@ class API extends \Piwik\Plugin\API
             }
         }
         
-        if (empty($user) || !$this->password->verify($md5Password, $user['password'])) {
-            /**
-             * @ignore
-             * @internal
-             */
-            Piwik::postEvent('Login.authenticate.failed', array($userLogin));
+        if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
+            if (empty($user)) {
+                /**
+                 * @ignore
+                 * @internal
+                 */
+                Piwik::postEvent('Login.authenticate.failed', array($userLogin));
+            }
 
-            return md5($userLogin . microtime(true) . Common::generateUniqId());
-        }
-
-        if ($this->password->needsRehash($user['password'])) {
-            $userUpdater = new UserUpdater();
-            $userUpdater->updateUserWithoutCurrentPassword($userLogin, $this->password->hash($md5Password));
+            throw new \Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
 
         if (empty($expireDate) && !empty($expireHours) && is_numeric($expireHours)) {
@@ -1436,7 +1433,7 @@ class API extends \Piwik\Plugin\API
 
         $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
         $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         $mail->send();
     }

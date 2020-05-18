@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -73,7 +73,7 @@ class JsTrackingCodeMissingEmail extends Mail
         $this->setDefaultFromPiwik();
         $this->addTo($this->emailAddress);
         $this->setSubject($this->getDefaultSubject());
-        $this->setReplyTo($this->getFrom());
+        $this->addReplyTo($this->getFrom(), $this->getFromName());
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 

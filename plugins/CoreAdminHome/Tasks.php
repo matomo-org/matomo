@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -253,11 +253,30 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function purgeInvalidatedArchives()
     {
+        $purgedDates = [];
+
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         foreach ($archivesToPurge->getAllAsDates() as $date) {
             $this->archivePurger->purgeInvalidatedArchivesFrom($date);
 
             $archivesToPurge->removeDate($date);
+
+            $purgedDates[$date->toString('Y-m')] = true;
+        }
+
+        // purge from today if not done already since we will have many archives to remove
+        $today = Date::today();
+        $todayStr = $today->toString('Y-m');
+        if (empty($purgedDates[$todayStr])) {
+            $this->archivePurger->purgeInvalidatedArchivesFrom($today);
+            $purgedDates[$todayStr] = true;
+        }
+
+        // handle yesterday if it belongs to a different month
+        $yesterday = Date::yesterday();
+        $yesterdayStr = $yesterday->toString('Y-m');
+        if (empty($purgedDates[$yesterdayStr])) {
+            $this->archivePurger->purgeInvalidatedArchivesFrom($yesterday);
         }
     }
 

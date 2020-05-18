@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -98,6 +98,9 @@ class ArchivePurger
             $this->logger->debug("No invalidated archives found in {table} with newer, valid archives.", array('table' => $numericTable));
             return 0;
         }
+
+        $emptyIdArchives = $this->model->getPlaceholderArchiveIds($numericTable);
+        $archiveIds = array_merge($archiveIds, $emptyIdArchives);
 
         $this->logger->info("Found {countArchiveIds} invalidated archives safe to delete in {table}.", array(
             'table' => $numericTable, 'countArchiveIds' => count($archiveIds)

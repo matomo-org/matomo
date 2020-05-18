@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,17 +9,25 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration\ReportEmailGenerator;
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\HtmlReportEmailGenerator;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Zend_Mime;
 
+/**
+ * @group HtmlReportEmailGeneratorTest
+ */
 class HtmlReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
      * @var HtmlReportEmailGenerator
      */
     private $testInstance;
+
+    /**
+     * @var PHPMailer
+     */
+    private $mail;
 
     public function setUp(): void
     {
@@ -42,13 +50,24 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
         );
 
         $mail = $this->testInstance->makeEmail($generatedReport);
+        $mail->addTo('noreply@localhost');
+        $mail->send();
 
-        $this->assertEquals('General_Report report - pretty date', $mail->getSubject());
-        $this->assertEquals(Zend_Mime::MULTIPART_RELATED, $mail->getType());
-        $this->assertEquals('report contents', $mail->getBodyHtml()->getContent());
-        $this->assertEquals('Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-', $mail->getBodyHtml()->getHeaders());
+        $this->assertEquals('General_Report report - pretty date', $this->mail->Subject);
+        $this->assertEquals(PHPMailer::CONTENT_TYPE_MULTIPART_ALTERNATIVE, $this->mail->ContentType);
+        $this->assertEquals('report contents', $this->mail->Body);
+    }
+
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
+                    $this->mail = $mail;
+                    $this->mail->preSend();
+                }],
+            ]),
+        ];
     }
 }

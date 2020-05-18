@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -132,7 +132,7 @@ class Common
             return self::$isCliMode;
         }
 
-        if(PHP_SAPI == 'cli'){
+        if(PHP_SAPI === 'cli'){
             return true;
         }
         
@@ -351,7 +351,7 @@ class Common
             foreach (array_keys($value) as $key) {
                 $newKey = $key;
                 $newKey = self::sanitizeInputValues($newKey, $alreadyStripslashed);
-                if ($key != $newKey) {
+                if ($key !== $newKey) {
                     $value[$newKey] = $value[$key];
                     unset($value[$key]);
                 }
@@ -398,7 +398,7 @@ class Common
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         // note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
-        if ($value != '' && $tmp == '') {
+        if ($value !== '' && $tmp === '') {
             // convert and escape
             $value = utf8_encode($value);
             $tmp = htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
@@ -521,7 +521,7 @@ class Common
         // Normal case, there is a value available in REQUEST for the requested varName:
 
         // we deal w/ json differently
-        if ($varType == 'json') {
+        if ($varType === 'json') {
             $value = $requestArrayToUse[$varName];
             $value = json_decode($value, $assoc = true);
             return self::sanitizeInputValues($value, $alreadyStripslashed = true);
@@ -869,7 +869,7 @@ class Common
      */
     public static function getCountry($lang, $enableLanguageToCountryGuess, $ip)
     {
-        if (empty($lang) || strlen($lang) < 2 || $lang == self::LANGUAGE_CODE_INVALID) {
+        if (empty($lang) || strlen($lang) < 2 || $lang === self::LANGUAGE_CODE_INVALID) {
             return self::LANGUAGE_CODE_INVALID;
         }
 
@@ -929,7 +929,7 @@ class Common
         $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
         $languageRegionCode = self::extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages);
 
-        if (strlen($languageRegionCode) == 2) {
+        if (strlen($languageRegionCode) === 2) {
             $languageCode = $languageRegionCode;
         } else {
             $languageCode = substr($languageRegionCode, 0, 2);
@@ -963,7 +963,7 @@ class Common
             }
 
             // If a region tag is found eg. "fr-ca"
-            if (count($parts) == 3) {
+            if (count($parts) === 3) {
                 $regionIso3166 = $parts[2]; // eg. "-ca"
 
                 if (in_array($langIso639 . $regionIso3166, $validLanguages)) {
@@ -996,7 +996,7 @@ class Common
 
         $countryList = $dataProvider->getCountryList();
 
-        if ($country == 'ti') {
+        if ($country === 'ti') {
             $country = 'cn';
         }
 
@@ -1056,7 +1056,7 @@ class Common
             $fields = array($fields);
         }
         $count = count($fields);
-        if ($count == 0) {
+        if ($count === 0) {
             return "''";
         }
         return '?' . str_repeat(',?', $count - 1);

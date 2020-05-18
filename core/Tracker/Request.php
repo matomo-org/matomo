@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\DbHelper;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
@@ -87,13 +88,19 @@ class Request
             }
         }
 
-        // check for 4byte utf8 characters in all tracking params and replace them with �
-        // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
+        // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
     }
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
+        $dbSettings   = new \Piwik\Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
+
+        if ('utf8mb4' === $charset) {
+            return $value; // no need to replace anything if utf8mb4 is supported
+        }
+
         if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
             Common::printDebug("Unsupported character detected in $key. Replacing with \xEF\xBF\xBD");
             return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
@@ -820,7 +827,7 @@ class Request
 
         if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
-            return IP::getIpFromHeader();
+            throw new InvalidRequestParameterException("Tracker API 'cip' was used, requires valid token_auth");
         }
 
         return $cip;

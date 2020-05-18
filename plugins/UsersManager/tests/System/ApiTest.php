@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -86,7 +86,7 @@ class ApiTest extends SystemTestCase
     public function test_createAppSpecificTokenAuth()
     {
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', md5('password'), 'test');
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test');
         $this->assertMd5($token);
 
         $user = $this->model->getUserByTokenAuth($token);
@@ -96,35 +96,26 @@ class ApiTest extends SystemTestCase
     public function test_createAppSpecificTokenAuth_canLoginByEmail()
     {
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1@example.com', md5('password'), 'test');
+        $token = $this->api->createAppSpecificTokenAuth('login1@example.com', 'password', 'test');
         $this->assertMd5($token);
 
         $user = $this->model->getUserByTokenAuth($token);
         $this->assertSame('login1', $user['login']);
     }
 
-    public function test_createAppSpecificTokenAuth_notValidPasswordFormat()
+    public function test_createAppSpecificTokenAuth_failsWhenPasswordNotValid()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('is expecting a MD5-hashed password');
+        $this->expectExceptionMessage('The current password you entered is not correct.');
 
-        $this->api->createAppSpecificTokenAuth('login1', 'foobar', 'test');
-    }
-
-    public function test_createAppSpecificTokenAuth_generatesRandomTokenWhenPasswordNotValid()
-    {
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', md5('foooooo'), 'test');
-        $this->assertMd5($token);
-
-        $user = $this->model->getUserByTokenAuth($token);
-        $this->assertEmpty($user);
+        $this->api->createAppSpecificTokenAuth('login1', 'foooooo', 'test');
     }
 
     public function test_createAppSpecificTokenAuth_withExpireDate()
     {
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', md5('password'), 'test', '2026-01-02 03:04:05');
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', '2026-01-02 03:04:05');
         $this->assertMd5($token);
 
         $tokens = $this->model->getAllNonSystemTokensForLogin('login1');
@@ -138,7 +129,7 @@ class ApiTest extends SystemTestCase
     {
         $expireInHours = 48;
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', md5('password'), 'test', null, $expireInHours);
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, $expireInHours);
         $this->assertMd5($token);
 
         $tokens = $this->model->getAllNonSystemTokensForLogin('login1');

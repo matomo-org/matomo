@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -284,11 +284,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'DBStats'
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
-            if (in_array($pluginName, $this->globalConfig['Plugins']['Plugins'])) {
-                throw new Exception("Plugin $pluginName is enabled by default but shouldn't.");
-            }
+            $this->assertNotContains($pluginName, $this->globalConfig['Plugins']['Plugins'],
+                "Plugin $pluginName is enabled by default but shouldn't.");
         }
-
     }
 
     /**
@@ -558,6 +556,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $icons = implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
+
+        $this->assertTrue(true); // pass
     }
 
     /**
@@ -873,6 +873,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             }
 
             if(strpos($file, 'vendor/php-di/php-di/website/') !== false
+                || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;
             }

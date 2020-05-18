@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -70,6 +70,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     public function testCustomByteRange($method)
     {
         if ($method == 'fopen') {
+            $this->assertTrue(true); // pass
             return; // not supported w/ this method
         }
 
@@ -99,6 +100,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     public function testHEADOperation($method)
     {
         if ($method == 'fopen') {
+            $this->assertTrue(true); // pass
             return; // not supported w/ this method
         }
 

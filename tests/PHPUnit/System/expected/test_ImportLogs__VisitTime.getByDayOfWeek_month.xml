@@ -18,13 +18,13 @@
 	</row>
 	<row>
 		<label>Wednesday</label>
-		<nb_visits>7</nb_visits>
+		<nb_visits>6</nb_visits>
 		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_actions>10</nb_actions>
 		<nb_users>2</nb_users>
 		<sum_visit_length>6</sum_visit_length>
-		<bounce_count>4</bounce_count>
-		<nb_visits_converted>7</nb_visits_converted>
+		<bounce_count>3</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<day_of_week>3</day_of_week>
 	</row>
 	<row>

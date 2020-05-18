@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -225,7 +225,7 @@ class RawLogDao
         $sites = Db::fetchOne("SELECT 1
                 FROM " . Common::prefixTable('log_visit') . "
                 WHERE idsite = ?
-                AND visit_last_action_time > ?
+                AND visit_last_action_time >= ?
                 AND visit_last_action_time < ?
                 LIMIT 1", array($idSite, $fromDateTime, $toDateTime));
 
@@ -450,5 +450,11 @@ class RawLogDao
         }
 
         return $columns;
+    }
+
+    public function getMinimumVisitTimeForSite($idSite)
+    {
+        $sql = "SELECT MIN(visit_last_action_time) FROM " . Common::prefixTable('log_visit') . ' WHERE idsite = ?';
+        return Db::fetchOne($sql, [$idSite]);
     }
 }
