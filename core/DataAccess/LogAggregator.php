@@ -1138,13 +1138,13 @@ class LogAggregator
 
                 $selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
 
-                $selects[] = "sum(case when $column between $lowerBound and $upperBound $extraCondition" .
+                $selects[] = "sum(case when $table.$column between $lowerBound and $upperBound $extraCondition" .
                              " then 1 else 0 end) as `$selectAs`";
             } else {
                 $lowerBound = $gap[0];
 
                 $selectAs  = $selectColumnPrefix . ($lowerBound + 1) . urlencode('+');
-                $selects[] = "sum(case when $column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
+                $selects[] = "sum(case when $table.$column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
             }
         }
 

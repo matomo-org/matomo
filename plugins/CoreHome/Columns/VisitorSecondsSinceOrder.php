@@ -17,8 +17,10 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceOrder extends VisitDimension
 {
+    const COLUMN_TYPE = 'INT(11) UNSIGNED NULL';
+
     protected $columnName = 'visitor_seconds_since_order';
-    protected $columnType = 'INT(11) UNSIGNED NULL';
+    protected $columnType = self::COLUMN_TYPE;
     protected $segmentName = 'secondsSinceLastEcommerceOrder';
     protected $nameSingular = 'General_SecondsSinceLastEcommerceOrder';
     protected $category = 'General_Visitors'; // todo put into ecommerce category?

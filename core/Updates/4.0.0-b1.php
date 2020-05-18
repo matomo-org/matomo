@@ -13,6 +13,7 @@ use Piwik\DataAccess\TableMetadata;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
+use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
@@ -39,6 +40,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
+        $columnsToAdd = [];
+
         $migrations = array();
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
@@ -105,8 +108,21 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         // Move the site search fields of log_visit out of custom variables into their own fields
-        $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_cat', 'VARCHAR(200) NULL');
-        $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_count', 'INTEGER(10) UNSIGNED NULL');
+        $columnsToAdd['log_link_visit_action']['search_cat'] = 'VARCHAR(200) NULL';
+        $columnsToAdd['log_link_visit_action']['search_count'] = 'INTEGER(10) UNSIGNED NULL';
+
+        // replace days to ... dimensions w/ seconds dimensions
+        foreach (['log_visit', 'log_conversion'] as $table) {
+            $columnsToAdd[$table]['visitor_seconds_since_first'] = VisitorSecondsSinceFirst::COLUMN_TYPE;
+            $columnsToAdd[$table]['visitor_seconds_since_order'] = VisitorSecondsSinceOrder::COLUMN_TYPE;
+        }
+        $columnsToAdd['log_visit']['visitor_seconds_since_last'] = VisitorSecondsSinceLast::COLUMN_TYPE;
+
+        foreach ($columnsToAdd as $table => $columns) {
+            $this->migration->db->addColumns($table, $columns);
+        }
+
+        // init new site search fields
         $visitActionTable = Common::prefixTable('log_link_visit_action');
         $migrations[] = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = custom_var_v4 WHERE custom_var_k4 = '_pk_scat'");
         $migrations[] = $this->migration->db->sql("UPDATE $visitActionTable SET search_count = custom_var_v5 WHERE custom_var_k5 = '_pk_scount'");
@@ -119,14 +135,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
-        // replace days to ... dimensions w/ seconds dimensions
-        foreach (['log_visit', 'log_conversion'] as $table) {
-            $migrations[] = $this->migration->db->addColumn($table, 'visitor_seconds_since_first', VisitorSecondsSinceFirst::COLUMN_TYPE);
-            $migrations[] = $this->migration->db->addColumn($table, 'visitor_seconds_since_order', VisitorSecondsSinceFirst::COLUMN_TYPE);
-        }
-
-        $migrations[] = $this->migration->db->addColumn('log_visit', 'visitor_seconds_since_last', VisitorSecondsSinceLast::COLUMN_TYPE);
-
+        // init seconds_to_... columns
         $tableMetadata = new TableMetadata();
         $logVisitColumns = $tableMetadata->getColumns(Common::prefixTable('log_visit'));
         $hasDaysColumnInVisit = in_array('visitor_days_since_first', $logVisitColumns);
@@ -146,6 +155,14 @@ class Updates_4_0_0_b1 extends PiwikUpdates
                 . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
                     visitor_seconds_since_order = visitor_days_since_order * 86400");
         }
+
+        // remove old days_to_... columns
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_seconds_since_first');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_order');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_last');
+
+        $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_first');
+        $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_order');
 
         $config = Config::getInstance();
 
