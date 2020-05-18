@@ -215,7 +215,7 @@ END;
     {
         return [
             'log.handlers' => [\DI\get(FailureLogMessageDetector::class)],
-            LoggerInterface::class => \DI\object(Logger::class)
+            LoggerInterface::class => \DI\create(Logger::class)
                 ->constructor('piwik', \DI\get('log.handlers'), \DI\get('log.processors')),
 
             'observers.global' => \DI\add([

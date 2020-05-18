@@ -35,12 +35,12 @@ return array(
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),
 
-    'Piwik\Plugins\Diagnostics\DiagnosticService' => DI\object()
+    'Piwik\Plugins\Diagnostics\DiagnosticService' => DI\create()
         ->constructor(DI\get('diagnostics.required'), DI\get('diagnostics.optional'), DI\get('diagnostics.disabled')),
 
-    'Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck' => DI\object()
+    'Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck' => DI\autowire()
         ->constructorParameter('minimumMemoryLimit', DI\get('ini.General.minimum_memory_limit')),
 
-    'Piwik\Plugins\Diagnostics\Diagnostic\WriteAccessCheck' => DI\object()
+    'Piwik\Plugins\Diagnostics\Diagnostic\WriteAccessCheck' => DI\autowire()
         ->constructorParameter('tmpPath', DI\get('path.tmp')),
 );

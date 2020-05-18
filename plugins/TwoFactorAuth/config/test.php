@@ -1,8 +1,8 @@
 <?php
 
 return array(
-    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => DI\object('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
-    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\object('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
+    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => DI\create('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
+    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\create('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
     'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication $previous */
 

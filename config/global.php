@@ -1,10 +1,8 @@
 <?php
 
-use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\NotFoundException;
+use Psr\Container\ContainerInterface;
 use Matomo\Cache\Eager;
 use Piwik\SettingsServer;
-use Piwik\Config;
 
 return array(
 
@@ -61,7 +59,7 @@ return array(
         } else {
             try {
                 $backend = $c->get('ini.Cache.backend');
-            } catch (NotFoundException $ex) {
+            } catch (\DI\NotFoundException $ex) {
                 $backend = 'chained'; // happens if global.ini.php is not available
             }
         }
@@ -74,12 +72,12 @@ return array(
 
     'entities.idNames' => DI\add(array('idGoal', 'idDimension')),
 
-    'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
+    'Psr\Log\LoggerInterface' => DI\create('Psr\Log\NullLogger'),
 
-    'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
-        ->constructor(DI\get('Piwik\Translation\Loader\JsonFileLoader')),
+    'Piwik\Translation\Loader\LoaderInterface' => DI\autowire('Piwik\Translation\Loader\LoaderCache')
+        ->constructorParameter('loader', DI\get('Piwik\Translation\Loader\JsonFileLoader')),
 
-    'DeviceDetector\Cache\Cache' => DI\object('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
+    'DeviceDetector\Cache\Cache' => DI\autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
 
     'observers.global' => array(),
 
@@ -146,7 +144,7 @@ return array(
         '*.travis.yml',
     )),
 
-    'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global')),
+    'Piwik\EventDispatcher' => DI\autowire()->constructorParameter('observers', DI\get('observers.global')),
 
     'login.whitelist.ips' => function (ContainerInterface $c) {
         /** @var Piwik\Config\ $config */
@@ -174,17 +172,17 @@ return array(
         return $ipsResolved;
     },
 
-    'Piwik\Tracker\VisitorRecognizer' => DI\object()
+    'Piwik\Tracker\VisitorRecognizer' => DI\autowire()
         ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))
         ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))
         ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor')),
 
-    'Piwik\Tracker\Settings' => DI\object()
+    'Piwik\Tracker\Settings' => DI\autowire()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
 
     'archiving.performance.logger' => null,
 
-    \Piwik\CronArchive\Performance\Logger::class => DI\object()->constructorParameter('logger', DI\get('archiving.performance.logger')),
+    \Piwik\CronArchive\Performance\Logger::class => DI\autowire()->constructorParameter('logger', DI\get('archiving.performance.logger')),
 
     \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
 

@@ -1868,7 +1868,7 @@ log_visit.visit_total_actions
 
         return array(
             'Piwik\Access' => new FakeAccess(),
-            'Piwik\Tracker\TableLogAction\Cache' => \DI\object()->constructorParameter('cache', $cacheProxy),
+            'Piwik\Tracker\TableLogAction\Cache' => \DI\autowire()->constructorParameter('cache', $cacheProxy),
         );
     }
 
