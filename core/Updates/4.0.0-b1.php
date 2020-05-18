@@ -109,7 +109,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
-
         return $migrations;
     }
 

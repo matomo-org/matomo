@@ -239,6 +239,15 @@ describe("UsersManager", function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first>a')).hover();
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
+        await page.waitFor(250); // animation
+
+        await page.evaluate(() => {
+            console.log($('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').length);
+            $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click()
+        });
+
+        await page.waitForNetworkIdle();
+        await page.waitFor(250); // animation
 
         await page.waitFor('.change-access-confirm-modal', { visible: true });
         expect(await page.screenshot({ fullPage: true })).to.matchImage({
@@ -246,16 +255,12 @@ describe("UsersManager", function () {
             comparisonThreshold: 0.0005,
         });
         return;
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
-        await page.waitForNetworkIdle();
-        await page.waitFor(250); // animation
-
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_all_sites_access',
             comparisonThreshold: 0.0005,
         });
     });
-return;
+
     it('should go to the next results page when the next button is clicked', async function () {
         await page.click('.sites-for-permission-pagination a.next');
         await page.waitForNetworkIdle();
