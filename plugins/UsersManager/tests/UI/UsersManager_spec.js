@@ -74,9 +74,9 @@ describe("UsersManager", function () {
     });
 
     it('should select rows when individual row select is clicked', async function () {
-        await (await page.jQuery('td.select-cell label:eq(0)', { waitFor: true })).click();
-        await (await page.jQuery('td.select-cell label:eq(3)', { waitFor: true })).click();
-        await (await page.jQuery('td.select-cell label:eq(8)', { waitFor: true })).click();
+        await (await page.jQuery('td.select-cell input:eq(0) + span', { waitFor: true })).click();
+        await (await page.jQuery('td.select-cell input:eq(3) + span', { waitFor: true })).click();
+        await (await page.jQuery('td.select-cell input:eq(8) + span', { waitFor: true })).click();
         await page.mouse.move(0, 0);
         await page.waitFor(500); // for checkbox animations
 
@@ -84,7 +84,7 @@ describe("UsersManager", function () {
     });
 
     it('should select all rows when all row select is clicked', async function () {
-        await page.click('th.select-cell label');
+        await page.click('th.select-cell input + span');
         await page.mouse.move(0, 0);
         await page.waitFor(500); // for checkbox animations
 
@@ -131,7 +131,7 @@ describe("UsersManager", function () {
     });
 
     it('should remove access to the currently selected site when the bulk remove access option is clicked', async function () {
-        await page.click('th.select-cell label'); // select displayed rows
+        await page.click('th.select-cell input + span'); // select displayed rows
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions)')).click();
@@ -172,7 +172,7 @@ describe("UsersManager", function () {
     });
 
     it('should delete selected users when delete users bulk action is used', async function () {
-        await page.click('th.select-cell label'); // select displayed rows
+        await page.click('th.select-cell input + span'); // select displayed rows
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
@@ -224,7 +224,7 @@ describe("UsersManager", function () {
         });
         await page.waitForNetworkIdle();
 
-        await page.click('.userPermissionsEdit th.select-cell label');
+        await page.click('.userPermissionsEdit th.select-cell input + span');
         await page.waitFor(500); // for angular to re-render
         await page.evaluate(() => $('.userPermissionsEdit tr.select-all-row a').click());
         await page.waitFor(500); // for angular to re-render
@@ -277,9 +277,9 @@ describe("UsersManager", function () {
     });
 
     it('should select multiple rows when individual row selects are clicked', async function () {
-        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(0)')).click();
-        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(3)')).click();
-        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(8)')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell input:eq(0) + span')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell input:eq(3) + span')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell input:eq(8) + span')).click();
         await page.mouse.move(-10, -10);
         await page.waitFor(1000); // for checkbox animations
 
@@ -326,7 +326,7 @@ describe("UsersManager", function () {
     });
 
     it('should select all displayed rows when the select all checkbox is clicked', async function () {
-        await page.click('.userPermissionsEdit th.select-cell label');
+        await page.click('.userPermissionsEdit th.select-cell input + span');
         await page.waitFor(250); // for checkbox animations
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
