@@ -109,18 +109,16 @@
                 </p>
 
                 <table>
-                    {% for pluginName, plugin in plugins %}
-                        {% if plugin.uninstallable and not plugin.activated %}
-                            <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
-                                <td style="min-width:200px;">
-                                    {{ pluginName }}
-                                </td>
-                                <td>
-                                    <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
-                                       target="_blank" onclick="return confirm('{{ 'CorePluginsAdmin_UninstallConfirm'|translate(pluginName)|e('js') }}')">uninstall</a>
-                                </td>
-                            </tr>
-                        {% endif %}
+                    {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and not plugin.activated) %}
+                        <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
+                            <td style="min-width:200px;">
+                                {{ pluginName }}
+                            </td>
+                            <td>
+                                <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
+                                   target="_blank" onclick="return confirm('{{ 'CorePluginsAdmin_UninstallConfirm'|translate(pluginName)|e('js') }}')">uninstall</a>
+                            </td>
+                        </tr>
                     {% endfor %}
                 </table>
             {% endif %}
