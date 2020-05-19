@@ -78,21 +78,19 @@
                 {% endif %}
             </p>
             <table>
-                {% for pluginName, plugin in plugins %}
-                    {% if plugin.uninstallable and plugin.activated %}
-                        <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
-                            <td style="min-width:200px;">
-                                {{ pluginName }}
-                            </td>
-                            <td>
-                                {{ plugin.info.version|default('') }}
-                            </td>
-                            <td>
-                                <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}{% if deactivateIAmSuperUserSalt is not empty %}&i_am_super_user={{ deactivateIAmSuperUserSalt }}{% endif %}"
-                                   target="_blank">deactivate</a>
-                            </td>
-                        </tr>
-                    {% endif %}
+                {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and plugin.activated) %}
+                    <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
+                        <td style="min-width:200px;">
+                            {{ pluginName }}
+                        </td>
+                        <td>
+                            {{ plugin.info.version|default('') }}
+                        </td>
+                        <td>
+                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}{% if deactivateIAmSuperUserSalt is not empty %}&i_am_super_user={{ deactivateIAmSuperUserSalt }}{% endif %}"
+                               target="_blank">deactivate</a>
+                        </td>
+                    </tr>
                 {% endfor %}
             </table>
 
