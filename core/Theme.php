@@ -146,7 +146,7 @@ class Theme
         foreach (Manager::getAlternativeWebRootDirectories() as $absDir => $webRootDirectory) {
             $withoutPlugins = str_replace('plugins/', '', $pathAsset);
             if (file_exists($absDir . '/' . $withoutPlugins)) {
-                return $webRootDirectory . $withoutPlugins;
+	            return str_replace($pathAsset, $webRootDirectory . $withoutPlugins, $source);
             }
         }
 
