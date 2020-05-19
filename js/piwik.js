@@ -2194,10 +2194,10 @@ if (typeof window.Piwik !== 'object') {
                 configCustomData,
 
                 // Campaign names
-                configCampaignNameParameters = [ 'pk_campaign', 'piwik_campaign', 'utm_campaign', 'utm_source', 'utm_medium' ],
+                configCampaignNameParameters = [ 'pk_campaign', 'mtm_campaign', 'piwik_campaign', 'matomo_campaign', 'utm_campaign', 'utm_source', 'utm_medium' ],
 
                 // Campaign keywords
-                configCampaignKeywordParameters = [ 'pk_kwd', 'piwik_kwd', 'utm_term' ],
+                configCampaignKeywordParameters = [ 'pk_kwd', 'mtm_kwd', 'piwik_kwd', 'matomo_kwd', 'utm_term' ],
 
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
