@@ -1,0 +1,17 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "نمی توان فانکشن apache_get_modules را پیدا نمود, فرض کنید روی وبسرور غیر آپاچی است.",
+        "CannotListContent": "مطالب قابل فهرست شدن نمی باشد برای %1$s:%2$s",
+        "DownloadingDb": "در حال بارگزاری %s",
+        "DownloadNewDatabasesEvery": "پایگاه های داده را بروزرسانی کن در هر",
+        "FoundApacheModules": "پیویک ماژول های آپاچی زیر را یافت",
+        "GeoIPDatabases": "پایگاه های داده GeoIP",
+        "HowToInstallApacheModule": "چگونه ماژول GeoIP را برای آپاچی نصب کنم؟",
+        "HttpServerModule": "ماژول HTTP سرور",
+        "ISPDatabase": "پایگاه داده ISP",
+        "LocationDatabase": "پایگاه داده محلی",
+        "LocationDatabaseHint": "منظور از یک پایگاه داده محلی ، یک پایگاه داده ی کشوری ، منطقه ای یا شهری است.",
+        "UpdaterHasNotBeenRun": "به روز رسانی شده است هرگز اجرا شده است.",
+        "UpdaterWasLastRun": "آخرین بار بروزکننده در %s اجرا شده است."
+    }
+}

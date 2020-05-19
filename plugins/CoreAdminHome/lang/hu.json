@@ -80,10 +80,15 @@
         "ValidPiwikHostname": "Érvényes Matomo Hosztnév",
         "WithOptionalRevenue": "opcionális jövedelemmel",
         "YouAreOptedOut": "A követés jelenleg ki van kapcsolva.",
+        "YouAreNotOptedOut": "A követés engedélyezett.",
         "YouMayOptOut": "Lehetőség van a számítógépen tárolt egyedi azonosító süti letiltására, hogy a látogatás ne szerepeljen semmilyen statisztikában.",
         "YouMayOptOutBis": "Az alábbi kapcsoló segítségével engedélyezhető a követő süti használata.",
         "OptingYouOut": "Kiléptetés alatt, kis türelmet...",
         "ProtocolNotDetectedCorrectly": "Jelenleg biztonságos SSL kapcsolat van ön és a Matomo csak nem biztonságos kapcsolatot tudott észlelni.",
-        "ProtocolNotDetectedCorrectlySolution": "Hogy biztos minden kérés és kiszolgálás HTTPS-en keresztül biztonságosan történjen, szerkeszteni kell a %1$s fájlt és ellenőrizni a proxy beállításokat vagy hozzá kell adni a %2$s sort, lentebb a %3$s szekcióban. %4$sTovábbi információk%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "Hogy biztos minden kérés és kiszolgálás HTTPS-en keresztül biztonságosan történjen, szerkeszteni kell a %1$s fájlt és ellenőrizni a proxy beállításokat vagy hozzá kell adni a %2$s sort, lentebb a %3$s szekcióban. %4$sTovábbi információk%5$s",
+        "YouMayOptOut2": "Megtilthatja, hogy ez a weboldal adatot gyűjtsön az ezen a weboldalon történő látogatásairól és azokat analalitikai célokra felhasználja.",
+        "YouMayOptOut3": "Ha így tesz, azzal digitális adatvédelmét erősíti, de egyúttal megakadályozza, hogy a weboldal tulajdonosa tanuljon látogatásai szokásaiból és ezáltal egy jobb felhasználói élményt nyújthasson Önnek és más látogatóknak.",
+        "UncheckToOptOut": "A tiltáshoz kattintsa ki ezt a checkboxot.",
+        "CheckToOptIn": "Pipálja be a követés engedélyezéséhez."
     }
 }

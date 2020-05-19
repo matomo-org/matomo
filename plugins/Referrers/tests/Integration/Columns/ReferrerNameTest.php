@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,7 +35,7 @@ class ReferrerNameTest extends IntegrationTestCase
     private $idSite3 = 3;
     private $idSite4 = 4;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class ReferrerNameTest extends IntegrationTestCase
         $this->referrerName = new ReferrerName();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // clean up your test here if needed
         Cache::clearCacheGeneral();

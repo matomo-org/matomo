@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,6 +16,7 @@ use Piwik\Tracker\Action;
 class Region extends Base
 {
     protected $columnName = 'location_region';
+    protected $columnType = 'char(3) DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
     protected $category = 'UserCountry_VisitLocation';
     protected $segmentName = 'regionCode';
@@ -32,8 +33,8 @@ class Region extends Base
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $value = $this->getUrlOverrideValueIfAllowed('region', $request);
-
         if ($value !== false) {
+            $value = substr($value, 0, 3);
             return $value;
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -33,7 +33,7 @@ class PiwikJsContentTest extends SystemTestCase
         $piwikMin = PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js';
         $content  = file_get_contents($piwikMin);
 
-        $this->assertContains(PiwikJsManipulator::HOOK, $content);
+        self::assertStringContainsString(PiwikJsManipulator::HOOK, $content);
     }
 
 }

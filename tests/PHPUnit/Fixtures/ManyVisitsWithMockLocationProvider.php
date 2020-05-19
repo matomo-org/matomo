@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,7 +30,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->nextDay = Date::factory($this->dateTime)->addDay(1)->getDatetime();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->customDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim', 'visit', '1');
@@ -41,7 +41,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }

@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Dashboard screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -73,6 +73,8 @@ describe("Dashboard", function () {
         var col2 = await page.jQuery('#dashboardWidgetsArea > .col:eq(2)');
         await col2.hover();
         await page.mouse.up();
+        await page.waitForNetworkIdle();
+        await page.waitFor(100);
         await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
@@ -261,8 +263,25 @@ describe("Dashboard", function () {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
         await page.waitFor('#createDashboardName', { visible: true });
-        await page.type('#createDashboardName', 'newdash2');
-        await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+
+        // try to type the text a few times, as it sometimes doesn't get the full value
+        var name = 'newdash2';
+        for (var i=0; i<5; i++) {
+            await page.evaluate(function() {
+                $('#createDashboardName').val('');
+            });
+            await page.type('#createDashboardName', name);
+            await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+
+            var value = await page.evaluate(function() {
+                return $('#createDashboardName').attr('value');
+            });
+
+            if (value === name) {
+                break;
+            }
+        }
+
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
         await page.mouse.move(-10, -10);
@@ -282,7 +301,7 @@ describe("Dashboard", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
-        var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
+        var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_token_auth');

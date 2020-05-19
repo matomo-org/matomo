@@ -14,6 +14,7 @@
         "Settings_CredentialNotProvidedByAdmin": "Ennen kuin voit luoda ja hallinnoida puhelinnumeroita, ota yhteyttä ylläpitäjääsi yhdistääksesi Matomo SMS-tiliin.",
         "Settings_CredentialProvided": "%s SMS API -tilisi on konfiguroitu oikein!",
         "Settings_DeleteAccountConfirm": "Haluatko varmasti poistaa tämän SMS-tilin?",
+        "Settings_EnterActivationCode": "Kirjoita aktivointikoodi",
         "Settings_InvalidActivationCode": "Koodi on väärin. Yritä uudelleen.",
         "Settings_LetUsersManageAPICredential": "Salli käyttäjien hallinnoida oma SMS-palveluntarjoajaa",
         "Settings_LetUsersManageAPICredential_No_Help": "Kaikki käyttäjät voivat vastaanottaa SMS-raportteja ja käyttävät tilisi saldoa.",

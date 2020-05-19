@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\IntranetMeasurable\tests\Fixtures;
@@ -22,14 +22,14 @@ class IntranetSitesWithVisits extends Fixture
     public $idSite = 1;
     public $idSiteNotIntranet = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsites();
         $this->trackVisits($this->idSite);
         $this->trackVisits($this->idSiteNotIntranet);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -196,7 +196,7 @@ abstract class GridGraph extends StaticGraph
             // Caution :
             //  - pChart will silently add some value (see $paddingAddedByPChart) to $legendTopLeftYValue depending on multiple criteria
             //  - pChart will not take into account the size of the text. Setting $legendTopLeftYValue = 0 will crop the legend's labels
-            // The following section of code determines the value of $legendTopLeftYValue while taking into account the following paremeters :
+            // The following section of code determines the value of $legendTopLeftYValue while taking into account the following parameters :
             //  - whether legend items have icons
             //  - whether icons are bigger than the legend's labels
             //  - how much colored shadow padding is required

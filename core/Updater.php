@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -206,7 +206,7 @@ class Updater
      * Component has a new version?
      *
      * @param string $componentName
-     * @return bool TRUE if compoment is to be updated; FALSE if not
+     * @return bool TRUE if component is to be updated; FALSE if not
      */
     public function hasNewVersion($componentName)
     {
@@ -241,7 +241,9 @@ class Updater
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
                 if (!class_exists($className, false)) {
-                    throw new \Exception("The class $className was not found in $file");
+                    // throwing an error here causes Matomo to show the safe mode instead of showing an exception fatal only
+                    // that makes it possible to deactivate / uninstall a broken plugin to recover Matomo directly
+                    throw new \Error("The class $className was not found in $file");
                 }
 
                 if (in_array($className, $classNames)) {
@@ -651,12 +653,4 @@ class Updater
     {
         return 'version_' . $name;
     }
-}
-
-/**
- * Exception thrown by updater if a non-recoverable error occurs
- *
- */
-class UpdaterErrorException extends \Exception
-{
 }

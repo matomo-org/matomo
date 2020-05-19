@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,7 +31,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
      */
     private $decorator;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -83,8 +83,11 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 
     private function getMockSegmentEditorService()
     {
-        $mock = $this->getMock('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService',
-            array('getAllSegmentsAndIgnoreVisibility'), array(), '', $callOriginalConstructor = false);
+        $mock = $this->getMockBuilder('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService')
+            ->setMethods(['getAllSegmentsAndIgnoreVisibility'])
+            ->setConstructorArgs([])
+            ->disableOriginalConstructor()
+            ->getMock();
         $mock->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->willReturn(self::$storedSegments);
         return $mock;
     }

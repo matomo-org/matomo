@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -234,7 +234,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     public function isConnectionUTF8()
     {
         $charset = mysqli_character_set_name($this->_connection);
-        return $charset === 'utf8';
+        return strpos($charset, 'utf8') === 0;
     }
 
     /**

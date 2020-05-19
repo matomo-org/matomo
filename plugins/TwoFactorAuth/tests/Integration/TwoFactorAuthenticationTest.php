@@ -39,7 +39,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
      */
     private $twoFa;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -92,21 +92,19 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertEquals([], $this->dao->getAllRecoveryCodesForLogin('mylogin'));
     }
 
-    /**
-     * @expectedExceptionMessage Anonymous cannot use
-     * @expectedException \Exception
-     */
     public function test_saveSecret_neverWorksForAnonymous()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Anonymous cannot use');
+
         $this->twoFa->saveSecret('anonymous', '123456');
     }
 
-    /**
-     * @expectedExceptionMessage no recovery codes have been created
-     * @expectedException \Exception
-     */
     public function test_saveSecret_notWorksWhenNoRecoveryCodesCreated()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('no recovery codes have been created');
+
         $this->twoFa->saveSecret('not', '123456');
     }
 

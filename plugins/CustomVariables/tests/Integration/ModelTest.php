@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ class ModelTest extends IntegrationTestCase
 {
     private static $cvarScopes = array('page', 'visit', 'conversion');
 
-    public function setUp()
+    public function setUp(): void
     {
         // do not call parent::setUp() since it expects database to be created,
         // but DB for this test is removed in tearDown
@@ -29,26 +29,24 @@ class ModelTest extends IntegrationTestCase
         self::$fixture->performSetUp();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
         self::$fixture->performTearDown();
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_construct_shouldFailInCaseOfEmptyScope()
     {
+        $this->expectException(\Exception::class);
+
         new Model(null);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_construct_shouldFailInCaseOfInvalidScope()
     {
+        $this->expectException(\Exception::class);
+
         new Model('inValId');
     }
 

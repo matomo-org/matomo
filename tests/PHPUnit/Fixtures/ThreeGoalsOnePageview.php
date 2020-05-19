@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,14 +23,14 @@ class ThreeGoalsOnePageview extends Fixture
     public $idGoal2 = 2;
     public $idGoal3 = 3;
 
-    public function setUp()
+    public function setUp(): void
     {
         Fixture::createSuperUser();
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

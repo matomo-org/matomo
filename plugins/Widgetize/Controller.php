@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -42,7 +42,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($controllerName == 'CoreHome' && $actionName == 'index') {
             $message = 'CoreHome cannot be widgetized. '  . 
-                'You can enable it to be embedded directly into an iframe (passing module=CoreHme instead of module=Widgetize) ' .
+                'You can enable it to be embedded directly into an iframe (passing module=CoreHome instead of module=Widgetize) ' .
                 'instead by enabling the \'enable_framed_pages\' setting in your config. ' .
                 'See https://matomo.org/faq/how-to/faq_193/ for more info.';
             throw new \Exception($message);

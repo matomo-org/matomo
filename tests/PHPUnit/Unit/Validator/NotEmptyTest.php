@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,11 +27,12 @@ class NotEmptyTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getFailValues
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage General_ValidatorErrorEmptyValue
      */
     public function test_validate_failValueIsEmpty($value)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
+
         $this->validate($value);
     }
 

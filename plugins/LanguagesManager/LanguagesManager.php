@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,11 +15,9 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
-use Piwik\Db;
 use Piwik\Intl\Locale;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -29,7 +27,7 @@ use Piwik\View;
 class LanguagesManager extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -41,8 +39,19 @@ class LanguagesManager extends \Piwik\Plugin
             'Platform.initialized'                       => 'initLanguage',
             'UsersManager.deleteUser'                    => 'deleteUserLanguage',
             'Template.topBar'                            => 'addLanguagesManagerToOtherTopBar',
-            'Template.jsGlobalVariables'                 => 'jsGlobalVariables'
+            'Template.jsGlobalVariables'                 => 'jsGlobalVariables',
+            'Db.getTablesInstalled'                      => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('user_language');
     }
 
     public function getJsFiles(&$jsFiles)
@@ -156,7 +165,7 @@ class LanguagesManager extends \Piwik\Plugin
             $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
         }
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Translate::getLanguageDefault();
+            $languageCode = StaticContainer::get('Piwik\Translation\Translator')->getDefaultLanguage();
         }
         return $languageCode;
     }

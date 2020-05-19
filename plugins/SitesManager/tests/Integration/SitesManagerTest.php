@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,7 +35,7 @@ class SitesManagerTest extends IntegrationTestCase
 
     private $siteId;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -63,12 +63,14 @@ class SitesManagerTest extends IntegrationTestCase
         $archive->rememberToInvalidateArchivedReportsLater($this->siteId, Date::factory('2014-04-06'));
         $archive->rememberToInvalidateArchivedReportsLater(4949, Date::factory('2014-04-05'));
 
-        $expected = array(
-            '2014-04-05' => array($this->siteId, 4949),
-            '2014-04-06' => array($this->siteId)
-        );
+        $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
+        $this->assertCount(2, $remembered);
 
-        $this->assertEquals($expected, $archive->getRememberedArchivedReportsThatShouldBeInvalidated());
+        sort($remembered['2014-04-05']);
+        $this->assertSame(array($this->siteId, 4949), $remembered['2014-04-05']);
+
+        sort($remembered['2014-04-06']);
+        $this->assertSame(array($this->siteId), $remembered['2014-04-06']);
 
         $this->manager->onSiteDeleted($this->siteId);
 

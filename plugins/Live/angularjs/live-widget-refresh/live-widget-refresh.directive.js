@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -43,7 +43,7 @@
                                     segment: segment
                                 }, 'GET');
                                 ajaxRequest.setCallback(function (r) {
-                                    $(element).find("#visitsTotal").html(r);
+                                    $(element).find("#visitsTotal").replaceWith(r);
                                 });
                                 ajaxRequest.send();
                             },

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,7 +23,7 @@ class SubcategoryTest extends \PHPUnit\Framework\TestCase
      */
     private $subcategory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->subcategory = new Subcategory();

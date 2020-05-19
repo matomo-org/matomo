@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Report;
-use Piwik\Tests\Framework\Mock\TestConfig;
 
 /**
  * @group Core
@@ -21,7 +20,7 @@ class ComponentFactoryTest extends TestCase
 {
     const REPORT_CLASS_NAME = 'Piwik\\Plugin\\Report';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

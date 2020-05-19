@@ -28,16 +28,16 @@ Or in short:
 
 ## License
 
-Matomo is released under the GPL v3 (or later) license, see [LICENSE](LICENSE)
+Matomo is released under the GPL v3 (or later) license, see [LICENSE](LICENSE).
 
 ## Requirements
 
   * PHP 5.5.9 or greater
   * MySQL version 5.5 or greater, or MariaDB 
-  * PHP extension pdo and pdo_mysql, or the MySQLi extension.
+  * PHP extension pdo and pdo_mysql, or the MySQLi extension
   * Matomo is OS / server independent
 
-See https://matomo.org/docs/requirements/
+See https://matomo.org/docs/requirements/.
 
 ## Install Matomo
 
@@ -48,9 +48,9 @@ See https://matomo.org/docs/requirements/
   * Add the given javascript code to your pages
   * (You may also generate fake data to experiment, by enabling the plugin VisitorGenerator)
 
-See https://matomo.org/docs/installation/
+See https://matomo.org/docs/installation/.
 
-(When using Matomo for development you need to [install Matomo from the Git repository.](https://matomo.org/faq/how-to-install/faq_18271/))
+(When using Matomo for development you need to [install Matomo from the Git repository](https://matomo.org/faq/how-to-install/faq_18271/)).
 
 ## Free trial 
 
@@ -58,7 +58,7 @@ If you do not have a server or don't want to host yourself you can use our Matom
 
 ## Online Demo
 
-Check out the online demo for Matomo at [demo.matomo.org](https://demo.matomo.org/)
+Check out the online demo for Matomo at [demo.matomo.org](https://demo.matomo.org/).
 
 ## Changelog
 
@@ -67,11 +67,11 @@ For the list of all tickets closed in the current and past releases, see [matomo
 ## Get involved!
 
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Matomo was built by dozens of people like you,
-and we need your help to make Matomo better… Why not participate in a useful project today? [Learn how you can contribute to Matomo.](https://matomo.org/get-involved)
+and we need your help to make Matomo better… Why not participate in a useful project today? [Learn how you can contribute to Matomo](https://matomo.org/get-involved).
 
 ## Quality Assurance
 
-The Matomo project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://developer.matomo.org/guides/tests)
+The Matomo project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://developer.matomo.org/guides/tests).
 
 We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help check the Matomo user interface is compatible with many browsers.
 
@@ -114,6 +114,6 @@ What makes Matomo unique from the competition:
   * Advanced Web Analytics capabilities such as E-commerce Tracking, Goal tracking, Campaign tracking,
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real-time visits and maps, [and a lot more!](https://matomo.org/feature-overview/)
 
-Documentation and more info on https://matomo.org
+Documentation and more info on https://matomo.org.
 
 We are together creating the best open analytics platform in the world!

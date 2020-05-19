@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,14 +22,14 @@ class VisitWithManyCustomVariables extends Fixture
     public $visitorId = '61e8cc2d51fea26d';
     private $numCustomVars = 8;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpCustomVars();
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

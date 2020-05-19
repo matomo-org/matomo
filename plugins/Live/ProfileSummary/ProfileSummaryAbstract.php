@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -18,7 +18,7 @@ namespace Piwik\Plugins\Live\ProfileSummary;
 abstract class ProfileSummaryAbstract
 {
     /**
-     * Visitor profile information
+     * Visitor profile information (will be automatically set)
      *
      * @var array
      */
@@ -49,19 +49,31 @@ abstract class ProfileSummaryAbstract
      *
      * @return string
      */
-    abstract function getName();
+    abstract public function getName();
 
     /**
      * Renders and returns the summary
      *
+     * **Example**
+     *
+     *     public function render() {
+     *         if (empty($this->profile['crmData'])) {
+     *             return '';
+     *         }
+     *
+     *         $view = new View('@pluginName/summary.twig');
+     *         $view->crmData = $this->profile['crmData];
+     *         return $view->render();
+     *     }
+     *
      * @return string
      */
-    abstract function render();
+    abstract public function render();
 
     /**
      * Returns order indicator used to sort all summaries before displaying them
      *
      * @return int
      */
-    abstract function getOrder();
+    abstract public function getOrder();
 }

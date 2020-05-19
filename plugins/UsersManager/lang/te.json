@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "ఒక కొత్త వాడుకరిని చేర్చు",
-        "Alias": "మారుపేరు",
         "AllWebsites": "అన్ని వెబ్‌సైట్లూ",
         "Email": "ఈమెయిలు",
         "ExceptionEmailExists": "'%s' అనే ఈమెయిలుతో వాడుకరి ఇప్పటికే ఉన్నారు.",

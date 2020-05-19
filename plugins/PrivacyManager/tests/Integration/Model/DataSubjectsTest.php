@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -43,7 +43,7 @@ class DataSubjectsTest extends IntegrationTestCase
 
     private $originalTimezone;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -57,7 +57,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->originalTrackingTime = $this->theFixture->trackingTime;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->theFixture->uninstallLogTables();
         $this->theFixture->tearDownLocation();
@@ -366,7 +366,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->removeArchiveInvalidationOptions();
 
         $visitDate = Date::factory($this->theFixture->dateTime);
-        $key = 'report_to_invalidate_' . $idSite . '_' . $visitDate->toString('Y-m-d') . '_12345';
+        $key = '4444_report_to_invalidate_' . $idSite . '_' . $visitDate->toString('Y-m-d') . '_12345';
         Option::set($key, '1');
 
         $this->assertArchivesHaveBeenInvalidated($visitDate, $idSite);
@@ -402,14 +402,14 @@ class DataSubjectsTest extends IntegrationTestCase
     private function assertArchivesHaveNotBeenInvalidated(Date $visitDate, $idSite)
     {
         $key = 'report_to_invalidate_' . $idSite . '_' . $visitDate->toString('Y-m-d');
-        $value = Option::getLike($key . '%');
+        $value = Option::getLike('%' . $key . '%');
         $this->assertEmpty($value);
     }
 
     private function assertArchivesHaveBeenInvalidated(Date $visitDate, $idSite)
     {
         $key = 'report_to_invalidate_' . $idSite . '_' . $visitDate->toString('Y-m-d');
-        $value = Option::getLike($key . '%');
+        $value = Option::getLike('%' . $key . '%');
         $this->assertNotEmpty($value);
         $this->assertEquals('1', array_values($value)[0]);
     }
@@ -508,7 +508,7 @@ class DataSubjectsTest extends IntegrationTestCase
 
     private function removeArchiveInvalidationOptions()
     {
-        Option::deleteLike('report_to_invalidate_%');
+        Option::deleteLike('%report_to_invalidate_%');
     }
 
     private function setWebsiteTimezone($idSite, $timezone)

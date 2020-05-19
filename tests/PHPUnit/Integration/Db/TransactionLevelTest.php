@@ -30,7 +30,7 @@ class TransactionLevelTest extends IntegrationTestCase
 	 */
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 		$this->db = Db::get();

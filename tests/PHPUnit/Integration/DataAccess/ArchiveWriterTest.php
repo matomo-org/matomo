@@ -38,7 +38,7 @@ class ArchiveWriterTest extends IntegrationTestCase
 {
     private $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         Access::getInstance()->setSuperUserAccess(true);
         $this->idSite = Fixture::createWebsite('2019-08-29');
@@ -168,7 +168,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', $period, $date);
         $segment = new Segment('', []);
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
-        $writer  = new TestArchiveWriter($params, false);
+        $writer  = new TestArchiveWriter($params);
         return $writer;
     }
 

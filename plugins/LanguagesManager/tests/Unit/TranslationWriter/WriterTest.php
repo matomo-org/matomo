@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -44,11 +44,11 @@ class WriterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group Core
-     *
-     * @expectedException \Exception
      */
     public function testConstructorInvalid()
     {
+        $this->expectException(\Exception::class);
+
         new Writer('en', 'InValIdPlUGin');
     }
 
@@ -115,22 +115,22 @@ class WriterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group Core
-     *
-     * @expectedException \Exception
      */
     public function testSaveException()
     {
+        $this->expectException(\Exception::class);
+
         $writer = new Writer('it');
         $writer->save();
     }
 
     /**
      * @group Core
-     *
-     * @expectedException \Exception
      */
     public function testSaveTemporaryException()
     {
+        $this->expectException(\Exception::class);
+
         $writer = new Writer('it');
         $writer->saveTemporary();
     }
@@ -241,11 +241,12 @@ class WriterTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      *
-     * @expectedException \Exception
      * @dataProvider getInvalidLanguages
      */
     public function testSetLanguageInvalid($language)
     {
+        $this->expectException(\Exception::class);
+
         $writer = new Writer('en', null);
         $writer->setLanguage($language);
     }

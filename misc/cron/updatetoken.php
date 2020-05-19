@@ -1,12 +1,9 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik;
@@ -56,10 +53,7 @@ if($piwikDomain) {
 $environment = new Environment('cli');
 $environment->init();
 
-$token = Db::get()->fetchOne("SELECT token_auth
-                              FROM " . Common::prefixTable("user") . "
-                              WHERE superuser_access = 1
-                              ORDER BY date_registered ASC");
+$token = Piwik::requestTemporarySystemAuthToken('LogImporter', 48);
 
 $filename = $environment->getContainer()->get('path.tmp') . '/cache/token.php';
 

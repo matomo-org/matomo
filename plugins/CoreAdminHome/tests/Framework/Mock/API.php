@@ -1,6 +1,6 @@
 <?php
 /**
-* Piwik - free/libre analytics platform
+* Matomo - free/libre analytics platform
 *
 * @link https://matomo.org
 * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,7 +14,8 @@ class API extends \Piwik\Plugins\CoreAdminHome\API
 {
     private $invalidatedReports = array();
 
-    public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false)
+    public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false,
+                                              $_forceInvalidateNonexistant = false)
     {
         $this->invalidatedReports[] = func_get_args();
     }

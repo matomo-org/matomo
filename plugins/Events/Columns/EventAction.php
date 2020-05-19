@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,6 +24,7 @@ class EventAction extends ActionDimension
     protected $segmentName = 'eventAction';
     protected $nameSingular = 'Events_EventAction';
     protected $namePlural = 'Events_EventActions';
+    protected $suggestedValuesApi = 'Events.getAction';
     protected $category = 'Events_Events';
     protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
 

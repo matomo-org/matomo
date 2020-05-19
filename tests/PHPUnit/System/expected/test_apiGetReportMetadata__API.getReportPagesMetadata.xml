@@ -852,6 +852,38 @@
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
+			<row>
+				<name>Evolution of page performance metrics</name>
+				<module>PagePerformance</module>
+				<action>getEvolutionGraph</action>
+				<order>20</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>graphStackedBarEvolution</viewDataTable>
+					<module>PagePerformance</module>
+					<action>getEvolutionGraph</action>
+				</parameters>
+				<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphStackedBarEvolution</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name />
+				<module>PagePerformance</module>
+				<action>get</action>
+				<order>21</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>sparklines</viewDataTable>
+					<module>PagePerformance</module>
+					<action>get</action>
+				</parameters>
+				<uniqueId>widgetPagePerformancegetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>sparklines</viewDataTable>
+				<isReport>1</isReport>
+			</row>
 		</widgets>
 	</row>
 	<row>

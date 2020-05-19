@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -37,7 +37,7 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
 
     private $exampleUrl = 'https://piwik.xyz/test';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = new FakeConfig(array('General' => array('piwik_professional_support_ads_enabled' => '1')));
         $this->pluginManager = new Manager();

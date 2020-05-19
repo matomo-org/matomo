@@ -7,6 +7,7 @@
         "AnonymizeIpMaskLength": "%1$s byte(s) - t.ex. %2$s",
         "AskingForConsent": "Begär samtycke",
         "ClickHereSettings": "Klicka här för att komma åt inställningar för %s.",
+        "AnonymizeUserId": "Byt ut användar-Id mot ett pseudonym",
         "CurrentDBSize": "Aktuell databasstorlek",
         "DBPurged": "DB rensad.",
         "DeleteBothConfirm": "Du är på väg att aktivera radering av både loggar och rapportdata. Det innebär att du permanent kommer att förlora möjligheterna att visa gammal analysdata. Är du säker på att du vill göra detta?",

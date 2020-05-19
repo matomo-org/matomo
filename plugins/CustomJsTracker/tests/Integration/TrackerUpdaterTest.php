@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -24,7 +24,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
     private $dir;
     private $trackerJsChangedEventPath = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->dir = PIWIK_DOCUMENT_ROOT . '/plugins/CustomJsTracker/tests/resources/';
@@ -33,7 +33,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->cleanUp();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -112,12 +112,11 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException
-     * @expectedExceptionMessage not writable
-     */
     public function test_checkWillSucceed_shouldNotThrowExceptionIfTargetIsNotWritable()
     {
+        $this->expectException(\Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException::class);
+        $this->expectExceptionMessage('not writable');
+
         $updater = $this->makeUpdater(null, $this->dir . 'not-writable/MyNotExisIngFilessss.js');
         $updater->checkWillSucceed();
     }

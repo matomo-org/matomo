@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,7 @@ namespace Piwik\Plugins\SitesManager\tests\Unit;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\SettingsServer;
-use Piwik\Translate;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group SitesManaager
@@ -25,7 +25,7 @@ class APITest extends \PHPUnit\Framework\TestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,16 +33,16 @@ class APITest extends \PHPUnit\Framework\TestCase
             $this->markTestSkipped('timezones needs to be supported');
         }
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
 
         $this->api = API::getInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function getTimezoneNameTestData()

@@ -67,7 +67,7 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
-charset = utf8
+charset = utf8mb4
 enable_ssl = 0
 ssl_ca =
 ssl_cert =
@@ -85,18 +85,6 @@ remote_addr = "127.0.0.1"
 request_uri = "@REQUEST_URI@"
 port =
 enable_logging = 0
-
-; access key and secret as listed in AWS -> IAM -> Users
-aws_accesskey = ""
-aws_secret = ""
-; key pair name as listed in AWS -> EC2 -> Key Pairs. Key name should be different per user.
-aws_keyname = ""
-; PEM file can be downloaded after creating a new key pair in AWS -> EC2 -> Key Pairs
-aws_pem_file = "<path to pem file>"
-aws_securitygroups[] = "default"
-aws_region = "us-east-1"
-aws_ami = "ami-ac24bac4"
-aws_instance_type = "c3.large"
 
 [log]
 ; possible values for log: screen, database, file
@@ -292,7 +280,7 @@ adding_segment_requires_access = "view"
 allow_adding_segments_for_all_websites = 1
 
 ; When archiving segments for the first time, this determines the oldest date that will be archived.
-; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
+; This option can be used to avoid archiving (for instance) the lastN years for every new segment.
 ; Valid option values include: "beginning_of_time" (start date of archiving will not be changed)
 ;                              "segment_last_edit_time" (start date of archiving will be the earliest last edit date found,
 ;                                                        if none is found, the created date is used)
@@ -332,8 +320,8 @@ default_day = yesterday
 default_period = day
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
-; This setting is overriden in the UI, under "General Settings".
-; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
+; This setting is overridden in the UI, under "General Settings".
+; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 900
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
@@ -350,7 +338,7 @@ time_before_year_archive_considered_outdated = -1
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
 time_before_range_archive_considered_outdated = -1
 
-; This setting is overriden in the UI, under "General Settings".
+; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
@@ -664,7 +652,12 @@ absolute_chroot_path =
 ; Defaults to ./tmp (the tmp/ folder inside the Matomo directory)
 tmp_path = "/tmp"
 
-; In some rare cases it may be useful to explicitely tell Matomo not to use LOAD DATA INFILE
+; The absolute path to a PHP binary file in case Matomo cannot detect your PHP binary. If async CLI archiving cannot be
+; used on your server this may make it work. Ensure the configured PHP binary is of type CLI and not for example cgi or
+; litespeed. To find out the type of interface for a PHP binary execute this command: php -r "echo php_sapi_name();"
+php_binary_path = ""
+
+; In some rare cases it may be useful to explicitly tell Matomo not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
 
@@ -890,6 +883,9 @@ tracking_requests_require_authentication_when_custom_timestamp_newer_than = 8640
 ; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
 enable_sql_profiler = 0
 
+; Enables using referrer spam blacklist.
+enable_spam_filter = 1
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
@@ -1014,6 +1010,7 @@ Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomJsTracker
 Plugins[] = Tour
+Plugins[] = PagePerformance
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

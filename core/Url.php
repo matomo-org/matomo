@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -373,7 +373,7 @@ class Url
     }
 
     /**
-     * Returns an array mapping query paramater names with query parameter values for
+     * Returns an array mapping query parameter names with query parameter values for
      * the current URL.
      *
      * @return array If current URL is `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`

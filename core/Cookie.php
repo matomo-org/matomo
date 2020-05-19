@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -211,7 +211,7 @@ class Cookie
     {
         $signature = substr($content, -40);
 
-        if (substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
+        if (substr($content, -43, 3) === self::VALUE_SEPARATOR . '_=' &&
             $signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt())
         ) {
             // strip trailing: VALUE_SEPARATOR '_=' signature"
@@ -440,20 +440,19 @@ class Cookie
     {
         $sameSite = ucfirst(strtolower($default));
 
-        if ($sameSite == 'None') {
-            $userAgent = Http::getUserAgent();
-            $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
-            $deviceDetector = $ddFactory->makeInstance($userAgent);
-            $deviceDetector->parse();
-            $browser = $deviceDetector->getClient();
-            if (is_array($browser)) {
-                $browser = $browser['name'];
-            }
+        if ($sameSite === 'None') {
+            if ((!ProxyHttp::isHttps())) {
+                $sameSite = 'Lax'; // None can be only used when secure flag will be set
+            } else {
+                $userAgent = Http::getUserAgent();
+                $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
+                $deviceDetector = $ddFactory->makeInstance($userAgent);
+                $deviceDetector->parse();
 
-            if ((!ProxyHttp::isHttps()) && $browser === 'Chrome') {
-                $sameSite = 'Lax';
-            } else if ($browser === 'Safari') {
-                $sameSite = '';
+                $browserFamily = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($deviceDetector->getClient('short_name'));
+                if ($browserFamily === 'Safari') {
+                    $sameSite = '';
+                }
             }
         }
 

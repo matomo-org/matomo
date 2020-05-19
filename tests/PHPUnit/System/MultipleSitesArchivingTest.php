@@ -1,12 +1,13 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
 
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
@@ -21,7 +22,7 @@ class MultipleSitesArchivingTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -30,6 +31,16 @@ class MultipleSitesArchivingTest extends SystemTestCase
         Piwik::addAction("ArchiveProcessor.Parameters.getIdSites", function (&$sites, $period) use ($extraSite) {
             if (reset($sites) == $extraSite) {
                 $sites = array(1, 2, 3);
+            }
+        });
+
+        Piwik::addAction('CronArchive.getIdSitesNotUsingTracker', function (&$idSitesNotUsingTradker) use ($extraSite) {
+            $idSitesNotUsingTradker[] = $extraSite;
+        });
+
+        Piwik::addAction('ArchiveProcessor.shouldAggregateFromRawData', function (&$shouldAggregateFromRawData, Parameters $params) {
+            if ($params->getSite()->getId() == 4) {
+                $shouldAggregateFromRawData = true;
             }
         });
 

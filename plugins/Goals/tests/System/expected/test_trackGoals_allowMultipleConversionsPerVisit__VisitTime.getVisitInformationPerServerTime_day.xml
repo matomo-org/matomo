@@ -6,9 +6,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<nb_users>0</nb_users>
-		<max_actions>3</max_actions>
-		<sum_visit_length>363</sum_visit_length>
-		<bounce_count>0</bounce_count>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1121</sum_visit_length>
+		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
@@ -22,8 +22,8 @@
 				<revenue>666</revenue>
 			</row>
 			<row idgoal='3'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>0</revenue>
 			</row>
 			<row idgoal='4'>
@@ -37,7 +37,7 @@
 				<revenue>0</revenue>
 			</row>
 		</goals>
-		<nb_conversions>8</nb_conversions>
+		<nb_conversions>7</nb_conversions>
 		<revenue>1332</revenue>
 		<segment>visitStartServerHour==0</segment>
 	</row>

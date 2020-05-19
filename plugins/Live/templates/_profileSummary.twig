@@ -39,7 +39,12 @@
             {%- for entry in visitorData.searches %} <strong title="{% if entry.searches == 1 %}{{ 'Actions_OneSearch'|translate }}{% else %}{{ 'UserCountryMap_Searches'|translate(entry.searches) }}{% endif %}">{{ entry.keyword }}</strong>{% if not loop.last %},{% endif %}{% endfor %}
         </p>
         {% endif %}
-        {% if visitorData.averagePageGenerationTime is defined %}
+        {% if visitorData.averagePageLoadTime|default(0) > 0 %}
+            <p title="{{ 'Live_CalculatedOverNPageViews'|translate(visitorData.totalPageViewsWithLoadTime) }}">
+                {{ 'Live_AveragePageGenerationTime'|translate('<strong>' ~ visitorData.averagePageLoadTime ~ 's</strong>')|raw }}
+            </p>
+        {% endif %}
+        {% if visitorData.averagePageLoadTime|default(0) == 0 and visitorData.averagePageGenerationTime is defined %}
         <p title="{{ 'Live_CalculatedOverNPageViews'|translate(visitorData.totalPageViewsWithTiming) }}">
             {{ 'Live_AveragePageGenerationTime'|translate('<strong>' ~ visitorData.averagePageGenerationTime ~ 's</strong>')|raw }}
         </p>

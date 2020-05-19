@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -235,9 +235,11 @@ class HtmlTable extends Visualization
 
                 $reportTotal = isset($totals[$column]) ? $totals[$column] : 0;
 
-                $percentageColumnName = $column . '_row_percentage';
-                $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1), $precision);
-                $row->setMetadata($percentageColumnName, $rowPercentage);
+                if (is_numeric($value)) {
+                    $percentageColumnName = $column . '_row_percentage';
+                    $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1), $precision);
+                    $row->setMetadata($percentageColumnName, $rowPercentage);
+                }
 
                 if ($siteTotalRow) {
                     $siteTotal = $siteTotalRow->getColumn($column) ?: 0;

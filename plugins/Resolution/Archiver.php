@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -69,7 +69,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertTable($recordName, DataTable $table)
     {
         $report = $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
-        return $this->getProcessor()->insertBlobRecord($recordName, $report);
+        $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 
 }

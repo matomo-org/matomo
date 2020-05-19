@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -37,19 +37,19 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     {
         $period = new Day(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
         $period = new Week(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
         $period = new Month(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
         $period = new Year(Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType('string', $label);
+        self::assertIsString($label);
         $this->assertNotEmpty($label);
     }
 
@@ -65,15 +65,18 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
         Period::checkDateFormat('previous30');
         Period::checkDateFormat('+1 day');
         Period::checkDateFormat('next Thursday');
+
+        $this->assertTrue(true);
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):
      * @dataProvider getInvalidDateFormats
      */
     public function testValidate_InvalidDates($invalidDateFormat)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Date format must be: YYYY-MM-DD, or \'today\' or \'yesterday\' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):');
+
         Period::checkDateFormat($invalidDateFormat);
     }
 
@@ -148,12 +151,13 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage is a date before first website was online. Try date that's after
      * @dataProvider getInvalidDatesBeforeFirstWebsite
      */
     public function testValidate_InvalidDatesBeforeFirstWebsite($invalidDatesBeforeFirstWebsite)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('is a date before first website was online. Try date that\'s after');
+
         Period::checkDateFormat($invalidDatesBeforeFirstWebsite);
     }
     
@@ -250,5 +254,30 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
         return array_map(function (Period $period) {
             return array($period->getLabel(), $period->getRangeString());
         }, $periods);
+    }
+
+    /**
+     * @dataProvider getTestDataForIsDateInPeriod
+     */
+    public function test_isDateInPeriod($date, $period, $periodDate, $expected)
+    {
+        $date = Date::factory($date);
+        $period = Period\Factory::build($period, $periodDate);
+
+        $actual = $period->isDateInPeriod($date);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForIsDateInPeriod()
+    {
+        return [
+            ['2014-02-03 00:00:00', 'day', '2014-02-03 03:04:05', true],
+            ['2014-02-03 00:00:00', 'week', '2014-02-03 03:04:05', true],
+            ['2014-02-03 00:00:00', 'month', '2014-02-03 03:04:05', true],
+            ['2014-02-02 23:59:59', 'day', '2014-02-03 03:04:05', false],
+            ['2014-01-31 23:59:59', 'month', '2014-02-03 03:04:05', false],
+            ['2014-03-01 00:00:00', 'month', '2014-02-03 03:04:05', false],
+            ['2014-03-31 23:59:59', 'month', '2014-03-03 03:04:05', true],
+        ];
     }
 }

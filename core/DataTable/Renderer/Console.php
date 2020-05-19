@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -81,7 +81,7 @@ class Console extends Renderer
             return $this->renderDataTableMap($table, $prefix);
         }
 
-        if ($table->getRowsCount() == 0) {
+        if ($table->getRowsCount() === 0) {
             return "Empty table<br />\n";
         }
 

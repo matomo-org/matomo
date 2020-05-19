@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -40,7 +40,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     private $response;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->response = new TestResponse();
@@ -65,8 +65,8 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
 
         $content = $this->response->getOutput();
 
-        $this->assertContains('<title>Matomo &rsaquo; Error</title>', $content);
-        $this->assertContains('<p>My Custom Message', $content);
+        self::assertStringContainsString('<title>Matomo &rsaquo; Error</title>', $content);
+        self::assertStringContainsString('<p>My Custom Message', $content);
     }
 
     public function test_outputResponse_shouldOutputStandardApiResponse()
@@ -127,7 +127,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $tracker->setCountOfLoggedRequests(0);
         $this->response->outputResponse($tracker);
 
-        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.",
+        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.",
             $this->response->getOutput());
     }
 
@@ -143,7 +143,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     public function test_getMessageFromException_ShouldReturnMessageAndTrace_InCaseIsCli()
     {
         $message = $this->response->getMessageFromException(new Exception('Test Message', 8150));
-        $this->assertStringStartsWith("Test Message\n#0 [internal function]", $message);
+        $this->assertStringStartsWith("Test Message\n#0 ", $message);
     }
 
     public function test_getMessageFromException_ShouldOnlyReturnMessage_InCaseIsNotCli()

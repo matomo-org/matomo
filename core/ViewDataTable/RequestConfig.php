@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -102,7 +102,7 @@ class RequestConfig
     );
 
     /**
-     * The list of ViewDataTable properties that can be overriden by query parameters.
+     * The list of ViewDataTable properties that can be overridden by query parameters.
      */
     public $overridableProperties = array(
         'filter_sort_column',

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -240,6 +240,10 @@ class VisitorLog extends Visualization
         if ($field === 'serverTimePretty') {
             $a[$field] = strtotime($a[$field]);
             $b[$field] = strtotime($b[$field]);
+        }
+        if ($field === 'type') {
+            $a[$field] = (string) $a[$field];
+            $b[$field] = (string) $b[$field];
         }
         if ($a[$field] === $b[$field]) {
             return 0;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -315,7 +315,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         if ($row['ecommerceType'] == GoalManager::IDGOAL_CART) {
-            // abandoned carts are the numner of visits with an abandoned cart
+            // abandoned carts are the number of visits with an abandoned cart
             $row[Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Metrics::INDEX_NB_VISITS];
         }
 

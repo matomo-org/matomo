@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,9 +9,11 @@
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\Client\Browser;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -26,11 +28,11 @@ class BrowserName extends Base
     protected $acceptValues = 'FF, IE, CH, SF, OP etc.';
     protected $type = self::TYPE_TEXT;
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setName('DevicesDetection_BrowserCode');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
         $segment = new Segment();
         $segment->setSegment('browserName');
@@ -52,7 +54,7 @@ class BrowserName extends Base
         $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
             return array_values(Browser::getAvailableBrowsers() + ['Unknown']);
         });
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)

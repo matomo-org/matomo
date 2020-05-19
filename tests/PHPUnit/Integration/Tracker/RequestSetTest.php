@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -40,7 +40,7 @@ class RequestSetTest extends IntegrationTestCase
     private $post;
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -63,7 +63,7 @@ class RequestSetTest extends IntegrationTestCase
         $_POST = array();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $_GET  = $this->get;
         $_POST = $this->post;

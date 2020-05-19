@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -39,19 +39,17 @@ class LegacyAutoLoaderTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(\Matomo\DummyClass::class, $class);
     }
 
-    /**
-     * @expectedException \Error
-     */
     public function testNotExistingMatomoClassStillFails()
     {
+        $this->expectException(\Error::class);
+
         $class = new \Matomo\ClassNotFound();
     }
 
-    /**
-     * @expectedException \Error
-     */
     public function testNotExistingPiwikClassStillFails()
     {
+        $this->expectException(\Error::class);
+
         $class = new \Piwik\ClassNotFound();
     }
 }

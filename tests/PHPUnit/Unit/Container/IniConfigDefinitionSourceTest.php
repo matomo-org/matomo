@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -77,7 +77,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($definition instanceof ValueDefinition);
         $this->assertEquals('ini.General', $definition->getName());
-        $this->assertInternalType('array', $definition->getValue());
+        self::assertIsArray($definition->getValue());
         $this->assertEquals(array('foo' => 'bar'), $definition->getValue());
     }
 
@@ -103,10 +103,11 @@ class IniConfigDefinitionSourceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|GlobalSettingsProvider
+     * @return \PHPUnit\Framework\MockObject\MockObject|GlobalSettingsProvider
      */
     private function createConfig()
     {
-        return $this->getMock('Piwik\Application\Kernel\GlobalSettingsProvider', array(), array(), '', false);
+        return $this->getMockBuilder('Piwik\Application\Kernel\GlobalSettingsProvider')
+                ->disableOriginalConstructor()->getMock();
     }
 }

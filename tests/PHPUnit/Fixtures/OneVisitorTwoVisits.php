@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,14 +30,14 @@ class OneVisitorTwoVisits extends Fixture
     public $simulateIntegerOverflow = false;
     public $maxUnsignedIntegerValue = '4294967295';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->simulateIntegerOverflow();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -115,14 +115,14 @@ class OneVisitorTwoVisits extends Fixture
         // Record 1st page view
         $urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
         $t->setUrl($urlPage1);
-		$t->setGenerationTime(234);
+		$t->setPerformanceTimings(33, 105, 205, 1325, 390, 222);
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // testing that / and index.htm above record with different URLs
         // Recording the 2nd page after 3 minutes
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.05)->getDatetime());
         $t->setUrl('http://example.org/');
-		$t->setGenerationTime(224);
+        $t->setPerformanceTimings(62, 198, 253, 1559, 222, 152);
         self::checkResponse($t->doTrackPageView('Second page view - should be registered as URL /'));
 
         // Click on external link after 6 minutes (3rd action)
@@ -163,19 +163,19 @@ class OneVisitorTwoVisits extends Fixture
             // Site Search request
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.42)->getDatetime());
             $t->setUrl('http://example.org/index.htm?q=Banks Own The World');
-			$t->setGenerationTime(812);
+            $t->setPerformanceTimings(17, 236, 385, 1025, 199, 266);
             self::checkResponse($t->doTrackPageView('Site Search request'));
 
             // Final page view (after 27 min)
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.45)->getDatetime());
             $t->setUrl('http://example.org/index.htm');
-			$t->setGenerationTime(24);
+            $t->setPerformanceTimings(42, 96, 200, 955, 566, 200);
             self::checkResponse($t->doTrackPageView('Looking at homepage after site search...'));
         } else {
             // Final page view (after 27 min)
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.45)->getDatetime());
             $t->setUrl('http://example.org/index.htm#ignoredFragment#');
-			$t->setGenerationTime(23);
+            $t->setPerformanceTimings(0, 222, 333, 1111, 666, 333);
             self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
         }
 
@@ -196,7 +196,7 @@ class OneVisitorTwoVisits extends Fixture
         $t->DEBUG_APPEND_URL = '&_idvc=2';
 
         // Goal Tracking URL matching, testing custom referrer including keyword
-		$t->setGenerationTime(134);
+        $t->setPerformanceTimings(22, 157, 266, 2000, 1002, 666);
         self::checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
         // -
         // End of second visit

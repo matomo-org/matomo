@@ -1,0 +1,37 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+
+    <div piwik-content-block content-title="{{ 'UsersManager_AuthTokens'|translate|e('html_attr') }}">
+        <p>
+            {{ 'UsersManager_TokenAuthIntro'|translate }}
+        </p>
+
+        {% if noDescription %}
+            <br>
+            <div class="alert alert-danger">
+                {{ 'General_Description'|translate }}: {{ 'General_ValidatorErrorEmptyValue'|translate }}
+            </div>
+        {% endif %}
+
+        <form  action="{{ linkTo({'module': 'UsersManager', 'action': 'addNewToken'}) }}" method="post" class="addTokenForm">
+            <div piwik-field uicontrol="text" name="description"
+                 data-title="{{ 'General_Description'|translate|e('html_attr') }}"
+                 maxlength="100" required
+                 inline-help="{{ 'UsersManager_AuthTokenPurpose'|translate|e('html_attr') }}">
+            </div>
+
+            <input type="hidden" value="{{ nonce|e('html_attr') }}" name="nonce">
+
+            <input type="submit"
+                   value="{{ 'UsersManager_CreateNewToken'|translate|e('html_attr') }}"
+                   class="btn"/>
+            {% set backlink = linkTo({'module': 'UsersManager', 'action': 'userSecurity'}) %}
+            {{ 'General_OrCancel'|translate("<a class='entityCancelLink' href='" ~ backlink ~ "'>","</a>")|raw }}
+
+        </form>
+    </div>
+
+{% endblock %}

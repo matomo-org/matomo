@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -113,7 +113,7 @@ class InvalidateReportData extends ConsoleCommand
                 foreach ($segments as $segment) {
                     $segmentStr = $segment ? $segment->getString() : '';
                     if ($dryRun) {
-                        $dateRangeStr = implode($dateRanges, ';');
+                        $dateRangeStr = implode(';', $dateRanges);
                         $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
                     } else {
                         $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);

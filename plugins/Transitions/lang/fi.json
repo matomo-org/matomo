@@ -17,7 +17,7 @@
         "FromSocialNetworks": "Sosiaalisista verkostoista",
         "FromWebsites": "Verkkosivuilta",
         "IncomingTraffic": "Sisääntuleva liikenne",
-        "LoopsInline": "%s sivujen uudelleenlatauksia",
+        "LoopsInline": "%s sivujen uudelleenlatausta",
         "NoDataForAction": "%s:lle ei ole tietoja",
         "NoDataForActionDetails": "Joko toiminnolle ei ole tietoja aikavälille %s tai toiminto on virheellinen.",
         "OutgoingTraffic": "Lähtevä liikenne",

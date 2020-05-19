@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,6 +31,26 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
             'postal_code' => '25000',
             'region_code' => 'BFC',
             'region_name' => 'Bourgogne-Franche-Comte',
+        ], $result);
+    }
+
+    public function testGeoIP2CityWithoutRegionIsoCode()
+    {
+        // The IP 99.99.99.99 will only return a region name, based on that the region code should be determined
+        $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-City.mmdb'], 'isp' => []]);
+        $result = $locationProvider->getLocation(['ip' => '99.99.99.99']);
+
+        $this->assertEquals([
+            'continent_name' => 'North America',
+            'continent_code' => 'NA',
+            'country_code' => 'US',
+            'country_name' => 'United States',
+            'city_name' => 'Englewood Cliffs',
+            'lat' => 40.892,
+            'long' => -73.947,
+            'postal_code' => null,
+            'region_code' => 'NJ',
+            'region_name' => 'New Jersey',
         ], $result);
     }
 

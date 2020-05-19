@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,8 +10,6 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
@@ -21,7 +19,7 @@ use Piwik\Segment\SegmentExpression;
 class SegmentFormatter
 {
     /**
-     * @var SegmentList
+     * @var Segment\SegmentsList
      */
     private $segmentList;
 
@@ -49,7 +47,7 @@ class SegmentFormatter
         SegmentExpression::BOOL_OPERATOR_END => '',
     );
 
-    public function __construct(SegmentList $segmentList)
+    public function __construct(Segment\SegmentsList $segmentList)
     {
         $this->segmentList = $segmentList;
     }
@@ -74,14 +72,14 @@ class SegmentFormatter
             $operand  = $expression[SegmentExpression::INDEX_OPERAND];
             $name     = $operand[SegmentExpression::INDEX_OPERAND_NAME];
 
-            $segment = $this->segmentList->findSegment($name, $idSite);
+            $segment = $this->segmentList->getSegment($name);
 
             if (empty($segment)) {
                 throw new Exception(sprintf("The segment '%s' does not exist.", $name));
             }
 
-            $readable .= $segment['name'] . ' ';
-            $readable .= $this->getTranslationForComparison($operand, $segment['type']) . ' ';
+            $readable .= Piwik::translate($segment->getName()) . ' ';
+            $readable .= $this->getTranslationForComparison($operand, $segment->getType()) . ' ';
             $readable .= $this->getFormattedValue($operand);
             $readable .= $this->getTranslationForBoolOperator($operator) . ' ';
         }

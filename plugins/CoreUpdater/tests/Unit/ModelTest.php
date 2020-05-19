@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,7 +23,7 @@ class ModelTest extends \PHPUnit\Framework\TestCase
      */
     private $model;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -42,14 +42,14 @@ class ModelTest extends \PHPUnit\Framework\TestCase
         $plugins = $this->model->getPluginsFromDirectoy(PIWIK_INCLUDE_PATH);
 
         $this->assertGreaterThan(40, count($plugins));
-        $this->assertContains('/plugins/API', $plugins);
-        $this->assertContains('/plugins/Actions', $plugins);
-        $this->assertContains('/plugins/Annotations', $plugins);
+        self::assertTrue(in_array('/plugins/API', $plugins));
+        self::assertTrue(in_array('/plugins/Actions', $plugins));
+        self::assertTrue(in_array('/plugins/Annotations', $plugins));
 
-        $this->assertNotContains('/plugins/.', $plugins);
-        $this->assertNotContains('/plugins/..', $plugins);
-        $this->assertNotContains('/plugins', $plugins);
-        $this->assertNotContains('/plugins/', $plugins);
+        self::assertTrue(!in_array('/plugins/.', $plugins));
+        self::assertTrue(!in_array('/plugins/..', $plugins));
+        self::assertTrue(!in_array('/plugins', $plugins));
+        self::assertTrue(!in_array('/plugins/', $plugins));
 
         foreach ($plugins as $plugin) {
             $this->assertTrue(is_dir(PIWIK_INCLUDE_PATH . $plugin));

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,7 +19,7 @@ use Piwik\DataTable\Simple;
  */
 class DataTable_Renderer_JSONTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Manager::getInstance()->deleteAll();
@@ -449,5 +449,4 @@ class DataTable_Renderer_JSONTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
 }

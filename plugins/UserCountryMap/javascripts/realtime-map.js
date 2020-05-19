@@ -148,7 +148,7 @@
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
                     dataType: 'json',
-                    data: { token_auth: tokenAuth },
+                    data: { token_auth: tokenAuth, force_api_session: '1' },
                     type: 'POST'
                 });
             }
@@ -408,7 +408,7 @@
                         $('#realTimeMapNoVisitsInfo').toggle(!report.length);
                     }
 
-                    // check wether we got any geolocated visits left
+                    // check whether we got any geolocated visits left
                     if (!report.length) {
                         $('.realTimeMap_overlay .showing_visits_of').hide();
                         $('.realTimeMap_overlay .no_data').show();

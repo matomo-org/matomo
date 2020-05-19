@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,9 +19,8 @@ class TwoVisitsWithContents extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;
-    public $idGoal1 = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
@@ -65,7 +64,7 @@ class TwoVisitsWithContents extends Fixture
     protected function trackContentImpressionsAndInteractions(MatomoTracker $vis)
     {
         $vis->setUrl('http://www.example.org/page');
-        $vis->setGenerationTime(333);
+        $vis->setPerformanceTimings(33, 325, 124, 356, 215, 99);
         self::checkResponse($vis->doTrackPageView('Ads'));
 
         self::checkResponse($vis->doTrackContentImpression('ImageAd'));
@@ -91,7 +90,7 @@ class TwoVisitsWithContents extends Fixture
         self::checkResponse($vis->doTrackContentImpression('Video Ad', 'movie.mov'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 }

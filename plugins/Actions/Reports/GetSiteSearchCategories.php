@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\Actions;
 use Piwik\Plugins\Actions\Columns\SearchCategory;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
@@ -30,7 +29,7 @@ class GetSiteSearchCategories extends SiteSearchBase
 
     protected function isEnabledForIdSites($idSites, $idSite)
     {
-        return parent::isEnabledForIdSites($idSites, $idSite) && Actions::isCustomVariablesPluginsEnabled();
+        return parent::isEnabledForIdSites($idSites, $idSite);
     }
 
     public function getMetrics()

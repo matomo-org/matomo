@@ -225,10 +225,12 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
     {
         try {
             if ($params !== null) {
-                return $this->_stmt->execute($params);
-            } else {
-                return $this->_stmt->execute();
+                foreach (array_values($params) as $index => $paramValue) {
+                    $this->_stmt->bindValue($index + 1, $paramValue, $paramValue === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+                }
             }
+
+            return $this->_stmt->execute();
         } catch (PDOException $e) {
             // require_once 'Zend/Db/Statement/Exception.php';
             throw new Zend_Db_Statement_Exception($e->getMessage(), (int) $e->getCode(), $e);

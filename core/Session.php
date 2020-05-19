@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -175,7 +175,15 @@ class Session extends Zend_Session
     {
         $config = Config::getInstance();
         $general = $config->General;
-        if (!empty($general['enable_framed_pages']) && ProxyHttp::isHttps()) {
+
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        $isOptOutRequest = $module == 'CoreAdminHome' && $action == 'optOut';
+        $isOverlay = $module == 'Overlay';
+        $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || $isOverlay;
+
+        if ($shouldUseNone && ProxyHttp::isHttps()) {
             return 'None';
         }
 
@@ -199,10 +207,10 @@ class Session extends Zend_Session
     {
         $headerStr = 'Set-Cookie: ' . rawurlencode($name) . '=' . rawurlencode($value);
         if ($expires) {
-            $headerStr .= '; expires=' . rawurlencode($expires);
+            $headerStr .= '; expires=' . gmdate('D, d-M-Y H:i:s', $expires) . ' GMT';
         }
         if ($path) {
-            $headerStr .= '; path=' . rawurlencode($path);
+            $headerStr .= '; path=' . $path;
         }
         if ($domain) {
             $headerStr .= '; domain=' . rawurlencode($domain);
@@ -214,8 +222,10 @@ class Session extends Zend_Session
             $headerStr .= '; httponly';
         }
         if ($sameSite) {
-            $headerStr .= '; SameSite=' . rawurlencode($sameSite);
+            $headerStr .= '; SameSite=' . $sameSite;
         }
+
+        Common::sendHeader($headerStr);
         return $headerStr;
     }
 }

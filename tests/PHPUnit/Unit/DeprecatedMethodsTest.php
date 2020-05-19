@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -84,6 +84,8 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
 
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\SettingsPiwik', 'isPiwikInstalled');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Piwik', 'doAsSuperUser');
+
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('4.0.0-rc1', \Piwik\Plugins\Marketplace\tests\System\Api\ClientTest::class, 'skipTestUntilFirstRelease');
     }
 
 

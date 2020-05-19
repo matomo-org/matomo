@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\ScheduledReports\tests\Fixtures;
@@ -18,7 +18,7 @@ class ReportSubscription extends Fixture
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!Fixture::siteCreated(1)) {
             Fixture::createWebsite('2012-01-01 00:00:00');

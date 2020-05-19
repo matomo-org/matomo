@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,7 +23,12 @@ class DependencyTest extends IntegrationTestCase
      */
     private $dependency;
 
-    public function setUp()
+    public static function setUpBeforeClass(): void
+    {
+        // skip to set up fixture, as it's not needed for tests
+    }
+
+    public function setUp(): void
     {
         parent::setUp();
         $this->dependency = new Dependency();
@@ -44,41 +49,41 @@ class DependencyTest extends IntegrationTestCase
     {
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '<2.0'), array(
             $this->missingPhp('<5.2'),
-            $this->missingPiwik('<2.0')
+            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0')
         ));
 
-        $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '<9.0'), array(
+        $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>=4.0.0-b1,<9.0'), array(
             $this->missingPhp('<5.2')
         ));
 
         $this->assertMissingDependency(array('php' => '<9.2', 'piwik' => '<2.0'), array(
-            $this->missingPiwik('<2.0')
+            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0')
         ));
 
-        $this->assertMissingDependency(array('php' => '<9.2', 'piwik' => '<9.0'), array());
+        $this->assertMissingDependency(array('php' => '<9.2', 'piwik' => '>=2.0,<9.0'), array());
     }
 
     public function test_getMissingDependencies_multipleConditions_differentConditions()
     {
-        $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>2.0'), array(
+        $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>2.0,<9.0.0'), array(
             $this->missingPhp('<5.2')
         ));
 
-        $this->assertMissingDependency(array('php' => '>=5.3', 'piwik' => '<2.0'), array(
-            $this->missingPiwik('<2.0')
+        $this->assertMissingDependency(array('php' => '>=5.3', 'piwik' => '>1.0,<2.0'), array(
+            $this->missingPiwik('>1.0,<2.0', '<2.0')
         ));
 
         $this->assertMissingDependency(array('php' => '!=' . PHP_VERSION, 'piwik' => '<>' . Version::VERSION), array(
             $this->missingPhp('!=' . PHP_VERSION),
-            $this->missingPiwik('<>' . Version::VERSION)
+            $this->missingPiwik('<>' . Version::VERSION . ',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '<>' . Version::VERSION)
         ));
     }
 
     public function test_getMissingVersion_AND_Condition()
     {
-        $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '<2.0'), array(
+        $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '>=3.0.0-b1,<4.0.0-b1'), array(
             $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0'),
-            $this->missingPiwik('<2.0')
+            $this->missingPiwik('>=3.0.0-b1,<4.0.0-b1', '<4.0.0-b1')
         ));
     }
 
@@ -96,13 +101,13 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_detectsPiwikVersion()
     {
-        $this->assertMissingDependency(array('piwik' => '>=2.1'), array());
+        $this->assertMissingDependency(array('piwik' => '>=2.1,<9.0.0'), array());
         $this->assertMissingDependency(array('piwik' => '>=' . Version::VERSION), array());
         $this->assertMissingDependency(array('piwik' => '>' . Version::VERSION), array(
-            $this->missingPiwik('>' . Version::VERSION)
+            $this->missingPiwik('>' . Version::VERSION.',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '>' . Version::VERSION)
         ));
         $this->assertMissingDependency(array('piwik' => '>=9.2'), array(
-            $this->missingPiwik('>=9.2')
+            $this->missingPiwik('>=9.2,<10.0.0-b1', '>=9.2')
         ));
     }
 
@@ -132,7 +137,7 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_setPiwikVersion()
     {
-        $this->assertMissingDependency(array('piwik' => '>=9.2'), array($this->missingPiwik('>=9.2')));
+        $this->assertMissingDependency(array('piwik' => '>=9.2'), array($this->missingPiwik('>=9.2,<10.0.0-b1', '>=9.2')));
 
         $this->dependency->setPiwikVersion('9.2');
 

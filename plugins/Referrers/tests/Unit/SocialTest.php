@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,7 +17,7 @@ use Spyc;
  */
 class SocialTest extends \PHPUnit\Framework\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // inject definitions to avoid database usage
         $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . Social::DEFINITION_FILE);
@@ -92,6 +92,6 @@ class SocialTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetLogoFromUrl($url, $expected)
     {
-        $this->assertContains($expected, Social::getInstance()->getLogoFromUrl($url));
+        self::assertStringContainsString($expected, Social::getInstance()->getLogoFromUrl($url));
     }
 }

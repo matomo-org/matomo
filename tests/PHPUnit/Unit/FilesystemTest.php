@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,14 +19,14 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 {
     private $testPath;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->testPath = PIWIK_INCLUDE_PATH . '/tmp/filesystemtest';
         Filesystem::mkdir($this->testPath);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Filesystem::unlinkRecursive($this->testPath, true);
 
@@ -101,7 +101,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
             '/DataTable/Renderer/Csv.php',
             '/DataTable/Renderer/Html.php',
             '/DataTable/Renderer/Json.php',
-            '/DataTable/Renderer/Php.php',
             '/DataTable/Renderer/Rss.php',
             '/DataTable/Renderer/Tsv.php',
             '/DataTable/Renderer/Xml',
@@ -132,7 +131,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
             '/DataTable/Filter/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Filter/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Renderer/Json.php',
-            '/DataTable/Renderer/Php.php',
             '/DataTable/Renderer/Rss.php',
             '/DataTable/Renderer/Xml',
             '/DataTable/Renderer/Xml/Other.php',
@@ -152,7 +150,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
         // make sure there is a difference between those folders
         $result = Filesystem::directoryDiff($source, $target);
-        $this->assertCount(14, $result);
+        $this->assertCount(13, $result);
 
         Filesystem::unlinkTargetFilesNotPresentInSource($source, $target);
 
@@ -173,6 +171,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $target = $this->createEmptyTarget();
 
         Filesystem::unlinkTargetFilesNotPresentInSource($source, $target);
+        $this->assertTrue(true);
     }
 
     public function test_unlinkTargetFilesNotPresentInSource_shouldUnlinkAllTargetFiles_IfSourceIsEmpty()
@@ -188,7 +187,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
         // make sure there is no longer a difference
         $result = Filesystem::directoryDiff($source, $target);
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
 
         $result = Filesystem::directoryDiff($target, $source);
         $this->assertEquals(array(), $result);
@@ -233,7 +232,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         file_put_contents($target . '/DataTable/Renderer/Csv.php', '');
         file_put_contents($target . '/DataTable/Renderer/Html.php', '');
         file_put_contents($target . '/DataTable/Renderer/Json.php', '');
-        file_put_contents($target . '/DataTable/Renderer/Php.php', '');
         file_put_contents($target . '/DataTable/Renderer/Rss.php', '');
         file_put_contents($target . '/DataTable/Renderer/Tsv.php', '');
         file_put_contents($target . '/DataTable/Renderer/Xml.php', '');
@@ -348,12 +346,11 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $size);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid unit given
-     */
     public function test_getFileSize_ShouldThrowException_IfInvalidUnit()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid unit given');
+
         Filesystem::getFileSize(__FILE__, 'iV');
     }
 

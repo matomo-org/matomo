@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration\Config\Cache;
@@ -24,7 +24,7 @@ class CacheTest extends IntegrationTestCase
 
     private $testHost = 'analytics.test.matomo.org';
 
-    public function setUp()
+    public function setUp(): void
     {
         unset($GLOBALS['ENABLE_CONFIG_PHP_CACHE']);
         $this->setTrustedHosts();
@@ -39,7 +39,7 @@ class CacheTest extends IntegrationTestCase
         Config::setSetting('General', 'trusted_hosts', array($this->testHost, 'foonot.exists'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->setTrustedHosts();
         $this->cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
@@ -55,11 +55,12 @@ class CacheTest extends IntegrationTestCase
 
     /**
      * @dataProvider getRandmHosts
-     * @expectedException \Exception
-     * @expectedExceptionMessage  Unsupported host
      */
     public function test_construct_failsWhenUsingRandomHost($host)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unsupported host');
+
         $_SERVER['HTTP_HOST'] = $host;
         new Cache();
     }

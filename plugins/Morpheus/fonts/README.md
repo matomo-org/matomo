@@ -6,7 +6,7 @@ them in `LEGALNOTICE`.
 
 WOFF2 is a font format that allows higher compression than WOFF and is already supported by [all major browsers](https://caniuse.com/#feat=woff2).
 
-Unfortunatly icomoon doesn't create WOFF2 files, but as WOFF2 is just a container for ttf fonts, they can be easily converted.
+Unfortunately icomoon doesn't create WOFF2 files, but as WOFF2 is just a container for ttf fonts, they can be easily converted.
 
 ### Steps
 

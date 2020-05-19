@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,14 +23,14 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
      */
     private $translator;
 
-    public function setUp()
+    public function setUp(): void
     {
         \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
 
         $this->translator = StaticContainer::get('Piwik\Translation\Translator');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->translator->reset();
     }

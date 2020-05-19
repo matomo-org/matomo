@@ -19,7 +19,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
      */
     private $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->manager = new Manager();
@@ -30,12 +30,11 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         return new DataTable();
     }
 
-    /**
-     * @expectedException \Piwik\DataTable\TableNotFoundException
-     * @expectedExceptionMessage table id 1 not found in memory
-     */
     public function test_getTable_shouldThrowException_IfTableIdDoesNotExist()
     {
+        $this->expectException(\Piwik\DataTable\TableNotFoundException::class);
+        $this->expectExceptionMessage('table id 1 not found in memory');
+
         $this->manager->getTable(1);
     }
 

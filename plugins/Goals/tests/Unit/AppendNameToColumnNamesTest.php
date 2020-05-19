@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,7 +26,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
      */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->table = new DataTable\Simple();
         $this->addRow(array('nb_visits' => 1, 'nb_conversions' => 5, 'revenue' => 10, 'conversion_rate' => 20));

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,6 +19,12 @@ use Piwik\Tracker\Visit\VisitProperties;
  */
 class VisitorRecognizer
 {
+    /**
+     * Set when a visit was found. Stores the original values of the row that is currently stored in the DB when
+     * the visit was selected.
+     */
+    const KEY_ORIGINAL_VISIT_ROW = 'originalVisit';
+
     /**
      * Local variable cache for the getVisitFieldsPersist() method.
      *
@@ -105,6 +111,7 @@ class VisitorRecognizer
         if ($visitRow
             && count($visitRow) > 0
         ) {
+            $visitProperties->setProperty(self::KEY_ORIGINAL_VISIT_ROW, $visitRow);
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
             $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
@@ -119,6 +126,35 @@ class VisitorRecognizer
 
             return false;
         }
+    }
+
+    public function removeUnchangedValues(VisitProperties $visitProperties, $visit)
+    {
+        $originalRow = $visitProperties->getProperty(self::KEY_ORIGINAL_VISIT_ROW);
+
+        if (empty($originalRow)) {
+            return $visit;
+        }
+
+        if (!empty($originalRow['idvisitor'])
+            && !empty($visit['idvisitor'])
+            && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])) {
+            unset($visit['idvisitor']);
+        }
+
+        $fieldsToCompareValue = array('user_id', 'visit_last_action_time', 'visit_total_time');
+        foreach ($fieldsToCompareValue as $field) {
+            if (!empty($originalRow[$field])
+                && !empty($visit[$field])
+                && $visit[$field] == $originalRow[$field]) {
+                // we can't use === eg for visit_total_time which may be partially an integer and sometimes a string
+                // because we check for !empty things should still work as expected though
+                // (eg we wouldn't compare false with 0)
+                unset($visit[$field]);
+            }
+        }
+
+        return $visit;
     }
 
     public function updateVisitPropertiesFromLastVisitRow(VisitProperties $visitProperties)

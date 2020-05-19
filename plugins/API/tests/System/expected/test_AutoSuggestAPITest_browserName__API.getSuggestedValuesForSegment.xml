@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	<row>115 Browser</row>
 	<row>2345 Browser</row>
 	<row>360 Phone Browser</row>
 	<row>360 Browser</row>
@@ -12,10 +13,13 @@
 	<row>Amaya</row>
 	<row>Amigo</row>
 	<row>Android Browser</row>
+	<row>AOL Desktop</row>
 	<row>AOL Shield</row>
 	<row>Arora</row>
+	<row>Arctic Fox</row>
 	<row>Amiga Voyager</row>
 	<row>Amiga Aweb</row>
+	<row>Atom</row>
 	<row>Atomic Web Browser</row>
 	<row>Avast Secure Browser</row>
 	<row>AVG Secure Browser</row>
@@ -34,6 +38,7 @@
 	<row>BrowseX</row>
 	<row>Camino</row>
 	<row>CCleaner</row>
+	<row>Centaury</row>
 	<row>Coc Coc</row>
 	<row>Comodo Dragon</row>
 	<row>Coast</row>
@@ -67,6 +72,7 @@
 	<row>Epic</row>
 	<row>Elinks</row>
 	<row>Element Browser</row>
+	<row>Elements Browser</row>
 	<row>eZ Browser</row>
 	<row>EUI Browser</row>
 	<row>GNOME Web</row>
@@ -119,6 +125,7 @@
 	<row>Cheetah Browser</row>
 	<row>LieBaoFast</row>
 	<row>LG Browser</row>
+	<row>Light</row>
 	<row>Links</row>
 	<row>Lovense Browser</row>
 	<row>LuaKit</row>
@@ -137,6 +144,7 @@
 	<row>Minimo</row>
 	<row>Mint Browser</row>
 	<row>Maxthon</row>
+	<row>Mypal</row>
 	<row>Nokia Browser</row>
 	<row>Nokia OSS Browser</row>
 	<row>Nokia Ovi Browser</row>
@@ -163,6 +171,7 @@
 	<row>Opera Touch</row>
 	<row>Ordissimo</row>
 	<row>Oregano</row>
+	<row>Origin In-Game Overlay</row>
 	<row>Origyn Web Browser</row>
 	<row>Openwave Mobile Browser</row>
 	<row>OmniWeb</row>
@@ -205,7 +214,9 @@
 	<row>Sunrise</row>
 	<row>SuperBird</row>
 	<row>Super Fast Browser</row>
+	<row>surf</row>
 	<row>START Internet Browser</row>
+	<row>Steam In-Game Overlay</row>
 	<row>Streamy</row>
 	<row>Swiftfox</row>
 	<row>Seznam Browser</row>
@@ -215,6 +226,7 @@
 	<row>Tenta Browser</row>
 	<row>Tizen Browser</row>
 	<row>TweakStyle</row>
+	<row>TV Bro</row>
 	<row>UBrowser</row>
 	<row>UC Browser</row>
 	<row>UC Browser Mini</row>
@@ -223,6 +235,7 @@
 	<row>Vivaldi</row>
 	<row>vivo Browser</row>
 	<row>Vision Mobile Browser</row>
+	<row>VMware AirWatch</row>
 	<row>Wear Internet Browser</row>
 	<row>Web Explorer</row>
 	<row>WebPositive</row>

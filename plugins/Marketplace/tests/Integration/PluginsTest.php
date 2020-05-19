@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -41,7 +41,7 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -87,7 +87,7 @@ class PluginsTest extends IntegrationTestCase
             'TreemapVisualization',
         );
         foreach ($expected as $name) {
-            $this->assertContains($name, $pluginNames);
+            self::assertTrue(in_array($name, $pluginNames));
         }
     }
 
@@ -390,7 +390,7 @@ class PluginsTest extends IntegrationTestCase
                 $this->assertTrue(in_array($plugin['isInstalled'], array(true, false), true));
                 $this->assertFalse($plugin['isInvalid']);
                 $this->assertTrue(isset($plugin['canBeUpdated']));
-                $this->assertSame(array(), $plugin['missingRequirements']);
+                $this->assertSame([], $plugin['missingRequirements']);
                 $this->assertSame(Plugin\Manager::getInstance()->isPluginActivated('SecurityInfo'), $plugin['isActivated']);
             } elseif ($name === 'SimplePageBuilder') {
                 // should add campaign parameters if Piwik PRO plugin
@@ -398,9 +398,9 @@ class PluginsTest extends IntegrationTestCase
             }
 
             if ($plugin['owner'] === 'PiwikPRO') {
-                $this->assertContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringContainsString($piwikProCampaign, $plugin['homepage']);
             } else {
-                $this->assertNotContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringNotContainsString($piwikProCampaign, $plugin['homepage']);
             }
         }
     }
@@ -464,7 +464,7 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame($pluginName, $plugin['name']);
         $this->assertSame($pluginManager->getLoadedPlugin($pluginName)->getVersion(), $plugin['currentVersion']);
         $this->assertSame($pluginManager->isPluginActivated($pluginName), $plugin['isActivated']);
-        $this->assertSame(array(), $plugin['missingRequirements']);
+        $this->assertSame([], $plugin['missingRequirements']);
          $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
 
         $expectedApiCalls = array(

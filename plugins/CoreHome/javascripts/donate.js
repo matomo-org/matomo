@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function ($) {
@@ -133,7 +133,7 @@
             }
         });
 
-        // event for programatically changing the position
+        // event for programmatically changing the position
         $('body').on('piwik:changePosition', '.piwik-donate-slider', function (e, data) {
             moveSliderPosition(this, data.position);
         });

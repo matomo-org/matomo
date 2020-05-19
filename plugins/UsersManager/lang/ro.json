@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Adaugă utilizator nou",
-        "Alias": "Alias",
         "AllWebsites": "Toate siteurile",
         "AnonymousUserHasViewAccess": "Notă: utilizatorul %1$s are acces %2$s la acest website.",
         "AnonymousUserHasViewAccess2": "Rapoartele de analiză și informațiile dvs. despre vizitatori sunt facute publice.",

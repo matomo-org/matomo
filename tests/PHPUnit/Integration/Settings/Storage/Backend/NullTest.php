@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,7 +23,7 @@ class NullTest extends \PHPUnit\Framework\TestCase
      */
     private $backend;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

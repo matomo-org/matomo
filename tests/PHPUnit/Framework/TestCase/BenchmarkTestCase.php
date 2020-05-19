@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,7 +27,7 @@ abstract class BenchmarkTestCase extends SystemTestCase
 {
     public static $fixture;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $dbName = false;
         if (!empty($GLOBALS['PIWIK_BENCHMARK_DATABASE'])) {
@@ -69,7 +69,7 @@ abstract class BenchmarkTestCase extends SystemTestCase
         }
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         // only drop the database if PIWIK_BENCHMARK_DATABASE isn't set
         $dropDatabase = empty($GLOBALS['PIWIK_BENCHMARK_DATABASE']);
@@ -104,7 +104,7 @@ class Piwik_Test_Fixture_EmptyOneSite
     public $period = 'day';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         // add one site
         Fixture::createWebsite(

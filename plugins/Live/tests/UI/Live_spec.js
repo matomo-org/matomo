@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot integration tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -73,6 +73,16 @@ describe("Live", function () {
 
         var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile');
+    });
+
+    it('should load additional visits in visitor log', async function() {
+
+        await page.click('.visitor-profile-more-info a');
+
+        await page.waitForNetworkIdle();
+
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('visitor_profile_more_visits');
     });
 
     it('should hide all action details', async function() {

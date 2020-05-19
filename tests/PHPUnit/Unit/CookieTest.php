@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -44,7 +44,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider getJsonSerializeData
      */
-    public function testJsonSerialize($testData, $id)
+    public function testJsonSerialize($id, $testData)
     {
         $this->assertEquals($testData, json_decode(json_encode($testData), $assoc = true), $id);
     }

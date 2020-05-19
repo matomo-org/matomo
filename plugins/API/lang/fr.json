@@ -9,7 +9,6 @@
         "ReportingApiReference": "Référence de l'API de rapports",
         "TopLinkTooltip": "Accédez à vos données de statistiques web depuis votre code via une API simple en JSON, XML, Etc.",
         "UserAuthentication": "Authentification de l'utilisateur",
-        "UsingTokenAuth": "Si vous souhaitez %1$s récupérer des données depuis un script, un crontab, etc %2$s vous devez ajouter le paramètre %3$s aux appels d'URLs de l'API qui requièrent une authentification.",
         "Glossary": "Glossaire",
         "LearnAboutCommonlyUsedTerms2": "Apprenez en plus sur les termes utilisés communément pour tirer le meilleur parti des statistiques Matomo.",
         "EvolutionMetricName": "%s Evolution"

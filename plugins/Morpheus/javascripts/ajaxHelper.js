@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -492,7 +492,8 @@ function ajaxHelper() {
     this._getDefaultPostParams = function () {
         if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
             return {
-                token_auth: piwik.token_auth
+                token_auth: piwik.token_auth,
+                force_api_session: '1'
             };
         }
 

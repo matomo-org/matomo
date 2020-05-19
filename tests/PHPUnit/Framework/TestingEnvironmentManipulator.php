@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -252,6 +252,10 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
             $plugins = $this->getPluginAndRequiredPlugins($pluginName, $plugins);
         }
+
+        $pluginsToUnload = $this->vars->pluginsToUnload ?? [];
+
+        $plugins = array_diff($plugins, $pluginsToUnload);
 
         return $plugins;
     }

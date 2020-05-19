@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,7 +22,7 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array());
     }
@@ -34,12 +34,11 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($response);
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage The other message
-     */
     public function test_renderException_shouldThrowTheException()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('The other message');
+
         $this->builder->renderException('This message should be ignored', new \BadMethodCallException('The other message'));
     }
 

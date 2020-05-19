@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "ახალი მომხმარებლის დამატება",
-        "Alias": "ალიასი",
         "AllWebsites": "ყველა ვებ საიტი",
         "ApplyToAllWebsites": "ყველა ვებ საიტზე გამოყენება",
         "ClickHereToDeleteTheCookie": "დააწკაპუნეთ აქ, რომ წაშალოთ ქუქი და თქვენი ვიზიტების ტრეკირების საშუალება მისცეთ Matomo–ს",

@@ -39,7 +39,7 @@ class APITest extends IntegrationTestCase
      */
     private $twoFa;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -56,12 +56,11 @@ class APITest extends IntegrationTestCase
         $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
     }
 
-    /**
-     * @expectedExceptionMessage checkUserHasSuperUserAccess Fake exception
-     * @expectedException \Exception
-     */
     public function test_resetTwoFactorAuth_failsWhenNotPermissions()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
+
         $this->setAdminUser();
         $this->api->resetTwoFactorAuth('login');
     }
