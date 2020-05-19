@@ -828,15 +828,15 @@ scheduled_tasks_min_interval = 3600
 ignore_visits_cookie_name = piwik_ignore
 
 ; Comma separated list of variable names that will be read to define a Campaign name, for example CPC campaign
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referrer named 'Adwords-CPC'
+; Example: If a visitor first visits 'index.php?matomo_campaign=Adwords-CPC' then it will be counted as a campaign referrer named 'Adwords-CPC'
 ; Includes by default the GA style campaign parameters
-campaign_var_name = "pk_cpn,pk_campaign,piwik_campaign,utm_campaign,utm_source,utm_medium"
+campaign_var_name = "pk_cpn,pk_campaign,piwik_campaign,mtm_campaign,matomo_campaign,utm_campaign,utm_source,utm_medium"
 
 ; Comma separated list of variable names that will be read to track a Campaign Keyword
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' ;
+; Example: If a visitor first visits 'index.php?matomo_campaign=Adwords-CPC&matomo_kwd=My killer keyword' ;
 ; then it will be counted as a campaign referrer named 'Adwords-CPC' with the keyword 'My killer keyword'
 ; Includes by default the GA style campaign keyword parameter utm_term
-campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,utm_term"
+campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,mtm_kwd,mtm_keyword,matomo_kwd,utm_term"
 
 ; if set to 1, actions that contain different campaign information from the visitor's ongoing visit will
 ; be treated as the start of a new visit. This will include situations when campaign information was absent before,
