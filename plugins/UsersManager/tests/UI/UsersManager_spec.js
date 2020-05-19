@@ -404,7 +404,7 @@ describe("UsersManager", function () {
         });
 
         await page.waitForNetworkIdle();
-        await page.click('label[for=perm_edit_select_all]');
+        await page.click('input#perm_edit_select_all + span');
 
         await page.waitFor('.userPermissionsEdit tr.select-all-row a');
         await page.click('.userPermissionsEdit tr.select-all-row a');
@@ -428,7 +428,7 @@ describe("UsersManager", function () {
     });
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
-        await page.click('.userEditForm #superuser_access+label');
+        await page.click('.userEditForm #superuser_access+span');
         await page.waitFor(500);
 
         const elem = await page.$('.superuser-confirm-modal');
@@ -447,7 +447,7 @@ describe("UsersManager", function () {
     });
 
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
-        await page.click('.userEditForm #superuser_access+label');
+        await page.click('.userEditForm #superuser_access+span');
         await page.waitFor(500);
 
         await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
