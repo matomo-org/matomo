@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 
 class VisitorDaysSinceFirst extends VisitDimension
 {
@@ -20,7 +22,7 @@ class VisitorDaysSinceFirst extends VisitDimension
     protected $columnName = 'visitor_seconds_since_first';
     protected $segmentName = 'daysSinceFirstVisit';
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setSegment('daysSinceFirstVisit');
@@ -30,6 +32,6 @@ class VisitorDaysSinceFirst extends VisitDimension
         $segment->setSqlFilterValue(function ($value) {
             return (int)$value * 86400;
         });
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 }
