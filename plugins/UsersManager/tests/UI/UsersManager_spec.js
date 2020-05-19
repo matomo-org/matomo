@@ -239,22 +239,16 @@ describe("UsersManager", function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first>a')).hover();
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
-        await page.waitFor(250); // animation
 
-        await page.evaluate(() => {
-            console.log($('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').length);
-            $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click()
-        });
+        await page.waitFor(250); // animation
+        await page.waitFor('.change-access-confirm-modal', { visible: true });
+
+        const yes = await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible');
+        await yes.click();
 
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
-        await page.waitFor('.change-access-confirm-modal', { visible: true });
-        expect(await page.screenshot({ fullPage: true })).to.matchImage({
-            imageName: 'permissions_all_sites_access',
-            comparisonThreshold: 0.0005,
-        });
-        return;
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_all_sites_access',
             comparisonThreshold: 0.0005,
