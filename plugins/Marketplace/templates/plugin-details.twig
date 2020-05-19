@@ -213,22 +213,20 @@
                                     </dd>
                                 {% endif %}
                                 <dt>{{ 'Marketplace_Authors'|translate }}</dt>
-                                <dd>{% for author in plugin.authors %}
-                                        {% if author.name %}
-                                            {% apply spaceless %}
-                                                {% if author.homepage %}
-                                                    <a target="_blank" rel="noreferrer noopener" href="{{ author.homepage }}">{{ author.name }}</a>
-                                                {% elseif author.email %}
-                                                    <a href="mailto:{{ author.email|escape('url') }}">{{ author.name }}</a>
-                                                {% else %}
-                                                    {{ author.name }}
-                                                {% endif %}
+                                <dd>{% for author in plugin.authors|filter(author => author.name) %}
+                                        {% apply spaceless %}
+                                            {% if author.homepage %}
+                                                <a target="_blank" rel="noreferrer noopener" href="{{ author.homepage }}">{{ author.name }}</a>
+                                            {% elseif author.email %}
+                                                <a href="mailto:{{ author.email|escape('url') }}">{{ author.name }}</a>
+                                            {% else %}
+                                                {{ author.name }}
+                                            {% endif %}
 
-                                                {% if loop.index < plugin.authors|length %}
-                                                    ,
-                                                {% endif %}
-                                            {% endapply %}
-                                        {% endif %}
+                                            {% if loop.index < plugin.authors|length %}
+                                                ,
+                                            {% endif %}
+                                        {% endapply %}
                                     {% endfor %}
                                 </dd>
                             {% endif %}
