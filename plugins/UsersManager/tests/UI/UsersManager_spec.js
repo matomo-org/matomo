@@ -270,7 +270,7 @@ describe("UsersManager", function () {
         await page.waitFor('.change-access-confirm-modal', { visible: true });
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
@@ -302,7 +302,7 @@ describe("UsersManager", function () {
 
         await page.waitFor('.change-access-confirm-modal');
 
-        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         await page.waitFor(100);
@@ -347,7 +347,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(View)', { waitFor: true })).click();
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.evaluate(function () { // remove filter
@@ -369,7 +369,7 @@ describe("UsersManager", function () {
 
         await page.waitFor('.userPermissionsEdit .change-access-confirm-modal', { visible: true });
         await page.waitFor(100); // animation
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
@@ -385,7 +385,7 @@ describe("UsersManager", function () {
 
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.userPermissionsEdit .confirmCapabilityToggle .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.userPermissionsEdit .confirmCapabilityToggle .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.waitFor(250); // animation
@@ -414,7 +414,7 @@ describe("UsersManager", function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await (await page.jQuery('.userPermissionsEdit a:contains(Remove Permissions)')).click();
 
-        await page.evaluate(() => $('.delete-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.delete-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
@@ -437,7 +437,7 @@ describe("UsersManager", function () {
 
     it('should fail to set superuser access if password is wrong', async function () {
         await page.type('input#currentUserPasswordForSuperUser', 'wrongpassword');
-        await page.evaluate(() => $('.superuser-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.waitFor('.notification-error', { visible: true });
@@ -451,7 +451,7 @@ describe("UsersManager", function () {
         await page.waitFor(500);
 
         await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
-        await page.evaluate(() => $('.superuser-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await page.jQuery(await page.evaluate('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitFor(500);
 
