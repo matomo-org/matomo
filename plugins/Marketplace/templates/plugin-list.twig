@@ -1,5 +1,3 @@
-{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
-
 {% if pluginsToShow|length > 0 %}
     <div class="pluginListContainer row">
         {% for plugin in pluginsToShow %}
@@ -7,6 +5,7 @@
                 {% embed 'contentBlock.twig' with {'title': ''} %}
                     {% block content %}
                         {% import '@Marketplace/macros.twig' as marketplaceMacro %}
+                        {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
                         <div class="plugin">
                             <h3 class="card-title" title="{{ 'General_MoreDetails'|translate }}">
                                 <a href="#" piwik-plugin-name="{{ plugin.name }}">{{ plugin.displayName }}</a>
