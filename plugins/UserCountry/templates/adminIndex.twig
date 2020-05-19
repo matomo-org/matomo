@@ -22,69 +22,67 @@
         <div class="col s12 push-m9 m3">{{ 'General_InfoFor'|translate(thisIP) }}</div>
     </div>
 
-    {% for id,provider in locationProviders %}
-        {% if provider.isVisible %}
-        <div class="row form-group provider{{ id|e('html_attr') }}">
-            <div class="col s12 m4 l2">
-                <p>
-                    <input class="location-provider"
-                           name="location-provider"
-                           value="{{ id }}"
-                           type="radio"
-                           ng-model="locationSelector.selectedProvider"
-                           id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
-                    <label for="provider_input_{{ id }}">{{ provider.title|translate }}</label>
-                </p>
-                <p class="loc-provider-status">
-                    {% if provider.status == 0 %}
-                        <span class="is-not-installed">{{ 'General_NotInstalled'|translate}}</span>
-                    {% elseif provider.status == 1 %}
-                        <span class="is-installed">{{ 'General_Installed'|translate }}</span>
-                    {% elseif provider.status == 2 %}
-                        <span class="is-broken">{{ 'General_Broken'|translate }}</span>
-                    {% endif %}
-                </p>
-            </div>
-            <div class="col s12 m4 l6">
-                <p>{{ provider.description|translate|raw }}</p>
-                {% if provider.status != 1 and provider.install_docs is defined %}
-                    <p>{{ provider.install_docs|raw }}</p>
+    {% for id,provider in locationProviders|filter(provider => provider.isVisible) %}
+    <div class="row form-group provider{{ id|e('html_attr') }}">
+        <div class="col s12 m4 l2">
+            <p>
+                <input class="location-provider"
+                       name="location-provider"
+                       value="{{ id }}"
+                       type="radio"
+                       ng-model="locationSelector.selectedProvider"
+                       id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
+                <label for="provider_input_{{ id }}">{{ provider.title|translate }}</label>
+            </p>
+            <p class="loc-provider-status">
+                {% if provider.status == 0 %}
+                    <span class="is-not-installed">{{ 'General_NotInstalled'|translate}}</span>
+                {% elseif provider.status == 1 %}
+                    <span class="is-installed">{{ 'General_Installed'|translate }}</span>
+                {% elseif provider.status == 2 %}
+                    <span class="is-broken">{{ 'General_Broken'|translate }}</span>
                 {% endif %}
-            </div>
-            <div class="col s12 m4 l4">
-                {% if provider.status == 1 %}
-                    <div class="form-help">
-                        {% if thisIP != '127.0.0.1' %}
-                            {{ 'UserCountry_CurrentLocationIntro'|translate }}:
-                            <div>
-                                <br/>
-                                <div style="position: absolute;"
-                                     piwik-activity-indicator
-                                     loading='locationSelector.updateLoading[{{ id|json_encode }}]'></div>
-                                <span class="location"><strong>{{ provider.location|raw }}</strong></span>
-                            </div>
-                            <div class="text-right">
-                                <a href="javascript:;"
-                                   ng-click='locationSelector.refreshProviderInfo({{ id|json_encode }})'>{{ 'General_Refresh'|translate }}</a>
-                            </div>
-                        {% else %}
-                            {{ 'UserCountry_CannotLocalizeLocalIP'|translate(thisIP) }}
-                        {% endif %}
-                    </div>
-                {% endif %}
-                {% if provider.statusMessage is defined and provider.statusMessage %}
-                    <div class="form-help">
-                        {% if provider.status == 2 %}<strong>{{ 'General_Error'|translate }}:</strong> {% endif %}{{ provider.statusMessage|raw }}
-                    </div>
-                {% endif %}
-                {% if provider.extra_message is defined and provider.extra_message %}
-                    <div class="form-help">
-                        {{ provider.extra_message|raw }}
-                    </div>
-                {% endif %}
-            </div>
+            </p>
         </div>
-        {% endif %}
+        <div class="col s12 m4 l6">
+            <p>{{ provider.description|translate|raw }}</p>
+            {% if provider.status != 1 and provider.install_docs is defined %}
+                <p>{{ provider.install_docs|raw }}</p>
+            {% endif %}
+        </div>
+        <div class="col s12 m4 l4">
+            {% if provider.status == 1 %}
+                <div class="form-help">
+                    {% if thisIP != '127.0.0.1' %}
+                        {{ 'UserCountry_CurrentLocationIntro'|translate }}:
+                        <div>
+                            <br/>
+                            <div style="position: absolute;"
+                                 piwik-activity-indicator
+                                 loading='locationSelector.updateLoading[{{ id|json_encode }}]'></div>
+                            <span class="location"><strong>{{ provider.location|raw }}</strong></span>
+                        </div>
+                        <div class="text-right">
+                            <a href="javascript:;"
+                               ng-click='locationSelector.refreshProviderInfo({{ id|json_encode }})'>{{ 'General_Refresh'|translate }}</a>
+                        </div>
+                    {% else %}
+                        {{ 'UserCountry_CannotLocalizeLocalIP'|translate(thisIP) }}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if provider.statusMessage is defined and provider.statusMessage %}
+                <div class="form-help">
+                    {% if provider.status == 2 %}<strong>{{ 'General_Error'|translate }}:</strong> {% endif %}{{ provider.statusMessage|raw }}
+                </div>
+            {% endif %}
+            {% if provider.extra_message is defined and provider.extra_message %}
+                <div class="form-help">
+                    {{ provider.extra_message|raw }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
     {% endfor %}
 
 

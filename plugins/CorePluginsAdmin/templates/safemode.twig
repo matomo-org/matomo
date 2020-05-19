@@ -95,10 +95,8 @@
             </table>
 
             {% set uninstalledPluginsFound = false %}
-            {% for pluginName, plugin in plugins %}
-                {% if plugin.uninstallable and not plugin.activated %}
-                    {% set uninstalledPluginsFound = true %}
-                {% endif %}
+            {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and not plugin.activated) %}
+                {% set uninstalledPluginsFound = true %}
             {% endfor %}
 
             {% if uninstalledPluginsFound %}
