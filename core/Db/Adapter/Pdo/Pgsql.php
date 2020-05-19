@@ -158,7 +158,7 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
     public function isConnectionUTF8()
     {
         $charset = $this->fetchOne('SHOW client_encoding');
-        return strtolower($charset) === 'utf8';
+        return strpos(strtolower($charset), 'utf8') === 0;
     }
 
     /**

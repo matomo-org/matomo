@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
@@ -24,15 +25,19 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 {
     const FIXTURE_LOCATION = '/tests/resources/piwik-1.13-dump.sql';
 
+    /** @var SqlDump $fixture */
     public static $fixture = null; // initialized below class
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
-        // note: not sure why I have to manually install plugin
-        \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomAlerts')->install();
-        \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomDimensions')->install();
+        $installedPlugins = Manager::getInstance()->getInstalledPluginsName();
+
+        // ensure all plugins are installed correctly (some plugins database tables would be missing otherwise)
+        foreach ($installedPlugins as $installedPlugin) {
+            \Piwik\Plugin\Manager::getInstance()->loadPlugin($installedPlugin)->install();
+        }
 
         $result = Fixture::updateDatabase();
         if ($result === false) {

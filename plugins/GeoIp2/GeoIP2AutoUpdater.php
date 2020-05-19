@@ -15,13 +15,14 @@ use GeoIp2\Database\Reader;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2 AS LocationProviderGeoIp2;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\Php;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Scheduler\Schedule\Hourly;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
@@ -46,6 +47,8 @@ class GeoIP2AutoUpdater extends Task
     const ISP_URL_OPTION_NAME = 'geoip2.isp_db_url';
 
     const LAST_RUN_TIME_OPTION_NAME = 'geoip2.updater_last_run_time';
+
+    const AUTO_SETUP_OPTION_NAME = 'geoip2.autosetup';
 
     private static $urlOptions = array(
         'loc' => self::LOC_URL_OPTION_NAME,
@@ -82,6 +85,10 @@ class GeoIP2AutoUpdater extends Task
                 break;
         }
 
+        if (Option::get(self::AUTO_SETUP_OPTION_NAME)) {
+            $schedulePeriod = new Hourly();
+        }
+
         parent::__construct($this, 'update', null, $schedulePeriod, Task::LOWEST_PRIORITY);
     }
 
@@ -111,6 +118,15 @@ class GeoIP2AutoUpdater extends Task
         }
 
         $this->performRedundantDbChecks();
+
+        if (Option::get(self::AUTO_SETUP_OPTION_NAME)) {
+            Option::delete(self::AUTO_SETUP_OPTION_NAME);
+            LocationProvider::setCurrentProvider(Php::ID);
+            /** @var Scheduler $scheduler */
+            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+            // reschedule to ensure it's not run again in an hour
+            $scheduler->rescheduleTask(new GeoIP2AutoUpdater());
+        }
     }
 
     /**
@@ -262,7 +278,8 @@ class GeoIP2AutoUpdater extends Task
                 $dbFilename = $php->detectDatabaseType($dbType) . '.mmdb';
             }
         } else {
-            $ext = end(explode(basename($path), '.', 2));
+            $parts = explode(basename($path), '.', 2);
+            $ext = end($parts);
             throw new Exception(Piwik::translate('GeoIp2_UnsupportedArchiveType', "'$ext'"));
         }
 

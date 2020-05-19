@@ -27,7 +27,6 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
-
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -600,9 +599,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config->General['installation_in_progress'] = 1;
 
         $config->database = $dbInfos;
-        if (!DbHelper::isDatabaseConnectionUTF8()) {
-            $config->database['charset'] = 'utf8';
-        }
+        $config->database['charset'] = DbHelper::getDefaultCharset();
 
         $config->forceSave();
 
