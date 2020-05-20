@@ -25,6 +25,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Metrics\Formatter;
+use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
@@ -380,13 +381,36 @@ class CronArchive
                 $siteRequests = 0;
             }
 
+            // we don't want to invalidate different periods together or segment archives w/ no-segment archives
+            // together, but it's possible to end up querying these archives. if we find one, we keep track of it
+            // in this array to exclude, but after we run the current batch, we reset the array so we'll still
+            // process them eventually.
+            $invalidationsToExcludeInBatch = [];
+
             // get archives to process simultaneously
             $archivesToProcess = [];
             while (count($archivesToProcess) < $countOfProcesses) {
-                $invalidatedArchive = $this->getNextInvalidatedArchive($idSite);
+                $invalidatedArchive = $this->getNextInvalidatedArchive($idSite, array_keys($invalidationsToExcludeInBatch));
                 if (empty($invalidatedArchive)) {
                     $this->logger->debug("No next invalidated archive.");
                     break;
+                }
+
+                if ($this->hasDifferentPeriod($archivesToProcess, $invalidatedArchive['period'])) {
+                    $this->logger->debug("Found archive with different period than others in concurrent batch, skipping until next batch: {$invalidatedArchive['period']}");
+
+                    $idinvalidation = $invalidatedArchive['idinvalidation'];
+                    $invalidationsToExcludeInBatch[$idinvalidation] = true;
+                    continue;
+                }
+
+                if ($this->hasDifferentDoneFlagType($archivesToProcess, $invalidatedArchive['name'])) {
+                    $this->logger->debug("Found archive with different done flag type (segment vs. no segment) in concurrent batch, skipping until next batch: {$invalidatedArchive['name']}");
+
+                    $idinvalidation = $invalidatedArchive['idinvalidation'];
+                    $invalidationsToExcludeInBatch[$idinvalidation] = true;
+
+                    continue;
                 }
 
                 if ($invalidatedArchive['segment'] === null) {
@@ -412,6 +436,13 @@ class CronArchive
                 if ($reason) {
                     $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
                     $this->addInvalidationToExclude($invalidatedArchive);
+                    continue;
+                }
+
+                if ($this->canSkipArchiveBecauseNoPoint($invalidatedArchive)) {
+                    $this->logger->debug("Found invalidated archive we can skip (no visits or latest archive is not invalidated).");
+                    $this->addInvalidationToExclude($invalidatedArchive);
+                    $this->model->deleteInvalidations([$invalidatedArchive]);
                     continue;
                 }
 
@@ -495,7 +526,7 @@ class CronArchive
     }
 
     // TODO: need to also delete rows from archive_invalidations via scheduled task, eg, if ts_invalidated is older than 3 days or something.
-    private function getNextInvalidatedArchive($idSite)
+    private function getNextInvalidatedArchive($idSite, $extraInvalidationsToIgnore)
     {
         $lastInvalidationTime = self::getLastInvalidationTime();
         if (empty($lastInvalidationTime)
@@ -506,7 +537,9 @@ class CronArchive
 
         $iterations = 0;
         while ($iterations < 100) {
-            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->invalidationsToExclude);
+            $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
+
+            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $invalidationsToExclude);
             if (empty($nextArchive)) {
                 break;
             }
@@ -1332,5 +1365,60 @@ class CronArchive
         }
 
         return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
+    }
+
+    private function hasDifferentPeriod(array $archivesToProcess, $period)
+    {
+        if (empty($archivesToProcess)) {
+            return false;
+        }
+
+        return $archivesToProcess[0]['period'] != $period;
+    }
+
+    private function hasDifferentDoneFlagType(array $archivesToProcess, $name)
+    {
+        if (empty($archivesToProcess)) {
+            return false;
+        }
+
+        $existingDoneFlagType = $this->getDoneFlagType($archivesToProcess[0]['name']);
+        $newArchiveDoneFlagType = $this->getDoneFlagType($name);
+
+        return $existingDoneFlagType != $newArchiveDoneFlagType;
+    }
+
+    private function getDoneFlagType($name)
+    {
+        if ($name == 'done') {
+            return 'all';
+        } else {
+            return 'segment';
+        }
+    }
+
+    private function canSkipArchiveBecauseNoPoint(array $invalidatedArchive)
+    {
+        $site = new Site($invalidatedArchive['idsite']);
+
+        $periodLabel = $this->periodIdsToLabels[$invalidatedArchive['period']];
+        $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
+        $period = Factory::build($periodLabel, $dateStr);
+
+        $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
+
+        $params = new Parameters($site, $period, $segment);
+
+        $loader = new Loader($params);
+        if ($loader->canSkipThisArchive()) { // if no point in archiving, skip
+            return true;
+        }
+
+        // if valid archive already exists, do not re-archive
+        $minDateTimeProcessedUTC = Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($periodLabel));
+        $archiveIdAndVisits = ArchiveSelector::getArchiveIdAndVisits($params, $minDateTimeProcessedUTC, $includeInvalidated = false);
+
+        $idArchive = $archiveIdAndVisits[0];
+        return !empty($idArchive);
     }
 }
