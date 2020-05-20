@@ -451,7 +451,7 @@ describe("UsersManager", function () {
         await page.waitFor(500);
 
         await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
-        await page.jQuery(await page.evaluate('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitFor(500);
 
