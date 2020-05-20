@@ -30,9 +30,9 @@ class ActionTest extends IntegrationTestCase
 
         $section = Config::getInstance()->Tracker;
         $section['default_action_url'] = '/';
-        $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,utm_campaign,test_campaign_name';
+        $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,matomo_campaign,utm_campaign,test_campaign_name';
         $section['action_url_category_delimiter'] = '/';
-        $section['campaign_keyword_var_name']     = 'piwik_kwd,utm_term,test_piwik_kwd';
+        $section['campaign_keyword_var_name']     = 'piwik_kwd,matomo_kwd,utm_term,test_piwik_kwd';
         Config::getInstance()->Tracker = $section;
 
         PluginManager::getInstance()->loadPlugins(array('SitesManager'));
