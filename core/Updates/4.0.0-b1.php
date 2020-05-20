@@ -119,7 +119,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $columnsToAdd['log_visit']['visitor_seconds_since_last'] = VisitorSecondsSinceLast::COLUMN_TYPE;
 
         foreach ($columnsToAdd as $table => $columns) {
-            $this->migration->db->addColumns($table, $columns);
+            $migrations[] = $this->migration->db->addColumns($table, $columns);
         }
 
         // init new site search fields
