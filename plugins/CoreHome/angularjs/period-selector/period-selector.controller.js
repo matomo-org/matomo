@@ -16,6 +16,12 @@
 
         var vm = this;
 
+        vm.comparePeriodDropdownOptions = [
+            {key: 'custom', value: _pk_translate('General_Custom')},
+            {key: 'previousPeriod', value: _pk_translate('General_PreviousPeriod').replace(/\s+/, '&nbsp;')},
+            {key: 'previousYear', value: _pk_translate('General_PreviousYear').replace(/\s+/, '&nbsp;')},
+        ];
+
         // the period & date currently being viewed
         vm.periodValue = null;
         vm.dateValue = null;

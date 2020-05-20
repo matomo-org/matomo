@@ -2,7 +2,7 @@
     <label class="fieldRadioTitle" ng-show="formField.title">{{ formField.title }}</label>
     <p ng-repeat="checkboxModel in formField.availableOptions"
        class="checkbox">
-        <label for="{{ formField.name + checkboxModel.key }}">
+        <label>
             <input ng-model="formField.checkboxkeys[$index.toString()]"
                    value="{{ checkboxModel.key }}"
                    ng-change="formField.updateCheckboxArrayValue()"

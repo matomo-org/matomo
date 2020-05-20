@@ -84,7 +84,6 @@
         }
 
         function confirmReset2FA() {
-            console.log($element.find('.twofa-confirm-modal')[0]);
             $element.find('.twofa-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 

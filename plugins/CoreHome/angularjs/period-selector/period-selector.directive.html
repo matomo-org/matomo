@@ -75,13 +75,12 @@
                 <span>Compare to:</span>
             </label>
 
-            <!-- TODO: missing some translations -->
             <div
                     id="comparePeriodToDropdown"
                     piwik-field
                     name="comparePeriodToDropdown"
                     uicontrol="select"
-                    options="[{key: 'custom', value: 'Custom'}, {key: 'previousPeriod', value: 'Previous&nbsp;period'}, {key: 'previousYear', value: 'Previous&nbsp;year'}]"
+                    options="periodSelector.comparePeriodDropdownOptions"
                     ng-model="periodSelector.comparePeriodType"
                     full-width="true"
                     disabled="!periodSelector.isComparing"
