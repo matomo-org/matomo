@@ -97,7 +97,7 @@ class IniFileChain
      */
     public function set($name, $value)
     {
-        $name = $this->replaceInvalidChars($name);
+        $name = $this->replaceSectionInvalidChars($name);
         if ($value !== null) {
             $value = $this->replaceInvalidChars($value);
         }
@@ -558,7 +558,12 @@ class IniFileChain
             }
             return $result;
         } else {
-            return preg_replace('/[^a-zA-Z0-9_-]/', '', $value);
+            return preg_replace('/[^a-zA-Z0-9_\[\]-]/', '', $value);
         }
+    }
+
+    private function replaceSectionInvalidChars($value)
+    {
+        return preg_replace('/[^a-zA-Z0-9_-]/', '', $value);
     }
 }

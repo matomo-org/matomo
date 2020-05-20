@@ -388,24 +388,24 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
         $config->set('first', ["a[]\n\n[d]\n\nb=4" => "\n\n[def]\na=b"]);
         $config->set('second', ["a[]\n\n[d]b=4" => 'b']);
         $config->set('thir][d]', ['a' => 'b']);
-        $config->set("four]\n\n[def]\n", ['d' => 'e']);
+        $config->set("four]\n\n[def]\n", ['d[]' => 'e']);
         $out = $config->dump();
 
         $expected = <<<END
 [first]
-adb4 = "
+a[][d]b4 = "
 
 [def]
 a=b"
 
 [second]
-adb4 = "b"
+a[][d]b4 = "b"
 
 [third]
 a = "b"
 
 [fourdef]
-d = "e"
+d[] = "e"
 
 
 END;
