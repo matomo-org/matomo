@@ -263,6 +263,7 @@ var Piwik_Popover = (function () {
             // make sure the minimum top position of the popover is 15px
             var ensureMinimumTop = function () {
                 var popoverContainer = $('#Piwik_Popover').parent();
+                popoverContainer.css('top', (window.scrollY + 15) + 'px');
                 if (popoverContainer.position().top < 106) {
                     popoverContainer.css('top', '15px');
                 }
