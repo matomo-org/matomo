@@ -18,8 +18,8 @@
 
         vm.comparePeriodDropdownOptions = [
             {key: 'custom', value: _pk_translate('General_Custom')},
-            {key: 'previousPeriod', value: _pk_translate('General_PreviousPeriod').replace(/\s+/, '&nbsp;')},
-            {key: 'previousYear', value: _pk_translate('General_PreviousYear').replace(/\s+/, '&nbsp;')},
+            {key: 'previousPeriod', value: _pk_translate('General_PreviousPeriod').replace(/\s+/, piwikHelper.htmlDecode('&nbsp;'))},
+            {key: 'previousYear', value: _pk_translate('General_PreviousYear').replace(/\s+/, piwikHelper.htmlDecode('&nbsp;'))},
         ];
 
         // the period & date currently being viewed

@@ -16,8 +16,9 @@
 
     function piwikFormField(piwik, $timeout){
 
-        function initMaterialSelect($select, placeholder) {
-            $select.material_select();
+        function initMaterialSelect($select, placeholder, uiControlOptions) {
+            console.log('here', uiControlOptions);
+            $select.material_select(uiControlOptions || {});
 
             // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove z-index for all others
             // NOTE: we can't remove it directly blur since the blur causes the select to overlap, aborting the select click. (a timeout is used
@@ -97,12 +98,12 @@
 
                 if (isSelectControl(field)) {
                     var $select = element.find('select');
-                    initMaterialSelect($select, field.uiControlAttributes.placeholder);
+                    initMaterialSelect($select, field.uiControlAttributes.placeholder, field.uiControlOptions);
 
                     scope.$watch('formField.value', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                initMaterialSelect($select, field.uiControlAttributes.placeholder);
+                                initMaterialSelect($select, field.uiControlAttributes.placeholder, field.uiControlOptions);
                             });
                         }
                     });
@@ -110,7 +111,7 @@
                     scope.$watch('formField.uiControlAttributes.disabled', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                initMaterialSelect($select, field.uiControlAttributes.placeholder);
+                                initMaterialSelect($select, field.uiControlAttributes.placeholder, field.uiControlOptions);
                             });
                         }
                     });
@@ -427,7 +428,7 @@
 
                             if (isSelectControl(scope.formField)) {
                                 $timeout(function () {
-                                    initMaterialSelect(element.find('select'), field.uiControlAttributes.placeholder);
+                                    initMaterialSelect(element.find('select'), field.uiControlAttributes.placeholder, field.uiControlOptions);
                                 });
                             }
                         }
