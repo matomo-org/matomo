@@ -217,8 +217,9 @@ class UsersManager extends \Piwik\Plugin
 
     public static function getPasswordHash($password)
     {
-        self::checkBasicPasswordStrength($password);
-
+        if (SettingsPiwik::isUserCredentialsSanityCheckEnabled()) {
+            self::checkBasicPasswordStrength($password);
+        }
         // if change here, should also edit the installation process
         // to change how the root pwd is saved in the config file
         return md5($password);
