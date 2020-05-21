@@ -37,7 +37,6 @@ class LogHelper
             'config_silverlight' => 0,
             'config_windowsmedia' => 0,
             'config_java' => 0,
-            'config_gears' => 0,
             'config_resolution' => 0,
             'config_resolution' => '',
             'config_cookie' => 0,

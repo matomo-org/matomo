@@ -61,6 +61,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * Zend_Mail has been removed. `Piwik\Mail` is now an independet class.
   * PHPMailer is now used for sending mails in `\Piwik\Mail\Transport` and can be replaced using DI.
   * Various methods in `Piwik\Mail` have been removed or changed their signature.
+* Support for tracking and reporting of these browser plugins has been discontinued: Gears
 * Added new event `Db.getTablesInstalled`, plugins should use to register the tables they create.
 
 ## Matomo 3.13.5
