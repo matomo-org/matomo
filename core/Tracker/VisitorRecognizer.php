@@ -111,7 +111,6 @@ class VisitorRecognizer
         if ($visitRow
             && count($visitRow) > 0
         ) {
-            $visitProperties->setProperty(self::KEY_ORIGINAL_VISIT_ROW, $visitRow);
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
             $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
@@ -128,11 +127,9 @@ class VisitorRecognizer
         }
     }
 
-    public function removeUnchangedValues(VisitProperties $visitProperties, $visit)
+    public function removeUnchangedValues(VisitProperties $visitProperties, $visit, VisitProperties $originalVisit = null)
     {
-        $originalRow = $visitProperties->getProperty(self::KEY_ORIGINAL_VISIT_ROW);
-
-        if (empty($originalRow)) {
+        if (empty($originalVisit)) {
             return $visit;
         }
 

@@ -105,8 +105,7 @@
     isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    getConfigIdPageView, newVisitor, uuid, createTs
-    , currentVisitTs,
+    getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
@@ -3317,7 +3316,7 @@ if (typeof window.Piwik !== 'object') {
                     uuid: uuid,
                     createTs: createTs,
 
-                    currentVisitTs: currentVisitTs,
+                    currentVisitTs: currentVisitTs
                 };
             }
 

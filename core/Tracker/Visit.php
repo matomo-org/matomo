@@ -256,7 +256,7 @@ class Visit implements VisitInterface
         // statement at all avoiding potential lock wait time when too many requests try to update the same visit at
         // same time
         $visitorRecognizer = StaticContainer::get(VisitorRecognizer::class);
-        $valuesToUpdate = $visitorRecognizer->removeUnchangedValues($this->visitProperties, $valuesToUpdate);
+        $valuesToUpdate = $visitorRecognizer->removeUnchangedValues($this->visitProperties, $valuesToUpdate, $this->previousVisitProperties);
 
         $this->updateExistingVisit($valuesToUpdate);
 
