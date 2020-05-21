@@ -17,7 +17,6 @@
     function piwikFormField(piwik, $timeout){
 
         function initMaterialSelect($select, placeholder, uiControlOptions) {
-            console.log('here', uiControlOptions);
             $select.material_select(uiControlOptions || {});
 
             // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove z-index for all others
