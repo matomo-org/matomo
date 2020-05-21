@@ -268,7 +268,6 @@ class Updater extends \Piwik\Updates
             'log_visit.config_windowsmedia' => 'TINYINT(1) NOT NULL',
             'log_visit.config_silverlight' => 'TINYINT(1) NOT NULL',
             'log_visit.config_java' => 'TINYINT(1) NOT NULL',
-            'log_visit.config_gears' => 'TINYINT(1) NOT NULL',
             'log_visit.config_pdf' => 'TINYINT(1) NOT NULL',
             'log_visit.config_quicktime' => 'TINYINT(1) NOT NULL',
             'log_visit.config_realplayer' => 'TINYINT(1) NOT NULL',
