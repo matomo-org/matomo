@@ -97,6 +97,11 @@ class IniFileChain
      */
     public function set($name, $value)
     {
+        $name = $this->replaceSectionInvalidChars($name);
+        if ($value !== null) {
+            $value = $this->replaceInvalidChars($value);
+        }
+
         $this->mergedSettings[$name] = $value;
     }
 
@@ -537,5 +542,28 @@ class IniFileChain
 
         $writer = new IniWriter();
         return $writer->writeToString($values, $header);
+    }
+
+    private function replaceInvalidChars($value)
+    {
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $arrayValue) {
+                $key = $this->replaceInvalidChars($key);
+                if (is_array($arrayValue)) {
+                    $arrayValue = $this->replaceInvalidChars($arrayValue);
+                }
+
+                $result[$key] = $arrayValue;
+            }
+            return $result;
+        } else {
+            return preg_replace('/[^a-zA-Z0-9_\[\]-]/', '', $value);
+        }
+    }
+
+    private function replaceSectionInvalidChars($value)
+    {
+        return preg_replace('/[^a-zA-Z0-9_-]/', '', $value);
     }
 }

@@ -10,6 +10,10 @@ namespace Piwik\Tracker;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
+use Piwik\Option;
+use Piwik\SettingsServer;
+use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
@@ -57,6 +61,31 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
         }
 
         $browserLang = substr($request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
+        $trackerConfig = Config::getInstance()->Tracker;
+
+        $fingerprintSalt = '';
+
+        // fingerprint salt won't work when across multiple sites since all sites could have different timezones
+        // also cant add fingerprint salt for a specific day when we dont create new visit after midnight
+        if (!$this->isSameFingerprintsAcrossWebsites && !empty($trackerConfig['create_new_visit_after_midnight'])) {
+            $cache = Cache::getCacheWebsiteAttributes($request->getIdSite());
+            $date = Date::factory((int) $request->getCurrentTimestamp());
+            $fingerprintSaltKey = new FingerprintSalt();
+            $dateString = $fingerprintSaltKey->getDateString($date, $cache['timezone']);
+
+            if (!empty($cache[FingerprintSalt::OPTION_PREFIX . $dateString])) {
+                $fingerprintSalt = $cache[FingerprintSalt::OPTION_PREFIX . $dateString];
+            } else {
+                // we query the DB directly for requests older than 2-3 days...
+                $fingerprintSalt = $fingerprintSaltKey->getSalt($dateString, $request->getIdSite());
+            }
+
+            $fingerprintSalt .= $dateString;
+
+            if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+                $fingerprintSalt = ''; // use fixed value so they don't change randomly in tests
+            }
+        }
 
         return $this->getConfigHash(
             $request,
@@ -74,7 +103,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             $plugin_Silverlight,
             $plugin_Cookie,
             $ipAddress,
-            $browserLang);
+            $browserLang,
+            $fingerprintSalt);
     }
 
     /**
@@ -96,12 +126,13 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      * @param $plugin_Cookie
      * @param $ip
      * @param $browserLang
+     * @param $fingerprintHash
      * @return string
      */
     protected function getConfigHash(Request $request, $os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java,
                                      $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
                                      $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip,
-                                     $browserLang)
+                                     $browserLang, $fingerprintHash)
     {
         // prevent the config hash from being the same, across different Piwik instances
         // (limits ability of different Piwik instances to cross-match users)
@@ -114,7 +145,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
             . $ip
             . $browserLang
-            . $salt;
+            . $salt
+            . $fingerprintHash;
 
         if (!$this->isSameFingerprintsAcrossWebsites) {
             $configString .= $request->getIdSite();
