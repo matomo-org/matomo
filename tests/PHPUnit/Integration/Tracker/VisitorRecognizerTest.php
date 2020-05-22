@@ -32,14 +32,11 @@ class VisitorRecognizerTest extends IntegrationTestCase
             new Model(), EventDispatcher::getInstance());
     }
 
-    private function getVisitProperties($originalVisit = false)
+    private function getVisitProperties()
     {
         $visit = new VisitProperties();
         $visit->setProperty('idvisit', '321');
         $visit->setProperty('idvisitor', Common::hex2bin('1234567890234567'));
-        if ($originalVisit) {
-            $visit->setProperty(VisitorRecognizer::KEY_ORIGINAL_VISIT_ROW, $originalVisit);
-        }
 
         return $visit;
     }
@@ -64,11 +61,12 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_total_time' => '50',
             'foo' => 'bar',
         );
-        $properties = $this->getVisitProperties(array(
+        $properties = $this->getVisitProperties();
+        $originalProperties = new VisitProperties(array(
             'visit_last_action_time' => '2020-05-05 04:05:05',
             'visit_total_time' => '40',
         ));
-        $result = $this->recognizer->removeUnchangedValues($properties, $visit);
+        $result = $this->recognizer->removeUnchangedValues($properties, $visit, $originalProperties);
 
         $this->assertEquals($visit, $result);
     }
@@ -82,13 +80,14 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_total_time' => '50',
             'foo' => 'bar',
         );
-        $properties = $this->getVisitProperties(array(
+        $properties = $this->getVisitProperties();
+        $originalVisit = new VisitProperties(array(
             'idvisitor' => Common::hex2bin('1234567890234567'),
             'user_id' => 'hello',
             'visit_last_action_time' => '2020-05-05 04:05:05',
             'visit_total_time' => '50',
         ));
-        $result = $this->recognizer->removeUnchangedValues($properties, $visit);
+        $result = $this->recognizer->removeUnchangedValues($properties, $visit, $originalVisit);
 
         $this->assertEquals(array(
             'visit_last_action_time' => '2020-05-05 05:05:05',
@@ -105,8 +104,9 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_last_action_time' => '2020-05-05 05:05:05',
             'visit_total_time' => '50',
         );
-        $properties = $this->getVisitProperties($visit);
-        $result = $this->recognizer->removeUnchangedValues($properties, $visit);
+        $properties = $this->getVisitProperties();
+        $originalVisit = new VisitProperties($visit);
+        $result = $this->recognizer->removeUnchangedValues($properties, $visit, $originalVisit);
 
         $this->assertEquals(array(), $result);
     }

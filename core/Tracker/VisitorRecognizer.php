@@ -133,6 +133,7 @@ class VisitorRecognizer
             return $visit;
         }
 
+        $originalRow = $originalVisit->getProperties();
         if (!empty($originalRow['idvisitor'])
             && !empty($visit['idvisitor'])
             && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])) {
