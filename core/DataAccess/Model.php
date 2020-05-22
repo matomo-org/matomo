@@ -610,7 +610,7 @@ class Model
             $sql .= " AND idinvalidation NOT IN (" . implode(',', $idInvalidationsToExclude) . ')';
         }
 
-        $sql .= " ORDER BY date2 DESC, period ASC, CHAR_LENGTH(name) ASC, idinvalidation ASC";
+        $sql .= " ORDER BY date1 DESC, period ASC, CHAR_LENGTH(name) ASC, idinvalidation ASC";
 
         if ($useLimit) {
             $sql .= " LIMIT 1";
