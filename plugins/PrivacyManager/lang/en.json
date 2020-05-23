@@ -18,7 +18,7 @@
         "AskForConsentStep1Desc1": "To require consent, insert the following line at top of your existing Matomo Tracking code on all your pages:",
         "AskForConsentStep1Desc2": "Once this function ‘requireConsent' is executed then no tracking request will be sent to Matomo. Note that some %1$stracking cookies%2$s will be set during this page view but will be deleted as soon as the user navigates to a different page or closes the browser.",
         "AskForConsentStep2": "Step 2: asking for consent through your privacy notice",
-        "AskForConsentStep2Desc": "Now you can ask the user for consent for example by displaying a clear privacy notice on your pages. Learn more about privacy notices and asking for user consent. Note that Matomo does not yet offer the feature to display a privacy notice, but may implement such a feature in the future to easily let you display the notice and gather user consent.",
+        "AskForConsentStep2Desc": "Now you can ask the user for consent for example by displaying a clear privacy notice on your pages. Learn more about %1$sprivacy notices and asking for user consent%2$s. Note that Matomo does not yet offer the feature to display a privacy notice, but may implement such a feature in the future to easily let you display the notice and gather user consent.",
         "AskForConsentStep3": "Step 3: user gives consent",
         "AskForConsentStep3Desc": "Once a user gives consent, you can either A) let Matomo remember the consent, or B) use your own consent tool to remember the consent. We present the two solutions below:",
         "AskForConsentStep3DescA": "A) if you want to let Matomo remember the consent",
