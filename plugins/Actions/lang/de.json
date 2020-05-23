@@ -32,6 +32,7 @@
         "ColumnUniqueOutlinks": "Eindeutige ausgehende Verweise",
         "ColumnIdPageview": "Seitenansicht-ID",
         "ColumnInteractionPosition": "Interaktionsposition",
+        "ColumnPageViewPosition": "Seitenansichtposition",
         "ActionsInVisit": "Aktionen beim Besuch",
         "DownloadsReportDocumentation": "In diesem Bericht sehen Sie, welche Dateien Ihre Besucher heruntergeladen haben. %s Als Download wird in Matomo der Klick auf einen Downloadlink gewertet. Ob der Download abgeschlossen wurde oder nicht, ist Matomo nicht bekannt.",
         "EntryPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Einstiegsseiten im gewählten Zeitraum. Die Einstiegsseite ist die erste Seite, die während eines Besuches aufgerufen wird. %s Die URLs werden als Ordnerstruktur angezeigt.",
