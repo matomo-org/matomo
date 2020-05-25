@@ -10,20 +10,20 @@ namespace Piwik\Access;
 
 abstract class Capability
 {
-    abstract public function getId();
-    abstract public function getName();
-    abstract public function getCategory();
-    abstract public function getDescription();
-    abstract public function getIncludedInRoles();
+    abstract public function getId(): string;
+    abstract public function getName(): string;
+    abstract public function getCategory(): string;
+    abstract public function getDescription(): string;
+    abstract public function getIncludedInRoles(): array;
 
-    public function getHelpUrl()
+    public function getHelpUrl(): string
     {
         return '';
     }
 
-    public function hasRoleCapability($idRole)
+    public function hasRoleCapability(string $idRole): bool
     {
-        return in_array($idRole, $this->getIncludedInRoles(), true);
+        return \in_array($idRole, $this->getIncludedInRoles(), true);
     }
 
 }
