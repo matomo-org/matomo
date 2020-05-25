@@ -9,9 +9,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
-use Piwik\DataAccess\TableMetadata;
-use Piwik\Db;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -32,12 +29,7 @@ class Updates_1_5_b1 extends Updates
 
     public function getMigrations(Updater $updater)
     {
-        $tableMetadata = new TableMetadata();
-        $logConvColumns = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
-        $hasDaysColumn = in_array('visitor_days_since_first', $logConvColumns);
-        $hasDaysLastColumn = in_array('visitor_days_since_last', $logConvColumns);
-
-        $result = array(
+        return array(
             $this->migration->db->createTable('log_conversion_item', array(
                 'idsite' => 'int(10) UNSIGNED NOT NULL',
                 'idvisitor' => 'BINARY(8) NOT NULL',
@@ -53,12 +45,12 @@ class Updates_1_5_b1 extends Updates
             ), array('idvisit', 'idorder', 'idaction_sku')),
             $this->migration->db->addIndex('log_conversion_item', array('idsite', 'server_time'), 'index_idsite_servertime'),
 
-            $hasDaysLastColumn ? $this->migration->db->addColumns('log_visit', array(
+            $this->migration->db->addColumns('log_visit', array(
                 'visitor_days_since_order' => 'SMALLINT(5) UNSIGNED NOT NULL',
                 'visit_goal_buyer' => 'TINYINT(1) NOT NULL'
-            ), 'visitor_days_since_last') : null,
-
-            $hasDaysColumn ? $this->migration->db->addColumn('log_conversion', 'visitor_days_since_order', 'SMALLINT(5) UNSIGNED NOT NULL', 'visitor_days_since_first') : null,
+            ), 'visitor_days_since_last'),
+            
+            $this->migration->db->addColumn('log_conversion', 'visitor_days_since_order', 'SMALLINT(5) UNSIGNED NOT NULL', 'visitor_days_since_first'),
             $this->migration->db->addColumns('log_conversion', array(
                 'idorder' => 'varchar(100) default NULL',
                 'items' => 'SMALLINT UNSIGNED DEFAULT NULL',
@@ -67,10 +59,8 @@ class Updates_1_5_b1 extends Updates
                 'revenue_shipping' => 'float default NULL',
                 'revenue_discount' => 'float default NULL',
             ), 'buster'),
-            $this->migration->db->addUniqueKey('log_conversion', array('idsite', 'idorder')),
+            $this->migration->db->addUniqueKey('log_conversion', array('idsite', 'idorder'))
         );
-
-        return array_filter($result);
     }
 
     public function doUpdate(Updater $updater)
