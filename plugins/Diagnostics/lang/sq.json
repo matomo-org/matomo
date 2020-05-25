@@ -1,12 +1,17 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Kartelë formësimesh",
+        "MysqlTemporaryTablesWarning": "Leja MySQL CREATE TEMPORARY TABLES është e domosdoshme që Matomo të funksionojë si duhet.",
+        "MysqlTransactionLevel": "Nuk mbulohet ndryshimi i shkallës së izolimit. Arkivimi do të funksionojë, por mund të jetë më i ngadaltë dhe rekomandohet të ndryshohet, për shembull `binlog_format` në `row`, në qoftë e mundur.",
         "MysqlMaxPacketSize": "Maksimum Madhësie Paketi",
         "MysqlMaxPacketSizeWarning": "Këshillohet të formësoni te baza juaj e të dhënave MySQL një madhësi 'max_allowed_packet' të paktën %1$s. Formësimi i tanishëm për të është %2$s.",
         "ConfigFileIntroduction": "Këtu mund të shihni formësimin e Matomo-s. Nëse Matomo-n e xhironi në një mjedis me ngarkesë të balancuar, faqja mund të jetë ndryshe, varet se nga cili shërbyes ngarkohet faqja. Rreshtat me një ngjyrë tjetër për sfondin përfaqësojnë vlera formësimi që janë dhënë si shembull te kartela %1$s.",
         "HideUnchanged": "Nëse dëshironi të shihni vetëm vlerat e ndryshuara, mund të %1$sfshihni krejt vlerat e pandryshuara%2$s.",
         "Sections": "Ndarje",
         "DatabaseReaderConnection": "Lidhje Leximi Baze të Dhënash",
+        "DatabaseUtf8Requirement": "Kjo është e domosdoshme për të qenë në gjendje të depozitohen shenja UTF8 4-bajtshe. Po qe se utf8mb4 s’është e përdorshme, shenja speciale, bie fjala, emotikone, shenja më pak të rëndomta gjuhësh aziatike, skripte të ndryshëm historikë apo simbole matematike do të zëvendësohen me %1$s. Te %2$skëto PBR%3$s mund të lexoni më tepër hollësi rreth këtij subjekti.",
+        "DatabaseUtf8mb4CharsetRecommended": "Baza juaj e të dhënave s’e mbulon ende kodimin utf8mb4",
+        "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Baza juaj e të dhënave e mbulon kodimin utf8mb4, por tabelat e bazës tuaj të të dhënave ende s’janë shndërruar. Këtë mund ta bëni duke ekzekutuar urdhrin %1$s ose aktivizuar shndërrimin e automatizuar që nga Rregullimet e Përgjithshme.",
         "CronArchivingLastRunCheck": "Plotësimi i Fundit i Suksesshëm i Arkivimit",
         "CronArchivingHasNotRun": "Arkivimi ende s’është xhiruar me sukses.",
         "CronArchivingHasNotRunInAWhile": "Hera e fundit që arkivimi u bë me sukses qe më %1$s, që do të thotë %2$s më parë.",
