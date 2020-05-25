@@ -13,7 +13,7 @@ use Piwik\Piwik;
 
 class View extends Role
 {
-    private const ID = 'view';
+    public const ID = 'view';
 
     public function getName(): string
     {

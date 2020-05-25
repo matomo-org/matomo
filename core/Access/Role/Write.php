@@ -13,7 +13,7 @@ use Piwik\Piwik;
 
 class Write extends Role
 {
-    private const ID = 'write';
+    public const ID = 'write';
 
     public function getName(): string
     {
