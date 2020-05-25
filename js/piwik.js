@@ -4266,7 +4266,7 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (!isDefined(category) || !isDefined(action) || trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                if (!isNumberOrHasLength(category) || !isNumberOrHasLength(action)) {
                     logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }
