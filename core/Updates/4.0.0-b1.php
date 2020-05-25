@@ -121,6 +121,18 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         foreach ($columnsToAdd as $table => $columns) {
             $migrations[] = $this->migration->db->addColumns($table, $columns);
+
+            foreach ($columns as $columnName => $columnType) {
+                $optionKey = 'version_' . $table . '.' . $columnName;
+                $optionValue = $columnType;
+
+                if ($table == 'log_visit' && isset($columnsToAdd['log_conversion'][$columnName])) {
+                    $optionValue .= '1'; // column is in log_conversion too
+                }
+
+                $migrations[] = $this->migration->db->sql("INSERT IGNORE INTO `" . Common::prefixTable('option')
+                    . "` (option_name, option_value) VALUES ('$optionKey', '$optionValue')");
+            }
         }
 
         // init new site search fields
@@ -144,7 +156,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $logConvColumns = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
         $hasDaysColumnInConv = in_array('visitor_days_since_first', $logConvColumns);
 
-        if ($hasDaysColumnInVisit) {
+        if ($hasDaysColumnInVisit && $hasDaysColumnInConv) {
             $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_visit')
                 . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
                     visitor_seconds_since_order = visitor_days_since_order * 86400,
