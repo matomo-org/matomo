@@ -47,7 +47,7 @@ class JsonFileLoader implements LoaderInterface
         $data = file_get_contents($filename);
         $translations = json_decode($data, true);
 
-        if (is_null($translations) && Common::hasJsonErrorOccurred()) {
+        if (\is_null($translations) && Common::hasJsonErrorOccurred()) {
             throw new \Exception(sprintf(
                 'Not able to load translation file %s: %s',
                 $filename,
@@ -55,7 +55,7 @@ class JsonFileLoader implements LoaderInterface
             ));
         }
 
-        if (!is_array($translations)) {
+        if (!\is_array($translations)) {
             return array();
         }
 

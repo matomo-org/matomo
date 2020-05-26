@@ -26,9 +26,9 @@ class EventDispatcher
     }
 
     // implementation details for postEvent
-    const EVENT_CALLBACK_GROUP_FIRST = 0;
-    const EVENT_CALLBACK_GROUP_SECOND = 1;
-    const EVENT_CALLBACK_GROUP_THIRD = 2;
+    public const EVENT_CALLBACK_GROUP_FIRST = 0;
+    public const EVENT_CALLBACK_GROUP_SECOND = 1;
+    public const EVENT_CALLBACK_GROUP_THIRD = 2;
 
     /**
      * Array of observers (callbacks attached to events) that are not methods
@@ -62,6 +62,8 @@ class EventDispatcher
 
     /**
      * Constructor.
+     * @param Plugin\Manager $pluginManager
+     * @param array $observers
      */
     public function __construct(Plugin\Manager $pluginManager, array $observers = array())
     {
@@ -85,7 +87,7 @@ class EventDispatcher
      *                            can be either the Plugin objects themselves
      *                            or their string names.
      */
-    public function postEvent($eventName, $params, $pending = false, $plugins = null)
+    public function postEvent(string $eventName, array $params, bool $pending = false, ?array $plugins = null)
     {
         if ($pending) {
             $this->pendingEvents[] = array($eventName, $params);
@@ -101,7 +103,7 @@ class EventDispatcher
 
         // collect all callbacks to execute
         foreach ($plugins as $pluginName) {
-            if (!is_string($pluginName)) {
+            if (!\is_string($pluginName)) {
                 $pluginName = $pluginName->getPluginName();
             }
 
@@ -115,7 +117,7 @@ class EventDispatcher
             if (isset($hooks[$eventName])) {
                 list($pluginFunction, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($hooks[$eventName]);
 
-                if (is_string($pluginFunction)) {
+                if (\is_string($pluginFunction)) {
                     $plugin = $manager->getLoadedPlugin($pluginName);
                     $callbacks[$callbackGroup][] = array($plugin, $pluginFunction) ;
                 } else {
@@ -133,12 +135,12 @@ class EventDispatcher
         }
 
         // sort callbacks by their importance
-        ksort($callbacks);
+        \ksort($callbacks);
 
         // execute callbacks in order
         foreach ($callbacks as $callbackGroup) {
             foreach ($callbackGroup as $callback) {
-                call_user_func_array($callback, $params);
+                \call_user_func_array($callback, $params);
             }
         }
     }
@@ -163,7 +165,7 @@ class EventDispatcher
      *                        before normal & 'after' ones. If 'after' then it
      *                        will be executed after normal ones.
      */
-    public function addObserver($eventName, $callback)
+    public function addObserver(string $eventName, $callback)
     {
         $this->extraObservers[$eventName][] = $callback;
     }
@@ -173,7 +175,7 @@ class EventDispatcher
      *
      * @param Plugin $plugin
      */
-    public function postPendingEventsTo($plugin)
+    public function postPendingEventsTo(Plugin $plugin)
     {
         foreach ($this->pendingEvents as $eventInfo) {
             list($eventName, $eventParams) = $eventInfo;
@@ -181,9 +183,9 @@ class EventDispatcher
         }
     }
 
-    private function getCallbackFunctionAndGroupNumber($hookInfo)
+    private function getCallbackFunctionAndGroupNumber($hookInfo): array
     {
-        if (is_array($hookInfo)
+        if (\is_array($hookInfo)
             && !empty($hookInfo['function'])
         ) {
             $pluginFunction = $hookInfo['function'];

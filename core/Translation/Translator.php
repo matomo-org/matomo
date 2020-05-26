@@ -82,21 +82,21 @@ class Translator
      * @return string The translated string or `$translationId`.
      * @api
      */
-    public function translate($translationId, $args = array(), $language = null)
+    public function translate(string $translationId, $args = array(), ?string $language = null)
     {
-        $args = is_array($args) ? $args : array($args);
+        $args = \is_array($args) ? $args : array($args);
 
-        if (strpos($translationId, "_") !== false) {
-            list($plugin, $key) = explode("_", $translationId, 2);
-            $language = is_string($language) ? $language : $this->currentLanguage;
+        if (\strpos($translationId, "_") !== false) {
+            list($plugin, $key) = \explode("_", $translationId, 2);
+            $language = $language ?? $this->currentLanguage;
 
             $translationId = $this->getTranslation($translationId, $language, $plugin, $key);
         }
 
-        if (count($args) == 0) {
-            return str_replace('%%', '%', $translationId);
+        if (\count($args) === 0) {
+            return \str_replace('%%', '%', $translationId);
         }
-        return vsprintf($translationId, $args);
+        return \vsprintf($translationId, $args);
     }
 
     /**
@@ -254,7 +254,7 @@ class Translator
          * Fallback for keys moved to new Intl plugin to avoid untranslated string in non core plugins
          * @todo remove this in Piwik 3.0
          */
-        if ($plugin != 'Intl') {
+        if ($plugin !== 'Intl') {
             if (isset($this->translations[$lang]['Intl'])
                 && isset($this->translations[$lang]['Intl'][$key])
             ) {

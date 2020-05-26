@@ -587,7 +587,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
 
-        $result = call_user_func_array($controller, $parameters);
+        $result = \call_user_func_array($controller, $parameters);
 
         /**
          * Triggered after a controller action is successfully called.

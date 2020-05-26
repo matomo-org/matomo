@@ -44,7 +44,7 @@ class LoaderCache implements LoaderInterface
 
         $translations = $this->cache->fetch($cacheKey);
 
-        if (empty($translations) || !is_array($translations)) {
+        if (empty($translations) || !\is_array($translations)) {
             $translations = $this->loader->load($language, $directories);
 
             $this->cache->save($cacheKey, $translations, 43200); // ttl=12hours
