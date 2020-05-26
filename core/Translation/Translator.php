@@ -82,7 +82,7 @@ class Translator
      * @return string The translated string or `$translationId`.
      * @api
      */
-    public function translate(string $translationId, $args = array(), ?string $language = null)
+    public function translate(?string $translationId, $args = array(), ?string $language = null)
     {
         $args = \is_array($args) ? $args : array($args);
 
