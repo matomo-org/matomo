@@ -74,6 +74,8 @@
                     that._parseResponse(r);
                 }
 
+                that.options.interval = parseInt(that.options.interval, 10);
+
                 // add default interval to last interval if not updated or reset to default if so
                 if (!that.updated) {
                     that.currentInterval += that.options.interval;
@@ -168,7 +170,7 @@
                 return;
             }
 
-            this.currentInterval = this.options.interval;
+            this.currentInterval = parseInt(this.options.interval, 10);
 
             if (0 === $(this.element).parents('.widget').length) {
                 var $rootScope = piwikHelper.getAngularDependency('$rootScope');
