@@ -196,13 +196,6 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - hour (Time of last action)</name>
-		<segment>visitServerHour</segment>
-		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visitors</category>
 		<name>Server time - hour (Start of visit)</name>
 		<segment>visitStartServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
@@ -210,15 +203,22 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - minute (Time of last action)</name>
-		<segment>visitEndServerMinute</segment>
-		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+		<name>Server time - hour (Time of last action)</name>
+		<segment>visitServerHour</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Server time - minute (Start of visit)</name>
 		<segment>visitStartServerMinute</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - minute (Time of last action)</name>
+		<segment>visitEndServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
 	</row>
 	<row>
