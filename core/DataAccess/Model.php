@@ -68,7 +68,7 @@ class Model
                  WHERE name LIKE 'done%'
                    AND ts_archived IS NOT NULL
                    AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
-              GROUP BY idsite, date1, date2, period, name";
+              GROUP BY idsite, date1, date2, period, name HAVING count(*) > 1";
 
         $archiveIds = array();
 
@@ -382,6 +382,14 @@ class Model
             }
         } catch (Exception $e) {
         }
+    }
+
+    public function getInstalledArchiveTables()
+    {
+        $allArchiveNumeric = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_numeric%') . "'");
+        $allArchiveBlob    = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_blob%') ."'");
+
+        return array_merge($allArchiveBlob, $allArchiveNumeric);
     }
 
     public function allocateNewArchiveId($numericTable)

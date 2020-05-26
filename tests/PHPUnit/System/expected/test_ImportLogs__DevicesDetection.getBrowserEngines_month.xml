@@ -26,12 +26,12 @@
 	</row>
 	<row>
 		<label>Blink (Chrome, Opera)</label>
-		<nb_visits>6</nb_visits>
+		<nb_visits>5</nb_visits>
 		<nb_actions>9</nb_actions>
-		<max_actions>2</max_actions>
+		<max_actions>3</max_actions>
 		<sum_visit_length>6</sum_visit_length>
-		<bounce_count>3</bounce_count>
-		<nb_visits_converted>6</nb_visits_converted>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<segment>browserEngine==Blink</segment>

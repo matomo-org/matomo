@@ -1,6 +1,8 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "S’gjendet dot funksioni apache_get_modules function, po merret i mirëqenë si shërbyes non-Apache.",
+        "AutomaticSetup": "Formësoje automatikisht gjeovendëzimin duke përdorur një bazë të dhënash dbip",
+        "AutomaticSetupDescription": "Për gjeovendëzim si duhet, Matomo-ja lyp një bazë të jashtme të dhënash. Duke përdorur këtë mundësi, Matomo-ja do të formësohet automatikisht të shkarkojë dhe përdorë bazën më të freskët të të dhënave dbip në nivel qyteti. [%1$sShihni kushtet e licencimit%2$s]",
         "CannotFindGeoIPDatabaseInArchive": "S’u gjet dot bazë e vlefshme të dhënash DBIP \/ GeoIP te arkivi tar %1$s!",
         "CannotFindGeoIPServerVar": "Ndryshorja %s s’është rregulluar. Shërbyesi juaj mund të mos jetë formësuar si duhet.",
         "CannotListContent": "S’paraqet dot lëndën për %1$s: %2$s",

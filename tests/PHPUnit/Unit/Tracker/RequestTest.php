@@ -307,25 +307,25 @@ class RequestTest extends UnitTestCase
 
     public function test_getPlugins_shouldReturnZeroForAllIfNothingGiven()
     {
-        $expected = array_fill(0, 10, 0);
+        $expected = array_fill(0, 9, 0);
 
         $this->assertEquals($expected, $this->request->getPlugins());
     }
 
     public function test_getPlugins_shouldReturnAllOneIfAllGiven()
     {
-        $plugins = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'gears', 'ag', 'cookie');
+        $plugins = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
         $request = $this->buildRequest(array_fill_keys($plugins, '1'));
 
-        $this->assertEquals(array_fill(0, 10, 1), $request->getPlugins());
+        $this->assertEquals(array_fill(0, 9, 1), $request->getPlugins());
     }
 
     public function test_getPlugins_shouldDetectSome()
     {
-        $plugins = array('fla' => 1, 'java', 'dir' => '1', 'qt' => '0', 'realp' => 0, 'gears', 'ag' => 1, 'cookie');
+        $plugins = array('fla' => 1, 'java', 'dir' => '1', 'qt' => '0', 'realp' => 0, 'ag' => 1, 'cookie');
         $request = $this->buildRequest($plugins);
 
-        $expected = array(1, 0, 1, 0, 0, 0, 0, 0, 1, 0);
+        $expected = array(1, 0, 1, 0, 0, 0, 0, 1, 0);
         $this->assertEquals($expected, $request->getPlugins());
     }
 

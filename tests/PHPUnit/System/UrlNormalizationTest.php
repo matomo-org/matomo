@@ -110,7 +110,7 @@ class UrlNormalizationTest extends SystemTestCase
             array('name' => 'example.org/foo/bar2.html', 'url_prefix' => 3),
             array('name' => 'example.org/foo/bar3.html', 'url_prefix' => 1),
             array('name' => 'my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ', 'url_prefix' => 1),
-            array('name' => 'make.wordpress.org/?emoji=�l&param=test', 'url_prefix' => 2),
+            array('name' => 'make.wordpress.org/?emoji=😎l&param=test', 'url_prefix' => 2),
             array('name' => 'example.org/foo/bar4.html', 'url_prefix' => 2),
         );
         $this->assertEquals($expected, $urls, "normalization went wrong");

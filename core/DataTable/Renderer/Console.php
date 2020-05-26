@@ -81,7 +81,7 @@ class Console extends Renderer
             return $this->renderDataTableMap($table, $prefix);
         }
 
-        if ($table->getRowsCount() == 0) {
+        if ($table->getRowsCount() === 0) {
             return "Empty table<br />\n";
         }
 

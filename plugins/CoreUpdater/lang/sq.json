@@ -20,7 +20,7 @@
         "ExceptionArchiveIncompatible": "Arkiv i papërputhshëm: %s",
         "ExceptionArchiveIncomplete": "Arkivi nuk është e plotë: mungojnë disa kartela (p.sh., %s).",
         "FeedbackRequest": "Mos ngurroni të ndani me Ekipin e Matomo-s idetë dhe sugjerimet tuaja, këtu:",
-        "HelpMessageContent": "Hidhini një sy %1$s Matomo FAQ %2$s që shpjegojnë gabimet më të rëndomta gjatë përditësimesh. %3$s Pyesni përgjegjësin e sistemit tuaj - ai mund të jetë në gjendje t’ju ndihmojë për gabimin, i cili ka shumë të ngjarë të ketë lidhje me rregullimet e shërbyesit tuaj ose ato të MySQL-së.",
+        "HelpMessageContent": "Hidhini një sy %1$s PBR-ve të Matomos %2$s që shpjegojnë gabimet më të rëndomta gjatë përditësimesh. %3$s Pyesni përgjegjësin e sistemit tuaj - ai mund të jetë në gjendje t’ju ndihmojë për gabimin, i cili ka shumë të ngjarë të ketë lidhje me rregullimet e shërbyesit tuaj ose ato të MySQL-së.",
         "HelpMessageIntroductionWhenError": "Sa më sipër, është thelbi i mesazhit të gabimit. Do të ndihmonte të shpjegohej shkaku, por nëse keni nevojë për ndihmë të mëtejshme, ju lutemi:",
         "HelpMessageIntroductionWhenWarning": "Përditësimi u plotësua me sukses, sidoqoftë pati ca kleçka gjatë procesit. Ju lutemi, lexoni përshkrimet më sipër për hollësi. Për më tepër ndihmë:",
         "HighTrafficPiwikServerEnableMaintenance": "Nëse administroni një shërbyes Matomo me trafik të madh, këshillojmë ta %1$sçaktivizoni përkohësisht Ndjekjen e vizitorëve dhe ta kaloni Ndërfaqen e Përdoruesit të Matomo-s nën mënyrën mirëmbajtje%2$s.",
@@ -91,6 +91,9 @@
         "YouMustDownloadPackageOrFixPermissions": "Matomo s’është në gjendje të mbishkruajë instalimin tuaj të tanishëm. Mundeni ose të ndreqni lejet mbi drejtorira\/kartela, ose të shkarkoni paketën dhe instaloni versionin %s dorazi:",
         "YourDatabaseIsOutOfDate": "Baza juaj e të dhënave për Matomo-n është e vjetruar, dhe duhet përmirësuar përpara se të mund të vazhdoni.",
         "ViewVersionChangelog": "Shihni regjistër ndryshimesh për këtë version:",
-        "ReceiveEmailBecauseIsSuperUser": "E morët këtë email ngaqë jeni një Superpërdorues Matomo te: %s"
+        "ReceiveEmailBecauseIsSuperUser": "E morët këtë email ngaqë jeni një Superpërdorues Matomo te: %s",
+        "ConvertToUtf8mb4": "Shndërroje bazën e të dhënave në kodim UTF8mb4",
+        "TriggerDatabaseConversion": "Shkakto shndërrim baze të dhënash në prapaskenë",
+        "Utf8mb4ConversionHelp": "Baza juaj e të dhënave aktualisht nuk përdor kodim utf8mb4. Kjo e bën të pamundur depozitimin e shenjave 4-bajtshe, bie fjala, emotikone, shenja më pak të rëndomta gjuhës aziatikes, skripte të ndryshëm historikë apo simbole matematike. Këto aktualisht zëvendësohen me %1$s.<br \/><br \/>Baza juaj e të dhënave e mbulon kodimin utf8mb4 dhe do të mund të shndërrohej.<br \/><br \/>Nëse jeni në gjendje të xhironi urdhra konsole, rekomandojmë të përdorni këtë urdhër: %2$s<br \/><br \/>Si rrugë tjetër, mund të aktivizonit këtu shndërrimin. Në rast të tillë, do të shkaktohej në prapaskenë si punë e planifikuar.<br \/><br \/>Kujdes: Shndërrimi i bazës së të dhënave mund të dojë nja dy orë, varet nga madhësia e bazës së të dhënave. Ngaqë gjatë këtij procesi ndjekja mund të mos funksionojë, nuk rekomandojmë të përdoret vënia në punë për instanca të mëdha.<br \/><br \/>Më tepër informacion rreth këtij subjekti mund të gjeni te %3$sPBR%4$s."
     }
 }

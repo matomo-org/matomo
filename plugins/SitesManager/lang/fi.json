@@ -10,7 +10,7 @@
         "CustomizeJavaScriptTracker": "Mukauta JavaScript-seurantaa",
         "DefaultCurrencyForNewWebsites": "Oletusvaluutta uusille sivustoille",
         "DefaultTimezoneForNewWebsites": "Oletusaikavyöhyke uusille sivustoille",
-        "DeleteConfirm": "Haluatko varmasti poistaa sivun %s?",
+        "DeleteConfirm": "Haluatko varmasti poistaa sivuston %s?",
         "DisableSiteSearch": "Älä seuraa hakuja",
         "EcommerceHelp": "Kun tämä on käytössä, \"Tavoitteet\"-raporttiin tulee uusi \"Verkkokauppa\"-osio.",
         "EnableEcommerce": "Verkkokauppa käytössä",
@@ -92,6 +92,7 @@
         "DeleteSiteExplanation": "Verkkosivuston poistaminen poistaa kaiken sivustolta kerätyn lokitiedon. Tätä toimenpidettä ei voi perua.",
         "EmailInstructionsButton": "Lähetä nämä ohjeet sähköpostitse",
         "EmailInstructionsSubject": "Matomo-analytiikan seurantakoodi",
+        "EmailInstructionsDocsPlainText": "Jos haluat seurata enemmän kuin sivujen katselukertoja, tutustu Matomon dokumentaatioon osoitteessa %1$s.",
         "EmailInstructionsSiteDetailsHeading": "Sivustosi tiedot",
         "EmailInstructionsYourSiteId": "Sivustosi ID-tunniste: %1$s",
         "EmailInstructionsYourTrackingUrl": "Seurantaosoite: %1$s"

@@ -43,6 +43,7 @@
         "mustangostang/spyc": "~0.6.0",
         "pear/pear_exception": "~1.0.0",
         "php-di/php-di": "^5.0.0",
+        "phpmailer/phpmailer": "^6.1",
         "piwik/device-detector": "~3.0",
         "psr/log": "~1.0",
         "symfony/console": "~2.6.0",
@@ -53,9 +54,7 @@
         "twig/twig": "~1.0"
     },
     "require-dev": {
-        "aws/aws-sdk-php": "2.7.1",
         "lox/xhprof": "dev-master",
-        "phpseclib/phpseclib": "~0.3.8",
         "phpunit/phpunit": "~8.5",
         "symfony/var-dumper": "~2.6.0",
         "symfony/yaml": "~2.6.0"

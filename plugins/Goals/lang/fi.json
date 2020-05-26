@@ -78,6 +78,7 @@
         "NewGoalIntro": "Konversion seuranta on yksi tehokkaimmista tavoista mitata ja kehittää yrityksesi päämääriä.",
         "NewVisitorsConversionRateIs": "Uusien kävijöiden siirtymäaste on %s",
         "Optional": "(valinnainen)",
+        "ColumnOverallRevenue": "Tuotto yhteensä",
         "PageTitle": "Sivun otsikko",
         "Pattern": "Malli",
         "PluginDescription": "Luo tavoitteita, ja näe yksityiskohtaisia raportteja tavoitteiden saavuttamisesta: muutokset ajan yli, liikevaihto per käynti, onnistumisia per viittaus, per avainsana jne.",
@@ -101,6 +102,7 @@
         "WhenVisitors": "kun kävijöitä",
         "WhereThe": "jossa",
         "YouCanEnableEcommerceReports": "Voit ottaa käyttöön %1$s tälle sivustolle sivulla %2$s.",
+        "GoalRevenue": "Tavoitteen tuotto",
         "TimeInMinutes": "Aika minuuteissa",
         "ClickToViewThisGoal": "Napsauta nähdäksesi tämän tavoitteen."
     }

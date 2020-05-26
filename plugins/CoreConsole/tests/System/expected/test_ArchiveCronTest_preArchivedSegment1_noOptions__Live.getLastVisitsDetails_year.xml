@@ -106,8 +106,8 @@
 				
 				<pageId>71</pageId>
 				<bandwidth />
-				<timeSpent>50</timeSpent>
-				<timeSpentPretty>50s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -131,8 +131,8 @@
 				
 				<pageId>75</pageId>
 				<bandwidth />
-				<timeSpent>49</timeSpent>
-				<timeSpentPretty>49s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>6</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -181,8 +181,8 @@
 				
 				<pageId>72</pageId>
 				<bandwidth />
-				<timeSpent>26</timeSpent>
-				<timeSpentPretty>26s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
@@ -231,8 +231,8 @@
 				
 				<pageId>73</pageId>
 				<bandwidth />
-				<timeSpent>8</timeSpent>
-				<timeSpentPretty>8s</timeSpentPretty>
+				<timeSpent>1</timeSpent>
+				<timeSpentPretty>1s</timeSpentPretty>
 				<pageviewPosition>4</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
@@ -763,7 +763,7 @@
 			</row>
 		</customVariables>
 		<resolution>1280x800</resolution>
-		<plugins>cookie, director, flash, gears, java, pdf, windowsmedia</plugins>
+		<plugins>cookie, director, flash, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
@@ -776,10 +776,6 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/gears.png</pluginIcon>
-				<pluginName>gears</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>

@@ -16,7 +16,7 @@
         symbolDecimal: "{{ 'Intl_NumberSymbolDecimal'|translate }}"
     };
 
-    piwik.relativePluginWebDirs = {{ relativePluginWebDirs|json_encode|raw }}
+    piwik.relativePluginWebDirs = {{ relativePluginWebDirs|json_encode|raw }};
 
     {% if userLogin %}piwik.userLogin = "{{ userLogin|e('js')}}";{% endif %}
 

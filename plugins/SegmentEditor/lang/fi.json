@@ -27,10 +27,13 @@
         "SharedWithYou": "Jaettu kanssasi",
         "YouMustBeLoggedInToCreateSegments": "Sinun täytyy olla sisäänkirjautuneena voidaksesi luoda tai muokata kävijäsegmenttejä.",
         "AddingSegmentForAllWebsitesDisabled": "Segmenttien lisääminen kaikille verkkosivuille on poistettu käytöstä.",
+        "SegmentXIsAUnionOf": "%s on näiden segmenttien yhdiste:",
         "CustomSegment": "Kustomoidut segmentit",
         "SegmentOperatorIsNullOrEmpty": "on tyhjä",
         "SegmentOperatorIsNotNullNorEmpty": "ei ole tyhjä",
         "AddThisToMatomo": "Lisää tämä segmentti Matomoon",
+        "ThisSegmentIsCompared": "Tätä segmenttiä vertaillaan parhaillaan.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Tämä segmentti on parhaillaan valittu, joten sitä ei voi valita vertailtavaksi.",
         "Test": "Testi"
     }
 }

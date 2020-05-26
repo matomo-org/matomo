@@ -39,6 +39,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations = array();
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_gears');
         $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
 
         /** APP SPECIFIC TOKEN START */
@@ -46,7 +47,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             'idusertokenauth' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
             'login' => 'VARCHAR(100) NOT NULL',
             'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
-            'password' => 'VARCHAR(255) NOT NULL',
+            'password' => 'VARCHAR(191) NOT NULL',
             'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
             'hash_algo' => 'VARCHAR(30) NOT NULL',
             'last_used' => 'DATETIME NULL',
@@ -70,15 +71,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
-
-        // we don't delete the token_auth column so users can still downgrade to 3.X if they want to. However, the original
-        // token_auth will be regenerated for security reasons to no longer have it in plain text. So this column will be no longer used
-        // unless someone downgrades to 3.x
-        $columns = DbHelper::getTableColumns(Common::prefixTable('user'));
-        if (isset($columns['token_auth'])) {
-            $sql = sprintf('UPDATE %s set token_auth = MD5(CONCAT(NOW(), UUID()))', Common::prefixTable('user'));
-            $migrations[] = $this->migration->db->sql($sql, Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN);
-        }
+        $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
 
         /** APP SPECIFIC TOKEN END */
 
@@ -93,6 +86,20 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         if ($customTrackerPluginActive) {
             $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
+        }
+
+        // Prepare all installed tables for utf8mb4 conversions. e.g. make some indexed fields smaller so they don't exceed the maximum key length
+        $allTables = DbHelper::getTablesInstalled();
+
+        $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
+        $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
+        $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
+
+        foreach ($allTables as $table) {
+            if (preg_match('/archive_/', $table) == 1) {
+                $tableNameUnprefixed = Common::unprefixTable($table);
+                $migrations[] = $this->migration->db->changeColumnType($tableNameUnprefixed, 'name', 'VARCHAR(190)');
+            }
         }
 
         // Move the site search fields of log_visit out of custom variables into their own fields
@@ -124,6 +131,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         ], ['idinvalidation']);
 
         $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'date2', 'period'], 'index_idsite_dates_period_name');
+
+        $config = Config::getInstance();
+
+        if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
+            $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
+        }
 
         return $migrations;
     }
