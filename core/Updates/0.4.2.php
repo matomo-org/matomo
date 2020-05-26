@@ -31,7 +31,7 @@ class Updates_0_4_2 extends Updates
     {
         return array(
             $this->migration->db->addColumn('log_visit', 'config_java', 'TINYINT(1) NOT NULL', 'config_flash'),
-            $this->migration->db->addColumn('log_visit', 'config_quicktime', 'TINYINT(1) NOT NULL', 'config_director'),
+            $this->migration->db->addColumn('log_visit', 'config_quicktime', 'TINYINT(1) NOT NULL', 'config_flash'),
             $this->migration->db->addColumn('log_visit', 'config_gears', 'TINYINT(1) NOT NULL', 'config_windowsmedia'),
             $this->migration->db->addColumn('log_visit', 'config_silverlight', 'TINYINT(1) NOT NULL', 'config_gears'),
         );
