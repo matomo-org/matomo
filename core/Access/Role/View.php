@@ -13,24 +13,24 @@ use Piwik\Piwik;
 
 class View extends Role
 {
-    const ID = 'view';
+    public const ID = 'view';
 
-    public function getName()
+    public function getName(): string
     {
         return Piwik::translate('UsersManager_PrivView');
     }
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return Piwik::translate('UsersManager_PrivViewDescription');
     }
 
-    public function getHelpUrl()
+    public function getHelpUrl(): string
     {
         return 'https://matomo.org/faq/general/faq_70/';
     }
