@@ -241,7 +241,7 @@ class CronArchive
 
         $this->rawLogDao = new RawLogDao();
 
-        $this->cliMultiRequestParser = new RequestParser();
+        $this->cliMultiRequestParser = new RequestParser($this->makeCliMulti()->supportsAsync());
     }
 
     private function isMaintenanceModeEnabled()
@@ -1441,7 +1441,8 @@ class CronArchive
     {
         $inProgressArchives = $this->cliMultiRequestParser->getInProgressArchivingCommands();
 
-        $archiveToProcess['periodObj'] = PeriodFactory::build($archiveToProcess['period'], $archiveToProcess['date1']);
+        $periodLabel = $this->periodIdsToLabels[$archiveToProcess['period']];
+        $archiveToProcess['periodObj'] = PeriodFactory::build($periodLabel, $archiveToProcess['date1']);
 
         foreach ($inProgressArchives as $archiveBeingProcessed) {
             $archiveBeingProcessed['periodObj'] = PeriodFactory::build($archiveBeingProcessed['period'], $archiveBeingProcessed['date']);
