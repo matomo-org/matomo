@@ -12,20 +12,19 @@ use Exception;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Matomo\Cache\Lazy;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CliMulti\RequestParser;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Metrics\Formatter;
-use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
@@ -214,6 +213,11 @@ class CronArchive
     private $invalidationsToExclude = [];
 
     /**
+     * @var RequestParser
+     */
+    private $cliMultiRequestParser;
+
+    /**
      * Constructor.
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
@@ -236,6 +240,8 @@ class CronArchive
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
 
         $this->rawLogDao = new RawLogDao();
+
+        $this->cliMultiRequestParser = new RequestParser();
     }
 
     private function isMaintenanceModeEnabled()
@@ -443,6 +449,15 @@ class CronArchive
                     $this->logger->debug("Found invalidated archive we can skip (no visits or latest archive is not invalidated).");
                     $this->addInvalidationToExclude($invalidatedArchive);
                     $this->model->deleteInvalidations([$invalidatedArchive]);
+                    continue;
+                }
+
+                // TODO: should use descriptive string instead of just invalidation ID
+                $reason = $this->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($invalidatedArchive);
+                if ($reason) {
+                    $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
+                    $invalidationsToExcludeInBatch[$invalidatedArchive['idinvalidation']] = true;
+                    $this->addInvalidationToExclude($invalidatedArchive);
                     continue;
                 }
 
@@ -1403,7 +1418,7 @@ class CronArchive
 
         $periodLabel = $this->periodIdsToLabels[$invalidatedArchive['period']];
         $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
-        $period = Factory::build($periodLabel, $dateStr);
+        $period = PeriodFactory::build($periodLabel, $dateStr);
 
         $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
 
@@ -1420,5 +1435,53 @@ class CronArchive
 
         $idArchive = $archiveIdAndVisits[0];
         return !empty($idArchive);
+    }
+
+    private function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess)
+    {
+        $inProgressArchives = $this->cliMultiRequestParser->getInProgressArchivingCommands();
+
+        $archiveToProcess['periodObj'] = PeriodFactory::build($archiveToProcess['period'], $archiveToProcess['date1']);
+
+        foreach ($inProgressArchives as $archiveBeingProcessed) {
+            $archiveBeingProcessed['periodObj'] = PeriodFactory::build($archiveBeingProcessed['period'], $archiveBeingProcessed['date']);
+
+            if ($this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
+                return "lower period in progress (period = {$archiveBeingProcessed['period']}, date = {$archiveBeingProcessed['date']})";
+            }
+
+            if ($this->isArchiveNonSegmentAndInProgressArchiveSegment($archiveToProcess, $archiveBeingProcessed)) {
+                return "segment archive in progress for same site/period ({$archiveBeingProcessed['segment']})";
+            }
+        }
+
+        return false;
+    }
+
+    private function isArchiveOfLowerPeriod(array $archiveToProcess, $archiveBeingProcessed)
+    {
+        $archiveToProcessPeriodObj = $archiveToProcess['periodObj'];
+        $archivePeriodObj = $archiveBeingProcessed['periodObj'];
+
+        if ($archiveToProcessPeriodObj->getId() > $archivePeriodObj->getId()
+            && $archiveToProcessPeriodObj->isPeriodInThisPeriod($archivePeriodObj)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, $archiveBeingProcessed)
+    {
+        // archive is for different site/period
+        if ($archiveToProcess['idsite'] != $archiveBeingProcessed['idSite']
+            || $archiveToProcess['periodObj']->getId() != $archiveBeingProcessed['periodObj']->getId()
+            || $archiveToProcess['periodObj']->getDateStart()->toString() != $archiveBeingProcessed['periodObj']->getDateStart()->toString()
+        ) {
+            return false;
+        }
+
+        return empty($archiveToProcess['segment']) && !empty($archive['segment']);
     }
 }

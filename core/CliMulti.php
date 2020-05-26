@@ -324,38 +324,6 @@ class CliMulti
         return StaticContainer::get('path.tmp') . '/climulti';
     }
 
-    public function isCommandAlreadyRunning($url)
-    {
-        if (defined('PIWIK_TEST_MODE')) {
-            return false; // skip check in tests as it might result in random failures
-        }
-
-        if (!$this->supportsAsync) {
-            // we cannot detect if web archive is still running
-            return false;
-        }
-
-        $query = UrlHelper::getQueryFromUrl($url, array('pid' => 'removeme'));
-        $hostname = Url::getHost($checkIfTrusted = false);
-        $commandToCheck = $this->buildCommand($hostname, $query, $output = '', $escape = false);
-
-        $currentlyRunningJobs = `ps aux`;
-
-        $posStart = strpos($commandToCheck, 'console climulti');
-        $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
-        $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
-        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=json&trigger=archivephp
-        $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
-        $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
-
-        if (strpos($currentlyRunningJobs, $shortendCommand) !== false) {
-            Log::debug($shortendCommand . ' is already running');
-            return true;
-        }
-
-        return false;
-    }
-
     private function executeAsyncCli($url, Output $output, $cmdId)
     {
         $this->processes[] = new Process($cmdId);
