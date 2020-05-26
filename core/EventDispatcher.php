@@ -80,14 +80,14 @@ class EventDispatcher
      *
      * @param string $eventName The name of the event, ie, API.getReportMetadata.
      * @param array $params The parameters to pass to each callback when executing.
-     * @param bool $pending Whether this event should be posted again for plugins
+     * @param bool|null $pending Whether this event should be posted again for plugins
      *                      loaded after the event is fired.
      * @param array|null $plugins The plugins to post events to. If null, the event
      *                            is posted to all plugins. The elements of this array
      *                            can be either the Plugin objects themselves
      *                            or their string names.
      */
-    public function postEvent(string $eventName, array $params, bool $pending = false, ?array $plugins = null)
+    public function postEvent(string $eventName, array $params, ?bool $pending = false, ?array $plugins = null)
     {
         if ($pending) {
             $this->pendingEvents[] = array($eventName, $params);
