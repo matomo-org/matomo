@@ -19,7 +19,7 @@ class RolesProvider
     /**
      * @return Role[]
      */
-    public function getAllRoles()
+    public function getAllRoles(): array
     {
         return array(
             new View(),
@@ -33,9 +33,9 @@ class RolesProvider
      * Useful when a given API method requests a given access Level.
      * We first check that the required access level exists.
      *
-     * @return array
+     * @return string[]
      */
-    public function getAllRoleIds()
+    public function getAllRoleIds(): array
     {
         $ids = array();
         foreach ($this->getAllRoles() as $role) {
@@ -44,14 +44,18 @@ class RolesProvider
         return $ids;
     }
 
-    public function isValidRole($roleId)
+    public function isValidRole(string $roleId): bool
     {
         $roles = $this->getAllRoleIds();
 
-        return in_array($roleId, $roles, true);
+        return \in_array($roleId, $roles, true);
     }
 
-    public function checkValidRole($roleId)
+    /**
+     * @param $roleId
+     * @throws Exception
+     */
+    public function checkValidRole(string $roleId): void
     {
         if (!$this->isValidRole($roleId)) {
             $roles = $this->getAllRoleIds();

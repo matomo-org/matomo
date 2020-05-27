@@ -22,19 +22,19 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class TestCustomCap extends Access\Capability {
 
     const ID = 'testcustomcap';
-    public function getId() {
+    public function getId(): string {
         return self::ID;
     }
-    public function getName() {
+    public function getName(): string {
         return 'customcap';
     }
-    public function getCategory() {
+    public function getCategory(): string {
         return 'test';
     }
-    public function getDescription() {
+    public function getDescription(): string {
         return 'lorem ipsum';
     }
-    public function getIncludedInRoles() {
+    public function getIncludedInRoles(): array {
         return array(Access\Role\Admin::ID);
     }
 
