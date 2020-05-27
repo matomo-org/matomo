@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 class Revenue extends BaseConversion
 {
     protected $columnName = 'revenue';
-    protected $columnType = 'float default NULL';
+    protected $columnType = 'double default NULL';
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Ecommerce_OrderValue';
