@@ -640,7 +640,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $t->setLocalTime('12:34:06');
             $t->setResolution(1024, 768);
             $t->setBrowserHasCookies(true);
-            $t->setPlugins($flash = true, $java = true, $director = false);
+            $t->setPlugins($flash = true, $java = true);
         }
         return $t;
     }

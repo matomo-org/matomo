@@ -64,7 +64,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $vis2 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
         $vis2->setUrl('http://example.com/piwik/');
         $vis2->setIp('111.1.1.1');
-        $vis2->setPlugins($flash = false, $java = false, $director = true);
+        $vis2->setPlugins($flash = false, $java = false);
 
         $this->trackMusicPlaying($vis2);
         $this->trackMusicRatings($vis2);
@@ -74,7 +74,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $vis3 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
         $vis3->setUrl('http://example.com/piwik/');
         $vis3->setIp('111.1.1.2');
-        $vis3->setPlugins($flash = false, $java = false, $director = true);
+        $vis3->setPlugins($flash = false, $java = false);
 
         $this->trackMusicPlaying($vis3);
         $this->trackMusicRatings($vis3);
