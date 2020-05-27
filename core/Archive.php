@@ -605,7 +605,7 @@ class Archive implements ArchiveQuery
                     continue;
                 }
 
-                $this->prepareArchive($archiveGroups, $site, $period);
+                $this->rchive($archiveGroups, $site, $period);
             }
         }
     }
@@ -790,6 +790,12 @@ class Archive implements ArchiveQuery
         $invalidateBeforeArchiving = !SettingsServer::isArchivePhpTriggered();
 
         $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
+
+        $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
+        if ($requestedReport) {
+            $parameters->setArchiveOnlyReport($requestedReport);
+        }
+// TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
         $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
 
         $periodString = $period->getRangeString();

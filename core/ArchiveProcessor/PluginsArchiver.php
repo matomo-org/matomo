@@ -72,6 +72,7 @@ class PluginsArchiver
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
+
         $shouldAggregateFromRawData = $this->params->isSingleSiteDayArchive();
 
         /**

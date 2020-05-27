@@ -609,6 +609,7 @@ class CronArchive
     private function generateUrlToArchiveFromArchiveInfo($archive)
     {
         $plugin = $archive['plugin'];
+        $report = $archive['report'];
         $period = $this->periodIdsToLabels[$archive['period']];
 
         if ($period == 'range') {
@@ -635,6 +636,10 @@ class CronArchive
 
         if (!empty($plugin)) {
             $url .= "&pluginOnly=1";
+        }
+
+        if (!empty($report)) {
+            $url .= "&requestedReport=" . urlencode($report);
         }
 
         return [$url, $segment, $plugin];
@@ -1352,6 +1357,17 @@ class CronArchive
         return $parts[1];
     }
 
+    private function getReportNameForArchiveIfAny($archive) // TODO: code redundancies w/ above function
+    {
+        $name = $archive['name'];
+        if (count_chars($name, '.') < 2) {
+            return null;
+        }
+
+        $parts = explode('.', $name);
+        return $parts[2];
+    }
+
     private function getArchivingAPIMethod($plugin)
     {
         $cache = Cache::getTransientCache();
@@ -1384,6 +1400,7 @@ class CronArchive
 
     private function detectPluginForArchive(&$archive)
     {
+        $archive['report'] = $this->getReportNameForArchiveIfAny($archive);
         $archive['plugin'] = $this->getPluginNameForArchiveIfAny($archive);
     }
 }

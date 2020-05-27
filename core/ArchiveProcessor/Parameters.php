@@ -54,6 +54,11 @@ class Parameters
     private $isRootArchiveRequest = true;
 
     /**
+     * @var string
+     */
+    private $archiveOnlyReport = null;
+
+    /**
      * Constructor.
      *
      * @ignore
@@ -63,6 +68,27 @@ class Parameters
         $this->site = $site;
         $this->period = $period;
         $this->segment = $segment;
+    }
+
+    /**
+     * TODO
+     *
+     * @param string $archiveOnlyReport
+     * @api
+     */
+    public function setArchiveOnlyReport($archiveOnlyReport)
+    {
+        $this->archiveOnlyReport = $archiveOnlyReport;
+    }
+
+    /**
+     * TODO
+     * @return string
+     * @api
+     */
+    public function getArchiveOnlyReport()
+    {
+        return $this->archiveOnlyReport;
     }
 
     /**
