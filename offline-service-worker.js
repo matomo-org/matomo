@@ -52,6 +52,7 @@ var matomoAnalytics = {initialize: function (options) {
                     var queueId = cursor.value.id;
 
                     var secondsQueuedAgo = ((Date.now() - cursor.value.created) / 1000);
+                    secondsQueuedAgo = parseInt(secondsQueuedAgo, 10);
                     if (secondsQueuedAgo > maxTimeLimit) {
                         // too old
                         getQueue().then(function (queue) {
@@ -78,7 +79,7 @@ var matomoAnalytics = {initialize: function (options) {
                     }
 
                     fetch(cursor.value.url, init).then(function (response) {
-                        console.log('server response', response)
+                        console.log('server response', response);
                         if (response.status < 400) {
                             getQueue().then(function (queue) {
                                 queue.delete(queueId);
@@ -96,6 +97,23 @@ var matomoAnalytics = {initialize: function (options) {
         });
     }
 
+    function limitQueueIfNeeded(queue)
+    {
+        var countRequest = queue.count();
+        countRequest.onsuccess = function(event) {
+            if (event.result > maxLimitQueue) {
+                // we delete only one at a time because of concurrency some other process might delete data too
+                queue.openCursor().onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        queue.delete(cursor.value.id);
+                        limitQueueIfNeeded(queue);
+                    }
+                }
+            }
+        }
+    }
+
     self.addEventListener('sync', function(event) {
         if (event.tag === 'matomoSync') {
             syncQueue();
@@ -108,7 +126,7 @@ var matomoAnalytics = {initialize: function (options) {
         let isTrackingRequest = (event.request.url.includes('/matomo.php')
                             || event.request.url.includes('/piwik.php'));
         let isTrackerRequest = event.request.url.endsWith('/matomo.js')
-            || event.request.url.endsWith('/piwik.js');
+                            || event.request.url.endsWith('/piwik.js');
 
         if (isTrackerRequest) {
             if (isOnline) {
@@ -145,23 +163,7 @@ var matomoAnalytics = {initialize: function (options) {
 
                 getQueue().then(function (queue) {
                     queue.add(example);
-                    var countRequest = queue.count();
-                    countRequest.onsuccess = function(event) {
-                        if (event.result > maxLimitQueue) {
-                            var numRequestsTooMuch = event.result - maxLimitQueue;
-                            var numDeleted = 0;
-
-                            queue.openCursor().onsuccess = function(event) {
-                                var cursor = event.target.result;
-                                if (cursor && numDeleted < numRequestsTooMuch) {
-                                    numDeleted++;
-                                    queue.delete(cursor.value.id);
-                                    cursor.continue();
-
-                                }
-                            }
-                        }
-                    }
+                    limitQueueIfNeeded(queue);
 
                     return queue;
                 });
