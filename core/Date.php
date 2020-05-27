@@ -123,7 +123,7 @@ class Date
     public static function factory($dateString, $timezone = null)
     {
         if ($dateString instanceof self) {
-            $dateString = $dateString->getTimestampUTC();
+        	return new Date($dateString->timestamp, $dateString->timezone);
         }
         if ($dateString === 'now') {
             $date = self::now();
