@@ -1445,6 +1445,12 @@ class CronArchive
         $archiveToProcess['periodObj'] = PeriodFactory::build($periodLabel, $archiveToProcess['date1']);
 
         foreach ($inProgressArchives as $archiveBeingProcessed) {
+            if (empty($archiveBeingProcessed['period'])
+                || empty($archiveBeingProcessed['date'])
+            ) {
+                continue;
+            }
+
             $archiveBeingProcessed['periodObj'] = PeriodFactory::build($archiveBeingProcessed['period'], $archiveBeingProcessed['date']);
 
             if ($this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
@@ -1466,7 +1472,7 @@ class CronArchive
         /** @var Period $archivePeriodObj */
         $archivePeriodObj = $archiveBeingProcessed['periodObj'];
 
-        if ($archiveToProcessPeriodObj->getId() > $archivePeriodObj->getId()
+        if ($archiveToProcessPeriodObj->getId() >= $archivePeriodObj->getId()
             && $archiveToProcessPeriodObj->isPeriodIntersectingWith($archivePeriodObj)
         ) {
             return true;
@@ -1475,16 +1481,17 @@ class CronArchive
         return false;
     }
 
-    private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, $archiveBeingProcessed)
+    private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, array $archiveBeingProcessed)
     {
         // archive is for different site/period
-        if ($archiveToProcess['idsite'] != $archiveBeingProcessed['idSite']
+        if (empty($archiveBeingProcessed['idSite'])
+            || $archiveToProcess['idsite'] != $archiveBeingProcessed['idSite']
             || $archiveToProcess['periodObj']->getId() != $archiveBeingProcessed['periodObj']->getId()
             || $archiveToProcess['periodObj']->getDateStart()->toString() != $archiveBeingProcessed['periodObj']->getDateStart()->toString()
         ) {
             return false;
         }
 
-        return empty($archiveToProcess['segment']) && !empty($archive['segment']);
+        return empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment']);
     }
 }
