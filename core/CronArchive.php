@@ -1461,11 +1461,13 @@ class CronArchive
 
     private function isArchiveOfLowerPeriod(array $archiveToProcess, $archiveBeingProcessed)
     {
+        /** @var Period $archiveToProcessPeriodObj */
         $archiveToProcessPeriodObj = $archiveToProcess['periodObj'];
+        /** @var Period $archivePeriodObj */
         $archivePeriodObj = $archiveBeingProcessed['periodObj'];
 
         if ($archiveToProcessPeriodObj->getId() > $archivePeriodObj->getId()
-            && $archiveToProcessPeriodObj->isPeriodInThisPeriod($archivePeriodObj)
+            && $archiveToProcessPeriodObj->isPeriodIntersectingWith($archivePeriodObj)
         ) {
             return true;
         }
