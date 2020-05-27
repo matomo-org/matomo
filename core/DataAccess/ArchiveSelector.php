@@ -92,7 +92,7 @@ class ArchiveSelector
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
-        if (!empty($minDatetimeArchiveProcessedUTC) && (!is_object($minDatetimeArchiveProcessedUTC) || !$minDatetimeArchiveProcessedUTC instanceof Date)) {
+        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
