@@ -314,11 +314,6 @@ class Updater extends \Piwik\Updates
             'log_link_visit_action.time_spent_ref_action' => 'INTEGER(10) UNSIGNED NOT NULL',
             'log_link_visit_action.idaction_event_action' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
             'log_link_visit_action.idaction_event_category' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
-            'log_conversion.revenue_discount' => 'float default NULL',
-            'log_conversion.revenue' => 'float default NULL',
-            'log_conversion.revenue_shipping' => 'float default NULL',
-            'log_conversion.revenue_subtotal' => 'float default NULL',
-            'log_conversion.revenue_tax' => 'float default NULL',
         );
 
         if (!array_key_exists($name, $initialCoreDimensionVersions)) {
