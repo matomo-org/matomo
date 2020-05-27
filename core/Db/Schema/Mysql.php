@@ -227,6 +227,11 @@ class Mysql implements SchemaInterface
                                       idorder varchar(100) default NULL,
                                       items SMALLINT UNSIGNED DEFAULT NULL,
                                       url VARCHAR(4096) NOT NULL,
+                                      revenue float default NULL,
+                                      revenue_shipping float default NULL,
+                                      revenue_subtotal float default NULL,
+                                      revenue_tax float default NULL,
+                                      revenue_discount float default NULL,
                                         PRIMARY KEY (idvisit, idgoal, buster),
                                         UNIQUE KEY unique_idsite_idorder (idsite, idorder),
                                         INDEX index_idsite_datetime ( idsite, server_time )
