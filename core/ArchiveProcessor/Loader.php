@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
@@ -98,6 +99,9 @@ class Loader
     {
         $this->params->setRequestedPlugin($pluginName);
 
+        $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
+        $this->params->setArchiveOnlyReport($requestedReport);
+
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchives)) { // we have a usable idarchive (it's not invalidated and it's new enough)
             return $idArchives;
@@ -164,14 +168,17 @@ class Loader
 
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
+            $requestedReport = $this->params->getArchiveOnlyReport();
 
             $this->params->setRequestedPlugin('VisitsSummary');
+            $this->params->setArchiveOnlyReport(null);
 
             $pluginsArchiver = new PluginsArchiver($this->params);
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $pluginsArchiver->finalizeArchive();
 
             $this->params->setRequestedPlugin($requestedPlugin);
+            $this->params->setArchiveOnlyReport($requestedReport);
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];

@@ -242,10 +242,15 @@ class ArchiveInvalidator
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
                                               $forceInvalidateNonexistantRanges = false, $name = null)
     {
-        if ($name
-            && !Manager::getInstance()->isPluginActivated($name)
+        $plugin = null;
+        if ($name && strpos($name, '.') !== false) {
+            list($plugin) = explode('.', $name);
+        }
+
+        if ($plugin
+            && !Manager::getInstance()->isPluginActivated($plugin)
         ) {
-            throw new \Exception("Plugin is not activated: '$name'");
+            throw new \Exception("Plugin is not activated: '$plugin'");
         }
 
         $invalidationInfo = new InvalidationResult();

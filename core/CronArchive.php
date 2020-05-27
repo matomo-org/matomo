@@ -1357,17 +1357,6 @@ class CronArchive
         return $parts[1];
     }
 
-    private function getReportNameForArchiveIfAny($archive) // TODO: code redundancies w/ above function
-    {
-        $name = $archive['name'];
-        if (count_chars($name, '.') < 2) {
-            return null;
-        }
-
-        $parts = explode('.', $name);
-        return $parts[2];
-    }
-
     private function getArchivingAPIMethod($plugin)
     {
         $cache = Cache::getTransientCache();
@@ -1400,7 +1389,6 @@ class CronArchive
 
     private function detectPluginForArchive(&$archive)
     {
-        $archive['report'] = $this->getReportNameForArchiveIfAny($archive);
         $archive['plugin'] = $this->getPluginNameForArchiveIfAny($archive);
     }
 }

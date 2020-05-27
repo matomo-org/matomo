@@ -105,7 +105,7 @@ class Model
     }
 
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
-                                               $forceInvalidateNonexistantRanges = false, $plugin = null)
+                                               $forceInvalidateNonexistantRanges = false, $name = null)
     {
         // select all idarchive/name pairs we want to invalidate
         $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
@@ -135,6 +135,15 @@ class Model
                 }
             }
             $sql .= ")";
+        }
+
+        if (!empty($name)) {
+            if (strpos($name, '.') !== false) {
+                list($plugin, $name) = explode('.', $name);
+            } else {
+                $plugin = $name;
+                $name = null;
+            }
         }
 
         if (empty($plugin)) {
@@ -189,6 +198,7 @@ class Model
                 $dummyArchives[] = [
                     'idarchive' => $idArchive,
                     'name' => $doneFlag,
+                    'report' => $name,
                     'idsite' => $idSite,
                     'date1' => $period->getDateStart()->getDatetime(),
                     'date2' => $period->getDateEnd()->getDatetime(),
@@ -198,7 +208,7 @@ class Model
             }
         }
 
-        $fields = ['idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
+        $fields = ['idarchive', 'name', 'report', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
 
         Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $dummyArchives);
 
@@ -599,7 +609,7 @@ class Model
     public function getNextInvalidatedArchive($idSite, $idInvalidationsToExclude = null)
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`
+        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report
                   FROM `$table`
                  WHERE idsite = ?";
         $bind = [
