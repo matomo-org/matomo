@@ -152,7 +152,7 @@ class Mysql implements SchemaInterface
                               `pattern_type` varchar(25) NOT NULL,
                               `case_sensitive` tinyint(4) NOT NULL,
                               `allow_multiple` tinyint(4) NOT NULL,
-                              `revenue` DECIMAL(14,4) NOT NULL,
+                              `revenue` DOUBLE NOT NULL,
                               `deleted` tinyint(4) NOT NULL default '0',
                               `event_value_as_revenue` tinyint(4) NOT NULL default '0',
                                 PRIMARY KEY  (`idsite`,`idgoal`)
@@ -207,7 +207,7 @@ class Mysql implements SchemaInterface
                                         idaction_category3 INTEGER(10) UNSIGNED NOT NULL,
                                         idaction_category4 INTEGER(10) UNSIGNED NOT NULL,
                                         idaction_category5 INTEGER(10) UNSIGNED NOT NULL,
-                                        price DECIMAL(14,4) NOT NULL,
+                                        price DOUBLE NOT NULL,
                                         quantity INTEGER(10) UNSIGNED NOT NULL,
                                         deleted TINYINT(1) UNSIGNED NOT NULL,
                                           PRIMARY KEY(idvisit, idorder, idaction_sku),
@@ -240,7 +240,7 @@ class Mysql implements SchemaInterface
                                         idvisit BIGINT(10) UNSIGNED NOT NULL,
                                         idaction_url_ref INTEGER(10) UNSIGNED NULL DEFAULT 0,
                                         idaction_name_ref INTEGER(10) UNSIGNED NULL,
-                                        custom_float DECIMAL(14,4) NULL DEFAULT NULL,
+                                        custom_float DOUBLE NULL DEFAULT NULL,
                                           PRIMARY KEY(idlink_va),
                                           INDEX index_idvisit(idvisit)
                                         ) ENGINE=$engine DEFAULT CHARSET=$charset
