@@ -189,24 +189,6 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName2>_pkp</customVariablePageName2>
-						<customVariablePageValue2>999</customVariablePageValue2>
-					</row>
-					<row>
-						<customVariablePageName3>_pks</customVariablePageName3>
-						<customVariablePageValue3>SKU VERY nice indeed</customVariablePageValue3>
-					</row>
-					<row>
-						<customVariablePageName4>_pkn</customVariablePageName4>
-						<customVariablePageValue4>PRODUCT THREE LEFT in cart</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5 />
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -226,24 +208,6 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName2>_pkp</customVariablePageName2>
-						<customVariablePageValue2>333</customVariablePageValue2>
-					</row>
-					<row>
-						<customVariablePageName3>_pks</customVariablePageName3>
-						<customVariablePageValue3>SKU VERY nice indeed</customVariablePageValue3>
-					</row>
-					<row>
-						<customVariablePageName4>_pkn</customVariablePageName4>
-						<customVariablePageValue4>PRODUCT THREE LEFT in cart</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5 />
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -263,20 +227,6 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName3>_pks</customVariablePageName3>
-						<customVariablePageValue3>SKU IN ABANDONED CART TWO</customVariablePageValue3>
-					</row>
-					<row>
-						<customVariablePageName4>_pkn</customVariablePageName4>
-						<customVariablePageValue4>PRODUCT TWO LEFT in cart</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5>[&quot;Category TWO LEFT in cart&quot;,&quot;second category&quot;]</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
