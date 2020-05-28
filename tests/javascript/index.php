@@ -3562,7 +3562,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(180);
+        expect(161);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3863,12 +3863,7 @@ if ($mysql) {
         tracker.trackEvent("Event Category3", "Event Action3", "Event Name3", 3.333);
 
         //Ecommerce views
-        tracker.setEcommerceView( "", false, ["CATEGORY1","CATEGORY2"] );
-        deepEqual( tracker.getCustomVariable(3, "page"), false, "Ecommerce view SKU");
         tracker.setEcommerceView( "SKUMultiple", false, ["CATEGORY1","CATEGORY2"] );
-        deepEqual( tracker.getCustomVariable(3, "page"), ["_pks","SKUMultiple"], "Ecommerce view sku");
-        deepEqual( tracker.getCustomVariable(4, "page"), ["_pkn",""], "Ecommerce view Name");
-        deepEqual( tracker.getCustomVariable(5, "page"), ["_pkc","[\"CATEGORY1\",\"CATEGORY2\"]"], "Ecommerce view Category");
         tracker.trackPageView("MultipleCategories");
 
         var tracker2 = Piwik.getTracker();
@@ -3897,35 +3892,8 @@ if ($mysql) {
 
         // Ecommerce Views
         tracker3.setEcommerceView( "SKU", "NAME HERE", "CATEGORY HERE" );
-        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks","SKU"], "Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn","NAME HERE"], "Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc","CATEGORY HERE"], "Ecommerce view Category");
         tracker3.trackPageView("EcommerceView");
 
-        tracker3.deleteCustomVariables('page');
-
-        // No data set
-        tracker3.setEcommerceView( );
-        deepEqual( tracker3.getCustomVariable(2, "page"), false, "No data Ecommerce price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), false, "No data Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), false, "No data Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc",""], "No data Ecommerce view Category");
-        tracker3.deleteCustomVariables('page');
-
-        // all numbers
-        tracker3.setEcommerceView( 34343, 3432, 343, 12121 );
-        deepEqual( tracker3.getCustomVariable(2, "page"), ["_pkp",12121], "All numbers Ecommerce view price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks",34343], "All numbers Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn",3432], "All numbers Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", '343'], "All numbers Ecommerce view Category");
-        tracker3.deleteCustomVariables('page');
-
-        // all false
-        tracker3.setEcommerceView( false, false, false, false );
-        deepEqual( tracker3.getCustomVariable(2, "page"), false, "All numbers Ecommerce view price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), false, "All numbers Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), false, "All numbers Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", ''], "All numbers Ecommerce view Category");
         tracker3.deleteCustomVariables('page');
 
         //Ecommerce tests
@@ -4143,12 +4111,10 @@ if ($mysql) {
             ok( /e_c=Event%20Category3&e_a=Event%20Action3&e_n=Event%20Name3&e_v=3.333&idsite=1/.test(results), "event Category + Action + Name + Value");
 
             // ecommerce view
-            ok( /(EcommerceView).*(&cvar=%7B%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%7D)/.test(results)
-             || /(EcommerceView).*(&cvar=%7B%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%7D)/.test(results), "ecommerce view");
+            ok( /(EcommerceView).*(&_pkc=CATEGORY%20HERE&_pks=SKU&_pkn=NAME)/.test(results), "ecommerce view");
 
             // ecommerce view multiple categories
-            ok( /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%7D)/.test(results)
-            || /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%7D)/.test(results), "ecommerce view multiple categories");
+            ok( /(MultipleCategories).*(&_pkc=%5B%22CATEGORY1%22%2C%22CATEGORY2%22%5D&_pks=SKUMultiple&_pkn=)/.test(results), "ecommerce view multiple categories");
 
             // Ecommerce order
             ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with items" );
