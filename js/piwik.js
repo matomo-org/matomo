@@ -3687,7 +3687,9 @@ if (typeof window.Piwik !== 'object') {
 
                 // product page view
                 for (i in ecommerceProductView) {
-                    request += '&' + i + '=' + encodeWrapper(ecommerceProductView[i]);
+                    if (Object.prototype.hasOwnProperty.call(ecommerceProductView, i)) {
+                        request += '&' + i + '=' + encodeWrapper(ecommerceProductView[i]);
+                    }
                 }
 
                 // custom dimensions
@@ -6336,10 +6338,12 @@ if (typeof window.Piwik !== 'object') {
                     category = windowAlias.JSON.stringify(category);
                 }
 
-                ecommerceProductView._pkc = category;
+                var param = '_pkc';
+                ecommerceProductView[param] = category;
 
                 if (isDefined(price) && price !== null && price !== false && String(price).length) {
-                    ecommerceProductView._pkp = price;
+                    param = '_pkp';
+                    ecommerceProductView[param] = price;
                 }
 
                 // On a category page, do not track Product name not defined
@@ -6348,14 +6352,16 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (isNumberOrHasLength(sku)) {
-                    ecommerceProductView._pks = sku;
+                    param = '_pks';
+                    ecommerceProductView[param] = sku;
                 }
 
                 if (!isNumberOrHasLength(name)) {
                     name = "";
                 }
 
-                ecommerceProductView._pkn = name;
+                param = '_pkn';
+                ecommerceProductView[param] = name;
             };
 
             /**
