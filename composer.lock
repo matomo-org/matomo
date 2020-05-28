@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a03445c07f2354bce4f64a147a55cdb3",
+    "content-hash": "154553adcd814500964bfe8686f11a00",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -521,16 +521,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "dev-4.x-dev",
+            "version": "dev-ecommerceview",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "69e876faf4f981bafa3f65c8dd78a1d131badc1c"
+                "reference": "036f4974eb1024047805cb34c0b999c44283db62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/69e876faf4f981bafa3f65c8dd78a1d131badc1c",
-                "reference": "69e876faf4f981bafa3f65c8dd78a1d131badc1c",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/036f4974eb1024047805cb34c0b999c44283db62",
+                "reference": "036f4974eb1024047805cb34c0b999c44283db62",
                 "shasum": ""
             },
             "require": {
@@ -565,7 +565,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2020-05-27T06:53:04+00:00"
+            "time": "2020-05-28T09:29:11+00:00"
         },
         {
             "name": "matomo/network",
