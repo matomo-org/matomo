@@ -24,7 +24,7 @@ use Piwik\Tracker\Visitor;
 class ProductViewCategory extends ActionDimension
 {
     protected $type = self::TYPE_TEXT;
-    protected $nameSingular = 'Goals_ProductCategory';
+    protected $nameSingular = 'Ecommerce_ViewedProductCategory';
     protected $columnName = 'idaction_product_cat';
     protected $segmentName = 'productViewCategory';
     protected $columnType = 'INT(10) UNSIGNED NULL';

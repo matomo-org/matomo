@@ -18,8 +18,7 @@ use Piwik\Tracker\Request;
 class ProductViewName extends ActionDimension
 {
     protected $type = self::TYPE_TEXT;
-    protected $nameSingular = 'Goals_ProductName';
-    protected $namePlural = 'Goals_ProductNames';
+    protected $nameSingular = 'Ecommerce_ViewedProductName';
     protected $columnName = 'idaction_product_name';
     protected $segmentName = 'productViewName';
     protected $columnType = 'INT(10) UNSIGNED NULL';

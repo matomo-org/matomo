@@ -16,7 +16,7 @@ use Piwik\Tracker\Visitor;
 class ProductViewPrice extends ActionDimension
 {
     protected $type = self::TYPE_MONEY;
-    protected $nameSingular = 'Goals_ProductPrice';
+    protected $nameSingular = 'Ecommerce_ViewedProductPrice';
     protected $columnName = 'product_price';
     protected $segmentName = 'productViewPrice';
     protected $columnType = 'DOUBLE NULL';
