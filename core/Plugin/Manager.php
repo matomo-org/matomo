@@ -495,7 +495,7 @@ class Manager
     /**
      * Returns the path to the directory where core plugins are located. Please note since Matomo 3.9
      * plugins may also be located in other directories and therefore this method has been deprecated.
-     * @deprecated since Matomo 3.9.0 use {@link (getPluginsDirectories())} or {@link getPluginDirectory($pluginName)} instead
+     * @internal since Matomo 3.9.0 use {@link (getPluginsDirectories())} or {@link getPluginDirectory($pluginName)} instead
      * @return string
      */
     public static function getPluginsDirectory()
