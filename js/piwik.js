@@ -2277,6 +2277,9 @@ if (typeof window.Piwik !== 'object') {
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
 
+                // Ecommerce product view
+                ecommerceProductView = {},
+
                 // Ecommerce items
                 ecommerceItems = {},
 
@@ -3680,6 +3683,11 @@ if (typeof window.Piwik !== 'object') {
                 if (customData && isObjectEmpty(customData)) {
                     customData = null;
                     // we deleted all keys from custom data
+                }
+
+                // product page view
+                for (i in ecommerceProductView) {
+                    request += '&' + i + '=' + encodeWrapper(ecommerceProductView[i]);
                 }
 
                 // custom dimensions
@@ -6305,8 +6313,6 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
              * This must be called before trackPageView() on the product/category page.
-             * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
-             * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
              *
              * On a category page, you can set the parameter category, and set the other parameters to empty string or false
              *
@@ -6319,6 +6325,8 @@ if (typeof window.Piwik !== 'object') {
              * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
              */
             this.setEcommerceView = function (sku, name, category, price) {
+                ecommerceProductView = {};
+
                 if (isNumberOrHasLength(category)) {
                     category = String(category);
                 }
@@ -6328,10 +6336,10 @@ if (typeof window.Piwik !== 'object') {
                     category = windowAlias.JSON.stringify(category);
                 }
 
-                customVariablesPage[5] = ['_pkc', category];
+                ecommerceProductView._pkc = category;
 
                 if (isDefined(price) && price !== null && price !== false && String(price).length) {
-                    customVariablesPage[2] = ['_pkp', price];
+                    ecommerceProductView._pkp = price;
                 }
 
                 // On a category page, do not track Product name not defined
@@ -6340,14 +6348,14 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (isNumberOrHasLength(sku)) {
-                    customVariablesPage[3] = ['_pks', sku];
+                    ecommerceProductView._pks = sku;
                 }
 
                 if (!isNumberOrHasLength(name)) {
                     name = "";
                 }
 
-                customVariablesPage[4] = ['_pkn', name];
+                ecommerceProductView._pkn = name;
             };
 
             /**
