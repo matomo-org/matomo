@@ -291,26 +291,6 @@ class Config
     }
 
     /**
-     * Clear in-memory configuration so it can be reloaded
-     * @deprecated since v2.12.0
-     */
-    public function clear()
-    {
-        $this->reload();
-    }
-
-    /**
-     * Read configuration from files into memory
-     *
-     * @throws Exception if local config file is not readable; exits for other errors
-     * @deprecated since v2.12.0
-     */
-    public function init()
-    {
-        $this->reload();
-    }
-
-    /**
      * Reloads config data from disk.
      *
      * @throws \Exception if the global config file is not found and this is a tracker request, or

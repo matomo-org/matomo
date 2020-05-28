@@ -621,19 +621,6 @@ class Updater
     }
 
     /**
-     * Performs database update(s)
-     *
-     * @param string $file Update script filename
-     * @param array $sqlarray An array of SQL queries to be executed
-     * @throws UpdaterErrorException
-     * @deprecated
-     */
-    public static function updateDatabase($file, $sqlarray)
-    {
-        self::$activeInstance->executeMigrations($file, $sqlarray);
-    }
-
-    /**
      * Record version of successfully completed component update
      *
      * @param string $name

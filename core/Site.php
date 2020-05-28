@@ -172,7 +172,6 @@ class Site
      *                             array('idsite' => '2', 'name' => 'Site 2', ...),
      *                         )
      * @return array The modified array.
-     * @deprecated
      * @internal
      */
     public static function setSitesFromArray($sites)
