@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\DataAccess\TableMetadata;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugins\UsersManager\Model;
@@ -117,6 +118,18 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
+        $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
+        $tableMeta = new TableMetadata();
+        $columnsLogConversion = $tableMeta->getColumns(Common::prefixTable('log_conversion'));
+        $conversionColumnsToAdd = array();
+        foreach ($columnsToMaybeAdd as $columnToMaybeAdd) {
+            if (!in_array($columnToMaybeAdd, $columnsLogConversion, true)) {
+                $conversionColumnsToAdd[$columnToMaybeAdd] = 'DOUBLE NULL DEFAULT NULL';
+            }
+        }
+        if (!empty($conversionColumnsToAdd)) {
+            $migrations[] = $this->migration->db->addColumns('log_conversion', $conversionColumnsToAdd);
+        }
 
         $config = Config::getInstance();
 
