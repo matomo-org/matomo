@@ -88,16 +88,31 @@ class ProductViewCategory extends ActionDimension
         $categories = Common::unsanitizeInputValue($request->getParam('_pkc'));
 
         if ($request->hasParam('_pkc')) {
-            if (0 === strpos($categories, '["')) {
-                $categories = array_values(array_filter(@\json_decode($categories, true)));
-            } else {
-                $categories = [$categories];
-            }
+            $categories = $this->handleCategoryParam($categories);
+
+            return $categories[$this->categoryNumber - 1] ?? false;
+        }
+
+        // fall back to custom variables (might happen if old logs are replayed)
+        $customVariables = $request->getCustomVariablesInPageScope();
+        if (isset($customVariables['custom_var_k5']) && $customVariables['custom_var_k5'] === '_pkc') {
+            $categories = $this->handleCategoryParam($customVariables['custom_var_v5'] ?? '');
 
             return $categories[$this->categoryNumber - 1] ?? false;
         }
 
         return parent::onLookupAction($request, $action);
+    }
+
+    protected function handleCategoryParam($categories)
+    {
+        if (0 === strpos($categories, '["')) {
+            $categories = array_values(array_filter(@\json_decode($categories, true)));
+        } else {
+            $categories = [$categories];
+        }
+
+        return $categories;
     }
 
     public function getActionId()

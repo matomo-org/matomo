@@ -29,6 +29,12 @@ class ProductViewPrice extends ActionDimension
             return $price;
         }
 
+        // fall back to custom variables (might happen if old logs are replayed)
+        $customVariables = $request->getCustomVariablesInPageScope();
+        if (isset($customVariables['custom_var_k2']) && $customVariables['custom_var_k2'] === '_pkp') {
+            return $customVariables['custom_var_v2'] ?? false;
+        }
+
         return parent::onNewAction($request, $visitor, $action);
     }
 }

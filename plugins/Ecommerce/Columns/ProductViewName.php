@@ -43,6 +43,12 @@ class ProductViewName extends ActionDimension
             return $sku;
         }
 
+        // fall back to custom variables (might happen if old logs are replayed)
+        $customVariables = $request->getCustomVariablesInPageScope();
+        if (isset($customVariables['custom_var_k4']) && $customVariables['custom_var_k4'] === '_pkn') {
+            return $customVariables['custom_var_v4'] ?? false;
+        }
+
         return parent::onLookupAction($request, $action);
     }
 
