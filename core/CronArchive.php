@@ -446,7 +446,8 @@ class CronArchive
                 }
 
                 if ($this->canSkipArchiveBecauseNoPoint($invalidatedArchive)) {
-                    $this->logger->debug("Found invalidated archive we can skip (no visits or latest archive is not invalidated).");
+                    $this->logger->debug("Found invalidated archive we can skip (no visits or latest archive is not invalidated). "
+                        . "[idSite = {$invalidatedArchive['idsite']}, dates = {$invalidatedArchive['date1']} - {$invalidatedArchive['date2']}, segment = {$invalidatedArchive['segment']}]");
                     $this->addInvalidationToExclude($invalidatedArchive);
                     $this->model->deleteInvalidations([$invalidatedArchive]);
                     continue;
@@ -907,6 +908,7 @@ class CronArchive
 
         // invalidate remembered site/day pairs
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+        krsort($sitesPerDays); // for tests
 
         foreach ($sitesPerDays as $date => $siteIds) {
             //Concurrent transaction logic will end up with duplicates set.  Adding array_unique to the siteIds.

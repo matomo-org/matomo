@@ -67,9 +67,9 @@ class CliMulti
     /**
      * @var Timer[]
      */
-    private $timers = [];
+    protected $timers = [];
 
-    private $isTimingRequests = false;
+    protected $isTimingRequests = false;
 
     public function __construct()
     {
