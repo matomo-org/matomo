@@ -314,9 +314,6 @@ class Collection
             ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
                 || in_array($moduleName, $this->apiNotToCall) === true
                 || in_array($apiId, $this->apiNotToCall) === true
-                || $methodName == 'getSVGLogoUrl'
-                || $methodName == 'hasSVGLogo'
-                || $methodName == 'getHeaderLogoUrl'
             )
         ) { // Excluded modules from test
             return true;
