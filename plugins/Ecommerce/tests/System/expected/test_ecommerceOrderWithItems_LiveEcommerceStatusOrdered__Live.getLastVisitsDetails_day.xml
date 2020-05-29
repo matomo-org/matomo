@@ -180,6 +180,9 @@
 				
 				
 				<pageId>14</pageId>
+				<productViewPrice>999</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -199,6 +202,9 @@
 				
 				
 				<pageId>15</pageId>
+				<productViewPrice>333</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -218,6 +224,8 @@
 				
 				
 				<pageId>16</pageId>
+				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
+				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
@@ -227,6 +235,10 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category TWO LEFT in cart</row>
+				<row>second category</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>

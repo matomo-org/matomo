@@ -1780,6 +1780,8 @@
 				
 				
 				<pageId>50</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU2</productViewSku>
 				<bandwidth>43</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
@@ -1787,6 +1789,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -2069,6 +2074,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
@@ -2085,6 +2093,8 @@
 				
 				
 				<pageId>52</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth>43</bandwidth>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -2121,6 +2131,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>

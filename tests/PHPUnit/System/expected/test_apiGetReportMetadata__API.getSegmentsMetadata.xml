@@ -770,12 +770,6 @@
 		<type>dimension</type>
 		<category>Ecommerce</category>
 		<name>Product SKU</name>
-		<segment>productViewSku</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Ecommerce</category>
-		<name>Product SKU</name>
 		<segment>productSku</segment>
 	</row>
 	<row>
@@ -796,5 +790,11 @@
 		<category>Ecommerce</category>
 		<name>Viewed Product Name</name>
 		<segment>productViewName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Viewed Product SKU</name>
+		<segment>productViewSku</segment>
 	</row>
 </result>

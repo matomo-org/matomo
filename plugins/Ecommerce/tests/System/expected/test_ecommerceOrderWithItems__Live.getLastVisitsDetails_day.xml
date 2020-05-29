@@ -15,6 +15,9 @@
 				
 				
 				<pageId>11</pageId>
+				<productViewPrice>999</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -34,6 +37,9 @@
 				
 				
 				<pageId>12</pageId>
+				<productViewPrice>333</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -53,6 +59,8 @@
 				
 				
 				<pageId>13</pageId>
+				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
+				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
@@ -62,6 +70,10 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category TWO LEFT in cart</row>
+				<row>second category</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -242,6 +254,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -261,6 +276,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -271,6 +289,9 @@
 				
 				
 				<pageId>7</pageId>
+				<productViewPrice>666</productViewPrice>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
@@ -280,6 +301,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -370,6 +394,9 @@
 				
 				
 				<pageId>8</pageId>
+				<productViewPrice>999</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -389,6 +416,9 @@
 				
 				
 				<pageId>9</pageId>
+				<productViewPrice>333</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -408,6 +438,8 @@
 				
 				
 				<pageId>10</pageId>
+				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
+				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
@@ -417,6 +449,10 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category TWO LEFT in cart</row>
+				<row>second category</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -588,6 +624,9 @@
 				
 				
 				<pageId>1</pageId>
+				<productViewPrice>1111.11111</productViewPrice>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU2</productViewSku>
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
@@ -597,6 +636,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -622,6 +664,9 @@
 				
 				
 				<pageId>2</pageId>
+				<productViewPrice>666</productViewPrice>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
@@ -631,6 +676,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -641,6 +689,9 @@
 				
 				
 				<pageId>3</pageId>
+				<productViewPrice>888</productViewPrice>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -660,6 +711,8 @@
 				
 				
 				<pageId>4</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
 				<pageviewPosition>4</pageviewPosition>
 				<title>Another Product page with multiple categories</title>
@@ -667,6 +720,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Multiple Category 1</row>
+				<row>Multiple Category 2</row>
+				<row>Electronics &amp; Cameras</row>
+				<row>Multiple Category 4</row>
+				<row>Multiple Category 5</row>
+				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
