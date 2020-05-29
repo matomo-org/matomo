@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\GeoIp2;
 
-require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker which doesn't include this file
-
 use Exception;
 use GeoIp2\Database\Reader;
 use Piwik\Common;

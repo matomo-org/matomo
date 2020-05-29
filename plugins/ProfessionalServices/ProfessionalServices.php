@@ -21,7 +21,6 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Request.getRenamedModuleAndAction' => 'renameProfessionalServicesModule',
             'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
