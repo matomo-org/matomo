@@ -108,6 +108,9 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
 
+        // invalidate a report so we get a partial archive (using the metric that gets incremented each time it is archived)
+        $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
+
         // track a visit in 2007-04-05 so it will archive (don't want to force archiving because then this test will take another 15 mins)
         $tracker = Fixture::getTracker(1, '2007-04-05');
         $tracker->setUrl('http://example.com/test/url');

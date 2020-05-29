@@ -59,6 +59,11 @@ class Parameters
     private $archiveOnlyReport = null;
 
     /**
+     * @var bool
+     */
+    private $isArchiveOnlyReportHandled;
+
+    /**
      * Constructor.
      *
      * @ignore
@@ -291,5 +296,24 @@ class Parameters
     public function __toString()
     {
         return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}]";
+    }
+
+    /**
+     * TODO
+     *
+     * @return bool
+     */
+    public function isArchiveOnlyReportHandled()
+    {
+        return $this->isArchiveOnlyReportHandled;
+    }
+
+    /**
+     * TODO
+     * @param bool $isArchiveOnlyReportHandled
+     */
+    public function setIsArchiveOnlyReportHandled($isArchiveOnlyReportHandled)
+    {
+        $this->isArchiveOnlyReportHandled = $isArchiveOnlyReportHandled;
     }
 }

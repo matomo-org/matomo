@@ -62,6 +62,13 @@ class ArchiveWriter
      */
     const DONE_IN_PROGRESS = 5;
 
+    /**
+     * Flag indicating that the archive is
+     *
+     * @var int
+     */
+    const DONE_PARTIAL = 6;
+
     protected $fields = array('idarchive',
         'idsite',
         'date1',
@@ -79,6 +86,11 @@ class ArchiveWriter
     const MAX_SPOOL_SIZE = 50;
 
     /**
+     * @var ArchiveProcessor\Parameters
+     */
+    private $parameters;
+
+    /**
      * ArchiveWriter constructor.
      * @param ArchiveProcessor\Parameters $params
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
@@ -90,6 +102,7 @@ class ArchiveWriter
         $this->idSite    = $params->getSite()->getId();
         $this->segment   = $params->getSegment();
         $this->period    = $params->getPeriod();
+        $this->parameters = $params;
 
         $idSites = array($this->idSite);
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
@@ -151,7 +164,8 @@ class ArchiveWriter
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
-        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, self::DONE_OK);
+        $doneValue = $this->parameters->isArchiveOnlyReportHandled() ? self::DONE_PARTIAL : self::DONE_OK;
+        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
     }
 
     protected function compress($data)

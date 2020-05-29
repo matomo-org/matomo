@@ -67,7 +67,7 @@ class API extends \Piwik\Plugin\API
     public function getExampleArchivedMetric($idSite, $period, $date, $segment = false)
     {
         $archive = Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME]);
+        $dataTable = $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
         return $dataTable;
     }
 }

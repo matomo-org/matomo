@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\Date;
+use Piwik\Option;
 
 /**
  * Class Archiver
@@ -34,6 +35,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     const EXAMPLEPLUGIN_ARCHIVE_RECORD = "ExamplePlugin_archive_record";
     const EXAMPLEPLUGIN_METRIC_NAME = 'ExamplePlugin_example_metric';
+    const EXAMPLEPLUGIN_CONST_METRIC_NAME = 'ExamplePlugin_example_metric2';
 
     private $daysFrom = '2016-07-08';
 
@@ -51,15 +53,22 @@ class Archiver extends \Piwik\Plugin\Archiver
          * $this->getProcessor()->insertBlobRecord(self::EXAMPLEPLUGIN_ARCHIVE_RECORD, $visitorReport);
          */
 
-        // insert a test numeric metric that is the difference in days between the day we're archiving and
-        // $this->daysFrom.
-        $daysFrom = Date::factory($this->daysFrom);
-        $date = $this->getProcessor()->getParams()->getPeriod()->getDateStart();
+        if ($this->getProcessor()->isArchiving(self::EXAMPLEPLUGIN_METRIC_NAME)) {
+            // insert a test numeric metric that is the difference in days between the day we're archiving and
+            // $this->daysFrom.
+            $daysFrom = Date::factory($this->daysFrom);
+            $date = $this->getProcessor()->getParams()->getPeriod()->getDateStart();
 
-        $differenceInSeconds = $daysFrom->getTimestamp() - $date->getTimestamp();
-        $differenceInDays = round($differenceInSeconds / 86400);
+            $differenceInSeconds = $daysFrom->getTimestamp() - $date->getTimestamp();
+            $differenceInDays = round($differenceInSeconds / 86400);
 
-        $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_METRIC_NAME, $differenceInDays);
+            $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_METRIC_NAME, $differenceInDays);
+        }
+
+        if ($this->getProcessor()->isArchiving(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
+            $archiveCount = $this->incrementArchiveCount();
+            $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_CONST_METRIC_NAME, 50 + $archiveCount);
+        }
     }
 
     public function aggregateMultipleReports()
@@ -74,5 +83,13 @@ class Archiver extends \Piwik\Plugin\Archiver
          */
 
         $this->getProcessor()->aggregateNumericMetrics([self::EXAMPLEPLUGIN_METRIC_NAME]);
+    }
+
+    private function incrementArchiveCount()
+    {
+        $archiveCount = Option::get('ExamplePlugin_archiveCount') ?: 0;
+        $archiveCount += 1;
+        Option::set('ExamplePlugin_archiveCount', $archiveCount);
+        return $archiveCount;
     }
 }

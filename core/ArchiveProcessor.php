@@ -247,6 +247,8 @@ class ArchiveProcessor
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
         foreach ($metrics as $column => $value) {
+            $this->checkArchiveOnlyReport($column);
+
             $value = Common::forceDotAsSeparatorForDecimalPoint($value);
             $this->archiveWriter->insertRecord($column, $value);
         }
@@ -301,6 +303,8 @@ class ArchiveProcessor
      */
     public function insertNumericRecord($name, $value)
     {
+        $this->checkArchiveOnlyReport($name);
+
         $value = round($value, 2);
         $value = Common::forceDotAsSeparatorForDecimalPoint($value);
 
@@ -667,5 +671,18 @@ class ArchiveProcessor
     public function getArchiveWriter()
     {
         return $this->archiveWriter;
+    }
+
+    public function isArchiving(string $reportName)
+    {
+        $onlyReportName = $this->getParams()->getArchiveOnlyReport();
+        return empty($onlyReportName) || $onlyReportName == $reportName;
+    }
+
+    private function checkArchiveOnlyReport(string $name)
+    {
+        if ($name == $this->getParams()->getArchiveOnlyReport()) {
+            $this->getParams()->setIsArchiveOnlyReportHandled(true); // make sure archive is marked as partial
+        }
     }
 }
