@@ -496,6 +496,8 @@
 				
 				
 				<pageId>30</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU2</productViewSku>
 				<bandwidth>43</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
@@ -503,6 +505,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
