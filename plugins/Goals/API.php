@@ -334,7 +334,7 @@ class API extends \Piwik\Plugin\API
 
         // Before Matomo 4.0.0 ecommerce views were tracked in custom variables
         // So if Matomo was installed before try to fetch the views from custom variables and enrich the report
-        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<')) {
+        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b2', '<')) {
             $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment);
         }
 

@@ -110,7 +110,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         // Before Matomo 4.0.0 ecommerce views were tracked in custom variables
         // So if Matomo was installed before still try to archive it the old way, as old data might be archived
-        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<') && in_array($slot, array(3, 4, 5))) {
+        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b2', '<') && in_array($slot, array(3, 4, 5))) {
             $additionalSelects = array($this->getSelectAveragePrice());
         }
         $query = $this->getLogAggregator()->queryActionsByDimension($dimensions, $where, $additionalSelects);
