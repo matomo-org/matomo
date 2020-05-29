@@ -38,6 +38,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API class `\Piwik\DeviceDetectorFactory` has been removed. Use `\Piwik\DeviceDetector\DeviceDetectorFactory` instead
 * The deprecated Platform API class `\Piwik\ScheduledTask` has been removed. Use `\Piwik\Scheduler\Task` instead.
 * The deprecated Platform API class `\Piwik\Translate` has been removed. Use `\Piwik\Translation\Translator` instead.
+* The deprecated Platform API class `\Piwik\Plugins\Login\SessionInitializer` is no longer considered API as it is no longer needed.
 * The deprecated Platform API method `Piwik\Columns\Dimension::factory` has been removed. Use `DimensionsProvider::factory` instead.
 * The deprecated Platform API method `Piwik\Config::reset` has been removed. Use the `reload` method instead.
 * The deprecated Platform API method `Piwik\Config::init` has been removed. Use the `TableMetadata::getColumns` method instead.
