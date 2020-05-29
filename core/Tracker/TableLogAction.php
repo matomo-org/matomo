@@ -226,6 +226,8 @@ class TableLogAction
             'contentInteraction' => Action::TYPE_CONTENT_INTERACTION,
             'productName'        => Action::TYPE_ECOMMERCE_ITEM_NAME,
             'productSku'         => Action::TYPE_ECOMMERCE_ITEM_SKU,
+            'productViewName'    => Action::TYPE_ECOMMERCE_ITEM_NAME,
+            'productViewSku'     => Action::TYPE_ECOMMERCE_ITEM_SKU
         );
 
         if (!empty($exactMatch[$segmentName])) {
@@ -233,17 +235,14 @@ class TableLogAction
         }
 
         if (stripos($segmentName, 'pageurl') !== false) {
-            $actionType = Action::TYPE_PAGE_URL;
-            return $actionType;
+            return Action::TYPE_PAGE_URL;
         } elseif (stripos($segmentName, 'pagetitle') !== false) {
-            $actionType = Action::TYPE_PAGE_TITLE;
-            return $actionType;
+            return Action::TYPE_PAGE_TITLE;
         } elseif (stripos($segmentName, 'sitesearch') !== false) {
-            $actionType = Action::TYPE_SITE_SEARCH;
-            return $actionType;
-        } elseif (stripos($segmentName, 'productcategory') !== false) {
-            $actionType = Action::TYPE_ECOMMERCE_ITEM_CATEGORY;
-            return $actionType;
+            return Action::TYPE_SITE_SEARCH;
+        } elseif (stripos($segmentName, 'productcategory') !== false
+            || stripos($segmentName, 'productviewcategory') !== false) {
+            return Action::TYPE_ECOMMERCE_ITEM_CATEGORY;
         } else {
             throw new \Exception("We cannot guess the action type from the segment $segmentName.");
         }

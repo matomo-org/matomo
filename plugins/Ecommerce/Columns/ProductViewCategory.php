@@ -50,6 +50,17 @@ class ProductViewCategory extends ActionDimension
             $segment->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
             $segment->setSqlSegment('log_link_visit_action.' . $productCategoryColumnName);
             $segment->setIsInternal(true);
+            $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) {
+                $values = [];
+                foreach ($table->getRows() as $row) {
+                    foreach ($row->getColumn('actionDetails') as $actionRow) {
+                        if (isset($actionRow['productViewCategories'])) {
+                            $values = array_merge($values, $actionRow['productViewCategories']);
+                        }
+                    }
+                }
+                return $values;
+            });
             $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
         }
 
