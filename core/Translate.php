@@ -32,30 +32,6 @@ class Translate
     }
 
     /**
-     * @deprecated
-     */
-    public static function loadEnglishTranslation()
-    {
-        self::loadAllTranslations();
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function unloadEnglishTranslation()
-    {
-        self::reset();
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function reloadLanguage($language = false)
-    {
-        self::triggerDeprecationNotice();
-    }
-
-    /**
      * Reads the specified code translation file in memory.
      *
      * @param bool|string $language 2 letter language code. If not specified, will detect current user translation, or load default translation.
@@ -65,14 +41,6 @@ class Translate
     {
         self::triggerDeprecationNotice();
         self::getTranslator()->addDirectory(PIWIK_INCLUDE_PATH . '/lang');
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function mergeTranslationArray($translation)
-    {
-        self::triggerDeprecationNotice();
     }
 
     /**
@@ -133,7 +101,6 @@ class Translate
 
     public static function loadAllTranslations()
     {
-        self::triggerDeprecationNotice();
         self::loadCoreTranslation();
         Manager::getInstance()->loadPluginTranslations();
     }

@@ -87,7 +87,7 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	    // is there any other case where the errno is zero at this point?
 	    if($errno == 0) return '';
 	    $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
-	    <strong>There is an error. Please report the message and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a>.<br /><br/>
+	    <strong>There is an error. Please report the message and full backtrace in the <a href='https://forum.piwik.org' rel='noreferrer nofollow' target='_blank'>Piwik forums</a>.<br /><br/>
 	    ";
 	    switch($errno)
 	    {

@@ -301,9 +301,6 @@ class Config
         $this->settings->reload($pathGlobal, $pathLocal, $pathCommon);
     }
 
-    /**
-     * @deprecated
-     */
     public function existsLocalConfig()
     {
         return is_readable($this->getLocalPath());

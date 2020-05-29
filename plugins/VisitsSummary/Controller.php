@@ -40,17 +40,6 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * @deprecated used to be a widgetized URL. There to not break widget URLs
      */
-    public function getSparklines()
-    {
-        $_GET['forceView'] = '1';
-        $_GET['viewDataTable'] = Sparklines::ID;
-
-        return FrontController::getInstance()->fetchDispatch('VisitsSummary', 'get');
-    }
-
-    /**
-     * @deprecated used to be a widgetized URL. There to not break widget URLs
-     */
     public function index()
     {
         $_GET['containerId'] = 'VisitOverviewWithGraph';

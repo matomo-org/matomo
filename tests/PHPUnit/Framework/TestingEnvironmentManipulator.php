@@ -208,7 +208,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         return $result;
     }
 
-    private function getPluginsToLoadDuringTest()
+    public function getPluginsToLoadDuringTest()
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
         $plugins[] = 'TagManager';

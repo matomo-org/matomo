@@ -19,7 +19,7 @@
 
             {% if isMarketplaceEnabled or isPluginUploadEnabled %}
                 {{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate(
-                    '<a href="' ~ linkTo({'action':'browsePlugins', 'sort': null, 'activated': null})|e('html_attr') ~ '">',
+                    '<a href="' ~ linkTo({'module':'Marketplace', 'action':'overview', 'sort': null, 'activated': null})|e('html_attr') ~ '">',
                     '</a>',
                     '<a href="#" class="uploadPlugin">',
                     '</a>'

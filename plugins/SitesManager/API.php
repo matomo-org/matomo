@@ -307,33 +307,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of the website IDs that received some visits since the specified timestamp.
-     * Requires Super User access.
-     *
-     * @param bool|int $timestamp
-     * @return array The list of website IDs
-     * @deprecated since 2.15 This method will be removed in Matomo 3.0, there is no replacement.
-     */
-    public function getSitesIdWithVisits($timestamp = false)
-    {
-        Piwik::checkUserHasSuperUserAccess();
-
-        if (empty($timestamp)) $timestamp = time();
-
-        $time   = Date::factory((int)$timestamp)->getDatetime();
-        $now    = Date::now()->addHour(1)->getDatetime();
-
-        $result = $this->getModel()->getSitesWithVisits($time, $now);
-
-        $idSites = array();
-        foreach ($result as $idSite) {
-            $idSites[] = $idSite['idsite'];
-        }
-
-        return $idSites;
-    }
-
-    /**
      * Returns the list of websites with the 'admin' access for the current user.
      * For the superUser it returns all the websites in the database.
      *
@@ -1071,17 +1044,6 @@ class API extends \Piwik\Plugin\API
     public function isSiteSpecificUserAgentExcludeEnabled()
     {
         return true;
-    }
-
-    /**
-     * Sets whether it should be allowed to exclude different user agents for different
-     * websites.
-     *
-     * @param bool $enabled
-     * @deprecated Will be removed in Matomo 4.0
-     */
-    public function setSiteSpecificUserAgentExcludeEnabled($enabled)
-    {
     }
 
     /**

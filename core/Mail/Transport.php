@@ -93,7 +93,7 @@ class Transport
         if (defined('PIWIK_TEST_MODE')) { // hack
             /**
              * @ignore
-             * @deprecated
+             * @internal
              */
             Piwik::postTestEvent("Test.Mail.send", array($phpMailer));
             return true;
