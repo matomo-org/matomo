@@ -47,6 +47,17 @@ class Controller extends \Piwik\Plugin\Controller
         return FrontController::getInstance()->fetchDispatch('CoreHome', 'renderWidgetContainer');
     }
 
+    /**
+     * @deprecated used to be a widgetized URL. There to not break widget URLs
+     */
+    public function getSparklines()
+    {
+        $_GET['forceView'] = '1';
+        $_GET['viewDataTable'] = Sparklines::ID;
+
+        return FrontController::getInstance()->fetchDispatch('VisitsSummary', 'get');
+    }
+
     public function getEvolutionGraph()
     {
         $this->checkSitePermission();

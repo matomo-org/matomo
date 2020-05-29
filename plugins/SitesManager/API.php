@@ -1035,18 +1035,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns true if site-specific user agent exclusion has been enabled. If it hasn't,
-     * only the global user agent substrings (see @setGlobalExcludedUserAgents) will be used.
-     *
-     * @return bool
-     * @deprecated Will be removed in Matomo 4.0
-     */
-    public function isSiteSpecificUserAgentExcludeEnabled()
-    {
-        return true;
-    }
-
-    /**
      * Returns true if the default behavior is to keep URL fragments when tracking,
      * false if otherwise.
      *

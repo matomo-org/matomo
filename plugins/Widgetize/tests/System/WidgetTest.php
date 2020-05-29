@@ -1072,6 +1072,14 @@ class WidgetTest extends SystemTestCase
                             ),
                     ),
             ), array (
+                'name' => 'Visits Overview',
+                'uniqueId' => 'widgetVisitsSummarygetSparklines',
+                'parameters' =>
+                    array (
+                        'module' => 'VisitsSummary',
+                        'action' => 'getSparklines',
+                    ),
+            ), array (
                 'name' => 'Visits Overview (with graph)',
                 'uniqueId' => 'widgetVisitsSummaryindex',
                 'parameters' =>
@@ -1111,6 +1119,14 @@ class WidgetTest extends SystemTestCase
                     array (
                         'module' => 'VisitorInterest',
                         'action' => 'getNumberOfVisitsPerPage',
+                    ),
+            ), array (
+                'name' => 'Frequency Overview',
+                'uniqueId' => 'widgetVisitFrequencygetSparklines',
+                'parameters' =>
+                    array (
+                        'module' => 'VisitFrequency',
+                        'action' => 'getSparklines',
                     ),
             ), array (
                 'name' => 'Returning Visits Over Time',

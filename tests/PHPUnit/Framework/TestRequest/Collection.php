@@ -314,7 +314,6 @@ class Collection
             ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
                 || in_array($moduleName, $this->apiNotToCall) === true
                 || in_array($apiId, $this->apiNotToCall) === true
-                || $methodName == 'getLogoUrl'
                 || $methodName == 'getSVGLogoUrl'
                 || $methodName == 'hasSVGLogo'
                 || $methodName == 'getHeaderLogoUrl'

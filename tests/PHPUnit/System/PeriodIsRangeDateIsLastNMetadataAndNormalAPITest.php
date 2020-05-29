@@ -77,7 +77,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                                                     'testSuffix' => $testSuffix,
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24 * 2,
-                                                        'visitorId' => $visitorId, // testing getLastVisitsForVisitor requires a visitor ID
+                                                        'visitorId' => $visitorId,
                                                         'hideColumns' => 'serverDate,lastActionTimestamp,lastActionDateTime,serverTimestamp,'.
                                                                          'firstActionTimestamp,serverTimePretty,serverDatePretty,'.
                                                                          'serverDatePrettyFirstAction,serverTimePrettyFirstAction'

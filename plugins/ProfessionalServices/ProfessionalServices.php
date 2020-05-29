@@ -40,26 +40,6 @@ class ProfessionalServices extends \Piwik\Plugin
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
     }
 
-    /**
-     * @deprecated Can be removed in Piwik 3.0
-     * @param $module
-     * @param $action
-     */
-    public function renameProfessionalServicesModule(&$module, &$action)
-    {
-        if ($module == 'ProfessionalServices') {
-            $module = 'ProfessionalServices';
-
-            if($action == 'promoPiwikPro') {
-                $action = 'promoServices';
-            }
-
-            if ($action == 'rssPiwikPro') {
-                $action = 'rss';
-            }
-        }
-    }
-
     public function isRequestForDashboardWidget()
     {
         $isWidget = Common::getRequestVar('widget', 0, 'int');
