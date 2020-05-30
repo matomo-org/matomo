@@ -10,7 +10,7 @@
         "MetricDataByYear": "Metriktabellen pro Jahr",
         "MetricTables": "Metriktabellen",
         "OtherTables": "Andere Tabellen",
-        "PluginDescription": "Stellt detaillierte Berichte über Auslastung der MySQL Datenbank zur Verfügung. Verfügbar für Hauptadministratoren unter Diagnose.",
+        "PluginDescription": "Stellt detaillierte Berichte über die Auslastung der MySQL Datenbank zur Verfügung. Verfügbar für Hauptadministratoren unter Diagnose.",
         "ReportDataByYear": "Berichtstabellen pro Jahr",
         "ReportTables": "Berichtstabellen",
         "RowCount": "Zeilenanzahl",
