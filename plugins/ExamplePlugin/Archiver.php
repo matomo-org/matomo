@@ -82,7 +82,7 @@ class Archiver extends \Piwik\Plugin\Archiver
          * $this->getProcessor()->aggregateDataTableRecords(self::EXAMPLEPLUGIN_ARCHIVE_RECORD);
          */
 
-        $this->getProcessor()->aggregateNumericMetrics([self::EXAMPLEPLUGIN_METRIC_NAME]);
+        $this->getProcessor()->aggregateNumericMetrics([self::EXAMPLEPLUGIN_METRIC_NAME, self::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
     }
 
     private function incrementArchiveCount()

@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
@@ -35,6 +36,13 @@ class ArchiveCronTest extends SystemTestCase
      * @var ManySitesImportedLogs
      */
     public static $fixture = null; // initialized below class definition
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        Db::exec("UPDATE " . Common::prefixTable('site') . ' SET ts_created = \'2005-01-02 00:00:00\'');
+    }
 
     public function getApiForTesting()
     {
@@ -67,7 +75,7 @@ class ArchiveCronTest extends SystemTestCase
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
                                                       'periods' => array('day', 'month', 'year',  'week')));
-        return [end($results)];
+
         $results[] = array($apiRequiringSegments, array('idSite'  => 'all',
             'date'    => '2012-08-09',
             'periods' => array('month')));
@@ -108,9 +116,6 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
 
-        // invalidate a report so we get a partial archive (using the metric that gets incremented each time it is archived)
-        $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
-
         // track a visit in 2007-04-05 so it will archive (don't want to force archiving because then this test will take another 15 mins)
         $tracker = Fixture::getTracker(1, '2007-04-05');
         $tracker->setUrl('http://example.com/test/url');
@@ -145,6 +150,33 @@ class ArchiveCronTest extends SystemTestCase
         }
     }
 
+    /**
+     * @depends testArchivePhpCron
+     */
+    public function testArchivePhpCronWithSingleReportRearchive()
+    {
+        // invalidate a report so we get a partial archive (using the metric that gets incremented each time it is archived)
+        // (do it after the last run so we don't end up just re-using the ExamplePlugin archive)
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
+
+        $beforeCount = Option::get('ExamplePlugin_archiveCount');
+
+        $output = $this->runArchivePhpCron();
+
+        Option::clearCachedOption('ExamplePlugin_archiveCount');
+        $afterCount = Option::get('ExamplePlugin_archiveCount');
+
+        $this->assertNotEquals($beforeCount, $afterCount, 'example plugin archiving was not triggered');
+
+        $this->runApiTests('ExamplePlugin.getExampleArchivedMetric', [
+            'idSite' => 'all',
+            'date' => '2007-04-05',
+            'periods' => ['day', 'week'],
+            'testSuffix' => '_singleMetric',
+        ]);
+    }
+
     public function testArchivePhpCronArchivesFullRanges()
     {
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
@@ -172,8 +204,7 @@ class ArchiveCronTest extends SystemTestCase
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
                 'periods'    => array('range'),
-                'testSuffix' => '_range_archive'
-            )
+                'testSuffix' => '_range_archive')
         );
     }
 

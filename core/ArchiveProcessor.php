@@ -201,6 +201,10 @@ class ArchiveProcessor
             $recordNames = array($recordNames);
         }
 
+        $recordNames = array_filter($recordNames, function ($columnName) {
+            return $this->isArchiving($columnName);
+        });
+
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
@@ -244,6 +248,14 @@ class ArchiveProcessor
      */
     public function aggregateNumericMetrics($columns, $operationToApply = false)
     {
+        if (!is_array($columns)) {
+            $columns = array($columns);
+        }
+
+        $columns = array_filter($columns, function ($columnName) {
+            return $this->isArchiving($columnName);
+        });
+
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
         foreach ($metrics as $column => $value) {

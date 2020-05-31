@@ -476,6 +476,8 @@ class CronArchive
                 && $entry['date1'] == $archive['date1']
                 && $entry['date2'] == $archive['date2']
                 && $entry['name'] == $archive['name']
+                && $entry['plugin'] == $archive['plugin']
+                && $entry['report'] == $archive['report']
             ) {
                 return true;
             }
@@ -582,7 +584,7 @@ class CronArchive
 
             $visitsForPeriod = $this->getVisitsFromApiResponse($stats);
 
-            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod, $archivesBeingQueried[$index]['plugin']);
+            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod, $archivesBeingQueried[$index]['plugin'], $archivesBeingQueried[$index]['report']);
 
             // TODO: do in ArchiveWriter
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
@@ -664,14 +666,14 @@ class CronArchive
         return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
     }
 
-    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null)
+    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null)
     {
         $params = UrlHelper::getArrayFromQueryString($url);
         $visits = (int) $visits;
 
         $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
             . "{$params['date']}, segment = '" . (isset($params['segment']) ? $params['segment'] : '') . "', "
-            . ($plugin ? "plugin = $plugin, " : "") . "$visits visits found. $timer");
+            . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }
 
     public function getErrors()

@@ -478,6 +478,7 @@ class Archive implements ArchiveQuery
             $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
+
         if (empty($archiveIds)) {
             /**
              * Triggered when no archive data is found in an API request.
@@ -584,7 +585,6 @@ class Archive implements ArchiveQuery
                     && Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
                     && $period->getDateStart()->toString() === Date::factory('now', $site->getTimezone())->toString()
                 ) {
-
                     Log::debug("Skipping archive %s for %s as segment today is disabled", $period->getLabel(), $period->getPrettyString());
                     continue;
                 }
@@ -605,7 +605,7 @@ class Archive implements ArchiveQuery
                     continue;
                 }
 
-                $this->rchive($archiveGroups, $site, $period);
+                $this->prepareArchive($archiveGroups, $site, $period);
             }
         }
     }
@@ -801,7 +801,7 @@ class Archive implements ArchiveQuery
         $periodString = $period->getRangeString();
 
         $idSites = array($site->getId());
-        
+
         // process for each plugin as well
         foreach ($archiveGroups as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);

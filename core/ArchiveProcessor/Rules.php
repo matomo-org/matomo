@@ -320,6 +320,7 @@ class Rules
         ) {
             //If request is not authorized to archive then fetch also invalidated archives
             $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
+            $possibleValues[] = ArchiveWriter::DONE_PARTIAL;
         }
 
         return $possibleValues;
