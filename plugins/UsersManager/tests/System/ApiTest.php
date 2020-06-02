@@ -8,6 +8,9 @@
 
 namespace Piwik\Plugins\UsersManager\tests\System;
 
+use Piwik\API\Request;
+use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\tests\Fixtures\ManyUsers;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -42,6 +45,35 @@ class ApiTest extends SystemTestCase
 
             $this->runAnyApiTest($api, $apiId . '_' . $appendix, $params, array('xmlFieldsToRemove' => $xmlFieldsToRemove));
         }
+    }
+
+    public function test_getUserPreference_loginIsOptional()
+    {
+        $response = Request::processRequest('UsersManager.getUserPreference', array(
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT
+        ));
+        $this->assertEquals('1', $response);
+
+        $response = Request::processRequest('UsersManager.getUserPreference', array(
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+        ));
+        $this->assertEquals('yesterday', $response);
+    }
+
+    public function test_getUserPreference_loginCanBeSet()
+    {
+        $response = Request::processRequest('UsersManager.getUserPreference', array(
+            'userLogin' => Piwik::getCurrentUserLogin(),
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+        ));
+        $this->assertEquals('yesterday', $response);
+
+        // user not exists
+        $response = Request::processRequest('UsersManager.getUserPreference', array(
+            'userLogin' => 'foo',
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+        ));
+        $this->assertEquals('yesterday', $response);
     }
 
     public function getApiForTesting()
