@@ -92,10 +92,14 @@ class ArchiveSelector
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
+        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+        }
+
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
             && isset($result['idarchive'])
-            && Date::factory($tsArchived)->isEarlier(Date::factory($minDatetimeArchiveProcessedUTC))
+            && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
