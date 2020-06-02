@@ -115,6 +115,7 @@ class ArchiveProcessor
         if (empty($this->archive)) {
             $subPeriods = $this->params->getSubPeriods();
             $idSites    = $this->params->getIdSites();
+
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
         }
 
@@ -262,7 +263,7 @@ class ArchiveProcessor
             $this->checkArchiveOnlyReport($column);
 
             $value = Common::forceDotAsSeparatorForDecimalPoint($value);
-            $this->archiveWriter->insertRecord($column, $value);
+            $this->insertNumericRecord($column, $value);
         }
         // if asked for only one field to sum
         if (count($metrics) === 1) {
@@ -364,7 +365,6 @@ class ArchiveProcessor
                 // see https://github.com/piwik/piwik/issues/4377
                 $self = $this;
                 $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
-
                     if ($self->areColumnsNotAlreadyRenamed($table)) {
                         /**
                          * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will

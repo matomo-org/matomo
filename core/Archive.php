@@ -478,7 +478,6 @@ class Archive implements ArchiveQuery
             $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
-
         if (empty($archiveIds)) {
             /**
              * Triggered when no archive data is found in an API request.
