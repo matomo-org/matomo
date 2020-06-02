@@ -263,6 +263,18 @@ abstract class Period
     }
 
     /**
+     * Returns whether the given period date range intersects with this one.
+     *
+     * @param Period $other
+     * @return bool
+     */
+    public function isPeriodIntersectingWith(Period $other)
+    {
+        return !($this->getDateEnd()->getTimestamp() < $other->getDateStart()->getTimestamp()
+            || $this->getDateStart()->getTimestamp() > $other->getDateEnd()->getTimestamp());
+    }
+
+    /**
      * Add a date to the period.
      *
      * Protected because adding periods after initialization is not supported.

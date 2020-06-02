@@ -12,13 +12,13 @@ use Exception;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Matomo\Cache\Lazy;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CliMulti\RequestParser;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -213,6 +213,11 @@ class CronArchive
     private $invalidationsToExclude = [];
 
     /**
+     * @var RequestParser
+     */
+    private $cliMultiRequestParser;
+
+    /**
      * Constructor.
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
@@ -235,6 +240,8 @@ class CronArchive
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
 
         $this->rawLogDao = new RawLogDao();
+
+        $this->cliMultiRequestParser = new RequestParser($this->makeCliMulti()->supportsAsync());
     }
 
     private function isMaintenanceModeEnabled()
@@ -380,13 +387,36 @@ class CronArchive
                 $siteRequests = 0;
             }
 
+            // we don't want to invalidate different periods together or segment archives w/ no-segment archives
+            // together, but it's possible to end up querying these archives. if we find one, we keep track of it
+            // in this array to exclude, but after we run the current batch, we reset the array so we'll still
+            // process them eventually.
+            $invalidationsToExcludeInBatch = [];
+
             // get archives to process simultaneously
             $archivesToProcess = [];
             while (count($archivesToProcess) < $countOfProcesses) {
-                $invalidatedArchive = $this->getNextInvalidatedArchive($idSite);
+                $invalidatedArchive = $this->getNextInvalidatedArchive($idSite, array_keys($invalidationsToExcludeInBatch));
                 if (empty($invalidatedArchive)) {
                     $this->logger->debug("No next invalidated archive.");
                     break;
+                }
+
+                if ($this->hasDifferentPeriod($archivesToProcess, $invalidatedArchive['period'])) {
+                    $this->logger->debug("Found archive with different period than others in concurrent batch, skipping until next batch: {$invalidatedArchive['period']}");
+
+                    $idinvalidation = $invalidatedArchive['idinvalidation'];
+                    $invalidationsToExcludeInBatch[$idinvalidation] = true;
+                    continue;
+                }
+
+                if ($this->hasDifferentDoneFlagType($archivesToProcess, $invalidatedArchive['name'])) {
+                    $this->logger->debug("Found archive with different done flag type (segment vs. no segment) in concurrent batch, skipping until next batch: {$invalidatedArchive['name']}");
+
+                    $idinvalidation = $invalidatedArchive['idinvalidation'];
+                    $invalidationsToExcludeInBatch[$idinvalidation] = true;
+
+                    continue;
                 }
 
                 if ($invalidatedArchive['segment'] === null) {
@@ -411,6 +441,23 @@ class CronArchive
                 $reason = $this->shouldSkipArchive($invalidatedArchive);
                 if ($reason) {
                     $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
+                    $this->addInvalidationToExclude($invalidatedArchive);
+                    continue;
+                }
+
+                if ($this->canSkipArchiveBecauseNoPoint($invalidatedArchive)) {
+                    $this->logger->debug("Found invalidated archive we can skip (no visits or latest archive is not invalidated). "
+                        . "[idSite = {$invalidatedArchive['idsite']}, dates = {$invalidatedArchive['date1']} - {$invalidatedArchive['date2']}, segment = {$invalidatedArchive['segment']}]");
+                    $this->addInvalidationToExclude($invalidatedArchive);
+                    $this->model->deleteInvalidations([$invalidatedArchive]);
+                    continue;
+                }
+
+                // TODO: should use descriptive string instead of just invalidation ID
+                $reason = $this->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($invalidatedArchive);
+                if ($reason) {
+                    $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
+                    $invalidationsToExcludeInBatch[$invalidatedArchive['idinvalidation']] = true;
                     $this->addInvalidationToExclude($invalidatedArchive);
                     continue;
                 }
@@ -495,7 +542,7 @@ class CronArchive
     }
 
     // TODO: need to also delete rows from archive_invalidations via scheduled task, eg, if ts_invalidated is older than 3 days or something.
-    private function getNextInvalidatedArchive($idSite)
+    private function getNextInvalidatedArchive($idSite, $extraInvalidationsToIgnore)
     {
         $lastInvalidationTime = self::getLastInvalidationTime();
         if (empty($lastInvalidationTime)
@@ -506,7 +553,9 @@ class CronArchive
 
         $iterations = 0;
         while ($iterations < 100) {
-            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->invalidationsToExclude);
+            $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
+
+            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $invalidationsToExclude);
             if (empty($nextArchive)) {
                 break;
             }
@@ -859,6 +908,7 @@ class CronArchive
 
         // invalidate remembered site/day pairs
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+        krsort($sitesPerDays); // for tests
 
         foreach ($sitesPerDays as $date => $siteIds) {
             //Concurrent transaction logic will end up with duplicates set.  Adding array_unique to the siteIds.
@@ -1332,5 +1382,118 @@ class CronArchive
         }
 
         return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
+    }
+
+    private function hasDifferentPeriod(array $archivesToProcess, $period)
+    {
+        if (empty($archivesToProcess)) {
+            return false;
+        }
+
+        return $archivesToProcess[0]['period'] != $period;
+    }
+
+    private function hasDifferentDoneFlagType(array $archivesToProcess, $name)
+    {
+        if (empty($archivesToProcess)) {
+            return false;
+        }
+
+        $existingDoneFlagType = $this->getDoneFlagType($archivesToProcess[0]['name']);
+        $newArchiveDoneFlagType = $this->getDoneFlagType($name);
+
+        return $existingDoneFlagType != $newArchiveDoneFlagType;
+    }
+
+    private function getDoneFlagType($name)
+    {
+        if ($name == 'done') {
+            return 'all';
+        } else {
+            return 'segment';
+        }
+    }
+
+    private function canSkipArchiveBecauseNoPoint(array $invalidatedArchive)
+    {
+        $site = new Site($invalidatedArchive['idsite']);
+
+        $periodLabel = $this->periodIdsToLabels[$invalidatedArchive['period']];
+        $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
+        $period = PeriodFactory::build($periodLabel, $dateStr);
+
+        $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
+
+        $params = new Parameters($site, $period, $segment);
+
+        $loader = new Loader($params);
+        if ($loader->canSkipThisArchive()) { // if no point in archiving, skip
+            return true;
+        }
+
+        // if valid archive already exists, do not re-archive
+        $minDateTimeProcessedUTC = Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($periodLabel));
+        $archiveIdAndVisits = ArchiveSelector::getArchiveIdAndVisits($params, $minDateTimeProcessedUTC, $includeInvalidated = false);
+
+        $idArchive = $archiveIdAndVisits[0];
+        return !empty($idArchive);
+    }
+
+    private function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess)
+    {
+        $inProgressArchives = $this->cliMultiRequestParser->getInProgressArchivingCommands();
+
+        $periodLabel = $this->periodIdsToLabels[$archiveToProcess['period']];
+        $archiveToProcess['periodObj'] = PeriodFactory::build($periodLabel, $archiveToProcess['date1']);
+
+        foreach ($inProgressArchives as $archiveBeingProcessed) {
+            if (empty($archiveBeingProcessed['period'])
+                || empty($archiveBeingProcessed['date'])
+            ) {
+                continue;
+            }
+
+            $archiveBeingProcessed['periodObj'] = PeriodFactory::build($archiveBeingProcessed['period'], $archiveBeingProcessed['date']);
+
+            if ($this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
+                return "lower period in progress (period = {$archiveBeingProcessed['period']}, date = {$archiveBeingProcessed['date']})";
+            }
+
+            if ($this->isArchiveNonSegmentAndInProgressArchiveSegment($archiveToProcess, $archiveBeingProcessed)) {
+                return "segment archive in progress for same site/period ({$archiveBeingProcessed['segment']})";
+            }
+        }
+
+        return false;
+    }
+
+    private function isArchiveOfLowerPeriod(array $archiveToProcess, $archiveBeingProcessed)
+    {
+        /** @var Period $archiveToProcessPeriodObj */
+        $archiveToProcessPeriodObj = $archiveToProcess['periodObj'];
+        /** @var Period $archivePeriodObj */
+        $archivePeriodObj = $archiveBeingProcessed['periodObj'];
+
+        if ($archiveToProcessPeriodObj->getId() >= $archivePeriodObj->getId()
+            && $archiveToProcessPeriodObj->isPeriodIntersectingWith($archivePeriodObj)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, array $archiveBeingProcessed)
+    {
+        // archive is for different site/period
+        if (empty($archiveBeingProcessed['idSite'])
+            || $archiveToProcess['idsite'] != $archiveBeingProcessed['idSite']
+            || $archiveToProcess['periodObj']->getId() != $archiveBeingProcessed['periodObj']->getId()
+            || $archiveToProcess['periodObj']->getDateStart()->toString() != $archiveBeingProcessed['periodObj']->getDateStart()->toString()
+        ) {
+            return false;
+        }
+
+        return empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment']);
     }
 }

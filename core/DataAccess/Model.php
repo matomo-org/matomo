@@ -593,8 +593,9 @@ class Model
      *
      * @param string[] $tables
      * @param int $count
+     * @param bool $useLimit Whether to limit the result set to one result or not. Used in tests only.
      */
-    public function getNextInvalidatedArchive($idSite, $idInvalidationsToExclude = null)
+    public function getNextInvalidatedArchive($idSite, $idInvalidationsToExclude = null, $useLimit = true)
     {
         $table = Common::prefixTable('archive_invalidations');
         $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`
@@ -609,9 +610,14 @@ class Model
             $sql .= " AND idinvalidation NOT IN (" . implode(',', $idInvalidationsToExclude) . ')';
         }
 
-        $sql .= " ORDER BY period ASC, date1 ASC, idinvalidation ASC LIMIT 1";
+        $sql .= " ORDER BY date1 DESC, period ASC, CHAR_LENGTH(name) ASC, idinvalidation ASC";
 
-        return Db::fetchRow($sql, $bind);
+        if ($useLimit) {
+            $sql .= " LIMIT 1";
+            return Db::fetchRow($sql, $bind);
+        } else {
+            return Db::fetchAll($sql, $bind);
+        }
     }
 
     public function deleteInvalidations($archiveInvalidations)
