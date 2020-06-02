@@ -41,8 +41,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API class `\Piwik\Plugins\Login\SessionInitializer` is no longer considered API as it is no longer needed.
 * The deprecated Platform API method `Piwik\Columns\Dimension::factory` has been removed. Use `DimensionsProvider::factory` instead.
 * The deprecated Platform API method `Piwik\Config::reset` has been removed. Use the `reload` method instead.
-* The deprecated Platform API method `Piwik\Config::init` has been removed. Use the `TableMetadata::getColumns` method instead.
-* The deprecated Platform API method `Piwik\Db::getColumnNamesFromTable` has been removed. Use the `reload()` method instead.
+* The deprecated Platform API method `Piwik\Config::init` has been removed. Use the `reload()` method instead.
+* The deprecated Platform API method `Piwik\Db::getColumnNamesFromTable` has been removed. Use the `TableMetadata::getColumns` method instead.
 * The deprecated Platform API method `Piwik\Session\SessionInitializer::getHashTokenAuth` has been removed. There is no need for this method anymore.
 * The deprecated Platform API method `Piwik\Tracker::getDatetimeFromTimestamp` has been removed. Use `Piwik\Date::getDatetimeFromTimestamp` instead.
 * The deprecated Platform API constant `Piwik\Plugins\Goals\API::NEW_VISIT_SEGMENT` has been removed. Use `Piwik\Plugins\VisitFrequency\API::NEW_VISITOR_SEGMENT` instead.
