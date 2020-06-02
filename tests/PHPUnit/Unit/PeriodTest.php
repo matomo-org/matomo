@@ -303,7 +303,8 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
             ['2015-03-04', 'month', '2015-03-09', 'day', true],
             ['2015-03-04', 'month', '2015-03-01', 'week', true],
             ['2015-03-04', 'month', '2015-02-28', 'week', true],
-            ['2015-03-04', 'month', '2015-02-28', 'month', true],
+            ['2015-03-01', 'month', '2015-02-28', 'month', false],
+            ['2015-03-01', 'week', '2015-02-28', 'week', true],
             ['2015-03-04', 'year', '2015-03-01', 'day', true],
             ['2015-03-04', 'year', '2016-03-01', 'week', false],
         ];
