@@ -22,7 +22,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $dbSettings   = new \Piwik\Db\Settings();
         $settings = StaticContainer::get('Piwik\Plugins\CoreUpdater\SystemSettings');
 
-        if ($dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4' && $settings->updateToUtf8mb4->getValue()) {
+        if ($dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4' && !empty($settings->updateToUtf8mb4) && $settings->updateToUtf8mb4->getValue()) {
             $this->daily('convertToUtf8mb4', null, self::HIGHEST_PRIORITY);
         }
     }
