@@ -84,7 +84,7 @@ var Piwik_Popover = (function () {
 
     var centerPopover = function () {
         if (container !== false) {
-            container.dialog();
+            container.dialog("option", "position", {my: 'center', at: 'center', of: '.ui-widget-overlay', collision: 'fit'});
         }
     };
 
