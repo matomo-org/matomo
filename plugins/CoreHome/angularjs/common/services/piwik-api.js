@@ -340,9 +340,6 @@ var hasBlockedContent = false;
             post: post,
             fetch: fetch,
             addPostParams: addPostParams,
-            /**
-             * @deprecated
-             */
             abort: abort,
             abortAll: abortAll,
             mixinDefaultGetParams: mixinDefaultGetParams

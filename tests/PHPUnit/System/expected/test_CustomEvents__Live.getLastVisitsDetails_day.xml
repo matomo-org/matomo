@@ -1209,7 +1209,7 @@
 		<idVisit>10</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>14db763aafccd039</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1315,15 +1315,11 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>cookie, director</plugins>
+		<plugins>cookie</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
 	</row>
@@ -1332,7 +1328,7 @@
 		<idVisit>9</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>14db763aafccd039</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1438,15 +1434,11 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>cookie, director</plugins>
+		<plugins>cookie</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
 	</row>
@@ -1455,7 +1447,7 @@
 		<idVisit>8</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>14db763aafccd039</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1669,15 +1661,11 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>cookie, director</plugins>
+		<plugins>cookie</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
 	</row>
@@ -1686,7 +1674,7 @@
 		<idVisit>7</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>14db763aafccd039</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1792,15 +1780,11 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>cookie, director</plugins>
+		<plugins>cookie</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
 	</row>
@@ -1809,7 +1793,7 @@
 		<idVisit>6</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>14db763aafccd039</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -2233,15 +2217,11 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>cookie, director</plugins>
+		<plugins>cookie</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
 	</row>

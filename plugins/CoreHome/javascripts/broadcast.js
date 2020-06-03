@@ -53,7 +53,7 @@ var broadcast = {
     /**
      * Initializes broadcast object
      *
-     * @deprecated in 3.2.2, will be removed in Piwik 4
+     * @deprecated in 3.2.2, will be removed in Matomo 5
      *
      * @return {void}
      */
@@ -81,7 +81,7 @@ var broadcast = {
      *
      * * Note: the method is manipulated in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
      *
-     * @deprecated since 3.2.2, will be removed in Piwik 4
+     * @deprecated since 3.2.2, will be removed in Matomo 5
      *
      * @param {string}  hash to load page with
      * @return {void}
@@ -199,7 +199,7 @@ var broadcast = {
      *
      * NOTE: this method will only make ajax call and replacing main content.
      *
-     * @deprecated in 3.2.2, will be removed in Piwik 4.
+     * @deprecated in 3.2.2, will be removed in Matomo 5.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
      * @param {boolean} [disableHistory]  the hash change won't be available in the browser history

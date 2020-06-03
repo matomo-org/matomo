@@ -199,7 +199,6 @@ class FrontController extends Singleton
      * @param string $actionName The controller action name, eg, `'realtimeMap'`.
      * @param array $parameters Array of parameters to pass to the controller action method.
      * @return string The `echo`'d data or the return value of the controller action.
-     * @deprecated
      */
     public function fetchDispatch($module = null, $actionName = null, $parameters = null)
     {

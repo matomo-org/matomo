@@ -21,11 +21,6 @@ use Piwik\ProxyHttp;
 use Piwik\Session;
 
 /**
- * This SessionInitializer is no longer used, but is kept for backwards compatibility.
- * Session management no longer uses the piwik_auth cookie.
- *
- * @deprecated
- * @api
  */
 class SessionInitializer
 {

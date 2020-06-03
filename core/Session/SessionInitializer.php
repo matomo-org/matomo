@@ -96,19 +96,6 @@ class SessionInitializer
         Session::regenerateId();
     }
 
-    /**
-     * Accessor to compute the hashed authentication token.
-     *
-     * @param string $login user login
-     * @param string $token_auth authentication token
-     * @return string hashed authentication token
-     * @deprecated
-     */
-    public static function getHashTokenAuth($login, $token_auth)
-    {
-        return md5($login . $token_auth);
-    }
-
     private function isRemembered()
     {
         $cookieParams = session_get_cookie_params();

@@ -51,7 +51,7 @@
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, ag, showModalDialog,
+    pdf, qt, realp, wma, fla, java, ag, showModalDialog,
     maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -2155,7 +2155,7 @@ if (typeof window.Piwik !== 'object') {
                 configTitle = '',
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
+                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','rtf','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -3068,7 +3068,6 @@ if (typeof window.Piwik !== 'object') {
                         wma: 'application/x-mplayer2',
 
                         // interactive multimedia
-                        dir: 'application/x-director',
                         fla: 'application/x-shockwave-flash',
 
                         // RIA
@@ -4266,7 +4265,7 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                if (!isNumberOrHasLength(category) || !isNumberOrHasLength(action)) {
                     logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }

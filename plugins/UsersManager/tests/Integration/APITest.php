@@ -31,27 +31,27 @@ class TestCap1 extends Capability
 {
     const ID = 'test_cap1';
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getCategory()
+    public function getCategory(): string
     {
         return 'Test';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Cap1';
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function getIncludedInRoles()
+    public function getIncludedInRoles(): array
     {
         return array(
             Admin::ID
@@ -63,27 +63,27 @@ class TestCap2 extends Capability
 {
     const ID = 'test_cap2';
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getCategory()
+    public function getCategory(): string
     {
         return 'Test';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Cap2';
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function getIncludedInRoles()
+    public function getIncludedInRoles(): array
     {
         return array(
             Write::ID, Admin::ID
@@ -95,27 +95,27 @@ class TestCap3 extends Capability
 {
     const ID = 'test_cap3';
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getCategory()
+    public function getCategory(): string
     {
         return 'Test';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Cap3';
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function getIncludedInRoles()
+    public function getIncludedInRoles(): array
     {
         return array(Admin::ID);
     }
