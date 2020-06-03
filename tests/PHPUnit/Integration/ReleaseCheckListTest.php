@@ -450,6 +450,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 strpos($file, 'yuicompressor') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false ||
+                strpos($file, '/node_modules/') !== false ||
                 strpos($file, '/Morpheus/icons/src/') !== false ||
                 strpos($file, '/phantomjs/') !== false
             ) {
