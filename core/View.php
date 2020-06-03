@@ -315,19 +315,7 @@ class View implements ViewInterface
 
     protected function renderTwigTemplate()
     {
-        try {
-            $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
-        } catch (Error $ex) {
-            // twig does not rethrow exceptions, it wraps them so we log the cause if we can find it
-            //TODO: ugly hack to see full twig exception (with path to template)
-            $context = $ex->getSourceContext();
-            $message=$ex->getMessage()."<br>";
-            $message .= $context->getName() . "<br>";
-            $message .= $context->getPath() .":".$ex->getLine(). "<br>";
-            Log::debug($message);
-            return $message;
-
-        }
+        $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
 
         if ($this->enableCacheBuster) {
             $output = $this->applyFilter_cacheBuster($output);
