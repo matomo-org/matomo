@@ -673,7 +673,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     {
         $filesThatDoNotExist = [];
         foreach (UIAssetFetcher::$bowerComponentFileMappings as $oldFile => $newFile) {
-            if (!file_exists($newFile)) {
+            if ($newFile && !file_exists(PIWIK_DOCUMENT_ROOT . '/' . $newFile)) {
                 $filesThatDoNotExist[] = $newFile;
             }
         }
