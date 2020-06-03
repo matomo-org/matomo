@@ -63,7 +63,7 @@
         },
 
         getDateRange: function () {
-            return [this.dateInPeriod, this.dateInPeriod];
+            return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
         }
     };
 
