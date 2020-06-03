@@ -51,7 +51,7 @@
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, ag, showModalDialog,
+    pdf, qt, realp, wma, fla, java, ag, showModalDialog,
     maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -3068,7 +3068,6 @@ if (typeof window.Piwik !== 'object') {
                         wma: 'application/x-mplayer2',
 
                         // interactive multimedia
-                        dir: 'application/x-director',
                         fla: 'application/x-shockwave-flash',
 
                         // RIA

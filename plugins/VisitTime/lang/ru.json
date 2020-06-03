@@ -2,10 +2,6 @@
     "VisitTime": {
         "ColumnLocalTime": "Местное время",
         "ColumnServerTime": "Время на сервере",
-        "ColumnVisitEndServerDayOfMonth": "Время сервера - день месяца (конец посещения)",
-        "ColumnVisitEndServerDayOfWeek": "Время сервера - день недели (конец посещения)",
-        "ColumnVisitEndServerDayOfYear": "Время сервера - день года (конец посещения)",
-        "ColumnVisitEndServerMonth": "Время сервера - месяц (конец посещения)",
         "DayOfWeek": "День недели",
         "LocalTime": "Посещений по местному времени",
         "NHour": "%s ч.",

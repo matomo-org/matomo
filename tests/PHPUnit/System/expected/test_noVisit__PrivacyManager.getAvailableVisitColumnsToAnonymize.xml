@@ -29,10 +29,6 @@
 		<default_value />
 	</row>
 	<row>
-		<column_name>config_director</column_name>
-		<default_value />
-	</row>
-	<row>
 		<column_name>config_flash</column_name>
 		<default_value />
 	</row>
