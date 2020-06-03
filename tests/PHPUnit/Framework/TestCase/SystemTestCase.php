@@ -773,22 +773,6 @@ abstract class SystemTestCase extends TestCase
         DbHelper::deleteArchiveTables();
     }
 
-    /**
-     * @deprecated
-     */
-    public function assertHttpResponseText($expectedResponseText, $url, $message = '')
-    {
-        self::assertThat($url, new HttpResponseText($expectedResponseText), $message);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function assertResponseCode($expectedResponseCode, $url, $message = '')
-    {
-        self::assertThat($url, new ResponseCode($expectedResponseCode), $message);
-    }
-
     public function assertNotDbConnectionCreated($message = 'A database connection was created but should not.')
     {
         self::assertFalse(Db::hasDatabaseObject(), $message);

@@ -168,7 +168,6 @@ class UpdaterTest extends IntegrationTestCase
         return array(
             array('log_visit', 'user_id', 'VARCHAR(200) NULL'),
             array('log_link_visit_action', 'idaction_event_category', 'INTEGER(10) UNSIGNED DEFAULT NULL'),
-            array('log_conversion', 'revenue_tax', 'float default NULL')
         );
     }
 

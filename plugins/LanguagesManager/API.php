@@ -80,15 +80,6 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('LanguagesManager.getAvailableLanguages', array(&$languages));
 
-        /**
-         * Hook called after loading available language files.
-         *
-         * @param array
-         *
-         * @deprecated since v3.9.0 use LanguagesManager.getAvailableLanguages instead. Will be removed in Matomo 4.0.0
-         */
-        Piwik::postEvent('LanguageManager.getAvailableLanguages', array(&$languages));
-
         $this->languageNames = $languages;
         return $languages;
     }

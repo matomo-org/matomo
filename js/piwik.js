@@ -38,7 +38,7 @@
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
-    location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, connectEnd, requestStart, responseStart,
     responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
     event, which, button, srcElement, type, target, data,
@@ -51,7 +51,7 @@
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, gears, ag, showModalDialog,
+    pdf, qt, realp, wma, fla, java, ag, showModalDialog,
     maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -2155,7 +2155,7 @@ if (typeof window.Piwik !== 'object') {
                 configTitle = '',
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
+                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','rtf','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -2194,10 +2194,10 @@ if (typeof window.Piwik !== 'object') {
                 configCustomData,
 
                 // Campaign names
-                configCampaignNameParameters = [ 'pk_campaign', 'piwik_campaign', 'utm_campaign', 'utm_source', 'utm_medium' ],
+                configCampaignNameParameters = [ 'pk_campaign', 'mtm_campaign', 'piwik_campaign', 'matomo_campaign', 'utm_campaign', 'utm_source', 'utm_medium' ],
 
                 // Campaign keywords
-                configCampaignKeywordParameters = [ 'pk_kwd', 'piwik_kwd', 'utm_term' ],
+                configCampaignKeywordParameters = [ 'pk_kwd', 'mtm_kwd', 'piwik_kwd', 'matomo_kwd', 'utm_term' ],
 
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
@@ -3068,12 +3068,10 @@ if (typeof window.Piwik !== 'object') {
                         wma: 'application/x-mplayer2',
 
                         // interactive multimedia
-                        dir: 'application/x-director',
                         fla: 'application/x-shockwave-flash',
 
                         // RIA
                         java: 'application/x-java-vm',
-                        gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
                     };
 
@@ -3097,11 +3095,6 @@ if (typeof window.Piwik !== 'object') {
                         isDefined(navigatorAlias.javaEnabled) &&
                         navigatorAlias.javaEnabled()) {
                         browserFeatures.java = '1';
-                    }
-
-                    // Firefox
-                    if (isFunction(windowAlias.GearsFactory)) {
-                        browserFeatures.gears = '1';
                     }
 
                     // other browser features
@@ -4272,7 +4265,7 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                if (!isNumberOrHasLength(category) || !isNumberOrHasLength(action)) {
                     logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }

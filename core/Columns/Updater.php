@@ -268,7 +268,6 @@ class Updater extends \Piwik\Updates
             'log_visit.config_windowsmedia' => 'TINYINT(1) NOT NULL',
             'log_visit.config_silverlight' => 'TINYINT(1) NOT NULL',
             'log_visit.config_java' => 'TINYINT(1) NOT NULL',
-            'log_visit.config_gears' => 'TINYINT(1) NOT NULL',
             'log_visit.config_pdf' => 'TINYINT(1) NOT NULL',
             'log_visit.config_quicktime' => 'TINYINT(1) NOT NULL',
             'log_visit.config_realplayer' => 'TINYINT(1) NOT NULL',
@@ -283,7 +282,6 @@ class Updater extends \Piwik\Updates
             'log_visit.location_country' => 'CHAR(3) NOT NULL1',
             'log_visit.location_latitude' => 'float(10, 6) DEFAULT NULL1',
             'log_visit.config_flash' => 'TINYINT(1) NOT NULL',
-            'log_visit.config_director' => 'TINYINT(1) NOT NULL',
             'log_visit.visit_total_time' => 'SMALLINT(5) UNSIGNED NOT NULL',
             'log_visit.visitor_count_visits' => 'SMALLINT(5) UNSIGNED NOT NULL1',
             'log_visit.visit_entry_idaction_name' => 'INTEGER(11) UNSIGNED NOT NULL',
@@ -315,11 +313,6 @@ class Updater extends \Piwik\Updates
             'log_link_visit_action.time_spent_ref_action' => 'INTEGER(10) UNSIGNED NOT NULL',
             'log_link_visit_action.idaction_event_action' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
             'log_link_visit_action.idaction_event_category' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
-            'log_conversion.revenue_discount' => 'float default NULL',
-            'log_conversion.revenue' => 'float default NULL',
-            'log_conversion.revenue_shipping' => 'float default NULL',
-            'log_conversion.revenue_subtotal' => 'float default NULL',
-            'log_conversion.revenue_tax' => 'float default NULL',
         );
 
         if (!array_key_exists($name, $initialCoreDimensionVersions)) {

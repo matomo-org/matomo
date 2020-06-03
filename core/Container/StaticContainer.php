@@ -13,7 +13,8 @@ use DI\Container;
 /**
  * This class provides a static access to the container.
  *
- * @deprecated This class is introduced only to keep BC with the current static architecture. It will be removed in 3.0.
+ * @internal
+ * This class is introduced only to keep BC with the current static architecture. It might be removed in a future version.
  *     - it is global state (that class makes the container a global variable)
  *     - using the container directly is the "service locator" anti-pattern (which is not dependency injection)
  */

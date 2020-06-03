@@ -150,22 +150,6 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
-    /**
-     * @deprecated
-     */
-    public function browsePlugins()
-    {
-        $this->redirectToIndex('Marketplace', 'overview');
-    }
-
-    /**
-     * @deprecated
-     */
-    public function browseThemes()
-    {
-        $this->redirectToIndex('Marketplace', 'overview', null, null, null, array('show' => 'themes'));
-    }
-
     public function tagManagerTeaser()
     {
         $this->dieIfPluginsAdminIsDisabled();

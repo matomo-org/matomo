@@ -165,7 +165,6 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // those reports generate a different segment as a different raw value was stored that time
             'DevicesDetection.getOsVersions',
-            'DevicesDetection.getBrowserFamilies',
             'DevicesDetection.getBrowserVersions',
             'DevicesDetection.getBrowserEngines',
             'DevicesDetection.getBrowsers',
@@ -197,6 +196,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'DevicesDetection.getType',
             'DevicesDetection.getBrand',
             'DevicesDetection.getModel',
+
+            // different result as some plugins have been removed in Matomo 4
+            'DevicePlugins.getPlugin',
 
             // has different output before and after
             'PrivacyManager.getAvailableVisitColumnsToAnonymize',

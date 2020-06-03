@@ -226,25 +226,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by Browser family (eg. Firefox, InternetExplorer)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
-     *
-     * @deprecated since 2.9.0   Use {@link getBrowsers} instead.
-     */
-    public function getBrowserFamilies($idSite, $period, $date, $segment = false)
-    {
-        $table = $this->getBrowsers($idSite, $period, $date, $segment);
-        // this one will not be sorted automatically by nb_visits since there is no Report class for it.
-        $table->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc'));
-
-        return $table;
-    }
-
-    /**
      * Gets datatable displaying number of visits by Browser (Without version)
      * @param int $idSite
      * @param string $period

@@ -763,23 +763,15 @@
 			</row>
 		</customVariables>
 		<resolution>1280x800</resolution>
-		<plugins>cookie, director, flash, gears, java, pdf, windowsmedia</plugins>
+		<plugins>cookie, flash, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
-			</row>
-			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/gears.png</pluginIcon>
-				<pluginName>gears</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>

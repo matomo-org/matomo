@@ -189,13 +189,5 @@ class Login extends \Piwik\Plugin
                 && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
     }
 
-    /**
-     * @param $auth
-     * @deprecated authenticating via cookie is handled in core by SessionAuth
-     */
-    public static function initAuthenticationFromCookie(\Piwik\Auth $auth, $activateCookieAuth)
-    {
-        // empty
-    }
 
 }

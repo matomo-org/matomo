@@ -50,7 +50,7 @@ class TwoVisitsWithContents extends Fixture
         $this->dateTime = Date::factory($this->dateTime)->addHour(0.5);
         $vis2 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
         $vis2->setIp('111.1.1.1');
-        $vis2->setPlugins($flash = false, $java = false, $director = true);
+        $vis2->setPlugins($flash = false, $java = false);
 
         $this->trackContentImpressionsAndInteractions($vis2);
     }

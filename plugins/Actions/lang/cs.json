@@ -57,6 +57,8 @@
         "SiteSearchCategories": "Kategorie (Vyhledávání na webu)",
         "SiteSearchKeyword": "Klíčová slova (Vyhledávání)",
         "SiteSearchKeywords": "Klíčová slova (vyhledávání na webu)",
+        "SiteSearchKeywordCount": "Počet klíčových slov (Vyhledávání)",
+        "SiteSearchKeywordCounts": "Počty klíčových slov (Vyhledávání)",
         "SiteSearchKeywordsDocumentation": "Toto hlášení shrnuje klíčová slova, která byla použita návštěvníky při hledání pomocí interního vyhledávače.",
         "SiteSearchKeywordsNoResultDocumentation": "Toto hlášení shrnuje klíčová slova, pro která nebyl vrácen žádný výsledek. Možná by bylo možné vylepšit vyhledávací algoritmus, nebo návštěvníci hledají něco, co (zatím) není na vašich stránkách?",
         "SubmenuPagesEntry": "Vstupní stránky",

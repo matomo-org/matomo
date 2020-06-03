@@ -290,9 +290,9 @@
     {% if displayAdminLinks %}
     <div class="tableActionBar">
         {% if isTheme %}
-            <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
+            <a href="{{ linkTo({'module': 'Marketplace','action':'overview', 'sort': '', 'show': 'themes'}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
         {% else %}
-            <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
+            <a href="{{ linkTo({'module': 'Marketplace','action':'overview', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
         {% endif %}
     </div>
     {% endif %}

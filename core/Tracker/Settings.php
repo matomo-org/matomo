@@ -32,8 +32,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
     public function getConfigId(Request $request, $ipAddress)
     {
-        list($plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-            $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $request->getPlugins();
+        list($plugin_Flash, $plugin_Java, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
+            $plugin_WindowsMedia, $plugin_Silverlight, $plugin_Cookie) = $request->getPlugins();
 
         $userAgent = $request->getUserAgent();
 
@@ -64,12 +64,10 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             $browserVersion,
             $plugin_Flash,
             $plugin_Java,
-            $plugin_Director,
             $plugin_Quicktime,
             $plugin_RealPlayer,
             $plugin_PDF,
             $plugin_WindowsMedia,
-            $plugin_Gears,
             $plugin_Silverlight,
             $plugin_Cookie,
             $ipAddress,
@@ -85,12 +83,10 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      * @param $browserVersion
      * @param $plugin_Flash
      * @param $plugin_Java
-     * @param $plugin_Director
      * @param $plugin_Quicktime
      * @param $plugin_RealPlayer
      * @param $plugin_PDF
      * @param $plugin_WindowsMedia
-     * @param $plugin_Gears
      * @param $plugin_Silverlight
      * @param $plugin_Cookie
      * @param $ip
@@ -98,8 +94,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      * @return string
      */
     protected function getConfigHash(Request $request, $os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java,
-                                     $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-                                     $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip,
+                                     $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
+                                     $plugin_WindowsMedia, $plugin_Silverlight, $plugin_Cookie, $ip,
                                      $browserLang)
     {
         // prevent the config hash from being the same, across different Piwik instances
@@ -109,8 +105,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
         $configString =
               $os
             . $browserName . $browserVersion
-            . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF
-            . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
+            . $plugin_Flash . $plugin_Java . '0' . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF
+            . $plugin_WindowsMedia . '0' . $plugin_Silverlight . $plugin_Cookie
             . $ip
             . $browserLang
             . $salt;
