@@ -77,7 +77,7 @@ abstract class API
     /**
      * Used in tests only
      * @ignore
-     * @deprecated
+     * @internal
      */
     public static function unsetInstance()
     {
@@ -88,7 +88,7 @@ abstract class API
     /**
      * Used in tests only
      * @ignore
-     * @deprecated
+     * @internal
      */
     public static function unsetAllInstances()
     {
@@ -98,7 +98,7 @@ abstract class API
     /**
      * Sets the singleton instance. For testing purposes.
      * @ignore
-     * @deprecated
+     * @internal
      */
     public static function setSingletonInstance($instance)
     {

@@ -35,22 +35,6 @@ class CoreUpdater extends \Piwik\Plugin
         );
     }
 
-    /**
-     * @deprecated
-     */
-    public static function updateComponents(PiwikCoreUpdater $updater, $componentsWithUpdateFile)
-    {
-        return $updater->updateComponents($componentsWithUpdateFile);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function getComponentUpdates(PiwikCoreUpdater $updater)
-    {
-        return $updater->getComponentUpdates();
-    }
-
     public function dispatch()
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {

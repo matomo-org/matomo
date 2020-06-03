@@ -184,7 +184,6 @@ class Plugin
      * - 'theme' => bool                // Whether this plugin is a theme (a theme is a plugin, but a plugin is not necessarily a theme)
      *
      * @return array
-     * @deprecated
      */
     public function getInformation()
     {
