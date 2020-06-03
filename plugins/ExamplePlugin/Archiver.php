@@ -10,6 +10,7 @@ namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Sequence;
 
 /**
  * Class Archiver
@@ -87,9 +88,11 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private function incrementArchiveCount()
     {
-        $archiveCount = Option::get('ExamplePlugin_archiveCount') ?: 0;
-        $archiveCount += 1;
-        Option::set('ExamplePlugin_archiveCount', $archiveCount);
-        return $archiveCount;
+        $sequence = new Sequence('ExamplePlugin_archiveCount');
+        if (!$sequence->exists()) {
+            $sequence->create();
+        }
+        $result = $sequence->getNextId();
+        return $result;
     }
 }

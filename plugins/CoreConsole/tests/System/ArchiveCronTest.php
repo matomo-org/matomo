@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Segment;
+use Piwik\Sequence;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\Fixture;
@@ -160,12 +161,12 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
 
-        $beforeCount = Option::get('ExamplePlugin_archiveCount');
+        $sequence = new Sequence('ExamplePlugin_archiveCount');
+        $beforeCount = $sequence->getCurrentId();
 
         $output = $this->runArchivePhpCron();
 
-        Option::clearCachedOption('ExamplePlugin_archiveCount');
-        $afterCount = Option::get('ExamplePlugin_archiveCount');
+        $afterCount = $sequence->getCurrentId();
 
         $this->assertNotEquals($beforeCount, $afterCount, 'example plugin archiving was not triggered');
 
