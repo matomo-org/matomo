@@ -75,12 +75,26 @@ class Model
         $rows = Db::fetchAll($sql);
         foreach ($rows as $row) {
             $duplicateArchives = explode(',', $row['archives']);
-            $countOfArchives = count($duplicateArchives);
+
+            // do not consider purging partial archives, if they are the latest archive,
+            // and we don't want to delete the latest archive if it is usable
+            while (!empty($duplicateArchives)) {
+                $pair = $duplicateArchives[0];
+                if (strpos($pair, '.') === false) {
+                    continue; // see below
+                }
+
+                list($idarchive, $value) = explode('.', $pair);
+
+                array_shift($duplicateArchives);
+
+                if ($value != ArchiveWriter::DONE_PARTIAL) {
+                    break;
+                }
+            }
 
             // if there is more than one archive, the older invalidated ones can be deleted
-            if ($countOfArchives > 1) {
-                array_shift($duplicateArchives); // we don't want to delete the latest archive if it is usable
-
+            if (!empty($duplicateArchives)) {
                 foreach ($duplicateArchives as $pair) {
                     if (strpos($pair, '.') === false) {
                         $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");

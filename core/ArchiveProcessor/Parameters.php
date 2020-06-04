@@ -76,7 +76,8 @@ class Parameters
     }
 
     /**
-     * TODO
+     * If we want to archive only a single report, we can request that via this method.
+     * It is up to each plugin's archiver to respect the setting.
      *
      * @param string $archiveOnlyReport
      * @api
@@ -87,8 +88,9 @@ class Parameters
     }
 
     /**
-     * TODO
-     * @return string
+     * Gets the report we want to archive specifically, or null if none was specified.
+     *
+     * @return string|null
      * @api
      */
     public function getArchiveOnlyReport()
@@ -299,7 +301,7 @@ class Parameters
     }
 
     /**
-     * TODO
+     * Returns whether the setArchiveOnlyReport() was handled by an Archiver.
      *
      * @return bool
      */
@@ -309,7 +311,12 @@ class Parameters
     }
 
     /**
-     * TODO
+     * If a plugin's archiver handles the setArchiveOnlyReport() setting, it should call this method
+     * so it is known that the archive only contains the requested report.
+     *
+     * This is automatically called by the insert methods in ArchiveProcessor and only has to be
+     * called manually if a plugin's Archiver does not use ArchiveProcessor to archive reports.
+     *
      * @param bool $isArchiveOnlyReportHandled
      */
     public function setIsArchiveOnlyReportHandled($isArchiveOnlyReportHandled)
