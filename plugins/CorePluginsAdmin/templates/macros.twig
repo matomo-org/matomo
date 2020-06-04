@@ -243,8 +243,8 @@
                             <div class="plugin-author">
                                 By
                                     {% if plugin.info.authors is defined -%}
-                                    {% spaceless %}
-                                        {% for author in plugin.info.authors if author.name %}
+                                    {% apply spaceless %}
+                                        {% for author in plugin.info.authors|filter(author => author.name) %}
                                             {% if author.homepage is defined %}
                                                 <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer noopener" target="_blank">{{ author.name }}</a>
                                             {% else %}
@@ -254,7 +254,7 @@
                                                 ,
                                             {% endif %}
                                         {% endfor %}
-                                    {% endspaceless %}
+                                    {% endapply %}
                                     {%- endif %}.
                             </div>
                         {% endif %}
