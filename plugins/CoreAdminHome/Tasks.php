@@ -32,6 +32,7 @@ use Piwik\Scheduler\Schedule\SpecificTime;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Failures;
 use Piwik\Site;
+use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
@@ -67,6 +68,8 @@ class Tasks extends \Piwik\Plugin\Tasks
         // sure all archives that need to be invalidated get invalidated
         $this->daily('invalidateOutdatedArchives', null, self::HIGH_PRIORITY);
 
+        $this->daily('deleteOldFingerprintSalts', null, self::HIGH_PRIORITY);
+
         // general data purge on older archive tables, executed daily
         $this->daily('purgeOutdatedArchives', null, self::HIGH_PRIORITY);
 
@@ -87,6 +90,11 @@ class Tasks extends \Piwik\Plugin\Tasks
         }
 
         $this->scheduleTrackingCodeReminderChecks();
+    }
+
+    public function deleteOldFingerprintSalts()
+    {
+        StaticContainer::get(FingerprintSalt::class)->deleteOldSalts();
     }
 
     public function invalidateOutdatedArchives()
@@ -277,6 +285,12 @@ class Tasks extends \Piwik\Plugin\Tasks
         $yesterdayStr = $yesterday->toString('Y-m');
         if (empty($purgedDates[$yesterdayStr])) {
             $this->archivePurger->purgeInvalidatedArchivesFrom($yesterday);
+        }
+
+        // handle year start table
+        $yearStart = $today->toString('Y-01');
+        if (empty($purgedDates[$yearStart])) {
+            $this->archivePurger->purgeInvalidatedArchivesFrom(Date::factory($yearStart . '-01'));
         }
     }
 
