@@ -4371,7 +4371,7 @@ if (typeof window.Piwik !== 'object') {
 
             function getCrossDomainVisitorId()
             {
-                var visitorId = getValuesFromVisitorIdCookie().uuid;
+                var visitorId = trackerInstance.getVisitorId();
                 var deviceId = makeCrossDomainDeviceId();
                 return visitorId + deviceId;
             }
@@ -4390,6 +4390,10 @@ if (typeof window.Piwik !== 'object') {
 
                 if (!link || startsUrlWithTrackerUrl(link)) {
                     return;
+                }
+
+                if (!trackerInstance.getVisitorId()) {
+                    return; // cookies are disabled.
                 }
 
                 // we need to remove the parameter and add it again if needed to make sure we have latest timestamp
