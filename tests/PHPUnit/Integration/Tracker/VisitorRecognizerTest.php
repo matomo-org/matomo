@@ -48,7 +48,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_total_time' => '50',
             'foo' => 'bar',
         );
-        $result = $this->recognizer->removeUnchangedValues($this->getVisitProperties(), $visit);
+        $result = $this->recognizer->removeUnchangedValues($visit);
 
         $this->assertEquals($visit, $result);
     }
@@ -61,12 +61,11 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_total_time' => '50',
             'foo' => 'bar',
         );
-        $properties = $this->getVisitProperties();
         $originalProperties = new VisitProperties(array(
             'visit_last_action_time' => '2020-05-05 04:05:05',
             'visit_total_time' => '40',
         ));
-        $result = $this->recognizer->removeUnchangedValues($properties, $visit, $originalProperties);
+        $result = $this->recognizer->removeUnchangedValues($visit, $originalProperties);
 
         $this->assertEquals($visit, $result);
     }
@@ -80,14 +79,13 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_total_time' => '50',
             'foo' => 'bar',
         );
-        $properties = $this->getVisitProperties();
         $originalVisit = new VisitProperties(array(
             'idvisitor' => Common::hex2bin('1234567890234567'),
             'user_id' => 'hello',
             'visit_last_action_time' => '2020-05-05 04:05:05',
             'visit_total_time' => '50',
         ));
-        $result = $this->recognizer->removeUnchangedValues($properties, $visit, $originalVisit);
+        $result = $this->recognizer->removeUnchangedValues($visit, $originalVisit);
 
         $this->assertEquals(array(
             'visit_last_action_time' => '2020-05-05 05:05:05',
@@ -104,9 +102,8 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_last_action_time' => '2020-05-05 05:05:05',
             'visit_total_time' => '50',
         );
-        $properties = $this->getVisitProperties();
         $originalVisit = new VisitProperties($visit);
-        $result = $this->recognizer->removeUnchangedValues($properties, $visit, $originalVisit);
+        $result = $this->recognizer->removeUnchangedValues($visit, $originalVisit);
 
         $this->assertEquals(array(), $result);
     }

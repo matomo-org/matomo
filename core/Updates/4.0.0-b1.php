@@ -40,6 +40,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
+        $tableMetadata = new TableMetadata();
+
         $columnsToAdd = [];
 
         $migrations = [];
@@ -120,6 +122,14 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
         $columnsToAdd['log_visit']['visitor_seconds_since_last'] = VisitorSecondsSinceLast::COLUMN_TYPE;
 
+        $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
+        $columnsLogConversion = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
+        foreach ($columnsToMaybeAdd as $columnToMaybeAdd) {
+            if (!in_array($columnToMaybeAdd, $columnsLogConversion, true)) {
+                $columnsToAdd['log_conversion'][$columnToMaybeAdd] = 'DOUBLE NULL DEFAULT NULL';
+            }
+        }
+
         foreach ($columnsToAdd as $table => $columns) {
             $migrations[] = $this->migration->db->addColumns($table, $columns);
 
@@ -150,7 +160,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
         // init seconds_to_... columns
-        $tableMetadata = new TableMetadata();
         $logVisitColumns = $tableMetadata->getColumns(Common::prefixTable('log_visit'));
         $hasDaysColumnInVisit = in_array('visitor_days_since_first', $logVisitColumns);
 
@@ -171,26 +180,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         // remove old days_to_... columns
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_seconds_since_first');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_first');
         $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_order');
         $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_last');
 
         $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_first');
         $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_order');
-
-        // TODO: merge this and above columns to add code together
-        $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
-        $tableMeta = new TableMetadata();
-        $columnsLogConversion = $tableMeta->getColumns(Common::prefixTable('log_conversion'));
-        $conversionColumnsToAdd = array();
-        foreach ($columnsToMaybeAdd as $columnToMaybeAdd) {
-            if (!in_array($columnToMaybeAdd, $columnsLogConversion, true)) {
-                $conversionColumnsToAdd[$columnToMaybeAdd] = 'DOUBLE NULL DEFAULT NULL';
-            }
-        }
-        if (!empty($conversionColumnsToAdd)) {
-            $migrations[] = $this->migration->db->addColumns('log_conversion', $conversionColumnsToAdd);
-        }
 
         $config = Config::getInstance();
 

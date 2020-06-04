@@ -3348,7 +3348,10 @@ if (typeof window.Piwik !== 'object') {
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
                     visitorIdCookieValues.createTs + '.' +
-                    nowTs;
+                    0 + '.' + // visit count, no longer used but kept in cookie for BC w/ old cookies
+                    nowTs +
+                    0 + '.' + // last visit ts, no longer used but kept in cookie for BC w/ old ccookies
+                    0; // last ecom order ts, no longer used but kept in cookie for BC w/ old cookies
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
