@@ -176,7 +176,7 @@ class FrontController extends Singleton
              * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
-        } catch (\Twig_Error_Runtime $e) {
+        } catch (\Twig\Error\RuntimeError $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         } catch(StylesheetLessCompileException $e) {

@@ -22,7 +22,7 @@
         <div class="col s12 push-m9 m3">{{ 'General_InfoFor'|translate(thisIP) }}</div>
     </div>
 
-    {% for id,provider in locationProviders if provider.isVisible %}
+    {% for id,provider in locationProviders|filter(provider => provider.isVisible) %}
     <div class="row form-group provider{{ id|e('html_attr') }}">
         <div class="col s12 m4 l2">
             <p>

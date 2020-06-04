@@ -5,7 +5,7 @@
     {% if evolution.percent < 0 %}
         {% set evolutionClass = 'negative-evolution' %}
         {% set evolutionIcon  = 'arrow_down.png' %}
-    {% elseif evolution.percent == 0 %}
+    {% elseif evolution.percent == 0 or evolution.percent == '0%' %}
         {% set evolutionClass = 'neutral-evolution' %}
         {% set evolutionIcon  = 'stop.png' %}
     {% else %}
