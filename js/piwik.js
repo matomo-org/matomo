@@ -3279,16 +3279,7 @@ if (typeof window.Piwik !== 'object') {
                     uuid,
 
                     // creation timestamp - seconds since Unix epoch
-                    nowTs,
-
-                    // current visit timestamp
-                    nowTs,
-
-                    // last visit timestamp - blank = no previous visit
-                    '',
-
-                    // last ecommerce order timestamp
-                    ''
+                    nowTs
                 ];
 
                 return cookieValue;
@@ -3302,20 +3293,12 @@ if (typeof window.Piwik !== 'object') {
                 var cookieVisitorIdValue = loadVisitorIdCookie(),
                     newVisitor = cookieVisitorIdValue[0],
                     uuid = cookieVisitorIdValue[1],
-                    createTs = cookieVisitorIdValue[2],
-                    currentVisitTs = cookieVisitorIdValue[4];
-
-                // case migrating from pre-1.5 cookies
-                if (!isDefined(cookieVisitorIdValue[6])) {
-                    cookieVisitorIdValue[6] = "";
-                }
+                    createTs = cookieVisitorIdValue[2];
 
                 return {
                     newVisitor: newVisitor,
                     uuid: uuid,
-                    createTs: createTs,
-
-                    currentVisitTs: currentVisitTs
+                    createTs: createTs
                 };
             }
 
@@ -3347,11 +3330,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
-                    visitorIdCookieValues.createTs + '.' +
-                    0 + '.' + // visit count, no longer used but kept in cookie for BC w/ old cookies
-                    nowTs +
-                    0 + '.' + // last visit ts, no longer used but kept in cookie for BC w/ old ccookies
-                    0; // last ecom order ts, no longer used but kept in cookie for BC w/ old cookies
+                    visitorIdCookieValues.createTs + '.';
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
