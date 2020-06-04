@@ -296,7 +296,7 @@ class NumberFormatter
      */
     public static function getInstance()
     {
-        return StaticContainer::get('Piwik\NumberFormatter');
+        return StaticContainer::get(NumberFormatter::class);
     }
 
     public function clearCache()

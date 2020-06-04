@@ -164,7 +164,6 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // those reports generate a different segment as a different raw value was stored that time
             'DevicesDetection.getOsVersions',
-            'DevicesDetection.getBrowserFamilies',
             'DevicesDetection.getBrowserVersions',
             'DevicesDetection.getBrowserEngines',
             'DevicesDetection.getBrowsers',

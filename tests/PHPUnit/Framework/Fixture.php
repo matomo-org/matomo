@@ -87,18 +87,8 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public $dbName = false;
 
-    /**
-     * @deprecated has no effect now.
-     */
-    public $createConfig = true;
-
     public $dropDatabaseInSetUp = true;
     public $dropDatabaseInTearDown = true;
-
-    /**
-     * @deprecated
-     */
-    public $loadTranslations = true;
 
     public $createSuperUser = true;
     public $removeExistingSuperUser = true;
@@ -640,7 +630,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $t->setLocalTime('12:34:06');
             $t->setResolution(1024, 768);
             $t->setBrowserHasCookies(true);
-            $t->setPlugins($flash = true, $java = true, $director = false);
+            $t->setPlugins($flash = true, $java = true);
         }
         return $t;
     }
@@ -963,13 +953,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         $dbConfig['dbname'] = $oldDbName;
     }
 
-    /**
-     * @deprecated
-     */
-    public static function createAccessInstance()
-    {
-    }
-
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->dbName ?: self::getConfig()->database_tests['dbname'];
@@ -997,17 +980,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         if ($this->printToScreen) {
             echo $message . "\n";
         }
-    }
-
-    /**
-     * @param $type
-     * @param bool $sanitize
-     * @deprecated Use XssTesting
-     */
-    public static function makeXssContent($type, $sanitize = false)
-    {
-        $xssTesting = new XssTesting();
-        return $xssTesting->forTwig($type, $sanitize);
     }
 
     public static function updateDatabase($force = false)

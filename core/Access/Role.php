@@ -10,11 +10,11 @@ namespace Piwik\Access;
 
 abstract class Role
 {
-    abstract public function getName();
-    abstract public function getId();
-    abstract public function getDescription();
+    abstract public function getName(): string;
+    abstract public function getId(): string;
+    abstract public function getDescription(): string;
 
-    public function getHelpUrl()
+    public function getHelpUrl(): string
     {
         return '';
     }

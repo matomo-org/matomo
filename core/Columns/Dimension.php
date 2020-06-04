@@ -762,22 +762,6 @@ abstract class Dimension
     }
 
     /**
-     * Creates a Dimension instance from a string ID (see {@link getId()}).
-     *
-     * @param string $dimensionId See {@link getId()}.
-     * @return Dimension|null The created instance or null if there is no Dimension for
-     *                        $dimensionId or if the plugin that contains the Dimension is
-     *                        not loaded.
-     * @api
-     * @deprecated Please use DimensionsProvider::factory instead
-     */
-    public static function factory($dimensionId)
-    {
-        list($module, $dimension) = explode('.', $dimensionId);
-        return ComponentFactory::factory($module, $dimension, __CLASS__);
-    }
-
-    /**
      * Returns the name of the plugin that contains this Dimension.
      *
      * @return string

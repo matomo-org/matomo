@@ -40,7 +40,6 @@ class LogHelper
             'config_resolution' => 0,
             'config_resolution' => '',
             'config_cookie' => 0,
-            'config_director' => 0,
             'config_flash' => 0,
             'config_browser_version' => '',
             'visitor_count_visits' => 1,

@@ -42,10 +42,11 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     {
         $columnsToAdd = [];
 
-        $migrations = array();
+        $migrations = [];
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_gears');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_director');
         $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
 
         /** APP SPECIFIC TOKEN START */
@@ -176,6 +177,20 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_first');
         $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_order');
+
+        // TODO: merge this and above columns to add code together
+        $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
+        $tableMeta = new TableMetadata();
+        $columnsLogConversion = $tableMeta->getColumns(Common::prefixTable('log_conversion'));
+        $conversionColumnsToAdd = array();
+        foreach ($columnsToMaybeAdd as $columnToMaybeAdd) {
+            if (!in_array($columnToMaybeAdd, $columnsLogConversion, true)) {
+                $conversionColumnsToAdd[$columnToMaybeAdd] = 'DOUBLE NULL DEFAULT NULL';
+            }
+        }
+        if (!empty($conversionColumnsToAdd)) {
+            $migrations[] = $this->migration->db->addColumns('log_conversion', $conversionColumnsToAdd);
+        }
 
         $config = Config::getInstance();
 

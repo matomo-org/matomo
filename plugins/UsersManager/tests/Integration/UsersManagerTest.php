@@ -1039,7 +1039,7 @@ class UsersManagerTest extends IntegrationTestCase
                 'id' => 'write',
                 'name' => 'UsersManager_PrivWrite',
                 'description' => 'UsersManager_PrivWriteDescription',
-                'helpUrl' => ''
+                'helpUrl' => 'https://matomo.org/faq/general/faq_26910'
              ),
             array (
                 'id' => 'admin',

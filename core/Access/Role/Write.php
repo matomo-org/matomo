@@ -13,26 +13,26 @@ use Piwik\Piwik;
 
 class Write extends Role
 {
-    const ID = 'write';
+    public const ID = 'write';
 
-    public function getName()
+    public function getName(): string
     {
         return Piwik::translate('UsersManager_PrivWrite');
     }
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return Piwik::translate('UsersManager_PrivWriteDescription');
     }
 
-    public function getHelpUrl()
+    public function getHelpUrl(): string
     {
-        return '';
+        return 'https://matomo.org/faq/general/faq_26910';
     }
 
 }

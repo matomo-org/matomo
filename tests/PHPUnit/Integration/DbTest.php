@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -124,7 +125,8 @@ class DbTest extends IntegrationTestCase
 
     private function assertColumnNames($tableName, $expectedColumnNames)
     {
-        $colmuns = Db::getColumnNamesFromTable(Common::prefixTable($tableName));
+        $tableMetadataAccess = new TableMetadata();
+        $colmuns = $tableMetadataAccess->getColumns(Common::prefixTable($tableName));
 
         $this->assertEquals($expectedColumnNames, $colmuns);
     }
