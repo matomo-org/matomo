@@ -193,12 +193,18 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets a user preference
-     * @param string $userLogin
+     * @param string $userLogin  Optional, defaults to current user log in.
      * @param string $preferenceName
      * @return bool|string
      */
-    public function getUserPreference($userLogin, $preferenceName)
+    public function getUserPreference($userLogin = false, $preferenceName)
     {
+        if ($userLogin === false) {
+            // the default value for first parameter is there to have it an optional parameter in the HTTP API
+            // in PHP it won't be optional. Could move parameter to the end of the method but did not want to break
+            // BC
+            $userLogin = Piwik::getCurrentUserLogin();
+        }
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
         $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);

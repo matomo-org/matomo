@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
 {% set tooltipIndex = column ~ '_tooltip' %}
 {% if row.getMetadata(tooltipIndex) %}<span class="cell-tooltip" data-tooltip="{{ row.getMetadata(tooltipIndex) }}">{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
@@ -38,4 +38,4 @@
 {% endif %}
 {% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
 
-{% endspaceless %}
+{% endapply %}
