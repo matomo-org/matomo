@@ -463,7 +463,7 @@ class API extends \Piwik\Plugin\API
 
         $result = array();
         foreach ($urls as $url) {
-            $params = Request::getRequestArrayFromString($url . '&format=json');
+            $params = Request::getRequestArrayFromString($url . '&format=original');
 
             if (!empty($params['method']) && $params['method'] === 'API.getBulkRequest') {
                 continue;
@@ -482,7 +482,7 @@ class API extends \Piwik\Plugin\API
             }
 
             $req = new Request($params);
-            $result[] = json_decode($req->process(), true);
+            $result[] = $req->process();
         }
         return $result;
     }
