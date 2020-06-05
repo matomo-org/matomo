@@ -125,14 +125,14 @@ class Fixture extends \PHPUnit\Framework\Assert
     protected static function getPythonBinary()
     {
         if (SettingsServer::isWindows()) {
-            return "C:\Python27\python.exe";
+            return "C:\Python3\python3.exe";
         }
 
         if (SystemTestCase::isTravisCI()) {
-            return 'python2.7';
+            return 'python3';
         }
 
-        return 'python';
+        return 'python3';
     }
 
     public static function getCliCommandBase()
