@@ -18,6 +18,7 @@ use Piwik\DataTable;
 use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
@@ -770,6 +771,10 @@ class API extends \Piwik\Plugin\API
      */
     protected function enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment)
     {
+        if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            return;
+        }
+
         // Enrich the datatable with Product/Categories views, and conversion rates
         $customVariables = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false,
             $_leavePiwikCoreVariables = true);

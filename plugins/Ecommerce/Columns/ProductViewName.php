@@ -37,9 +37,8 @@ class ProductViewName extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        $sku = Common::unsanitizeInputValue($request->getParam('_pkn'));
         if ($request->hasParam('_pkn')) {
-            return $sku;
+            return Common::unsanitizeInputValue($request->getParam('_pkn'));
         }
 
         // fall back to custom variables (might happen if old logs are replayed)

@@ -96,9 +96,8 @@ class ProductViewCategory extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        $categories = Common::unsanitizeInputValue($request->getParam('_pkc'));
-
         if ($request->hasParam('_pkc')) {
+            $categories = Common::unsanitizeInputValue($request->getParam('_pkc'));
             $categories = $this->handleCategoryParam($categories);
 
             return $categories[$this->categoryNumber - 1] ?? false;

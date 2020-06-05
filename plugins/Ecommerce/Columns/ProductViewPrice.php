@@ -25,7 +25,7 @@ class ProductViewPrice extends ActionDimension
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
         $price = $request->getParam('_pkp');
-        if (!empty($price)) {
+        if (is_numeric($price)) {
             return $price;
         }
 
