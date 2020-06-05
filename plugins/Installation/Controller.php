@@ -290,6 +290,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $newsletterPiwikORG,
                     $newsletterProfessionalServices
                 );
+                Onboarding::sendSysAdminMail($email);
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {

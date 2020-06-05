@@ -55,8 +55,6 @@ use Piwik\Validators\WhitelistedValue;
 class API extends \Piwik\Plugin\API
 {
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
-    /** @deprecated Use VisitFrequency\API::NEW_VISITOR_SEGMENT */
-    const NEW_VISIT_SEGMENT = 'visitorType==new';
 
     /**
      * Return a single goal.

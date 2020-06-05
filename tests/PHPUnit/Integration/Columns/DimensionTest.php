@@ -278,14 +278,6 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertEquals("Test.DimensionTest", $this->dimension->getId());
     }
 
-    public function test_factory_ShouldCreateDimensionFromDimensionId()
-    {
-        Manager::getInstance()->loadPlugins(array('ExampleTracker'));
-
-        $dimension = Dimension::factory("ExampleTracker.ExampleDimension");
-        $this->assertInstanceOf('Piwik\Plugins\ExampleTracker\Columns\ExampleDimension', $dimension);
-    }
-
 
     /**
      * @dataProvider getFormatValueProvider

@@ -239,8 +239,8 @@
                             <div class="plugin-author">
                                 By
                                     {% if plugin.info.authors is defined -%}
-                                    {% spaceless %}
-                                        {% for author in plugin.info.authors if author.name %}
+                                    {% apply spaceless %}
+                                        {% for author in plugin.info.authors|filter(author => author.name) %}
                                             {% if author.homepage is defined %}
                                                 <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer noopener" target="_blank">{{ author.name }}</a>
                                             {% else %}
@@ -250,7 +250,7 @@
                                                 ,
                                             {% endif %}
                                         {% endfor %}
-                                    {% endspaceless %}
+                                    {% endapply %}
                                     {%- endif %}.
                             </div>
                         {% endif %}
@@ -290,9 +290,9 @@
     {% if displayAdminLinks %}
     <div class="tableActionBar">
         {% if isTheme %}
-            <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
+            <a href="{{ linkTo({'module': 'Marketplace','action':'overview', 'sort': '', 'show': 'themes'}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
         {% else %}
-            <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
+            <a href="{{ linkTo({'module': 'Marketplace','action':'overview', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
         {% endif %}
     </div>
     {% endif %}

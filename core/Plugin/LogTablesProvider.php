@@ -105,7 +105,7 @@ class LogTablesProvider {
              *
              * @param array &$logTables An array containing a list of log entries.
              *
-             * @deprecated Only used for tests
+             * @internal Only used for tests
              * @ignore
              */
             Piwik::postEvent('LogTables.addLogTables', array(&$logTables));
