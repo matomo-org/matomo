@@ -72,7 +72,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The signature of `Dimension::configureSegments()` has been changed. Similar to configuring Metrics it now takes two parameters `SegmentsList $segmentsList` and `DimensionSegmentFactory $dimensionSegmentFactory`.
 * The method `Dimension::addSegment()` has been removed. See new implementation of `DimensionSegmentFactory::createSegment` for a replacement
 * The signature of the event `Segment.addSegments` has been changed. It now has one parameter `SegmentsList $list`, which allows adding new segments to the list
-* The json2 API format is now removed, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`.
+* The json2 API format has now been deprecated, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`. The JSON2 renderer will be removed in Matomo 5 and we recommend switching to it.
 * The event `Live.getAllVisitorDetails` has been removed. Use a `VisitorDetails` class instead (see Live plugin).
 * Zend_Validate and all subclasses have been completely removed.
 * Added support for campaign name parameter `matomo_campaign` / `mtm_campaign` and campaign keyword parameter `matomo_kwd` / `mtm_kwd`
