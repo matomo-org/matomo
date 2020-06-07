@@ -429,6 +429,30 @@ class ArchiveInvalidator
     }
 
     /**
+     * TODO docs
+     * TODO test
+     * @param int[] $idSite
+     * @param Date $date1
+     * @param Date $date2
+     * @param string $plugin
+     * @param string|null $report
+     * @throws \Exception
+     * @api
+     */
+    public function reArchiveReport(array $idSites, Date $date1, Date $date2, string $plugin, string $report = null)
+    {
+        $dates = Period\Factory::build('range', $date1->toString() . ',' . $date2->toString())->getSubperiods();
+        $dates = array_map(function (Period\Day $d) { return $d->getDateStart(); }, $dates);
+
+        $name = $plugin;
+        if (!empty($report)) {
+            $name .= '.' . $report;
+        }
+
+        $this->markArchivesAsInvalidated($idSites, $dates, 'day', null, $cascadeDown = false, $forceInvalidateRanges = false, $name);
+    }
+
+    /**
      * @param int[] $idSites
      * @param string[][][] $dates
      * @throws \Exception

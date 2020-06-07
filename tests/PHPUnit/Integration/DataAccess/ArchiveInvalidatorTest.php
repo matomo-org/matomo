@@ -969,6 +969,32 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $expectedInvalidatedArchives, $report);
     }
 
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
+    {
+        $this->invalidator->reArchiveReport([1], Date::factory('2015-02-03'), Date::factory('2015-02-06'), 'VisitsSummary');
+
+        $expectedInvalidations = [
+            // TODO
+        ];
+
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
+var_export($actualInvalidations);
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReportSpecified()
+    {
+        $this->invalidator->reArchiveReport([1], Date::factory('2015-02-03'), Date::factory('2015-02-06'), 'VisitsSummary', 'someReport');
+
+        $expectedInvalidations = [
+            // TODO
+        ];
+
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
+        var_export($actualInvalidations);
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
     private function getInvalidatedIdArchives()
     {
         $result = array();
