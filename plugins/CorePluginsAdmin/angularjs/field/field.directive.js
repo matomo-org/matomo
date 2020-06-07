@@ -49,6 +49,7 @@
                 inlineHelp: '@',
                 disabled: '=',
                 uiControlAttributes: '=',
+                uiControlOptions: '=',
                 autocomplete: '@',
                 condition: '@',
                 varType: '@',
@@ -117,6 +118,7 @@
                 field.title = $scope.title;
                 field.uiControlAttributes = $scope.uiControlAttributes || {};
                 field.fullWidth = !!$scope.fullWidth;
+                field.uiControlOptions = $scope.uiControlOptions || {};
 
                 if (field.type === 'array' && angular.isString(field.value) && field.value) {
                     field.value = JSON.parse(field.value);

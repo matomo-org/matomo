@@ -110,7 +110,7 @@ testTrackPageViewAsync();
         bottom: 0px;
     }
 </style>
- <script src="../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+ <script src="../../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
 
  <script type="text/javascript">
@@ -3451,7 +3451,7 @@ function PiwikTest() {
             <html><body> \
             <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + 'matomotest.js" type="text/javascript"></sc' + 'ript> \
-            <scr' + 'ipt src="' + hostAndPath + '../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + '../../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
             window.onload = function() { \
                 $(document).ready(function () { \

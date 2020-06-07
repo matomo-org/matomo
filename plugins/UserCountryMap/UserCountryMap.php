@@ -44,11 +44,11 @@ class UserCountryMap extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/bower_components/visibilityjs/lib/visibility.core.js";
+        $jsFiles[] = "node_modules/visibilityjs/lib/visibility.core.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/raphael.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/kartograph.min.js";
-        $jsFiles[] = "libs/bower_components/chroma-js/chroma.min.js";
+        $jsFiles[] = "node_modules/chroma-js/chroma.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/visitor-map.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/realtime-map.js";
     }

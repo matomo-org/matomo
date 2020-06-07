@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
@@ -228,6 +229,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
             PIWIK_INCLUDE_PATH . '/vendor/phpunit/php-code-coverage/tests',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
+            PIWIK_INCLUDE_PATH . '/node_modules/',
         );
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
@@ -448,6 +450,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 strpos($file, 'yuicompressor') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false ||
+                strpos($file, '/node_modules/') !== false ||
                 strpos($file, '/Morpheus/icons/src/') !== false ||
                 strpos($file, '/phantomjs/') !== false
             ) {
@@ -665,6 +668,20 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         // eg this here shows the plugins that have update files but from older matomo versions.
         $this->assertSame(array('DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_unique($pluginsWithUpdates));
     }
+
+    public function test_bowerComponentsBc_referencesFilesThatExists()
+    {
+        $filesThatDoNotExist = [];
+        foreach (UIAssetFetcher::$bowerComponentFileMappings as $oldFile => $newFile) {
+            if ($newFile && !file_exists(PIWIK_DOCUMENT_ROOT . '/' . $newFile)) {
+                $filesThatDoNotExist[] = $newFile;
+            }
+        }
+
+        $this->assertEmpty($filesThatDoNotExist, 'The following asset files in UIAssetFetcher::$bowerComponentFileMappings do not exist: '
+            . implode(', ', $filesThatDoNotExist));
+    }
+
     /**
      * @param $file
      * @return bool

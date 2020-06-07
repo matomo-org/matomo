@@ -45,9 +45,11 @@
 
                     <div class="row actions">
                         <div class="col s12">
-                            <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
-                                   {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
-                            <label for="login_form_rememberme">{{ 'Login_RememberMe'|translate }}</label>
+                            <label>
+                                <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
+                                       {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
+                                <span>{{ 'Login_RememberMe'|translate }}</span>
+                            </label>
                             <input class="submit btn" id="login_form_submit" type="submit" value="{{ 'Login_LogIn'|translate }}"
                                    tabindex="100"/>
                         </div>

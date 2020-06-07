@@ -10,8 +10,10 @@
         <tr>
             <th>
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select-plugin-all"/>
-                    <label for="select-plugin-all"></label>
+                    <label>
+                        <input type="checkbox" id="select-plugin-all"/>
+                        <span></span>
+                    </label>
                 </span>
             </th>
             <th>{{ 'General_Plugin'|translate }}</th>
@@ -26,8 +28,10 @@
             <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                 <td class="select-cell">
                     <span class="checkbox-container">
-                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
-                        <label for="select-plugin-{{ plugin.name|e('html_attr') }}"></label>
+                        <label>
+                            <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
+                            <span></span>
+                        </label>
                     </span>
                 </td>
                 <td class="name">
