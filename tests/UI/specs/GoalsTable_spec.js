@@ -13,8 +13,9 @@ describe("GoalsTable", function () {
 
     it("should load when the goals icon is clicked", async function () {
         await page.goto(url);
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=tableGoals]');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
@@ -50,8 +51,9 @@ describe("GoalsTable", function () {
     });
 
     it("should show abandoned carts data when the abandoned carts link is clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=ecommerceAbandonedCart]');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('goals_table_abandoned_carts');

@@ -762,7 +762,8 @@ Segmentation = (function($) {
         };
 
         var makeDropList = function(spanId, selectId){
-            var select = $(self.form).find(selectId).hide();
+            var select = $(self.form).find(selectId);
+            select.hide().closest('.select-wrapper').children().hide();
             var dropList = $( '<a class="dropList dropdown">' )
                 .insertAfter( select )
                 .text( select.children(':selected').text() )
@@ -1094,6 +1095,7 @@ $(document).ready(function() {
 
         this.onMouseUp = function(e) {
             if ($(e.target).closest('.segment-element').length === 0
+                && !$(e.target).is('.ui-menu-item-wrapper')
                 && !$(e.target).is('.segment-element')
                 && $(e.target).hasClass("ui-corner-all") == false
                 && $(e.target).hasClass("ddmetric") == false

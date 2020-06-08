@@ -96,6 +96,10 @@ class ArchiveSelector
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
+        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+        }
+
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
             && isset($result['idarchive'])

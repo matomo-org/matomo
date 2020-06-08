@@ -43,7 +43,8 @@ class ArchiveWriter
      * This flag is deprecated, new archives should not be written as temporary.
      *
      * @var int
-     * @deprecated
+     * @deprecated it should not be used anymore as temporary archives have been removed. It still exists though for
+     *             historical reasons.
      */
     const DONE_OK_TEMPORARY = 3;
 

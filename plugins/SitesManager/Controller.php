@@ -100,20 +100,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $toReturn;
     }
 
-    /**
-     *  User will download a file called PiwikTracker.php that is the content of the actual script
-     *
-     * @deprecated  seems unused and PiwikTracker is now MatomoTracker
-     */
-    function downloadPiwikTracker()
-    {
-        $path = PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/';
-        $filename = 'PiwikTracker.php';
-        Common::sendHeader('Content-type: text/php');
-        Common::sendHeader('Content-Disposition: attachment; filename="' . $filename . '"');
-        return file_get_contents($path . $filename);
-    }
-
     public function ignoreNoDataMessage()
     {
         Piwik::checkUserHasSomeViewAccess();

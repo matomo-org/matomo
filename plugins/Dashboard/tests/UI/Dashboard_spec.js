@@ -77,6 +77,8 @@ describe("Dashboard", function () {
         await page.waitFor(100);
         await page.mouse.move(-10, -10);
 
+        await page.waitForNetworkIdle();
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
     });
 

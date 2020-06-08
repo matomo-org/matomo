@@ -1,6 +1,7 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "Nie można znaleźć funkcji apache_get_modules co oznacza, że zainstalowano serwer inny niż Apache.",
+        "AutomaticSetup": "Automatycznie konfiguruj geolokalizację wykorzystując bazę dbip",
         "CannotFindGeoIPServerVar": "Zmienna %s nie została ustawiona. Twój serwer mógł zostać niepoprawnie skonfigurowany.",
         "CannotListContent": "Błąd wyświetlenia zawartości %1$s: %2$s",
         "CannotUnzipGeoIPFile": "Nie udało się rozpakować pliku GeoIP %1$s: %2$s",

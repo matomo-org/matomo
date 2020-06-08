@@ -1974,6 +1974,24 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     items: 'a',
                     content: '<h3>'+action.dataTableIconTooltip[0]+'</h3>'+action.dataTableIconTooltip[1],
                     tooltipClass: 'rowActionTooltip',
+                    // ensure the tooltips of parent elements are hidden when the action tooltip is shown
+                    // otherwise it can happen that tooltips for subtable rows are shown as well.
+                    open: function() {
+                        var tooltip = $(this).parents().filter(function() {
+                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
+                        }).tooltip('instance');
+                        if (tooltip) {
+                            tooltip.disable();
+                        }
+                    },
+                    close: function() {
+                        var tooltip = $(this).parents().filter(function() {
+                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
+                        }).tooltip('instance');
+                        if (tooltip) {
+                            tooltip.enable();
+                        }
+                    },
                     show: false,
                     hide: false
                 });

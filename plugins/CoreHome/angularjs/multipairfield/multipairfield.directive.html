@@ -3,6 +3,7 @@
          class="multiPairFieldTable multiPairFieldTable{{ index }} has{{ item.fieldCount }}Fields multiple valign-wrapper">
 
         <div piwik-field uicontrol="{{ field1.uiControl }}"
+             name="{{ name + '-p1-' + $index }}"
              data-title="{{ field1.title }}"
              full-width="true"
              ng-if="field1.templateFile"
@@ -16,6 +17,7 @@
         </div>
 
         <div piwik-field uicontrol="{{ field2.uiControl }}"
+             name="{{ name + '-p2-' + $index }}"
              data-title="{{ field2.title }}"
              full-width="true"
              ng-if="field2.templateFile"

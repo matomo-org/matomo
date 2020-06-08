@@ -33,16 +33,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get Matomo version
-     * @return string
-     * @deprecated
-     */
-    public function getPiwikVersion()
-    {
-        return $this->getMatomoVersion();
-    }
-
-    /**
      * Get Answer to Life
      * @return integer
      */

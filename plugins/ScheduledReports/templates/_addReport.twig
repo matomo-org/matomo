@@ -157,10 +157,10 @@
                     <ul class='listReports'>
                         {% for report in reports %}
                             <li>
-                                <input type='{{ reportInputType }}' id="{{ reportType }}{{ report.uniqueId }}" report-unique-id='{{ report.uniqueId }}'
-                                       name='{{ reportType }}Reports'/>
-                                <label for="{{ reportType }}{{ report.uniqueId }}">
-                                    {{ report.name|rawSafeDecoded }}
+                                <label>
+                                    <input type='{{ reportInputType }}' id="{{ reportType }}{{ report.uniqueId }}" report-unique-id='{{ report.uniqueId }}'
+                                           name='{{ reportType }}Reports'/>
+                                    <span>{{ report.name|rawSafeDecoded }}</span>
                                     {% if report.uniqueId=='MultiSites_getAll' %}
                                         <div class="entityInlineHelp">{{ 'ScheduledReports_ReportIncludeNWebsites'|translate(countWebsites)
                                             }}</div>

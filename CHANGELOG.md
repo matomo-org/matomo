@@ -12,6 +12,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking changes
 * The API `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
 * The API `UsersManager.createTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
+* The API `DevicesDetection.getBrowserFamilies` has been removed. Instead you need to use `DevicesDetection.getBrowsers`
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The deprecated Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead
@@ -21,6 +22,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API method `\Piwik\Updates::getMigrationQueries()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
 * The deprecated Platform API method `\Piwik\Updates::executeMigrationQueries()` has been removed. Use `\Piwik\Updates::executeMigrations()` instead
 * The deprecated Platform API method `\Piwik\Updates::update()` has been removed. Use `\Piwik\Updates::doUpdate()` instead
+* The deprecated Platform API method `\Piwik\Updater::updateDatabase()` has been removed. The method is not needed anymore.
 * Matomo no longer polyfills the `JSON` object in the JavaScript tracker. This means IE7 and older, Firefox 3 and older will be no longer suppported in the tracker.
 * The deprecated Platform API method `\Piwik\Common::json_encode()` has been removed. Use `json_encode()` instead
 * The deprecated Platform API method `\Piwik\Common::json_decode()` has been removed. Use `json_decode()` instead
@@ -28,13 +30,23 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API method `\Piwik\Common::getCountriesList()` has been removed. Use `\Piwik\Intl\Data\Provider\RegionDataProvider::getCountriesList()` instead
 * The deprecated Platform API method `\Piwik\Common::getLanguagesList()` has been removed. Use `\Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguagesList()` instead
 * The deprecated Platform API method `\Piwik\Common::getLanguageToCountryList()` has been removed. Use `\Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()` instead
-* The deprecated Platform API method `\Piwik\MetricsFormatter::getCurrencyList()` has been removed. Use `\Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()` instead
 * The deprecated Platform API method `\Piwik\Site::getCurrencyList()` has been removed. Use `\Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()` instead
 * The deprecated Platform API method `\Piwik\Piwik::setUserHasSuperUserAccess()` has been removed. Use `\Piwik\Access::doAsSuperUser()` instead
+* The deprecated Platform API class `\Piwik\MetricsFormatter` has been removed. Use `Piwik\Metrics\Formatter` or `Piwik\Metrics\Formatter\Html` instead
 * The deprecated Platform API class `\Piwik\Registry` has been removed. Use `\Piwik\Container\StaticContainer` instead
 * The deprecated Platform API class `\Piwik\TaskScheduler` has been removed. Use `\Piwik\Scheduler\Scheduler` instead
 * The deprecated Platform API class `\Piwik\DeviceDetectorFactory` has been removed. Use `\Piwik\DeviceDetector\DeviceDetectorFactory` instead
+* The deprecated Platform API class `\Piwik\ScheduledTask` has been removed. Use `\Piwik\Scheduler\Task` instead.
 * The deprecated Platform API class `\Piwik\Translate` has been removed. Use `\Piwik\Translation\Translator` instead.
+* The deprecated Platform API class `\Piwik\Plugins\Login\SessionInitializer` is no longer considered API as it is no longer needed.
+* The deprecated Platform API method `Piwik\Columns\Dimension::factory` has been removed. Use `DimensionsProvider::factory` instead.
+* The deprecated Platform API method `Piwik\Config::reset` has been removed. Use the `reload` method instead.
+* The deprecated Platform API method `Piwik\Config::init` has been removed. Use the `reload()` method instead.
+* The deprecated Platform API method `Piwik\Db::getColumnNamesFromTable` has been removed. Use the `TableMetadata::getColumns` method instead.
+* The deprecated Platform API method `Piwik\Session\SessionInitializer::getHashTokenAuth` has been removed. There is no need for this method anymore.
+* The deprecated Platform API method `Piwik\Tracker::getDatetimeFromTimestamp` has been removed. Use `Piwik\Date::getDatetimeFromTimestamp` instead.
+* The deprecated Platform API constant `Piwik\Plugins\Goals\API::NEW_VISIT_SEGMENT` has been removed. Use `Piwik\Plugins\VisitFrequency\API::NEW_VISITOR_SEGMENT` instead.
+* The following deprecated Platform API event has been removed: `Live.getExtraVisitorDetails'`. Use the `VisitorDetails` class within each plugin instead.
 * The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools.
 * The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
 * The core plugin `CustomPiwikJs` has been renamed to `CustomJsTracker`
@@ -42,6 +54,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.shouldAddTrackerFile`
   * Public API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
   * API method `CustomPiwikJs.doesIncludePluginTrackersAutomatically` has been renamed to `CustomJsTracker.doesIncludePluginTrackersAutomatically`
+* The following deprecated API methods have been removed: `API.getDefaultMetricTranslations`, `API.getLogoUrl`, `API.getHeaderLogoUrl`, `API.getSVGLogoUrl`,   `API.hasSVGLogo`
+* The following deprecated API methods have been removed: `SitesManager.getSitesIdWithVisits`, `SitesManager.isSiteSpecificUserAgentExcludeEnabled`, `SitesManager.setSiteSpecificUserAgentExcludeEnabled`
+* The following deprecated API methods have been removed: `Referrers.getKeywordsForPageUrl` and `Referrers.getKeywordsForPageTitle`. Use `Referrers.getKeywords` instead in combination with a `entryPageUrl` or `entryPageTitle` segment.
+* The following deprecated API method `Live.getLastVisitsForVisitor` has been removed. Use `Live.getVisitorProfile` instead.
+* The following deprecated API method `Live.getLastVisits` has been removed. Use `Live.getLastVisitsDetails` instead.
+* The deperecated event `LanguageManager.getAvailableLanguages` has been removed. Use `LanguagesManager.getAvailableLanguages` instead.
+* The controller action `Proxy.redirect` has been removed. Instead link to the URL directly in HTML and set an attribute `rel="noreferrer noopener"`  
 * The API response format `php` has been removed.
 * GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
 * Site search category and count are no longer stored as custom variables. That also means they will now have an extra field in action details and no longer appear in custom variables.
@@ -53,7 +72,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The signature of `Dimension::configureSegments()` has been changed. Similar to configuring Metrics it now takes two parameters `SegmentsList $segmentsList` and `DimensionSegmentFactory $dimensionSegmentFactory`.
 * The method `Dimension::addSegment()` has been removed. See new implementation of `DimensionSegmentFactory::createSegment` for a replacement
 * The signature of the event `Segment.addSegments` has been changed. It now has one parameter `SegmentsList $list`, which allows adding new segments to the list
-* The json2 API format is now removed, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`.
+* The json2 API format has now been deprecated, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`. The JSON2 renderer will be removed in Matomo 5 and we recommend switching to it.
 * The event `Live.getAllVisitorDetails` has been removed. Use a `VisitorDetails` class instead (see Live plugin).
 * Zend_Validate and all subclasses have been completely removed.
 * Added support for campaign name parameter `matomo_campaign` / `mtm_campaign` and campaign keyword parameter `matomo_kwd` / `mtm_kwd`
@@ -63,6 +82,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * Various methods in `Piwik\Mail` have been removed or changed their signature.
 * Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
 * Added new event `Db.getTablesInstalled`, plugins should use to register the tables they create.
+
+## Matomo 3.13.6
+
+### API Changes
+* The first parameter `userLogin` in the `UsersManager.getUserPreference` method is now optional and defaults to the currently authenticated user login.
 
 ## Matomo 3.13.5
 
@@ -913,6 +937,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
 
 ### Breaking Changes
 ### Deprecations
+### API Changes
 ### New features
 ### New APIs
 ### New commands
