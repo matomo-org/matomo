@@ -5844,9 +5844,6 @@ if (typeof window.Piwik !== 'object') {
             this.getContent = function () {
                 return content;
             };
-            this.setVisitorId = function (visitorId) {
-                visitorUUID = visitorId;
-            };
 
             this.buildContentImpressionRequest = buildContentImpressionRequest;
             this.buildContentInteractionRequest = buildContentInteractionRequest;
@@ -6063,6 +6060,22 @@ if (typeof window.Piwik !== 'object') {
             this.setUserId = function (userId) {
                 if (isNumberOrHasLength(userId)) {
                     configUserId = userId;
+                }
+            };
+
+            /**
+             * Sets a Visitor ID to this visitor. Should be a 16 digit hex string.
+             * The visitorId won't be persisted in a cookie or something similar and needs to be set every time.
+             *
+             * @param string User ID
+             */
+            this.setVisitorId = function (visitorId) {
+                var validation = /[0-9A-Fa-f]{16}/g;
+
+                if (isString(visitorId) && validation.test(visitorId)) {
+                    visitorUUID = visitorId;
+                } else {
+                    logConsoleError('Invalid visitorId set' + visitorId);
                 }
             };
 
@@ -7730,7 +7743,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
