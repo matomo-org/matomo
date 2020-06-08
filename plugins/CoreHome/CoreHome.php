@@ -316,8 +316,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-filter.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-upload.directive.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.min.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.contentWindow.min.js";
+        $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
+        $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

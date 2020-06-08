@@ -32,7 +32,7 @@
     "angular-mocks": "^1.8.0",
     "angular-sanitize": "^1.8.0",
     "chroma-js": "^0.6.3",
-    "iframe-resizer": "^3.6.6",
+    "iframe-resizer": "^4.2.11",
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",
     "jquery-ui-dist": "^1.12.1",
