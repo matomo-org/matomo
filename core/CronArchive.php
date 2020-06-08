@@ -986,8 +986,7 @@ class CronArchive
     {
         $isYesterday = $dateStr == 'yesterday';
         foreach ($this->allWebsites as $idSite) {
-            $timezone = Site::getTimezoneFor($idSite);
-            $date = Date::factoryInTimezone($dateStr, $timezone);
+            $date = Date::factory($dateStr);
             $period = PeriodFactory::build('day', $date);
 
             $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite]));
@@ -1013,8 +1012,7 @@ class CronArchive
 
     private function isThereExistingValidPeriod(Parameters $params, $isYesterday = false)
     {
-        $timezone = Site::getTimezoneFor($params->getSite()->getId());
-        $today = Date::factoryInTimezone('today', $timezone);
+        $today = Date::factory('today');
 
         $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
         $minArchiveProcessedTime = $isPeriodIncludesToday ? Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel())) : null;
