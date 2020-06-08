@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Proxy;
 use Piwik\Archive;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Exception;
@@ -73,7 +74,8 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
             // Testing with several days
             "idSite=" . $idSite . "&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
             "idSite=" . $idSite . ",$idSiteBis,$idSiteTer&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
-            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitorInterest.getNumberOfVisitsPerVisitDuration"
+            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitorInterest.getNumberOfVisitsPerVisitDuration",
+            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=UsersManager.getUserPreference&preferenceName=defaultReportDate&userLogin=" . Fixture::ADMIN_USER_LOGIN
         );
         foreach ($bulkUrls as &$url) {
             $url = urlencode($url);
