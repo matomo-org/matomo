@@ -13,10 +13,10 @@
  * Note: if submenus are used, then dropdowns will never scroll.
  *
  * Usage:
- * <a class='dropdown-trigger btn' href='' data-activates='mymenu' piwik-dropdown-menu>Menu</a>
+ * <a class='dropdown-trigger btn' href='' data-target='mymenu' piwik-dropdown-menu>Menu</a>
  * <ul id='mymenu' class='dropdown-content'>
  *     <li>
- *         <a class='dropdown-trigger' data-activates="mysubmenu" piwik-dropdown-menu>Submenu</a>
+ *         <a class='dropdown-trigger' data-target="mysubmenu" piwik-dropdown-menu>Submenu</a>
  *         <ul id="mysubmenu" class="dropdown-content">
  *             <li>Submenu Item</li>
  *         </ul>

@@ -26,7 +26,6 @@ var Piwik_Popover = (function () {
             title: title,
             modal: true,
             width: '1050px',
-            position: ['center', 'center'],
             resizable: false,
             autoOpen: true,
             open: function (event, ui) {
@@ -85,7 +84,7 @@ var Piwik_Popover = (function () {
 
     var centerPopover = function () {
         if (container !== false) {
-            container.dialog({position: ['center', 'center']});
+            container.dialog("option", "position", {my: 'center', at: 'center', of: '.ui-widget-overlay', collision: 'fit'});
         }
     };
 
@@ -186,7 +185,8 @@ var Piwik_Popover = (function () {
             
             container.children().each(function (i, childNode) {
                 piwikHelper.compileAngularComponents(childNode);
-            })
+            });
+
             centerPopover();
         },
 
@@ -263,6 +263,7 @@ var Piwik_Popover = (function () {
             // make sure the minimum top position of the popover is 15px
             var ensureMinimumTop = function () {
                 var popoverContainer = $('#Piwik_Popover').parent();
+                popoverContainer.css('top', (window.scrollY + 15) + 'px');
                 if (popoverContainer.position().top < 106) {
                     popoverContainer.css('top', '15px');
                 }

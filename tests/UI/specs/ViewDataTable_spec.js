@@ -18,8 +18,9 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should load all columns when all columns clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('1_all_columns');
     });
@@ -39,7 +40,9 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should show all available visualizations for this report", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
+        await page.mouse.move(-10, -10);
+        await page.waitFor(1000); // wait for animation
 
         const element = await page.$('.dataTableFooterIcons');
         expect(await element.screenshot()).to.matchImage('5_visualizations');
@@ -52,28 +55,28 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should load bar graph when bar graph footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=graphVerticalBar]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('6_bar_graph');
     });
 
     it("should load pie graph when pie graph footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=graphPie]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('7_pie_graph');
     });
 
     it("should load a tag cloud when tag cloud footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=cloud]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('8_tag_cloud');
     });
 
     it("should load normal table when normal table footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=table]');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10); // mae sure no row is highlighted
@@ -82,8 +85,8 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should show the limit selector when the limit selector is clicked", async function () {
         await page.click('.limitSelection input');
-        await page.waitFor(200);
         await page.mouse.move(-10, -10);
+        await page.waitFor(200);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_selector_open');
     });
 
@@ -125,17 +128,17 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("search should still work when showing dimensions combined again", async function () {
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableShowDimensions');
-        await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('flatten_search');
     });
 
     it("search should still work when switching to back to separate dimensions", async function () {
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableShowDimensions');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         await page.waitFor(500);
-        await page.mouse.move(-10, -10);
         await page.evaluate(() => document.activeElement.blur());
         expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
     });
@@ -144,16 +147,16 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableIncludeAggregateRows');
-        await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('12_aggregate_shown');
     });
 
     it("should make the report hierarchical when the flatten link is clicked again", async function () {
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableFlatten');
-        await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('13_make_hierarchical');
     });
 
@@ -168,13 +171,12 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.waitForNetworkIdle();
 
         (await page.$$('tr.subDataTable'))[2].click();
+        await page.mouse.move(-10, -10); // make sure no krow is highlighted
         await page.waitForNetworkIdle();
 
         await page.waitFor(function () {
             return $('.cellSubDataTable > .dataTable').length === 2;
         });
-
-        await page.mouse.move(-10, -10); // mae sure no row is highlighted
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_loaded');
     });
@@ -202,6 +204,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.goto(url);
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableShowTotalsRow');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('totals_row');
     });
@@ -212,9 +215,10 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
         const visibleSpan = await page.jQuery('.datatableRelatedReports li>span:visible');
         await visibleSpan.click();
-        await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10); // mae sure no row is highlighted
+        await page.waitForNetworkIdle();
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('related_report_click');
     });
 

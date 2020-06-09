@@ -15,6 +15,13 @@ describe("PagePerformance", function () {
     const generalParams = 'idSite=1&period=day&date=2010-03-12',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
+    async function ensureTooltipIsVisibleInScreenshot() {
+        await page.evaluate(() => {
+            var html = $('.ui-tooltip').attr('id', 'test-tooltip-permanent')[0].outerHTML;
+            $('.ui-dialog').append(html);
+        });
+    }
+
     it("should load page performance overview", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
         pageWrap = await page.$('.pageWrap');
@@ -34,17 +41,19 @@ describe("PagePerformance", function () {
     });
 
     it("should load page performance overlay", async function () {
-
         // click page performance icon
         const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionPagePerformance');
         await icon.click();
 
         await page.waitForNetworkIdle();
 
-        pageWrap = await page.waitForSelector('.ui-dialog');
+        const pageWrap = await page.waitForSelector('.ui-dialog');
 
         await page.hover('.piwik-graph');
-        await page.waitFor(50);
+        await page.waitFor('.ui-tooltip', { visible: true });
+
+        await ensureTooltipIsVisibleInScreenshot();
+        await page.waitFor(100);
 
         expect(await pageWrap.screenshot()).to.matchImage('pageurl_overlay');
     });
@@ -55,6 +64,7 @@ describe("PagePerformance", function () {
         // hover visualization selection
         const icon = await page.jQuery('.activateVisualizationSelection');
         await icon.click();
+        await page.waitFor(250); // animation
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visualizations');
@@ -104,7 +114,10 @@ describe("PagePerformance", function () {
         pageWrap = await page.waitForSelector('.ui-dialog');
 
         await page.hover('.piwik-graph');
-        await page.waitFor(50);
+        await page.waitFor('.ui-tooltip', { visible: true });
+
+        await ensureTooltipIsVisibleInScreenshot();
+        await page.waitFor(250);
 
         expect(await pageWrap.screenshot()).to.matchImage('pagetitle_overlay');
     });

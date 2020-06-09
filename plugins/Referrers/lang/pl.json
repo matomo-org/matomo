@@ -3,6 +3,7 @@
         "AllReferrersReportDocumentation": "Raport prezentuje wszystkie Twoje Odnośniki w pojedynczym, zunifikowanym raporcie, zawierającym Wszystkie serwisy, frazy Wyszukiwania i Kampanie wykorzystane przez odwiedzających aby do Ciebie dotrzeć.",
         "Campaigns": "Kampanie",
         "CampaignsDocumentation": "Odwiedzający, którzy dotarli na Twoją stronę dzięki kampanii. %1$sZobacz%2$sszczegółowy raport.",
+        "CampaignsReportDocumentation": "Raport wskazuje kampanie, które przyprowadziły użytkowników na Twoją stroną.",
         "ColumnCampaign": "Kampania",
         "ColumnSearchEngine": "Wyszukiwarka",
         "ColumnSocial": "Sieć społecznościowa",
