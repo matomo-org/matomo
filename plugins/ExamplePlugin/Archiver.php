@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\ExamplePlugin;
 
+use Piwik\ArchiveProcessor;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Sequence;
@@ -40,6 +41,21 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private $daysFrom = '2016-07-08';
 
+    /**
+     * @var string
+     */
+    private $requestedReport = null;
+
+    public function __construct(ArchiveProcessor $processor)
+    {
+        parent::__construct($processor);
+
+        $this->requestedReport = $processor->getParams()->getArchiveOnlyReport();
+        if ($this->requestedReport) {
+            $processor->getParams()->setIsPartialArchive(true);
+        }
+    }
+
     public function aggregateDayReport()
     {
         /**
@@ -54,7 +70,7 @@ class Archiver extends \Piwik\Plugin\Archiver
          * $this->getProcessor()->insertBlobRecord(self::EXAMPLEPLUGIN_ARCHIVE_RECORD, $visitorReport);
          */
 
-        if ($this->getProcessor()->isArchiving(self::EXAMPLEPLUGIN_METRIC_NAME)) {
+        if ($this->isArchiving(self::EXAMPLEPLUGIN_METRIC_NAME)) {
             // insert a test numeric metric that is the difference in days between the day we're archiving and
             // $this->daysFrom.
             $daysFrom = Date::factory($this->daysFrom);
@@ -66,7 +82,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_METRIC_NAME, $differenceInDays);
         }
 
-        if ($this->getProcessor()->isArchiving(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
+        if ($this->isArchiving(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
             $archiveCount = $this->incrementArchiveCount();
             $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_CONST_METRIC_NAME, 50 + $archiveCount);
         }
@@ -83,7 +99,14 @@ class Archiver extends \Piwik\Plugin\Archiver
          * $this->getProcessor()->aggregateDataTableRecords(self::EXAMPLEPLUGIN_ARCHIVE_RECORD);
          */
 
-        $this->getProcessor()->aggregateNumericMetrics([self::EXAMPLEPLUGIN_METRIC_NAME, self::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
+        $reports = [];
+        if ($this->isArchiving(self::EXAMPLEPLUGIN_METRIC_NAME)) {
+            $reports[] = self::EXAMPLEPLUGIN_METRIC_NAME;
+        }
+        if ($this->isArchiving(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
+            $reports[] = self::EXAMPLEPLUGIN_CONST_METRIC_NAME;
+        }
+        $this->getProcessor()->aggregateNumericMetrics($reports);
     }
 
     private function incrementArchiveCount()
@@ -101,5 +124,10 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
         $result = $sequence->getNextId();
         return $result;
+    }
+
+    private function isArchiving(string $reportName)
+    {
+        return empty($this->requestedReport) || $this->requestedReport == $reportName;
     }
 }

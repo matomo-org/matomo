@@ -115,7 +115,6 @@ class ArchiveProcessor
         if (empty($this->archive)) {
             $subPeriods = $this->params->getSubPeriods();
             $idSites    = $this->params->getIdSites();
-
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
         }
 
@@ -202,10 +201,6 @@ class ArchiveProcessor
             $recordNames = array($recordNames);
         }
 
-        $recordNames = array_filter($recordNames, function ($columnName) {
-            return $this->isArchiving($columnName);
-        });
-
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
@@ -249,20 +244,9 @@ class ArchiveProcessor
      */
     public function aggregateNumericMetrics($columns, $operationToApply = false)
     {
-        if (!is_array($columns)) {
-            $columns = array($columns);
-        }
-
-        $columns = array_filter($columns, function ($columnName) {
-            return $this->isArchiving($columnName);
-        });
-
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
         foreach ($metrics as $column => $value) {
-            $this->checkArchiveOnlyReport($column);
-
-            $value = Common::forceDotAsSeparatorForDecimalPoint($value);
             $this->insertNumericRecord($column, $value);
         }
         // if asked for only one field to sum
@@ -316,14 +300,6 @@ class ArchiveProcessor
      */
     public function insertNumericRecord($name, $value)
     {
-        if (!$this->isArchiving($name)) {
-            return;
-        }
-
-        if ($this->getParams()->getArchiveOnlyReport()) {
-            $this->getParams()->setIsArchiveOnlyReportHandled(true);
-        }
-
         $value = round($value, 2);
         $value = Common::forceDotAsSeparatorForDecimalPoint($value);
 
@@ -344,14 +320,6 @@ class ArchiveProcessor
      */
     public function insertBlobRecord($name, $values)
     {
-        if (!$this->isArchiving($name)) {
-            return;
-        }
-
-        if ($this->getParams()->getArchiveOnlyReport()) {
-            $this->getParams()->setIsArchiveOnlyReportHandled(true);
-        }
-
         $this->archiveWriter->insertBlobRecord($name, $values);
     }
 
@@ -379,6 +347,7 @@ class ArchiveProcessor
                 // see https://github.com/piwik/piwik/issues/4377
                 $self = $this;
                 $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
+
                     if ($self->areColumnsNotAlreadyRenamed($table)) {
                         /**
                          * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
@@ -698,19 +667,4 @@ class ArchiveProcessor
     {
         return $this->archiveWriter;
     }
-
-    public function isArchiving(string $reportName)
-    {
-        $onlyReportName = $this->getParams()->getArchiveOnlyReport();
-        return empty($onlyReportName) || $onlyReportName == $reportName;
-    }
-
-    private function checkArchiveOnlyReport(string $name)
-    {
-        if ($name == $this->getParams()->getArchiveOnlyReport()) {
-            $this->getParams()->setIsArchiveOnlyReportHandled(true); // make sure archive is marked as partial
-        }
-    }
 }
-
-

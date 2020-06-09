@@ -12,6 +12,7 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -176,6 +177,71 @@ class ArchiveCronTest extends SystemTestCase
             'periods' => ['day', 'week'],
             'testSuffix' => '_singleMetric',
         ]);
+
+        // test that latest archives for ExamplePlugin are partial
+        $archives = Db::fetchAll("SELECT idsite, date1, date2, period, value FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'))
+            . " WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
+
+        $expected = [
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-01',
+                'date2' => '2007-04-30',
+                'period' => '3',
+                'value' => '6',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-02',
+                'date2' => '2007-04-08',
+                'period' => '2',
+                'value' => '6',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-05',
+                'date2' => '2007-04-05',
+                'period' => '1',
+                'value' => '6',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-01',
+                'date2' => '2007-04-30',
+                'period' => '3',
+                'value' => '6',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-02',
+                'date2' => '2007-04-08',
+                'period' => '2',
+                'value' => '6',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-05',
+                'date2' => '2007-04-05',
+                'period' => '1',
+                'value' => '6',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-02',
+                'date2' => '2007-04-08',
+                'period' => '2',
+                'value' => '6',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-05',
+                'date2' => '2007-04-05',
+                'period' => '1',
+                'value' => '6',
+            ],
+        ];
+
+        $this->assertEquals($expected, $archives);
     }
 
     public function testArchivePhpCronArchivesFullRanges()

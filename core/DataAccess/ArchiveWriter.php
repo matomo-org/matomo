@@ -154,8 +154,9 @@ class ArchiveWriter
 
     public function initNewArchive()
     {
-        $this->allocateNewArchiveId();
+        $idArchive = $this->allocateNewArchiveId();
         $this->logArchiveStatusAsIncomplete();
+        return $idArchive;
     }
 
     public function finalizeArchive()
@@ -165,7 +166,7 @@ class ArchiveWriter
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
-        $doneValue = $this->parameters->isArchiveOnlyReportHandled() ? self::DONE_PARTIAL : self::DONE_OK;
+        $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
     }
 

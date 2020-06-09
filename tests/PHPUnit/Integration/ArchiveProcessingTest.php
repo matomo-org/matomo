@@ -86,19 +86,20 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $site = $this->_createWebsite($siteTimezone);
         $date = Date::factory($dateLabel);
         $period = Period\Factory::build($periodLabel, $date);
-        $segment = new Segment('', $site->getId());
+        $segment = new Segment('', [$site->getId()]);
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         return new ArchiveProcessorTest($params);
     }
 
-    private function _createArchiveProcessorInst($periodLabel, $dateLabel, $idSite, $archiveOnly = false)
+    private function _createArchiveProcessorInst($periodLabel, $dateLabel, $idSite, $archiveOnly = false, $plugin = false)
     {
         $period = Period\Factory::build($periodLabel, $dateLabel);
-        $segment = new Segment('', $idSite);
+        $segment = new Segment('', [$idSite]);
 
         $params = new ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
         if ($archiveOnly) {
+            $params->setRequestedPlugin($plugin);
             $params->setArchiveOnlyReport($archiveOnly);
         }
         $archiveWriter = new ArchiveWriter($params);
@@ -136,7 +137,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             }
         };
 
-        return [$archiveProcessor, $archiveWriter];
+        return [$archiveProcessor, $archiveWriter, $params];
     }
 
     /**
@@ -429,7 +430,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         foreach ($allMetrics as $date => $metrics) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
+            list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $archiveProcessor->insertNumericRecords($metrics);
@@ -438,7 +439,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -462,7 +463,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $this->assertEquals($expected, $capturedInserts);
     }
 
-    public function test_aggregateNumericMetrics_ignoresReportsNotBeingArchived()
+    public function test_aggregateNumericMetrics_handlesPartialArchives()
     {
         $allMetrics = [
             '2015-02-03' => [
@@ -492,11 +493,12 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'nb_visits');
-        $archiveWriter->initNewArchive();
+        list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'nb_visits', 'VisitsSummary');
+        $params->setIsPartialArchive(true);
+        $idArchive = $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
-        $archiveProcessor->aggregateNumericMetrics(['nb_visits', 'max_actions']);
+        $archiveProcessor->aggregateNumericMetrics(['nb_visits']);
 
         $archiveWriter->finalizeArchive();
 
@@ -508,6 +510,9 @@ class ArchiveProcessingTest extends IntegrationTestCase
                 6,
             ],
         ];
+
+        $archiveDoneFlag = Db::fetchOne("SELECT `value` FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2015-02-03')) . " WHERE idarchive = ? AND name LIKE 'done%'", [$idArchive]);
+        $this->assertEquals(ArchiveWriter::DONE_PARTIAL, $archiveDoneFlag);
 
         $this->assertEquals($expected, $capturedInserts);
     }
@@ -578,7 +583,7 @@ END;
         $this->assertEquals($expectedXml, $capturedInsertTable);
     }
 
-    public function test_aggregateDataTableRecords_ignoresReportsNotBeingArchived()
+    public function test_aggregateDataTableRecords_handlesPartialArchives()
     {
         $table1 = new DataTable();
         $table1->addRowsFromSimpleArray([
@@ -613,8 +618,10 @@ END;
             $archiveWriter->finalizeArchive();
         }
 
-        list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'Actions_someotherreport');
-        $archiveWriter->initNewArchive();
+        /** @var ArchiveProcessor $archiveProcessor */
+        list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'Actions_test_value', 'VisitsSummary');
+        $params->setIsPartialArchive(true);
+        $idArchive = $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
         $archiveProcessor->aggregateDataTableRecords('Actions_test_value');
@@ -622,7 +629,10 @@ END;
         $archiveWriter->finalizeArchive();
 
         $capturedInserts = $archiveProcessor->getCapturedInserts();
-        $this->assertEmpty($capturedInserts);
+        $this->assertNotEmpty($capturedInserts);
+
+        $archiveDoneFlag = Db::fetchOne("SELECT `value` FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2015-02-03')) . " WHERE idarchive = ? AND name LIKE 'done%'", [$idArchive]);
+        $this->assertEquals(ArchiveWriter::DONE_PARTIAL, $archiveDoneFlag);
     }
 
     protected function _checkTableIsExpected($table, $data)

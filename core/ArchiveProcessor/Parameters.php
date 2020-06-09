@@ -305,21 +305,23 @@ class Parameters
      *
      * @return bool
      */
-    public function isArchiveOnlyReportHandled()
+    public function isPartialArchive()
     {
+        if (!$this->getRequestedPlugin()) { // sanity check, partial archives are only for
+            return false;
+        }
+
         return $this->isArchiveOnlyReportHandled;
     }
 
     /**
      * If a plugin's archiver handles the setArchiveOnlyReport() setting, it should call this method
-     * so it is known that the archive only contains the requested report.
-     *
-     * This is automatically called by the insert methods in ArchiveProcessor and only has to be
-     * called manually if a plugin's Archiver does not use ArchiveProcessor to archive reports.
+     * so it is known that the archive only contains the requested report. This should be called
+     * in an Archiver's __construct method.
      *
      * @param bool $isArchiveOnlyReportHandled
      */
-    public function setIsArchiveOnlyReportHandled($isArchiveOnlyReportHandled)
+    public function setIsPartialArchive($isArchiveOnlyReportHandled)
     {
         $this->isArchiveOnlyReportHandled = $isArchiveOnlyReportHandled;
     }
