@@ -218,7 +218,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file8.zip</url>
 				<pageTitle />
-				<pageIdAction>50</pageIdAction>
+				<pageIdAction>58</pageIdAction>
 				
 				
 				<pageId>48</pageId>
@@ -237,7 +237,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/8.html</url>
 				<pageTitle />
-				<pageIdAction>51</pageIdAction>
+				<pageIdAction>59</pageIdAction>
 				
 				
 				<pageId>49</pageId>
@@ -593,7 +593,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file7.zip</url>
 				<pageTitle />
-				<pageIdAction>45</pageIdAction>
+				<pageIdAction>53</pageIdAction>
 				
 				
 				<pageId>42</pageId>
@@ -612,7 +612,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/7.html</url>
 				<pageTitle />
-				<pageIdAction>46</pageIdAction>
+				<pageIdAction>54</pageIdAction>
 				
 				
 				<pageId>43</pageId>
@@ -768,6 +768,9 @@
 				
 				
 				<pageId>40</pageId>
+				<productViewPrice>17.4</productViewPrice>
+				<productViewName>MyName</productViewName>
+				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
@@ -775,6 +778,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category1</row>
+				<row>Category2</row>
+				<row>Category3</row>
+				<row>Category7</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -989,7 +998,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file6.zip</url>
 				<pageTitle />
-				<pageIdAction>40</pageIdAction>
+				<pageIdAction>47</pageIdAction>
 				
 				
 				<pageId>37</pageId>
@@ -1008,7 +1017,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/6.html</url>
 				<pageTitle />
-				<pageIdAction>41</pageIdAction>
+				<pageIdAction>48</pageIdAction>
 				
 				
 				<pageId>38</pageId>
@@ -1393,7 +1402,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file5.zip</url>
 				<pageTitle />
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>42</pageIdAction>
 				
 				
 				<pageId>31</pageId>
@@ -1412,7 +1421,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/5.html</url>
 				<pageTitle />
-				<pageIdAction>36</pageIdAction>
+				<pageIdAction>43</pageIdAction>
 				
 				
 				<pageId>32</pageId>
@@ -1789,7 +1798,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file4.zip</url>
 				<pageTitle />
-				<pageIdAction>30</pageIdAction>
+				<pageIdAction>37</pageIdAction>
 				
 				
 				<pageId>26</pageId>
@@ -1808,7 +1817,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/4.html</url>
 				<pageTitle />
-				<pageIdAction>31</pageIdAction>
+				<pageIdAction>38</pageIdAction>
 				
 				
 				<pageId>27</pageId>
@@ -1964,6 +1973,9 @@
 				
 				
 				<pageId>23</pageId>
+				<productViewPrice>17.4</productViewPrice>
+				<productViewName>MyName</productViewName>
+				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
@@ -1971,6 +1983,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category1</row>
+				<row>Category2</row>
+				<row>Category3</row>
+				<row>Category4</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -2164,7 +2182,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>25</pageIdAction>
+				<pageIdAction>31</pageIdAction>
 				
 				
 				<pageId>20</pageId>
@@ -2183,7 +2201,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>26</pageIdAction>
+				<pageIdAction>32</pageIdAction>
 				
 				
 				<pageId>21</pageId>
@@ -2413,7 +2431,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>25</pageIdAction>
+				<pageIdAction>31</pageIdAction>
 				
 				
 				<pageId>81</pageId>
@@ -2432,7 +2450,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>26</pageIdAction>
+				<pageIdAction>32</pageIdAction>
 				
 				
 				<pageId>82</pageId>
@@ -2985,7 +3003,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>20</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
 				<pageId>15</pageId>
@@ -3004,7 +3022,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>21</pageIdAction>
+				<pageIdAction>27</pageIdAction>
 				
 				
 				<pageId>16</pageId>
@@ -3226,7 +3244,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>20</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
 				<pageId>76</pageId>
@@ -3245,7 +3263,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>21</pageIdAction>
+				<pageIdAction>27</pageIdAction>
 				
 				
 				<pageId>77</pageId>
@@ -3748,7 +3766,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>15</pageIdAction>
+				<pageIdAction>21</pageIdAction>
 				
 				
 				<pageId>9</pageId>
@@ -3767,7 +3785,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				
 				<pageId>10</pageId>
@@ -3968,7 +3986,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>15</pageIdAction>
+				<pageIdAction>21</pageIdAction>
 				
 				
 				<pageId>59</pageId>
@@ -3987,7 +4005,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				
 				<pageId>60</pageId>
@@ -4188,7 +4206,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>15</pageIdAction>
+				<pageIdAction>21</pageIdAction>
 				
 				
 				<pageId>70</pageId>
@@ -4207,7 +4225,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				
 				<pageId>71</pageId>
@@ -4400,7 +4418,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>15</pageIdAction>
+				<pageIdAction>21</pageIdAction>
 				
 				
 				<pageId>92</pageId>
@@ -4419,7 +4437,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				
 				<pageId>93</pageId>
@@ -4575,6 +4593,9 @@
 				
 				
 				<pageId>7</pageId>
+				<productViewPrice>17.4</productViewPrice>
+				<productViewName>MyName</productViewName>
+				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
@@ -4582,6 +4603,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category1</row>
+				<row>Category2</row>
+				<row>Category3</row>
+				<row>Category1</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -4730,6 +4757,9 @@
 				
 				
 				<pageId>57</pageId>
+				<productViewPrice>17.4</productViewPrice>
+				<productViewName>MyName</productViewName>
+				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
@@ -4737,6 +4767,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category1</row>
+				<row>Category2</row>
+				<row>Category3</row>
+				<row>Category1</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -4885,6 +4921,9 @@
 				
 				
 				<pageId>68</pageId>
+				<productViewPrice>17.4</productViewPrice>
+				<productViewName>MyName</productViewName>
+				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
@@ -4892,6 +4931,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category1</row>
+				<row>Category2</row>
+				<row>Category3</row>
+				<row>Category1</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -5040,6 +5085,9 @@
 				
 				
 				<pageId>90</pageId>
+				<productViewPrice>17.4</productViewPrice>
+				<productViewName>MyName</productViewName>
+				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
@@ -5047,6 +5095,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Category1</row>
+				<row>Category2</row>
+				<row>Category3</row>
+				<row>Category1</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>

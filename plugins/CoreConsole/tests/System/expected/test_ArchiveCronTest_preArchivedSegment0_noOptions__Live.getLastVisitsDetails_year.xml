@@ -364,7 +364,7 @@
 				<type>action</type>
 				<url>http://www.notdatefiltered.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>60</pageIdAction>
+				<pageIdAction>64</pageIdAction>
 				
 				
 				<pageId>84</pageId>
@@ -496,6 +496,8 @@
 				
 				
 				<pageId>30</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU2</productViewSku>
 				<bandwidth>43</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
@@ -503,6 +505,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -645,7 +650,7 @@
 				<type>action</type>
 				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
 				<pageTitle>Piwik Forums</pageTitle>
-				<pageIdAction>31</pageIdAction>
+				<pageIdAction>34</pageIdAction>
 				
 				
 				<pageId>31</pageId>
