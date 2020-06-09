@@ -90,7 +90,14 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $sequence = new Sequence('ExamplePlugin_archiveCount');
         if (!$sequence->exists()) {
-            $sequence->create();
+            for ($i = 0; $i < 100; ++$i) {
+                try {
+                    $sequence->create();
+                    break;
+                } catch (\Exception $ex) {
+                    // ignore
+                }
+            }
         }
         $result = $sequence->getNextId();
         return $result;

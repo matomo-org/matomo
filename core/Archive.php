@@ -14,6 +14,7 @@ use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\Plugins\CoreAdminHome\API;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -785,19 +786,15 @@ class Archive implements ArchiveQuery
      */
     private function prepareArchive(array $archiveGroups, Site $site, Period $period)
     {
-        // if cron archiving is running, we will invalidate in CronArchive, not here
-        $invalidateBeforeArchiving = !SettingsServer::isArchivePhpTriggered();
+        $coreAdminHomeApi = API::getInstance();
 
-        $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
-
-        $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
-        if ($requestedReport) {
-            $parameters->setArchiveOnlyReport($requestedReport);
+        $requestedReport = null;
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
         }
-// TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
-        $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
 
         $periodString = $period->getRangeString();
+        $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();
 
         $idSites = array($site->getId());
 
@@ -806,10 +803,14 @@ class Archive implements ArchiveQuery
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
             $this->initializeArchiveIdCache($doneFlag);
 
-            $idArchives = $archiveLoader->prepareArchive($plugin);
+            $prepareResult = $coreAdminHomeApi->archiveReports(
+                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getString(),
+                $plugin, $requestedReport);
 
-            if (!empty($idArchives)) {
-                foreach ($idArchives as $idArchive) {
+            if (!empty($prepareResult)
+                && !empty($prepareResult['idarchives'])
+            ) {
+                foreach ($prepareResult['idarchives'] as $idArchive) {
                     $this->idarchives[$doneFlag][$periodString][] = $idArchive;
                 }
             }

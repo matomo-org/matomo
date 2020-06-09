@@ -111,7 +111,7 @@ class Loader
         ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
-            return $idArchives;
+            return [$idArchives, $visits];
         }
 
         // NOTE: this optimization helps when archiving large periods. eg, if archiving a year w/ a segment where
@@ -146,7 +146,7 @@ class Loader
         }
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return [$idArchive];
+            return [[$idArchive], $visits];
         }
 
         return false;

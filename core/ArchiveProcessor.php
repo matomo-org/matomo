@@ -316,7 +316,13 @@ class ArchiveProcessor
      */
     public function insertNumericRecord($name, $value)
     {
-        $this->checkArchiveOnlyReport($name);
+        if (!$this->isArchiving($name)) {
+            return;
+        }
+
+        if ($this->getParams()->getArchiveOnlyReport()) {
+            $this->getParams()->setIsArchiveOnlyReportHandled(true);
+        }
 
         $value = round($value, 2);
         $value = Common::forceDotAsSeparatorForDecimalPoint($value);
@@ -338,6 +344,14 @@ class ArchiveProcessor
      */
     public function insertBlobRecord($name, $values)
     {
+        if (!$this->isArchiving($name)) {
+            return;
+        }
+
+        if ($this->getParams()->getArchiveOnlyReport()) {
+            $this->getParams()->setIsArchiveOnlyReportHandled(true);
+        }
+
         $this->archiveWriter->insertBlobRecord($name, $values);
     }
 
@@ -698,3 +712,5 @@ class ArchiveProcessor
         }
     }
 }
+
+

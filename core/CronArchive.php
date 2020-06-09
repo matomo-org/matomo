@@ -798,14 +798,12 @@ class CronArchive
      */
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false, $plugin = null)
     {
-        $request = "?module=API&idSite=$idSite&period=$period&date=" . $date . "&format=json";
+        $request = "?module=API&method=CoreAdminHome.archiveReports&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
             $request .= '&segment=' . urlencode($segment);
         }
-        if (empty($plugin)) {
-            $request .= "&method=API.get";
-        } else {
-            $request .= "&method=" . $this->getArchivingAPIMethod($plugin);
+        if (!empty($plugin)) {
+            $request .= "&plugin=" . $plugin;
         }
         return $request;
     }
@@ -1407,36 +1405,6 @@ class CronArchive
 
         $parts = explode('.', $name);
         return $parts[1];
-    }
-
-    private function getArchivingAPIMethod($plugin)
-    {
-        $cache = Cache::getTransientCache();
-        $cacheKey = 'CronArchive.getArchivingAPIMethodForPlugin.' . $plugin;
-
-        $method = $cache->fetch($cacheKey);
-        if (!empty($method)) {
-            return $method;
-        }
-
-        $method = "$plugin.get";
-
-        /**
-         * By default the core:archive command will use `YourPlugin.get` to initiate archiving for
-         * a plugin when archiving for just one plugin.
-         *
-         * If your plugin has an archiver but does not provide a `get` API method for general metrics,
-         * then you can use this method to specify which API method to use to make sure the plugin data
-         * is archived.
-         *
-         * @param string &$method Set this value to the method if `$plugin` is your plugin.
-         * @param string $plugin The name of the plugin.
-         */
-        Piwik::postEvent('CronArchive.getArchivingAPIMethodForPlugin', [&$method, $plugin]);
-
-        $cache->save($cacheKey, $method);
-
-        return $method;
     }
 
     private function detectPluginForArchive(&$archive)
