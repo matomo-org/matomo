@@ -32,9 +32,7 @@ class Get extends \Piwik\Plugin\Report
         $this->name = Piwik::translate('PagePerformance_Overview');
         $this->documentation = '';
         $this->onlineGuideUrl = 'https://matomo.org/docs/page-performance/';
-        $this->processedMetrics = [
-            // none
-        ];
+        $this->processedMetrics = Metrics::getAllPagePerformanceMetrics();
         $this->metrics = Metrics::getAllPagePerformanceMetrics();
     }
 
@@ -61,20 +59,6 @@ class Get extends \Piwik\Plugin\Report
             && $view instanceof Sparklines
         ) {
             $this->addSparklineColumns($view);
-
-            $numberFormatter = new Formatter\Html();
-            $metrics = $this->getMetrics();
-            $view->config->filters[] = function (DataTable $table) use ($numberFormatter, $metrics) {
-                $firstRow = $table->getFirstRow();
-                if ($firstRow) {
-                    foreach ($metrics as $metric => $name) {
-                        $metricValue = $firstRow->getColumn($metric);
-                        if (false !== $metricValue) {
-                            $firstRow->setColumn($metric, $numberFormatter->getPrettyTimeFromSeconds($metricValue));
-                        }
-                    }
-                }
-            };
 
             $view->config->columns_to_display = array_keys(Metrics::getAllPagePerformanceMetrics());
             $view->config->setNotLinkableWithAnyEvolutionGraph();
