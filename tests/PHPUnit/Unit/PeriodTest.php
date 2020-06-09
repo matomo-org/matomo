@@ -309,4 +309,29 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
             ['2015-03-04', 'year', '2016-03-01', 'week', false],
         ];
     }
+
+    /**
+     * @dataProvider getTestDataForGetBoundsInTimezone
+     */
+    public function test_getBoundsInTimezone($period, $date, $timezone, $expectedDate1, $expectedDate2)
+    {
+        $periodObj = Period\Factory::build($period, $date);
+
+        list($date1, $date2) = $periodObj->getBoundsInTimezone($timezone);
+
+        $this->assertEquals($expectedDate1, $date1->getDatetime());
+        $this->assertEquals($expectedDate2, $date2->getDatetime());
+    }
+
+    public function getTestDataForGetBoundsInTimezone()
+    {
+        return [
+            ['day', '2018-03-04', 'America/Los_Angeles', '2018-03-03 16:00:00', '2018-03-04 16:00:00'],
+            ['day', '2018-03-04', 'UTC+8', '2018-03-04 08:00:00', '2018-03-05 08:00:00'],
+            ['day', '2018-03-04', 'UTC-8', '2018-03-03 16:00:00', '2018-03-04 16:00:00'],
+            ['week', '2018-03-04', 'America/Los_Angeles', '2018-02-25 16:00:00', '2018-03-04 16:00:00'],
+            ['week', '2018-03-04', 'UTC-4', '2018-02-25 20:00:00', '2018-03-04 20:00:00'],
+            ['week', '2018-03-04', 'UTC', '2018-02-26 00:00:00', '2018-03-05 00:00:00'],
+        ];
+    }
 }
