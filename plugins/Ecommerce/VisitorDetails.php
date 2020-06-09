@@ -65,6 +65,20 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
     }
 
+    public function renderActionTooltip($action, $visitInfo)
+    {
+        if (!isset($action['productViewName']) && !isset($action['productViewSku']) &&
+            !isset($action['productViewPrice']) && !isset($action['productViewCategories'])) {
+            return [];
+        }
+
+        $view            = new View('@Ecommerce/_actionTooltip');
+        $view->sendHeadersWhenRendering = false;
+        $view->action    = $action;
+        $view->visitInfo = $visitInfo;
+        return [[ 15, $view->render() ]];
+    }
+
     public function provideActionsForVisitIds(&$actions, $idVisits)
     {
         $ecommerceDetails = $this->queryEcommerceConversionsForVisits($idVisits);
