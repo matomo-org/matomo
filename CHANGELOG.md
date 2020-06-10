@@ -13,6 +13,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The API `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
 * The API `UsersManager.createTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
 * The API `DevicesDetection.getBrowserFamilies` has been removed. Instead you need to use `DevicesDetection.getBrowsers`
+* The response of an individual request within the bulk request of `API.getBulkRequest` may change if the API returns a scalar value (eg `5`). In this case the response will be no longer `5` but for example `{value: 5}`
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The deprecated Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead
