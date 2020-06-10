@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -59,6 +60,8 @@ class Updates_4_0_0_b2 extends PiwikUpdates
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
+
+        ServerFilesGenerator::createFilesForSecurity();
     }
 
     protected function usesGeoIpLegacyLocationProvider()
