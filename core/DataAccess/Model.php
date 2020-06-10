@@ -153,7 +153,7 @@ class Model
 
         if (!empty($name)) {
             if (strpos($name, '.') !== false) {
-                list($plugin, $name) = explode('.', $name);
+                list($plugin, $name) = explode('.', $name, 2);
             } else {
                 $plugin = $name;
                 $name = null;

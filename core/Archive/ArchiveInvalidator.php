@@ -441,8 +441,11 @@ class ArchiveInvalidator
      */
     public function reArchiveReport(array $idSites, Date $date1, Date $date2, string $plugin, string $report = null)
     {
-        $dates = Period\Factory::build('range', $date1->toString() . ',' . $date2->toString())->getSubperiods();
-        $dates = array_map(function (Period\Day $d) { return $d->getDateStart(); }, $dates);
+        $dates = [];
+        while ($date1->isEarlier($date2)) {
+            $dates[] = $date1;
+            $date1 = $date1->addDay(1);
+        }
 
         $name = $plugin;
         if (!empty($report)) {

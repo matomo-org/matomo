@@ -974,6 +974,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator->reArchiveReport([1], Date::factory('2015-02-03'), Date::factory('2015-02-06'), 'VisitsSummary');
 
         $expectedInvalidations = [
+            'lasjdfdsa',
             // TODO
         ];
 
@@ -984,9 +985,10 @@ var_export($actualInvalidations);
 
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReportSpecified()
     {
-        $this->invalidator->reArchiveReport([1], Date::factory('2015-02-03'), Date::factory('2015-02-06'), 'VisitsSummary', 'someReport');
+        $this->invalidator->reArchiveReport([1], Date::factory('2015-02-03'), Date::factory('2015-02-06'), 'VisitsSummary', 'some.Report');
 
         $expectedInvalidations = [
+            'sdfjklsadjf',
             // TODO
         ];
 
