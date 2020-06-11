@@ -395,7 +395,7 @@ hash_algorithm = whirlpool
 force_ssl = 0
 
 ; (DEPRECATED) has no effect
-login_cookie_name = piwik_auth
+login_cookie_name = matomo_auth
 
 ; By default, the auth cookie is set only for the duration of session.
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
@@ -825,7 +825,7 @@ enable_language_to_country_guess = 1
 scheduled_tasks_min_interval = 3600
 
 ; name of the cookie to ignore visits
-ignore_visits_cookie_name = piwik_ignore
+ignore_visits_cookie_name = matomo_ignore
 
 ; Comma separated list of variable names that will be read to define a Campaign name, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?matomo_campaign=Adwords-CPC' then it will be counted as a campaign referrer named 'Adwords-CPC'
