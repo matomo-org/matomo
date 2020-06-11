@@ -186,6 +186,7 @@
                     }
 
                     exportUrlParams.token_auth = piwik.token_auth;
+                    exportUrlParams.force_api_session = 1;
                     exportUrlParams.filter_limit = limit;
 
                     var currentUrl = $location.absUrl();

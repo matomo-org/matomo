@@ -157,9 +157,13 @@ class Access
 
         $result = null;
 
-        $forceApiSession = Common::getRequestVar('force_api_session', 0, 'int', $_POST);
-        if ($forceApiSession && Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction())) {
-            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_POST);
+        $forceApiSessionPost = Common::getRequestVar('force_api_session', 0, 'int', $_POST);
+        $forceApiSessionGet = Common::getRequestVar('force_api_session', 0, 'int', $_GET);
+        $isApiRequest = Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction());
+        $isGetApiRequest = strpos(Request::getMethodIfApiRequest(null), '.get') > 0;
+
+        if (($forceApiSessionPost && $isApiRequest) || ($forceApiSessionGet && $isApiRequest && $isGetApiRequest)) {
+            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $forceApiSessionPost ? $_POST : $_GET);
             if (!empty($tokenAuth)) {
                 Session::start();
                 $auth = StaticContainer::get(SessionAuth::class);
