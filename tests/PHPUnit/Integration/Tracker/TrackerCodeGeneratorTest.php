@@ -103,7 +103,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     {
         $generator = new TrackerCodeGenerator();
 
-        Piwik::addAction('Piwik.getJavascriptCode', function (&$codeImpl) {
+        Piwik::addAction('Tracker.getJavascriptCode', function (&$codeImpl) {
             $codeImpl['protocol'] = 'https://';
         });
 
@@ -150,7 +150,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     {
         $generator = new TrackerCodeGenerator();
 
-        Piwik::addAction('Piwik.getJavascriptCode', function (&$codeImpl) {
+        Piwik::addAction('Tracker.getJavascriptCode', function (&$codeImpl) {
             $codeImpl['optionsBeforeTrackerUrl'] .= "_paq.push(['setAPIUrl', 'http://localhost/statistics']);\n    ";
         });
 
@@ -198,7 +198,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     {
         $generator = new TrackerCodeGenerator();
 
-        Piwik::addAction('Piwik.getJavascriptCode', function (&$codeImpl) {
+        Piwik::addAction('Tracker.getJavascriptCode', function (&$codeImpl) {
             $codeImpl['loadAsync'] = false;
         });
 

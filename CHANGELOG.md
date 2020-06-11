@@ -61,6 +61,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The following deprecated API method `Live.getLastVisitsForVisitor` has been removed. Use `Live.getVisitorProfile` instead.
 * The following deprecated API method `Live.getLastVisits` has been removed. Use `Live.getLastVisitsDetails` instead.
 * The deperecated event `LanguageManager.getAvailableLanguages` has been removed. Use `LanguagesManager.getAvailableLanguages` instead.
+* The PHP event `Piwik.getJavascriptCode` has been renamed to `Tracker.getJavascriptCode`.
 * The controller action `Proxy.redirect` has been removed. Instead link to the URL directly in HTML and set an attribute `rel="noreferrer noopener"`  
 * The API response format `php` has been removed.
 * GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
