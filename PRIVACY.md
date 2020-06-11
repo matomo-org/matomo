@@ -18,7 +18,7 @@ purge old data. You can configure Matomo to automatically delete log data older 
 
 ### Include a tracking Opt-Out feature on your site
 In your website, we recommended providing an easy way for your visitors to “opt-out” of being tracked by Matomo. 
-You can use the Opt-Out feature to display a link your website that sets a special browser cookie (`piwik_ignore`) when
+You can use the Opt-Out feature to display a link your website that sets a special browser cookie (`matomo_ignore`) when
 clicked. Visitors that click that link will be ignored by Matomo in the future: 
 [How to include a tracking opt-out iframe.](https://matomo.org/docs/privacy/#step-3-include-a-web-analytics-opt-out-feature-on-your-site-using-an-iframe)
 

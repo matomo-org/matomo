@@ -71,7 +71,7 @@ class Session extends Zend_Session
         // incorrectly invalidate the session
         @ini_set('session.referer_check', '');
 
-        // to preserve previous behavior piwik_auth provided when it contained a token_auth, we ensure
+        // to preserve previous behavior matomo_auth provided when it contained a token_auth, we ensure
         // the session data won't be deleted until the cookie expires.
         @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
 
