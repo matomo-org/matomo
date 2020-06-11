@@ -6279,10 +6279,10 @@ if (typeof window.Matomo !== 'object') {
              * By default we track interactions on click but sometimes you might want to track interactions yourself.
              * For instance you might want to track an interaction manually on a double click or a form submit.
              * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
-             * class `piwikContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
+             * class `matomoContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
              *
              * @param Element domNode  This element itself or any of its parent elements has to be a content block
-             *                         element. Meaning one of those has to have a `piwikTrackContent` CSS class or
+             *                         element. Meaning one of those has to have a `matomoTrackContent` CSS class or
              *                         a `data-track-content` attribute.
              * @param string [contentInteraction='Unknown] The name of the interaction that happened. For instance
              *                                             'click', 'formSubmit', 'DblClick', ...

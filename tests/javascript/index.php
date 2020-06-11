@@ -1302,7 +1302,7 @@ function PiwikTest() {
         function assertShouldIgnoreInteraction(id, message) {
             var node = content.findTargetNode(_e(id));
             strictEqual(content.shouldIgnoreInteraction(node), true, message);
-            ok($(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), "needs to have either attribute or class");
+            ok($(node).hasClass(content.LEGACY_CONTENT_IGNOREINTERACTION_CLASS) || $(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), id + " needs to have either attribute or class");
         }
 
         function assertShouldNotIgnoreInteraction(id, message) {
