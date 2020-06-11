@@ -8,6 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New API
 * A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
+* A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
 
 ### Breaking changes
 * The API `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
@@ -83,6 +84,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * Various methods in `Piwik\Mail` have been removed or changed their signature.
 * Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
 * Added new event `Db.getTablesInstalled`, plugins should use to register the tables they create.
+* Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
+* The JS tracker event `PiwikInitialized` has been renamed to `MatomoInitialized`
+
+### Deprecations
+* The JS Tracker method `getPiwikUrl` has been deprecated and `getMatomoUrl` should be used instead.
+* The JS Tracker init method `piwikAsyncInit` has been deprecated and `matomoAsyncInit` should be used instead.
 
 ## Matomo 3.13.6
 
