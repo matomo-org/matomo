@@ -513,7 +513,8 @@
         "ClickToRemoveComp": "Klicken Sie um diesen Vergleich zu entfernen",
         "MaximumNumberOfSegmentsComparedIs": "Die maximale Anzahl von Segmenten die gleichzeitig verglichen werden können ist %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s Abfrageparameterlänge muss mit der %2$s Abfrageparameterlänge übereinstimmen.",
-        "MaximumNumberOfPeriodsComparedIs": "Die maximale Anzahl von Zeiträumen die gleichzeitig verglichen werden können ist %s."
+        "MaximumNumberOfPeriodsComparedIs": "Die maximale Anzahl von Zeiträumen die gleichzeitig verglichen werden können ist %s.",
+        "Custom": "Benutzerdefiniert"
     },
     "Mobile": {
         "AboutPiwikMobile": "Über Matomo Mobile",
