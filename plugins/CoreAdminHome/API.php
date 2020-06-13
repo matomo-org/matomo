@@ -256,6 +256,12 @@ class API extends \Piwik\Plugin\API
      */
     public function archiveReports($idSite, $period, $date, $segment = false, $plugin = false, $report = false)
     {
+        if (\Piwik\API\Request::getRootApiRequestMethod() === 'CoreAdminHome.archiveReports') {
+            Piwik::checkUserHasSuperUserAccess();
+        } else {
+            Piwik::checkUserHasViewAccess($idSite);
+        }
+
         // if cron archiving is running, we will invalidate in CronArchive, not here
         $isArchivePhpTriggered = SettingsServer::isArchivePhpTriggered();
         $invalidateBeforeArchiving = !$isArchivePhpTriggered;

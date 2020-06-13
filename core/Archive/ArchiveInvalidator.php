@@ -12,6 +12,7 @@ namespace Piwik\Archive;
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Loader;
+use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -439,8 +440,16 @@ class ArchiveInvalidator
      * @throws \Exception
      * @api
      */
-    public function reArchiveReport(array $idSites, Date $date1, Date $date2, string $plugin, string $report = null)
+    public function reArchiveReport(array $idSites, string $plugin, string $report = null, int $lastNMonthsToInvalidate = null)
     {
+        $lastNMonthsToInvalidate = $lastNMonthsToInvalidate ?: (int) Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
+        if (empty($lastNMonthsToInvalidate)) {
+            return;
+        }
+
+        $date2 = Date::yesterday();
+        $date1 = $date2->subMonth($lastNMonthsToInvalidate)->setDay(1);
+
         $dates = [];
         while ($date1->isEarlier($date2)) {
             $dates[] = $date1;
