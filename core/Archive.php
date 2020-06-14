@@ -633,6 +633,8 @@ class Archive implements ArchiveQuery
         foreach ($idarchivesByReport as $doneFlag => $idarchivesByDate) {
             foreach ($idarchivesByDate as $dateRange => $idarchives) {
                 foreach ($idarchives as $idarchive) {
+                    // idarchives selected can include all plugin archives, plugin specific archives and partial report
+                    // archives. only the latest data in all of these archives will be selected.
                     $this->idarchives[$doneFlag][$dateRange][] = $idarchive;
                 }
             }

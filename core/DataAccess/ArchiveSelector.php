@@ -260,7 +260,8 @@ class ArchiveSelector
         $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
                                 FROM %s
                                 WHERE idarchive IN (%s)
-                                  AND " . $whereNameIs;
+                                  AND " . $whereNameIs . "
+                             ORDER BY ts_archived ASC"; // ascending order so we use the latest data found
 
         // get data from every table we're querying
         $rows = array();
