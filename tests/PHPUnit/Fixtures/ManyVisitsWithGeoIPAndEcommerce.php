@@ -20,6 +20,11 @@ class ManyVisitsWithGeoIPAndEcommerce extends ManyVisitsWithGeoIP
      */
     protected function trackVisit(\MatomoTracker $t, $fixtureCounter, $visitorCounter, $doBulk, array $params)
     {
+        // Add some ecommerce views
+        if (($visitorCounter % 3) == 1) {
+            $t->setEcommerceView('Custom SKU', 'MyName', ['Category1', 'Category2', 'Category3', 'Category' . $visitorCounter], 17.4);
+        }
+
         parent::trackVisit($t, $fixtureCounter, $visitorCounter, $doBulk, $params);
 
         // Add a few ecommerce orders

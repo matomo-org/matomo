@@ -22,17 +22,20 @@
         <div class="col s12 push-m9 m3">{{ 'General_InfoFor'|translate(thisIP) }}</div>
     </div>
 
-    {% for id,provider in locationProviders if provider.isVisible %}
+    {% for id,provider in locationProviders|filter(provider => provider.isVisible) %}
     <div class="row form-group provider{{ id|e('html_attr') }}">
         <div class="col s12 m4 l2">
             <p>
-                <input class="location-provider"
-                       name="location-provider"
-                       value="{{ id }}"
-                       type="radio"
-                       ng-model="locationSelector.selectedProvider"
-                       id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
-                <label for="provider_input_{{ id }}">{{ provider.title|translate }}</label>
+                <label>
+                    <input class="location-provider"
+                           name="location-provider"
+                           value="{{ id }}"
+                           type="radio"
+                           ng-model="locationSelector.selectedProvider"
+                           id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
+
+                    <span>{{ provider.title|translate }}</span>
+                </label>
             </p>
             <p class="loc-provider-status">
                 {% if provider.status == 0 %}

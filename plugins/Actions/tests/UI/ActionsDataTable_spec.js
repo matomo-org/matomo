@@ -41,6 +41,7 @@ describe("ActionsDataTable", function () {
         await page.click('.dropdownConfigureIcon');
         await page.mouse.move(-10, -10);
         const element = await page.$('.tableConfiguration');
+        await page.waitFor(250); // rendering
         expect(await element.screenshot()).to.matchImage('configuration_options');
     });
 

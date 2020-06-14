@@ -48,9 +48,10 @@ describe("EvolutionGraph", function () {
 
     it("should show multiple metrics when another metric picked", async function () {
         await page.waitForSelector('.jqplot-seriespicker-popover input');
-        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
         await element.click();
         await page.waitForNetworkIdle();
+        await page.waitFor(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('two_metrics');
     });
@@ -197,6 +198,9 @@ describe("EvolutionGraph", function () {
         await page.reload();
         await showDataTableFooter();
         await page.click('.activatePeriodsSelection');
+
+        await page.mouse.move(-10, -10);
+        await page.waitFor(500); // wait for animation
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_list');
     });

@@ -491,19 +491,6 @@ class Db
     }
 
     /**
-     * Get columns information from table
-     *
-     * @param string|array $table The name of the table you want to get the columns definition for.
-     * @return \Zend_Db_Statement
-     * @deprecated since 2.11.0
-     */
-    public static function getColumnNamesFromTable($table)
-    {
-        $tableMetadataAccess = new TableMetadata();
-        return $tableMetadataAccess->getColumns($table);
-    }
-
-    /**
      * Locks the supplied table or tables.
      *
      * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik

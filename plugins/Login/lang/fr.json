@@ -10,7 +10,7 @@
         "InvalidOrExpiredToken": "La clef est invalide ou a expiré",
         "InvalidUsernameEmail": "Nom d'utilisateur et\/ou courriel invalide.",
         "LogIn": "Connexion",
-        "LoginOrEmail": "Nom d'usager ou courriel",
+        "LoginOrEmail": "Nom d'utilisateur ou courriel",
         "HelpIpRange": "Saisir une adresse IP ou une plage d'adresses IP par ligne. Vous pouvez utiliser la notation CIDR ex. %1$s ou utiliser les caractères de remplacement, ex. %2$s ou %3$s",
         "SettingBruteForceEnable": "Activer la détection de Brute Force",
         "SettingBruteForceEnableHelp": "La détection de Force Brute est une fonctionnalité de sécurité importante utilisée pour protéger vos données contre tout accès non autorisé. Au lieu de permettre à n'importe quel utilisateur d'essayer des milliers, ou des millions de combinaisons de mots de passe dans un temps très court, il ne permettra qu'un nombre spécifique de connexions échouées dans un court laps de temps. Si trop de connexions échouées se produisent dans cet intervalle de temps, l'utilisateur ne pourra pas se connecter pendant un certain temps. Veuillez noter que si une adresse IP est bloquée, tous les utilisateurs qui utilisent cette adresse IP seront également bloqués.",

@@ -9,7 +9,6 @@
         'ngSanitize',
         'ngAnimate',
         'ngCookies',
-        'ngDialog',
         'piwikApp.config',
         'piwikApp.service',
         'piwikApp.directive',
@@ -18,6 +17,6 @@
     angular.module('app', []);
 
     angular.module('piwikApp').config(['$locationProvider', function($locationProvider) {
-        $locationProvider.hashPrefix('');
+        $locationProvider.html5Mode({ enabled: false, rewriteLinks: false }).hashPrefix('');
     }]);
 })();

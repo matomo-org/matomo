@@ -513,7 +513,10 @@
         "ClickToRemoveComp": "Klikoni që të hiqet ky krahasim.",
         "MaximumNumberOfSegmentsComparedIs": "Numri maksimum i segmenteve që mund të krahasohen në të njëjtën kohë është %s.",
         "CompareDatesParamMustMatchComparePeriods": "Gjatësia e parametrit të kërkesës %1$s duhet të përputhet me gjatësinë e parametrit të kërkesës %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "Numri maksimum i periudhave që mund të krahasohen në të njëjtën kohë është %s."
+        "MaximumNumberOfPeriodsComparedIs": "Numri maksimum i periudhave që mund të krahasohen në të njëjtën kohë është %s.",
+        "Custom": "Vetjake",
+        "PreviousPeriod": "Periudhën e Kaluar",
+        "PreviousYear": "Vitin e Kaluar"
     },
     "Mobile": {
         "AboutPiwikMobile": "Rreth Matomo-s për Celular",

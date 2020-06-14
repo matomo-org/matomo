@@ -72,17 +72,26 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(121, 364),
         array(364)
     );
-    protected $dimensionRecord = array(
+    protected $dimensionRecord = [
         self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
         self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
         self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME
-    );
+    ];
+    protected $actionMapping = [
+        self::SKU_FIELD      => 'idaction_product_sku',
+        self::NAME_FIELD     => 'idaction_product_name',
+        self::CATEGORY_FIELD => 'idaction_product_cat',
+        self::CATEGORY2_FIELD => 'idaction_product_cat2',
+        self::CATEGORY3_FIELD => 'idaction_product_cat3',
+        self::CATEGORY4_FIELD => 'idaction_product_cat4',
+        self::CATEGORY5_FIELD => 'idaction_product_cat5',
+    ];
 
     /**
      * Array containing one DataArray for each Ecommerce items dimension (name/sku/category abandoned carts and orders)
-     * @var array
+     * @var DataArray[][]
      */
-    protected $itemReports = array();
+    protected $itemReports = [];
 
     public function aggregateDayReport()
     {
@@ -225,13 +234,32 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->initItemReports();
         foreach ($this->getItemsDimensions() as $dimension) {
             $query = $this->getLogAggregator()->queryEcommerceItems($dimension);
-            if ($query == false) {
-                continue;
+            if ($query !== false) {
+                $this->aggregateFromEcommerceItems($query, $dimension);
             }
-            $this->aggregateFromEcommerceItems($query, $dimension);
+
+            $query = $this->queryItemViewsForDimension($dimension);
+            if ($query !== false) {
+                $this->aggregateFromEcommerceViews($query, $dimension);
+            }
         }
         $this->insertItemReports();
         return true;
+    }
+
+    protected function queryItemViewsForDimension($dimension)
+    {
+        $column = $this->actionMapping[$dimension];
+        $where  = "log_link_visit_action.$column is not null";
+
+        return $this->getLogAggregator()->queryActionsByDimension(
+            ['label' => 'log_action1.name'],
+            $where,
+            ['AVG(log_link_visit_action.product_price) AS `avg_price_viewed`'],
+            false,
+            null,
+            [$column]
+        );
     }
 
     protected function initItemReports()
@@ -245,7 +273,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function insertItemReports()
     {
-        /** @var DataArray $array */
         foreach ($this->itemReports as $dimension => $itemAggregatesByType) {
             foreach ($itemAggregatesByType as $ecommerceType => $itemAggregate) {
                 $recordName = $this->dimensionRecord[$dimension];
@@ -299,7 +326,50 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
+    protected function aggregateFromEcommerceViews($query, $dimension)
+    {
+        while ($row = $query->fetch()) {
+
+            $label = $this->getRowLabel($row, $dimension);
+            if ($label === false) {
+                continue; // ignore empty additional categories
+            }
+
+            // Aggregate extra categories in the Item categories array
+            if ($this->isItemExtraCategory($dimension)) {
+                $array = $this->itemReports[self::CATEGORY_FIELD];
+            } else {
+                $array = $this->itemReports[$dimension];
+            }
+
+            unset($row['label']);
+            $row['avg_price_viewed'] = round($row['avg_price_viewed'], GoalManager::REVENUE_PRECISION);
+
+            // add views to all types
+            foreach ($array as $ecommerceType => $dataArray) {
+                $dataArray->sumMetrics($label, $row);
+            }
+        }
+    }
+
     protected function cleanupRowGetLabel(&$row, $currentField)
+    {
+        $label = $this->getRowLabel($row, $currentField);
+
+        if (isset($row['ecommerceType']) && $row['ecommerceType'] == GoalManager::IDGOAL_CART) {
+            // abandoned carts are the number of visits with an abandoned cart
+            $row[Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Metrics::INDEX_NB_VISITS];
+        }
+
+        unset($row[Metrics::INDEX_NB_VISITS]);
+        unset($row['label']);
+        unset($row['labelIdAction']);
+        unset($row['ecommerceType']);
+
+        return $label;
+    }
+
+    protected function getRowLabel(&$row, $currentField)
     {
         $label = $row['label'];
         if (empty($label)) {
@@ -313,17 +383,6 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $label = \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
             }
         }
-
-        if ($row['ecommerceType'] == GoalManager::IDGOAL_CART) {
-            // abandoned carts are the number of visits with an abandoned cart
-            $row[Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Metrics::INDEX_NB_VISITS];
-        }
-
-        unset($row[Metrics::INDEX_NB_VISITS]);
-        unset($row['label']);
-        unset($row['labelIdAction']);
-        unset($row['ecommerceType']);
-
         return $label;
     }
 

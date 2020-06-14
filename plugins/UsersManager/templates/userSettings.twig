@@ -97,7 +97,7 @@
              ng-show="personalSettings.showNewsletterSignup"
              content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
 
-            <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox"
+            <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox" id="newsletterSignupCheckbox"
                  ng-model="personalSettings.newsletterSignupCheckbox"
                  full-width="true"
                  data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"

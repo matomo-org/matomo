@@ -83,8 +83,8 @@
 		<quantity>10</quantity>
 		<price>2111.22</price>
 		<orders>4</orders>
-		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_visits>6</nb_visits>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_actions>11</nb_actions>
 	</reportTotal>
 </result>

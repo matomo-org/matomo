@@ -38,6 +38,7 @@
         "PluginDescription": "Fornisce informazioni dettagliate sui dispositivi degli utenti, come marca, modello, tipo di dispositivo (tv, console, smartphone, desktop, ecc.) e altro ancora.",
         "SmartDisplay": "Smart display",
         "Smartphone": "Smartphone",
+        "SmartSpeaker": "Smart speaker",
         "PortableMediaPlayer": "Media player portatile",
         "Devices": "Dispositivi",
         "GenericDevice": "Generico %s",
@@ -47,6 +48,7 @@
         "TV": "Apparecchio TV",
         "UserAgent": "User-Agent",
         "XVisitsFromDevices": "%1$s visite da %2$s dispositivi",
+        "Wearable": "Indossabile",
         "WidgetBrowsers": "Browser dei visitatori",
         "WidgetBrowsersDocumentation": "Questo report contiene informazioni sul tipo di browser che i tuoi visitatori hanno utilizzato. Ciascuna versione del browser è elencata separatamente."
     }

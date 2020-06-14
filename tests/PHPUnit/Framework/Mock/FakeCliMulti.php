@@ -9,6 +9,7 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Archiver\Request;
 use Piwik\CliMulti;
+use Piwik\Timer;
 
 class FakeCliMulti extends CliMulti
 {
@@ -18,6 +19,12 @@ class FakeCliMulti extends CliMulti
     {
         if (empty(FakeCliMulti::$specifiedResults)) {
             return parent::request($piwikUrls);
+        }
+
+        if ($this->isTimingRequests) {
+            foreach ($piwikUrls as $url) {
+                $this->timers[] = new Timer();
+            }
         }
 
         $results = array();

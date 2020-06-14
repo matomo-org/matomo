@@ -111,15 +111,18 @@
             </td>
         </tr>
         <tr row_id="last">
-            <td colspan="8" class="input-field site_search">
-                <input type="text"
-                       ng-model="searchTerm"
-                       class="browser-default"
-                       piwik-onenter="model.searchSite(searchTerm)"
-                       placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}">
-                <span title="{{ 'General_ClickToSearch' | translate }}"
-                     ng-click="model.searchSite(searchTerm)"
-                     class="icon-search search_ico"></span>
+            <td colspan="8" class="site_search">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text"
+                               ng-model="searchTerm"
+                               piwik-onenter="model.searchSite(searchTerm)"
+                               placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}">
+                        <span title="{{ 'General_ClickToSearch' | translate }}"
+                             ng-click="model.searchSite(searchTerm)"
+                             class="icon-search search_ico"></span>
+                    </div>
+                </div>
             </td>
         </tr>
 

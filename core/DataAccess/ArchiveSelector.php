@@ -48,7 +48,7 @@ class ArchiveSelector
     /**
      * @param ArchiveProcessor\Parameters $params
      * @param bool $minDatetimeArchiveProcessedUTC deprecated. will be removed in Matomo 4.
-     * @return array An array with four values: \
+     * @return array An array with four values:
      *               - the latest archive ID or false if none
      *               - the latest visits value for the latest archive, regardless of whether the archive is invalidated or not
      *               - the latest visits converted value for the latest archive, regardless of whether the archive is invalidated or not
@@ -92,10 +92,18 @@ class ArchiveSelector
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
+        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+        }
+
+        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+        }
+
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
             && isset($result['idarchive'])
-            && Date::factory($tsArchived)->isEarlier(Date::factory($minDatetimeArchiveProcessedUTC))
+            && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }

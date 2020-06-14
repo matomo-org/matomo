@@ -6,7 +6,7 @@
     {{ visitors|raw }}
 </div>
 
-{% spaceless %}
+{% apply spaceless %}
 <div class="visitsLiveFooter">
     <a title="{{ 'Live_OnClickPause'|translate('Live_VisitorsInRealTime'|translate) }}" href="javascript:void(0);" onclick="onClickPause();">
         <img id="pauseImage" border="0" src="plugins/Live/images/pause.png" />
@@ -19,6 +19,6 @@
         <a class="rightLink" href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog')">{{ 'Live_LinkVisitorLog'|translate }}</a>
     {% endif %}
 </div>
-{% endspaceless %}
+{% endapply %}
 
 {% if not isWidgetized %}</div>{% endif %}

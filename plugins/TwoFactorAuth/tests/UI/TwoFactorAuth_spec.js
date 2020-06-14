@@ -149,6 +149,7 @@ describe("TwoFactorAuth", function () {
         await page.click('.disable2FaLink');
 
         const modal = await page.$('.modal.open');
+        await page.waitFor(250); // animation
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 

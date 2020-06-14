@@ -12,7 +12,8 @@ use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
 use Piwik\View\ViewInterface;
-use Twig_Environment;
+use Twig\Environment;
+use Twig\Error\Error;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -111,7 +112,7 @@ class View implements ViewInterface
 
     /**
      * Instance
-     * @var Twig_Environment
+     * @var Environment
      */
     private $twig;
     protected $templateVars = array();
@@ -305,7 +306,7 @@ class View implements ViewInterface
     /**
      * @internal
      * @ignore
-     * @return Twig_Environment
+     * @return Environment
      */
     public function getTwig()
     {
@@ -314,15 +315,7 @@ class View implements ViewInterface
 
     protected function renderTwigTemplate()
     {
-        try {
-            $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
-        } catch (Exception $ex) {
-            // twig does not rethrow exceptions, it wraps them so we log the cause if we can find it
-            $cause = $ex->getPrevious();
-            Log::debug($cause === null ? $ex : $cause);
-
-            throw $ex;
-        }
+        $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
 
         if ($this->enableCacheBuster) {
             $output = $this->applyFilter_cacheBuster($output);
@@ -440,16 +433,8 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $twig = StaticContainer::get(Twig::class);
-        $environment = $twig->getTwigEnvironment();
-        $environment->clearTemplateCache();
-
-        $cacheDirectory = $environment->getCache();
-        if (!empty($cacheDirectory)
-            && is_dir($cacheDirectory)
-        ) {
-            $environment->clearCacheFiles();
-        }
+        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
+        Filesystem::unlinkRecursive($templatesCompiledPath, false);
     }
 
     /**

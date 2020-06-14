@@ -13,6 +13,7 @@ use Piwik\Filesystem;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
 use Piwik\TCPDF;
 
@@ -182,7 +183,8 @@ class Pdf extends ReportRenderer
         $this->TCPDF->Bookmark(Piwik::translate('ScheduledReports_FrontPage'));
 
         // logo
-        $this->TCPDF->Image(API::getInstance()->getLogoUrl(true), $this->logoImagePosition[0], $this->logoImagePosition[1], 180 / $factor = 2, 0, $type = '', $link = '', $align = '', $resize = false, $dpi = 300);
+        $customLogo = new CustomLogo();
+        $this->TCPDF->Image($customLogo->getLogoUrl(true), $this->logoImagePosition[0], $this->logoImagePosition[1], 180 / $factor = 2, 0, $type = '', $link = '', $align = '', $resize = false, $dpi = 300);
         $this->TCPDF->Ln(8);
 
         // report title
