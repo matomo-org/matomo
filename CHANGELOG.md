@@ -8,11 +8,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New API
 * A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
+* A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
 
 ### Breaking changes
 * The API `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
 * The API `UsersManager.createTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
 * The API `DevicesDetection.getBrowserFamilies` has been removed. Instead you need to use `DevicesDetection.getBrowsers`
+* The response of an individual request within the bulk request of `API.getBulkRequest` may change if the API returns a scalar value (eg `5`). In this case the response will be no longer `5` but for example `{value: 5}`
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The deprecated Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead
@@ -60,6 +62,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The following deprecated API method `Live.getLastVisitsForVisitor` has been removed. Use `Live.getVisitorProfile` instead.
 * The following deprecated API method `Live.getLastVisits` has been removed. Use `Live.getLastVisitsDetails` instead.
 * The deperecated event `LanguageManager.getAvailableLanguages` has been removed. Use `LanguagesManager.getAvailableLanguages` instead.
+* The PHP event `Piwik.getJavascriptCode` has been renamed to `Tracker.getJavascriptCode`.
 * The controller action `Proxy.redirect` has been removed. Instead link to the URL directly in HTML and set an attribute `rel="noreferrer noopener"`  
 * The API response format `php` has been removed.
 * GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
@@ -72,7 +75,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The signature of `Dimension::configureSegments()` has been changed. Similar to configuring Metrics it now takes two parameters `SegmentsList $segmentsList` and `DimensionSegmentFactory $dimensionSegmentFactory`.
 * The method `Dimension::addSegment()` has been removed. See new implementation of `DimensionSegmentFactory::createSegment` for a replacement
 * The signature of the event `Segment.addSegments` has been changed. It now has one parameter `SegmentsList $list`, which allows adding new segments to the list
-* The json2 API format has now been deprecated, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`. The JSON2 renderer will be removed in Matomo 5 and we recommend switching to it.
+* The json2 API format has now been deprecated, and the json renderer now behaves as the json2 renderer did. This means when `format=json` is used, arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`. The JSON2 renderer will be removed in Matomo 5 and we recommend switching to it. This impacts these API methods:
+  * API.getSettings
+  * Annotations.get
+  * Goals.getGoal
+  * UsersManager.getUser
+  * UsersManager.getUserByEmail
+  * SitesManager.getSiteFromId
 * The event `Live.getAllVisitorDetails` has been removed. Use a `VisitorDetails` class instead (see Live plugin).
 * Zend_Validate and all subclasses have been completely removed.
 * Added support for campaign name parameter `matomo_campaign` / `mtm_campaign` and campaign keyword parameter `matomo_kwd` / `mtm_kwd`
@@ -82,6 +91,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * Various methods in `Piwik\Mail` have been removed or changed their signature.
 * Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
 * Added new event `Db.getTablesInstalled`, plugins should use to register the tables they create.
+* Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
+* The JS tracker event `PiwikInitialized` has been renamed to `MatomoInitialized`
+
+### Deprecations
+* The JS Tracker method `getPiwikUrl` has been deprecated and `getMatomoUrl` should be used instead.
+* The JS Tracker init method `piwikAsyncInit` has been deprecated and `matomoAsyncInit` should be used instead.
 
 ## Matomo 3.13.6
 

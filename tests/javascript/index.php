@@ -1302,7 +1302,7 @@ function PiwikTest() {
         function assertShouldIgnoreInteraction(id, message) {
             var node = content.findTargetNode(_e(id));
             strictEqual(content.shouldIgnoreInteraction(node), true, message);
-            ok($(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), "needs to have either attribute or class");
+            ok($(node).hasClass(content.LEGACY_CONTENT_IGNOREINTERACTION_CLASS) || $(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), id + " needs to have either attribute or class");
         }
 
         function assertShouldNotIgnoreInteraction(id, message) {
@@ -2047,11 +2047,12 @@ function PiwikTest() {
     });
 
     test("Basic requirements", function() {
-        expect(3);
+        expect(4);
 
         equal( typeof encodeURIComponent, 'function', 'encodeURIComponent' );
         ok( RegExp, "RegExp" );
         ok( Piwik, "Piwik" );
+        ok( Matomo, "Matomo" );
     });
 
     test("Test API - addPlugin(), getTracker(), getHook(), and hook", function() {
@@ -2796,7 +2797,7 @@ function PiwikTest() {
         var isSameCrossDomainDevice = tracker.hook.test._isSameCrossDomainDevice;
         var makeCrossDomainDeviceId = tracker.hook.test._makeCrossDomainDeviceId;
         var replaceHrefForCrossDomainLink = tracker.hook.test._replaceHrefForCrossDomainLink;
-        var isLinkToDifferentDomainButSamePiwikWebsite = tracker.hook.test._isLinkToDifferentDomainButSamePiwikWebsite;
+        var isLinkToDifferentDomainButSameMatomoWebsite = tracker.hook.test._isLinkToDifferentDomainButSameMatomoWebsite;
 
         strictEqual(false, tracker.isCrossDomainLinkingEnabled(), 'function', "isCrossDomainLinkingEnabled is disabled by default" );
 
@@ -2891,7 +2892,7 @@ function PiwikTest() {
             if (url !== null) {
                 a.setAttribute('href', url);
             }
-            return isLinkToDifferentDomainButSamePiwikWebsite(a);
+            return isLinkToDifferentDomainButSameMatomoWebsite(a);
         }
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(null), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if no href is set');
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(''), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if empty href is set');
@@ -2936,7 +2937,7 @@ function PiwikTest() {
     });
 
     test("Tracker getClassesRegExp()", function() {
-        expect(3);
+        expect(5);
 
         var tracker = Piwik.getTracker();
 
@@ -2945,8 +2946,11 @@ function PiwikTest() {
         var download = tracker.hook.test._getClassesRegExp([], 'download');
         ok( download.test('piwik_download'), 'piwik_download (default)' );
 
+        ok( download.test('matomo_download'), 'matomo_download (default)' );
+
         var outlink = tracker.hook.test._getClassesRegExp([], 'link');
         ok( outlink.test('piwik_link'), 'piwik_link (default)' );
+        ok( outlink.test('matomo_link'), 'matomo_link (default)' );
 
     });
 
@@ -3425,20 +3429,20 @@ function PiwikTest() {
         var tracker = Piwik.getTracker();
 
         // test getPiwikUrlForOverlay
-        var getPiwikUrlForOverlay = tracker.hook.test._getPiwikUrlForOverlay;
+        var getMatomoUrlForOverlay = tracker.hook.test._getMatomoUrlForOverlay;
 
-        equal( typeof getPiwikUrlForOverlay, 'function', 'getPiwikUrlForOverlay' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/master/js/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/master/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
-        equal( getPiwikUrlForOverlay('/matomo.php'), toAbsoluteUrl('/'), 'only matomo.php with leading slash' );
-        equal( getPiwikUrlForOverlay('matomo.php'), toAbsoluteUrl(''), 'only matomo.php' );
-        equal( getPiwikUrlForOverlay('/matomo.php?version=1234'), toAbsoluteUrl('/'), 'only matomo.php with leading slash with query' );
+        equal( typeof getMatomoUrlForOverlay, 'function', 'getMatomoUrlForOverlay' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/master/js/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/master/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
+        equal( getMatomoUrlForOverlay('/matomo.php'), toAbsoluteUrl('/'), 'only matomo.php with leading slash' );
+        equal( getMatomoUrlForOverlay('matomo.php'), toAbsoluteUrl(''), 'only matomo.php' );
+        equal( getMatomoUrlForOverlay('/matomo.php?version=1234'), toAbsoluteUrl('/'), 'only matomo.php with leading slash with query' );
     });
 
     function generateAnIframeInDocument() {

@@ -181,7 +181,7 @@ class TrackerCodeGenerator
          *                         domain is different from the normal domain.
          * @param array $parameters The parameters supplied to `TrackerCodeGenerator::generate()`.
          */
-        Piwik::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
+        Piwik::postEvent('Tracker.getJavascriptCode', array(&$codeImpl, $parameters));
 
         $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
 
