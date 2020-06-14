@@ -485,5 +485,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Custom';
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
+        $translationKeys[] = 'UsersManager_TokenAuth';
+        $translationKeys[] = 'CoreHome_APIAuthentication';
+        $translationKeys[] = 'CoreHome_SessionApiAuth';
     }
 }
