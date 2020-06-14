@@ -28,6 +28,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -400,6 +401,15 @@ class CronArchive
                 if (empty($invalidatedArchive)) {
                     $this->logger->debug("No next invalidated archive.");
                     break;
+                }
+
+                if (!empty($invalidatedArchive['plugin'])
+                    && !Manager::getInstance()->isPluginActivated($invalidatedArchive['plugin'])
+                ) {
+                    $this->logger->debug("Plugin specific archive {$invalidatedArchive['idarchive']}'s plugin is deactivated, ignoring (plugin = {$invalidatedArchive['plugin']}.");
+                    $this->addInvalidationToExclude($invalidatedArchive);
+                    $this->model->deleteInvalidations([$invalidatedArchive]);
+                    continue;
                 }
 
                 if ($this->hasDifferentPeriod($archivesToProcess, $invalidatedArchive['period'])) {
