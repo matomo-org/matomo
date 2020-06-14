@@ -513,7 +513,8 @@
         "ClickToRemoveComp": "Klicka för att ta bort denna jämförelse.",
         "MaximumNumberOfSegmentsComparedIs": "Max %s segment kan jämföras samtidigt.",
         "CompareDatesParamMustMatchComparePeriods": "Längden av frågeparametern %1$s måste matcha länden av %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "Max %s perioder kan jämföras samtidigt."
+        "MaximumNumberOfPeriodsComparedIs": "Max %s perioder kan jämföras samtidigt.",
+        "Custom": "Anpassad"
     },
     "Mobile": {
         "AboutPiwikMobile": "Om Matomo Mobile",

@@ -513,7 +513,10 @@
         "ClickToRemoveComp": "Πατήστε για να αφαιρέσετε τη σύγκριση.",
         "MaximumNumberOfSegmentsComparedIs": "Ο μέγιστος αριθμός τμημάτων που μπορεί να συγκριθούν ταυτόχρονα είναι %s.",
         "CompareDatesParamMustMatchComparePeriods": "Το %1$s μήκος παραμέτρου στο ερώτημα πρέπει να ταιριάζει με το %2$s μέγεθος παραμέτρου ερωτήματος.",
-        "MaximumNumberOfPeriodsComparedIs": "Ο μέγιστος αριθμός περιόδων που μπορεί να συγκριθούν ταυτόχρονα είναι %s."
+        "MaximumNumberOfPeriodsComparedIs": "Ο μέγιστος αριθμός περιόδων που μπορεί να συγκριθούν ταυτόχρονα είναι %s.",
+        "Custom": "Προσαρμογή",
+        "PreviousPeriod": "Προηγούμενη Περίοδος",
+        "PreviousYear": "Προηγούμενο Έτος"
     },
     "Mobile": {
         "AboutPiwikMobile": "Σχετικά με το Matomo για κινητά",
