@@ -117,7 +117,7 @@ class ProductViewCategory extends ActionDimension
     protected function handleCategoryParam($categories)
     {
         if (0 === strpos($categories, '["')) {
-            $categories = array_values(array_filter(@\json_decode($categories, true)));
+            $categories = array_values(array_filter((array) @\json_decode($categories, true)));
         } else {
             $categories = [$categories];
         }
