@@ -548,12 +548,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "69e876faf4f981bafa3f65c8dd78a1d131badc1c"
+                "reference": "3d2faa5ce463e70e38d344c9d18c34cec58fc5a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/69e876faf4f981bafa3f65c8dd78a1d131badc1c",
-                "reference": "69e876faf4f981bafa3f65c8dd78a1d131badc1c",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/3d2faa5ce463e70e38d344c9d18c34cec58fc5a6",
+                "reference": "3d2faa5ce463e70e38d344c9d18c34cec58fc5a6",
                 "shasum": ""
             },
             "require": {
@@ -588,7 +588,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2020-05-27T06:53:04+00:00"
+            "time": "2020-06-09T08:59:01+00:00"
         },
         {
             "name": "matomo/network",
