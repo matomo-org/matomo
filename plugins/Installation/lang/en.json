@@ -150,6 +150,6 @@
         "WelcomeToCommunity": "Welcome to the Matomo community!",
         "CannotConnectToDb": "Cannot connect to the database",
         "CannotConnectToDbResolvingExplanation": "This may be a temporary issue, try %1$srefreshing the page%2$s. If the problem persists please contact your Matomo administrator.",
-        "EmailPrivacyNotice": "Your email address will be only used to send you the Matomo newsletter. You can unsubscribe at any time by clicking the unsubscribe link. We are using Mad Mimi for sending our newsletter. We will not share your email with anyone else or use your email for any other purpose than sending you the Matomo newsletter. Please consult our %1$sprivacy policy%2$s for more information."
+        "EmailPrivacyNotice": "Your email address will be only used to send you the newsletter. For this we have to share your email with a third party provider. This provider is currently Mad Mimi, but this may change in the future. We will not share your email with anyone else or use your email for any other purpose than sending you the newsletter. You can unsubscribe at any time. Please consult our %1$sprivacy policy%2$s for more information."
     }
 }
