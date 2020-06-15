@@ -179,6 +179,7 @@ class Access
                      */
                     Piwik::postEvent('API.Request.authenticate.failed');
                 }
+                Session::close();
                 // if not successful, we will fallback to regular auth
             }
         }
