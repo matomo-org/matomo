@@ -356,10 +356,12 @@ class Loader
         $idSite = $params->getSite()->getId();
 
         $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
+        $isArchivingForcedWhenNoVisits = $this->shouldArchiveForSiteEvenWhenNoVisits();
         $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
         $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
 
         return $isWebsiteUsingTracker
+            && !$isArchivingForcedWhenNoVisits
             && !$hasSiteVisitsBetweenTimeframe
             && !$hasChildArchivesInPeriod;
     }
