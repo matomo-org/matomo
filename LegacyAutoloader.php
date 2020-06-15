@@ -16,12 +16,12 @@ class LegacyAutoloader
     {
         if (strpos($className, 'Matomo\\') === 0) {
             $newName = 'Piwik' . substr($className, 6);
-            if (class_exists($newName)) {
+            if (class_exists($newName) && !class_exists($className, false)) {
                 @class_alias($newName, $className);
             }
         } elseif (strpos($className, 'Piwik\\') === 0) {
             $newName = 'Matomo' . substr($className, 5);
-            if (class_exists($newName)) {
+            if (class_exists($newName) && !class_exists($className, false)) {
                 @class_alias($newName, $className);
             }
         }
