@@ -22,7 +22,7 @@ class LegacyAutoloader
         } elseif (strpos($className, 'Piwik\\') === 0) {
             $newName = 'Matomo' . substr($className, 5);
             if (class_exists($newName)) {
-                class_alias($newName, $className);
+                @class_alias($newName, $className);
             }
         }
     }
