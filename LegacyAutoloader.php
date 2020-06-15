@@ -17,7 +17,7 @@ class LegacyAutoloader
         if (strpos($className, 'Matomo\\') === 0) {
             $newName = 'Piwik' . substr($className, 6);
             if (class_exists($newName)) {
-                class_alias($newName, $className);
+                @class_alias($newName, $className);
             }
         }
     }
