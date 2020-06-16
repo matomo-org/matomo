@@ -21,6 +21,7 @@ use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Sequence;
+use Piwik\Site;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -198,11 +199,16 @@ class Model
 
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
+            $siteCreationTime = Date::factory(Site::getCreationDateFor($idSite));
             foreach ($allPeriodsToInvalidate as $period) {
                 if ($period->getLabel() == 'range'
                     && !$forceInvalidateNonexistantRanges
                 ) {
                     continue; // range
+                }
+
+                if ($period->getDateEnd()->isEarlier($siteCreationTime)) {
+                    continue; // don't add entries if it is before the time the site was created
                 }
 
                 $date1 = $period->getDateStart()->toString();

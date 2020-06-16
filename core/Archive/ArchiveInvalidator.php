@@ -13,6 +13,8 @@ use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -71,10 +73,16 @@ class ArchiveInvalidator
      */
     private $archivingStatus;
 
+    /**
+     * @var SegmentArchiving
+     */
+    private $segmentArchiving;
+
     public function __construct(Model $model, ArchivingStatus $archivingStatus)
     {
         $this->model = $model;
         $this->archivingStatus = $archivingStatus;
+        $this->segmentArchiving = new SegmentArchiving(StaticContainer::get('ini.General.process_new_segments_from'));
     }
 
     public function getAllRememberToInvalidateArchivedReportsLater()
@@ -432,7 +440,7 @@ class ArchiveInvalidator
     /**
      * Schedule rearchiving of reports for a single plugin or single report for N months in the past. The next time
      * core:archive is run, they will be processed.
-     * TODO test
+     *
      * @param int[] $idSite
      * @param Date $date1
      * @param Date $date2
@@ -457,9 +465,10 @@ class ArchiveInvalidator
         $date1 = $date2->subMonth($lastNMonthsToInvalidate)->setDay(1);
 
         $dates = [];
-        while ($date1->isEarlier($date2)) {
-            $dates[] = $date1;
-            $date1 = $date1->addDay(1);
+        $date = $date1;
+        while ($date->isEarlier($date2)) {
+            $dates[] = $date;
+            $date = $date->addDay(1);
         }
 
         $name = $plugin;
@@ -468,6 +477,25 @@ class ArchiveInvalidator
         }
 
         $this->markArchivesAsInvalidated($idSites, $dates, 'day', null, $cascadeDown = false, $forceInvalidateRanges = false, $name);
+
+        foreach ($idSites as $idSite) {
+            $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidate($idSite);
+            foreach ($segmentDatesToInvalidate as $info) {
+                $latestDate = Date::factory($info['date']);
+                $latestDate = $latestDate->isEarlier($date1) ? $latestDate : $date1;
+
+                $datesToInvalidateForSegment = [];
+
+                $date = $latestDate;
+                while ($date->isEarlier($date2)) {
+                    $datesToInvalidateForSegment[] = $date;
+                    $date = $date->addDay(1);
+                }
+
+                $this->markArchivesAsInvalidated($idSites, $datesToInvalidateForSegment, 'day', new Segment($info['segment'], [$idSite]),
+                    $cascadeDown = false, $forceInvalidateRanges = false, $name);
+            }
+        }
     }
 
     /**

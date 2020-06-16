@@ -140,7 +140,7 @@ class CronArchive
      *
      * @var int|false
      */
-    public $dateLastForced = SegmentArchiving::DEFAULT_BEGINNIN_OF_TIME_LAST_N_YEARS;
+    public $dateLastForced = SegmentArchiving::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS;
 
     /**
      * The number of concurrent requests to issue per website. Defaults to {@link MAX_CONCURRENT_API_REQUESTS}.
