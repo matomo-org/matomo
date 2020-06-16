@@ -140,6 +140,11 @@ class Nonce
                 'http://' . $host . $port,
                 'https://' . $host . $port,
             );
+        } elseif (Config::getInstance()->General['force_ssl']) {
+            $origins = array(
+                'https://' . $host,
+                'https://' . $host . ':443',
+            );
         } else {
             $origins = array(
                 'http://' . $host,
