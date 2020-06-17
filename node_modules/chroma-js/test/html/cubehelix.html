@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cubejelix Interpolation</title>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../../chroma.js"></script>
+    <style type="text/css">
+input[type=number] { width: 40px; }
+    </style>
+</head>
+<body>
+    start <input type="number" id="start" value="300"  step="20" />
+    rotations <input type="number" id="rot" value="-1.5" step="0.1" />
+    gamma <input type="number" id="gamma" value="1" step="0.1" />
+    l min/max <input type="number" id="lmin" value="0" step="0.1" min="0" />
+              <input type="number" id="lmax" value="1" step="0.1" max="1" />
+    sat min/max <input type="number" id="smin" value="1" step="0.1" min="0" />
+                <input type="number" id="smax" value="1" step="0.1" min="0" />
+
+<hr>
+    <script type="text/javascript">
+
+    $('input').on('change', update);
+
+    function v(id) { return +$('#'+id).val(); }
+
+    var j = 0;
+
+    function update() {
+        var steps = 200,
+            totalW = 800;
+        var sat = [v('smin'), v('smax')];
+        $('.scale').remove();
+        var ch = chroma.cubehelix(
+                v('start'),
+                v('rot'),
+                sat[0] != sat[1] ? sat : sat[0],
+                v('gamma'),
+                [v('lmin'), v('lmax')]
+            );
+        var c = $('<div />').addClass('scale').appendTo('body');
+        for (var i=0; i < steps; i++) {
+            $('<div/>').css({
+                display: 'inline-block',
+                width: (totalW / steps) + 'px',
+                height: '100px',
+                background: ch(i/(steps-1)).hex()
+            })
+            .appendTo(c);
+        }
+    }
+
+    update();
+
+    </script>
+
+</body>
+</html>

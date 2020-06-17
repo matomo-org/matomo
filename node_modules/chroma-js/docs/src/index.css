@@ -1,0 +1,288 @@
+﻿@import 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,700';
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.wrap > h1, .wrap > h2, .wrap > h3, .wrap > h4, .wrap > p, .wrap > pre, .wrap > ul {
+    position: relative;
+    /*left: -80px;*/
+    padding-left: 300px;
+}
+
+.wrap > h2,
+.wrap > h3 {
+    padding-top: 10px;
+}
+
+.wrap > h2 a,
+.wrap > h3 a {
+    color: #000;
+    text-decoration: none;
+}
+
+.wrap > h2 a:hover:before,
+.wrap > h3 a:hover:before {
+    content: '#';
+    color: #ddd;
+    position: absolute;
+    left: 280px;
+}
+
+.wrap > ul {
+    margin-left: 30px;
+}
+
+.wrap > p {
+    margin-right: 200px;
+}
+
+
+ul.toc {
+    position: absolute;
+    top: 90px;
+    width: 200px;
+    list-style: none;
+}
+
+
+.toc li a {
+    text-decoration: none;
+        margin-bottom: 5px;
+    font-size: 13px;
+    border-bottom: 1px dotted white;
+    padding-bottom: 5px;
+    display: block;
+    position: relative;
+}
+
+.toc li.level-1 a {
+    margin-top: 15px;    
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.toc li.level-2 a {
+    padding-left: 20px;
+    font-size: 15px;
+}
+
+
+.toc li.level-2 a:before {
+    position: absolute;
+    left: 5px;
+    top: -2px;
+    font-size: 18px;
+    opacity: 0.3;
+    content: '•';
+}
+
+
+.wrap > h1 {
+    font-weight: 100;
+    font-size: 48px;
+    letter-spacing: -2px;
+}
+
+.wrap > h2 {
+    padding-top: 30px;
+    margin-top: 20px;
+}
+
+.wrap > h3 h4 {
+    font-weight: 400;
+    display: inline-block;
+    color: #999;
+    margin: 0 0 0 3px;
+}
+
+.wrap p code, .wrap li code {
+    font-size: 15px;
+    margin-left: 2px;
+    margin-right: 2px;
+    color: #069;
+}
+
+html .cm-s-default .cm-comment {
+  color: #B3A9A9;
+  font-style: italic;
+}
+
+pre {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+pre .CodeMirror {
+    height: auto;
+    font-size: 16px;
+    line-height: 22px;
+    background: #f9f9f9;
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,.1);
+    border-radius: 10px;
+    margin: -5px;
+    padding: 5px;   
+    margin-right: 200px;
+    margin-bottom: 20px;
+}
+
+
+pre .CodeMirror:hover, pre .CodeMirror:focus {
+    background: #f6f6f0;
+}
+
+.result-display {
+    position: absolute; 
+    right: 0px;
+    top: 4px;
+    width: 180px;
+    white-space: normal;
+    line-height: 22px;
+}
+
+.result-display .cm-string {
+    padding: 0px 4px;
+    display: inline-block;
+    min-width: 13px;
+    min-height: 13px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    position: relative;
+    vertical-align: middle;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    position: relative;
+    top: 1px;
+}
+
+.result-display .cm-string:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url(../assets/bg.png);
+    opacity: 0.99;
+    z-index: -10;
+}
+.result-display li {
+    line-height: 24px;
+}
+.result-display .cm-number {
+    color: #164;
+}
+
+.CodeMirror, .CodeMirror .CodeMirror-scroll {
+    overflow: visible!important;
+}
+
+.CodeMirror .cm-number {
+    position: relative;
+}
+
+.CodeMirror .cm-number .slider {
+    position: absolute;
+    left: 50%;
+    top: -15px;
+}
+.CodeMirror .cm-number .slider input[type="range"] {
+    position: absolute;
+    left: -50px;
+    top: 0px;
+    width: 100px;
+}
+
+
+.result-display .cm-nan {
+    color: #614;
+}
+
+.result-display ol {
+    padding: 0;
+    margin: 0;
+    counter-reset: commands;
+}
+
+
+.result-display ol li {
+    list-style-position: inside;
+    list-style: none;
+    position: relative;
+}
+
+.result-display ol li:before {
+    content: '';
+    counter-increment: commands;
+    padding-right: 0px;
+    position: absolute;
+    left: -10px;
+    top: 2px;
+    color: #bbb;
+}
+❯
+.result-display:before {
+    content: "RESULT";
+    position: absolute;
+    left: 0;
+    top: -25px;
+    font-size: 11px;
+    color: #ccc;
+}
+
+.gradient {
+    width: 85%;
+    white-space: nowrap;
+    position: relative;
+    display: inline-block;
+    top: 4px;
+    padding-bottom: 15px;
+}
+
+
+.gradient .domain-min {
+    position: absolute;
+    left: 0;
+    font-size: 11px;
+    bottom: 3px;
+}
+.gradient .domain-med {
+    position: absolute;
+    right: 25%;
+    left: 25%;
+    text-align: center;
+    font-size: 11px;
+    bottom: 3px;
+}
+.gradient .domain-max {
+    position: absolute;
+    right: 0;
+    font-size: 11px;
+    bottom: 3px;
+}
+
+
+.grad-step {
+    display: inline-block;
+    height: 20px;
+    width: 1%;
+}
+
+.cm-small {
+    height: 15px;
+    width: 15px;
+}
+
+.cm-hidden-text {
+    display:inline-block;
+    width:1px;
+    // height:0px;
+    opacity: 0;
+    overflow:hidden;
+}

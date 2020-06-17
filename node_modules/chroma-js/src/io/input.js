@@ -1,0 +1,4 @@
+module.exports = {
+	format: {},
+	autodetect: []
+}
