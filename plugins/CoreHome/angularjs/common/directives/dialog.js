@@ -42,7 +42,7 @@
                                 }
                             }
                         }, {
-                            complete: function () {
+                            onCloseEnd: function () {
                                 setTimeout(function () {
                                     scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
                                 }, 0);

@@ -309,8 +309,8 @@ var piwikHelper = {
             delete options.extraWide;
         }
 
-        if (options && !options.ready) {
-            options.ready = function () {
+        if (options && !options.onOpenEnd) {
+            options.onOpenEnd = function () {
                 $(".modal.open a").focus();
                 var modalContent = $(".modal.open");
                 if (modalContent && modalContent[0]) {
