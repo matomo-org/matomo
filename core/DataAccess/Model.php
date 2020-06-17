@@ -632,9 +632,10 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
         $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report
                   FROM `$table`
-                 WHERE idsite = ?";
+                 WHERE idsite = ? AND status != ?";
         $bind = [
             $idSite,
+            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
         ];
 
         if (!empty($idInvalidationsToExclude)) {

@@ -56,19 +56,11 @@ class ArchiveWriter
     const DONE_INVALIDATED = 4;
 
     /**
-     * Flag indicating that the archive is currently being archived. If the archiving process is aborted or killed, the
-     * archive may remain w/ this flag.
-     *
-     * @var int
-     */
-    const DONE_IN_PROGRESS = 5;
-
-    /**
      * Flag indicating that the archive is
      *
      * @var int
      */
-    const DONE_PARTIAL = 6;
+    const DONE_PARTIAL = 5;
 
     protected $fields = array('idarchive',
         'idsite',

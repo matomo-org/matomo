@@ -786,7 +786,7 @@ class CronArchive
             }
         }
 
-        Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, name, status FROM " . Common::prefixTable('archive_invalidations'));
+        Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name` FROM " . Common::prefixTable('archive_invalidations'));
 
         $this->setInvalidationTime();
 
