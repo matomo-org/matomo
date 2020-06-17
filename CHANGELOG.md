@@ -16,7 +16,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
 * Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
 
-### Deprecations in Matomo JS tracker
+#### Deprecations in Matomo JS tracker
 
 * The JS Tracker method `getPiwikUrl` has been deprecated and `getMatomoUrl` should be used instead.
 * The JS Tracker init method `piwikAsyncInit` has been deprecated and `matomoAsyncInit` should be used instead.
