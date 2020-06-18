@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
@@ -50,6 +51,10 @@ class Updates_4_0_0_b2 extends PiwikUpdates
         $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
         // keep piwik_ignore for existing  installs
         $migrations[] = $this->migration->config->set('Tracker', 'ignore_visits_cookie_name', 'piwik_ignore');
+
+        if (!Manager::getInstance()->isPluginActivated('CustomDimensions')) {
+            $migrations[] = $this->migration->plugin->activate('CustomDimensions');
+        }
 
         return $migrations;
     }
