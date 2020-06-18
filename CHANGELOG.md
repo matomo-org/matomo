@@ -22,6 +22,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The JS Tracker init method `piwikAsyncInit` has been deprecated and `matomoAsyncInit` should be used instead.
 * The JS object `window.Piwik` has been deprecated and `window.Matomo` should be used instead.
 
+#### Recommendations for Matomo JS tracker
+
+The following changes are recommendations and don't have to be done as we will still support them for many years. However, it could change in the future.
+
+* If using the `piwik_ignore` css class to ignore outlinks we recommend replacing it with `matomo_ignore` 
+* If using the `piwik_download` css class to mark a link as download we recommend replacing it with `matomo_download` 
+* If using content tracking, we recommend replacing the following CSS classes should they be used `piwikTrackContent`, `piwikContentPiece`, `piwikContentTarget`, and `piwikContentIgnoreInteraction` with `matomoTrackContent`, `matomoContentPiece`, `matomoContentTarget`, and `matomoContentIgnoreInteraction`. 
+* We also encourage using the `matomo.js` JS tracker file instead of `piwik.js` and `matomo.php` tracker endpoint instead of `piwik.php` endpoint.
+
 ### HTTP APIs
 
 #### Breaking changes in HTTP API 
