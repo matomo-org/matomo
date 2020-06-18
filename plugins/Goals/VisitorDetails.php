@@ -9,16 +9,7 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics\Formatter;
-use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
-use Piwik\Site;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\PageUrl;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {

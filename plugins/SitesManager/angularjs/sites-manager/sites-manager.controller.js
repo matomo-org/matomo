@@ -37,7 +37,6 @@
             initSelectLists();
             initUtcTime();
             initUserIP();
-            initCustomVariablesActivated();
             initIsTimezoneSupportEnabled();
             initGlobalParams();
 
@@ -152,18 +151,6 @@
 
                     $scope.timezones = scopeTimezones;
                 }
-            );
-        };
-
-        var initCustomVariablesActivated = function() {
-
-            coreAPI.isPluginActivated(
-
-                function (customVariablesActivated) {
-                    $scope.customVariablesActivated = customVariablesActivated;
-                },
-
-                {pluginName: 'CustomVariables'}
             );
         };
 
