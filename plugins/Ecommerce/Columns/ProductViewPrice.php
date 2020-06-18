@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\CustomVariables\Tracker\CustomVariablesRequestProcessor;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -30,9 +32,11 @@ class ProductViewPrice extends ActionDimension
         }
 
         // fall back to custom variables (might happen if old logs are replayed)
-        $customVariables = $request->getCustomVariablesInPageScope();
-        if (isset($customVariables['custom_var_k2']) && $customVariables['custom_var_k2'] === '_pkp') {
-            return $customVariables['custom_var_v2'] ?? false;
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $customVariables = CustomVariablesRequestProcessor::getCustomVariablesInPageScope($request);
+            if (isset($customVariables['custom_var_k2']) && $customVariables['custom_var_k2'] === '_pkp') {
+                return $customVariables['custom_var_v2'] ?? false;
+            }
         }
 
         return parent::onNewAction($request, $visitor, $action);

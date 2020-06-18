@@ -13,13 +13,11 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
-use Piwik\DbHelper;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\Tracker;
@@ -613,69 +611,6 @@ class Request
         }
 
         return Common::getRequestVar('ua', $default, 'string', $this->params);
-    }
-
-    public function getCustomVariablesInVisitScope()
-    {
-        return $this->getCustomVariables('visit');
-    }
-
-    public function getCustomVariablesInPageScope()
-    {
-        return $this->getCustomVariables('page');
-    }
-
-    /**
-     * @deprecated since Piwik 2.10.0. Use Request::getCustomVariablesInPageScope() or Request::getCustomVariablesInVisitScope() instead.
-     * When we "remove" this method we will only set visibility to "private" and pass $parameter = _cvar|cvar as an argument instead of $scope
-     */
-    public function getCustomVariables($scope)
-    {
-        if ($scope == 'visit') {
-            $parameter = '_cvar';
-        } else {
-            $parameter = 'cvar';
-        }
-
-        $cvar      = Common::getRequestVar($parameter, '', 'json', $this->params);
-        $customVar = Common::unsanitizeInputValues($cvar);
-
-        if (!is_array($customVar)) {
-            return array();
-        }
-
-        $customVariables = array();
-        $maxCustomVars   = CustomVariables::getNumUsableCustomVariables();
-
-        foreach ($customVar as $id => $keyValue) {
-            $id = (int)$id;
-
-            if ($id < 1
-                || $id > $maxCustomVars
-                || count($keyValue) != 2
-                || (!is_string($keyValue[0]) && !is_numeric($keyValue[0])
-                || (!is_string($keyValue[1]) && !is_numeric($keyValue[1])))
-            ) {
-                Common::printDebug("Invalid custom variables detected (id=$id)");
-                continue;
-            }
-
-            if (strlen($keyValue[1]) == 0) {
-                $keyValue[1] = "";
-            }
-            // We keep in the URL when Custom Variable have empty names
-            // and values, as it means they can be deleted server side
-
-            $customVariables['custom_var_k' . $id] = self::truncateCustomVariable($keyValue[0]);
-            $customVariables['custom_var_v' . $id] = self::truncateCustomVariable($keyValue[1]);
-        }
-
-        return $customVariables;
-    }
-
-    public static function truncateCustomVariable($input)
-    {
-        return substr(trim($input), 0, CustomVariables::getMaxLengthCustomVariables());
     }
 
     protected function shouldUseThirdPartyCookie()
