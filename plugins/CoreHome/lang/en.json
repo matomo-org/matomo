@@ -31,8 +31,6 @@
         "FormatMetrics": "Format metrics",
         "ShowExportUrl": "Show Export URL",
         "HideExportUrl": "Hide Export URL",
-        "APIAuthentication": "API Authentication type",
-        "SessionApiAuth": "Session (Export only works within the current browser session)",
         "HomeShortcut": "Home",
         "HowMuchIsPiwikWorth": "How much is Matomo worth to you?",
         "IncludeRowsWithLowPopulation": "Rows with low population are hidden %s Show all rows",

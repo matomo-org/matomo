@@ -60,23 +60,6 @@
         </div>
     </div>
 
-    <div class="col l6">
-        <div piwik-field uicontrol="radio" name="report_auth"
-             data-title="{{ 'CoreHome_APIAuthentication'|translate }}"
-             ng-model="$parent.reportAuth"
-             full-width="true"
-             options="availableApiAuths">
-        </div>
-    </div>
-
-    <div class="col l6" ng-show="$parent.reportAuth != 'session'">
-        <div piwik-field uicontrol="text" name="token_auth"
-             data-title="{{ 'UsersManager_TokenAuth'|translate }}"
-             full-width="true"
-             ng-model="$parent.tokenAuth">
-        </div>
-    </div>
-
     <div class="col l12" ng-show="showUrl">
         <textarea piwik-select-on-focus readonly class="exportFullUrlFull" ng-show="showFullUrl">{{ getExportLink() }}</textarea>
         <textarea readonly ng-show="!showFullUrl" title="{{ 'CoreHome_ClickToSeeFullInformation'|translate }}" class="exportFullUrlPartial" ng-click="showFullUrl=true">{{ getExportLink()|limitTo:50 }}...</textarea>

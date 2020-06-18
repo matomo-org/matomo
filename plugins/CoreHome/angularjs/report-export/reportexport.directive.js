@@ -185,12 +185,8 @@
                         }
                     }
 
-                    if (scope.reportAuth === 'session') {
-                        exportUrlParams.token_auth = piwik.token_auth;
-                        exportUrlParams.force_api_session = 1;
-                    } else {
-                        exportUrlParams.token_auth = scope.tokenAuth;
-                    }
+                    exportUrlParams.token_auth = piwik.token_auth;
+                    exportUrlParams.force_api_session = 1;
                     exportUrlParams.filter_limit = limit;
 
                     var currentUrl = $location.absUrl();
@@ -214,7 +210,6 @@
                     if (scope.maxFilterLimit > 0) {
                         reportLimit = Math.min(reportLimit, scope.maxFilterLimit);
                     }
-                    scope.reportAuth          = 'session';
                     scope.reportLimit         = reportLimit > 0 ? reportLimit : 100;
                     scope.reportLimitAll      = reportLimit == -1 ? 'yes' : 'no';
                     scope.optionFlat          = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === "1";
@@ -236,11 +231,6 @@
                     scope.limitAllOptions = {
                         yes: _pk_translate('General_All'),
                         no: _pk_translate('CoreHome_CustomLimit')
-                    };
-
-                    scope.availableApiAuths = {
-                        tokenauth: _pk_translate('UsersManager_TokenAuth'),
-                        session: _pk_translate('CoreHome_SessionApiAuth')
                     };
 
                     scope.$watch('reportType', function (newVal, oldVal) {
