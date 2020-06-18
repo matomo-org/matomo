@@ -271,6 +271,11 @@
 
                         $timeout(function(){
                             popover.dialog();
+                            $('.exportFullUrl, .btn', popover).tooltip({
+                                track: true,
+                                show: false,
+                                hide: false
+                            });
                         }, 100);
                     });
                 });
