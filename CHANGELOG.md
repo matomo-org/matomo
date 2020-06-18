@@ -92,6 +92,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The class `\Piwik\ScheduledTask` has been removed. Use `\Piwik\Scheduler\Task` instead.
 * The class `\Piwik\Translate` has been removed. Use `\Piwik\Translation\Translator` instead.
 * The class `\Piwik\Plugins\Login\SessionInitializer` is no longer considered API as it is no longer needed.
+* The class `\Piwik\Container\StaticContainer` still exists but we no longer consider it an API and constructor injection should be used instead where possible.
 * The method `Piwik\Columns\Dimension::factory` has been removed. Use `DimensionsProvider::factory` instead.
 * The method `Piwik\Config::reset` has been removed. Use the `reload` method instead.
 * The method `Piwik\Config::init` has been removed. Use the `reload()` method instead.
