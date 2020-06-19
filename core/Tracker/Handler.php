@@ -52,16 +52,7 @@ class Handler
     public function process(Tracker $tracker, RequestSet $requestSet)
     {
         foreach ($requestSet->getRequests() as $request) {
-            try {
-                $tracker->trackRequest($request);
-            } catch (Exception $e) {
-                if (stripos($e->getMessage(), 'Lock wait timeout exceeded')
-                    || Tracker::getDatabase()->isErrNo($e, 1205)) {
-                    continue;
-                } else {
-                    throw $e;
-                }
-            }
+            $tracker->trackRequest($request);
         }
     }
 
