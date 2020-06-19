@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -112,7 +113,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_ReturnsEmptyResult_WhenTableToFilterIsEmpty()
     {
-        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         $table = new DataTable();
 
@@ -124,7 +125,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyCreatesPivotTable_WhenUsingSubtableReport()
     {
-        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         $table = $this->getTableToFilter(true);
 
@@ -141,7 +142,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyCreatesPivotTable_WhenUsingSegment()
     {
-        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         $table = $this->getTableToFilter(true);
 
@@ -164,7 +165,7 @@ class PivotByDimensionTest extends IntegrationTestCase
      */
     public function test_filter_UsesCorrectSegment_WhenPivotingSegmentedReport()
     {
-        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         $table = $this->getTableToFilter(true);
 
@@ -183,7 +184,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyCreatesPivotTable_WhenPivotMetricDoesNotExistInTable()
     {
-        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         $table = $this->getTableToFilter(true);
 
@@ -200,6 +201,10 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyCreatesPivotTable_WhenSubtablesHaveNoRows()
     {
+        if (Manager::getInstance()->isPluginInstalled('CustomVariables')) {
+            $this->markTestSkipped('Test requires CustomVariables plugin to run');
+        }
+
         Cache::setCacheGeneral(array(CustomVariables::MAX_NUM_CUSTOMVARS_CACHEKEY => 5));
 
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
@@ -222,7 +227,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyDefaultsPivotByColumn_WhenNoneProvided()
     {
-        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         $table = $this->getTableToFilter(true);
 
@@ -239,7 +244,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyLimitsTheColumnNumber_WhenColumnLimitProvided()
     {
-        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         $table = $this->getTableToFilter(true);
 
