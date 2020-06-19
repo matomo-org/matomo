@@ -201,7 +201,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyCreatesPivotTable_WhenSubtablesHaveNoRows()
     {
-        if (Manager::getInstance()->isPluginInstalled('CustomVariables')) {
+        if (!Manager::getInstance()->isPluginInstalled('CustomVariables')) {
             $this->markTestSkipped('Test requires CustomVariables plugin to run');
         }
 

@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 use Matomo\Network\IPUtils;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Cache;

@@ -12,6 +12,7 @@ namespace Piwik\Updates;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Date;
 use Piwik\DbHelper;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
@@ -107,9 +108,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // Move the site search fields of log_visit out of custom variables into their own fields
         $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_cat', 'VARCHAR(200) NULL');
         $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_count', 'INTEGER(10) UNSIGNED NULL');
-        $visitActionTable = Common::prefixTable('log_link_visit_action');
-        $migrations[] = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = custom_var_v4 WHERE custom_var_k4 = '_pk_scat'");
-        $migrations[] = $this->migration->db->sql("UPDATE $visitActionTable SET search_count = custom_var_v5 WHERE custom_var_k5 = '_pk_scount'");
+
+        if (Manager::getInstance()->isPluginInstalled('CustomVariables')) {
+            $visitActionTable = Common::prefixTable('log_link_visit_action');
+            $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = custom_var_v4 WHERE custom_var_k4 = '_pk_scat'");
+            $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_count = custom_var_v5 WHERE custom_var_k5 = '_pk_scount'");
+        }
 
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // activate GeoIp2 plugin for users still using GeoIp2 Legacy (others might have it disabled on purpose)
