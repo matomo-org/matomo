@@ -146,7 +146,6 @@
         "WelcomeHelp": "<p>Matomo to bezpłatne\/wolne statystyki dla stron www pozwalające Ci łatwo uzyskać informacje o Twoich odwiedzających.<\/p><p>Ten proces jest podzielony na %s proste kroki i zajmie około 5 minut.<\/p>",
         "WelcomeToCommunity": "Witamy w społeczności Matomo",
         "CannotConnectToDb": "Nie można połączyć się z bazą danych",
-        "CannotConnectToDbResolvingExplanation": "To może być sytuacja przejściowa, spróbuj %1$sodświeżyć stronę%2$s. Jeśli to nie rozwiąże sytuacji skontaktuj się ze swoim administratorem Matomo.",
-        "EmailPrivacyNotice": "Twój adres e-mail posłuży jedynie do wysyłki newslettera Matomo. Możesz zrezygnować w dowolnym momencie klikając link rezygnacji. Nie przekażemy Twojego adresu nikomu, ani nie użyjemy go w żadnym innym celu niż wysyłka newslettera Matomo. Przeczytaj naszą %1$spolitykę prywatności%2$s, aby poznać szczegóły."
+        "CannotConnectToDbResolvingExplanation": "To może być sytuacja przejściowa, spróbuj %1$sodświeżyć stronę%2$s. Jeśli to nie rozwiąże sytuacji skontaktuj się ze swoim administratorem Matomo."
     }
 }

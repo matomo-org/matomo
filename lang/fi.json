@@ -502,7 +502,9 @@
         "TheMatomoTeam": "Matomo-tiimi",
         "PleaseTryAgain": "Yritä uudelleen",
         "Comparisons": "Vertailut",
-        "ClickToRemoveComp": "Napsauta poistaaksesi tämän vertailun."
+        "ClickToRemoveComp": "Napsauta poistaaksesi tämän vertailun.",
+        "PreviousPeriod": "Edellinen jakso",
+        "PreviousYear": "Edellinen vuosi"
     },
     "Mobile": {
         "AboutPiwikMobile": "Tietoja Matomo Mobilesta",
