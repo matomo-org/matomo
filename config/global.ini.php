@@ -888,9 +888,10 @@ enable_spam_filter = 1
 
 ; If a value greater than 0 is configured, Matomo will configure MySQL with the set lock wait timeout in seconds during a
 ; tracking request. This can be useful if you have a high concurrency load on your server and want to reduce the time of
-; lock wait times. For example configuring a value of 2 or 3 seconds may give your Matomo a performance boost if you have
+; lock wait times. For example configuring a value of 3-10 seconds may give your Matomo a performance boost if you have
 ; many concurrent tracking requests for the same visitor. When enabling this feature, make sure the MySQL
-; variable "innodb_rollback_on_timeout" is turned off.
+; variable "innodb_rollback_on_timeout" is turned off. Only configure if really needed. The lower the value the more tracking
+; requests may be discarded due to too low lock wait time.
 innodb_lock_wait_timeout = 0
 
 [Segments]
