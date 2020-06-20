@@ -59,7 +59,9 @@ class SegmentEditor extends \Piwik\Plugin
     {
         $model = new Model();
         foreach ($model->getAllSegmentsForAllUsers($idSite) as $segment) {
-            $model->deleteSegment($segment['idsegment']);
+            if (!empty($segment['enable_only_idsite'])) { // don't delete segments for all sites
+                $model->deleteSegment($segment['idsegment']);
+            }
         }
     }
 
