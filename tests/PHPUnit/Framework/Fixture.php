@@ -124,8 +124,13 @@ class Fixture extends \PHPUnit\Framework\Assert
      */
     protected static function getPythonBinary()
     {
-        if (SettingsServer::isWindows()) {
-            return "C:\Python30\python.exe";
+        $matomoPythonPath = getenv('MATOMO_TEST_PYTHON_PATH');
+        if ($matomoPythonPath) {
+            return $matomoPythonPath;
+        }
+
+        if (SettingsServer::isWindows()) { // just a guess really
+            return "C:\Python35\python.exe";
         }
 
         if (self::isExecutableExists('python3')) {
