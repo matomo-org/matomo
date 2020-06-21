@@ -125,11 +125,11 @@ class Fixture extends \PHPUnit\Framework\Assert
     protected static function getPythonBinary()
     {
         if (SettingsServer::isWindows()) {
-            return "C:\Python27\python.exe";
+            return "C:\Python30\python.exe";
         }
 
-        if (SystemTestCase::isTravisCI()) {
-            return 'python2.7';
+        if (self::isExecutableExists('python3')) {
+            return 'python3';
         }
 
         return 'python';
@@ -147,6 +147,12 @@ class Fixture extends \PHPUnit\Framework\Assert
         }
 
         return $command;
+    }
+
+    private static function isExecutableExists(string $command)
+    {
+        $out = `which $command`;
+        return !empty($out);
     }
 
     public static function getTestRootUrl()
