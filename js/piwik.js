@@ -4023,9 +4023,13 @@ if (typeof window.Piwik !== 'object') {
                     if (isFunction(windowAlias.GearsFactory)) {
                         browserFeatures.gears = '1';
                     }
-
-                    // other browser features
-                    browserFeatures.cookie = hasCookies();
+                    
+                    if (!isDefined(windowAlias.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
+                        browserFeatures.cookie = navigatorAlias.cookieEnabled ? '1' : '0';
+                    } else {
+                        // Some old IE version ... prevent error when cookieEnabled is requested
+                        browserFeatures.cookie = hasCookies();
+                    }
                 }
 
                 var width = parseInt(screenAlias.width, 10);
@@ -6785,7 +6789,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableCookies = function () {
                 configCookiesDisabled = true;
-                browserFeatures.cookie = '0';
 
                 if (configTrackerSiteId) {
                     deleteCookies();
