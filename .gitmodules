@@ -60,6 +60,9 @@
 [submodule "plugins/Provider"]
 	path = plugins/Provider
 	url = https://github.com/matomo-org/plugin-Provider.git
+[submodule "plugins/CustomVariables"]
+	path = plugins/CustomVariables
+	url = https://github.com/matomo-org/plugin-CustomVariables.git
 
 
 # Add new Plugin submodule above this line ^^
