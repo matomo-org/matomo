@@ -42,11 +42,6 @@
 		<documentation>This report shows which country your visitors were in when they accessed your website.</documentation>
 	</row>
 	<row>
-		<name>Custom Variables (Visitors)</name>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
-		<onlineGuideUrl>https://matomo.org/docs/custom-variables/</onlineGuideUrl>
-	</row>
-	<row>
 		<name>Downloads (Actions)</name>
 		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.</documentation>
 	</row>

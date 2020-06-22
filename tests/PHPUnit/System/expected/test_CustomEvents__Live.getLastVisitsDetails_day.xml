@@ -104,12 +104,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie</plugins>
 		<pluginsIcons>
@@ -223,12 +217,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -350,12 +338,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie</plugins>
 		<pluginsIcons>
@@ -469,12 +451,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -704,12 +680,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie</plugins>
 		<pluginsIcons>
@@ -931,12 +901,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1058,12 +1022,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie</plugins>
 		<pluginsIcons>
@@ -1177,12 +1135,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1226,12 +1178,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1253,12 +1199,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play25%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1280,12 +1220,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play50%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1307,12 +1241,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play75%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1334,12 +1262,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;playEnd&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1362,12 +1284,6 @@
 				<subtitle>Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
 				<eventValue>9</eventValue>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1390,12 +1306,6 @@
 				<subtitle>Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
 				<eventValue>10</eventValue>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1622,12 +1532,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie</plugins>
 		<pluginsIcons>
@@ -1699,12 +1603,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1761,12 +1659,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play25%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1824,12 +1716,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play50%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1887,12 +1773,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;play75%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1914,12 +1794,6 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;Music', Action: &quot;playEnd&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1942,12 +1816,6 @@
 				<subtitle>Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
 				<eventValue>9</eventValue>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1970,12 +1838,6 @@
 				<subtitle>Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
 				<eventValue>10</eventValue>
-				<customVariables>
-					<row>
-						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
-						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -2202,12 +2064,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Visit Scope Custom var</customVariableName1>
-				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
-			</row>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
