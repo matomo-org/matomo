@@ -22,6 +22,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -116,6 +122,8 @@
 		<visitLocalTime>21:00:42</visitLocalTime>
 		<visitLocalHour>21</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -142,6 +150,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -236,6 +250,8 @@
 		<visitLocalTime>20:56:45</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -262,6 +278,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -356,6 +378,8 @@
 		<visitLocalTime>13:49:48</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -382,6 +406,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -476,6 +506,8 @@
 		<visitLocalTime>13:48:20</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -502,6 +534,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -596,6 +634,8 @@
 		<visitLocalTime>13:48:07</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -622,6 +662,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -716,6 +762,8 @@
 		<visitLocalTime>08:12:03</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -742,6 +790,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -836,6 +890,8 @@
 		<visitLocalTime>08:11:56</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -862,6 +918,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -956,6 +1018,8 @@
 		<visitLocalTime>08:11:30</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -982,6 +1046,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -1076,6 +1146,8 @@
 		<visitLocalTime>08:10:39</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -1102,6 +1174,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
@@ -1196,6 +1274,8 @@
 		<visitLocalTime>08:10:39</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />

@@ -21,6 +21,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365328800</timestamp>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -102,6 +108,8 @@
 		<visitLocalTime>10:00:00</visitLocalTime>
 		<visitLocalHour>10</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -127,6 +135,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365246000</timestamp>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -208,6 +222,8 @@
 		<visitLocalTime>11:00:00</visitLocalTime>
 		<visitLocalHour>11</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -233,6 +249,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365163200</timestamp>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -314,6 +336,8 @@
 		<visitLocalTime>12:00:00</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />

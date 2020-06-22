@@ -24,7 +24,6 @@ use Piwik\Tracker\Cache;
  * Class LogDataAnonymizationsTest
  *
  * @group Plugins
- * @group LogDataAnonymizerTest
  */
 class LogDataAnonymizerTest extends IntegrationTestCase
 {
@@ -229,6 +228,16 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'location_latitude' => null,
             'location_longitude' => null,
             'location_region' => null,
+            'custom_var_k1' => null,
+            'custom_var_v1' => null,
+            'custom_var_k2' => null,
+            'custom_var_v2' => null,
+            'custom_var_k3' => null,
+            'custom_var_v3' => null,
+            'custom_var_k4' => null,
+            'custom_var_v4' => null,
+            'custom_var_k5' => null,
+            'custom_var_v5' => null,
             'last_idlink_va' => null,
             'custom_dimension_1' => null,
             'custom_dimension_2' => null,

@@ -842,6 +842,31 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Custom Variables</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory>
+			<id>CustomVariables_CustomVariables</id>
+			<name>Custom Variables</name>
+			<order>45</order>
+		</subcategory>
+		<module>CustomVariables</module>
+		<action>getCustomVariables</action>
+		<order>110</order>
+		<parameters>
+			<module>CustomVariables</module>
+			<action>getCustomVariables</action>
+		</parameters>
+		<uniqueId>widgetCustomVariablesgetCustomVariables</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Pages</name>
 		<category>
 			<id>General_Actions</id>
@@ -2083,6 +2108,36 @@
 		<uniqueId>widgetGoalsgetItemsSku</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Sales by User attribute: Custom Variables</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+		</subcategory>
+		<module>CustomVariables</module>
+		<action>getCustomVariables</action>
+		<order>302</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>CustomVariables</module>
+			<action>getCustomVariables</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
 	</row>
 	<row>

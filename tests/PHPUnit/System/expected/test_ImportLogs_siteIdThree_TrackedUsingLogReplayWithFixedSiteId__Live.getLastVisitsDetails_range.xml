@@ -24,6 +24,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -105,6 +111,12 @@
 		<visitLocalTime>20:34:49</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1366x768</resolution>
 		<plugins>cookie, flash, java, pdf</plugins>
 		<pluginsIcons>
@@ -150,6 +162,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
@@ -167,6 +185,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -248,6 +272,12 @@
 		<visitLocalTime>17:33:27</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>181</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1536x864</resolution>
 		<plugins />
 		<pluginsIcons />
@@ -274,6 +304,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -355,6 +391,16 @@
 		<visitLocalTime>01:34:37</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>4</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Demo language</customVariableName2>
+				<customVariableValue2>English</customVariableValue2>
+			</row>
+		</customVariables>
 		<resolution>1920x1200</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime, silverlight</plugins>
 		<pluginsIcons>
@@ -408,6 +454,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
@@ -425,6 +477,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>501</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -506,6 +564,12 @@
 		<visitLocalTime>19:34:01</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>6</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>2880x1800</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime</plugins>
 		<pluginsIcons>
@@ -553,6 +617,12 @@
 				<title>Outlink</title>
 				<subtitle>http://demo.piwik.org/</subtitle>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -634,6 +704,12 @@
 		<visitLocalTime>01:34:24</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1920x1080</resolution>
 		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
@@ -681,6 +757,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -762,6 +844,12 @@
 		<visitLocalTime>17:33:58</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1360x768</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
@@ -817,6 +905,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>404</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -898,6 +992,12 @@
 		<visitLocalTime>09:33:50</visitLocalTime>
 		<visitLocalHour>9</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>2560x1440</resolution>
 		<plugins>cookie, java, pdf, quicktime</plugins>
 		<pluginsIcons>
@@ -943,6 +1043,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1024,6 +1130,12 @@
 		<visitLocalTime>01:33:31</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>360x640</resolution>
 		<plugins>cookie, flash</plugins>
 		<pluginsIcons>
@@ -1061,6 +1173,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1142,6 +1260,12 @@
 		<visitLocalTime>01:33:13</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>2560x1440</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
@@ -1199,6 +1323,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>403</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
@@ -1218,6 +1348,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>500</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
@@ -1235,6 +1371,12 @@
 				<title>Download</title>
 				<subtitle>http://builds.piwik.org/latest.zip</subtitle>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1316,6 +1458,12 @@
 		<visitLocalTime>04:28:18</visitLocalTime>
 		<visitLocalHour>4</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1920x1080</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1357,6 +1505,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1438,6 +1592,12 @@
 		<visitLocalTime>02:32:21</visitLocalTime>
 		<visitLocalHour>2</visitLocalHour>
 		<daysSinceLastVisit>8</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1366x768</resolution>
 		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
@@ -1487,6 +1647,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1568,6 +1734,12 @@
 		<visitLocalTime>01:34:18</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1920x1080</resolution>
 		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
@@ -1620,6 +1792,20 @@
 				<productViewCategories>
 				<row>Electronics &amp; Cameras</row>
 				</productViewCategories>
+				<customVariables>
+					<row>
+						<customVariablePageName3>_pks</customVariablePageName3>
+						<customVariablePageValue3>SKU2</customVariablePageValue3>
+					</row>
+					<row>
+						<customVariablePageName4>_pkn</customVariablePageName4>
+						<customVariablePageValue4>PRODUCT name</customVariablePageValue4>
+					</row>
+					<row>
+						<customVariablePageName5>_pkc</customVariablePageName5>
+						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1701,6 +1887,12 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1740,6 +1932,12 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1821,6 +2019,12 @@
 		<visitLocalTime>08:00:47</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>444</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName3>Forum status</customVariableName3>
+				<customVariableValue3>Anonymous</customVariableValue3>
+			</row>
+		</customVariables>
 		<resolution>1280x800</resolution>
 		<plugins>cookie, flash, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
@@ -1873,6 +2077,12 @@
 				<productViewCategories>
 				<row>Electronics &amp; Cameras</row>
 				</productViewCategories>
+				<customVariables>
+					<row>
+						<customVariablePageName5>_pkc</customVariablePageName5>
+						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
@@ -1894,6 +2104,16 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName3>_pks</customVariablePageName3>
+						<customVariablePageValue3>SKU VERY nice indeed</customVariablePageValue3>
+					</row>
+					<row>
+						<customVariablePageName4>_pkn</customVariablePageName4>
+						<customVariablePageValue4>PRODUCT name</customVariablePageValue4>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
@@ -1914,6 +2134,12 @@
 				<productViewCategories>
 				<row>Electronics &amp; Cameras</row>
 				</productViewCategories>
+				<customVariables>
+					<row>
+						<customVariablePageName5>_pkc</customVariablePageName5>
+						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1995,6 +2221,12 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>

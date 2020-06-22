@@ -365,6 +365,178 @@
 		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=BFC;country=fr</acceptedValues>
 	</row>
 	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope visit)</name>
+		<segment>customVariableName</segment>
+		<unionOfSegments>
+			<row>customVariableName1</row>
+			<row>customVariableName2</row>
+			<row>customVariableName3</row>
+			<row>customVariableName4</row>
+			<row>customVariableName5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 1 (scope visit)</name>
+		<segment>customVariableName1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 2 (scope visit)</name>
+		<segment>customVariableName2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 3 (scope visit)</name>
+		<segment>customVariableName3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 4 (scope visit)</name>
+		<segment>customVariableName4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 5 (scope visit)</name>
+		<segment>customVariableName5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope page)</name>
+		<segment>customVariablePageName</segment>
+		<unionOfSegments>
+			<row>customVariablePageName1</row>
+			<row>customVariablePageName2</row>
+			<row>customVariablePageName3</row>
+			<row>customVariablePageName4</row>
+			<row>customVariablePageName5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 1 (scope page)</name>
+		<segment>customVariablePageName1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 2 (scope page)</name>
+		<segment>customVariablePageName2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 3 (scope page)</name>
+		<segment>customVariablePageName3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 4 (scope page)</name>
+		<segment>customVariablePageName4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 5 (scope page)</name>
+		<segment>customVariablePageName5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope page)</name>
+		<segment>customVariablePageValue</segment>
+		<unionOfSegments>
+			<row>customVariablePageValue1</row>
+			<row>customVariablePageValue2</row>
+			<row>customVariablePageValue3</row>
+			<row>customVariablePageValue4</row>
+			<row>customVariablePageValue5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 1 (scope page)</name>
+		<segment>customVariablePageValue1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 2 (scope page)</name>
+		<segment>customVariablePageValue2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 3 (scope page)</name>
+		<segment>customVariablePageValue3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 4 (scope page)</name>
+		<segment>customVariablePageValue4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 5 (scope page)</name>
+		<segment>customVariablePageValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope visit)</name>
+		<segment>customVariableValue</segment>
+		<unionOfSegments>
+			<row>customVariableValue1</row>
+			<row>customVariableValue2</row>
+			<row>customVariableValue3</row>
+			<row>customVariableValue4</row>
+			<row>customVariableValue5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 1 (scope visit)</name>
+		<segment>customVariableValue1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 2 (scope visit)</name>
+		<segment>customVariableValue2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 3 (scope visit)</name>
+		<segment>customVariableValue3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 4 (scope visit)</name>
+		<segment>customVariableValue4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 5 (scope visit)</name>
+		<segment>customVariableValue5</segment>
+	</row>
+	<row>
 		<type>metric</type>
 		<category>Actions</category>
 		<name>Bandwidth</name>

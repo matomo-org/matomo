@@ -94,6 +94,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -220,6 +230,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -310,6 +330,16 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName4>Status user</customVariablePageName4>
+						<customVariablePageValue4>Loggedin</customVariablePageValue4>
+					</row>
+					<row>
+						<customVariablePageName5>Status user</customVariablePageName5>
+						<customVariablePageValue5>looking at &quot;profile page&quot;</customVariablePageValue5>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -327,6 +357,20 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Language</customVariablePageName1>
+						<customVariablePageValue1>FR</customVariablePageValue1>
+					</row>
+					<row>
+						<customVariablePageName2>SET WITH EMPTY VALUE PAGE SCOPE</customVariablePageName2>
+						<customVariablePageValue2 />
+					</row>
+					<row>
+						<customVariablePageName4>Status user</customVariablePageName4>
+						<customVariablePageValue4>looking at &quot;profile page&quot;</customVariablePageValue4>
+					</row>
+				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -399,6 +443,20 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedIn</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>SET WITH EMPTY VALUE</customVariableName2>
+				<customVariableValue2 />
+			</row>
+			<row>
+				<customVariableName3>Value will be VERY long and truncated</customVariableName3>
+				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</customVariableValue3>
+			</row>
+		</customVariables>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
