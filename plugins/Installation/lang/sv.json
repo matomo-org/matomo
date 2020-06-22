@@ -149,7 +149,6 @@
         "WelcomeHelp": "<p>Matomo är ett open source webbanalysprogram som gör det enkelt att få den information du vill ha från dina besökare.<\/p><p>Denna process är uppdelad i %s enkla steg och tar ca 5 minuter.<\/p>",
         "WelcomeToCommunity": "Välkommen till Matomos gemenskap!",
         "CannotConnectToDb": "Kan inte ansluta till databasen",
-        "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din Matomo administratör om problemet kvarstår.",
-        "EmailPrivacyNotice": "Din e-postadress kommer endast användas för att skicka dig Matomos nyhetsbrev. Du kan när som helst avregistrera dig genom att klicka på länken avsluta prenumeration. Vi delar inte din e-postadress med någon annan eller använder din e-post för något annat ändamål än att skicka nyhetsbrevet till dig. Vänligen se vår %1$ssekretesspolicy%2$s för mer information."
+        "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din Matomo administratör om problemet kvarstår."
     }
 }
