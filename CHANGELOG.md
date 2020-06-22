@@ -126,7 +126,7 @@ The following changes are recommendations and don't have to be done as we will s
 
 ### Other Breaking changes
 
-* The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7, 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
+* The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
