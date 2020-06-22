@@ -55,7 +55,7 @@ class SegmentsListTest extends IntegrationTestCase
         $segments = $list->getSegments();
 
         // there should be at least 100 segments in core
-        $this->assertGreaterThan(100, count($segments));
+        $this->assertGreaterThan(99, count($segments));
 
         // check some specific segments exists
         $this->assertNotNull($list->getSegment('pageUrl'));
