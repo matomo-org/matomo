@@ -87,7 +87,11 @@
                 return;
             }
 
-            angular.element('#confirmChangesWithPassword').modal("close");
+            var modal = M.Modal.getInstance(angular.element('#confirmChangesWithPassword'));
+
+            if (modal) {
+                modal.close();
+            }
 
             var postParams = {
                 email: this.email,

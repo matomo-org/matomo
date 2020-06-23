@@ -18,7 +18,6 @@
         "AuthTokenPurpose": "Mihin käytät tätä polettia?",
         "NoTokenCreatedYetCreateNow": "Poletteja ei ole luotu. %1$sLuo uusi poletti nyt%2$s.",
         "TokenSuccessfullyGenerated": "Poletti luotiin onnistuneesti",
-        "ConfirmTokenCopied": "Vahvistan kopioineeni poletin.",
         "GoBackSecurityPage": "Siirry takaisin turvallisuussivulle.",
         "PleaseStoreToken": "Säilytä polettisi turvallisesti, sillä polettia ei voi näyttää enää uudelleen.",
         "CreateNewToken": "Luo uusi poletti",

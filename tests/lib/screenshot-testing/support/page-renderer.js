@@ -231,7 +231,7 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
     PageRenderer.prototype[methodName] = function (...args) {
         if (methodName === 'goto') {
             let url = args[0];
-            if (url.indexOf("://") === -1) {
+            if (url.indexOf("://") === -1 && url !== 'about:blank') {
                 url = this.baseUrl + url;
             }
             args[0] = url;

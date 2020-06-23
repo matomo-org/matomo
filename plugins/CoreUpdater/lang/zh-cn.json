@@ -91,6 +91,7 @@
         "YouMustDownloadPackageOrFixPermissions": "Matomo无法覆盖您当前的安装。 您可以修复目录\/文件权限，也可以下载软件包并手动安装版本%s：",
         "YourDatabaseIsOutOfDate": "您的 Matomo 数据库版本太旧了，必须先升级才能继续。",
         "ViewVersionChangelog": "查看该版本的更新日志：",
-        "ReceiveEmailBecauseIsSuperUser": "您会收到本邮件是源于您是 Matomo %s 的管理员"
+        "ReceiveEmailBecauseIsSuperUser": "您会收到本邮件是源于您是 Matomo %s 的管理员",
+        "ConvertToUtf8mb4": "转换到数据库的UTF8mb4字符集"
     }
 }

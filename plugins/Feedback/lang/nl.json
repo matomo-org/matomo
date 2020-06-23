@@ -16,11 +16,16 @@
         "ThankYou": "Bedankt voor uw hulp om Matomo beter te maken!",
         "TopLinkTooltip": "Vertel ons je waat je ervan denkt, of vraag om Professionele Ondersteuning.",
         "ViewAnswersToFAQ": "Bekijk de antwoorden van %1$sveelgestelde vragen%2$s",
+        "FAQs": "Veelgestelde vragen",
         "ViewUserGuides": "Leer hoe je Matomo moet configureren en hoe je data te analyseren met onze %1$sgebruikers handleidingen%2$s",
+        "UserGuides": "Gebruikers handleidingen",
         "CommunityHelp": "Hulp van de gemeenschap",
         "ProfessionalHelp": "Professionele hulp",
+        "ProfessionalServicesOfferIntro": "Van welke diensten kan je gebruik maken?",
         "ContactUs": "Neem contact met ons op",
         "VisitTheForums": "Bezoek het %1$s Forums%2$s en ontvang hulp van de community van Matomo users",
-        "Forums": "Forums"
+        "Forums": "Forums",
+        "ReviewMatomoTitle": "Geloof je in Matomo?",
+        "PopularHelpTopics": "Populaire help onderwerpen"
     }
 }

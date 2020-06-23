@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -48,6 +49,8 @@ class Updates_4_0_0_b2 extends PiwikUpdates
         ], ['idinvalidation']);
 
         $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
+        // keep piwik_ignore for existing  installs
+        $migrations[] = $this->migration->config->set('Tracker', 'ignore_visits_cookie_name', 'piwik_ignore');
 
         return $migrations;
     }
@@ -60,6 +63,8 @@ class Updates_4_0_0_b2 extends PiwikUpdates
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
+
+        ServerFilesGenerator::createFilesForSecurity();
     }
 
     protected function usesGeoIpLegacyLocationProvider()

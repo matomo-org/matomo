@@ -1,4 +1,4 @@
-var Piwik_Overlay_Client = (function () {
+var Matomo_Overlay_Client = (function () {
 
     var DOMAIN_PARSE_REGEX = /^http(s)?:\/\/(www\.)?([^\/]*)/i;
 
@@ -46,7 +46,7 @@ var Piwik_Overlay_Client = (function () {
             callback();
         }
         else {
-            Piwik_Overlay_Client.loadScript('libs/bower_components/jquery/dist/jquery.min.js', function () {
+            Matomo_Overlay_Client.loadScript('libs/bower_components/jquery/dist/jquery.min.js', function () {
                 $ = jQuery;
                 jQuery.noConflict();
                 callback();
@@ -250,7 +250,7 @@ var Piwik_Overlay_Client = (function () {
          * To hide the notification use the returned callback
          */
         loadingNotification: function (message) {
-            return Piwik_Overlay_Client.notification(message, 'Loading');
+            return Matomo_Overlay_Client.notification(message, 'Loading');
         }
 
     };
