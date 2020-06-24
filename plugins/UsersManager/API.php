@@ -188,7 +188,18 @@ class API extends \Piwik\Plugin\API
     public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
-        Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
+
+        if (!$this->model->userExists($userLogin)) {
+            throw new Exception('User does not exist: ' . $userLogin);
+        }
+
+        $names = array(
+            self::PREFERENCE_DEFAULT_REPORT,
+            self::PREFERENCE_DEFAULT_REPORT_DATE,
+        );
+        if (in_array($preferenceName, $names, true)) {
+            Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
+        }
     }
 
     /**
