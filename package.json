@@ -31,6 +31,7 @@
     "angular-cookies": "^1.8.0",
     "angular-mocks": "^1.8.0",
     "angular-sanitize": "^1.8.0",
+    "c3": "^0.7.18",
     "chroma-js": "^2.1.0",
     "iframe-resizer": "^4.2.11",
     "jquery": "^2.2.4",
