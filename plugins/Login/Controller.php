@@ -482,6 +482,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function resetPasswordSuccess()
     {
+        $_POST = array(); // prevent showing error message username and password is missing
         return $this->login($errorMessage = null, $infoMessage = Piwik::translate('Login_PasswordChanged'));
     }
 
