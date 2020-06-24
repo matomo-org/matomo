@@ -135,7 +135,7 @@ class VisitExcluded
                 }
             }
         } else {
-            Common::printDebug("Spam blacklist is disabled.");
+            Common::printDebug("Spam list is disabled.");
         }
 
         // Check if request URL is excluded
