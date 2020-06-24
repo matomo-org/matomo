@@ -137,9 +137,13 @@ class Nonce
             $host = $matches[1];
             $port = $matches[2];
             $origins = array(
-                'http://' . $host . $port,
-                'https://' . $host . $port,
+                'http://' . $host,
+                'https://' . $host,
             );
+            if ($port != 443) {
+                $origins[] = 'http://' . $host .':' . $port;
+            }
+            $origins[] = 'https://' . $host . ':' . $port;
         } elseif (Config::getInstance()->General['force_ssl']) {
             $origins = array(
                 'https://' . $host,
