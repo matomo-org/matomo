@@ -393,6 +393,12 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             const errorMessage = failure ? failure.errorText : 'Unknown error';
             this._logMessage('Unable to load resource (URL:' + request.url() + '): ' + errorMessage);
         }
+
+        if (request.url().indexOf('action=getCss') !== -1 && !cssReloaded) {
+            console.log('Loading CSS failed... Try adding it with another style tag.');
+            cssReloaded = true;
+            this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+        }
     });
 
     this.webpage.on('requestfinished', async (request) => {
@@ -406,7 +412,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         }
 
         // if response of css request does not start with /*, we assume it had an error and try to load it again
-        // Note: We can't do that in requestfailed, as the response code might be 200 even if it throws an exception
+        // Note: We can't do that in requestfailed only, as the response code might be 200 even if it throws an exception
         if (request.url().indexOf('action=getCss') !== -1 && !cssReloaded && (await response.buffer()).toString().substring(0, 2) !== '/*') {
             console.log('Loading CSS failed... Try adding it with another style tag.');
             cssReloaded = true;
