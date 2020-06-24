@@ -10,7 +10,10 @@
 
     <div piwik-content-block content-title="{{ 'PrivacyManager_WhenDoINeedConsent'|translate|e('html_attr') }}" class="privacyAskingForConsent">
         <p>
-            {{ 'PrivacyManager_WhenConsentIsNeeded1'|translate }}
+            {{ 'PrivacyManager_WhenConsentIsNeeded1'|translate|translate(
+                '<a href="https://matomo.org/docs/gdpr/" target="_blank" rel="noreferrer noopener">', '</a>',
+                '<a href="https://matomo.org/blog/2018/04/lawful-basis-for-processing-personal-data-under-gdpr-with-matomo/" target="_blank" rel="noreferrer noopener">', '</a>'
+            )|raw }}
             <br /><br />
             {{ 'PrivacyManager_WhenConsentIsNeeded2'|translate('<a href="' ~ linkTo({module: 'PrivacyManager', action: 'privacySettings'}) ~ '">', '</a>.')|raw }}
         </p>
