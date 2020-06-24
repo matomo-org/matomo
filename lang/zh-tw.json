@@ -506,7 +506,8 @@
         "ClickToRemoveComp": "點擊以移除此比較",
         "MaximumNumberOfSegmentsComparedIs": "最多僅能同時比較 %s 個區隔。",
         "CompareDatesParamMustMatchComparePeriods": "%1$s 的參數長度必須符合 %2$s 的參數長度。",
-        "MaximumNumberOfPeriodsComparedIs": "最多僅能同時比較 %s 個期間。"
+        "MaximumNumberOfPeriodsComparedIs": "最多僅能同時比較 %s 個期間。",
+        "Custom": "自訂"
     },
     "Mobile": {
         "AboutPiwikMobile": "關於 Matomo 行動版",

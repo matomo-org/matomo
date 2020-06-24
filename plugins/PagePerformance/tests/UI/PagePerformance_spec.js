@@ -64,7 +64,7 @@ describe("PagePerformance", function () {
         // hover visualization selection
         const icon = await page.jQuery('.activateVisualizationSelection');
         await icon.click();
-        await page.waitFor(250); // animation
+        await page.waitFor(500); // animation
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visualizations');

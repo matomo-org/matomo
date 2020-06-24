@@ -493,7 +493,8 @@
         "YourChangesHaveBeenSaved": "Twoje modyfikacje zostały zapisane pomyślnie.",
         "ThankYouForUsingMatomo": "Dziękujemy, że korzystasz z Matomo",
         "TheMatomoTeam": "Zespół Matomo",
-        "PleaseTryAgain": "Proszę spróbuj ponownie"
+        "PleaseTryAgain": "Proszę spróbuj ponownie",
+        "Custom": "Dostosowane"
     },
     "Mobile": {
         "AboutPiwikMobile": "O Matomo Mobile",
