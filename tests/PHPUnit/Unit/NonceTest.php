@@ -23,9 +23,9 @@ class NonceTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             // HTTP_HOST => expected
-            array('example.com', array('http://example.com', 'https://example.com')),
-            array('example.com:80', array('http://example.com', 'https://example.com')),
-            array('example.com:443', array('http://example.com', 'https://example.com')),
+            array('example.com', array('http://example.com', 'https://example.com', 'http://example.com:80', 'https://example.com:443', )),
+            array('example.com:80', array('http://example.com', 'https://example.com', 'http://example.com:80', 'https://example.com:80')),
+            array('example.com:443', array('http://example.com', 'https://example.com', 'https://example.com:443')),
             array('example.com:8080', array('http://example.com', 'https://example.com', 'http://example.com:8080', 'https://example.com:8080')),
         );
     }
