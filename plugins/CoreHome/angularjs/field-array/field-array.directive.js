@@ -18,6 +18,7 @@
         return {
             restrict: 'A',
             scope: {
+                name: '=',
                 field: '='
             },
             require: "?ngModel",

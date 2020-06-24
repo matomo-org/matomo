@@ -111,7 +111,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Get Matomo version
      * @return string
-     * @deprecated
+     * @deprecated Deprecated but we keep it for historical reasons to not break BC
      */
     public function getPiwikVersion()
     {
@@ -137,19 +137,6 @@ class API extends \Piwik\Plugin\API
     public function getSettings()
     {
         return Config::getInstance()->APISettings;
-    }
-
-    /**
-     * Default translations for many core metrics.
-     * This is used for exports with translated labels. The exports contain columns that
-     * are not visible in the UI and not present in the API meta data. These columns are
-     * translated here.
-     * @return array
-     * @deprecated since Matomo 2.15.1
-     */
-    public function getDefaultMetricTranslations()
-    {
-        return Metrics::getDefaultMetricTranslations();
     }
 
     /**
@@ -238,56 +225,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $values;
-    }
-
-    /**
-     * Returns the url to application logo (~280x110px)
-     *
-     * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
-     * @return string
-     * @deprecated since Matomo 2.15.1
-     */
-    public function getLogoUrl($pathOnly = false)
-    {
-        $logo = new CustomLogo();
-        return $logo->getLogoUrl($pathOnly);
-    }
-
-    /**
-     * Returns the url to header logo (~127x50px)
-     *
-     * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
-     * @return string
-     * @deprecated since Matomo 2.15.1
-     */
-    public function getHeaderLogoUrl($pathOnly = false)
-    {
-        $logo = new CustomLogo();
-        return $logo->getHeaderLogoUrl($pathOnly);
-    }
-
-    /**
-     * Returns the URL to application SVG Logo
-     *
-     * @ignore
-     * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
-     * @return string
-     */
-    public function getSVGLogoUrl($pathOnly = false)
-    {
-        $logo = new CustomLogo();
-        return $logo->getSVGLogoUrl($pathOnly);
-    }
-
-    /**
-     * Returns whether there is an SVG Logo available.
-     * @ignore
-     * @return bool
-     */
-    public function hasSVGLogo()
-    {
-        $logo = new CustomLogo();
-        return $logo->hasSVGLogo();
     }
 
     /**
@@ -807,7 +744,8 @@ class API extends \Piwik\Plugin\API
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
             'pageUrl', 'pageTitle', 'siteSearchKeyword', 'siteSearchCategory', 'siteSearchCount',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
-            'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId'
+            'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId', 'productViewName', 'productViewSku', 'productViewPrice',
+            'productViewCategory1', 'productViewCategory2', 'productViewCategory3', 'productViewCategory4', 'productViewCategory5'
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;

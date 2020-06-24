@@ -18,7 +18,6 @@
         "AuthTokenPurpose": "Wozu benötigen Sie diesen Token?",
         "NoTokenCreatedYetCreateNow": "Bisher keine Token erstellt, %1$serstellen Sie jetzt einen neuen Token%2$s.",
         "TokenSuccessfullyGenerated": "Token erfolgreich generiert",
-        "ConfirmTokenCopied": "Ich bestätige, dass ich den Token kopiert habe.",
         "GoBackSecurityPage": "Zurück zur Sicherheitsseite.",
         "PleaseStoreToken": "Bitte bewahren Sie Ihren Token sicher auf, denn Sie werden nicht mehr in der Lage sein, diesen Token anzeigen zu lassen oder zu ändern.",
         "CreateNewToken": "Neuen Token generieren",

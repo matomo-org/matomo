@@ -57,7 +57,7 @@ class Marketplace extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/bower_components/iframe-resizer/js/iframeResizer.min.js";
+        $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
 
         $jsFiles[] = "plugins/Marketplace/angularjs/plugins/plugin-name.directive.js";
         $jsFiles[] = "plugins/Marketplace/angularjs/licensekey/licensekey.controller.js";

@@ -513,7 +513,10 @@
         "ClickToRemoveComp": "单击以删除此比较。",
         "MaximumNumberOfSegmentsComparedIs": "可同时比较的最大细分数为%s。",
         "CompareDatesParamMustMatchComparePeriods": "%1$s查询参数长度必须匹配%2$s查询参数长度。",
-        "MaximumNumberOfPeriodsComparedIs": "可同时比较的最大周期数为%s。"
+        "MaximumNumberOfPeriodsComparedIs": "可同时比较的最大周期数为%s。",
+        "Custom": "自定义",
+        "PreviousPeriod": "上一个周期",
+        "PreviousYear": "上一年"
     },
     "Mobile": {
         "AboutPiwikMobile": "关于 Matomo 移动版",

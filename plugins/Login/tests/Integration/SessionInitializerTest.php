@@ -65,7 +65,7 @@ class SessionInitializerTest extends IntegrationTestCase
 
     private function assertAuthCookieIsAbsent()
     {
-        $this->assertArrayNotHasKey('piwik_auth', $_COOKIE);
+        $this->assertArrayNotHasKey('matomo_auth', $_COOKIE);
     }
 
     private function assertAuthCookieIsCreated(Cookie $cookie)
@@ -75,7 +75,7 @@ class SessionInitializerTest extends IntegrationTestCase
 
     private function createAuthCookie()
     {
-        $_COOKIE['piwik_auth'] = 'login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==';
+        $_COOKIE['matomo_auth'] = 'login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==';
     }
 
     private function assertAuthCookieIsDeleted(Cookie $cookie)

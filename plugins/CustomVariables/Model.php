@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\TableMetadata;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
@@ -133,7 +134,8 @@ class Model
 
     private function getCustomVarColumnNames()
     {
-        $columns = Db::getColumnNamesFromTable($this->table);
+        $tableMetadataAccess = new TableMetadata();
+        $columns = $tableMetadataAccess->getColumns($this->table);
 
         $customVarColumns = array_filter($columns, function ($column) {
             return false !== strpos($column, 'custom_var_');

@@ -11,7 +11,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>69</pageId>
@@ -149,7 +149,7 @@
 				<type>action</type>
 				<url>http://piwik.org/changelog/</url>
 				<pageTitle>Changelog Archive - Analytics - Piwik</pageTitle>
-				<pageIdAction>44</pageIdAction>
+				<pageIdAction>48</pageIdAction>
 				
 				
 				<pageId>60</pageId>
@@ -174,7 +174,7 @@
 				<type>action</type>
 				<url>http://piwik.org/contact/</url>
 				<pageTitle>Contact the Piwik team - Analytics - Piwik</pageTitle>
-				<pageIdAction>55</pageIdAction>
+				<pageIdAction>59</pageIdAction>
 				
 				
 				<pageId>68</pageId>
@@ -293,7 +293,7 @@
 				<type>action</type>
 				<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
 				<pageTitle>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</pageTitle>
-				<pageIdAction>53</pageIdAction>
+				<pageIdAction>57</pageIdAction>
 				
 				
 				<pageId>67</pageId>
@@ -441,7 +441,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>64</pageId>
@@ -466,7 +466,7 @@
 				<type>action</type>
 				<url>http://piwik.org/what-is-piwisk/</url>
 				<pageTitle>What is Piwik? - Analytics - Piwik</pageTitle>
-				<pageIdAction>51</pageIdAction>
+				<pageIdAction>55</pageIdAction>
 				
 				
 				<pageId>66</pageId>
@@ -606,7 +606,7 @@
 				<type>outlink</type>
 				<url>http://demo.piwik.org/</url>
 				<pageTitle />
-				<pageIdAction>49</pageIdAction>
+				<pageIdAction>53</pageIdAction>
 				
 				
 				<pageId>65</pageId>
@@ -746,7 +746,7 @@
 				<type>action</type>
 				<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
 				<pageTitle>Integrate Piwik into your Rails Application - Analytics - Piwik</pageTitle>
-				<pageIdAction>48</pageIdAction>
+				<pageIdAction>52</pageIdAction>
 				
 				
 				<pageId>63</pageId>
@@ -894,7 +894,7 @@
 				<type>action</type>
 				<url>http://piwik.org/log-analytics/</url>
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>46</pageIdAction>
 				
 				
 				<pageId>62</pageId>
@@ -1030,7 +1030,7 @@
 				<type>action</type>
 				<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
 				<pageTitle>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</pageTitle>
-				<pageIdAction>46</pageIdAction>
+				<pageIdAction>50</pageIdAction>
 				
 				
 				<pageId>61</pageId>
@@ -1160,7 +1160,7 @@
 				<type>action</type>
 				<url>http://piwik.org/log-analytics/</url>
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>46</pageIdAction>
 				
 				
 				<pageId>59</pageId>
@@ -1310,7 +1310,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>55</pageId>
@@ -1335,7 +1335,7 @@
 				<type>action</type>
 				<url>http://piwik.org/download/</url>
 				<pageTitle>Download - Analytics - Piwik</pageTitle>
-				<pageIdAction>39</pageIdAction>
+				<pageIdAction>43</pageIdAction>
 				
 				
 				<pageId>57</pageId>
@@ -1360,7 +1360,7 @@
 				<type>download</type>
 				<url>http://builds.piwik.org/latest.zip</url>
 				<pageTitle />
-				<pageIdAction>40</pageIdAction>
+				<pageIdAction>44</pageIdAction>
 				
 				
 				<pageId>58</pageId>
@@ -1492,7 +1492,7 @@
 				<type>action</type>
 				<url>http://piwik.org/docs/installation/</url>
 				<pageTitle>Hello Installing Piwik - Analytics - Piwik</pageTitle>
-				<pageIdAction>37</pageIdAction>
+				<pageIdAction>41</pageIdAction>
 				
 				
 				<pageId>56</pageId>
@@ -1634,7 +1634,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>54</pageId>
@@ -1780,6 +1780,8 @@
 				
 				
 				<pageId>50</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU2</productViewSku>
 				<bandwidth>43</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
@@ -1787,6 +1789,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -1910,13 +1915,13 @@
 		<idVisit>44</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<fingerprint>940bed6acc318d1c</fingerprint>
+		<fingerprint>9823add8f779da5b</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
 				<pageTitle>Piwik Forums</pageTitle>
-				<pageIdAction>31</pageIdAction>
+				<pageIdAction>34</pageIdAction>
 				
 				
 				<pageId>51</pageId>
@@ -2021,15 +2026,11 @@
 			</row>
 		</customVariables>
 		<resolution>1280x800</resolution>
-		<plugins>cookie, director, flash, java, pdf, windowsmedia</plugins>
+		<plugins>cookie, flash, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -2073,6 +2074,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
@@ -2089,6 +2093,8 @@
 				
 				
 				<pageId>52</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth>43</bandwidth>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -2125,6 +2131,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>

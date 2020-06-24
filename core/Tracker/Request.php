@@ -198,6 +198,19 @@ class Request
             return false;
         }
 
+        // Now checking the list of admin token_auth cached in the Tracker config file
+        if (!empty($idSite) && $idSite > 0) {
+            $website = Cache::getCacheWebsiteAttributes($idSite);
+            $userModel = new \Piwik\Plugins\UsersManager\Model();
+            $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
+            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
+
+            if (array_key_exists('tracking_token_auth', $website)
+                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
+                return true;
+            }
+        }
+        
         Piwik::postEvent('Request.initAuthenticationObject');
 
         /** @var \Piwik\Auth $auth */
@@ -210,19 +223,6 @@ class Request
 
         if (!empty($access) && $access->hasSuperUserAccess()) {
             return true;
-        }
-
-        // Now checking the list of admin token_auth cached in the Tracker config file
-        if (!empty($idSite) && $idSite > 0) {
-            $website = Cache::getCacheWebsiteAttributes($idSite);
-            $userModel = new \Piwik\Plugins\UsersManager\Model();
-            $tokenAuth = $userModel->hashTokenAuth($tokenAuth);
-            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuth, $idSite);
-
-            if (array_key_exists('tracking_token_auth', $website)
-                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
-                return true;
-            }
         }
 
         Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
@@ -390,6 +390,12 @@ class Request
             'ec_dt'        => array(false, 'float'),
             'ec_items'     => array('', 'json'),
 
+            // ecommerce product/category view
+            '_pkc'          => array('', 'string'),
+            '_pks'          => array('', 'string'),
+            '_pkn'          => array('', 'string'),
+            '_pkp'          => array(false, 'float'),
+
             // Events
             'e_c'          => array('', 'string'),
             'e_a'          => array('', 'string'),
@@ -455,7 +461,7 @@ class Request
         }
     }
 
-    private function hasParam($name)
+    public function hasParam($name)
     {
         return isset($this->params[$name]);
     }
@@ -852,7 +858,7 @@ class Request
 
     public function getPlugins()
     {
-        static $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
+        static $pluginsInOrder = array('fla', 'java', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
         $plugins = array();
         foreach ($pluginsInOrder as $param) {
             $plugins[] = Common::getRequestVar($param, 0, 'int', $this->params);

@@ -18,7 +18,6 @@
         "AuthTokenPurpose": "Bu kodu ne için kullanıyorsunuz?",
         "NoTokenCreatedYetCreateNow": "Henüz bir kod oluşturulmamış, %1$sburadan oluşturabilirsiniz%2$s.",
         "TokenSuccessfullyGenerated": "Kod üretildi",
-        "ConfirmTokenCopied": "Kodu kopyaladığımı onaylıyorum.",
         "GoBackSecurityPage": "Güvenlik sayfasına geri dön.",
         "PleaseStoreToken": "Lütfen bir daha erişemeyeceğiniz ya da göremeyeceğiniz için kodunuzu güvenli bir yerde saklayın.",
         "CreateNewToken": "Yeni kod seç",

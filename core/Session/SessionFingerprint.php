@@ -30,7 +30,7 @@ use Piwik\Date;
  * against what is stored in the session. If it doesn't then this is a
  * session hijacking attempt.
  *
- * We also check that a hash in the piwik_auth cookie matches the hash
+ * We also check that a hash in the matomo_auth cookie matches the hash
  * of the time the user last changed their password + the session secret.
  * If they don't match, the password has been changed since this session
  * started, and is no longer valid.

@@ -513,7 +513,10 @@
         "ClickToRemoveComp": "Klik om deze vergelijking te verwijderen.",
         "MaximumNumberOfSegmentsComparedIs": "Het maximum aantal segmenten dat te gelijk vergeleken kan worden is %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s lengte van de query parameter moet overeenkomen %2$s lengte van de query parameter.",
-        "MaximumNumberOfPeriodsComparedIs": "Het maximum aantal perioden dat te gelijk vergeleken kan worden is %s."
+        "MaximumNumberOfPeriodsComparedIs": "Het maximum aantal perioden dat te gelijk vergeleken kan worden is %s.",
+        "Custom": "Maatwerk",
+        "PreviousPeriod": "Vorige periode",
+        "PreviousYear": "Vorig jaar"
     },
     "Mobile": {
         "AboutPiwikMobile": "Over Matomo Mobile",

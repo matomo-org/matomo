@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
+use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
@@ -107,7 +108,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         // then we also query the "Product page view" price which was possibly recorded.
         $additionalSelects = false;
 
-        if (in_array($slot, array(\MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_SKU, \MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_NAME, \MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY))) {
+        // Before Matomo 4.0.0 ecommerce views were tracked in custom variables
+        // So if Matomo was installed before still try to archive it the old way, as old data might be archived
+        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b2', '<') && in_array($slot, array(3, 4, 5))) {
             $additionalSelects = array($this->getSelectAveragePrice());
         }
         $query = $this->getLogAggregator()->queryActionsByDimension($dimensions, $where, $additionalSelects);
@@ -119,7 +122,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function getSelectAveragePrice()
     {
-        $field = "custom_var_v" . \MatomoTracker::CVAR_INDEX_ECOMMERCE_ITEM_PRICE;
+        $field = "custom_var_v2";
         return LogAggregator::getSqlRevenue("AVG(log_link_visit_action." . $field . ")") . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 

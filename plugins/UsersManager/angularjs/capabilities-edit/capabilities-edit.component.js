@@ -138,11 +138,11 @@
                 }
             });
 
-            $element.find('.confirmCapabilityToggle').openModal({
+            $element.find('.confirmCapabilityToggle').modal({
                 dismissible: false,
                 yes: function () {
                 },
-            });
+            }).modal('open');
         }
 
         function toggleCapability() {

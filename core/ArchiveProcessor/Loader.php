@@ -19,6 +19,7 @@ use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
@@ -341,7 +342,7 @@ class Loader
         $idSite = $params->getSite()->getId();
 
         $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
-        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod()->getDateStart()->getDatetime(), $params->getPeriod()->getDateEnd()->getDatetime());
+        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
         $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
 
         return $isWebsiteUsingTracker
@@ -386,19 +387,21 @@ class Loader
         return $idSitesNotUsingTracker;
     }
 
-    private function hasSiteVisitsBetweenTimeframe($idSite, $date1, $date2)
+    private function hasSiteVisitsBetweenTimeframe($idSite, Period $period)
     {
         $minVisitTimesPerSite = $this->getMinVisitTimesPerSite($idSite);
         if (empty($minVisitTimesPerSite)) {
             return false;
         }
 
-        $date2 = Date::factory($date2)->addDay(1)->getStartOfDay();
+        $timezone = Site::getTimezoneFor($idSite);
+        list($date1, $date2) = $period->getBoundsInTimezone($timezone);
+
         if ($date2->isEarlier($minVisitTimesPerSite)) {
             return false;
         }
 
-        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe(Date::factory($date1)->getDatetime(), $date2->getDatetime(), $idSite);
+        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
     }
 
     private function getMinVisitTimesPerSite($idSite)

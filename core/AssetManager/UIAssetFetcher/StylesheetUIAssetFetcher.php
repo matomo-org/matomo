@@ -21,6 +21,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         $order = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
+            'node_modules/',
             'libs/',
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
             'plugins/Morpheus/stylesheets/base.less',
@@ -68,6 +69,8 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         Piwik::postEvent('AssetManager.getStylesheetFiles', array(&$this->fileLocations));
 
         $this->addThemeFiles();
+
+        $this->mapBowerComponentFilesForBC($this->fileLocations);
     }
 
     protected function addThemeFiles()

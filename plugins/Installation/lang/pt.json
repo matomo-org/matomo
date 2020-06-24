@@ -149,7 +149,6 @@
         "WelcomeHelp": "<p>O Matomo é um software de web analytics gratuito\/livre que faz com que seja simples obter a informação que pretende dos seus visitantes<\/p><p>Este processo está dividido em %s passos simples que vão demorar cerca de 5 minutos.<\/p>",
         "WelcomeToCommunity": "Bem-vindo à comunidade do Matomo!",
         "CannotConnectToDb": "Não foi possível ligar à base de dados",
-        "CannotConnectToDbResolvingExplanation": "Isto pode ser um problema temporário; tente %1$satualizar a página%2$s. Se o problema persistir, por favor contacte o seu administrador do Matomo.",
-        "EmailPrivacyNotice": "O seu endereço de e-mail apenas será utilizado para enviar a newsletter do Matomo. Por cancelar a subscrição a qualquer momento, clicando na ligação de cancelamento da subscrição. Nós não iremos partilhar o seu e-mail com ninguém ou utilizar o seu e-mail para qualquer outro fim para além do envio da newsletter do Matomo. Por favor, consulte a nossa %1$spolítica de privacidade%2$s para mais informações."
+        "CannotConnectToDbResolvingExplanation": "Isto pode ser um problema temporário; tente %1$satualizar a página%2$s. Se o problema persistir, por favor contacte o seu administrador do Matomo."
     }
 }

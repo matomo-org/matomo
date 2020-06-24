@@ -513,7 +513,8 @@
         "ClickToRemoveComp": "Clique para remover essa comparação.",
         "MaximumNumberOfSegmentsComparedIs": "O número máximo de segmentos que podem ser comparados simultaneamente é %s.",
         "CompareDatesParamMustMatchComparePeriods": "O comprimento do parâmetro de consulta %1$s deve corresponder ao comprimento do parâmetro de consulta %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s."
+        "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s.",
+        "Custom": "Personalizado"
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Móvel",

@@ -14,8 +14,8 @@
 		<revenue>1011.22</revenue>
 		<quantity>3</quantity>
 		<orders>2</orders>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>5</nb_actions>
 		<avg_price>255.61</avg_price>
 		<avg_quantity>1.5</avg_quantity>
@@ -32,8 +32,8 @@
 	</row>
 	<row>
 		<label>PRODUCT TWO LEFT in cart</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>2</nb_actions>
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
@@ -41,8 +41,8 @@
 	</row>
 	<row>
 		<label>PRODUCT THREE LEFT in cart</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>4</nb_actions>
 		<avg_price>666</avg_price>
 		<avg_quantity>0</avg_quantity>

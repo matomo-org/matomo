@@ -124,6 +124,22 @@ class CronArchiveTest extends IntegrationTestCase
         SegmentAPI::getInstance()->add('foo', 'actions>=2', 1, true, true);
         SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
 
+        $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        $tracker->setForceVisitDateTime('2019-12-11 03:04:05');
+        $tracker->setUrl('http://someurl.com/2');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg2'));
+
+        $tracker->setForceVisitDateTime('2019-12-10 03:04:05');
+        $tracker->setUrl('http://someurl.com/3');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg3'));
+
+        $tracker->setForceVisitDateTime('2019-12-02 03:04:05');
+        $tracker->setUrl('http://someurl.com/4');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg4'));
+
         $logger = new FakeLogger();
 
         $archiver = new CronArchive(null, $logger);
@@ -153,91 +169,110 @@ NOTES
 START
 Starting Matomo reports archiving...
 Checking for queued invalidations...
+  Will invalidate archived reports for 2019-12-12 for following websites ids: 1
+  Will invalidate archived reports for 2019-12-11 for following websites ids: 1
+  Will invalidate archived reports for 2019-12-10 for following websites ids: 1
+  Will invalidate archived reports for 2019-12-02 for following websites ids: 1
   Today archive can be skipped due to no visits, skipping invalidation...
   Yesterday archive can be skipped due to no visits, skipping invalidation...
   Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
   Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
 Done invalidating
 Start processing archives for site 1.
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2020-01-01 - 2020-01-01, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2020-01-01 - 2020-01-31, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, day (2014-12-11,2014-12-11), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2014-12-12,2014-12-12), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2014-12-13,2014-12-13), site is using the tracker so skipping archiving...
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2020-01-01 - 2020-12-31, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-31 - 2019-12-31, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-30 - 2019-12-30, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, day (2014-12-14,2014-12-14), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2014-12-15,2014-12-15), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2014-12-22,2014-12-22), site is using the tracker so skipping archiving...
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-30 - 2020-01-05, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-23 - 2019-12-23, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-23 - 2019-12-29, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, day (2014-12-29,2014-12-29), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2014-12-30,2014-12-30), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2014-12-31,2014-12-31), site is using the tracker so skipping archiving...
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-16 - 2019-12-16, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-16 - 2019-12-22, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Found invalidated archive we can skip (no visits or latest archive is not invalidated). [idSite = 1, dates = 2019-12-09 - 2019-12-09, segment = actions>=2]
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, day (2015-01-01,2015-01-01), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2016-01-01,2016-01-01), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2017-01-01,2017-01-01), site is using the tracker so skipping archiving...
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found archive with different period than others in concurrent batch, skipping until next batch: 1
+Found archive with different period than others in concurrent batch, skipping until next batch: 1
+Found archive with different period than others in concurrent batch, skipping until next batch: 1
+Found archive with different done flag type (segment vs. no segment) in concurrent batch, skipping until next batch: done
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+No next invalidated archive.
+Starting archiving for ?module=API&method=API.get&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
+Starting archiving for ?module=API&method=API.get&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
+Archived website id 1, period = week, date = 2019-12-09, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
+Archived website id 1, period = week, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
+Skipping invalidated archive : segment '' is not in --force-idsegments
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, day (2018-01-01,2018-01-01), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2019-01-01,2019-01-01), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, day (2020-01-01,2020-01-01), site is using the tracker so skipping archiving...
+Found archive with different period than others in concurrent batch, skipping until next batch: 2
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 3
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+No next invalidated archive.
+Starting archiving for ?module=API&method=API.get&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
+Archived website id 1, period = day, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, week (2014-12-08,2014-12-14), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, week (2014-12-15,2014-12-21), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, week (2014-12-22,2014-12-28), site is using the tracker so skipping archiving...
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, week (2014-12-29,2015-01-04), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, week (2015-12-28,2016-01-03), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, week (2016-12-26,2017-01-01), site is using the tracker so skipping archiving...
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, week (2018-01-01,2018-01-07), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, week (2018-12-31,2019-01-06), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, week (2019-12-30,2020-01-05), site is using the tracker so skipping archiving...
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, month (2014-12-01,2014-12-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, month (2015-01-01,2015-01-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, month (2016-01-01,2016-01-31), site is using the tracker so skipping archiving...
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, month (2017-01-01,2017-01-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, month (2018-01-01,2018-01-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, month (2019-01-01,2019-01-31), site is using the tracker so skipping archiving...
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, month (2020-01-01,2020-01-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, year (2014-01-01,2014-12-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, year (2015-01-01,2015-12-31), site is using the tracker so skipping archiving...
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Found no visits for site ID = 1, year (2016-01-01,2016-12-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, year (2017-01-01,2017-12-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, year (2018-01-01,2018-12-31), site is using the tracker so skipping archiving...
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
-Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+Found archive with different period than others in concurrent batch, skipping until next batch: 4
+No next invalidated archive.
+Starting archiving for ?module=API&method=API.get&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
+Archived website id 1, period = month, date = 2019-12-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
+Skipping invalidated archive : segment '' is not in --force-idsegments
 Skipping invalidated archive : segment 'actions>=4' is not in --force-idsegments
 No next invalidated archive.
-Found no visits for site ID = 1, year (2019-01-01,2019-12-31), site is using the tracker so skipping archiving...
-Found no visits for site ID = 1, year (2020-01-01,2020-12-31), site is using the tracker so skipping archiving...
+Starting archiving for ?module=API&method=API.get&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
+Archived website id 1, period = year, date = 2019-01-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 No next invalidated archive.
-Finished archiving for site 1, 38 API requests, Time elapsed: %d.%ds [1 / 1 done]
+Finished archiving for site 1, 5 API requests, Time elapsed: %fs [1 / 1 done]
 No more sites left to archive, stopping.
 
 LOG;
@@ -286,15 +321,10 @@ LOG;
         );
     }
 
-    private function insertArchiveData($archiveRows)
+    protected static function configureFixture($fixture)
     {
-        foreach ($archiveRows as $row) {
-            $table = ArchiveTableCreator::getNumericTable(Date::factory($row['date1']));
-
-            $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
-            Db::query("INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]);
-        }
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }
 

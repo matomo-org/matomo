@@ -511,7 +511,8 @@
         "ClickToRemoveComp": "クリックしてこの比較を削除します。",
         "MaximumNumberOfSegmentsComparedIs": "同時に比較できるセグメントの最大数は %s です。",
         "CompareDatesParamMustMatchComparePeriods": "%1$s クエリパラメータの長さは、%2$s クエリパラメータの長さと一致する必要があります。",
-        "MaximumNumberOfPeriodsComparedIs": "同時に比較できる期間の最大数は %s です。"
+        "MaximumNumberOfPeriodsComparedIs": "同時に比較できる期間の最大数は %s です。",
+        "Custom": "カスタム"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo モバイルについて",

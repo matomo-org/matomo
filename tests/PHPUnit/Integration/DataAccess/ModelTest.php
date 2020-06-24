@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
@@ -226,6 +227,239 @@ class ModelTest extends IntegrationTestCase
         ];
     }
 
+    public function test_getNextInvalidatedArchive_returnsCorrectOrder()
+    {
+        $this->insertInvalidations([
+            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done' . md5('testsegment8')],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done' . md5('testsegment1')],
+            ['date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => 4, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => 2, 'name' => 'done' . md5('testsegment3')],
+            ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-04', 'date2' => '2015-04-04', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => 1, 'name' => 'done' . md5('testsegment2')],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => 3, 'name' => 'done'],
+            ['date1' => '2015-04-15', 'date2' => '2015-04-24', 'period' => 5, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done' . md5('testsegment3')],
+            ['date1' => '2015-04-03', 'date2' => '2015-04-03', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-05', 'date2' => '2015-04-05', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-30', 'date2' => '2015-04-05', 'period' => 2, 'name' => 'done'],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => 3, 'name' => 'done' . md5('testsegment1')],
+            ['date1' => '2015-03-01', 'date2' => '2015-03-24', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => 2, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-01', 'date2' => '2015-03-31', 'period' => 3, 'name' => 'done'],
+            ['date1' => '2015-03-31', 'date2' => '2015-03-31', 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $expected = array (
+            array (
+                'idinvalidation' => '11',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-15',
+                'date2' => '2015-04-24',
+                'period' => '5',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '12',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-06',
+                'date2' => '2015-04-06',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '13',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-06',
+                'date2' => '2015-04-06',
+                'period' => '1',
+                'name' => 'done764644a7142bdcbedaab92f9dedef5e5',
+            ),
+            array (
+                'idinvalidation' => '19',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-06',
+                'date2' => '2015-04-12',
+                'period' => '2',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '5',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-06',
+                'date2' => '2015-04-12',
+                'period' => '2',
+                'name' => 'done764644a7142bdcbedaab92f9dedef5e5',
+            ),
+            array (
+                'idinvalidation' => '15',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-05',
+                'date2' => '2015-04-05',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '8',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-04',
+                'date2' => '2015-04-04',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '14',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-03',
+                'date2' => '2015-04-03',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '20',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-02',
+                'date2' => '2015-04-02',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '3',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-02',
+                'date2' => '2015-04-02',
+                'period' => '1',
+                'name' => 'done67564f109e3f4bba6b185a5343ff2bb0',
+            ),
+            array (
+                'idinvalidation' => '2',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-01',
+                'date2' => '2015-04-01',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '10',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-01',
+                'date2' => '2015-04-30',
+                'period' => '3',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '17',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-01',
+                'date2' => '2015-04-30',
+                'period' => '3',
+                'name' => 'done67564f109e3f4bba6b185a5343ff2bb0',
+            ),
+            array (
+                'idinvalidation' => '22',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-31',
+                'date2' => '2015-03-31',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '7',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-30',
+                'date2' => '2015-03-30',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '1',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-30',
+                'date2' => '2015-03-30',
+                'period' => '1',
+                'name' => 'done0bb102ea2ac682a578480dd184736607',
+            ),
+            array (
+                'idinvalidation' => '16',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-30',
+                'date2' => '2015-04-05',
+                'period' => '2',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '6',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-29',
+                'date2' => '2015-03-29',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '9',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-29',
+                'date2' => '2015-03-29',
+                'period' => '1',
+                'name' => 'doneb321434abb5a139c17dadf08c9d2e315',
+            ),
+            array (
+                'idinvalidation' => '18',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-01',
+                'date2' => '2015-03-24',
+                'period' => '1',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '21',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-03-01',
+                'date2' => '2015-03-31',
+                'period' => '3',
+                'name' => 'done',
+            ),
+            array (
+                'idinvalidation' => '4',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-01-01',
+                'date2' => '2015-12-31',
+                'period' => '4',
+                'name' => 'done',
+            ),
+        );
+
+        $actual = $this->model->getNextInvalidatedArchive(1, null, $useLimit = false);
+
+        $this->assertEquals($expected, $actual);
+    }
+
     private function insertArchiveData($archivesToInsert)
     {
         $idarchive = 1;
@@ -235,6 +469,15 @@ class ModelTest extends IntegrationTestCase
             Db::query($sql, [$idarchive, 1, $archive['date1'], $archive['date2'], $archive['period'], $archive['name'], $archive['value']]);
 
             ++$idarchive;
+        }
+    }
+
+    private function insertInvalidations(array $invalidations)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        foreach ($invalidations as $invalidation) {
+            $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`) VALUES (?, ?, ?, ?, ?)";
+            Db::query($sql, [1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name']]);
         }
     }
 }

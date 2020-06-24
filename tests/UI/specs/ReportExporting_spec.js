@@ -19,10 +19,10 @@ describe("ReportExporting", function () {
                 await page.click('.activateExportSelection');
             }
 
-            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
+            await page.waitForSelector('[name="format"] input[value="'+format+'"]');
 
-            await page.click('[name="format"] input[value="' + format + '"] + label');
-            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.click('[name="format"] input[value="' + format + '"]');
+            await page.click('[name="filter_limit_all"] input[value="no"]');
             await page.evaluate(function () {
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
@@ -43,10 +43,10 @@ describe("ReportExporting", function () {
                 await page.click('.activateExportSelection');
             }
 
-            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
+            await page.waitForSelector('[name="format"] input[value="'+format+'"]');
 
-            await page.click('[name="format"] input[value="'+format+'"] + label');
-            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.click('[name="format"] input[value="'+format+'"]');
+            await page.click('[name="filter_limit_all"] input[value="no"]');
             await page.evaluate(function(){
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
@@ -77,10 +77,10 @@ describe("ReportExporting", function () {
                 await page.click('.ui-dialog .activateExportSelection');
             }
 
-            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
+            await page.waitForSelector('[name="format"] input[value="'+format+'"]');
 
-            await page.click('[name="format"] input[value="'+format+'"] + label');
-            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.click('[name="format"] input[value="'+format+'"]');
+            await page.click('[name="filter_limit_all"] input[value="no"]');
             await page.evaluate(function(){
                 $('[name=filter_limit] input').val(100).trigger('change');
             });

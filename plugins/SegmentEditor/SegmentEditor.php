@@ -50,8 +50,19 @@ class SegmentEditor extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
             'Visualization.onNoData'                     => 'onNoData',
             'Archive.noArchivedData'                     => 'onNoArchiveData',
-            'Db.getTablesInstalled'                      => 'getTablesInstalled'
+            'Db.getTablesInstalled'                      => 'getTablesInstalled',
+            'SitesManager.deleteSite.end'                => 'onDeleteSite'
         );
+    }
+
+    public function onDeleteSite($idSite)
+    {
+        $model = new Model();
+        foreach ($model->getAllSegmentsForAllUsers($idSite) as $segment) {
+            if (!empty($segment['enable_only_idsite'])) { // don't delete segments for all sites
+                $model->deleteSegment($segment['idsegment']);
+            }
+        }
     }
 
     /**
