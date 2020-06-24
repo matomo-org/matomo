@@ -131,7 +131,7 @@ class VisitExcluded
             if (!$excluded) {
                 $excluded = $this->isReferrerSpamExcluded();
                 if ($excluded) {
-                    Common::printDebug("Referrer URL is blacklisted as spam.");
+                    Common::printDebug("Referrer URL is listed as spam.");
                 }
             }
         } else {
