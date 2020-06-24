@@ -193,6 +193,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception('User does not exist: ' . $userLogin);
         }
 
+        if ($userLogin === 'anonymous') {
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
         $names = array(
             self::PREFERENCE_DEFAULT_REPORT,
             self::PREFERENCE_DEFAULT_REPORT_DATE,
