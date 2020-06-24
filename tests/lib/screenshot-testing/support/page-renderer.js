@@ -385,7 +385,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     });
 
     // TODO: self.aborted?
-    this.webpage.on('requestfailed', (request) => {
+    this.webpage.on('requestfailed', async (request) => {
         --this.activeRequestCount;
 
         if (!VERBOSE) {
@@ -397,7 +397,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         if (request.url().indexOf('action=getCss') !== -1 && !cssReloaded) {
             console.log('Loading CSS failed... Try adding it with another style tag.');
             cssReloaded = true;
-            this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+            await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
         }
     });
 
@@ -416,7 +416,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         if (request.url().indexOf('action=getCss') !== -1 && !cssReloaded && (await response.buffer()).toString().substring(0, 2) !== '/*') {
             console.log('Loading CSS failed... Try adding it with another style tag.');
             cssReloaded = true;
-            this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+            await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
         }
     });
 
