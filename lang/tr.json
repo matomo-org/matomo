@@ -513,7 +513,10 @@
         "ClickToRemoveComp": "Bu karşılaştırmayı silmek için tıklayın.",
         "MaximumNumberOfSegmentsComparedIs": "Aynı anda en fazla %s dilim karşılaştırılabilir.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s sorgu parametresinin uzunluğu %2$s sorgu parametresinin uzunluğuna uygun olmalıdır.",
-        "MaximumNumberOfPeriodsComparedIs": "Aynı anda en fazla %s aralık karşılaştırılabilir."
+        "MaximumNumberOfPeriodsComparedIs": "Aynı anda en fazla %s aralık karşılaştırılabilir.",
+        "Custom": "Özel",
+        "PreviousPeriod": "Önceki Dönem",
+        "PreviousYear": "Önceki Yıl"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo Mobil Hakkında",

@@ -1,3 +1,0 @@
-#Note from Piwik: we've added .gitignore file here and removed the Jquery UI themes to keep the archive small size.
-*
-!.gitignore

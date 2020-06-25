@@ -198,7 +198,7 @@ https://www.example.org/</placeholder>
 						<inlineHelp>(optional)&lt;br /&gt;&lt;br /&gt;You may enter a comma-separated list of query parameters specifying the search category.</inlineHelp>
 						<templateFile />
 						<introduction />
-						<condition>1 &amp;&amp; sitesearch &amp;&amp; !use_default_site_search_params</condition>
+						<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
 					</row>
 					<row>
 						<name>ecommerce</name>
@@ -445,7 +445,7 @@ https://www.example.org/</placeholder>
 						<inlineHelp>(optional)&lt;br /&gt;&lt;br /&gt;You may enter a comma-separated list of query parameters specifying the search category.</inlineHelp>
 						<templateFile />
 						<introduction />
-						<condition>1 &amp;&amp; sitesearch &amp;&amp; !use_default_site_search_params</condition>
+						<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
 					</row>
 					<row>
 						<name>ecommerce</name>

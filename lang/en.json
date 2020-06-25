@@ -516,7 +516,10 @@
         "ClickToRemoveComp": "Click to remove this comparison.",
         "MaximumNumberOfSegmentsComparedIs": "The maximum number of segments that can be compared simultaneously is %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s query parameter length must match %2$s query parameter length.",
-        "MaximumNumberOfPeriodsComparedIs": "The maximum number of periods that can be compared simultaneously is %s."
+        "MaximumNumberOfPeriodsComparedIs": "The maximum number of periods that can be compared simultaneously is %s.",
+        "Custom": "Custom",
+        "PreviousPeriod": "Previous Period",
+        "PreviousYear": "Previous Year"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

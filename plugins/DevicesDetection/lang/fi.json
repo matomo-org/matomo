@@ -48,6 +48,7 @@
         "TV": "TV",
         "UserAgent": "Käyttäjäagentti",
         "XVisitsFromDevices": "Käyntien määrä: %1$s, laitteelta tyyppiä %2$s",
+        "Wearable": "Puettava",
         "WidgetBrowsers": "Kävijöiden selaimet",
         "WidgetBrowsersDocumentation": "Tämä raportti näyttää, mitä selaimia kävijöilläsi oli. Jokainen selaimen versio näytetään erikseen."
     }

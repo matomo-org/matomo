@@ -42,23 +42,21 @@
                         <h6>{{ 'General_Period'|translate }}</h6>
                         <div id="otherPeriods">
                             <p ng-repeat="period in periodSelector.periods">
-                                <input
-                                    type="radio"
-                                    name="period"
-                                    ng-attr-id="period_id_{{ period }}"
-                                    ng-model="periodSelector.selectedPeriod"
-                                    ng-value="period"
-                                    ng-change="periodSelector.selectedPeriod = period"
-                                    ng-dblclick="periodSelector.changeViewedPeriod(period)"
-                                />
-
                                 <label
-                                    ng-attr-for="period_id_{{ period }}"
                                     ng-attr-title="{{ period === periodSelector.periodValue ? '' : ('General_DoubleClickToChangePeriod'|translate) }}"
                                     ng-class="{'selected-period-label': period === periodSelector.selectedPeriod}"
                                     ng-dblclick="periodSelector.changeViewedPeriod(period)"
                                 >
-                                    {{ periodSelector.getPeriodDisplayText(period) }}
+                                    <input
+                                            type="radio"
+                                            name="period"
+                                            ng-attr-id="period_id_{{ period }}"
+                                            ng-model="periodSelector.selectedPeriod"
+                                            ng-checked="periodSelector.selectedPeriod == period"
+                                            ng-change="periodSelector.selectedPeriod = period"
+                                            ng-dblclick="periodSelector.changeViewedPeriod(period)"
+                                    />
+                                    <span>{{ periodSelector.getPeriodDisplayText(period) }}</span>
                                 </label>
                             </p>
                         </div>
@@ -68,15 +66,21 @@
         </table>
 
         <div class="compare-checkbox" ng-if="periodSelector.isComparisonEnabled()">
-            <input id="comparePeriodTo" type="checkbox" ng-model="periodSelector.isComparing"/>
-            <label for="comparePeriodTo">Compare to:</label>
+            <label>
+                <input
+                        id="comparePeriodTo"
+                        type="checkbox"
+                        ng-model="periodSelector.isComparing"
+                />
+                <span>Compare to:</span>
+            </label>
 
             <div
                     id="comparePeriodToDropdown"
                     piwik-field
                     name="comparePeriodToDropdown"
                     uicontrol="select"
-                    options="[{key: 'custom', value: 'Custom'}, {key: 'previousPeriod', value: 'Previous period'}, {key: 'previousYear', value: 'Previous year'}]"
+                    options="periodSelector.comparePeriodDropdownOptions"
                     ng-model="periodSelector.comparePeriodType"
                     full-width="true"
                     disabled="!periodSelector.isComparing"

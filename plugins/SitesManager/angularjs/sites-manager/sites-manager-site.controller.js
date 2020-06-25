@@ -86,9 +86,6 @@
 
         var saveSite = function() {
 
-            var sendSiteSearchKeywordParams = $scope.site.sitesearch == '1' && !$scope.site.useDefaultSiteSearchParams;
-            var sendSearchCategoryParameters = sendSiteSearchKeywordParams && $scope.customVariablesActivated;
-
             var values = {
                 siteName: $scope.site.name,
                 timezone: $scope.site.timezone,

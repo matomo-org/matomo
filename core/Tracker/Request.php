@@ -318,6 +318,12 @@ class Request
             'ec_dt'        => array(false, 'float'),
             'ec_items'     => array('', 'json'),
 
+            // ecommerce product/category view
+            '_pkc'          => array('', 'string'),
+            '_pks'          => array('', 'string'),
+            '_pkn'          => array('', 'string'),
+            '_pkp'          => array(false, 'float'),
+
             // Events
             'e_c'          => array('', 'string'),
             'e_a'          => array('', 'string'),
@@ -383,7 +389,7 @@ class Request
         }
     }
 
-    private function hasParam($name)
+    public function hasParam($name)
     {
         return isset($this->params[$name]);
     }

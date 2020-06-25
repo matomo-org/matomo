@@ -760,6 +760,12 @@
 		<segment>productPrice</segment>
 	</row>
 	<row>
+		<type>metric</type>
+		<category>Ecommerce</category>
+		<name>Viewed Product Price</name>
+		<segment>productViewPrice</segment>
+	</row>
+	<row>
 		<type>dimension</type>
 		<category>Ecommerce</category>
 		<name>Product Category</name>
@@ -783,5 +789,30 @@
 		<category>Ecommerce</category>
 		<name>Product SKU</name>
 		<segment>productSku</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Viewed Product Category</name>
+		<segment>productViewCategory</segment>
+		<unionOfSegments>
+			<row>productViewCategory1</row>
+			<row>productViewCategory2</row>
+			<row>productViewCategory3</row>
+			<row>productViewCategory4</row>
+			<row>productViewCategory5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Viewed Product Name</name>
+		<segment>productViewName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Viewed Product SKU</name>
+		<segment>productViewSku</segment>
 	</row>
 </result>

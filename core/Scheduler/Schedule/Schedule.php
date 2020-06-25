@@ -132,7 +132,7 @@ abstract class Schedule
         }
 
         $arbitraryDateInUTC = Date::factory('2011-01-01');
-        $dateInTimezone     = Date::factory($arbitraryDateInUTC, $this->timezone);
+        $dateInTimezone     = Date::factory('2011-01-01', $this->timezone);
 
         $midnightInTimezone = date('H', $dateInTimezone->getTimestamp());
 

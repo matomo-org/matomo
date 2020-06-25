@@ -2,6 +2,7 @@
     "Diagnostics": {
         "ConfigFileTitle": "Plik konfiguracyjny",
         "HideUnchanged": "W celu zobaczenia tylko zmienionych wartości %1$sukryj niezmienione wartości%2$s.",
-        "Sections": "Sekcje"
+        "Sections": "Sekcje",
+        "DatabaseUtf8mb4CharsetRecommended": "Twoja baza danych nie wspiera jeszcze zestawu UTF8mb4."
     }
 }

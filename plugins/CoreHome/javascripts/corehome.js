@@ -85,7 +85,7 @@ $( document ).ready(function() {
         $(window).scrollTo($('a[name="main"]'));
     });
 
-    $("nav .activateTopMenu").sideNav({
+    $("#mobile-top-menu").sideNav({
         closeOnClick: true,
         edge: 'right'
     });

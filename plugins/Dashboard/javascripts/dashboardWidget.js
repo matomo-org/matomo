@@ -336,7 +336,6 @@
                 dialogClass: 'widgetoverlay',
                 modal: true,
                 width: width,
-                position: ['center', 'center'],
                 resizable: true,
                 autoOpen: true,
                 close: function (event, ui) {

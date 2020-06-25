@@ -11,6 +11,8 @@
         "LogIn": "Zaloguj się",
         "LoginOrEmail": "Nazwa użytkownika lub email",
         "SettingBruteForceEnable": "Włącz Wykrywanie Brute Force",
+        "SettingBruteForceMaxFailedLogins": "Liczba dopuszczalnych prób logowania w określonym czasie",
+        "SettingBruteForceMaxFailedLoginsHelp": "Jeśli liczba ustawionych tu nieudanych prób logowania odnotowanych w ustalonym poniżej przedziale czasu zostanie przekroczona, adres IP zostanie zablokowany.",
         "LoginPasswordNotCorrect": "Nazwa użytkownika i hasło nie są poprawne.",
         "LostYourPassword": "Nie pamiętasz hasła?",
         "ChangeYourPassword": "Zmień swoje hasło",

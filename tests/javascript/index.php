@@ -110,7 +110,7 @@ testTrackPageViewAsync();
         bottom: 0px;
     }
 </style>
- <script src="../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+ <script src="../../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
 
  <script type="text/javascript">
@@ -1302,7 +1302,7 @@ function PiwikTest() {
         function assertShouldIgnoreInteraction(id, message) {
             var node = content.findTargetNode(_e(id));
             strictEqual(content.shouldIgnoreInteraction(node), true, message);
-            ok($(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), "needs to have either attribute or class");
+            ok($(node).hasClass(content.LEGACY_CONTENT_IGNOREINTERACTION_CLASS) || $(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), id + " needs to have either attribute or class");
         }
 
         function assertShouldNotIgnoreInteraction(id, message) {
@@ -2047,11 +2047,12 @@ function PiwikTest() {
     });
 
     test("Basic requirements", function() {
-        expect(3);
+        expect(4);
 
         equal( typeof encodeURIComponent, 'function', 'encodeURIComponent' );
         ok( RegExp, "RegExp" );
         ok( Piwik, "Piwik" );
+        ok( Matomo, "Matomo" );
     });
 
     test("Test API - addPlugin(), getTracker(), getHook(), and hook", function() {
@@ -2796,7 +2797,7 @@ function PiwikTest() {
         var isSameCrossDomainDevice = tracker.hook.test._isSameCrossDomainDevice;
         var makeCrossDomainDeviceId = tracker.hook.test._makeCrossDomainDeviceId;
         var replaceHrefForCrossDomainLink = tracker.hook.test._replaceHrefForCrossDomainLink;
-        var isLinkToDifferentDomainButSamePiwikWebsite = tracker.hook.test._isLinkToDifferentDomainButSamePiwikWebsite;
+        var isLinkToDifferentDomainButSameMatomoWebsite = tracker.hook.test._isLinkToDifferentDomainButSameMatomoWebsite;
 
         strictEqual(false, tracker.isCrossDomainLinkingEnabled(), 'function', "isCrossDomainLinkingEnabled is disabled by default" );
 
@@ -2891,7 +2892,7 @@ function PiwikTest() {
             if (url !== null) {
                 a.setAttribute('href', url);
             }
-            return isLinkToDifferentDomainButSamePiwikWebsite(a);
+            return isLinkToDifferentDomainButSameMatomoWebsite(a);
         }
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(null), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if no href is set');
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(''), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if empty href is set');
@@ -2936,7 +2937,7 @@ function PiwikTest() {
     });
 
     test("Tracker getClassesRegExp()", function() {
-        expect(3);
+        expect(5);
 
         var tracker = Piwik.getTracker();
 
@@ -2945,8 +2946,11 @@ function PiwikTest() {
         var download = tracker.hook.test._getClassesRegExp([], 'download');
         ok( download.test('piwik_download'), 'piwik_download (default)' );
 
+        ok( download.test('matomo_download'), 'matomo_download (default)' );
+
         var outlink = tracker.hook.test._getClassesRegExp([], 'link');
         ok( outlink.test('piwik_link'), 'piwik_link (default)' );
+        ok( outlink.test('matomo_link'), 'matomo_link (default)' );
 
     });
 
@@ -3425,20 +3429,20 @@ function PiwikTest() {
         var tracker = Piwik.getTracker();
 
         // test getPiwikUrlForOverlay
-        var getPiwikUrlForOverlay = tracker.hook.test._getPiwikUrlForOverlay;
+        var getMatomoUrlForOverlay = tracker.hook.test._getMatomoUrlForOverlay;
 
-        equal( typeof getPiwikUrlForOverlay, 'function', 'getPiwikUrlForOverlay' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/master/js/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/master/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
-        equal( getPiwikUrlForOverlay('/matomo.php'), toAbsoluteUrl('/'), 'only matomo.php with leading slash' );
-        equal( getPiwikUrlForOverlay('matomo.php'), toAbsoluteUrl(''), 'only matomo.php' );
-        equal( getPiwikUrlForOverlay('/matomo.php?version=1234'), toAbsoluteUrl('/'), 'only matomo.php with leading slash with query' );
+        equal( typeof getMatomoUrlForOverlay, 'function', 'getMatomoUrlForOverlay' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/master/js/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/master/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
+        equal( getMatomoUrlForOverlay('/matomo.php'), toAbsoluteUrl('/'), 'only matomo.php with leading slash' );
+        equal( getMatomoUrlForOverlay('matomo.php'), toAbsoluteUrl(''), 'only matomo.php' );
+        equal( getMatomoUrlForOverlay('/matomo.php?version=1234'), toAbsoluteUrl('/'), 'only matomo.php with leading slash with query' );
     });
 
     function generateAnIframeInDocument() {
@@ -3451,7 +3455,7 @@ function PiwikTest() {
             <html><body> \
             <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + 'matomotest.js" type="text/javascript"></sc' + 'ript> \
-            <scr' + 'ipt src="' + hostAndPath + '../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + '../../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
             window.onload = function() { \
                 $(document).ready(function () { \
@@ -3562,7 +3566,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(178);
+        expect(161);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3863,12 +3867,7 @@ if ($mysql) {
         tracker.trackEvent("Event Category3", "Event Action3", "Event Name3", 3.333);
 
         //Ecommerce views
-        tracker.setEcommerceView( "", false, ["CATEGORY1","CATEGORY2"] );
-        deepEqual( tracker.getCustomVariable(3, "page"), false, "Ecommerce view SKU");
         tracker.setEcommerceView( "SKUMultiple", false, ["CATEGORY1","CATEGORY2"] );
-        deepEqual( tracker.getCustomVariable(3, "page"), ["_pks","SKUMultiple"], "Ecommerce view sku");
-        deepEqual( tracker.getCustomVariable(4, "page"), ["_pkn",""], "Ecommerce view Name");
-        deepEqual( tracker.getCustomVariable(5, "page"), ["_pkc","[\"CATEGORY1\",\"CATEGORY2\"]"], "Ecommerce view Category");
         tracker.trackPageView("MultipleCategories");
 
         var tracker2 = Piwik.getTracker();
@@ -3897,35 +3896,8 @@ if ($mysql) {
 
         // Ecommerce Views
         tracker3.setEcommerceView( "SKU", "NAME HERE", "CATEGORY HERE" );
-        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks","SKU"], "Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn","NAME HERE"], "Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc","CATEGORY HERE"], "Ecommerce view Category");
         tracker3.trackPageView("EcommerceView");
 
-        tracker3.deleteCustomVariables('page');
-
-        // No data set
-        tracker3.setEcommerceView( );
-        deepEqual( tracker3.getCustomVariable(2, "page"), false, "No data Ecommerce price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), false, "No data Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), false, "No data Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc",""], "No data Ecommerce view Category");
-        tracker3.deleteCustomVariables('page');
-
-        // all numbers
-        tracker3.setEcommerceView( 34343, 3432, 343, 12121 );
-        deepEqual( tracker3.getCustomVariable(2, "page"), ["_pkp",12121], "All numbers Ecommerce view price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks",34343], "All numbers Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn",3432], "All numbers Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", '343'], "All numbers Ecommerce view Category");
-        tracker3.deleteCustomVariables('page');
-
-        // all false
-        tracker3.setEcommerceView( false, false, false, false );
-        deepEqual( tracker3.getCustomVariable(2, "page"), false, "All numbers Ecommerce view price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), false, "All numbers Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), false, "All numbers Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", ''], "All numbers Ecommerce view Category");
         tracker3.deleteCustomVariables('page');
 
         //Ecommerce tests
@@ -4143,12 +4115,10 @@ if ($mysql) {
             ok( /e_c=Event%20Category3&e_a=Event%20Action3&e_n=Event%20Name3&e_v=3.333&idsite=1/.test(results), "event Category + Action + Name + Value");
 
             // ecommerce view
-            ok( /(EcommerceView).*(&cvar=%7B%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%7D)/.test(results)
-             || /(EcommerceView).*(&cvar=%7B%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%7D)/.test(results), "ecommerce view");
+            ok( /(EcommerceView).*(&_pkc=CATEGORY%20HERE&_pks=SKU&_pkn=NAME)/.test(results), "ecommerce view");
 
             // ecommerce view multiple categories
-            ok( /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%7D)/.test(results)
-            || /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%7D)/.test(results), "ecommerce view multiple categories");
+            ok( /(MultipleCategories).*(&_pkc=%5B%22CATEGORY1%22%2C%22CATEGORY2%22%5D&_pks=SKUMultiple&_pkn=)/.test(results), "ecommerce view multiple categories");
 
             // Ecommerce order
             ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with items" );

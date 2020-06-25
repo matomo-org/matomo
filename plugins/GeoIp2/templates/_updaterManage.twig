@@ -40,7 +40,7 @@
 	<div piwik-field uicontrol="radio" name="geoip-update-period"
 		 ng-model="locationUpdater.updatePeriod"
 		 introduction="{{ 'GeoIp2_DownloadNewDatabasesEvery'|translate|e('html_attr') }}"
-		 value="{{ geoIPUpdatePeriod }}"
+		 value="{{ geoIPUpdatePeriod|default('month') }}"
 		 options="{{ updatePeriodOptions|json_encode }}"
 		 inline-help="#locationProviderUpdatePeriodInlineHelp">
 	</div>

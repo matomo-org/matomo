@@ -283,8 +283,10 @@
                     }
                     {% endif %}
 
+                    $('#pluginDetailsTabs select').material_select();
+
                     $('#pluginDetailsTabs .tabs').tabs();
-                    $('#pluginDetailsTabs .tabs').tabs('select_tab', active >= 0 ? active : 0);
+                    $('#pluginDetailsTabs .tabs').tabs('select', '#tabs-' + (active >= 0 ? active : 0));
 
                     $('.pluginDetails a').each(function (index, a) {
                         var link = $(a).attr('href');

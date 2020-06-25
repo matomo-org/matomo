@@ -456,7 +456,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 title: lang.exportTitle,
                 modal: true,
                 width: 'auto',
-                position: ['center', 'center'],
                 resizable: false,
                 autoOpen: true,
                 open: function (event, ui) {

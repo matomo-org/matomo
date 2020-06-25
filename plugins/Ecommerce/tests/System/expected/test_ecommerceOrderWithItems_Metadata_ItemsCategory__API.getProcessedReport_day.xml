@@ -123,8 +123,8 @@
 		<quantity>18</quantity>
 		<price>4111.22</price>
 		<orders>8</orders>
-		<nb_uniq_visitors>9</nb_uniq_visitors>
 		<nb_visits>14</nb_visits>
+		<nb_uniq_visitors>9</nb_uniq_visitors>
 		<nb_actions>19</nb_actions>
 	</reportTotal>
 </result>
