@@ -97,6 +97,7 @@ class   Config
         'pivot_dimension_name',
         'disable_all_rows_filter_limit',
         'segmented_visitor_log_segment_suffix',
+        'columns_to_display',
     );
 
     /**

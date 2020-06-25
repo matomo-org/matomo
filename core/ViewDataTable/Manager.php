@@ -414,6 +414,7 @@ class Manager
         if ($view->config->show_all_views_icons) {
             if ($view->config->show_bar_chart) {
                 $graphViewIcons['buttons'][] = static::getFooterIconFor(Bar::ID);
+                $graphViewIcons['buttons'][] = static::getFooterIconFor(\Piwik\Plugins\CoreVisualizations\Visualizations\C3Graph\Bar::ID);
             }
 
             if ($view->config->show_pie_chart) {

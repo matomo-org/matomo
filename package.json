@@ -33,6 +33,7 @@
     "angular-sanitize": "^1.8.0",
     "c3": "^0.7.18",
     "chroma-js": "^2.1.0",
+    "d3": "^5.16.0",
     "iframe-resizer": "^4.2.11",
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",

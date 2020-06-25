@@ -44,12 +44,15 @@ class CoreVisualizations extends \Piwik\Plugin
 
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/jqplot.css";
+
+        $stylesheets[] = "plugins/CoreVisualizations/angularjs/c3graph/c3graph.component.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.js";
         $jsFiles[] = "plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.js";
+        $jsFiles[] = "plugins/CoreVisualizations/angularjs/c3graph/c3graph.component.js";
 
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/seriesPicker.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplot.js";

@@ -1,0 +1,7 @@
+<div alt="{{ 'Mobile_StaticGraph'|translate }}"  class="jqplot-graph">
+    <piwik-c3-graph
+        data-data="{{ visualization.getGraphData(dataTable) }}"
+        data-props="{{ clientSideProperties|json_encode }}"
+        data-params="{{ clientSideParameters|json_encode }}"
+    ></piwik-c3-graph>
+</div>

@@ -116,6 +116,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.theme.min.css";
         $stylesheets[] = "node_modules/materialize-css/dist/css/materialize.min.css";
+        $stylesheets[] = "node_modules/c3/c3.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/bootstrap.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/icons.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
@@ -164,6 +165,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";
         $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";
         $jsFiles[] = "node_modules/ng-dialog/js/ngDialog.min.js";
+        $jsFiles[] = "node_modules/d3/dist/d3.min.js";
+        $jsFiles[] = "node_modules/c3/c3.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
@@ -178,7 +181,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/top_controls.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
-        $jsFiles[] = "libs/jqplot/jquery.jqplot.min.js";
+        $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
