@@ -4027,7 +4027,7 @@ if (typeof window.Piwik !== 'object') {
                     if (!isDefined(windowAlias.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
                         browserFeatures.cookie = navigatorAlias.cookieEnabled ? '1' : '0';
                     } else {
-                        // Some old IE version ... prevent error when cookieEnabled is requested
+                        // Eg IE11 ... prevent error when cookieEnabled is requested within modal dialog. see #11507
                         browserFeatures.cookie = hasCookies();
                     }
                 }
