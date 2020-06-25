@@ -398,6 +398,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             console.log('Loading CSS failed... Try adding it with another style tag.');
             cssReloaded = true;
             await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+            await this.webpage.waitFor(200);
         }
     });
 
@@ -417,6 +418,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             console.log('Loading CSS failed... Try adding it with another style tag.');
             cssReloaded = true;
             await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+            await this.webpage.waitFor(200);
         }
     });
 
