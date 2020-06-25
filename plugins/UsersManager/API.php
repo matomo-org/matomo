@@ -203,6 +203,8 @@ class API extends \Piwik\Plugin\API
         );
         if (in_array($preferenceName, $names, true)) {
             Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
+        } else {
+            throw new Exception('Not supported preference name: ' . $preferenceName);
         }
     }
 
