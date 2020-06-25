@@ -6796,6 +6796,16 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enables cookies if they were disabled previously
+             */
+            this.enableCookies = function () {
+                if (configCookiesDisabled) {
+                    configCookiesDisabled = false;
+                    setVisitorIdCookie();
+                }
+            };
+
+            /**
              * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
              * it maybe helps to "reset" tracking cookies to prevent data reuse for different users.
              */
@@ -7746,7 +7756,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'enableCookies', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
