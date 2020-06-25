@@ -3566,7 +3566,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(161);
+        expect(159);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
