@@ -718,7 +718,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 
 ### Internal changes
 
-* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see [https://github.com/matomo-org/referrer-spam-blacklist](https://github.com/matomo-org/referrer-spam-blacklist)).
+* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see [https://github.com/matomo-org/referrer-spam-list](https://github.com/matomo-org/referrer-spam-list)).
 
 ## Piwik 2.12.0
 
