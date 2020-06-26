@@ -188,7 +188,17 @@ class API extends \Piwik\Plugin\API
     public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
-        Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
+
+        if (!$this->model->userExists($userLogin)) {
+            throw new Exception('User does not exist: ' . $userLogin);
+        }
+
+        if ($userLogin === 'anonymous') {
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
+        $nameIfSupported = $this->getPreferenceId($userLogin, $preferenceName);
+        Option::set($nameIfSupported, $preferenceValue);
     }
 
     /**
@@ -266,6 +276,17 @@ class API extends \Piwik\Plugin\API
     {
         if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
+        }
+        $names = array(
+            self::PREFERENCE_DEFAULT_REPORT,
+            self::PREFERENCE_DEFAULT_REPORT_DATE,
+            'hideSegmentDefinitionChangeMessage',// used in JS
+            'randomDoesNotExist',// for tests
+            'RandomNOTREQUESTED',// for tests
+            'preferenceName'// for tests
+        );
+        if (!in_array($preference, $names, true)) {
+            throw new Exception('Not supported preference name: ' . $preference);
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
