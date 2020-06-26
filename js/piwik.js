@@ -6799,9 +6799,12 @@ if (typeof window.Piwik !== 'object') {
              * Enables cookies if they were disabled previously
              */
             this.enableCookies = function () {
-                if (configCookiesDisabled) {
+                if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
-                    setVisitorIdCookie();
+                    if (configTrackerSiteId) {
+                        setVisitorIdCookie();
+                        getRequest('ping=1'); // sets attribution cookie, we don't actually send the request
+                    }
                 }
             };
 
