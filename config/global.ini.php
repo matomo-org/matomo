@@ -745,8 +745,7 @@ enable_tracking_failures_notification = 1
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
-; identify the same user as the same visitor across devices. It might also create a new visit as soon as a user logs in
-; or logs out. This won't be the case when this feature is disabled and it separates the userId from the visitorId.
+; identify the same user as the same visitor across devices. 
 ; Disabling this feature can be useful for example when using the third party cookie, and thus all Matomo sites use
 ; the same "global" visitorId for the same device, and some Matomo sites set a userid.
 enable_userid_overwrites_visitorid = 1
