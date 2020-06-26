@@ -280,6 +280,7 @@ class API extends \Piwik\Plugin\API
         $names = array(
             self::PREFERENCE_DEFAULT_REPORT,
             self::PREFERENCE_DEFAULT_REPORT_DATE,
+            'hideSegmentDefinitionChangeMessage',// used in JS
             'randomDoesNotExist',// for tests
             'RandomNOTREQUESTED',// for tests
             'preferenceName'// for tests
