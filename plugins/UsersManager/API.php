@@ -197,15 +197,8 @@ class API extends \Piwik\Plugin\API
             Piwik::checkUserHasSuperUserAccess();
         }
 
-        $names = array(
-            self::PREFERENCE_DEFAULT_REPORT,
-            self::PREFERENCE_DEFAULT_REPORT_DATE,
-        );
-        if (in_array($preferenceName, $names, true)) {
-            Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
-        } else {
-            throw new Exception('Not supported preference name: ' . $preferenceName);
-        }
+        $nameIfSupported = $this->getPreferenceId($userLogin, $preferenceName);
+        Option::set($nameIfSupported, $preferenceValue);
     }
 
     /**
@@ -283,6 +276,16 @@ class API extends \Piwik\Plugin\API
     {
         if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
+        }
+        $names = array(
+            self::PREFERENCE_DEFAULT_REPORT,
+            self::PREFERENCE_DEFAULT_REPORT_DATE,
+            'randomDoesNotExist',// for tests
+            'RandomNOTREQUESTED',// for tests
+            'preferenceName'// for tests
+        );
+        if (!in_array($preference, $names, true)) {
+            throw new Exception('Not supported preference name: ' . $preference);
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
