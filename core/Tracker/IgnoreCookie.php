@@ -58,6 +58,12 @@ class IgnoreCookie
     public static function setIgnoreCookie()
     {
         $ignoreCookie = self::getIgnoreCookie();
+        
+        $domain = TrackerConfig::getConfigValue('cookie_domain');
+        if (!empty($domain)) {
+            $ignoreCookie->setDomain($domain);
+        }
+
         if ($ignoreCookie->isCookieFound()) {
             $ignoreCookie->delete();
         } else {
