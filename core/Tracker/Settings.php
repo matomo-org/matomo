@@ -101,7 +101,6 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             $plugin_WindowsMedia,
             $plugin_Gears,
             $plugin_Silverlight,
-            $plugin_Cookie,
             $ipAddress,
             $browserLang,
             $fingerprintSalt);
@@ -131,12 +130,20 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      */
     protected function getConfigHash(Request $request, $os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java,
                                      $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-                                     $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip,
+                                     $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $ip,
                                      $browserLang, $fingerprintHash)
     {
         // prevent the config hash from being the same, across different Piwik instances
         // (limits ability of different Piwik instances to cross-match users)
         $salt = SettingsPiwik::getSalt();
+
+        // we assume cookies are disabled... when a user has cookies disabled, this ensures when upgrading to this version
+        // that no fingerprint changes in the 30min window during the upgrade...
+        // We don't include it anymore as it otherwise may cause new visits to be created when switching between
+        // cookies disabled and enabled in IE11 and older. Before Matomo 3.13.7 when cookies were disabled, then
+        // this value was set to 0. For people with cookies enabled the fingerprint is not as relevant as the visitorId
+        // is used to identify a visitor
+        $plugin_Cookie = '0';
 
         $configString =
               $os
