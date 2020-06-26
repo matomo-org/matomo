@@ -69,12 +69,12 @@ class VisitLastActionTime extends VisitDimension
             return false;
         }
 
-        $originalVisit = $visitor->getVisitorColumn(VisitorRecognizer::KEY_ORIGINAL_VISIT_ROW);
+        $originalVisitLastActionTime = $visitor->getPreviousVisitColumn('visit_last_action_time');
 
-        if (!empty($originalVisit['visit_last_action_time'])
-            && Date::factory($originalVisit['visit_last_action_time'])->getTimestamp() > $request->getCurrentTimestamp()) {
+        if (!empty($originalVisitLastActionTime)
+            && Date::factory($originalVisitLastActionTime)->getTimestamp() > $request->getCurrentTimestamp()) {
             // make sure to not set visit_last_action_time to an earlier time eg if tracking requests aren't sent in order
-            return $originalVisit['visit_last_action_time'];
+            return $originalVisitLastActionTime;
         }
 
         return $this->onNewVisit($request, $visitor, $action);

@@ -75,7 +75,7 @@ The following changes are recommendations and don't have to be done as we will s
 * The event `LanguageManager.getAvailableLanguages` has been removed. Use `LanguagesManager.getAvailableLanguages` instead.
 * The `$completed` parameter for the 'CronArchive.archiveSingleSite.finish' event has been removed. For both this event and the CronArchive.archiveSingleSite.start event, a new
   parameter is added for the process' pid. Multiple processes can now trigger this event for the same site ID.
-  
+
 #### Removed methods and constants in PHP Plugin API
 
 * The method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead
@@ -136,6 +136,9 @@ The following changes are recommendations and don't have to be done as we will s
 * The dimension and `log_link_visit_action` column interaction_position has been renamed to pageview_position. If your database queries rely on the column you can simply replace the name.
 * The metric (avg.) page generation time has been deprecated. It is no longer possible to track it. Already tracked values will still be shown in old reports. More detailed performance metrics are now available in PagePerformance plugin.
 * Added support for campaign name parameter `matomo_campaign` / `mtm_campaign` and campaign keyword parameter `matomo_kwd` / `mtm_kwd`
+* The following dimensions have been removed and replaced with versions that measure seconds: visitor_days_since_first, visitor_days_since_last, visitor_days_since_order
+* The _idvc, _idts, _viewts and _ects tracker parameters are no longer used, the values are calculated server side.
+  Note: tracking these values server side means replaying log data in the past will result in inaccurate values for these dimensions.
 
 ## Matomo 3.13.6
 

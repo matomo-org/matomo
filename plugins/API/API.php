@@ -553,6 +553,7 @@ class API extends \Piwik\Plugin\API
                 'flat' => (int) $flat,
                 'filter_limit' => $maxSuggestionsToReturn
             ));
+
             if ($table && $table instanceof DataTable && $table->getRowsCount()) {
                 $values = [];
                 foreach ($table->getRowsWithoutSummaryRow() as $row) {

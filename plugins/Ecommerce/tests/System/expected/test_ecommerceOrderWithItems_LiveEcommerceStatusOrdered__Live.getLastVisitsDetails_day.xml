@@ -75,11 +75,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
+		<visitCount>5</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>110520</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder>0</secondsSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
 		<visitDurationPretty>6 min 3s</visitDurationPretty>
 		<searches>0</searches>
@@ -134,6 +136,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>15480</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
@@ -305,11 +308,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
+		<visitCount>4</visitCount>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>1</daysSinceLastEcommerceOrder>
+		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>95040</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder>0</secondsSinceLastEcommerceOrder>
 		<visitDuration>1081</visitDuration>
 		<visitDurationPretty>18 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -364,6 +369,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>68040</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>

@@ -323,7 +323,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM ' . Common::prefixTable('log_conversion') . ' AS log_conversion
                     LEFT JOIN ' . Common::prefixTable('log_visit') . ' AS log_visit ON log_visit.idvisit = log_conversion.idvisit
-                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_days_since_first * 86400) = ? ',
+                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first) = ? ',
             'bind' => [2],
         ];
 
@@ -1884,7 +1884,7 @@ log_visit.visit_total_actions
                     $segment->setSegment('customSegment');
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
                     $segment->setName('Custom Segment');
-                    $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_days_since_first * 86400)');
+                    $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)');
                     $list->addSegment($segment);
                 }],
             ],

@@ -14,6 +14,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendVisitorDetails(&$visitor)
     {
-        $visitor['daysSinceLastVisit'] = $this->details['visitor_days_since_last'];
+        $visitor['daysSinceLastVisit'] = floor($this->details['visitor_seconds_since_last'] / 86400);
+        $visitor['secondsSinceLastVisit'] = $this->details['visitor_seconds_since_last'];
     }
 }
