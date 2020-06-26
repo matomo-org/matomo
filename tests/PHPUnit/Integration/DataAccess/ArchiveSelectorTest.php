@@ -172,7 +172,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true],
+                [false, false, false, false],
             ],
             [
                 [
@@ -183,7 +183,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true],
+                [false, false, false, false],
             ],
 
             // archive exists and is usable

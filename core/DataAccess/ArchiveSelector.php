@@ -369,13 +369,24 @@ class ArchiveSelector
      */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
     {
+        // find latest idarchive for each done flag
+        $idArchives = [];
+        foreach ($results as $row) {
+            $doneFlag = $row['name'];
+            if (!isset($idArchives[$doneFlag])) {
+                $idArchives[$doneFlag] = $row['idarchive'];
+            }
+        }
+
         $archiveData = [
             self::NB_VISITS_RECORD_LOOKED_UP => false,
             self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => false,
         ];
 
         foreach ($results as &$result) {
-            if (in_array($result['name'], $requestedPluginDoneFlags)) {
+            if (in_array($result['name'], $requestedPluginDoneFlags)
+                && in_array($result['idarchive'], $idArchives)
+            ) {
                 $archiveData = $result;
                 if (empty($archiveData[self::NB_VISITS_RECORD_LOOKED_UP])) {
                     $archiveData[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
@@ -389,10 +400,12 @@ class ArchiveSelector
 
         foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
             foreach ($results as $result) {
+                if (!in_array($result['idarchive'], $idArchives)) {
+                    continue;
+                }
+
                 if (empty($archiveData[$metric])) {
-                    if (!empty($result[$metric])) {
-                        $archiveData[$metric] = $result[$metric];
-                    } elseif ($result[$metric] === 0 || $result[$metric] === '0') {
+                    if (!empty($result[$metric]) || $result[$metric] === 0 || $result[$metric] === '0') {
                         $archiveData[$metric] = $result[$metric];
                     }
                 }
