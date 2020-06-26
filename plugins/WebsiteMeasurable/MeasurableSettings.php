@@ -322,8 +322,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_SearchCategoryParametersDesc');
 
-            $hasCustomVars = (int) $pluginManager->isPluginActivated('CustomVariables');
-            $field->condition = $hasCustomVars . ' && sitesearch && !use_default_site_search_params';
+            $field->condition = 'sitesearch && !use_default_site_search_params';
         });
     }
 

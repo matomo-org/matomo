@@ -140,7 +140,7 @@ class TasksTest extends IntegrationTestCase
             'optimizeArchiveTable.',
             'cleanupTrackingFailures.',
             'notifyTrackingFailures.',
-            'updateSpammerBlacklist.',
+            'updateSpammerList.',
             'checkSiteHasTrackedVisits.2',
             'checkSiteHasTrackedVisits.3',
             'checkSiteHasTrackedVisits.4',
