@@ -3261,7 +3261,10 @@ if (typeof window.Piwik !== 'object') {
                 consentRequestsQueue = [],
 
                 // a unique ID for this tracker during this request
-                uniqueTrackerId = trackerIdCounter++;
+                uniqueTrackerId = trackerIdCounter++,
+
+                // whether a tracking request has been sent yet during this page view
+                hasSentTrackingRequestYet = false;
 
             // Document title
             try {
@@ -3843,6 +3846,9 @@ if (typeof window.Piwik !== 'object') {
                     consentRequestsQueue.push(request);
                     return;
                 }
+
+                hasSentTrackingRequestYet = true;
+
                 if (!configDoNotTrack && request) {
                     if (configConsentRequired && configHasConsent) { // send a consent=1 when explicit consent is given for the apache logs
                         request += '&consent=1';
@@ -3908,6 +3914,8 @@ if (typeof window.Piwik !== 'object') {
                     consentRequestsQueue.push(requests);
                     return;
                 }
+
+                hasSentTrackingRequestYet = true;
 
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                     var chunks = arrayChunk(requests, 50);
@@ -6803,7 +6811,16 @@ if (typeof window.Piwik !== 'object') {
                     configCookiesDisabled = false;
                     if (configTrackerSiteId) {
                         setVisitorIdCookie();
-                        getRequest('ping=1'); // sets attribution cookie, we don't actually send the request
+                        if (hasSentTrackingRequestYet) {
+                            // sets attribution cookie, we don't actually send the request
+                            // we assume in this case there might not be a following tracking request so we trigger one
+                            // ourselves to ensure also that in the backend the visitorId for this fingerprint will be
+                            // set... otherwise if no tracking request follows, it would never be updated and this visit
+                            // would not be linked to this visitor. If no tracking request was sent yet we assume one will
+                            // follow. We don't use the ping tracking method as it might be queued... send it directly...
+                            var request = getRequest('ping=1', null, 'ping');
+                            sendRequest(request, configTrackerPause);
+                        }
                     }
                 }
             };

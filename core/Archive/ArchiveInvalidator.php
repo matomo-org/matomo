@@ -78,7 +78,7 @@ class ArchiveInvalidator
         // we do not really have to get the value first. we could simply always try to call set() and it would update or
         // insert the record if needed but we do not want to lock the table (especially since there are still some
         // MyISAM installations)
-        $values = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%');
+        $values = Option::getLike('%' . $this->replaceUnderscore($this->rememberArchivedReportIdStart) . '%');
 
         $all = [];
         foreach ($values as $name => $value) {
@@ -103,7 +103,7 @@ class ArchiveInvalidator
             // we do not really have to get the value first. we could simply always try to call set() and it would update or
             // insert the record if needed but we do not want to lock the table (especially since there are still some
             // MyISAM installations)
-            $value = Option::getLike('%' . $key . '%');
+            $value = Option::getLike('%' . $this->replaceUnderscore($key) . '%');
         }
 
         // getLike() returns an empty array rather than 'false'
@@ -122,6 +122,11 @@ class ArchiveInvalidator
         }
     }
 
+    private function replaceUnderscore($key)
+    {
+        return str_replace('_', '\_', $key);
+    }
+
     private function getRememberedArchivedReportsOptionFromTracker($idSite, $dateStr)
     {
         $cacheKey = self::TRACKER_CACHE_KEY;
@@ -136,7 +141,7 @@ class ArchiveInvalidator
 
     public function getRememberedArchivedReportsThatShouldBeInvalidated()
     {
-        $reports = Option::getLike('%' . $this->rememberArchivedReportIdStart . '%_%');
+        $reports = Option::getLike('%' . $this->replaceUnderscore($this->rememberArchivedReportIdStart) . '%\_%');
 
         $sitesPerDay = array();
 
@@ -210,7 +215,7 @@ class ArchiveInvalidator
     {
         // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
         // we want to reduce number of rows scanned and only delete specific primary key
-        $keys = Option::getLike('%' . $id . '%');
+        $keys = Option::getLike('%' . $this->replaceUnderscore($id) . '%');
 
         if (empty($keys)) {
             return;
