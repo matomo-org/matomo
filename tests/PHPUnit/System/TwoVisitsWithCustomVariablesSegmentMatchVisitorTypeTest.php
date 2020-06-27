@@ -94,12 +94,12 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             // 2) CHECK 'week' archive stored in December (week starts the month before)
             // We expect 2 segments * (1 custom variable name + 2 ref metrics + 1 subtable chunk for the values of the name + 6 referrers blob (2 of them subtables))
             'archive_blob_2009_12'    => 20,
-            // 7 metrics,
+            // 6 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
-            // 5 done flag (referrers, VisitsSummary), 2 for period = 1 and 3 for period = 2
+            // 6 done flag (referrers, VisitsSummary), 2 for period = 1 and 3 for period = 2
             // X * 2 segments
             // + 1 done flag archive for CustomVar
-            'archive_numeric_2009_12' => (5 + 2 + 3 + 3) * 2 + 1,
+            'archive_numeric_2009_12' => (6 + 2 + 3 + 3) * 2 + 1,
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
