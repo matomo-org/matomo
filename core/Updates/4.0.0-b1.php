@@ -13,10 +13,13 @@ use Piwik\DataAccess\TableMetadata;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
+use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -38,6 +41,10 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
+        $tableMetadata = new TableMetadata();
+
+        $columnsToAdd = [];
+
         $migrations = [];
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
@@ -106,8 +113,39 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         // Move the site search fields of log_visit out of custom variables into their own fields
-        $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_cat', 'VARCHAR(200) NULL');
-        $migrations[] = $this->migration->db->addColumn('log_link_visit_action', 'search_count', 'INTEGER(10) UNSIGNED NULL');
+        $columnsToAdd['log_link_visit_action']['search_cat'] = 'VARCHAR(200) NULL';
+        $columnsToAdd['log_link_visit_action']['search_count'] = 'INTEGER(10) UNSIGNED NULL';
+
+        // replace days to ... dimensions w/ seconds dimensions
+        foreach (['log_visit', 'log_conversion'] as $table) {
+            $columnsToAdd[$table]['visitor_seconds_since_first'] = VisitorSecondsSinceFirst::COLUMN_TYPE;
+            $columnsToAdd[$table]['visitor_seconds_since_order'] = VisitorSecondsSinceOrder::COLUMN_TYPE;
+        }
+        $columnsToAdd['log_visit']['visitor_seconds_since_last'] = VisitorSecondsSinceLast::COLUMN_TYPE;
+
+        $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
+        $columnsLogConversion = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
+        foreach ($columnsToMaybeAdd as $columnToMaybeAdd) {
+            if (!in_array($columnToMaybeAdd, $columnsLogConversion, true)) {
+                $columnsToAdd['log_conversion'][$columnToMaybeAdd] = 'DOUBLE NULL DEFAULT NULL';
+            }
+        }
+
+        foreach ($columnsToAdd as $table => $columns) {
+            $migrations[] = $this->migration->db->addColumns($table, $columns);
+
+            foreach ($columns as $columnName => $columnType) {
+                $optionKey = 'version_' . $table . '.' . $columnName;
+                $optionValue = $columnType;
+
+                if ($table == 'log_visit' && isset($columnsToAdd['log_conversion'][$columnName])) {
+                    $optionValue .= '1'; // column is in log_conversion too
+                }
+
+                $migrations[] = $this->migration->db->sql("INSERT IGNORE INTO `" . Common::prefixTable('option')
+                    . "` (option_name, option_value) VALUES ('$optionKey', '$optionValue')");
+            }
+        }
 
         if (Manager::getInstance()->isPluginInstalled('CustomVariables')) {
             $visitActionTable = Common::prefixTable('log_link_visit_action');
@@ -123,18 +161,33 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // remove old options
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name IN ("geoip.updater_period", "geoip.loc_db_url", "geoip.isp_db_url", "geoip.org_db_url")');
 
-        $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
-        $tableMeta = new TableMetadata();
-        $columnsLogConversion = $tableMeta->getColumns(Common::prefixTable('log_conversion'));
-        $conversionColumnsToAdd = array();
-        foreach ($columnsToMaybeAdd as $columnToMaybeAdd) {
-            if (!in_array($columnToMaybeAdd, $columnsLogConversion, true)) {
-                $conversionColumnsToAdd[$columnToMaybeAdd] = 'DOUBLE NULL DEFAULT NULL';
-            }
+        // init seconds_to_... columns
+        $logVisitColumns = $tableMetadata->getColumns(Common::prefixTable('log_visit'));
+        $hasDaysColumnInVisit = in_array('visitor_days_since_first', $logVisitColumns);
+
+        $logConvColumns = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
+        $hasDaysColumnInConv = in_array('visitor_days_since_first', $logConvColumns);
+
+        if ($hasDaysColumnInVisit && $hasDaysColumnInConv) {
+            $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_visit')
+                . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
+                    visitor_seconds_since_order = visitor_days_since_order * 86400,
+                    visitor_seconds_since_last = visitor_days_since_last * 86400");
         }
-        if (!empty($conversionColumnsToAdd)) {
-            $migrations[] = $this->migration->db->addColumns('log_conversion', $conversionColumnsToAdd);
+
+        if ($hasDaysColumnInConv) {
+            $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_conversion')
+                . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
+                    visitor_seconds_since_order = visitor_days_since_order * 86400");
         }
+
+        // remove old days_to_... columns
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_first');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_order');
+        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_last');
+
+        $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_first');
+        $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_order');
 
         $config = Config::getInstance();
 

@@ -235,74 +235,6 @@ class Request
     }
 
     /**
-     * @return float|int
-     */
-    public function getDaysSinceFirstVisit()
-    {
-        $cookieFirstVisitTimestamp = $this->getParam('_idts');
-
-        if (!$this->isTimestampValid($cookieFirstVisitTimestamp)) {
-            $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
-        }
-
-        $daysSinceFirstVisit = floor(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400);
-
-        if ($daysSinceFirstVisit < 0) {
-            $daysSinceFirstVisit = 0;
-        }
-
-        return $daysSinceFirstVisit;
-    }
-
-    /**
-     * @return bool|float|int
-     */
-    public function getDaysSinceLastOrder()
-    {
-        $daysSinceLastOrder = false;
-        $lastOrderTimestamp = $this->getParam('_ects');
-
-        if ($this->isTimestampValid($lastOrderTimestamp)) {
-            $daysSinceLastOrder = round(($this->getCurrentTimestamp() - $lastOrderTimestamp) / 86400, $precision = 0);
-            if ($daysSinceLastOrder < 0) {
-                $daysSinceLastOrder = 0;
-            }
-        }
-
-        return $daysSinceLastOrder;
-    }
-
-    /**
-     * @return float|int
-     */
-    public function getDaysSinceLastVisit()
-    {
-        $daysSinceLastVisit = 0;
-        $lastVisitTimestamp = $this->getParam('_viewts');
-
-        if ($this->isTimestampValid($lastVisitTimestamp)) {
-            $daysSinceLastVisit = round(($this->getCurrentTimestamp() - $lastVisitTimestamp) / 86400, $precision = 0);
-            if ($daysSinceLastVisit < 0) {
-                $daysSinceLastVisit = 0;
-            }
-        }
-
-        return $daysSinceLastVisit;
-    }
-
-    /**
-     * @return int|mixed
-     */
-    public function getVisitCount()
-    {
-        $visitCount = $this->getParam('_idvc');
-        if ($visitCount < 1) {
-            $visitCount = 1;
-        }
-        return $visitCount;
-    }
-
-    /**
      * Returns the language the visitor is viewing.
      *
      * @return string browser language code, eg. "en-gb,en;q=0.5"
@@ -364,10 +296,6 @@ class Request
             '_ref'         => array('', 'string'),
             '_rcn'         => array('', 'string'),
             '_rck'         => array('', 'string'),
-            '_idts'        => array(0, 'int'),
-            '_viewts'      => array(0, 'int'),
-            '_ects'        => array(0, 'int'),
-            '_idvc'        => array(1, 'int'),
             'url'          => array('', 'string'),
             'urlref'       => array('', 'string'),
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),

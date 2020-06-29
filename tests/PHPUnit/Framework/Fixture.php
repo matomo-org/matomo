@@ -684,7 +684,8 @@ class Fixture extends \PHPUnit\Framework\Assert
      *
      * @param $response
      */
-    public static function checkBulkTrackingResponse($response) {
+    public static function checkBulkTrackingResponse($response)
+    {
         $data = json_decode($response, true);
         if (!is_array($data) || empty($response)) {
             throw new Exception("Bulk tracking response (".$response.") is not an array: " . var_export($data, true) . "\n");

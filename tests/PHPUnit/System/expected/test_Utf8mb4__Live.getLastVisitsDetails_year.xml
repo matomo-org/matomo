@@ -72,7 +72,9 @@
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>1</visitDuration>
 		<visitDurationPretty>1s</visitDurationPretty>
 		<searches>0</searches>
@@ -127,6 +129,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>

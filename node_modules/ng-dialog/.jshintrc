@@ -1,0 +1,36 @@
+{
+    "predef": [
+        "angular",
+        "define"
+    ],
+
+    "asi" : false,
+    "bitwise" : true,
+    "boss" : false,
+    "browser" : true,
+    "curly" : true,
+    "debug": false,
+    "devel": false,
+    "eqeqeq": true,
+    "evil": false,
+    "expr": true,
+    "forin": false,
+    "immed": true,
+    "jquery" : true,
+    "latedef" : false,
+    "laxbreak": false,
+    "multistr": true,
+    "newcap": true,
+    "noarg": true,
+    "node" : true,
+    "noempty": false,
+    "nonew": true,
+    "onevar": false,
+    "plusplus": false,
+    "regexp": false,
+    "strict": false,
+    "sub": false,
+    "trailing" : true,
+    "undef": true,
+    "unused": "vars"
+}

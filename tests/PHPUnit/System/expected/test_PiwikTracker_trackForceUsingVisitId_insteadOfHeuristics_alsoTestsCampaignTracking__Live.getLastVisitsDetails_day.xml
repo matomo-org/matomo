@@ -44,11 +44,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>11</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>29880</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -103,6 +105,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>720</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -185,11 +188,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>10</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>29160</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>361</visitDuration>
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -244,6 +249,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>360</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -307,11 +313,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>9</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>28800</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -366,6 +374,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>2880</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -429,11 +438,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>8</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>25920</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -488,6 +499,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>720</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -570,11 +582,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>7</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>25200</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>361</visitDuration>
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -629,6 +643,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -692,11 +707,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>6</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>18000</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -751,6 +768,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -814,11 +832,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>14400</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -873,6 +893,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -936,11 +957,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>4</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>10800</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -995,6 +1018,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1058,11 +1082,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>3</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>7200</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1117,6 +1143,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1180,11 +1207,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1239,6 +1268,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>

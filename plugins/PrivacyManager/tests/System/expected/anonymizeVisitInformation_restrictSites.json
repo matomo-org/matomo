@@ -45,11 +45,10 @@
             "visit_total_searches": "1",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -98,11 +97,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -149,12 +147,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:05",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -202,11 +199,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -254,12 +250,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "140,400",
+            "visitor_seconds_since_last": "140,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -306,12 +301,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "154,800",
+            "visitor_seconds_since_last": "14,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -359,11 +353,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -410,12 +403,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "90,000",
+            "visitor_seconds_since_last": "90,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -463,12 +455,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "108,000",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -515,12 +506,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "126,000",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -567,12 +557,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "144,000",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -620,12 +609,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "6",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "151,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -672,12 +660,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "7",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "154,800",
+            "visitor_seconds_since_last": "3,600"
         },
         {
             "config_browser_engine": "Unknown",
@@ -725,11 +712,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -776,11 +762,11 @@
             "visit_total_searches": "1",
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -827,12 +813,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "10,800",
+            "visitor_seconds_since_last": "10,800",
+            "visitor_seconds_since_order": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -880,11 +866,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -932,11 +917,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -984,12 +968,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1036,12 +1019,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1089,11 +1071,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1140,12 +1121,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:00",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "10,800",
+            "visitor_seconds_since_last": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1193,11 +1173,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1244,12 +1223,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "28,800",
+            "visitor_seconds_since_last": "28,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1298,11 +1276,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1349,12 +1326,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1401,11 +1377,10 @@
             "visit_total_searches": "1",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1453,11 +1428,11 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1505,11 +1480,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1556,12 +1530,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "10,800",
+            "visitor_seconds_since_last": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1608,12 +1581,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "32,400",
+            "visitor_seconds_since_last": "21,600"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1660,12 +1632,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "3,600",
+            "visitor_seconds_since_last": "3,600",
+            "visitor_seconds_since_order": "3,600"
         },
         {
             "config_browser_engine": "WebKit (Safari, Chrome)",
@@ -1711,12 +1683,11 @@
             "visit_total_interactions": "4",
             "visit_total_searches": "1",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "259,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1764,12 +1735,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "252,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1816,12 +1786,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:05",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "266,400",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1868,12 +1837,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "104,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1921,12 +1889,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "399,600",
+            "visitor_seconds_since_last": "140,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -1973,12 +1940,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "6",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "414,000",
+            "visitor_seconds_since_last": "14,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2025,12 +1991,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "8",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "104,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2077,12 +2042,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "9",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "349,200",
+            "visitor_seconds_since_last": "90,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2130,12 +2094,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "10",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "367,200",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2182,12 +2145,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "11",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "385,200",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2234,12 +2196,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "12",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "403,200",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2287,12 +2248,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "13",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "410,400",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2339,12 +2299,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "14",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "414,000",
+            "visitor_seconds_since_last": "3,600"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2391,12 +2350,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "259,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2442,12 +2400,12 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "1",
             "visit_total_time": "00:06:03",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning Customer",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "248,400",
+            "visitor_seconds_since_order": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2494,12 +2452,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "270,000",
+            "visitor_seconds_since_last": "10,800",
+            "visitor_seconds_since_order": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2546,12 +2504,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "252,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2598,12 +2555,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "248,400",
+            "visitor_seconds_since_last": "241,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2651,12 +2607,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "255,600",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2703,12 +2658,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "266,400",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2755,12 +2709,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "248,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2807,12 +2760,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:00",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "270,000",
+            "visitor_seconds_since_last": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2859,12 +2811,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "230,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2911,12 +2862,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "288,000",
+            "visitor_seconds_since_last": "28,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -2964,12 +2914,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "252,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3016,12 +2965,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "266,400",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3067,12 +3015,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "1",
             "visit_total_time": "00:00:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "259,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3119,12 +3066,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:03",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning Customer",
+            "visitor_seconds_since_first": "259,200",
+            "visitor_seconds_since_last": "255,600",
+            "visitor_seconds_since_order": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3171,12 +3118,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning Customer",
+            "visitor_seconds_since_first": "216,000",
+            "visitor_seconds_since_last": "212,400",
+            "visitor_seconds_since_order": "216,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3223,12 +3170,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning Customer",
+            "visitor_seconds_since_first": "226,800",
+            "visitor_seconds_since_last": "10,800",
+            "visitor_seconds_since_order": "226,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3275,12 +3222,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning Customer",
+            "visitor_seconds_since_first": "248,400",
+            "visitor_seconds_since_last": "21,600",
+            "visitor_seconds_since_order": "248,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3327,12 +3274,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "262,800",
+            "visitor_seconds_since_last": "3,600",
+            "visitor_seconds_since_order": "3,600"
         },
         {
             "config_browser_engine": "WebKit (Safari, Chrome)",
@@ -3378,11 +3325,10 @@
             "visit_total_searches": "1",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3430,11 +3376,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3480,12 +3425,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:05",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3531,11 +3475,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3582,12 +3525,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "140,400",
+            "visitor_seconds_since_last": "140,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3633,12 +3575,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "154,800",
+            "visitor_seconds_since_last": "14,400"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3684,11 +3625,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3734,12 +3674,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "90,000",
+            "visitor_seconds_since_last": "90,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3786,12 +3725,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "108,000",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3836,12 +3774,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "4",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "126,000",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3887,12 +3824,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "5",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "144,000",
+            "visitor_seconds_since_last": "18,000"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3939,12 +3875,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "6",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "151,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -3990,12 +3925,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "7",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "154,800",
+            "visitor_seconds_since_last": "3,600"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4042,11 +3976,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4092,11 +4025,11 @@
             "visit_total_searches": "1",
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4141,12 +4074,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "10,800",
+            "visitor_seconds_since_last": "10,800",
+            "visitor_seconds_since_order": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4193,11 +4126,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4243,11 +4175,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4294,12 +4225,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4344,12 +4274,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4396,11 +4325,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4445,12 +4373,11 @@
             "visit_total_interactions": "1",
             "visit_total_searches": "0",
             "visit_total_time": "00:00:00",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "10,800",
+            "visitor_seconds_since_last": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4497,11 +4424,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4546,12 +4472,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "28,800",
+            "visitor_seconds_since_last": "28,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4599,11 +4524,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4648,12 +4572,11 @@
             "visit_total_interactions": "3",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "7,200",
+            "visitor_seconds_since_last": "7,200"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4698,11 +4621,10 @@
             "visit_total_searches": "1",
             "visit_total_time": "00:00:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4749,11 +4671,11 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:03",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4799,11 +4721,10 @@
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "New"
+            "visitor_returning": "New",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_last": "0"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4848,12 +4769,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "10,800",
+            "visitor_seconds_since_last": "10,800"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4898,12 +4818,11 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "3",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "32,400",
+            "visitor_seconds_since_last": "21,600"
         },
         {
             "config_browser_engine": "Unknown",
@@ -4948,12 +4867,12 @@
             "visit_total_interactions": "2",
             "visit_total_searches": "0",
             "visit_total_time": "00:06:01",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_last": "0",
-            "visitor_days_since_order": "0",
+            "visitor_count_visits": "2",
             "visitor_localtime": "12:34:06",
-            "visitor_returning": "Returning Customer"
+            "visitor_returning": "Returning",
+            "visitor_seconds_since_first": "3,600",
+            "visitor_seconds_since_last": "3,600",
+            "visitor_seconds_since_order": "3,600"
         }
     ],
     "log_link_visit_action": [
@@ -12025,9 +11944,8 @@
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world200",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -12046,10 +11964,9 @@
             "revenue": "$0",
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world201",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "7200"
         },
         {
             "buster": "0",
@@ -12069,9 +11986,8 @@
             "server_time": "2016-12-31 08:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -12090,10 +12006,9 @@
             "revenue": "$0",
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world202",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "3",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "154800"
         },
         {
             "buster": "0",
@@ -12112,10 +12027,9 @@
             "revenue": "$0",
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world203",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "7",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "154800"
         },
         {
             "buster": "0",
@@ -12135,9 +12049,8 @@
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world204",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "3940711799",
@@ -12163,9 +12076,9 @@
             "server_time": "2017-01-02 00:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "buster": "0",
@@ -12183,10 +12096,10 @@
             "revenue": "$0",
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world205",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "10800",
+            "visitor_seconds_since_order": "10800"
         },
         {
             "buster": "0",
@@ -12204,10 +12117,9 @@
             "revenue": "$0",
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world206",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "7200"
         },
         {
             "buster": "0",
@@ -12228,9 +12140,8 @@
             "server_time": "2017-01-01 19:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -12248,10 +12159,9 @@
             "revenue": "$0",
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world209",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "7200"
         },
         {
             "buster": "0",
@@ -12270,9 +12180,8 @@
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world210",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "3944101671",
@@ -12298,9 +12207,9 @@
             "server_time": "2017-01-02 02:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "buster": "0",
@@ -12319,9 +12228,8 @@
             "server_time": "2017-01-01 14:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -12339,10 +12247,9 @@
             "revenue": "$0",
             "server_time": "2017-01-01 17:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "10800"
         },
         {
             "buster": "0",
@@ -12360,10 +12267,10 @@
             "revenue": "$0",
             "server_time": "2017-01-02 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "3600",
+            "visitor_seconds_since_order": "3600"
         },
         {
             "buster": "0",
@@ -12383,10 +12290,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world200",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "259200"
         },
         {
             "buster": "0",
@@ -12405,10 +12311,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world201",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "4",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "266400"
         },
         {
             "buster": "0",
@@ -12427,10 +12332,9 @@
             "revenue": "$50",
             "server_time": "2017-01-03 08:10:05",
             "url": "",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "4",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "259200"
         },
         {
             "buster": "0",
@@ -12449,10 +12353,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world202",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "6",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "414000"
         },
         {
             "buster": "0",
@@ -12471,10 +12374,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world203",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "14",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "414000"
         },
         {
             "buster": "0",
@@ -12493,10 +12395,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world204",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "259200"
         },
         {
             "buster": "0",
@@ -12514,10 +12415,10 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world205",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "4",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "270000",
+            "visitor_seconds_since_order": "10800"
         },
         {
             "buster": "0",
@@ -12535,10 +12436,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world206",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "4",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "266400"
         },
         {
             "buster": "0",
@@ -12558,10 +12458,9 @@
             "revenue": "$50",
             "server_time": "2017-01-04 19:10:05",
             "url": "",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "3",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "259200"
         },
         {
             "buster": "0",
@@ -12579,10 +12478,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world209",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "4",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "266400"
         },
         {
             "buster": "0",
@@ -12600,10 +12498,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world210",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "259200"
         },
         {
             "buster": "0",
@@ -12621,10 +12518,10 @@
             "revenue": "$0",
             "server_time": "2017-01-04 14:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "3",
+            "visitor_returning": "2",
+            "visitor_seconds_since_first": "216000",
+            "visitor_seconds_since_order": "216000"
         },
         {
             "buster": "0",
@@ -12642,10 +12539,10 @@
             "revenue": "$0",
             "server_time": "2017-01-04 17:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "4",
+            "visitor_returning": "2",
+            "visitor_seconds_since_first": "226800",
+            "visitor_seconds_since_order": "226800"
         },
         {
             "buster": "0",
@@ -12663,10 +12560,10 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "4",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "262800",
+            "visitor_seconds_since_order": "3600"
         },
         {
             "buster": "0",
@@ -12687,9 +12584,8 @@
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world200",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -12708,10 +12604,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world201",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "7200"
         },
         {
             "buster": "0",
@@ -12731,9 +12626,8 @@
             "server_time": "2017-01-03 08:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -12752,10 +12646,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world202",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "3",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "154800"
         },
         {
             "buster": "0",
@@ -12774,10 +12667,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world203",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "7",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "154800"
         },
         {
             "buster": "0",
@@ -12797,9 +12689,8 @@
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world204",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "3940711799",
@@ -12825,9 +12716,9 @@
             "server_time": "2017-01-05 00:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "buster": "0",
@@ -12845,10 +12736,10 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world205",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "10800",
+            "visitor_seconds_since_order": "10800"
         },
         {
             "buster": "0",
@@ -12866,10 +12757,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world206",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "7200"
         },
         {
             "buster": "0",
@@ -12890,9 +12780,8 @@
             "server_time": "2017-01-04 19:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -12910,10 +12799,9 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world209",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "7200"
         },
         {
             "buster": "0",
@@ -12932,9 +12820,8 @@
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world210",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "3944101671",
@@ -12960,9 +12847,9 @@
             "server_time": "2017-01-05 02:10:05",
             "url": "",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0",
+            "visitor_seconds_since_order": "0"
         },
         {
             "buster": "0",
@@ -12981,9 +12868,8 @@
             "server_time": "2017-01-04 14:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
             "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "0"
+            "visitor_returning": "0",
+            "visitor_seconds_since_first": "0"
         },
         {
             "buster": "0",
@@ -13001,10 +12887,9 @@
             "revenue": "$0",
             "server_time": "2017-01-04 17:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "1"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "10800"
         },
         {
             "buster": "0",
@@ -13022,10 +12907,10 @@
             "revenue": "$0",
             "server_time": "2017-01-05 03:04:05",
             "url": "http:\/\/www.helloworld.com\/hello\/world211",
-            "visitor_count_visits": "1",
-            "visitor_days_since_first": "0",
-            "visitor_days_since_order": "0",
-            "visitor_returning": "2"
+            "visitor_count_visits": "2",
+            "visitor_returning": "1",
+            "visitor_seconds_since_first": "3600",
+            "visitor_seconds_since_order": "3600"
         }
     ],
     "log_action_log_visit_visit_exit_idaction_url": [

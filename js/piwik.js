@@ -105,7 +105,7 @@
     isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
+    getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
@@ -3308,19 +3308,7 @@ if (typeof window.Matomo !== 'object') {
                     uuid,
 
                     // creation timestamp - seconds since Unix epoch
-                    nowTs,
-
-                    // visitCount - 0 = no previous visit
-                    0,
-
-                    // current visit timestamp
-                    nowTs,
-
-                    // last visit timestamp - blank = no previous visit
-                    '',
-
-                    // last ecommerce order timestamp
-                    ''
+                    nowTs
                 ];
 
                 return cookieValue;
@@ -3334,26 +3322,12 @@ if (typeof window.Matomo !== 'object') {
                 var cookieVisitorIdValue = loadVisitorIdCookie(),
                     newVisitor = cookieVisitorIdValue[0],
                     uuid = cookieVisitorIdValue[1],
-                    createTs = cookieVisitorIdValue[2],
-                    visitCount = cookieVisitorIdValue[3],
-                    currentVisitTs = cookieVisitorIdValue[4],
-                    lastVisitTs = cookieVisitorIdValue[5];
-
-                // case migrating from pre-1.5 cookies
-                if (!isDefined(cookieVisitorIdValue[6])) {
-                    cookieVisitorIdValue[6] = "";
-                }
-
-                var lastEcommerceOrderTs = cookieVisitorIdValue[6];
+                    createTs = cookieVisitorIdValue[2];
 
                 return {
                     newVisitor: newVisitor,
                     uuid: uuid,
-                    createTs: createTs,
-                    visitCount: visitCount,
-                    currentVisitTs: currentVisitTs,
-                    lastVisitTs: lastVisitTs,
-                    lastEcommerceOrderTs: lastEcommerceOrderTs
+                    createTs: createTs
                 };
             }
 
@@ -3385,11 +3359,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
-                    visitorIdCookieValues.createTs + '.' +
-                    visitorIdCookieValues.visitCount + '.' +
-                    nowTs + '.' +
-                    visitorIdCookieValues.lastVisitTs + '.' +
-                    visitorIdCookieValues.lastEcommerceOrderTs;
+                    visitorIdCookieValues.createTs + '.';
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
@@ -3551,7 +3521,7 @@ if (typeof window.Matomo !== 'object') {
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
              * Sends the pageview and browser settings with every request in case of race conditions.
              */
-            function getRequest(request, customData, pluginMethod, currentEcommerceOrderTs) {
+            function getRequest(request, customData, pluginMethod) {
                 var i,
                     now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
@@ -3579,9 +3549,6 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
-                if (!isDefined(currentEcommerceOrderTs)) {
-                    currentEcommerceOrderTs = "";
-                }
 
                 // send charset if document charset is not utf-8. sometimes encoding
                 // of urls will be the same as this and not utf-8, which will cause problems
@@ -3599,16 +3566,6 @@ if (typeof window.Matomo !== 'object') {
 
                 if (!cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
-
-                    // here we make sure that if 'ses' cookie is deleted few times within the visit
-                    // and so this code path is triggered many times for one visit,
-                    // we only increase visitCount once per Visit window (default 30min)
-                    var visitDuration = configSessionCookieTimeout / 1000;
-                    if (!cookieVisitorIdValues.lastVisitTs
-                        || (nowTs - cookieVisitorIdValues.lastVisitTs) > visitDuration) {
-                        cookieVisitorIdValues.visitCount++;
-                        cookieVisitorIdValues.lastVisitTs = cookieVisitorIdValues.currentVisitTs;
-                    }
 
 
                     // Detect the campaign information from the current URL
@@ -3674,13 +3631,12 @@ if (typeof window.Matomo !== 'object') {
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                    '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
+                    '&_id=' + cookieVisitorIdValues.uuid +
+
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
                     (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
                     '&_refts=' + referralTs +
-                    '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
-                    (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
@@ -3779,7 +3735,6 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 // update cookies
-                cookieVisitorIdValues.lastEcommerceOrderTs = isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : cookieVisitorIdValues.lastEcommerceOrderTs;
                 setVisitorIdCookie(cookieVisitorIdValues);
                 setSessionCookie();
 
@@ -3825,7 +3780,6 @@ if (typeof window.Matomo !== 'object') {
 
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
-                    lastEcommerceOrderTs,
                     now = new Date(),
                     items = [],
                     sku,
@@ -3833,8 +3787,6 @@ if (typeof window.Matomo !== 'object') {
 
                 if (isEcommerceOrder) {
                     request += '&ec_id=' + encodeWrapper(orderId);
-                    // Record date of order in the visitor cookie
-                    lastEcommerceOrderTs = Math.round(now.getTime() / 1000);
                 }
 
                 request += '&revenue=' + grandTotal;
@@ -3885,7 +3837,7 @@ if (typeof window.Matomo !== 'object') {
                     }
                     request += '&ec_items=' + encodeWrapper(windowAlias.JSON.stringify(items));
                 }
-                request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
+                request = getRequest(request, configCustomData, 'ecommerce');
                 sendRequest(request, configTrackerPause);
 
                 if (isEcommerceOrder) {

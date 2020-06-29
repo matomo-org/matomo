@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API;
@@ -179,12 +180,6 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setUrl("http://piwik.net/space/quest/iv");
 
         // Manually record some data
-        $t->setDebugStringAppend(
-            '&_idts='. $date->subDay(100)->getTimestampUTC(). // first visit timestamp
-            '&_ects='. $date->subDay(50)->getTimestampUTC(). // Timestamp ecommerce
-            '&_viewts='. $date->subDay(10)->getTimestampUTC(). // Last visit timestamp
-            '&_idvc=5' // Visit count
-        );
         $r = $t->doTrackPageView("Space Quest XII");
 
         if (!$doBulk) {
