@@ -47,7 +47,7 @@ class ArchiveSelector
 
     /**
      * @param ArchiveProcessor\Parameters $params
-     * @param bool $minDatetimeArchiveProcessedUTC deprecated. will be removed in Matomo 4.
+     * @param bool $minDatetimeArchiveProcessedUTC deprecated. Will be removed in Matomo 4.
      * @return array An array with four values:
      *               - the latest archive ID or false if none
      *               - the latest visits value for the latest archive, regardless of whether the archive is invalidated or not
@@ -86,6 +86,11 @@ class ArchiveSelector
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
 
+        $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
+        if (isset($result['partial'])) {
+            $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+        }
+
         if (isset($result['value'])
             && !in_array($result['value'], $doneFlagValues)
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
@@ -100,15 +105,19 @@ class ArchiveSelector
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
+        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+        }
+
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
-            && isset($result['idarchive'])
+            && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
-        $idArchives = isset($result['idarchive']) ? $result['idarchive'] : false;
+        $idArchives = !empty($result['idarchive']) ? $result['idarchive'] : false;
 
         return [$idArchives, $visits, $visitsConverted, true, $tsArchived];
     }
@@ -378,43 +387,57 @@ class ArchiveSelector
     {
         // find latest idarchive for each done flag
         $idArchives = [];
+        $tsArchiveds = [];
         foreach ($results as $row) {
             $doneFlag = $row['name'];
-            if (preg_match('/^done/', $doneFlag)) {
+            if (!isset($idArchives[$doneFlag]) && $row['value'] != ArchiveWriter::DONE_PARTIAL) {
                 $idArchives[$doneFlag] = $row['idarchive'];
+                $tsArchiveds[$doneFlag] = $row['ts_archived'];
             }
         }
 
-        $archiveData = [];
+        $archiveData = [
+            self::NB_VISITS_RECORD_LOOKED_UP => false,
+            self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => false,
+        ];
 
-        // gather the latest visits/visits_converted metrics
-        foreach ($results as $row) {
-            $name = $row['name'];
-            if (in_array($name, [self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])
-                && in_array($row['idarchive'], $idArchives)
+        foreach ($results as &$result) {
+            if (in_array($result['name'], $requestedPluginDoneFlags)
+                && in_array($result['idarchive'], $idArchives)
             ) {
-                $archiveData[$name] = $row['value'];
+                $archiveData = $result;
+                if (empty($archiveData[self::NB_VISITS_RECORD_LOOKED_UP])) {
+                    $archiveData[self::NB_VISITS_RECORD_LOOKED_UP] = 0;
+                }
+                if (empty($archiveData[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP])) {
+                    $archiveData[self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] = 0;
+                }
+                break;
             }
         }
 
-        // if an  archive is found, but the metric data isn't found, we set the value to 0,
-        // so it won't get returned as false. this is here because the code used to do this before this change
-        // and we didn't want to introduce any side effects. it may be removable in the future.
         foreach ([self::NB_VISITS_RECORD_LOOKED_UP, self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP] as $metric) {
-            if (!empty($idArchives)
-                && !isset($archiveData[$metric])
-            ) {
-                $archiveData[$metric] = 0;
+            foreach ($results as $result) {
+                if (!in_array($result['idarchive'], $idArchives)) {
+                    continue;
+                }
+
+                if (empty($archiveData[$metric])) {
+                    if (!empty($result[$metric]) || $result[$metric] === 0 || $result[$metric] === '0') {
+                        $archiveData[$metric] = $result[$metric];
+                    }
+                }
             }
         }
 
-        // set the idarchive & ts_archived for the archive we're looking for
+        // add partial archives
         foreach ($results as $row) {
-            $name = $row['name'];
-            if (in_array($name, $requestedPluginDoneFlags)) {
-                $archiveData['idarchive'][] = $row['idarchive'];
-                $archiveData['ts_archived'] = $row['ts_archived'];
-                $archiveData['value'] = $row['value'];
+            $mainTsArchived = $tsArchiveds[$row['name']];
+            $thisTsArchived = $row['ts_archived'];
+            if ($row['value'] === ArchiveWriter::DONE_PARTIAL
+                && ($mainTsArchived == $thisTsArchived || Date::factory($mainTsArchived)->isEarlier($thisTsArchived))
+            ) {
+                $idArchives['partial'][] = $row['idarchive'];
             }
         }
 
