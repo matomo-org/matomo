@@ -81,8 +81,9 @@ class Cookie
      *                                  use 0 (int zero) to expire cookie at end of browser session
      * @param string $path The path on the server in which the cookie will be available on.
      * @param bool|string $keyStore Will be used to store several bits of data (eg. one array per website)
+     * @param bool $validateSignature If true, the cookie signature will be validated (default).
      */
-    public function __construct($cookieName, $expire = null, $path = null, $keyStore = false)
+    public function __construct($cookieName, $expire = null, $path = null, $keyStore = false, $validateSignature = true)
     {
         $this->name = $cookieName;
         $this->path = $path;
@@ -96,7 +97,7 @@ class Cookie
 
         $this->keyStore = $keyStore;
         if ($this->isCookieFound()) {
-            $this->loadContentFromCookie();
+            $this->loadContentFromCookie($validateSignature);
         }
     }
 
@@ -205,14 +206,15 @@ class Cookie
      * Extract signed content from string: content VALUE_SEPARATOR '_=' signature
      *
      * @param string $content
+     * @param bool $validate
      * @return string|bool  Content or false if unsigned
      */
-    private function extractSignedContent($content)
+    private function extractSignedContent($content, $validate)
     {
         $signature = substr($content, -40);
 
         if (substr($content, -43, 3) === self::VALUE_SEPARATOR . '_=' &&
-            $signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt())
+            (!$validate || $signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt()))
         ) {
             // strip trailing: VALUE_SEPARATOR '_=' signature"
             return substr($content, 0, -43);
@@ -227,9 +229,9 @@ class Cookie
      * Unserialize the array when necessary.
      * Decode the non numeric values that were base64 encoded.
      */
-    protected function loadContentFromCookie()
+    protected function loadContentFromCookie($validateSignature = true)
     {
-        $cookieStr = $this->extractSignedContent($_COOKIE[$this->name]);
+        $cookieStr = $this->extractSignedContent($_COOKIE[$this->name], $validateSignature);
 
         if ($cookieStr === false) {
             return;
