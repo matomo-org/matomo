@@ -429,7 +429,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             } else {
                 console.log('Reloading CSS failed.');
             }
-            console.log('Response (size "' + body.length + '", status "' + response.status() + '"): ' + request.url() + "\n" + body.toString());
+            console.log('Response (size "' + body.length + '", status "' + response.status() + ', headers "' + JSON.stringify(response.headers()) + '"): ' + request.url() + "\n" + body.toString());
         }
     });
 
