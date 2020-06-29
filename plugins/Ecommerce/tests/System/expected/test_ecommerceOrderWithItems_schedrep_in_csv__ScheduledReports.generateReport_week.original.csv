@@ -156,6 +156,12 @@ Sunday,0,0%,0,00:00:00,0%,0
 User IDs
 No data available
 
+Custom Variables
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+ValueIsZero - 0,5,16,"$13,361.11",3.2,00:22:49,20%
+VisitorType - NewLoggedOut,5,16,"$13,361.11",3.2,00:22:49,20%
+VisitorName - Great name!,4,12,"$13,351.11",3,00:25:32,25%
+
 Actions - Main metrics
 nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords
 16,4,0,0,0,0,0,0

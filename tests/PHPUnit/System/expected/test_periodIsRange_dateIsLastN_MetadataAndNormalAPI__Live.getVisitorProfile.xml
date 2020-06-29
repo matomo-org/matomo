@@ -144,6 +144,16 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -279,6 +289,16 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 		</row>
 	</lastVisits>
 	
@@ -336,4 +356,26 @@
 			<prettyName>France</prettyName>
 		</row>
 	</countries>
+	<customVariables>
+		<visit>
+			<row>
+				<name>VisitorType</name>
+				<values>
+					<row>
+						<value>LoggedOut</value>
+						<count>2</count>
+					</row>
+				</values>
+			</row>
+			<row>
+				<name>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</name>
+				<values>
+					<row>
+						<value>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</value>
+						<count>2</count>
+					</row>
+				</values>
+			</row>
+		</visit>
+	</customVariables>
 </result>

@@ -46,7 +46,8 @@ class CategoryListTest extends IntegrationTestCase
             'UserCountry_VisitLocation',
             'Live!',
             'Marketplace_Marketplace',
-            'ExampleUI_UiFramework'
+            'ExampleUI_UiFramework',
+            'CustomVariables_CustomVariables',
         ), array_keys($list->getCategories()));
     }
 

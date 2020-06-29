@@ -235,6 +235,16 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'custom_dimension_3' => null,
             'custom_dimension_4' => null,
             'custom_dimension_5' => null,
+            'custom_var_k1' => null,
+            'custom_var_v1' => null,
+            'custom_var_k2' => null,
+            'custom_var_v2' => null,
+            'custom_var_k3' => null,
+            'custom_var_v3' => null,
+            'custom_var_k4' => null,
+            'custom_var_v4' => null,
+            'custom_var_k5' => null,
+            'custom_var_v5' => null,
         ), $this->anonymizer->getAvailableVisitColumnsToAnonymize());
     }
 

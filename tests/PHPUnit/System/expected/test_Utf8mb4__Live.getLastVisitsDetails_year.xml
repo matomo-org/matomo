@@ -143,5 +143,7 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+		</customVariables>
 	</row>
 </result>

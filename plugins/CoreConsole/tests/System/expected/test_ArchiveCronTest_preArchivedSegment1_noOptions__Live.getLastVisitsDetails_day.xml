@@ -23,6 +23,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -119,6 +125,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -143,6 +151,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -239,6 +253,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -263,6 +279,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -359,6 +381,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -383,6 +407,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -479,6 +509,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -503,6 +535,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -599,6 +637,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -623,6 +663,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -719,6 +765,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -743,6 +791,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -839,6 +893,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -863,6 +919,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -959,6 +1021,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -983,6 +1047,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1079,6 +1149,8 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1103,6 +1175,12 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1199,5 +1277,7 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 </result>

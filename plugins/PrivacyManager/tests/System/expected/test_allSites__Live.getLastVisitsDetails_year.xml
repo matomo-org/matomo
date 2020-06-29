@@ -351,6 +351,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -507,6 +513,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -684,6 +696,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -838,6 +856,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1015,6 +1039,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1154,6 +1184,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1327,6 +1363,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1483,6 +1525,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1835,6 +1883,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1991,6 +2045,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -2168,6 +2228,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -2322,6 +2388,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -2499,6 +2571,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -2638,6 +2716,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -2811,6 +2895,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -2967,6 +3057,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3319,6 +3415,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3475,6 +3577,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3652,6 +3760,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3806,6 +3920,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3983,6 +4103,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -4122,6 +4248,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -4295,6 +4427,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -4451,6 +4589,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4586,6 +4730,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4982,6 +5132,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5102,6 +5258,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5365,6 +5527,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -5500,6 +5668,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -5896,6 +6070,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -6016,6 +6196,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -6279,6 +6465,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -6414,6 +6606,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -6810,6 +7008,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -6930,6 +7134,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -7193,6 +7403,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7355,6 +7571,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7496,6 +7718,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -7658,6 +7886,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -7828,6 +8062,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -7990,6 +8230,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -8160,6 +8406,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -8322,6 +8574,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -8480,6 +8738,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -8642,6 +8906,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -8800,6 +9070,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -8962,6 +9238,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -9120,6 +9402,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -9347,6 +9635,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -9574,6 +9868,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -9801,6 +10101,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -9963,6 +10269,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -10123,6 +10435,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -10285,6 +10603,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -10447,6 +10771,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -10636,6 +10966,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -10798,6 +11134,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -10960,6 +11302,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -11149,6 +11497,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -11311,6 +11665,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11538,6 +11898,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -11765,6 +12131,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -11992,6 +12364,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12133,6 +12511,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12274,6 +12658,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -12415,6 +12805,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -12556,6 +12952,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -12697,6 +13099,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -12838,6 +13246,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13000,6 +13414,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -13162,6 +13582,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -13324,6 +13750,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13486,6 +13918,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13803,6 +14241,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -13965,6 +14409,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -14282,6 +14732,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -14444,6 +14900,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -14761,6 +15223,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14917,6 +15385,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -15073,6 +15547,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15229,6 +15709,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -15391,6 +15877,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -15547,6 +16039,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -15709,6 +16207,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -15865,6 +16369,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16027,6 +16537,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16183,6 +16699,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -16345,6 +16867,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -16507,6 +17035,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16669,6 +17203,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -16834,6 +17374,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -16996,6 +17542,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -17161,6 +17713,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -17323,6 +17881,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -17488,6 +18052,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -17650,6 +18220,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18002,6 +18578,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18158,6 +18740,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18335,6 +18923,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18489,6 +19083,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18666,6 +19266,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18805,6 +19411,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18978,6 +19590,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19134,6 +19752,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19269,6 +19893,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19665,6 +20295,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19785,6 +20421,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20048,6 +20690,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20210,6 +20858,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20351,6 +21005,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20513,6 +21173,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20671,6 +21337,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20898,6 +21570,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21060,6 +21738,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21220,6 +21904,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21382,6 +22072,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21609,6 +22305,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21750,6 +22452,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21891,6 +22599,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22053,6 +22767,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22215,6 +22935,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22532,6 +23258,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22688,6 +23420,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22850,6 +23588,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23006,6 +23750,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23168,6 +23918,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23333,6 +24089,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23495,6 +24257,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23847,6 +24615,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24003,6 +24777,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24180,6 +24960,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24334,6 +25120,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24511,6 +25303,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24650,6 +25448,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24823,6 +25627,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24979,6 +25789,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -25331,6 +26147,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -25487,6 +26309,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -25664,6 +26492,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -25818,6 +26652,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -25995,6 +26835,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -26134,6 +26980,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -26307,6 +27159,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -26463,6 +27321,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -26598,6 +27462,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -26994,6 +27864,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -27114,6 +27990,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -27377,6 +28259,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -27512,6 +28400,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -27908,6 +28802,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -28028,6 +28928,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -28291,6 +29197,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -28453,6 +29365,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -28594,6 +29512,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -28756,6 +29680,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -28897,6 +29827,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -29059,6 +29995,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -29217,6 +30159,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -29379,6 +30327,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -29537,6 +30491,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -29764,6 +30724,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -29991,6 +30957,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -30153,6 +31125,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -30313,6 +31291,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -30475,6 +31459,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -30637,6 +31627,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -30797,6 +31793,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -30959,6 +31961,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -31186,6 +32194,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -31413,6 +32427,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -31554,6 +32574,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -31695,6 +32721,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -31836,6 +32868,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -31977,6 +33015,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -32139,6 +33183,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -32301,6 +33351,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -32463,6 +33519,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -32780,6 +33842,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -32942,6 +34010,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -33259,6 +34333,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -33415,6 +34495,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -33571,6 +34657,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -33733,6 +34825,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -33889,6 +34987,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -34051,6 +35155,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -34207,6 +35317,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -34369,6 +35485,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -34531,6 +35653,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -34696,6 +35824,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -34858,6 +35992,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -35023,6 +36163,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -35185,6 +36331,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -35537,6 +36689,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -35693,6 +36851,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -35870,6 +37034,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -36024,6 +37194,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -36201,6 +37377,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -36340,6 +37522,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -36513,6 +37701,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -36669,6 +37863,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -36804,6 +38004,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -37200,6 +38406,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -37320,6 +38532,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -37583,6 +38801,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -37745,6 +38969,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -37915,6 +39145,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -38077,6 +39313,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -38235,6 +39477,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -38462,6 +39710,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -38624,6 +39878,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -38813,6 +40073,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -38975,6 +40241,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -39202,6 +40474,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -39343,6 +40621,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -39484,6 +40768,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -39646,6 +40936,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -39808,6 +41104,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -40125,6 +41427,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -40281,6 +41589,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -40443,6 +41757,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -40599,6 +41919,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -40761,5 +42087,11 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 </result>

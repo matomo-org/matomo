@@ -89,6 +89,46 @@
 		<default_value />
 	</row>
 	<row>
+		<column_name>custom_var_k1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v5</column_name>
+		<default_value />
+	</row>
+	<row>
 		<column_name>last_idlink_va</column_name>
 		<default_value />
 	</row>

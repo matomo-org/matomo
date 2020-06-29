@@ -17,6 +17,8 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
+use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIPAndEcommerce;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Cache;
@@ -254,6 +256,12 @@ class AutoSuggestAPITest extends SystemTestCase
             $environment->getContainer()->get('Piwik\Plugin\Manager')->loadActivatedPlugins();
 
             foreach (Dimension::getAllDimensions() as $dimension) {
+                if ($dimension instanceof CustomVariableName
+                    || $dimension instanceof CustomVariableValue
+                ) {
+                    continue; // ignore custom variables dimensions as they are tested in the plugin
+                }
+
                 foreach ($dimension->getSegments() as $segment) {
                     if ($segment->isInternal()) {
                         continue;
