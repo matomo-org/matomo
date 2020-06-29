@@ -14,6 +14,7 @@ use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
@@ -31,6 +32,11 @@ class ProductViewCategory extends ActionDimension
     protected $category = 'Goals_Ecommerce';
     protected $categoryNumber = 1;
 
+    public function getName()
+    {
+        return parent::getName() . ' ' . $this->categoryNumber;
+    }
+
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $individualProductCategorySegments = $this->getProductCategorySegments(ProductCategory::PRODUCT_CATEGORY_COUNT);
@@ -45,7 +51,7 @@ class ProductViewCategory extends ActionDimension
             $segment = new Segment();
             $segment->setCategory($this->category);
             $segment->setType('dimension');
-            $segment->setName($this->getName() . ' ' . ($i + 1));
+            $segment->setName(Piwik::translate('Ecommerce_ViewedProductCategory') . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
             $segment->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
             $segment->setSqlSegment('log_link_visit_action.' . $productCategoryColumnName);
@@ -69,7 +75,7 @@ class ProductViewCategory extends ActionDimension
         $segment->setCategory($this->category);
         $segment->setType('dimension');
         $segment->setSegment('productViewCategory');
-        $segment->setName($this->getName());
+        $segment->setName(Piwik::translate('Ecommerce_ViewedProductCategory'));
         $segment->setUnionOfSegments($individualProductCategorySegments);
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
