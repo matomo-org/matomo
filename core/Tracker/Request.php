@@ -768,7 +768,7 @@ class Request
         $found = false;
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {
-            // If User ID is set it takes precedence
+            // If User ID is set it takes precedence 
             $userId = $this->getForcedUserId();
             if ($userId) {
                 $userIdHashed = $this->getUserIdHashed($userId);
