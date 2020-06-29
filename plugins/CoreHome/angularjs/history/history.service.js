@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,7 +13,7 @@
  *
  * Should only be used by the broadcast object.
  *
- * @deprecated in 3.2.2, will be removed in Piwik 4
+ * @deprecated in 3.2.2, will be removed in Matomo 5
  */
 (function (window, $, broadcast) {
     angular.module('piwikApp').service('historyService', historyService);

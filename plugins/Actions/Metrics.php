@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
 use Piwik\Tracker\Action;

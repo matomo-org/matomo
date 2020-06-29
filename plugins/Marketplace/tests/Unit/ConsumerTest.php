@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,14 +17,14 @@ use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
  * @group Consumer
  * @group Plugins
  */
-class ConsumerTest extends \PHPUnit_Framework_TestCase
+class ConsumerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Service
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new Service();
     }

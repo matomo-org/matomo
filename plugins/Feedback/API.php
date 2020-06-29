@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,10 @@
 namespace Piwik\Plugins\Feedback;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Translate;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -80,11 +80,13 @@ class API extends \Piwik\Plugin\API
 
     private function getEnglishTranslationForFeatureName($featureName)
     {
-        if (Translate::getLanguageLoaded() == 'en') {
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        if ($translator->getCurrentLanguage() == 'en') {
             return $featureName;
         }
 
-        $translationKeyForFeature = Translate::findTranslationKeyForTranslation($featureName);
+        $translationKeyForFeature = $translator->findTranslationKeyForTranslation($featureName);
 
         return Piwik::translate($translationKeyForFeature, array(), 'en');
     }

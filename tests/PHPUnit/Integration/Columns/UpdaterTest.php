@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -59,7 +59,7 @@ class UpdaterTest extends IntegrationTestCase
      */
     private $columnsUpdater;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -168,7 +168,6 @@ class UpdaterTest extends IntegrationTestCase
         return array(
             array('log_visit', 'user_id', 'VARCHAR(200) NULL'),
             array('log_link_visit_action', 'idaction_event_category', 'INTEGER(10) UNSIGNED DEFAULT NULL'),
-            array('log_conversion', 'revenue_tax', 'float default NULL')
         );
     }
 
@@ -189,7 +188,7 @@ class UpdaterTest extends IntegrationTestCase
 
     private function getMockUpdater($hasNewVersion = true)
     {
-        $result = $this->getMockBuilder("Piwik\\Updater")->setMethods(array('hasNewVersion'))->getMock();
+        $result = $this->getMockBuilder("Piwik\\Updater")->onlyMethods(array('hasNewVersion'))->getMock();
 
         $result->expects($this->any())->method('hasNewVersion')->will($this->returnCallback(function () use ($hasNewVersion) {
             return $hasNewVersion;

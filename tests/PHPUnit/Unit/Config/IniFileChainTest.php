@@ -1,19 +1,20 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Unit\Config;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
+use Piwik\Config;
 use Piwik\Config\IniFileChain;
 
 /**
  * @group Core
  */
-class IniFileChainTest extends PHPUnit_Framework_TestCase
+class IniFileChainTest extends TestCase
 {
     /**
      * Data provider for testCompareElements
@@ -378,5 +379,37 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
 
         $actualOutput = $fileChain->dumpChanges($header);
         $this->assertEquals($expectedDumpChanges, $actualOutput);
+    }
+
+
+    public function test_dump_handlesSpecialCharsCorrectly()
+    {
+        $config = new IniFileChain();
+        $config->set('first', ["a[]\n\n[d]\n\nb=4" => "\n\n[def]\na=b"]);
+        $config->set('second', ["a[]\n\n[d]b=4" => 'b']);
+        $config->set('thir][d]', ['a' => 'b']);
+        $config->set("four]\n\n[def]\n", ['d[]' => 'e']);
+        $out = $config->dump();
+
+        $expected = <<<END
+[first]
+a[][d]b4 = "
+
+[def]
+a=b"
+
+[second]
+a[][d]b4 = "b"
+
+[third]
+a = "b"
+
+[fourdef]
+d[] = "e"
+
+
+END;
+
+        $this->assertEquals($expected, $out);
     }
 }

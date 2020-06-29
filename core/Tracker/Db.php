@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -280,6 +280,12 @@ abstract class Db
         $db = self::factory($configDb);
         $db->connect();
 
+        $trackerConfig = Config::getInstance()->Tracker;
+        if (!empty($trackerConfig['innodb_lock_wait_timeout']) && $trackerConfig['innodb_lock_wait_timeout'] > 0){
+            // we set this here because we only want to set this config if a connection is actually created.
+            $time = (int) $trackerConfig['innodb_lock_wait_timeout'];
+            $db->query('SET @@innodb_lock_wait_timeout = ' . $time);
+        }
         return $db;
     }
 }

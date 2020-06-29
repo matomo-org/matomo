@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -80,7 +80,7 @@ class SyncScreenshots extends ConsoleCommand
 
     private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null)
     {
-        $url = sprintf('https://builds-artifacts.piwik.org/api/%s/%s', $repository, $buildNumber);
+        $url = sprintf('https://builds-artifacts.matomo.org/api/%s/%s', $repository, $buildNumber);
 
         $this->logger->debug('Fetching {url}', array('url' => $url));
 
@@ -111,7 +111,7 @@ class SyncScreenshots extends ConsoleCommand
     private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword)
     {
         $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
-        $url = 'https://builds-artifacts.piwik.org' . $url;
+        $url = 'https://builds-artifacts.matomo.org' . $url;
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
 
@@ -146,7 +146,7 @@ echo -e \"\n--> Check the commit above is correct... <---\n\"
 sleep 7
 git push";
 
-        if ($repository === 'piwik/piwik') {
+        if ($repository === 'matomo-org/matomo') {
             $commands .= "
 cd ../../../";
         } else {

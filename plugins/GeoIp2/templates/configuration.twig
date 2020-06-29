@@ -1,0 +1,51 @@
+<div piwik-content-block
+     content-title="{% if not geoIPDatabasesInstalled %}{{ 'GeoIp2_GeoIPDatabases'|translate|e('html_attr') }}{% else %}{{ 'GeoIp2_SetupAutomaticUpdatesOfGeoIP'|translate|e('html_attr') }}{% endif %}"
+     id="geoip-db-mangement">
+
+    <div piwik-geoip2-updater
+         geoip-database-installed="{% if geoIPDatabasesInstalled %}1{% else %}0{% endif %}">
+
+        {% if showGeoIPUpdateSection %}
+            {% if not geoIPDatabasesInstalled %}
+                <div ng-show="!locationUpdater.geoipDatabaseInstalled">
+                    <div ng-show="locationUpdater.showPiwikNotManagingInfo">
+                        <h3>{{ 'GeoIp2_NotManagingGeoIPDBs'|translate|e('html_attr') }}</h3>
+                        <div id="manage-geoip-dbs">
+                            <div class="row" id="geoipdb-screen1">
+                                <div class="geoipdb-column-1 col s6">
+                                    <p>{{ 'GeoIp2_IWantToDownloadFreeGeoIP'|translate|raw }}<sup><small>*</small></sup></p>
+                                </div>
+                                <div class="geoipdb-column-2 col s6">
+                                    <p>{{ 'GeoIp2_IPurchasedGeoIPDBs'|translate('<a rel="noreferrer noopener" href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/db/?refid=mtm">','</a>')|raw }}</p>
+                                </div>
+                                <div class="geoipdb-column-1 col s6">
+                                    <input type="button" class="btn"
+                                           ng-click="locationUpdater.startDownloadFreeGeoIp()"
+                                           value="{{ 'General_GetStarted'|translate }}..."/>
+                                </div>
+                                <div class="geoipdb-column-2 col s6">
+                                    <input type="button" class="btn"
+                                           ng-click="locationUpdater.startAutomaticUpdateGeoIp()"
+                                           value="{{ 'General_GetStarted'|translate }}..." id="start-automatic-update-geoip"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p><sup>* <small>{{ 'UserCountry_GeoIpDbIpAccuracyNote'|translate('<a href="https://dev.maxmind.com/geoip/geoip2/geolite2/?rId=piwik" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}.</small></sup></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="geoipdb-screen2-download" ng-show="locationUpdater.showFreeDownload">
+                        <div piwik-progressbar
+                             label="{{ ('GeoIp2_DownloadingDb'|translate('<a href="'~dbipLiteUrl~'">'~dbipLiteFilename~'</a>') ~ '...')|json_encode }}"
+                             progress="locationUpdater.progressFreeDownload">
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% include "@GeoIp2/_updaterManage.twig" %}
+        {% else %}
+            <p class="form-description">{{ 'GeoIp2_CannotSetupGeoIPAutoUpdating'|translate }}</p>
+        {% endif %}
+    </div>
+</div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,7 @@ namespace Piwik\Plugins\VisitorInterest\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\VisitorInterest\Columns\VisitsByDaysSinceLastVisit;
+use Piwik\Plugins\VisitorInterest\Columns\VisitorDaysSinceLast;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -21,7 +21,7 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
     protected function init()
     {
         parent::init();
-        $this->dimension     = new VisitsByDaysSinceLastVisit();
+        $this->dimension     = new VisitorDaysSinceLast();
         $this->name          = Piwik::translate('VisitorInterest_VisitsByDaysSinceLast');
         $this->documentation = Piwik::translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation');
         $this->metrics       = array('nb_visits');

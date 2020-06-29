@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -33,7 +33,7 @@ class SegmentTest extends IntegrationTestCase
 
     private $exampleSegment = 'visitCount>=1';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -323,7 +323,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM ' . Common::prefixTable('log_conversion') . ' AS log_conversion
                     LEFT JOIN ' . Common::prefixTable('log_visit') . ' AS log_visit ON log_visit.idvisit = log_conversion.idvisit
-                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_days_since_first * 86400) = ? ',
+                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first) = ? ',
             'bind' => [2],
         ];
 
@@ -931,12 +931,8 @@ class SegmentTest extends IntegrationTestCase
      */
     public function test_bogusSegment_shouldThrowException($segment)
     {
-        try {
-            new Segment($segment, $idSites = array());
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(\Exception::class);
+        new Segment($segment, $idSites = array());
     }
 
 
@@ -1883,13 +1879,13 @@ log_visit.visit_total_actions
     {
         return [
             'observers.global' => [
-                ['Segment.addSegments', function (&$segments) {
+                ['Segment.addSegments', function (Segment\SegmentsList $list) {
                     $segment = new \Piwik\Plugin\Segment();
                     $segment->setSegment('customSegment');
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
                     $segment->setName('Custom Segment');
-                    $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_days_since_first * 86400)');
-                    $segments[] = $segment;
+                    $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)');
+                    $list->addSegment($segment);
                 }],
             ],
         ];

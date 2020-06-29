@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Period selector screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -62,7 +62,7 @@ describe("PeriodSelector", function () {
     });
 
     it("should change the date when a date is clicked in week-period mode", async function() {
-        await page.click('label[for=period_id_week]');
+        await page.click('#period_id_week');
         await page.waitFor(250); // wait for animation
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
@@ -72,7 +72,7 @@ describe("PeriodSelector", function () {
     });
 
     it("should change the date when a date is clicked in month-period mode", async function() {
-        await page.click('label[for=period_id_month]');
+        await page.click('#period_id_month');
         await page.waitFor(250); // wait for animation
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(14)');
@@ -82,7 +82,7 @@ describe("PeriodSelector", function () {
     });
 
     it("should change the date when a date is clicked in year-period mode", async function() {
-        await page.click('label[for=period_id_year]');
+        await page.click('#period_id_year');
         await page.waitFor(250); // wait for animation
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(15)');
@@ -92,7 +92,7 @@ describe("PeriodSelector", function () {
     });
 
     it("should display the range picker when the range radio button is clicked", async function() {
-        await page.click('label[for=period_id_range]');
+        await page.click('#period_id_range');
         await page.waitFor(250); // wait for animation
 
         expect(await page.screenshotSelector(selector)).to.matchImage('range_picker_displayed');
@@ -106,12 +106,13 @@ describe("PeriodSelector", function () {
         await element.click();
 
         await page.hover('#calendarApply');
+        await page.waitFor(250);
 
         expect(await page.screenshotSelector(selector)).to.matchImage('date_range_selected');
     });
 
     it("should enable the comparison dropdown when 'compare' is checked", async function () {
-        await page.click('label[for=comparePeriodTo]');
+        await page.click('#comparePeriodTo + span');
         await page.waitFor(250); // wait for animation
 
         expect(await page.screenshotSelector(selector)).to.matchImage('comparison_checked');

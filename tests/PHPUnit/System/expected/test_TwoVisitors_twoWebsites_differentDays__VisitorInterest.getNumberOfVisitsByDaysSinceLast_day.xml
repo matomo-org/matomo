@@ -168,12 +168,12 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 				<segment>daysSinceLastVisit==1</segment>
 			</row>
 			<row>
 				<label>2 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 				<segment>daysSinceLastVisit==2</segment>
 			</row>
 			<row>
@@ -245,7 +245,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 				<segment>daysSinceLastVisit==1</segment>
 			</row>
 			<row>
@@ -255,7 +255,7 @@
 			</row>
 			<row>
 				<label>3 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 				<segment>daysSinceLastVisit==3</segment>
 			</row>
 			<row>
@@ -322,7 +322,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 				<segment>daysSinceLastVisit==1</segment>
 			</row>
 			<row>
@@ -337,7 +337,7 @@
 			</row>
 			<row>
 				<label>4 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 				<segment>daysSinceLastVisit==4</segment>
 			</row>
 			<row>
@@ -399,7 +399,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 				<segment>daysSinceLastVisit==1</segment>
 			</row>
 			<row>
@@ -419,7 +419,7 @@
 			</row>
 			<row>
 				<label>5 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 				<segment>daysSinceLastVisit==5</segment>
 			</row>
 			<row>
@@ -476,7 +476,7 @@
 			</row>
 			<row>
 				<label>1 day</label>
-				<nb_visits>0</nb_visits>
+				<nb_visits>1</nb_visits>
 				<segment>daysSinceLastVisit==1</segment>
 			</row>
 			<row>
@@ -501,7 +501,7 @@
 			</row>
 			<row>
 				<label>6 days</label>
-				<nb_visits>1</nb_visits>
+				<nb_visits>0</nb_visits>
 				<segment>daysSinceLastVisit==6</segment>
 			</row>
 			<row>

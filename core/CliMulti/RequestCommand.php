@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -80,6 +80,10 @@ class RequestCommand extends ConsoleCommand
 
         if (!empty($process)) {
             $process->finishProcess();
+        }
+
+        while (ob_get_level()) {
+           echo ob_get_clean();
         }
     }
 

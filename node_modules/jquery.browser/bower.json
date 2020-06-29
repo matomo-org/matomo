@@ -1,0 +1,13 @@
+{
+	"name": "jquery.browser",
+	"version": "0.1.0",
+	"homepage": "https://github.com/gabceb/jquery-browser-plugin",
+	"authors": ["Gabriel Cebrian <gabceb@gmail.com>", "jQuery Team <https://github.com/gabceb/jquery-browser-plugin/wiki/Authors>"],
+	"description": "A jQuery plugin for browser detection.",
+	"main": "dist/jquery.browser.js",
+	"keywords": ["browser", "jquery", "desktop", "detect"],
+	"license": "MIT",
+	"dependencies": {
+    	"jquery": ">=1.5"
+    }
+}

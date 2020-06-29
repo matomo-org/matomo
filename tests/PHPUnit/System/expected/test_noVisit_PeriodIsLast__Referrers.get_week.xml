@@ -1,87 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result date="2008-12-29,2009-01-04">
-		<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
-		<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
-		<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
-		<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-		<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
-		<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
-		<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-		<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-		<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-		<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
-	</result>
-	<result date="2009-01-05,2009-01-11">
-		<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
-		<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
-		<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
-		<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-		<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
-		<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
-		<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-		<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-		<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-		<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
-	</result>
-	<result date="2009-01-12,2009-01-18">
-		<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
-		<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
-		<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
-		<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-		<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
-		<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
-		<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-		<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-		<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-		<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
-	</result>
-	<result date="2009-01-19,2009-01-25">
-		<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
-		<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
-		<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
-		<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-		<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
-		<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
-		<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-		<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-		<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-		<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
-	</result>
-	<result date="2009-01-26,2009-02-01">
-		<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
-		<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
-		<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
-		<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-		<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
-		<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
-		<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-		<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-		<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-		<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
-	</result>
-	<result date="2009-02-02,2009-02-08">
-		<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
-		<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
-		<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
-		<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-		<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
-		<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
-		<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-		<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-		<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-		<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
-	</result>
-	<result date="2009-02-09,2009-02-15">
-		<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
-		<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
-		<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
-		<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-		<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
-		<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
-		<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-		<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-		<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-		<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
-	</result>
+	<result date="2008-12-29,2009-01-04" />
+	<result date="2009-01-05,2009-01-11" />
+	<result date="2009-01-12,2009-01-18" />
+	<result date="2009-01-19,2009-01-25" />
+	<result date="2009-01-26,2009-02-01" />
+	<result date="2009-02-02,2009-02-08" />
+	<result date="2009-02-09,2009-02-15" />
 </results>

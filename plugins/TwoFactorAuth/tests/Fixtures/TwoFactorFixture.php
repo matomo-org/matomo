@@ -42,7 +42,7 @@ class TwoFactorFixture extends Fixture
      */
     private $twoFa;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);
         $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
@@ -52,7 +52,7 @@ class TwoFactorFixture extends Fixture
         $this->trackFirstVisit();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -82,7 +82,7 @@ class TwoFactorFixture extends Fixture
 
             if ($this->userWith2Fa === $user) {
                 $userModel = new Model();
-                $userModel->updateUserTokenAuth($user, 'c4ca4238a0b923820dcc509a6f75849b');
+                $userModel->addTokenAuth($user, 'a4ca4238a0b923820dcc509a6f75849b', 'twofa test', Date::now()->getDatetime());
             }
         }
 

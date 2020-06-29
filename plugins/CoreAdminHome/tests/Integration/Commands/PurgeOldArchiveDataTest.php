@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,7 +35,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
      */
     protected $application;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -57,7 +57,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertInvalidatedArchivesNotPurged(self::$fixture->february);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         PurgeOldArchiveData::$todayOverride = null;
 
@@ -138,9 +138,9 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertTemporaryArchivesNotPurged(self::$fixture->january);
         self::$fixture->assertCustomRangesNotPurged(self::$fixture->january);
 
-        $this->assertContains("Skipping purge outdated archive data.", $this->applicationTester->getDisplay());
-        $this->assertContains("Skipping purge invalidated archive data.", $this->applicationTester->getDisplay());
-        $this->assertContains("Skipping OPTIMIZE TABLES.", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Skipping purge outdated archive data.", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Skipping purge invalidated archive data.", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Skipping OPTIMIZE TABLES.", $this->applicationTester->getDisplay());
     }
 
     protected function getCommandDisplayOutputErrorMessage()

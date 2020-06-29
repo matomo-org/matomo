@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -41,7 +41,7 @@ class Login extends \Piwik\Plugin
 
             // for brute force prevention of all tracking + reporting api requests
             'Request.initAuthenticationObject' => 'onInitAuthenticationObject',
-            'API.UsersManager.getTokenAuth' => 'beforeLoginCheckBruteForce', // doesn't require auth but can be used to authenticate
+            'API.UsersManager.createAppSpecificTokenAuth' => 'beforeLoginCheckBruteForce', // doesn't require auth but can be used to authenticate
 
             // for brute force prevention of all UI requests
             'Controller.Login.logme'           => 'beforeLoginCheckBruteForce',
@@ -189,13 +189,5 @@ class Login extends \Piwik\Plugin
                 && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
     }
 
-    /**
-     * @param $auth
-     * @deprecated authenticating via cookie is handled in core by SessionAuth
-     */
-    public static function initAuthenticationFromCookie(\Piwik\Auth $auth, $activateCookieAuth)
-    {
-        // empty
-    }
 
 }

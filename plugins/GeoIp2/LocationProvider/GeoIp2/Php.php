@@ -11,10 +11,17 @@ namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
+use Piwik\Date;
+use Piwik\Common;
 use Piwik\Log;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Marketplace\Api\Exception;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\SettingsPiwik;
+use Piwik\View;
 
 /**
  * A LocationProvider that uses the PHP implementation of GeoIP 2.
@@ -238,9 +245,33 @@ class Php extends GeoIp2
         if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
             $subdivisions = $lookupResult->subdivisions;
             $subdivision = $this->determinSubdivision($subdivisions, $result[self::COUNTRY_CODE_KEY]);
-            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode);
+            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode) ?: $this->determineRegionIsoCodeByNameAndCountryCode($subdivision->name, $result[self::COUNTRY_CODE_KEY]);
             $result[self::REGION_NAME_KEY] = $subdivision->name;
         }
+    }
+
+    /**
+     * Try to determine the ISO region code based on the region name and country code
+     *
+     * @param string $regionName
+     * @param string $countryCode
+     * @return string
+     */
+    protected function determineRegionIsoCodeByNameAndCountryCode($regionName, $countryCode)
+    {
+        $regionNames = self::getRegionNames();
+
+        if (empty($regionNames[$countryCode])) {
+            return '';
+        }
+
+        foreach ($regionNames[$countryCode] as $isoCode => $name) {
+            if (Common::mb_strtolower($name) === Common::mb_strtolower($regionName)) {
+                return $isoCode;
+            }
+        }
+
+        return '';
     }
 
     protected function determinSubdivision($subdivisions, $countryCode)
@@ -366,16 +397,16 @@ class Php extends GeoIp2
         }
 
         if (isset($availableInfo[self::ISP_KEY]) && $availableInfo[self::ISP_KEY]) {
-            $availableDatabaseTypes[] = Piwik::translate('UserCountry_ISPDatabase');
+            $availableDatabaseTypes[] = Piwik::translate('GeoIp2_ISPDatabase');
         }
 
         if (!empty($availableDatabaseTypes)) {
             $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
-                . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
+                . Piwik::translate('GeoIp2_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
                 . implode(', ', $availableDatabaseTypes) . '</strong>.';
         } else {
             $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
-                . Piwik::translate('UserCountry_GeoIPNoDatabaseFound');
+                . Piwik::translate('GeoIp2_GeoIPNoDatabaseFound');
         }
 
         return array('id'            => self::ID,
@@ -384,6 +415,67 @@ class Php extends GeoIp2
             'install_docs'  => $installDocs,
             'extra_message' => $extraMessage,
             'order'         => 2);
+    }
+
+    public function renderConfiguration()
+    {
+        $view = new View('@GeoIp2/configuration.twig');
+        $today = Date::today();
+
+        $urls = GeoIP2AutoUpdater::getConfiguredUrls();
+        $view->geoIPLocUrl = $urls['loc'];
+        $view->geoIPIspUrl = $urls['isp'];
+        $view->geoIPUpdatePeriod = GeoIP2AutoUpdater::getSchedulePeriod();
+
+        $view->hasGeoIp2Provider = Manager::getInstance()->isPluginActivated('GeoIp2');
+
+        $geoIPDatabasesInstalled = $view->hasGeoIp2Provider ? GeoIp2::isDatabaseInstalled() : false;
+
+        $view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
+        $view->updatePeriodOptions = [
+            'month' => Piwik::translate('Intl_PeriodMonth'),
+            'week' => Piwik::translate('Intl_PeriodWeek')
+        ];
+
+
+        // if using a server module, they are working and there are no databases
+        // in misc, then the databases are located outside of Matomo, so we cannot update them
+        $view->showGeoIPUpdateSection = true;
+        $currentProviderId = LocationProvider::getCurrentProviderId();
+        if (!$geoIPDatabasesInstalled
+            && in_array($currentProviderId, [GeoIp2\ServerModule::ID])
+            && LocationProvider::getCurrentProvider()->isWorking()
+            && LocationProvider::getCurrentProvider()->isAvailable()
+        ) {
+            $view->showGeoIPUpdateSection = false;
+        }
+
+        $view->isInternetEnabled = SettingsPiwik::isInternetEnabled();
+
+
+        $view->dbipLiteUrl = GeoIp2::getDbIpLiteUrl();
+        $view->dbipLiteFilename = "dbip-city-lite-{$today->toString('Y-m')}.mmdb";
+        $view->dbipLiteDesiredFilename = "DBIP-City.mmdb";
+        $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
+
+        $lastRunTime = GeoIP2AutoUpdater::getLastRunTime();
+
+        if ($lastRunTime !== false) {
+            $view->lastTimeUpdaterRun = '<strong>' . $lastRunTime->toString() . '</strong>';
+        }
+        return $view->render();
+    }
+
+    public function renderSetUpGuide()
+    {
+        $today = Date::today();
+        $view = new View('@GeoIp2/setupguide.twig');
+
+        $view->dbipLiteUrl = GeoIp2::getDbIpLiteUrl();
+        $view->dbipLiteFilename = "dbip-city-lite-{$today->toString('Y-m')}.mmdb";
+        $view->dbipLiteDesiredFilename = "DBIP-City.mmdb";
+
+        return $view->render();
     }
 
     /**

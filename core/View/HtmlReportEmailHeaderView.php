@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -67,7 +67,6 @@ class HtmlReportEmailHeaderView extends View
         $emailStyles = EmailStyles::get();
 
         $view->currentPath = SettingsPiwik::getPiwikUrl();
-        $view->logoHeader = API::getInstance()->getHeaderLogoUrl();
 
         $view->themeStyles = $themeStyles;
         $view->emailStyles = $emailStyles;

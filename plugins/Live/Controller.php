@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,8 +11,8 @@ namespace Piwik\Plugins\Live;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\DataTable;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;
@@ -23,6 +23,14 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\Controller
 {
     const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
+
+    private $profileSummaryProvider;
+
+    public function __construct(ProfileSummaryProvider $profileSummaryProvider)
+    {
+        $this->profileSummaryProvider = $profileSummaryProvider;
+        parent::__construct();
+    }
 
     function index()
     {
@@ -89,6 +97,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Live/getLastVisitsStart');
         $view->idSite = (int) $this->idSite;
         $error = '';
+        $visitors = new DataTable();
         try {
             $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=original&serialize=0&disable_generic_filters=1");
             $visitors = $api->process();
@@ -149,7 +158,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $summaryEntries = array();
 
-        $profileSummaries = StaticContainer::get('Piwik\Plugins\Live\ProfileSummaryProvider')->getAllInstances();
+        $profileSummaries = $this->profileSummaryProvider->getAllInstances();
         foreach ($profileSummaries as $profileSummary) {
             $profileSummary->setProfile($view->visitorData);
             $summaryEntries[] = [$profileSummary->getOrder(), $profileSummary->render()];
@@ -194,6 +203,8 @@ class Controller extends \Piwik\Plugin\Controller
         if (empty($nextVisits)) {
             return '';
         }
+
+        VisitorLog::groupActionsByPageviewId($nextVisits);
 
         $view = new View('@Live/getVisitList.twig');
         $view->idSite = $this->idSite;

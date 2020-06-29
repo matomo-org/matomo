@@ -1,15 +1,18 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive\ArchivePurger;
 use Piwik\Archive\Chunk;
 use Piwik\Common;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
@@ -64,6 +67,11 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
      */
     public function testCheck()
     {
+        // TODO: if we do this in archivewriter, we don't need this code
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        $archivePurger->purgeInvalidatedArchivesFrom(Date::factory(self::$fixture->dateTime));
+        $archivePurger->purgeInvalidatedArchivesFrom(Date::factory('2009-12-01'));
+
         // ----------------------------------------------
         // Implementation Checks
         // ----------------------------------------------
@@ -78,21 +86,21 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             //   )
             'archive_blob_2010_01'    => 20,
             // This contains all 'last N' weeks & days,
-            // (2 metrics
+            // (6 metrics
             //  + 2 referrer metrics
             //  + 3 done flag )
             //  * 2 segments
-            // + 1 Done flag per Plugin, for each "Last N" date
-            'archive_numeric_2010_01' => 138,
+            // for each "Last N" date that has data (just one date)
+            'archive_numeric_2010_01' => 22,
 
             // 2) CHECK 'week' archive stored in December (week starts the month before)
             // We expect 2 segments * (1 custom variable name + 2 ref metrics + 1 subtable chunk for the values of the name + 6 referrers blob (2 of them subtables))
             'archive_blob_2009_12'    => 20,
-            // 7 metrics,
+            // 6 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
-            // 6 done flag (referrers, CustomVar, VisitsSummary), 3 for period = 1 and 3 for period = 2
+            // 3 done flag (referrers, CustomVar, VisitsSummary), all for period = 2, day w/ visits is in new year, other days have no data
             // X * 2 segments
-            'archive_numeric_2009_12' => (6 + 2 + 3 + 3) * 2,
+            'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);

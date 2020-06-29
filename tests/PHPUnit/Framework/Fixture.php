@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,6 +15,7 @@ use Piwik\Auth;
 use Piwik\Auth\Password;
 use Matomo\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
+use Piwik\CliMulti\CliPhp;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -28,10 +29,8 @@ use Matomo\Ini\IniReader;
 use Piwik\Log;
 use Piwik\NumberFormatter;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
@@ -47,11 +46,11 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Singleton;
 use Piwik\Site;
+use Piwik\Tests;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
-use Piwik\Translate;
 use MatomoTracker;
 use Matomo_LocalTracker;
 use Piwik\Updater;
@@ -73,32 +72,23 @@ use ReflectionClass;
  *                merging some together.
  * @since 2.8.0
  */
-class Fixture extends \PHPUnit_Framework_Assert
+class Fixture extends \PHPUnit\Framework\Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '5.6';
+    const IMAGES_GENERATED_FOR_PHP = '7.2';
     const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
     const ADMIN_USER_LOGIN = 'superUserLogin';
     const ADMIN_USER_PASSWORD = 'superUserPass';
+    const ADMIN_USER_TOKEN = 'c4ca4238a0b923820dcc509a6f75849b';
 
     const PERSIST_FIXTURE_DATA_ENV = 'PERSIST_FIXTURE_DATA';
 
     public $dbName = false;
 
-    /**
-     * @deprecated has no effect now.
-     */
-    public $createConfig = true;
-
     public $dropDatabaseInSetUp = true;
     public $dropDatabaseInTearDown = true;
-
-    /**
-     * @deprecated
-     */
-    public $loadTranslations = true;
 
     public $createSuperUser = true;
     public $removeExistingSuperUser = true;
@@ -134,15 +124,40 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     protected static function getPythonBinary()
     {
-        if (SettingsServer::isWindows()) {
-            return "C:\Python27\python.exe";
+        $matomoPythonPath = getenv('MATOMO_TEST_PYTHON_PATH');
+        if ($matomoPythonPath) {
+            return $matomoPythonPath;
         }
 
-        if (SystemTestCase::isTravisCI()) {
-            return 'python2.7';
+        if (SettingsServer::isWindows()) { // just a guess really
+            return "C:\Python35\python.exe";
+        }
+
+        if (self::isExecutableExists('python3')) {
+            return 'python3';
         }
 
         return 'python';
+    }
+
+    public static function getCliCommandBase()
+    {
+        $cliPhp = new CliPhp();
+        $php = $cliPhp->findPhpBinary();
+
+        $command = $php . ' ' . PIWIK_INCLUDE_PATH .'/tests/PHPUnit/proxy/console ';
+
+        if (!empty($_SERVER['HTTP_HOST'])) {
+            $command .= '--matomo-domain=' . $_SERVER['HTTP_HOST'];
+        }
+
+        return $command;
+    }
+
+    private static function isExecutableExists(string $command)
+    {
+        $out = `which $command`;
+        return !empty($out);
     }
 
     public static function getTestRootUrl()
@@ -161,13 +176,13 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
-    public function setUp()
+    public function setUp(): void
     {
         // empty
     }
 
     /** Does any clean up. Most of the time there will be no need to clean up. */
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -386,10 +401,21 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         Plugin\API::unsetAllInstances();
         $_GET = $_REQUEST = array();
-        Translate::reset();
+        self::resetTranslations();
 
         self::getConfig()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
+    }
+
+    public static function resetTranslations()
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->reset();
+    }
+
+    public static function loadAllTranslations()
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->addDirectory(PIWIK_INCLUDE_PATH . '/lang');
+        Manager::getInstance()->loadPluginTranslations();
     }
 
     protected static function resetPluginsInstalledConfig()
@@ -615,7 +641,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             $t->setLocalTime('12:34:06');
             $t->setResolution(1024, 768);
             $t->setBrowserHasCookies(true);
-            $t->setPlugins($flash = true, $java = true, $director = false);
+            $t->setPlugins($flash = true, $java = true);
         }
         return $t;
     }
@@ -646,10 +672,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
-        self::assertContains($expectedResponse, $response);
-        self::assertContains('This resource is part of Matomo.', $response);
-        self::assertNotContains('Error', $response);
-        self::assertNotContains('Fatal', $response);
+        self::assertStringContainsString($expectedResponse, $response);
+        self::assertStringContainsString('This resource is part of Matomo.', $response);
+        self::assertStringNotContainsString('Error', $response);
+        self::assertStringNotContainsString('Fatal', $response);
     }
 
     /**
@@ -658,7 +684,8 @@ class Fixture extends \PHPUnit_Framework_Assert
      *
      * @param $response
      */
-    public static function checkBulkTrackingResponse($response) {
+    public static function checkBulkTrackingResponse($response)
+    {
         $data = json_decode($response, true);
         if (!is_array($data) || empty($response)) {
             throw new Exception("Bulk tracking response (".$response.") is not an array: " . var_export($data, true) . "\n");
@@ -692,7 +719,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         $model = new \Piwik\Plugins\UsersManager\Model();
         $user  = $model->getUser(self::ADMIN_USER_LOGIN);
 
-        return $user['token_auth'];
+        if (!empty($user)) {
+            return self::ADMIN_USER_TOKEN;
+        }
     }
 
     public static function createSuperUser($removeExisting = true)
@@ -701,7 +730,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $login    = self::ADMIN_USER_LOGIN;
         $password = $passwordHelper->hash(UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD));
-        $token    = APIUsersManager::getInstance()->createTokenAuth($login);
 
         $model = new \Piwik\Plugins\UsersManager\Model();
         $user  = $model->getUser($login);
@@ -710,19 +738,26 @@ class Fixture extends \PHPUnit_Framework_Assert
             $model->deleteUserOnly($login);
         }
 
-        if (!empty($user) && !$removeExisting) {
-            $token = $user['token_auth'];
-        }
         if (empty($user) || $removeExisting) {
-            $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
+            $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
         } else {
-            $model->updateUser($login, $password, 'hello@example.org', $login, $token);
+            $model->updateUser($login, $password, 'hello@example.org');
+        }
+        try {
+            if (!$model->getUserByTokenAuth(self::ADMIN_USER_TOKEN)) {
+                $model->addTokenAuth($login,self::ADMIN_USER_TOKEN, 'Admin user token', Date::now()->getDatetime());
+            }
+        } catch (Exception $e) {
+            // duplicate entry errors are expected
+            if (strpos($e->getMessage(), 'Duplicate entry') === false) {
+                throw $e;
+            }
         }
 
         $setSuperUser = empty($user) || !empty($user['superuser_access']);
         $model->setSuperUserAccess($login, $setSuperUser);
 
-        return $model->getUserByTokenAuth($token);
+        return $model->getUser($login);
     }
 
     /**
@@ -929,13 +964,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         $dbConfig['dbname'] = $oldDbName;
     }
 
-    /**
-     * @deprecated
-     */
-    public static function createAccessInstance()
-    {
-    }
-
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->dbName ?: self::getConfig()->database_tests['dbname'];
@@ -963,17 +991,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         if ($this->printToScreen) {
             echo $message . "\n";
         }
-    }
-
-    /**
-     * @param $type
-     * @param bool $sanitize
-     * @deprecated Use XssTesting
-     */
-    public static function makeXssContent($type, $sanitize = false)
-    {
-        $xssTesting = new XssTesting();
-        return $xssTesting->forTwig($type, $sanitize);
     }
 
     public static function updateDatabase($force = false)

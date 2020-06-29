@@ -22,7 +22,7 @@ describe("ImageGraph", function () {
     });
 
     it("should render horizontal bar graphs correctly", async function() {
-        await page.goto(getImageGraphUrl('UserSettings', 'getBrowser', 'horizontalBar', 'year', '2012-01-01'));
+        await page.goto(getImageGraphUrl('DevicesDetection', 'getBrowsers', 'horizontalBar', 'year', '2012-01-01'));
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('horizontal_bar');
     });

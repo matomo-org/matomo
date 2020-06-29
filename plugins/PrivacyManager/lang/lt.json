@@ -8,6 +8,7 @@
         "DeleteOldRawData": "Reguliariai ištrinti senus neapdorotus duomenis",
         "DeleteLogsOlderThan": "Ištrinti įrašus senesnius nei",
         "DeleteMaxRows": "Maksimalus vienu metu trinamų eilučių kiekis:",
+        "IndividualsRights": "Asmenų teisės",
         "LastDelete": "Paskutinis išvalymas atliktas",
         "MenuPrivacySettings": "Privatumas",
         "NextDelete": "Kitas suplanuotas ištrynimas po",

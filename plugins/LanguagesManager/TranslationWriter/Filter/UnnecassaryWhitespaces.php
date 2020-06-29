@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -42,7 +42,7 @@ class UnnecassaryWhitespaces extends FilterAbstract
 
                 // remove excessive line breaks (and leading/trailing whitespace) from translations
                 $stringNoLineBreak = trim($translation);
-                $stringNoLineBreak = str_replace("\r", "", $stringNoLineBreak); # remove useless carrige renturns
+                $stringNoLineBreak = str_replace("\r", "", $stringNoLineBreak); # remove useless carriage returns
                 $stringNoLineBreak = preg_replace('/(\n[ ]+)/', "\n", $stringNoLineBreak); # remove useless white spaces after line breaks
                 $stringNoLineBreak = preg_replace('/([\n]{2,})/', "\n\n", $stringNoLineBreak); # remove excessive line breaks
                 if (empty($baseTranslation) || !substr_count($baseTranslation, "\n")) {

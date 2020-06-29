@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -61,11 +61,12 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 </Files>";
 
         $directoriesToProtect = array(
-            '/js'        => $allowAny . $noCachePreview,
-            '/libs'      => $denyAll . $allowStaticAssets,
-            '/vendor'    => $denyAll . $allowStaticAssets,
-            '/plugins'   => $denyAll . $allowStaticAssets,
-            '/misc/user' => $denyAll . $allowStaticAssets,
+            '/js'           => $allowAny . $noCachePreview,
+            '/libs'         => $denyAll . $allowStaticAssets,
+            '/vendor'       => $denyAll . $allowStaticAssets,
+            '/plugins'      => $denyAll . $allowStaticAssets,
+            '/misc/user'    => $denyAll . $allowStaticAssets,
+            '/node_modules' => $denyAll . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
@@ -166,7 +167,14 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             '/libs',
             '/vendor',
             '/plugins',
+            '/node_modules',
         );
+
+        $additionForPlugins = '
+        <alwaysAllowedUrls>
+          <add url="/plugins/HeatmapSessionRecording/configs.php" />
+        </alwaysAllowedUrls>';
+
         foreach ($directoriesToProtect as $directoryToProtect) {
             @file_put_contents(PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
                 '<?xml version="1.0" encoding="UTF-8"?>
@@ -176,7 +184,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <requestFiltering>
         <denyUrlSequences>
           <add sequence=".php" />
-        </denyUrlSequences>
+        </denyUrlSequences>' . ($directoryToProtect === '/plugins' ? $additionForPlugins : '') . '
       </requestFiltering>
     </security>
   </system.webServer>
@@ -191,6 +199,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         @unlink($path . '/libs/web.config');
         @unlink($path . '/vendor/web.config');
         @unlink($path . '/plugins/web.config');
+        @unlink($path . '/node_modules/web.config');
     }
 
     /**
@@ -308,6 +317,7 @@ HTACCESS_ALLOW;
             '/vendor',
             '/plugins',
             '/misc/user',
+            '/node_modules',
             '/config',
             '/core',
             '/lang',

@@ -72,7 +72,6 @@
         "SiteWithoutDataDescription": "這個網站還沒有追蹤分析資料。",
         "SiteWithoutDataSetupTracking": "請在你的網站或行動應用程式中設定%1$s追蹤程式碼%2$s（如果你還沒完成的話）。",
         "SiteWithoutDataMessageDisappears": "此訊息將會在這個網站開始收集到追蹤資料時隱藏。",
-        "SiteWithoutDataSetupGoals": "同時，你或許會想要%1$s設定一些目標%2$s，或在我們的%5$s指南%6$s和 %7$sFAQs%8$s 中了解更多關於 Matomo 的%3$s功能%4$s。",
         "SiteWithoutDataIgnoreMessage": "一小時內不顯示此訊息",
         "SuperUserAccessCan": "一個擁有超級使用者權限的使用者也可以為新網站%1$s指定全域設定%2$s。",
         "Timezone": "時區",

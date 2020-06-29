@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,6 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
-use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\SettingsServer;
 use Exception as PhpException;
 use Psr\Log\LoggerInterface;
@@ -142,7 +141,7 @@ class Client
         }
 
         // in the beginning we allowed to specify a download path but this way we make sure security is always taken
-        // care of and we always generate a random download filename.
+        // care of and we always generate a random download filename.Marketplace/Api/Client.php
         $target = $this->getRandomTmpPluginDownloadFilename();
 
         Filesystem::deleteFileIfExists($target);
@@ -177,8 +176,9 @@ class Client
         }
 
         $params = array('plugins' => $params);
+        $params = array('plugins' => json_encode($params));
 
-        $hasUpdates = $this->fetch('plugins/checkUpdates', array('plugins' => json_encode($params)));
+        $hasUpdates = $this->fetch('plugins/checkUpdates', $params);
 
         if (empty($hasUpdates)) {
             return array();

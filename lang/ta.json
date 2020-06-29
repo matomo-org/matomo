@@ -1,12 +1,15 @@
 {
     "General": {
+        "12HourClock": "12 மணி நேரம்",
+        "24HourClock": "24 மணி நேரம்",
         "AbandonedCarts": "கைவிடப்பட்ட தெரிவுகள்",
-        "AboutPiwikX": "பிவிக்கை பற்றி %s",
+        "AboutPiwikX": "மட்டோமோவைப் பற்றி %s",
         "Action": "செயல்",
         "Actions": "செயல்கள்",
         "Add": "சேர்க்க",
         "AfterEntry": "இங்கு வந்த பின்",
         "All": "அனைத்தும்",
+        "AllowPiwikArchivingToTriggerBrowser": "உலாவியில் இருந்து பார்க்கும்போது உள்ள காப்பக அறிக்கைகள்",
         "AllWebsitesDashboard": "அனைத்து இணையதள கட்டுப்பாட்டு அறை",
         "And": "மற்றும்",
         "API": "ஏபிஐ",
@@ -15,7 +18,7 @@
         "AverageOrderValue": "சராசரி ஒழுங்கு மதிப்பு",
         "AveragePrice": "சராசரி விலை",
         "AverageQuantity": "சராசரி அளவு",
-        "BackToPiwik": "பிவிக்கு திரும்ப",
+        "BackToPiwik": "மட்டோமோக்கு திரும்ப",
         "Broken": "உடைவு",
         "Cancel": "ரத்து",
         "ChangePassword": "கடவுச்சொல்லை மாற்ற",
@@ -214,13 +217,18 @@
         "Yes": "ஓம்"
     },
     "Mobile": {
-        "AboutPiwikMobile": "பிவிக் கையடக்கத்தொலைபேசி பற்றி",
+        "AboutPiwikMobile": "மட்டோமோ செயலி பற்றி",
+        "AccessUrlLabel": "மட்டோமோ அணுகல் இணையத்தள முகவரி",
         "Account": "கணக்கு",
         "Accounts": "கணக்குகள்",
         "AddAccount": "புதிய கணக்கை சேர்க்க",
-        "AddPiwikDemo": "பிவிக் சோதனையை சேர்க்க",
+        "AddPiwikDemo": "மட்டோமோ சோதனையை சேர்க்க",
         "Advanced": "மேம்பட்டவை",
-        "DefaultReportDate": "அறிக்கைத்திகதி",
+        "AnonymousAccess": "அறியப்படாத நுழைவு",
+        "AnonymousTracking": "அறியப்படாத கண்காணிப்பு",
+        "ChooseMetric": "அளவீடுகளை தேர்வு செய்க",
+        "ChooseReport": "அறிக்கையைத் தேர்வு செய்க",
+        "DefaultReportDate": "அறிக்கைத் திகதி",
         "EmailUs": "எங்களுக்கு மின்னஞ்சல் அனுப்ப",
         "LoadingReport": "தரவிறங்குகிறது %s",
         "LoginUseHttps": "https பாவிக்க",
@@ -254,8 +262,15 @@
         "YouAreOffline": "மன்னிக்க, நீங்கள் இப்போது தொடர்பிலில்லை"
     },
     "RowEvolution": {
+        "AvailableMetrics": "கிடைக்கக்கூடிய அளவீடுகள்",
+        "CompareDocumentation": "பல பதிவுகளை ஒப்பிடுவதற்கு கீழேயுள்ள இணைப்பைக் கிளிக் செய்து, ஒரே அட்டவணையில் இருந்து மற்றொரு வரிசைக்கு இந்த பாப்அப்பைத் திறக்கவும். இந்த பாப்அப்பைத் திறக்காமல் ஒப்பிடுவதற்கான வரிசையைக் குறிக்க <br \/>ஷிப்ட்-கிளிக் பயன்படுத்தவும்.",
         "CompareRows": "பதிவுகளுடன் ஒப்பிட",
-        "ComparingRecords": "%s வரிகளுடன் ஒப்பிடுகிறது",
-        "MetricBetweenText": "%1$s இருந்து %2$s வரை"
+        "ComparingRecords": "%s வரிகளுடன் ஒப்பிடு",
+        "Documentation": "பெரிய பரிணாம வரைபடத்தில் அளவீடுகளைக் காட்ட அவற்றைக் கிளிக் செய்க. ஒரே நேரத்தில் பல அளவீடுகளைக் காட்ட ஷிப்ட்-கிளிக் பயன்படுத்தவும்.",
+        "MetricBetweenText": "%1$s இருந்து %2$s வரை",
+        "MetricsFor": "%s க்கான அளவீடுகள்",
+        "MultiRowEvolutionTitle": "பல வரிசைகளின் பரிணாமம்",
+        "PickAnotherRow": "ஒப்பிட மற்றொரு வரிசையைத் தேர்ந்தெடுக்கவும்",
+        "PickARow": "ஒப்பிட ஒரு வரிசையைத் தேர்ந்தெடுக்கவும்"
     }
 }

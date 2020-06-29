@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendVisitorDetails(&$visitor)
     {
-        $visitor['daysSinceLastVisit'] = $this->details['visitor_days_since_last'];
+        $visitor['daysSinceLastVisit'] = floor($this->details['visitor_seconds_since_last'] / 86400);
+        $visitor['secondsSinceLastVisit'] = $this->details['visitor_seconds_since_last'];
     }
 }

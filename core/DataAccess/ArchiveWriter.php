@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -43,7 +43,8 @@ class ArchiveWriter
      * This flag is deprecated, new archives should not be written as temporary.
      *
      * @var int
-     * @deprecated
+     * @deprecated it should not be used anymore as temporary archives have been removed. It still exists though for
+     *             historical reasons.
      */
     const DONE_OK_TEMPORARY = 3;
 
@@ -53,6 +54,14 @@ class ArchiveWriter
      * @var int
      */
     const DONE_INVALIDATED = 4;
+
+    /**
+     * Flag indicating that the archive is currently being archived. If the archiving process is aborted or killed, the
+     * archive may remain w/ this flag.
+     *
+     * @var int
+     */
+    const DONE_IN_PROGRESS = 5;
 
     protected $fields = array('idarchive',
         'idsite',
@@ -76,7 +85,7 @@ class ArchiveWriter
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
      * @throws Exception
      */
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary = false)
+    public function __construct(ArchiveProcessor\Parameters $params)
     {
         $this->idArchive = false;
         $this->idSite    = $params->getSite()->getId();
@@ -203,7 +212,7 @@ class ArchiveWriter
         $fields    = $this->getInsertFields();
 
         // For numeric records it's faster to do the insert directly; for blobs the data infile is better
-        if ($valueType == 'numeric') {
+        if ($valueType === 'numeric') {
             BatchInsert::tableInsertBatchSql($tableName, $fields, $values);
         } else {
             BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
@@ -251,7 +260,7 @@ class ArchiveWriter
 
         if ($numRecords > 1) {
             $this->batchInsertSpool($valueType);
-        } elseif ($numRecords == 1) {
+        } elseif ($numRecords === 1) {
             list($name, $value) = $this->recordsToWriteSpool[$valueType][0];
             $tableName = $this->getTableNameToInsert($value);
             $fields    = $this->getInsertFields();

@@ -3,7 +3,7 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-    <div piwik-content-block content-title="Let users opt-out of tracking">
+    <div piwik-content-block content-title="{{ 'PrivacyManager_TrackingOptOut'|translate|e('html_attr') }}">
         <div piwik-opt-out-customizer piwikurl="{{ piwikUrl }}" language="{{ language }}">
 
         </div>

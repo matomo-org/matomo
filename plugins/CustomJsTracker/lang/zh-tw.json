@@ -1,0 +1,8 @@
+{
+    "CustomJsTracker": {
+        "PluginDescription": "允許任何外掛擴展 Matomo JavaScript 追蹤檔案（piwik.js）來增加新功能和網站追蹤能力。",
+        "DiagnosticPiwikJsWritable": "JavaScript 追蹤檔案可寫入（%s）",
+        "DiagnosticPiwikJsNotWritable": "Matomo 的 JavaScript 追蹤檔案 %s 無法寫入，這代表其他外掛無法擴展 JavaScript 追蹤功能。未來甚至有些核心功能會無法正常運作。",
+        "DiagnosticPiwikJsMakeWritable": "我們推薦讓它%1$s可寫入，請執行此指令：%2$s"
+    }
+}

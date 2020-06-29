@@ -5,7 +5,7 @@
                 <a
                         class='dropdown-trigger btn bulk-actions'
                         href=''
-                        data-activates='user-list-bulk-actions'
+                        data-target='user-list-bulk-actions'
                         piwik-dropdown-menu
                         ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
                 >
@@ -15,7 +15,7 @@
                     <li>
                         <a
                                 class='dropdown-trigger'
-                                data-activates="bulk-set-access"
+                                data-target="bulk-set-access"
                                 piwik-dropdown-menu
                         >
                             {{:: 'UsersManager_SetPermission'|translate }}
@@ -100,8 +100,10 @@
             <tr>
                 <th class="select-cell">
                     <span class="checkbox-container">
-                        <input type="checkbox" id="paged_users_select_all" checked="checked" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
-                        <label for="paged_users_select_all"></label>
+                        <label>
+                            <input type="checkbox" id="paged_users_select_all" checked="checked" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
+                            <span></span>
+                        </label>
                     </span>
                 </th>
                 <th class='first'>{{:: 'UsersManager_Username'|translate }}</th>
@@ -145,8 +147,10 @@
                 <tr ng-repeat="user in $ctrl.users" ng-attr-id="row{{ $index }}">
                     <td class="select-cell">
                         <span class="checkbox-container">
-                            <input type="checkbox" ng-attr-id="paged_users_select_row{{ $index }}" checked="checked" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
-                            <label ng-attr-for="paged_users_select_row{{ $index }}"></label>
+                            <label>
+                                <input type="checkbox" ng-attr-id="paged_users_select_row{{ $index }}" checked="checked" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
+                                <span></span>
+                            </label>
                         </span>
                     </td>
                     <td id="userLogin">{{ user.login }}</td>

@@ -57,6 +57,8 @@
         "SiteSearchCategories": "Categorie (Ricerca nel Sito)",
         "SiteSearchKeyword": "Parola chiave (Ricerca sito)",
         "SiteSearchKeywords": "Keywords (Ricerca nel Sito)",
+        "SiteSearchKeywordCount": "Conteggio Keyword (Ricerca nel sito)",
+        "SiteSearchKeywordCounts": "Conteggi Keyword (Ricerca nel sito)",
         "SiteSearchKeywordsDocumentation": "Questo report elenca le Parole di Ricerca che i visitatori hanno digitato nel vostro Motore di Ricerca interno.",
         "SiteSearchKeywordsNoResultDocumentation": "Questo report elenca la Parole di Ricerca che non hanno restituito alcun risultato: forse può essere migliorato l'algoritmo del motore di ricerca o forse i vostri visitatori stanno cercando un contenuto che non è (ancora) sul vostro sito?",
         "SubmenuPagesEntry": "Pagine di ingresso",

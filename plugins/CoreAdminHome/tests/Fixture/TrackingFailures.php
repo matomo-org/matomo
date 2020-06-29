@@ -15,7 +15,7 @@ class TrackingFailures extends Fixture
     public $idSite = 1;
     public $dateTime = '2013-01-02 03:04:05';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

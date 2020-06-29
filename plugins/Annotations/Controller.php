@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -67,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->period = $period;
         $view->lastN = $lastN;
 
-        list($startDate, $endDate) = API::getDateRangeForPeriod($date, $period, $lastN);
+        list($startDate, $endDate) = Annotations::getDateRangeForPeriod($date, $period, $lastN);
         $view->startDate = $startDate->toString();
         $view->endDate = $endDate->toString();
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -398,13 +398,17 @@ class DataTableFactory
             foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
                 $row->removeSubtable();
             }
+            $summaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($summaryRow) {
+                $summaryRow->removeSubtable();
+            }
 
             return;
         }
 
         $dataName = reset($this->dataNames);
 
-        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
+        foreach ($dataTable->getRows() as $row) {
             $sid = $row->getIdSubDataTable();
             if ($sid === null) {
                 continue;

@@ -6,9 +6,24 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>720</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.523</min_time_generation>
-		<max_time_generation>0.523</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0.0430</min_time_network>
+		<max_time_network>0.0430</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.2100</min_time_server>
+		<max_time_server>0.2100</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.3500</min_time_transfer>
+		<max_time_transfer>0.3500</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.3900</min_time_dom_processing>
+		<max_time_dom_processing>0.3900</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.2110</min_time_dom_completion>
+		<max_time_dom_completion>0.2110</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0.0990</min_time_on_load>
+		<max_time_on_load>0.0990</max_time_on_load>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -19,10 +34,16 @@
 		<entry_sum_visit_length>1441</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_network>0.043</avg_time_network>
+		<avg_time_server>0.21</avg_time_server>
+		<avg_time_transfer>0.35</avg_time_transfer>
+		<avg_time_dom_processing>0.39</avg_time_dom_processing>
+		<avg_time_dom_completion>0.211</avg_time_dom_completion>
+		<avg_time_on_load>0.099</avg_time_on_load>
+		<avg_page_load_time>1.303</avg_page_load_time>
 		<avg_time_on_page>720</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0.523</avg_time_generation>
 		<url>http://example.org/%C3%A9%C3%A9%C3%A9%22%27...%20%3Cthis%20is%20cool%3E!</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252F%2525C3%2525A9%2525C3%2525A9%2525C3%2525A9%252522%252527...%252520%25253Cthis%252520is%252520cool%25253E%2521</segment>
 	</row>

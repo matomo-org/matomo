@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Config;
 use Piwik\Cookie;
+use Piwik\ProxyHttp;
 
 /**
  * Tracking cookies.
@@ -75,7 +76,12 @@ class IgnoreCookie
             $ignoreCookie->delete();
         } else {
             $ignoreCookie->set('ignore', '*');
-            $ignoreCookie->save('None');
+            if (ProxyHttp::isHttps()) {
+                $ignoreCookie->setSecure(true);
+                $ignoreCookie->save('None');
+            } else {
+                $ignoreCookie->save('Lax');
+            }
         }
 
         self::deleteThirdPartyCookieUIDIfExists();

@@ -9,7 +9,6 @@
         "ReportingApiReference": "Referencje API Raportów",
         "TopLinkTooltip": "Dostęp do twoich danych analitycznych programistycznie poprzez proste API w formatach json, xml itp.",
         "UserAuthentication": "Uwierzytelnianie użytkownika",
-        "UsingTokenAuth": "Jeżeli wysuniesz żądanie %1$s ujęcia pewnych danych w statystyce za pomocą crontab, %2$s musisz dodać poniższy parametr %3$s do interfejsu API, wywołując URL-e które wymagają uwierzytelniania.",
         "Glossary": "Słownik",
         "LearnAboutCommonlyUsedTerms2": "Poznaj najczęściej wykorzystywane zwroty, aby jak najlepiej wykorzystać możliwości Statystyk Matomo.",
         "EvolutionMetricName": "%s Zmiany"

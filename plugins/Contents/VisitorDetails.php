@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -31,6 +31,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $view                 = new View('@Contents/_actionContent.twig');
+        $view->sendHeadersWhenRendering = false;
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
@@ -44,6 +45,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $view         = new View('@Contents/_actionTooltip');
+        $view->sendHeadersWhenRendering = false;
         $view->action = $action;
         return [[ 10, $view->render() ]];
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -40,7 +40,7 @@ class ArchiveProcessorTest extends ArchiveProcessor\Loader
  */
 class ArchiveProcessingTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,7 +50,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }

@@ -27,8 +27,6 @@
         "InstallingTheLatestVersion": "Instalowanie najnowszej wersji",
         "LatestBetaRelease": "Aktualna wersja beta",
         "LatestStableRelease": "Aktualne wydanie stabilne",
-        "Latest2XStableRelease": "Aktualne stabilne wydanie 2.X",
-        "Latest2XBetaRelease": "Aktualne wydanie beta 2.X",
         "LtsSupportVersion": "Wersja z wydłużonym okresem wsparcia",
         "MajorUpdateWarning1": "To jest znacząca aktualizacja i potrwa dłużej niż zwykle.",
         "MajorUpdateWarning2": "Poniższe porady są szczególnie ważne dla dużych instalacji.",
@@ -86,6 +84,8 @@
         "YouMustDownloadPackageOrFixPermissions": "Matomo nie może nadpisać Twojej obecnej instalacji. Możesz spróbować zmienić uprawnienia plików\/katalogów lub pobrać paczkę i zainstalować wersję %s ręcznie:",
         "YourDatabaseIsOutOfDate": "Twoja baza danych Matomo jest już nieaktualna i musi zostać zaktualizowana zanim można będzie kontynuować.",
         "ViewVersionChangelog": "Przeglądaj rejestr zmian tej wersji:",
-        "ReceiveEmailBecauseIsSuperUser": "Otrzymujesz tą wiadomość ponieważ jesteś Super Użytkownikiem Matomo na: %s"
+        "ReceiveEmailBecauseIsSuperUser": "Otrzymujesz tą wiadomość ponieważ jesteś Super Użytkownikiem Matomo na: %s",
+        "ConvertToUtf8mb4": "Zmień zestaw znaków bazy danych na UTF8mb4",
+        "TriggerDatabaseConversion": "Wyzwól konwersję bazy danych w tle"
     }
 }

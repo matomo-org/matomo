@@ -1,18 +1,21 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Concurrency;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\Common;
+use Piwik\Date;
 
 class Lock
 {
     const MAX_KEY_LEN = 70;
+    const DEFAULT_TTL = 60;
 
     /**
      * @var LockBackend
@@ -24,18 +27,28 @@ class Lock
     private $lockKey   = null;
     private $lockValue = null;
     private $defaultTtl = null;
+    private $lastExpireTime = null;
 
     public function __construct(LockBackend $backend, $lockKeyStart, $defaultTtl = null)
     {
         $this->backend = $backend;
         $this->lockKeyStart = $lockKeyStart;
         $this->lockKey = $this->lockKeyStart;
-        $this->defaultTtl = $defaultTtl;
+        $this->defaultTtl = $defaultTtl ?: self::DEFAULT_TTL;
     }
 
     public function reexpireLock()
     {
-        $this->expireLock($this->defaultTtl);
+        $timeBetweenReexpires = $this->defaultTtl - ($this->defaultTtl / 4);
+
+        $now = Date::getNowTimestamp();
+        if (!empty($this->lastExpireTime) &&
+            $now <= $this->lastExpireTime + $timeBetweenReexpires
+        ) {
+            return false;
+        }
+
+        return $this->expireLock($this->defaultTtl);
     }
 
     public function getNumberOfAcquiredLocks()
@@ -50,13 +63,6 @@ class Lock
 
     public function execute($id, $callback)
     {
-        if (Common::mb_strlen($id) > self::MAX_KEY_LEN) {
-            // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
-            // to make it more readable
-            $md5Len = 32;
-            $id = Common::mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
-        }
-
         $i = 0;
         while (!$this->acquireLock($id)) {
             $i++;
@@ -76,11 +82,20 @@ class Lock
     {
         $this->lockKey = $this->lockKeyStart . $id;
 
+        if (Common::mb_strlen($this->lockKey) > self::MAX_KEY_LEN) {
+            // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
+            // to make it more readable
+            $md5Len = 32;
+            $this->lockKey = Common::mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
+        }
+
         $lockValue = substr(Common::generateUniqId(), 0, 12);
         $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds);
 
         if ($locked) {
             $this->lockValue = $lockValue;
+            $this->ttlUsed = $ttlInSeconds;
+            $this->lastExpireTime = Date::getNowTimestamp();
         }
 
         return $locked;
@@ -124,6 +139,8 @@ class Lock
 
                     return false;
                 }
+
+                $this->lastExpireTime = Date::getNowTimestamp();
 
                 return true;
             } else {

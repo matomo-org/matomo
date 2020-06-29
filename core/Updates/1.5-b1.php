@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -43,14 +43,14 @@ class Updates_1_5_b1 extends Updates
                 'quantity' => 'INTEGER(10) UNSIGNED NOT NULL',
                 'deleted' => 'TINYINT(1) UNSIGNED NOT NULL',
             ), array('idvisit', 'idorder', 'idaction_sku')),
-            $this->migration->db->addIndex('log_conversion_item', array('idsite', 'server_time'), 'index_idsite_servertime'),
+            $this->migration->db->addIndex('log_conversion_item', array('idsite', 'server_time')),
 
             $this->migration->db->addColumns('log_visit', array(
                 'visitor_days_since_order' => 'SMALLINT(5) UNSIGNED NOT NULL',
                 'visit_goal_buyer' => 'TINYINT(1) NOT NULL'
-            ), 'visitor_days_since_last'),
+            )),
             
-            $this->migration->db->addColumn('log_conversion', 'visitor_days_since_order', 'SMALLINT(5) UNSIGNED NOT NULL', 'visitor_days_since_first'),
+            $this->migration->db->addColumn('log_conversion', 'visitor_days_since_order', 'SMALLINT(5) UNSIGNED NOT NULL'),
             $this->migration->db->addColumns('log_conversion', array(
                 'idorder' => 'varchar(100) default NULL',
                 'items' => 'SMALLINT UNSIGNED DEFAULT NULL',
@@ -58,7 +58,7 @@ class Updates_1_5_b1 extends Updates
                 'revenue_tax' => 'float default NULL',
                 'revenue_shipping' => 'float default NULL',
                 'revenue_discount' => 'float default NULL',
-            ), 'buster'),
+            )),
             $this->migration->db->addUniqueKey('log_conversion', array('idsite', 'idorder'))
         );
     }

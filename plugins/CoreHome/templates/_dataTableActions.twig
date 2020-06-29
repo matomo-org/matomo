@@ -4,14 +4,14 @@
 
         <a class='dropdown-button dropdownConfigureIcon dataTableAction'
            href='javascript:;'
-           data-activates='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
+           data-target='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
 
         {% set activeFooterIcon = '' %}
         {% set numIcons = 0 %}
         {% set visualizationIcons %}
             <ul id='dropdownVisualizations{{ randomIdForDropdown }}' class='dropdown-content dataTableFooterIcons'>
                 {% for footerIconGroup in footerIcons %}
-                    {% for footerIcon in footerIconGroup.buttons if footerIcon.icon %}
+                    {% for footerIcon in footerIconGroup.buttons|filter(footerIcon => footerIcon.icon) %}
                         <li>
                             {% set numIcons = numIcons + 1 %}
                             {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
@@ -37,7 +37,7 @@
             <a class="dropdown-button dataTableAction activatePeriodsSelection"
                href="javascript:;"
                title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
-               data-activates="dropdownPeriods{{ randomIdForDropdown }}">
+               data-target="dropdownPeriods{{ randomIdForDropdown }}">
                 <span class="icon-calendar"></span>
             </a>
             <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
@@ -54,7 +54,7 @@
         {% if activeFooterIcon and numIcons > 1 %}
             <a class="dropdown-button dataTableAction activateVisualizationSelection"
                href="javascript:;"
-               data-activates="dropdownVisualizations{{ randomIdForDropdown }}">
+               data-target="dropdownVisualizations{{ randomIdForDropdown }}">
                 {% if activeFooterIcon starts with 'icon-' %}
                     <span title="{{ 'CoreHome_ChangeVisualization'|translate|e('html_attr') }}" class="{{ activeFooterIcon }}"></span>
                 {% else %}
@@ -67,7 +67,7 @@
         {% if properties.show_export %}
             {% set requestParams = properties.request_parameters_to_modify|json_encode %}
 
-            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","PHP":"PHP","HTML":"HTML"} %}
+            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","HTML":"HTML"} %}
             {% if properties.show_export_as_rss_feed %}
                 {% set formats = formats|merge({"RSS": "RSS"}) %}
             {% endif %}
@@ -102,7 +102,7 @@
                 <input id="widgetSearch_{{ properties.report_id }}"
                        title="{{ 'CoreHome_DataTableHowToSearch'|translate|e('html_attr') }}"
                        type="text"
-                       class="dataTableSearchInput browser-default" />
+                       class="dataTableSearchInput" />
             </a>
         {% endif %}
 

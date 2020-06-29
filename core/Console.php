@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -78,6 +78,21 @@ class Console extends Application
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        try {
+            return $this->doRunImpl($input, $output);
+        } catch (\Exception $ex) {
+            try {
+                FrontController::generateSafeModeOutputFromException($ex);
+            } catch (\Exception $ex) {
+                // ignore, we re-throw the original exception, not a wrapped one
+            }
+
+            throw $ex;
+        }
+    }
+
+    private function doRunImpl(InputInterface $input, OutputInterface $output)
+    {
         if ($input->hasParameterOption('--xhprof')) {
             Profiler::setupProfilerXHProf(true, true);
         }
@@ -111,7 +126,8 @@ class Console extends Application
         if ($exitCode === null) {
             $self = $this;
             $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
-                return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+                return
+                    call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
             });
         }
 

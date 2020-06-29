@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -309,8 +309,8 @@ var piwikHelper = {
             delete options.extraWide;
         }
 
-        if (options && !options.ready) {
-            options.ready = function () {
+        if (options && !options.onOpenEnd) {
+            options.onOpenEnd = function () {
                 $(".modal.open a").focus();
                 var modalContent = $(".modal.open");
                 if (modalContent && modalContent[0]) {
@@ -321,7 +321,7 @@ var piwikHelper = {
         }
 
         domElem.show();
-        $content.openModal(options);
+        $content.modal(options).modal('open');
     },
 
     getQueryStringWithParametersModified: function (queryString, newParameters) {

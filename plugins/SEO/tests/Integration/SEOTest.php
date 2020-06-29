@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SEOTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -51,9 +51,9 @@ class SEOTest extends IntegrationTestCase
         } catch(Exception $e) {
             $this->markTestSkipped('A SEO http request failed, Skipping this test for now. Error was: '.$e->getMessage());
         }
-        $renderer = Renderer::factory('php');
-        $renderer->setSerialize(false);
-        $ranks = $renderer->render($dataTable);
+        $renderer = Renderer::factory('json');
+        $renderer->setTable($dataTable);
+        $ranks = json_decode($renderer->render(), true);
         foreach ($ranks as $rank) {
             if ($rank["id"] == "alexa") { // alexa is broken at the moment
                 continue;

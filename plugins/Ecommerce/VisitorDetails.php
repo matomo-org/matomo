@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\Site;
 use Piwik\Tracker\Action;
@@ -37,6 +38,45 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
         $visitor['totalAbandonedCarts']        = $ecommerceMetrics['totalAbandonedCarts'];
         $visitor['totalAbandonedCartsItems']   = $ecommerceMetrics['totalAbandonedCartsItems'];
+    }
+
+    public function extendActionDetails(&$action, $nextAction, $visitorDetails)
+    {
+        if (empty($action['productViewName'])) {
+            unset($action['productViewName']);
+        }
+        if (empty($action['productViewSku'])) {
+            unset($action['productViewSku']);
+        }
+        if (empty($action['productViewPrice'])) {
+            unset($action['productViewPrice']);
+        }
+
+        $categories = [];
+        for($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
+            if (!empty($action['productViewCategory'.$i])) {
+                $categories[] = $action['productViewCategory'.$i];
+            }
+
+            unset($action['productViewCategory'.$i]);
+        }
+        if (!empty($categories)) {
+            $action['productViewCategories'] = $categories;
+        }
+    }
+
+    public function renderActionTooltip($action, $visitInfo)
+    {
+        if (!isset($action['productViewName']) && !isset($action['productViewSku']) &&
+            !isset($action['productViewPrice']) && !isset($action['productViewCategories'])) {
+            return [];
+        }
+
+        $view            = new View('@Ecommerce/_actionTooltip');
+        $view->sendHeadersWhenRendering = false;
+        $view->action    = $action;
+        $view->visitInfo = $visitInfo;
+        return [[ 15, $view->render() ]];
     }
 
     public function provideActionsForVisitIds(&$actions, $idVisits)

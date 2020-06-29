@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -175,13 +175,13 @@ class TrackerCodeGenerator
          *                                        the JavaScript tracker inside of anonymous function before
          *                                        adding setTrackerUrl into paq.
          *                         - **protocol**: Piwik url protocol.
-         *                         - **loadAsync**: boolean whether piwik.js should be loaded syncronous or asynchronous
+         *                         - **loadAsync**: boolean whether piwik.js should be loaded synchronous or asynchronous
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.
          * @param array $parameters The parameters supplied to `TrackerCodeGenerator::generate()`.
          */
-        Piwik::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
+        Piwik::postEvent('Tracker.getJavascriptCode', array(&$codeImpl, $parameters));
 
         $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
 

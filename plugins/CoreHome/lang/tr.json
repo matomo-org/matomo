@@ -102,6 +102,7 @@
         "RowLimit": "Satır sayısı",
         "CustomLimit": "Özel sayı",
         "ExportFormat": "Dışa aktarma biçimi",
+        "ExportTooltip": "Not: Üretilen dışa aktarma adresi yalnız geçerli tarayıcı oturumunda çalışır. Başka bir yerde kullanmak istiyorsanız, uygulamaya özel bir kod kullanmalısınız. Bu kodları Yönetim -> Güvenlik -> Kimlik Doğrulama Kodları bölümünden yapılandırabilirsiniz.",
         "ExpandSubtables": "Alt tabloları genişlet",
         "StandardReport": "Standart rapor",
         "FlattenReport": "Düz rapor",

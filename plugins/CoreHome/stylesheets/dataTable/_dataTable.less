@@ -231,10 +231,11 @@ table.dataTable img {
   color: #adadad !important;
   min-height: 30px !important;
   padding-left: 25px !important;
-  width: 100% !important;
   transition: opacity 0.3s ease !important;
   box-shadow: 0 0 !important;
   visibility: hidden;
+  height: 1rem !important;
+  width: calc(~'100% - 25px') !important;
 }
 
 .searchAction:hover {
@@ -518,8 +519,7 @@ tr.level12 td.label {
 }
 
 table.dataTable td.label img {
-  margin-top: -3px;
-  max-height: 16px;
+  max-height: 16px; 
 }
 
 tr td.label img.plusMinus {
@@ -639,6 +639,11 @@ div.dataTableScroller {
     margin-left: -20px;
     width: ~"calc(100% + 40px)";
   }
+}
+
+#dashboard .dataTableFooterNavigation > .row {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media only screen and (min-width: 993px) {

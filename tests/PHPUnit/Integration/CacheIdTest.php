@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,8 +9,8 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\CacheId;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group Cache
@@ -18,14 +18,14 @@ use Piwik\Translate;
  */
 class CacheIdTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function test_languageAware_shouldAppendTheLoadedLanguage()
@@ -133,7 +133,6 @@ class CacheIdTest extends IntegrationTestCase
             ],
 
             // must support $_GET/$_POST values being arrays and not strings
-            // because of, eg, SegmentList::findSegment
             [
                 ['idSite' => ['1', '2'], 'idSites' => ['9', '9'], 'idsite' => ['12', '13']],
                 ['idSite' => ['4', '5'], 'idSites' => ['9', '8'], 'idsite' => ['14', '15']],

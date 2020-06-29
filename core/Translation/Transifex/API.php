@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -105,7 +105,7 @@ class API
      *
      * @param string $resource e.g. piwik-base, piwik-plugin-api,...
      * @param string $language e.g. de, pt_BR, hy,...
-     * @param bool $raw if true plain response wil be returned (unparsed json)
+     * @param bool $raw if true plain response will be returned (unparsed json)
      * @return mixed
      * @throws AuthenticationFailedException
      * @throws Exception

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,11 +15,9 @@ use Piwik\View;
 use Piwik\Plugins\Goals\API as APIGoals;
 
 /**
- * Class ProfileSummaryAbstract
+ * Class Summary
  *
- * This class can be implemented in a plugin to provide a new profile summary
- *
- * @api
+ * Displays some general details in the profile summary
  */
 class Summary extends ProfileSummaryAbstract
 {

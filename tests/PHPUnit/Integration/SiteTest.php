@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,7 +22,7 @@ class SiteTest extends IntegrationTestCase
 
     public $siteAppendix = ' foo';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -39,12 +39,11 @@ class SiteTest extends IntegrationTestCase
         });
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage An unexpected website was found in the request
-     */
     public function test_constructor_throwsException_ifSiteDoesNotExist()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+        $this->expectExceptionMessage('An unexpected website was found in the request');
+
         $this->makeSite(9999);
     }
 

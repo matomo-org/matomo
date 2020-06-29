@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -61,7 +61,7 @@ class MobileMessaging extends \Piwik\Plugin
     );
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -114,7 +114,7 @@ class MobileMessaging extends \Piwik\Plugin
     {
         if (self::manageEvent($reportType)) {
             // phone number validation
-            $availablePhoneNumbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
+            $availablePhoneNumbers = $this->getModel()->getActivatedPhoneNumbers(Piwik::getCurrentUserLogin());
 
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
             foreach ($phoneNumbers as $key => $phoneNumber) {
@@ -205,9 +205,9 @@ class MobileMessaging extends \Piwik\Plugin
                 $reportSubject = Piwik::translate('General_Reports');
             }
 
-            $mobileMessagingAPI = APIMobileMessaging::getInstance();
+            $model = $this->getModel();
             foreach ($phoneNumbers as $phoneNumber) {
-                $mobileMessagingAPI->sendSMS(
+                $model->sendSMS(
                     $contents,
                     $phoneNumber,
                     $reportSubject
@@ -216,7 +216,7 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    public static function template_reportParametersScheduledReports(&$out, $context = '')
+    public function template_reportParametersScheduledReports(&$out, $context = '')
     {
         if (Piwik::isUserIsAnonymous()) {
             return;
@@ -225,7 +225,7 @@ class MobileMessaging extends \Piwik\Plugin
         $view = new View('@MobileMessaging/reportParametersScheduledReports');
         $view->reportType = self::MOBILE_TYPE;
         $view->context = $context;
-        $numbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
+        $numbers = $this->getModel()->getActivatedPhoneNumbers(Piwik::getCurrentUserLogin());
 
         $phoneNumbers = array();
         if (!empty($numbers)) {
@@ -269,5 +269,10 @@ class MobileMessaging extends \Piwik\Plugin
         // currently the UI does not allow to delete a plugin
         // when it becomes available, all the MobileMessaging settings (API credentials, phone numbers, etc..) should be removed from the option table
         return;
+    }
+
+    protected function getModel()
+    {
+        return new Model();
     }
 }

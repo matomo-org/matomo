@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,18 +8,19 @@
 
 namespace Piwik\Tests\Integration\Columns;
 
-    // there is a test that requires the class to be defined in a plugin
+// there is a test that requires the class to be defined in a plugin
 
 use Piwik\Columns\Dimension;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Plugin\Segment;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Manager;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 class CustomDimensionTest extends Dimension
 {
@@ -50,13 +51,13 @@ class CustomDimensionTest extends Dimension
         $this->columnType = $columnType;
     }
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setSegment('exitPageUrl');
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
         // custom type and sqlSegment
         $segment = new Segment();
@@ -65,7 +66,7 @@ class CustomDimensionTest extends Dimension
         $segment->setType(Segment::TYPE_METRIC);
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 }
 
@@ -80,11 +81,11 @@ class ColumnDimensionTest extends IntegrationTestCase
      */
     private $dimension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         Fixture::createWebsite('2014-04-05 01:02:03');
 
@@ -94,9 +95,9 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->dimension = new CustomDimensionTest();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 
@@ -275,14 +276,6 @@ class ColumnDimensionTest extends IntegrationTestCase
     public function test_getId_ShouldCorrectlyGenerateIdFromDimensionsQualifiedClassName()
     {
         $this->assertEquals("Test.DimensionTest", $this->dimension->getId());
-    }
-
-    public function test_factory_ShouldCreateDimensionFromDimensionId()
-    {
-        Manager::getInstance()->loadPlugins(array('ExampleTracker'));
-
-        $dimension = Dimension::factory("ExampleTracker.ExampleDimension");
-        $this->assertInstanceOf('Piwik\Plugins\ExampleTracker\Columns\ExampleDimension', $dimension);
     }
 
 

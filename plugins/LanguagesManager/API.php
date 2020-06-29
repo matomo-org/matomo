@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -79,15 +79,6 @@ class API extends \Piwik\Plugin\API
          * @param array
          */
         Piwik::postEvent('LanguagesManager.getAvailableLanguages', array(&$languages));
-
-        /**
-         * Hook called after loading available language files.
-         *
-         * @param array
-         *
-         * @deprecated since v3.9.0 use LanguagesManager.getAvailableLanguages instead. Will be removed in Matomo 4.0.0
-         */
-        Piwik::postEvent('LanguageManager.getAvailableLanguages', array(&$languages));
 
         $this->languageNames = $languages;
         return $languages;
@@ -185,7 +176,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Return array of available languages
      *
-     * @return array Arry of array, each containing its ISO language code and name of the language
+     * @return array Array of array, each containing its ISO language code and name of the language
      */
     public function getAvailableLanguageNames()
     {

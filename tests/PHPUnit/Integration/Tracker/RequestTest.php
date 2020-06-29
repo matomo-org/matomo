@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IPUtils;
+use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\API;
@@ -34,7 +35,7 @@ class RequestTest extends IntegrationTestCase
 
     private $time;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,13 +51,12 @@ class RequestTest extends IntegrationTestCase
         $this->time = 1416795617;
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Custom timestamp is 86500 seconds old
-     */
     public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
     {
-        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Custom timestamp is 86500 seconds old');
+
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
@@ -99,22 +99,20 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame(14, $request->getIdSite());
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '0'
-     */
     public function test_getIdSite_shouldNotThrowException_IfValueIsZero()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+        $this->expectExceptionMessage('Invalid idSite: \'0\'');
+
         $request = $this->buildRequest(array('idsite' => '0'));
         $request->getIdSite();
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '-1'
-     */
     public function test_getIdSite_shouldThrowException_IfValueIsLowerThanZero()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+        $this->expectExceptionMessage('Invalid idSite: \'-1\'');
+
         $request = $this->buildRequest(array('idsite' => '-1'));
         $request->getIdSite();
     }
@@ -398,11 +396,12 @@ class RequestTest extends IntegrationTestCase
         $login = 'myadmin';
         $passwordHash = UsersManager::getPasswordHash('password');
 
-        $token = API::getInstance()->createTokenAuth($login);
-
         $user = new Model();
-        $user->addUser($login, $passwordHash, 'admin@piwik', 'alias', $token, '2014-01-01 00:00:00');
+        $token = $user->generateRandomTokenAuth();
+
+        $user->addUser($login, $passwordHash, 'admin@piwik', '2014-01-01 00:00:00');
         $user->addUserAccess($login, 'admin', array($idSite));
+        $user->addTokenAuth($login, $token, 'createAdminUserForSite', '2014-01-01 00:00:00');
 
         return $token;
     }
@@ -449,10 +448,22 @@ class RequestTest extends IntegrationTestCase
      * @group invalidChars
      * @dataProvider getInvalidCharacterUrls
      */
-    public function testInvalidCharacterRemoval($url, $expectedUrl)
+    public function testInvalidCharacterRemovalForUtf8($url, $expectedUrl)
     {
+        Config::getInstance()->database['charset'] = 'utf8';
         $request = $this->buildRequest(array('url' => $url));
         $this->assertEquals($expectedUrl, $request->getParam('url'));
+    }
+
+    /**
+     * @group invalidChars
+     * @dataProvider getInvalidCharacterUrls
+     */
+    public function test4ByteCharacterRemainForUtf8mb4($url, $expectedUrl)
+    {
+        Config::getInstance()->database['charset'] = 'utf8mb4';
+        $request = $this->buildRequest(array('url' => $url));
+        $this->assertEquals($url, $request->getParam('url'));
     }
 
     public function getInvalidCharacterUrls()
@@ -472,12 +483,11 @@ class RequestTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage An unexpected website was found in the request: website id was set to '155'
-     */
     public function test_getIdSite_shouldTriggerExceptionWhenSiteNotExists()
     {
+        $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
+        $this->expectExceptionMessage('An unexpected website was found in the request: website id was set to \'155\'');
+
         $self = $this;
         Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
             $self->assertSame(14, $idSite);

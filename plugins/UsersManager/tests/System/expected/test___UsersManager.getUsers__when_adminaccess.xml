@@ -2,33 +2,27 @@
 <result>
 	<row>
 		<login>login2</login>
-		<alias>login2</alias>
 		<email>login2@example.com</email>
 		<superuser_access>0</superuser_access>
 	</row>
 	<row>
 		<login>login4</login>
-		<alias>login4</alias>
 		<superuser_access>0</superuser_access>
 	</row>
 	<row>
 		<login>login6</login>
-		<alias>login6</alias>
 		<superuser_access>0</superuser_access>
 	</row>
 	<row>
 		<login>login7</login>
-		<alias>login7</alias>
 		<superuser_access>0</superuser_access>
 	</row>
 	<row>
 		<login>login8</login>
-		<alias>login8</alias>
 		<superuser_access>0</superuser_access>
 	</row>
 	<row>
 		<login>login9</login>
-		<alias>login9</alias>
 		<superuser_access>0</superuser_access>
 	</row>
 </result>

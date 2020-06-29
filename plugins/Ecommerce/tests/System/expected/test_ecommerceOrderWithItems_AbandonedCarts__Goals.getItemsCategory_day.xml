@@ -4,8 +4,8 @@
 		<label>Category TWO LEFT in cart</label>
 		<revenue>4000</revenue>
 		<quantity>4</quantity>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>2</nb_actions>
 		<abandoned_carts>2</abandoned_carts>
 		<avg_price>1000</avg_price>
@@ -16,8 +16,8 @@
 		<label>second category</label>
 		<revenue>4000</revenue>
 		<quantity>4</quantity>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>2</nb_actions>
 		<abandoned_carts>2</abandoned_carts>
 		<avg_price>1000</avg_price>
@@ -28,8 +28,8 @@
 		<label>Product Category not defined</label>
 		<revenue>1000.22</revenue>
 		<quantity>2</quantity>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>5</nb_actions>
 		<abandoned_carts>2</abandoned_carts>
 		<avg_price>500.11</avg_price>
@@ -40,8 +40,8 @@
 		<label>Electronics &amp; Cameras</label>
 		<revenue>20</revenue>
 		<quantity>2</quantity>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_actions>6</nb_actions>
 		<abandoned_carts>2</abandoned_carts>
 		<avg_price>10</avg_price>
@@ -50,8 +50,8 @@
 	</row>
 	<row>
 		<label>Multiple Category 1</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
@@ -59,8 +59,8 @@
 	</row>
 	<row>
 		<label>Multiple Category 2</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
@@ -68,8 +68,8 @@
 	</row>
 	<row>
 		<label>Multiple Category 4</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
@@ -77,8 +77,8 @@
 	</row>
 	<row>
 		<label>Multiple Category 5</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>

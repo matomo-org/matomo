@@ -1,0 +1,30 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "아파치 웹서버가 아니어서 apache_get_modules을 찾을 수 없습니다.",
+        "CannotFindGeoIPServerVar": "%s에 변수가 설정되어 있지 않습니다. 서버가 올바르게 구성되지 않았을 수 있습니다.",
+        "CannotListContent": "%1$s에 대한 내용을 나열 할 수 없습니다: %2$s",
+        "DownloadingDb": "다운로드 중 %s",
+        "DownloadNewDatabasesEvery": "모든 데이터베이스 업데이트",
+        "FoundApacheModules": "Matomo은 다음의 아파치 모듈을 찾을 수 없음",
+        "GeoIPImplHasAccessTo": "이 GeoIP 구현에서 접근하는 데이터베이스 유형은",
+        "GeoIPDatabases": "GeoIP 데이터베이스",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "참고: IP를 익명화하면 공급자가 보고있는 위치에 아무런 영향을 미치지 않습니다. IP를 익명화 하지 않으면, 개인 정보 보호법을 위반이 될수 있으므로 주의하세요.",
+        "GeoIPLocationProviderNotRecommended": "지리적 위치 플러그인은 동작하지만, 현재 당신은 추천하는 공급자를 사용하고 있지 않습니다.",
+        "GeoIPNoServerVars": "Matomo은 GeoIP %s 변수를 찾을 수 없습니다.",
+        "GeoIPServerVarsFound": "Matomo은 다음의 GeoIP %s 변수를 감지함",
+        "HowToSetupGeoIPIntro": "위치 정보를 정확하게 설정하지 않으면 방문자의 위치 정보 및 이와 관련한 유용한 기능이 표시되지 않습니다. 다음 방법을 참고하여 어서 이 기능을 사용하세요:",
+        "HowToInstallApacheModule": "아파치의 GeoIP 모듈을 설치하려면 어떻게해야합니까?",
+        "HowToInstallNginxModule": "Nginx에 GeoIP 모듈을 설치하려면 어떻게해야합니까?",
+        "HttpServerModule": "HTTP 서버 모듈",
+        "InvalidGeoIPUpdatePeriod": "GeoIP 업데이터의 잘못된 기간: %1$s. 유효한 값은 %2$s 입니다.",
+        "ISPDatabase": "ISP 데이터베이스",
+        "LocationDatabase": "위치 데이터베이스",
+        "LocationDatabaseHint": "위치 데이터베이스는 국가, 지역 또는 도시 데이터베이스를 말합니다.",
+        "UnsupportedArchiveType": "지원되지 않는 압축 형식 %1$s 입니다.",
+        "UpdaterHasNotBeenRun": "업데이터가 한 번도 실행되지 않았습니다.",
+        "UpdaterIsNotScheduledToRun": "향후 실행할 계획이 없습니다.",
+        "UpdaterScheduledForNextRun": "다음 cron core:archive 명령 수행시 실행됩니다.",
+        "UpdaterWasLastRun": "%s에 마지막 업데이트 확인",
+        "UpdaterWillRunNext": "%s에 실행이 계획되어 있습니다."
+    }
+}

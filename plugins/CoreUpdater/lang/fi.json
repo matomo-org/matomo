@@ -28,8 +28,8 @@
         "InstallingTheLatestVersion": "Asennetaan uusinta versiota",
         "LatestBetaRelease": "Viimeisin beta-julkaisu",
         "LatestStableRelease": "Viimeisin vakaa julkaisu",
-        "Latest2XStableRelease": "Viimeisin vakaa 2.X",
-        "Latest2XBetaRelease": "Viimeisin beta 2.X",
+        "LatestXStableRelease": "Viimeisin vakaa %s",
+        "LatestXBetaRelease": "Viimeisin beta %s",
         "LtsSupportVersion": "Pitkään tuettu versio",
         "ListOfSqlQueriesFYI": "Tiedoksesi: tässä ovat SQL-kyselyt ja konsolikomennot, jotka suoritetaan tietokantasi päivityksen yhteydessä Matomon versioon %s",
         "TheseSqlQueriesWillBeExecuted": "Nämä SQL-kyselyt suoritetaan:",
@@ -91,6 +91,7 @@
         "YouMustDownloadPackageOrFixPermissions": "Matomo ei pysty ylikirjoittamaan nykyistä asennustasi. Voit joko korjata hakemistojen ja tiedostojen oikeudet tai ladata paketin ja asentaa version %s käsin:",
         "YourDatabaseIsOutOfDate": "Matomon tietokanta on vanhentunut ja se tulee päivittää ennen jatkamista.",
         "ViewVersionChangelog": "katso muutostiedot tälle versiolle:",
-        "ReceiveEmailBecauseIsSuperUser": "Saat tämän viestin, koska olet seuraavan Matomo-asennuksen pääkäyttäjä: %s"
+        "ReceiveEmailBecauseIsSuperUser": "Saat tämän viestin, koska olet seuraavan Matomo-asennuksen pääkäyttäjä: %s",
+        "ConvertToUtf8mb4": "Muunna tietokanta UTF8mb4-merkistöön"
     }
 }

@@ -150,6 +150,6 @@
         "WelcomeToCommunity": "Matomo Topluluğuna Hoş Geldiniz!",
         "CannotConnectToDb": "Veritabanı bağlantısı kurulamadı",
         "CannotConnectToDbResolvingExplanation": "Bu durum geçici bir sorun olabilir, %1$ssayfayı yenilemeyi deneyin%2$s. Sorun sürerse Matomo yöneticinizle görüşün.",
-        "EmailPrivacyNotice": "E-posta adresiniz yalnız Matomo bilgilendirmelerinin gönderilmesi için kullanılır. İstediğiniz an gelen bilgilendirme e-postasındaki bağlantıya tıklayarak abonelikten çıkabilirsiniz. E-posta adresinizi başka biri ile paylaşmayacağız ya da Matomo bilgilendirmelerini göndermek dışında başka bir amaçla kullanmayacağız. Ayrıntılı bilgi almak için %1$sGizlilik İlkemize%2$s bakabilirsiniz."
+        "EmailPrivacyNotice": "E-posta adresiniz yalnız Matomo haberlerinin gönderilmesi için kullanılır. Bu işlem için e-posta adresinizi üçüncü taraf bir hizmet sağlayıcı ile paylaşmamız gerekiyor. Şu anda hizmet sağlayıcı olarak Mad Mimi kullanıyoruz ancak bu ileride değişebilir. E-posta adresinizi başka biri ile paylaşmayacağız ya da haber göndermek dışında başka bir amaçla kullanmayacağız. İstediğiniz an abonelikten ayrılabilirsiniz. Ayrıntılı bilgi almak için %1$sGizlilik İlkemize%2$s bakabilirsiniz."
     }
 }

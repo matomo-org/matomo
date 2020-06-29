@@ -111,6 +111,8 @@
         "ConfigFileIsNotWritable": "O ficheiro de configuração do Matomo %1$s não é modificável, as suas alterações podem não ser guardadas. %2$s Por favor altere as permissões do ficheiro de configuração para o mesmo ser modificável.",
         "Continue": "Continuar",
         "ContinueToPiwik": "Continuar para o Matomo",
+        "CurrentlyUsingUnsecureHttp": "Atualmente está a utilizar o Matomo sob o HTTP inseguro. Isto pode fazer com que o Matomo seja vulnerável à exploração de falhas de segurança. Pode também estar a violar leis de privacidade, dado que algumas funcionalidades, incluindo cookies de exclusão, não irão funcionar. Recomendamos que configure o Matomo para utilizar SSL (HTTPS) para uma segurança melhorada.",
+        "CreationDate": "Data de criação",
         "CreatedByUser": "criado por %s",
         "CurrentMonth": "Mês atual",
         "CurrentWeek": "Semana atual",
@@ -388,6 +390,7 @@
         "Search": "Pesquisar",
         "Clear": "Limpar",
         "SearchNoResults": "Sem resultados",
+        "Security": "Segurança",
         "SeeAll": "ver tudo",
         "SeeTheOfficialDocumentationForMoreInformation": "Consulte a %1$sdocumentação oficial%2$s para mais informação.",
         "SeeThisFaq": "Consulte %1$sestas perguntas frequentes%2$s.",
@@ -510,7 +513,8 @@
         "ClickToRemoveComp": "Clique para remover esta comparação",
         "MaximumNumberOfSegmentsComparedIs": "%s é o número máximo de segmentos que podem ser comparados em simultâneo.",
         "CompareDatesParamMustMatchComparePeriods": "O tamanho do parâmetro %1$s deve coincidir com o tamanho do parâmetro %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "%s é o número máximo de períodos que podem ser comparados em simultâneo."
+        "MaximumNumberOfPeriodsComparedIs": "%s é o número máximo de períodos que podem ser comparados em simultâneo.",
+        "Custom": "Personalizada"
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Mobile",

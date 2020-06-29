@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,7 +29,7 @@ class VisitorFactory
         /**
          * Triggered while visit is filtering in live plugin. Subscribers to this
          * event can force the use of a custom visitor object that extends from
-         * {@link Piwik\Plugins\Live\VisitorInterface}.
+         * {@link \Piwik\Plugins\Live\VisitorInterface}.
          *
          * @param \Piwik\Plugins\Live\VisitorInterface &$visitor Initialized to null, but can be set to
          *                                              a new visitor object. If it isn't modified

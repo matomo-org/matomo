@@ -1,14 +1,14 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Bar graph screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("BarGraph", function () {
-    var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1", // md5('superUserLogin' . md5('superUserPass'))
+    var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b", // md5('superUserLogin' . md5('superUserPass'))
         url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&"
             + "token_auth=" + tokenAuth;
@@ -31,7 +31,7 @@ describe("BarGraph", function () {
 
     it("should display multiple metrics when another metric picked", async function () {
         await page.waitForSelector('.jqplot-seriespicker-popover input');
-        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitFor(500);

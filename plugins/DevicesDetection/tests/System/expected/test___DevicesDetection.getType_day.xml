@@ -148,4 +148,10 @@
 		<segment>deviceType==smart+speaker</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/smart_speaker.png</logo>
 	</row>
+	<row>
+		<label>Wearable</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==wearable</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/wearable.png</logo>
+	</row>
 </result>

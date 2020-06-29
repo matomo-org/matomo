@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -49,6 +49,7 @@ var hasBlockedContent = false;
         function withTokenInUrl()
         {
             postParams['token_auth'] = piwik.token_auth;
+            postParams['force_api_session'] = '1';
         }
 
         function isRequestToApiMethod() {
@@ -132,7 +133,7 @@ var hasBlockedContent = false;
             };
 
             var requestFormat = format;
-            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json2') {
+            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json') {
                 requestFormat = getParams.format;
             }
 
@@ -191,6 +192,7 @@ var hasBlockedContent = false;
         function getPostParams (params) {
             if (isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
                 params.token_auth = piwik.token_auth;
+                params.force_api_session = '1';
             }
 
             return params;
@@ -260,7 +262,7 @@ var hasBlockedContent = false;
             getParams.module = getParams.module || 'API';
 
             if (!getParams.format) {
-                getParams.format = 'JSON2';
+                getParams.format = 'JSON';
             }
 
             addParams(getParams);
@@ -276,6 +278,7 @@ var hasBlockedContent = false;
             if (_postParams_) {
                 if (postParams && postParams.token_auth && !_postParams_.token_auth) {
                     _postParams_.token_auth = postParams.token_auth;
+                    _postParams_.force_api_session = '1';
                 }
                 postParams = _postParams_;
             }
@@ -337,9 +340,6 @@ var hasBlockedContent = false;
             post: post,
             fetch: fetch,
             addPostParams: addPostParams,
-            /**
-             * @deprecated
-             */
             abort: abort,
             abortAll: abortAll,
             mixinDefaultGetParams: mixinDefaultGetParams

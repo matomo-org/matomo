@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -62,17 +62,6 @@ class FetchTranslations extends TranslationBase
 
         $output->writeln("Fetching translations from Transifex for resource $resource");
 
-        $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames();
-
-        $languageCodes = array();
-        foreach ($availableLanguages as $languageInfo) {
-            $languageCodes[] = $languageInfo['code'];
-        }
-
-        $languageCodes = array_filter($languageCodes, function($code) {
-            return !in_array($code, array('en', 'dev'));
-        });
-
         try {
             $languages = $transifexApi->getAvailableLanguageCodes();
 
@@ -82,6 +71,23 @@ class FetchTranslations extends TranslationBase
                 });
             }
         } catch (AuthenticationFailedException $e) {
+            $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames();
+
+            $languageCodes = array();
+            foreach ($availableLanguages as $languageInfo) {
+                $codeParts = explode('-', $languageInfo['code']);
+
+                if (!empty($codeParts[1])) {
+                    $codeParts[1] = strtoupper($codeParts[1]);
+                }
+
+                $languageCodes[] = implode('_', $codeParts);
+            }
+
+            $languageCodes = array_filter($languageCodes, function($code) {
+                return !in_array($code, array('en', 'dev'));
+            });
+
             $languages = $languageCodes;
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -51,13 +51,12 @@ class GetRank extends \Piwik\Widget\Widget
 
         $dataTable = API::getInstance()->getRank($url);
         
-        /** @var \Piwik\DataTable\Renderer\Php $renderer */
-        $renderer = Renderer::factory('php');
-        $renderer->setSerialize(false);
+        /** @var \Piwik\DataTable\Renderer\Json $renderer */
+        $renderer = Renderer::factory('json');
 
         return $this->renderTemplate('getRank', array(
             'urlToRank' => Url::getHostFromUrl($url),
-            'ranks' => $renderer->render($dataTable)
+            'ranks' => json_decode($renderer->render($dataTable), true)
         ));
     }
 

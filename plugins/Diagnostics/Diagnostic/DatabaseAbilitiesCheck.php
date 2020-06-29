@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Translation\Translator;
 
 /**
@@ -37,6 +38,8 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
         $result = new DiagnosticResult($this->translator->translate('Installation_DatabaseAbilities'));
 
+        $result->addItem($this->checkUtf8mb4Charset());
+
         if (Config::getInstance()->General['enable_load_data_infile']) {
             $result->addItem($this->checkLoadDataInfile());
         }
@@ -45,6 +48,34 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $result->addItem($this->checkTransactionLevel());
 
         return [$result];
+    }
+
+    protected function checkUtf8mb4Charset()
+    {
+        $dbSettings   = new Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
+
+        if (DbHelper::getDefaultCharset() === 'utf8mb4' && $charset === 'utf8mb4') {
+            return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, 'UTF8mb4 charset');
+        }
+
+        if (DbHelper::getDefaultCharset() === 'utf8mb4') {
+            return new DiagnosticResultItem(
+                DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' .
+                $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetAvailableButNotUsed', '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>') .
+                '<br/><br/>' .
+                $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�', '<a href="https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/" rel="noreferrer noopener" target="_blank">', '</a>']) .
+                '<br/>'
+            );
+        }
+
+        return new DiagnosticResultItem(
+            DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' .
+            $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetRecommended') .
+            '<br/><br/>' .
+            $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�', '<a href="https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/" rel="noreferrer noopener" target="_blank">', '</a>']) .
+            '<br/>'
+        );
     }
 
     protected function checkLoadDataInfile()

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,7 +13,7 @@ use Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 
-class UrlsFromWebsiteIdTest extends \PHPUnit_Framework_TestCase
+class UrlsFromWebsiteIdTest extends \PHPUnit\Framework\TestCase
 {
     public function test_filter_ignoresDomainsPortssAndPortsInRecord()
     {

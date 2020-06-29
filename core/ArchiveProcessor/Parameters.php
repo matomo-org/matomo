@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,6 +9,9 @@
 
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Cache;
+use Piwik\DataAccess\Model;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Period;
@@ -257,5 +260,10 @@ class Parameters
     public function setIsRootArchiveRequest($isRootArchiveRequest)
     {
         $this->isRootArchiveRequest = $isRootArchiveRequest;
+    }
+
+    public function __toString()
+    {
+        return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}]";
     }
 }

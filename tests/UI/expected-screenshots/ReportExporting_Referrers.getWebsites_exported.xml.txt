@@ -240,9 +240,9 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>14</nb_conversions>
+				<nb_conversions>13</nb_conversions>
 				<nb_visits_converted>8</nb_visits_converted>
-				<revenue>70</revenue>
+				<revenue>65</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>8</nb_conversions>
@@ -250,8 +250,8 @@
 				<revenue>40</revenue>
 			</row>
 		</goals>
-		<nb_conversions>22</nb_conversions>
-		<revenue>110</revenue>
+		<nb_conversions>21</nb_conversions>
+		<revenue>105</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<idsubdatatable>7</idsubdatatable>
@@ -428,7 +428,7 @@
 		<nb_conversions>8</nb_conversions>
 		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<idsubdatatable>2</idsubdatatable>
 		<segment>referrerName==whatever0.com</segment>
 		<subtable>
@@ -441,7 +441,7 @@
 				<bounce_count>2</bounce_count>
 				<nb_visits_converted>2</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>http://whatever0.com/1</label>
@@ -452,7 +452,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>http://whatever0.com/2</label>
@@ -463,7 +463,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
@@ -477,9 +477,9 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>6</nb_conversions>
+				<nb_conversions>4</nb_conversions>
 				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>30</revenue>
+				<revenue>20</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>2</nb_conversions>
@@ -487,8 +487,8 @@
 				<revenue>10</revenue>
 			</row>
 		</goals>
-		<nb_conversions>8</nb_conversions>
-		<revenue>40</revenue>
+		<nb_conversions>6</nb_conversions>
+		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<idsubdatatable>13</idsubdatatable>
@@ -541,7 +541,7 @@
 		<nb_conversions>4</nb_conversions>
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<idsubdatatable>3</idsubdatatable>
 		<segment>referrerName==whatever1.com</segment>
 		<subtable>
@@ -554,7 +554,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>http://whatever1.com/2</label>
@@ -565,7 +565,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
@@ -843,7 +843,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<idsubdatatable>1</idsubdatatable>
 		<segment>referrerName==whatever.com1</segment>
 		<subtable>
@@ -856,7 +856,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
@@ -883,7 +883,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<idsubdatatable>4</idsubdatatable>
 		<segment>referrerName==whatever3.com</segment>
 		<subtable>
@@ -896,7 +896,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -100,7 +100,7 @@ class   Config
     );
 
     /**
-     * The list of ViewDataTable properties that can be overriden by query parameters.
+     * The list of ViewDataTable properties that can be overridden by query parameters.
      */
     public $overridableProperties = array(
         'show_goals',
@@ -751,7 +751,7 @@ class   Config
      *
      * @param string $relatedReport The plugin and method of the report, eg, `'DevicesDetection.getBrowsers'`.
      * @param string $title The report's display name, eg, `'Browsers'`.
-     * @param array $queryParams Any extra query parameters to set in releated report's URL, eg,
+     * @param array $queryParams Any extra query parameters to set in related report's URL, eg,
      *                           `array('idGoal' => 'ecommerceOrder')`.
      */
     public function addRelatedReport($relatedReport, $title, $queryParams = array())
@@ -759,8 +759,8 @@ class   Config
         list($module, $action) = explode('.', $relatedReport);
 
         // don't add the related report if it references this report
-        if ($this->controllerName == $module
-            && $this->controllerAction == $action) {
+        if ($this->controllerName === $module
+            && $this->controllerAction === $action) {
             if (empty($queryParams)) {
                 return;
             }

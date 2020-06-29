@@ -30,7 +30,7 @@ class FailuresTest extends IntegrationTestCase
      */
     private $now;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

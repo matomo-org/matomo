@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,7 +23,7 @@ class DeactivatePlugin extends ConsoleCommand
     {
         $this->setName('plugin:deactivate');
         $this->setDescription('Deactivate a plugin.');
-        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to activate. Multiple plugin names can be specified separated by a space.');
+        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to deactivate. Multiple plugin names can be specified separated by a space.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -15,6 +15,7 @@
         "CategoryTextReferrers_Referrers": "Viittaajat",
         "CategoryTextVisitsSummary_VisitsSummary": "Käyttäjän attribuutti",
         "CategoryTextDevicesDetection_DevicesDetection": "Laitteet",
+        "CategoryTextGeneral_Visit": "sitoutuminen",
         "ClickOutlink": "Ulos lähtevän linkin painaminen",
         "SendEvent": "Lähetä tapahtuma",
         "ColumnAverageOrderRevenueDocumentation": "Keskimääräinen tilauksen arvo (AOV) on tilausten arvon summa jaettuna tilausten lukumäärällä.",
@@ -43,7 +44,7 @@
         "DefaultRevenueHelp": "Esimerkiksi lähetetyn \\\"Ota yhteyttä\\\"-lomakkeen arvo voi olla keskimäärin 10€. Matomo auttaa ymmärtämään, miten eri segmentit tuovat rahaa.",
         "DeleteGoalConfirm": "Haluatko varmasti poistaa tavoitteen %s?",
         "DocumentationRevenueGeneratedByProductSales": "Tuotteiden myynti. Poislukien verot, kuljetus ja alennukset",
-        "Download": "Ladataan tiedosto",
+        "Download": "Lataa tiedosto",
         "Ecommerce": "Verkkokauppa",
         "EcommerceAndGoalsMenu": "Verkkokauppa ja tavoitteet",
         "EcommerceLog": "Verkkokaupan loki",
@@ -61,6 +62,8 @@
         "GoalName": "Tavoitteen nimi",
         "Goals": "Tavoitteet",
         "NGoals": "%s tavoitetta",
+        "NRevenue": "%s tuotto",
+        "NItems": "%s tietuetta",
         "ManageGoals": "Hallitse tavoitteita",
         "GoalsOverview": "Tavoitteiden yleiskatsaus",
         "GoalsOverviewDocumentation": "Tämä on tavoitteiden saavuttamisen yleiskatsaus. Aluksi kuvaaja näyttää kaikkien tavoitteiden saavuttamisten summan. %s Kuvaajan alla näet raportit jokaiselle tavoitteelle. Pienet kuvaajat suurenevat klikkaamalla.",
@@ -75,6 +78,7 @@
         "NewGoalIntro": "Konversion seuranta on yksi tehokkaimmista tavoista mitata ja kehittää yrityksesi päämääriä.",
         "NewVisitorsConversionRateIs": "Uusien kävijöiden siirtymäaste on %s",
         "Optional": "(valinnainen)",
+        "ColumnOverallRevenue": "Tuotto yhteensä",
         "PageTitle": "Sivun otsikko",
         "Pattern": "Malli",
         "PluginDescription": "Luo tavoitteita, ja näe yksityiskohtaisia raportteja tavoitteiden saavuttamisesta: muutokset ajan yli, liikevaihto per käynti, onnistumisia per viittaus, per avainsana jne.",
@@ -94,8 +98,12 @@
         "VisitPageTitle": "Käynti sivulla, jonka otsikko on annettu alla",
         "VisitsUntilConv": "Käyntejä tavoitteen saavuttamiseen",
         "VisitUrl": "Vierailee annetussa osoitteessa (sivu tai ryhmä sivuja)",
+        "VisitDuration": "käynnin kesto on",
         "WhenVisitors": "kun kävijöitä",
         "WhereThe": "jossa",
-        "YouCanEnableEcommerceReports": "Voit ottaa käyttöön %1$s tälle sivustolle sivulla %2$s."
+        "YouCanEnableEcommerceReports": "Voit ottaa käyttöön %1$s tälle sivustolle sivulla %2$s.",
+        "GoalRevenue": "Tavoitteen tuotto",
+        "TimeInMinutes": "Aika minuuteissa",
+        "ClickToViewThisGoal": "Napsauta nähdäksesi tämän tavoitteen."
     }
 }

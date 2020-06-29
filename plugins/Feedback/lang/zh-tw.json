@@ -21,14 +21,27 @@
         "UserGuides": "使用者指南",
         "CommunityHelp": "社區協助",
         "ProfessionalHelp": "專業協助",
+        "ProfessionalServicesIntro": "訂閱 Matomo 即時付費服務後，我們的專業團隊能在線上協助你使用 Matomo 分析，擴展你的生意。",
         "ProfessionalServicesOfferIntro": "你可以獲得哪些服務？",
+        "ProfessionalServicesDedicatedSupport": "每一步都有專任的 Matomo 團隊成員幫助你。",
+        "ProfessionalServicesOnboarding": "問卷培訓，並與 Matomo 專員會議。",
+        "ProfessionalServicesSupport": "全年無休線上客服",
+        "ProfessionalServicesTraining": "獨佔的 Matomo 教學影片",
+        "ProfessionalServicesEmailAlerts": "Matomo 安全更新的 Email 通知",
         "ContactUs": "聯絡我們",
         "VisitTheForums": "訪問%1$s論壇%2$s從社區中的 Matomo 使用者中取得協助。",
         "Forums": "論壇",
         "ReviewMatomoTitle": "信任 Matomo 嗎？",
         "PleaseLeaveExternalReviewForMatomo": "在這些網站上分享你的評價，讓更多人加入我們的資料革命。",
+        "RemindMeLater": "稍後再提醒我",
+        "NeverAskMeAgain": "永遠不再詢問",
         "HowCanWeHelp": "我們如何協助你？",
+        "NotTrackingVisits": "Matomo 沒有任何訪客紀錄",
+        "TrackMultipleSites": "我想要追蹤多個網站或是網域",
+        "RemoveOtherLabel": "我想要看「其他」類資料",
+        "PurgeOldData": "我想要移除一些舊資料",
         "SearchHelpResources": "搜尋 matomo.org 上的說明資源",
-        "PopularHelpTopics": "熱門的說明主題"
+        "PopularHelpTopics": "熱門的說明主題",
+        "SearchOnMatomo": "於 Matomo.org 搜尋「%1$s」"
     }
 }

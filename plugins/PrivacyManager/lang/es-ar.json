@@ -8,6 +8,7 @@
         "AnonymizeIpMaskLength": "%1$s byte\/s - ej. %2$s",
         "AskingForConsent": "Pedir consentimiento",
         "ClickHereSettings": "Hacé clic acá para acceder a la configuración de %s.",
+        "AnonymizeUserId": "Reemplazar identificación del usuario con un pseudónimo",
         "CurrentDBSize": "Tamaño actual de la base de datos",
         "DBPurged": "Base da datos purgada.",
         "DeleteBothConfirm": "Estás a punto de habilitar tanto la eliminación de datos en crudo como la eliminación de datos de informes. Esto quitará permanentemente tu habilidad de ver datos analíticos antiguos. ¿Estás seguro que querés hacer esto?",

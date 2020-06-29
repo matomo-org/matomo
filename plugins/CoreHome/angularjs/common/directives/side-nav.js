@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -25,7 +25,6 @@
             restrict: 'A',
             priority: 10,
             link: function(scope, element, attr, ctrl) {
-
                 if (attr.piwikSideNav) {
                     $timeout(function () {
                         if (!initialized) {
@@ -33,7 +32,7 @@
 
                             var sideNavActivator = $(attr.piwikSideNav).show();
 
-                            sideNavActivator.sideNav({
+                            $('#' + sideNavActivator.attr('data-target')).sidenav({
                                 closeOnClick: true
                             });
                         }

@@ -5,8 +5,6 @@
         "ColumnLocalMinute": "Lokale tijd - minuut (start van bezoek)",
         "ColumnServerTime": "Servertijd",
         "ColumnServerHour": "Servertijd - uur",
-        "ColumnVisitEndServerHour": "Servertijd - uur (einde van bezoek)",
-        "ColumnVisitEndServerMinute": "Servertijd - minuut (einde van bezoek)",
         "ColumnVisitStartServerHour": "Servertijd - uur (start van bezoek)",
         "ColumnVisitStartServerMinute": "Servertijd - minuut (start van bezoek)",
         "ColumnServerMinute": "Servertijd - minuut",

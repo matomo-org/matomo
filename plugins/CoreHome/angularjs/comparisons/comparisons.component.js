@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -26,6 +26,7 @@
         vm.comparisonHasSegment = comparisonHasSegment;
         vm.getComparisonPeriodType = getComparisonPeriodType;
         vm.getComparisonTooltip = getComparisonTooltip;
+        vm.getUrlToSegment = getUrlToSegment;
 
         function $onInit() {
             $rootScope.$on('piwikComparisonsChanged', onComparisonsChanged);
@@ -144,6 +145,15 @@
 
             tooltip += '</div>';
             return tooltip;
+        }
+
+        function getUrlToSegment(segment) {
+            var hash = window.location.hash;
+            hash = broadcast.updateParamValue('comparePeriods[]=', hash);
+            hash = broadcast.updateParamValue('compareDates[]=', hash);
+            hash = broadcast.updateParamValue('compareSegments[]=', hash);
+            hash = broadcast.updateParamValue('segment=' + encodeURIComponent(segment), hash);
+            return window.location.search + hash;
         }
     }
 })();

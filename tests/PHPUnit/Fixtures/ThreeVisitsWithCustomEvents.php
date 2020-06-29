@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
     public $idSite = 1;
     public static $idGoalTriggeredOnEventCategory = 3;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
@@ -52,7 +52,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
 
         // $vis will start with a pageview, while $vis2 will directly start with the event
         $vis->setUrl('http://example.org/webradio');
-        $vis->setGenerationTime(333);
+        $vis->setPerformanceTimings(5, 111, 245, 145, 66, 0);
         self::checkResponse($vis->doTrackPageView('Welcome!'));
 
         $this->trackMusicPlaying($vis);
@@ -60,21 +60,21 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $this->trackEventWithoutUrl($vis);
         $this->trackMovieWatchingIncludingInterval($vis);
 
-        $this->dateTime = Date::factory($this->dateTime)->addHour(0.5);
+        $this->dateTime = Date::factory($this->dateTime)->addHour(0.5)->getDatetime();
         $vis2 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
         $vis2->setUrl('http://example.com/piwik/');
         $vis2->setIp('111.1.1.1');
-        $vis2->setPlugins($flash = false, $java = false, $director = true);
+        $vis2->setPlugins($flash = false, $java = false);
 
         $this->trackMusicPlaying($vis2);
         $this->trackMusicRatings($vis2);
         $this->trackMovieWatchingIncludingInterval($vis2);
 
-        $this->dateTime = Date::factory($this->dateTime)->addDay(1);
+        $this->dateTime = Date::factory($this->dateTime)->addDay(1)->getDatetime();
         $vis3 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
         $vis3->setUrl('http://example.com/piwik/');
         $vis3->setIp('111.1.1.2');
-        $vis3->setPlugins($flash = false, $java = false, $director = true);
+        $vis3->setPlugins($flash = false, $java = false);
 
         $this->trackMusicPlaying($vis3);
         $this->trackMusicRatings($vis3);
@@ -145,7 +145,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         // First a pageview so the time on page is tracked properly
         $this->moveTimeForward($vis, 30);
         $vis->setUrl('http://example.org/movies');
-        $vis->setGenerationTime(666);
+        $vis->setPerformanceTimings(0, 455, 169, 20, 99, 160);
         self::checkResponse($vis->doTrackPageView('Movie Theater'));
 
         $this->moveTimeForward($vis, 31);
@@ -226,7 +226,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $vis->setCustomVariable($id = 1, $name = 'Visit Scope Custom var', $value = 'should not appear in events report Bis', $scope = 'visit');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 }

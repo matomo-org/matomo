@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -226,9 +226,21 @@ class Rules
         return !$isArchivingEnabled;
     }
 
-    public static function isRequestAuthorizedToArchive()
+    public static function isRequestAuthorizedToArchive(Parameters $params = null)
     {
-        return Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+        $isRequestAuthorizedToArchive = Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+
+        if (!empty($params)) {
+            /**
+             * @ignore
+             *
+             * @params bool &$isRequestAuthorizedToArchive
+             * @params Parameters $params
+             */
+            Piwik::postEvent('Archiving.isRequestAuthorizedToArchive', [&$isRequestAuthorizedToArchive, $params]);
+        }
+
+        return $isRequestAuthorizedToArchive;
     }
 
     public static function isBrowserTriggerEnabled()
@@ -293,11 +305,11 @@ class Rules
      *
      * @return string[]
      */
-    public static function getSelectableDoneFlagValues($includeInvalidated = true)
+    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null)
     {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
-        if (!Rules::isRequestAuthorizedToArchive()
+        if (!Rules::isRequestAuthorizedToArchive($params)
             && $includeInvalidated
         ) {
             //If request is not authorized to archive then fetch also invalidated archives

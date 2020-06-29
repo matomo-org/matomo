@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,6 +18,7 @@ class Timer
     private $timerStart;
     private $memoryStart;
     private $formatter;
+    private $timerEnd;
 
     /**
      * @return \Piwik\Timer
@@ -38,13 +39,18 @@ class Timer
         $this->memoryStart = $this->getMemoryUsage();
     }
 
+    public function finish()
+    {
+        $this->timerEnd = $this->getMicrotime();
+    }
+
     /**
      * @param int $decimals
      * @return string
      */
     public function getTime($decimals = 3)
     {
-        return number_format($this->getMicrotime() - $this->timerStart, $decimals, '.', '');
+        return number_format($this->getTimerEnd() - $this->timerStart, $decimals, '.', '');
     }
 
     /**
@@ -53,7 +59,7 @@ class Timer
      */
     public function getTimeMs($decimals = 3)
     {
-        return number_format(1000 * ($this->getMicrotime() - $this->timerStart), $decimals, '.', '');
+        return number_format(1000 * ($this->getTimerEnd() - $this->timerStart), $decimals, '.', '');
     }
 
     /**
@@ -86,6 +92,11 @@ class Timer
     public function __toString()
     {
         return "Time elapsed: " . $this->getTime() . "s";
+    }
+
+    private function getTimerEnd()
+    {
+        return $this->timerEnd ?: $this->getMicrotime();
     }
 
     /**

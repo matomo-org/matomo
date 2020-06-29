@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -97,6 +97,11 @@ class IniFileChain
      */
     public function set($name, $value)
     {
+        $name = $this->replaceSectionInvalidChars($name);
+        if ($value !== null) {
+            $value = $this->replaceInvalidChars($value);
+        }
+
         $this->mergedSettings[$name] = $value;
     }
 
@@ -210,13 +215,16 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
-        if (!empty($userSettingsFile) && !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
+        $hasAbsoluteConfigFile = !empty($userSettingsFile) && strpos($userSettingsFile, DIRECTORY_SEPARATOR) === 0;
+        $useConfigCache = !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE']) && $hasAbsoluteConfigFile;
+
+        if ($useConfigCache) {
             $cache = new Cache();
             $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
             
             if (!empty($values)
                 && isset($values['mergedSettings'])
-                && isset($values['settingsChain'])) {
+                && isset($values['settingsChain'][$userSettingsFile])) {
                 $this->mergedSettings = $values['mergedSettings'];
                 $this->settingsChain = $values['settingsChain'];
                 return;
@@ -246,8 +254,7 @@ class IniFileChain
             $this->mergedSettings = call_user_func($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS'], $this->mergedSettings);
         }
         
-        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])
-            && !empty($userSettingsFile)
+        if ($useConfigCache
             && !empty($this->mergedSettings)
             && !empty($this->settingsChain)) {
 
@@ -535,5 +542,28 @@ class IniFileChain
 
         $writer = new IniWriter();
         return $writer->writeToString($values, $header);
+    }
+
+    private function replaceInvalidChars($value)
+    {
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $arrayValue) {
+                $key = $this->replaceInvalidChars($key);
+                if (is_array($arrayValue)) {
+                    $arrayValue = $this->replaceInvalidChars($arrayValue);
+                }
+
+                $result[$key] = $arrayValue;
+            }
+            return $result;
+        } else {
+            return preg_replace('/[^a-zA-Z0-9_\[\]-]/', '', $value);
+        }
+    }
+
+    private function replaceSectionInvalidChars($value)
+    {
+        return preg_replace('/[^a-zA-Z0-9_-]/', '', $value);
     }
 }

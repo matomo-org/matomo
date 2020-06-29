@@ -12,6 +12,7 @@
 	<totalUniquePageViews>4</totalUniquePageViews>
 	<totalRevisitedPages>4</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<totalPageViewsWithLoadTime>0</totalPageViewsWithLoadTime>
 	<searches>
 	</searches>
 	<totalGoalConversions>0</totalGoalConversions>
@@ -36,7 +37,7 @@
 					
 					<pageId>44</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -64,11 +65,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>33</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>30</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2592720</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -122,7 +125,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -158,7 +162,7 @@
 					
 					<pageId>43</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
@@ -186,11 +190,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>32</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>29</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2506320</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -244,7 +250,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -280,7 +287,7 @@
 					
 					<pageId>42</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
@@ -308,11 +315,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>31</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>28</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2419920</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -366,7 +375,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -402,7 +412,7 @@
 					
 					<pageId>41</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
@@ -430,11 +440,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>30</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>27</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2333520</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -488,7 +500,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -524,7 +537,7 @@
 					
 					<pageId>40</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -552,11 +565,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>29</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>26</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2247120</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -610,7 +625,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -646,7 +662,7 @@
 					
 					<pageId>39</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
@@ -674,11 +690,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>28</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>25</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2160720</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -732,7 +750,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -768,7 +787,7 @@
 					
 					<pageId>38</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
@@ -796,11 +815,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>27</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>24</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2074320</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -854,7 +875,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -890,7 +912,7 @@
 					
 					<pageId>37</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
@@ -918,11 +940,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>26</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>23</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1987920</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -976,7 +1000,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -1012,7 +1037,7 @@
 					
 					<pageId>36</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -1040,11 +1065,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>25</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>22</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1901520</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1098,7 +1125,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>
@@ -1134,7 +1162,7 @@
 					
 					<pageId>35</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
@@ -1162,11 +1190,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>24</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>21</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1815120</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1220,7 +1250,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<customVariables>
 			</customVariables>
 			<resolution>1024x768</resolution>

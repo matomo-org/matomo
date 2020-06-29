@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,14 +15,14 @@ use Piwik\Plugins\CoreHome\CoreHome;
  * @group CoreHomeTest
  * @group Plugins
  */
-class CoreHomeTest extends \PHPUnit_Framework_TestCase
+class CoreHomeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CoreHome
      */
     private $coreHome;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

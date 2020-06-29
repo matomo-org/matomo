@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -58,7 +58,7 @@ class TasksTest extends IntegrationTestCase
      */
     private $mail;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -77,7 +77,7 @@ class TasksTest extends IntegrationTestCase
         $this->mail = null;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['trigger']);
 
@@ -132,13 +132,15 @@ class TasksTest extends IntegrationTestCase
         $tasks = array_map(function (Task $task) { return $task->getMethodName() . '.' . $task->getMethodParameter(); }, $tasks);
 
         $expected = [
+            'invalidateOutdatedArchives.',
+            'deleteOldFingerprintSalts.',
             'purgeOutdatedArchives.',
             'purgeInvalidatedArchives.',
             'purgeOrphanedArchives.',
             'optimizeArchiveTable.',
             'cleanupTrackingFailures.',
             'notifyTrackingFailures.',
-            'updateSpammerBlacklist.',
+            'updateSpammerList.',
             'checkSiteHasTrackedVisits.2',
             'checkSiteHasTrackedVisits.3',
             'checkSiteHasTrackedVisits.4',
