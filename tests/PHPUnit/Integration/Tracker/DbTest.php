@@ -58,8 +58,12 @@ class DbTest extends IntegrationTestCase
             $db1->query("UPDATE $site SET name = ? WHERE idsite = ?", ['bar', $idSite2]);
         } catch (\Exception $e) {
             $this->assertStringContainsString('Lock wait timeout exceeded; try restarting transaction', $e->getMessage());
-            $this->assertStringContainsString(' 1205 ', $e->getMessage()); // mysql error code
-            $this->assertTrue($db1->isErrNo($e, 1205));
+            if ($this->isMysqli()) { // code is not included in error message on Mysqli
+                $this->assertEquals(1205, $e->getCode());
+            } else {
+                $this->assertStringContainsString(' 1205 ', $e->getMessage()); // mysql error code
+                $this->assertTrue($db1->isErrNo($e, 1205));
+            }
             $this->assertTrue($e instanceof Tracker\Db\DbException);
         }
 

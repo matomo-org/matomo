@@ -136,15 +136,17 @@
 		
 		
 		<userId />
-		<visitorType>returningCustomer</visitorType>
+		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>2</visitCount>
+		<visitCount>3</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>27000</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder>21240</secondsSinceLastEcommerceOrder>
 		<visitDuration>721</visitDuration>
 		<visitDurationPretty>12 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -199,6 +201,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>21240</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
@@ -523,7 +526,9 @@
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>5760</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder>0</secondsSinceLastEcommerceOrder>
 		<visitDuration>3961</visitDuration>
 		<visitDurationPretty>1 hours 6 min</visitDurationPretty>
 		<searches>0</searches>
@@ -578,6 +583,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>5760</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
@@ -753,7 +759,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>721</visitDuration>
 		<visitDurationPretty>12 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -808,6 +816,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName4>ValueIsZero</customVariableName4>

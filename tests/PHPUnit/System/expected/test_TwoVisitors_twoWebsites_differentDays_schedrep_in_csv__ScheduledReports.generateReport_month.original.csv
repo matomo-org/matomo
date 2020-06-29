@@ -281,15 +281,15 @@ label,nb_visits
 
 Visits by Visit Number
 label,nb_visits,nb_visits_percentage
-1 visit,3,27%
-2 visits,8,73%
-3 visits,0,0%
-4 visits,0,0%
-5 visits,0,0%
-6 visits,0,0%
-7 visits,0,0%
-8 visits,0,0%
-9-14 visits,0,0%
+1 visit,2,18%
+2 visits,2,18%
+3 visits,1,9%
+4 visits,1,9%
+5 visits,1,9%
+6 visits,1,9%
+7 visits,1,9%
+8 visits,1,9%
+9-14 visits,1,9%
 15-25 visits,0,0%
 26-50 visits,0,0%
 51-100 visits,0,0%
@@ -300,14 +300,14 @@ Visits by days since last visit
 label,nb_visits
 New visits,2
 0 days,1
-1 day,0
-2 days,1
-3 days,1
-4 days,1
-5 days,1
-6 days,1
-7 days,1
-8-14 days,2
+1 day,8
+2 days,0
+3 days,0
+4 days,0
+5 days,0
+6 days,0
+7 days,0
+8-14 days,0
 15-30 days,0
 31-60 days,0
 61-120 days,0
