@@ -2,12 +2,12 @@
 <result>
 	<row>
 		<label>New visits</label>
-		<nb_visits>4</nb_visits>
+		<nb_visits>13</nb_visits>
 		<segment>visitorType==new</segment>
 	</row>
 	<row>
 		<label>0 days</label>
-		<nb_visits>4</nb_visits>
+		<nb_visits>1</nb_visits>
 		<segment>daysSinceLastVisit==0</segment>
 	</row>
 	<row>
@@ -22,12 +22,12 @@
 	</row>
 	<row>
 		<label>3 days</label>
-		<nb_visits>1</nb_visits>
+		<nb_visits>0</nb_visits>
 		<segment>daysSinceLastVisit==3</segment>
 	</row>
 	<row>
 		<label>4 days</label>
-		<nb_visits>1</nb_visits>
+		<nb_visits>0</nb_visits>
 		<segment>daysSinceLastVisit==4</segment>
 	</row>
 	<row>
@@ -37,7 +37,7 @@
 	</row>
 	<row>
 		<label>6 days</label>
-		<nb_visits>1</nb_visits>
+		<nb_visits>0</nb_visits>
 		<segment>daysSinceLastVisit==6</segment>
 	</row>
 	<row>
@@ -47,7 +47,7 @@
 	</row>
 	<row>
 		<label>8-14 days</label>
-		<nb_visits>1</nb_visits>
+		<nb_visits>0</nb_visits>
 		<segment>daysSinceLastVisit&gt;=8;daysSinceLastVisit&lt;=14</segment>
 	</row>
 	<row>
@@ -67,12 +67,12 @@
 	</row>
 	<row>
 		<label>121-364 days</label>
-		<nb_visits>1</nb_visits>
+		<nb_visits>0</nb_visits>
 		<segment>daysSinceLastVisit&gt;=121;daysSinceLastVisit&lt;=364</segment>
 	</row>
 	<row>
 		<label>365+ days</label>
-		<nb_visits>1</nb_visits>
+		<nb_visits>0</nb_visits>
 		<segment>daysSinceLastVisit&gt;=365</segment>
 	</row>
 </result>
