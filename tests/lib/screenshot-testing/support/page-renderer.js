@@ -382,13 +382,26 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     });
 
     // TODO: self.aborted?
-    this.webpage.on('requestfailed', (request) => {
+    this.webpage.on('requestfailed', async (request) => {
         --this.activeRequestCount;
 
+        const failure = request.failure();
+        const errorMessage = failure ? failure.errorText : 'Unknown error';
+
         if (!VERBOSE) {
-            const failure = request.failure();
-            const errorMessage = failure ? failure.errorText : 'Unknown error';
             this._logMessage('Unable to load resource (URL:' + request.url() + '): ' + errorMessage);
+        }
+
+        if (request.url().indexOf('action=getCss')) {
+            if (errorMessage === 'net::ERR_ABORTED') {
+                console.log('CSS request aborted.');
+            } else if (request.url().indexOf('&reload=1') === -1) {
+                console.log('Loading CSS failed (' + errorMessage + ')... Try adding it with another style tag.');
+                await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+                await this.webpage.waitFor(1000);
+            } else {
+                console.log('Reloading CSS failed (' + errorMessage + ').');
+            }
         }
     });
 
@@ -400,6 +413,23 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             const body = await response.buffer();
             const message = 'Response (size "' + body.length + '", status "' + response.status() + '"): ' + request.url() + "\n" + body.toString();
             this._logMessage(message);
+        }
+
+        // if response of css request does not start with /*, we assume it had an error and try to load it again
+        // Note: We can't do that in requestfailed only, as the response code might be 200 even if it throws an exception
+        if (request.url().indexOf('action=getCss') !== -1) {
+            var body = await response.buffer();
+            if (body.toString().substring(0, 2) === '/*') {
+                return;
+            }
+            if (request.url().indexOf('&reload=1') === -1) {
+                console.log('Loading CSS failed... Try adding it with another style tag.');
+                await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+                await this.webpage.waitFor(1000);
+            } else {
+                console.log('Reloading CSS failed.');
+            }
+            console.log('Response (size "' + body.length + '", status "' + response.status() + ', headers "' + JSON.stringify(response.headers()) + '"): ' + request.url() + "\n" + body.toString());
         }
     });
 

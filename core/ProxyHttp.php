@@ -286,6 +286,10 @@ class ProxyHttp
             $data = gzencode($data, 9);
         }
 
+        if (false === $data) {
+            throw new \Exception('compressing file '.$fileToCompress.' failed');
+        }
+
         file_put_contents($compressedFilePath, $data);
     }
 }
