@@ -361,7 +361,7 @@ class ArchiveSelector
      *   ($requestedPluginDoneFlags will have the done flag for the overall archive plus a done flag for
      *   VisitsSummary by itself)
      * - the ts_archived for the latest idarchive
-     * - the doneFlag value for the latest archivej
+     * - the doneFlag value for the latest archive
      *
      * @param $results
      * @param $requestedPluginDoneFlags
