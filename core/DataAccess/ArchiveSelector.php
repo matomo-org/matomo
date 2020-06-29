@@ -432,8 +432,13 @@ class ArchiveSelector
 
         // add partial archives
         foreach ($results as $row) {
+            if (!isset($idArchives[$row['name']])) {
+                continue;
+            }
+
             $mainTsArchived = $tsArchiveds[$row['name']];
             $thisTsArchived = $row['ts_archived'];
+
             if ($row['value'] === ArchiveWriter::DONE_PARTIAL
                 && ($mainTsArchived == $thisTsArchived || Date::factory($mainTsArchived)->isEarlier($thisTsArchived))
             ) {

@@ -84,6 +84,11 @@ class ArchiveWriter
     private $parameters;
 
     /**
+     * @var string
+     */
+    private $earliestNow;
+
+    /**
      * ArchiveWriter constructor.
      * @param ArchiveProcessor\Parameters $params
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
@@ -160,6 +165,10 @@ class ArchiveWriter
 
         $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
+
+        if ($this->parameters->isPartialArchive()) {
+            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $this->idArchive);
+        }
     }
 
     protected function compress($data)
@@ -280,12 +289,16 @@ class ArchiveWriter
 
     protected function getInsertRecordBind()
     {
+        $now = date("Y-m-d H:i:s");
+        if (empty($this->earliestNow)) {
+            $this->earliestNow = $now;
+        }
         return array($this->getIdArchive(),
             $this->idSite,
             $this->dateStart->toString('Y-m-d'),
             $this->period->getDateEnd()->toString('Y-m-d'),
             $this->period->getId(),
-            date("Y-m-d H:i:s"));
+            $now);
     }
 
     protected function getTableNameToInsert($value)

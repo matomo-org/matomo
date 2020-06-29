@@ -353,6 +353,25 @@ class Model
         return $deletedRows;
     }
 
+    public function deleteOlderArchives(Parameters $params, $name, $tsArchived, $idArchive)
+    {
+        $dateStart = $params->getPeriod()->getDateStart();
+        $dateEnd = $params->getPeriod()->getDateEnd();
+
+        $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $blobTable = ArchiveTableCreator::getBlobTable($dateEnd);
+
+        $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived < ? AND idarchive < ?";
+
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart, $dateEnd, $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
+        $idArchives = array_column($idArchives, 'idarchive');
+        if (empty($idArchives)) {
+            return;
+        }
+
+        $this->deleteArchiveIds($numericTable, $blobTable, $idArchives);
+    }
+
     public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC,
                                           $doneFlags, $doneFlagValues = null)
     {

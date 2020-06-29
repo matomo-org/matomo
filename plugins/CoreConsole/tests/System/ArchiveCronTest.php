@@ -204,41 +204,6 @@ class ArchiveCronTest extends SystemTestCase
                 'period' => '1',
                 'value' => '5',
             ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-01',
-                'date2' => '2007-04-30',
-                'period' => '3',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-02',
-                'date2' => '2007-04-08',
-                'period' => '2',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-05',
-                'date2' => '2007-04-05',
-                'period' => '1',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-02',
-                'date2' => '2007-04-08',
-                'period' => '2',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-05',
-                'date2' => '2007-04-05',
-                'period' => '1',
-                'value' => '5',
-            ],
         ];
 
         $this->assertEquals($expected, $archives);
