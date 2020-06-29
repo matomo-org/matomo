@@ -34,10 +34,6 @@
 	path = plugins/AnonymousPiwikUsageMeasurement
 	url = https://github.com/matomo-org/plugin-AnonymousPiwikUsageMeasurement.git
     branch = master
-[submodule "plugins/CustomDimensions"]
-	path = plugins/CustomDimensions
-	url = https://github.com/matomo-org/plugin-CustomDimensions.git
-    branch = master
 [submodule "plugins/Bandwidth"]
 	path = plugins/Bandwidth
 	url = https://github.com/matomo-org/plugin-Bandwidth.git

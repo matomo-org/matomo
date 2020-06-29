@@ -1,0 +1,19 @@
+{
+    "CustomDimensions": {
+        "CustomDimensions": "Kustomoidut dimensiot",
+        "IncreaseAvailableCustomDimensionsTitle": "Lisää saatavilla olevien kustomoitujen arvojen määrää",
+        "HowToTrackManuallyViaJs": "Seuraa arvoa JavaScript-seurannalla:",
+        "HowToTrackManuallyViaPhp": "Seuraa arvoa PHP-seurannalla:",
+        "ExtractValue": "Hae arvo",
+        "NoCustomDimensionConfigured": "Kustomoituja dimensioita ei ole otettu käyttöön. Luo yksi nyt.",
+        "ConfigureNewDimension": "Luo uusi dimensio",
+        "PageUrlParam": "Sivun URL-parametrit",
+        "NameIsRequired": "Nimi on pakollinen.",
+        "DimensionCreated": "Kustomoitu dimensio luotu",
+        "DimensionUpdated": "Kustomoitu dimensio päivitetty",
+        "ColumnUniqueActions": "Uniikit toiminnot",
+        "ColumnAvgTimeOnDimension": "Keskimääräinen aika dimensiossa",
+        "NoValue": "ei arvoa",
+        "EmptyValue": "tyhjä arvo"
+    }
+}
