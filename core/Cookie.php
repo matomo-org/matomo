@@ -209,7 +209,7 @@ class Cookie
      * @param bool $validate
      * @return string|bool  Content or false if unsigned
      */
-    private function extractSignedContent($content, $validate = true)
+    private function extractSignedContent($content, $validate)
     {
         $signature = substr($content, -40);
 
