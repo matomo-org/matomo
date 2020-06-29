@@ -163,8 +163,10 @@ class QueueConsumer
                 break;
             }
 
+            $invalidationDesc = $this->getInvalidationDescription($invalidatedArchive);
+
             if ($invalidatedArchive['periodObj']->getDateEnd()->isEarlier($siteCreationTime)) {
-                $this->logger->debug("Invalidation is for period that is older than the site's creation time, ignoring: {$invalidatedArchive['idinvalidation']}");
+                $this->logger->debug("Invalidation is for period that is older than the site's creation time, ignoring: $invalidationDesc");
                 $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
             }
@@ -172,13 +174,13 @@ class QueueConsumer
             if (!empty($invalidatedArchive['plugin'])
                 && !Manager::getInstance()->isPluginActivated($invalidatedArchive['plugin'])
             ) {
-                $this->logger->debug("Plugin specific archive {$invalidatedArchive['idarchive']}'s plugin is deactivated, ignoring (plugin = {$invalidatedArchive['plugin']}.");
+                $this->logger->debug("Plugin specific archive {$invalidatedArchive['idarchive']}'s plugin is deactivated, ignoring $invalidationDesc.");
                 $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
             }
 
             if ($this->hasDifferentDoneFlagType($archivesToProcess, $invalidatedArchive['name'])) {
-                $this->logger->debug("Found archive with different done flag type (segment vs. no segment) in concurrent batch, skipping until next batch: {$invalidatedArchive['name']}");
+                $this->logger->debug("Found archive with different done flag type (segment vs. no segment) in concurrent batch, skipping until next batch: $invalidationDesc");
 
                 $idinvalidation = $invalidatedArchive['idinvalidation'];
                 $invalidationsToExcludeInBatch[$idinvalidation] = true;
@@ -187,20 +189,20 @@ class QueueConsumer
             }
 
             if ($invalidatedArchive['segment'] === null) {
-                $this->logger->debug("Found archive for segment that is not auto archived, ignoring.");
+                $this->logger->debug("Found archive for segment that is not auto archived, ignoring: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
             }
 
             if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
-                $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring.");
+                $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
             }
 
             if ($this->hasIntersectingPeriod($archivesToProcess, $invalidatedArchive)) {
-                $this->logger->debug("Found archive with intersecting period with others in concurrent batch, skipping until next batch: {$invalidatedArchive['idinvalidation']}");
+                $this->logger->debug("Found archive with intersecting period with others in concurrent batch, skipping until next batch: $invalidationDesc");
 
                 $idinvalidation = $invalidatedArchive['idinvalidation'];
                 $invalidationsToExcludeInBatch[$idinvalidation] = true;
@@ -209,14 +211,13 @@ class QueueConsumer
 
             $reason = $this->shouldSkipArchive($invalidatedArchive);
             if ($reason) {
-                $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
+                $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idinvalidation']}, $reason: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
             }
 
             if ($this->canSkipArchiveBecauseNoPoint($invalidatedArchive)) {
-                $this->logger->debug("Found invalidated archive we can skip (no visits or latest archive is not invalidated). "
-                    . "[idSite = {$invalidatedArchive['idsite']}, dates = {$invalidatedArchive['date1']} - {$invalidatedArchive['date2']}, segment = {$invalidatedArchive['segment']}]");
+                $this->logger->debug("Found invalidated archive we can skip (no visits or latest archive is not invalidated): $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
@@ -225,7 +226,7 @@ class QueueConsumer
             // TODO: should use descriptive string instead of just invalidation ID
             $reason = $this->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($invalidatedArchive);
             if ($reason) {
-                $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idarchive']}: $reason");
+                $this->logger->debug("Skipping invalidated archive, $reason: $invalidationDesc");
                 $invalidationsToExcludeInBatch[$invalidatedArchive['idinvalidation']] = true;
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
@@ -233,14 +234,14 @@ class QueueConsumer
 
             $started = $this->model->startArchive($invalidatedArchive);
             if (!$started) { // another process started on this archive, pull another one
-                $this->logger->debug("Archive invalidation {$invalidatedArchive['idinvalidation']} is being handled by another process.");
+                $this->logger->debug("Archive invalidation is being handled by another process: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
             }
 
             $this->addInvalidationToExclude($invalidatedArchive);
 
-            $this->logger->debug("Processing invalidation {idinvalidation}.", ['idinvalidation' => $invalidatedArchive['idinvalidation']]);
+            $this->logger->debug("Processing invalidation: $invalidationDesc.");
 
             $archivesToProcess[] = $invalidatedArchive;
         }
@@ -306,8 +307,6 @@ class QueueConsumer
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
 
             $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $invalidationsToExclude);
-            print "next:\n";
-            print_r($nextArchive);
             if (empty($nextArchive)) {
                 break;
             }
@@ -503,5 +502,17 @@ class QueueConsumer
     private function getNextIdSiteToArchive()
     {
         return $this->websiteIdArchiveList->getNextSiteId();
+    }
+
+    private function getInvalidationDescription(array $invalidatedArchive)
+    {
+        return sprintf("[idinvalidation = %s, idsite = %s, period = %s(%s - %s), name = %s]",
+            $invalidatedArchive['idinvalidation'],
+            $invalidatedArchive['idsite'],
+            $this->periodIdsToLabels[$invalidatedArchive['period']],
+            $invalidatedArchive['date1'],
+            $invalidatedArchive['date2'],
+            $invalidatedArchive['name']
+        );
     }
 }
