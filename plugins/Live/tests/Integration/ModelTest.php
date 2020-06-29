@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,7 +27,7 @@ use Piwik\Tests\Integration\SegmentTest;
  */
 class ModelTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -86,13 +86,12 @@ class ModelTest extends IntegrationTestCase
         $this->assertTrue(true);
     }
 
-	/**
-	 * @expectedException \Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException
-	 * @expectedExceptionMessage Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonUnknown
-	 */
     public function test_handleMaxExecutionTimeError_whenTimeIsExceeded_noReasonFound()
     {
-    	$db = Db::get();
+        $this->expectException(\Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException::class);
+        $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonUnknown');
+
+        $db = Db::get();
     	$e = new \Exception('[3024] Query execution was interrupted, maximum statement execution time exceeded');
 	    $sql = 'SELECT 1';
 	    $bind = array();
@@ -104,13 +103,12 @@ class ModelTest extends IntegrationTestCase
         Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, [$sql, $bind]);
     }
 
-	/**
-	 * @expectedException \Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException
-	 * @expectedExceptionMessage Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonDateRange Live_QueryMaxExecutionTimeExceededReasonSegment Live_QueryMaxExecutionTimeExceededLimit
-	 */
     public function test_handleMaxExecutionTimeError_whenTimeIsExceeded_manyReasonsFound()
     {
-    	$db = Db::get();
+        $this->expectException(\Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException::class);
+        $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonDateRange Live_QueryMaxExecutionTimeExceededReasonSegment Live_QueryMaxExecutionTimeExceededLimit');
+
+        $db = Db::get();
     	$e = new \Exception('Query execution was interrupted, maximum statement execution time exceeded');
 	    $segment = 'userId>=1';
 	    $dateStart = Date::now()->subDay(10);

@@ -8,9 +8,6 @@
 
 namespace Piwik\DataAccess;
 
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\Db;
 use Piwik\Tracker\LogTable;
 
 class LogTableTemporary extends LogTable

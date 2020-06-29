@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -25,7 +25,7 @@ class InfoTest extends IntegrationTestCase
 {
     public function testExecute_ShouldOutputInfoSuccess_IfEverythingIsOk()
     {
-        $this->assertContains('Your Piwik is configured for 5 custom variables.', $this->executeCommand());
+        self::assertStringContainsString('Your Piwik is configured for 5 custom variables.', $this->executeCommand());
     }
 
     public function testExecute_ShouldOutputErrorMessage_IfColumnsDoNotMatch()
@@ -33,7 +33,7 @@ class InfoTest extends IntegrationTestCase
         $model = new Model(Model::SCOPE_PAGE);
         $model->removeCustomVariable();
 
-        $this->assertContains('There is a problem with your custom variables configuration', $this->executeCommand());
+        self::assertStringContainsString('There is a problem with your custom variables configuration', $this->executeCommand());
     }
 
     private function executeCommand()

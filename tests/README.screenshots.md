@@ -19,13 +19,13 @@ then you should update the expected screenshots accordingly.
 
 To fix a broken build, follow these steps:
 
- * Go to the Tests travis build: [https://travis-ci.org/piwik/piwik](https://travis-ci.org/piwik/piwik) and select the build containing `TEST_SUITE=UITests`
+ * Go to the Tests travis build: [https://travis-ci.org/matomo-org/matomo](https://travis-ci.org/matomo-org/matomo) and select the build containing `TEST_SUITE=UITests`
  * Find the build you are interested in. The UI tests build will be run for each commit in each branch, so if you're
    looking to resolve a specific failure, you'll have to find the build for the commit you've made.
  * In the build output, at the beginning of the test output, there will be a link to a image diff viewer. It will look something
    like this:
 
-       View UI failures (if any) here https://builds-artifacts.piwik.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
+       View UI failures (if any) here https://builds-artifacts.matomo.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
 
    Click on the link in the message.
  * The diff viewer will list links to the generated screenshots for failed tests as well as the expected screenshots and image diffs.
@@ -39,7 +39,7 @@ To fix a broken build, follow these steps:
 
      _Note: When determining whether a screenshot is correct, the data displayed is not important. Report data correctness is verified through System and other PHP tests. The UI tests should only test UI behavior._
  * Push the changes (to your code and/or to the expected-screenshots directory).
- * Wait for next Test build [on travis](https://travis-ci.org/piwik/piwik). Hopefully, the build should be green!
+ * Wait for next Test build [on travis](https://travis-ci.org/matomo-org/matomo). Hopefully, the build should be green!
 
 _Note: the `tests:sync-ui-screenshots` console command can be used to speed up the process. Run `./console tests:sync-ui-screenshots -h` to learn more._
 

@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * PageRenderer class for screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -231,7 +231,7 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
     PageRenderer.prototype[methodName] = function (...args) {
         if (methodName === 'goto') {
             let url = args[0];
-            if (url.indexOf("://") === -1) {
+            if (url.indexOf("://") === -1 && url !== 'about:blank') {
                 url = this.baseUrl + url;
             }
             args[0] = url;

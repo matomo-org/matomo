@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -164,7 +164,7 @@ class API extends \Piwik\Plugin\API
      *
      * Unlike DevicesDetection plugin now, the UserSettings plugin did not store archives holding the os and browser data without
      * their version number. The "version-less" reports were always generated out of the "version-containing" archives .
-     * For big archives (month/year) that ment that some of the data was truncated, due to the datatable entry limit.
+     * For big archives (month/year) that meant that some of the data was truncated, due to the datatable entry limit.
      * To avoid that data loss / inaccuracy in the future, DevicesDetection plugin will also store archives without the version.
      * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
      * them here from the "version-containing" reports if possible.
@@ -223,25 +223,6 @@ class API extends \Piwik\Plugin\API
         // use GroupBy filter to avoid duplicate rows if old (UserSettings) and new (DevicesDetection) reports were combined
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOsFullName'));
         return $dataTable;
-    }
-
-    /**
-     * Gets datatable displaying number of visits by Browser family (eg. Firefox, InternetExplorer)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
-     *
-     * @deprecated since 2.9.0   Use {@link getBrowsers} instead.
-     */
-    public function getBrowserFamilies($idSite, $period, $date, $segment = false)
-    {
-        $table = $this->getBrowsers($idSite, $period, $date, $segment);
-        // this one will not be sorted automatically by nb_visits since there is no Report class for it.
-        $table->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc'));
-
-        return $table;
     }
 
     /**

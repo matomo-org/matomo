@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,9 +11,9 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
-use Twig_Environment;
+use Twig\Environment;
+use Twig\Error\Error;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -43,7 +43,6 @@ if (!defined('PIWIK_USER_PATH')) {
  * - **isWidget**: The value of the 'widget' query parameter.
  * - **show_autocompleter**: Whether the site selector should be shown or not.
  * - **loginModule**: The name of the currently used authentication module.
- * - **userAlias**: The alias of the current user.
  * - **isInternetEnabled**: Whether the matomo server is allowed to connect to
  *                          external networks.
  *
@@ -113,7 +112,7 @@ class View implements ViewInterface
 
     /**
      * Instance
-     * @var Twig_Environment
+     * @var Environment
      */
     private $twig;
     protected $templateVars = array();
@@ -122,6 +121,15 @@ class View implements ViewInterface
     private $enableCacheBuster = true;
 
     private $useStrictReferrerPolicy = true;
+
+    /**
+     * Can be disabled to not send headers when rendering a view. This can be useful if heaps of views are being
+     * rendered during one request to possibly prevent a segmentation fault see eg #15307 . It should not be disabled
+     * for a main view, but could be disabled for views that are being rendered eg during a twig event as a "subview" which
+     * is part of the "main view".
+     * @var bool
+     */
+    public $sendHeadersWhenRendering = true;
 
     /**
      * Constructor.
@@ -267,29 +275,29 @@ class View implements ViewInterface
             $this->cacheBuster = $cacheBuster;
 
             $this->loginModule = Piwik::getLoginPluginName();
-
-            $this->userAlias = $this->userLogin; // can be removed in Matomo 4.0
         } catch (Exception $e) {
             Log::debug($e);
 
             // can fail, for example at installation (no plugin loaded yet)
         }
 
-        ProxyHttp::overrideCacheControlHeaders('no-store');
+        if ($this->sendHeadersWhenRendering) {
+            ProxyHttp::overrideCacheControlHeaders('no-store');
 
-        Common::sendHeader('Content-Type: ' . $this->contentType);
-        // always sending this header, sometimes empty, to ensure that Dashboard embed loads
-        // - when calling sendHeader() multiple times, the last one prevails
-        if(!empty($this->xFrameOptions)) {
-            Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
-        }
+            Common::sendHeader('Content-Type: ' . $this->contentType);
+            // always sending this header, sometimes empty, to ensure that Dashboard embed loads
+            // - when calling sendHeader() multiple times, the last one prevails
+            if(!empty($this->xFrameOptions)) {
+                Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+            }
 
-        // don't send Referer-Header for outgoing links
-        if (!empty($this->useStrictReferrerPolicy)) {
-            Common::sendHeader('Referrer-Policy: same-origin');
-        } else {
-            // always send explicit default header
-            Common::sendHeader('Referrer-Policy: no-referrer-when-downgrade');
+            // don't send Referer-Header for outgoing links
+            if (!empty($this->useStrictReferrerPolicy)) {
+                Common::sendHeader('Referrer-Policy: same-origin');
+            } else {
+                // always send explicit default header
+                Common::sendHeader('Referrer-Policy: no-referrer-when-downgrade');
+            }
         }
 
         return $this->renderTwigTemplate();
@@ -298,7 +306,7 @@ class View implements ViewInterface
     /**
      * @internal
      * @ignore
-     * @return Twig_Environment
+     * @return Environment
      */
     public function getTwig()
     {
@@ -307,15 +315,7 @@ class View implements ViewInterface
 
     protected function renderTwigTemplate()
     {
-        try {
-            $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
-        } catch (Exception $ex) {
-            // twig does not rethrow exceptions, it wraps them so we log the cause if we can find it
-            $cause = $ex->getPrevious();
-            Log::debug($cause === null ? $ex : $cause);
-
-            throw $ex;
-        }
+        $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
 
         if ($this->enableCacheBuster) {
             $output = $this->applyFilter_cacheBuster($output);
@@ -433,16 +433,8 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $twig = StaticContainer::get(Twig::class);
-        $environment = $twig->getTwigEnvironment();
-        $environment->clearTemplateCache();
-
-        $cacheDirectory = $environment->getCache();
-        if (!empty($cacheDirectory)
-            && is_dir($cacheDirectory)
-        ) {
-            $environment->clearCacheFiles();
-        }
+        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
+        Filesystem::unlinkRecursive($templatesCompiledPath, false);
     }
 
     /**

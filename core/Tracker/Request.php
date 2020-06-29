@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,10 +13,11 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\DbHelper;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -87,15 +88,21 @@ class Request
             }
         }
 
-        // check for 4byte utf8 characters in all tracking params and replace them with �
-        // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
+        // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
     }
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
+        $dbSettings   = new \Piwik\Db\Settings();
+        $charset      = $dbSettings->getUsedCharset();
+
+        if ('utf8mb4' === $charset) {
+            return $value; // no need to replace anything if utf8mb4 is supported
+        }
+
         if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
-            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            Common::printDebug("Unsupported character detected in $key. Replacing with \xEF\xBF\xBD");
             return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
         }
 
@@ -191,6 +198,19 @@ class Request
             return false;
         }
 
+        // Now checking the list of admin token_auth cached in the Tracker config file
+        if (!empty($idSite) && $idSite > 0) {
+            $website = Cache::getCacheWebsiteAttributes($idSite);
+            $userModel = new \Piwik\Plugins\UsersManager\Model();
+            $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
+            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
+
+            if (array_key_exists('tracking_token_auth', $website)
+                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
+                return true;
+            }
+        }
+        
         Piwik::postEvent('Request.initAuthenticationObject');
 
         /** @var \Piwik\Auth $auth */
@@ -205,17 +225,6 @@ class Request
             return true;
         }
 
-        // Now checking the list of admin token_auth cached in the Tracker config file
-        if (!empty($idSite) && $idSite > 0) {
-            $website = Cache::getCacheWebsiteAttributes($idSite);
-            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuth, $idSite);
-
-            if (array_key_exists('tracking_token_auth', $website)
-                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
-                return true;
-            }
-        }
-
         Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
 
         /**
@@ -225,74 +234,6 @@ class Request
         Piwik::postEvent('Tracker.Request.authenticate.failed');
 
         return false;
-    }
-
-    /**
-     * @return float|int
-     */
-    public function getDaysSinceFirstVisit()
-    {
-        $cookieFirstVisitTimestamp = $this->getParam('_idts');
-
-        if (!$this->isTimestampValid($cookieFirstVisitTimestamp)) {
-            $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
-        }
-
-        $daysSinceFirstVisit = floor(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400);
-
-        if ($daysSinceFirstVisit < 0) {
-            $daysSinceFirstVisit = 0;
-        }
-
-        return $daysSinceFirstVisit;
-    }
-
-    /**
-     * @return bool|float|int
-     */
-    public function getDaysSinceLastOrder()
-    {
-        $daysSinceLastOrder = false;
-        $lastOrderTimestamp = $this->getParam('_ects');
-
-        if ($this->isTimestampValid($lastOrderTimestamp)) {
-            $daysSinceLastOrder = round(($this->getCurrentTimestamp() - $lastOrderTimestamp) / 86400, $precision = 0);
-            if ($daysSinceLastOrder < 0) {
-                $daysSinceLastOrder = 0;
-            }
-        }
-
-        return $daysSinceLastOrder;
-    }
-
-    /**
-     * @return float|int
-     */
-    public function getDaysSinceLastVisit()
-    {
-        $daysSinceLastVisit = 0;
-        $lastVisitTimestamp = $this->getParam('_viewts');
-
-        if ($this->isTimestampValid($lastVisitTimestamp)) {
-            $daysSinceLastVisit = round(($this->getCurrentTimestamp() - $lastVisitTimestamp) / 86400, $precision = 0);
-            if ($daysSinceLastVisit < 0) {
-                $daysSinceLastVisit = 0;
-            }
-        }
-
-        return $daysSinceLastVisit;
-    }
-
-    /**
-     * @return int|mixed
-     */
-    public function getVisitCount()
-    {
-        $visitCount = $this->getParam('_idvc');
-        if ($visitCount < 1) {
-            $visitCount = 1;
-        }
-        return $visitCount;
     }
 
     /**
@@ -357,10 +298,6 @@ class Request
             '_ref'         => array('', 'string'),
             '_rcn'         => array('', 'string'),
             '_rck'         => array('', 'string'),
-            '_idts'        => array(0, 'int'),
-            '_viewts'      => array(0, 'int'),
-            '_ects'        => array(0, 'int'),
-            '_idvc'        => array(1, 'int'),
             'url'          => array('', 'string'),
             'urlref'       => array('', 'string'),
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),
@@ -380,6 +317,12 @@ class Request
             'ec_sh'        => array(false, 'float'),
             'ec_dt'        => array(false, 'float'),
             'ec_items'     => array('', 'json'),
+
+            // ecommerce product/category view
+            '_pkc'          => array('', 'string'),
+            '_pks'          => array('', 'string'),
+            '_pkn'          => array('', 'string'),
+            '_pkp'          => array(false, 'float'),
 
             // Events
             'e_c'          => array('', 'string'),
@@ -402,7 +345,12 @@ class Request
             'search_cat'   => array('', 'string'),
             'pv_id'        => array('', 'string'),
             'search_count' => array(-1, 'int'),
-            'gt_ms'        => array(-1, 'int'),
+            'pf_net'       => array(-1, 'int'),
+            'pf_srv'       => array(-1, 'int'),
+            'pf_tfr'       => array(-1, 'int'),
+            'pf_dm1'       => array(-1, 'int'),
+            'pf_dm2'       => array(-1, 'int'),
+            'pf_onl'       => array(-1, 'int'),
 
             // Content
             'c_p'          => array('', 'string'),
@@ -441,7 +389,7 @@ class Request
         }
     }
 
-    private function hasParam($name)
+    public function hasParam($name)
     {
         return isset($this->params[$name]);
     }
@@ -703,14 +651,14 @@ class Request
             $this->getCookieName(),
             $this->getCookieExpire(),
             $this->getCookiePath());
-       
+
         $domain = $this->getCookieDomain();
         if (!empty($domain)) {
             $cookie->setDomain($domain);
         }
-            
+
         Common::printDebug($cookie);
-        
+
         return $cookie;
     }
 
@@ -838,7 +786,7 @@ class Request
 
     public function getPlugins()
     {
-        static $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'gears', 'ag', 'cookie');
+        static $pluginsInOrder = array('fla', 'java', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
         $plugins = array();
         foreach ($pluginsInOrder as $param) {
             $plugins[] = Common::getRequestVar($param, 0, 'int', $this->params);
@@ -851,20 +799,6 @@ class Request
         return $this->isEmptyRequest;
     }
 
-    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
-
-    public function getPageGenerationTime()
-    {
-        $generationTime = $this->getParam('gt_ms');
-        if ($generationTime > 0
-            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
-        ) {
-            return (int)$generationTime;
-        }
-
-        return false;
-    }
-
     /**
      * @param $idVisitor
      * @return string
@@ -875,7 +809,7 @@ class Request
     }
 
     /**
-     * Matches implementation of PiwikTracker::getUserIdHashed
+     * Matches implementation of MatomoTracker::getUserIdHashed
      *
      * @param $userId
      * @return string
@@ -899,7 +833,7 @@ class Request
 
         if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
-            return IP::getIpFromHeader();
+            throw new InvalidRequestParameterException("Tracker API 'cip' was used, requires valid token_auth");
         }
 
         return $cip;

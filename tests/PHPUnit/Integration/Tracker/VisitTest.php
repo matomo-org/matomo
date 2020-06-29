@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
@@ -27,13 +27,14 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class VisitTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         // setup the access layer
         FakeAccess::$superUser = true;
 
+        Fixture::createSuperUser(true);
         Manager::getInstance()->loadTrackerPlugins();
         $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
         $pluginNames[] = 'SitesManager';

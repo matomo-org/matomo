@@ -4,6 +4,147 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.0.0
+
+### JavaScript Tracker
+
+#### Breaking changes in Matomo JS tracker
+
+* Matomo no longer polyfills the `JSON` object in the JavaScript tracker. This means IE7 and older, Firefox 3 and older will be no longer suppported in the tracker. 
+* The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools. This will improve the load time of your website.
+* The JS tracker event `PiwikInitialized` has been renamed to `MatomoInitialized`
+* Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
+* Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
+
+#### Deprecations in Matomo JS tracker
+
+* The JS Tracker method `getPiwikUrl` has been deprecated and `getMatomoUrl` should be used instead.
+* The JS Tracker init method `piwikAsyncInit` has been deprecated and `matomoAsyncInit` should be used instead.
+* The JS object `window.Piwik` has been deprecated and `window.Matomo` should be used instead.
+
+#### Recommendations for Matomo JS tracker
+
+The following changes are recommendations and don't have to be done as we will still support them for many years. However, it could change in the future.
+
+* If using the `piwik_ignore` css class to ignore outlinks we recommend replacing it with `matomo_ignore` 
+* If using the `piwik_download` css class to mark a link as download we recommend replacing it with `matomo_download` 
+* If using content tracking, we recommend replacing the following CSS classes should they be used `piwikTrackContent`, `piwikContentPiece`, `piwikContentTarget`, and `piwikContentIgnoreInteraction` with `matomoTrackContent`, `matomoContentPiece`, `matomoContentTarget`, and `matomoContentIgnoreInteraction`. 
+* We also encourage using the `matomo.js` JS tracker file instead of `piwik.js` and `matomo.php` tracker endpoint instead of `piwik.php` endpoint.
+
+### HTTP APIs
+
+#### Breaking changes in HTTP API 
+
+##### Format changes
+* The `JSON2` API format has now been deprecated and is now applied  by default. The JSON2 renderer will be removed in Matomo 5 and we recommend switching to it. 
+* The `JSON` renderer now behaves like the previous `JSON2` renderer did. This means arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`. This impacts these API methods:
+  * API.getSettings
+  * Annotations.get
+  * Goals.getGoal
+  * UsersManager.getUser
+  * UsersManager.getUserByEmail
+  * SitesManager.getSiteFromId
+* The API response format `php` has been removed.
+* The response of an individual request within the bulk request of `API.getBulkRequest` may change if the API returns a scalar value (eg `5`). In this case the response will be no longer `5` but for example `{value: 5}`
+
+##### Method changes
+* The API method `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
+* The API method `UsersManager.createTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
+* The API method `DevicesDetection.getBrowserFamilies` has been removed. Instead you need to use `DevicesDetection.getBrowsers`
+* The API method `CustomPiwikJs.doesIncludePluginTrackersAutomatically` has been renamed to `CustomJsTracker.doesIncludePluginTrackersAutomatically`
+* The API method `Live.getLastVisitsForVisitor` has been removed. Use `Live.getVisitorProfile` instead.
+* The API method `Live.getLastVisits` has been removed. Use `Live.getLastVisitsDetails` instead.
+* These API methods have been removed: `API.getDefaultMetricTranslations`, `API.getLogoUrl`, `API.getHeaderLogoUrl`, `API.getSVGLogoUrl`,   `API.hasSVGLogo`
+* These API methods have been removed: `SitesManager.getSitesIdWithVisits`, `SitesManager.isSiteSpecificUserAgentExcludeEnabled`, `SitesManager.setSiteSpecificUserAgentExcludeEnabled`
+* These API methods have been removed: `Referrers.getKeywordsForPageUrl` and `Referrers.getKeywordsForPageTitle`. Use `Referrers.getKeywords` instead in combination with a `entryPageUrl` or `entryPageTitle` segment.
+* The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
+
+### PHP Plugin API
+
+#### New PHP events
+
+* Added new event `Db.getTablesInstalled`, plugins should use to register the tables they create.
+
+#### Breaking changes in PHP events
+
+* The event `CustomPiwikJs.piwikJsChanged` has been renamed to `CustomJsTracker.trackerJsChanged`
+* The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.shouldAddTrackerFile`
+* The event `Live.getAllVisitorDetails` has been removed. Use a `VisitorDetails` class instead (see Live plugin).
+* The event `Live.getExtraVisitorDetails'` has been removed. Use the `VisitorDetails` class within each plugin instead.
+* The event `Piwik.getJavascriptCode` has been renamed to `Tracker.getJavascriptCode`.
+* The event `LanguageManager.getAvailableLanguages` has been removed. Use `LanguagesManager.getAvailableLanguages` instead.
+* The `$completed` parameter for the 'CronArchive.archiveSingleSite.finish' event has been removed. For both this event and the CronArchive.archiveSingleSite.start event, a new
+  parameter is added for the process' pid. Multiple processes can now trigger this event for the same site ID.
+
+#### Removed methods and constants in PHP Plugin API
+
+* The method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead
+* The method `\Piwik\Piwik::doAsSuperUser()` has been removed. Use `\Piwik\Access::doAsSuperUser()` instead
+* The method `\Piwik\SettingsPiwik::isPiwikInstalled()` has been removed. Use `\Piwik\SettingsPiwik::isMatomoInstalled()` instead
+* The method `\Piwik\Updates::getSql()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
+* The method `\Piwik\Updates::getMigrationQueries()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
+* The method `\Piwik\Updates::executeMigrationQueries()` has been removed. Use `\Piwik\Updates::executeMigrations()` instead
+* The method `\Piwik\Updates::update()` has been removed. Use `\Piwik\Updates::doUpdate()` instead
+* The method `\Piwik\Updater::updateDatabase()` has been removed. The method is not needed anymore.
+* The method `\Piwik\Common::json_encode()` has been removed. Use `json_encode()` instead
+* The method `\Piwik\Common::json_decode()` has been removed. Use `json_decode()` instead
+* The method `\Piwik\Common::getContinentsList()` has been removed. Use `\Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()` instead
+* The method `\Piwik\Common::getCountriesList()` has been removed. Use `\Piwik\Intl\Data\Provider\RegionDataProvider::getCountriesList()` instead
+* The method `\Piwik\Common::getLanguagesList()` has been removed. Use `\Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguagesList()` instead
+* The method `\Piwik\Common::getLanguageToCountryList()` has been removed. Use `\Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()` instead
+* The method `\Piwik\Site::getCurrencyList()` has been removed. Use `\Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()` instead
+* The method `\Piwik\Piwik::setUserHasSuperUserAccess()` has been removed. Use `\Piwik\Access::doAsSuperUser()` instead
+* The class `\Piwik\MetricsFormatter` has been removed. Use `Piwik\Metrics\Formatter` or `Piwik\Metrics\Formatter\Html` instead
+* The class `\Piwik\Registry` has been removed. Use `\Piwik\Container\StaticContainer` instead
+* The class `\Piwik\TaskScheduler` has been removed. Use `\Piwik\Scheduler\Scheduler` instead
+* The class `\Piwik\DeviceDetectorFactory` has been removed. Use `\Piwik\DeviceDetector\DeviceDetectorFactory` instead
+* The class `\Piwik\ScheduledTask` has been removed. Use `\Piwik\Scheduler\Task` instead.
+* The class `\Piwik\Translate` has been removed. Use `\Piwik\Translation\Translator` instead.
+* The class `\Piwik\Plugins\Login\SessionInitializer` is no longer considered API as it is no longer needed.
+* The class `\Piwik\Container\StaticContainer` still exists but we no longer consider it an API and constructor injection should be used instead where possible.
+* The method `Piwik\Columns\Dimension::factory` has been removed. Use `DimensionsProvider::factory` instead.
+* The method `Piwik\Config::reset` has been removed. Use the `reload` method instead.
+* The method `Piwik\Config::init` has been removed. Use the `reload()` method instead.
+* The method `Piwik\Db::getColumnNamesFromTable` has been removed. Use the `TableMetadata::getColumns` method instead.
+* The method `Piwik\Session\SessionInitializer::getHashTokenAuth` has been removed. There is no need for this method anymore.
+* The method `Piwik\Tracker::getDatetimeFromTimestamp` has been removed. Use `Piwik\Date::getDatetimeFromTimestamp` instead.
+* The method `Dimension::addSegment()` has been removed. See new implementation of `DimensionSegmentFactory::createSegment` for a replacement
+* The constant `Piwik\Plugins\Goals\API::NEW_VISIT_SEGMENT` has been removed. Use `Piwik\Plugins\VisitFrequency\API::NEW_VISITOR_SEGMENT` instead.
+* The signature of `Dimension::configureSegments()` has been changed. Similar to configuring Metrics it now takes two parameters `SegmentsList $segmentsList` and `DimensionSegmentFactory $dimensionSegmentFactory`.
+* The signature of the event `Segment.addSegments` has been changed. It now has one parameter `SegmentsList $list`, which allows adding new segments to the list
+* The core plugin `CustomPiwikJs` has been renamed to `CustomJsTracker`
+* The class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
+* `Zend_Validate` and all subclasses have been completely removed. 
+* Matomo's mail component (`Piwik\Mail`) has been rewritten:
+  * Zend_Mail has been removed. `Piwik\Mail` is now an independet class.
+  * PHPMailer is now used for sending mails in `\Piwik\Mail\Transport` and can be replaced using DI.
+  * Various methods in `Piwik\Mail` have been removed or changed their signature.
+  
+#### New APIs
+* A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
+* A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
+
+### Other Breaking changes
+
+* The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
+* Deprecated `piwik` font was removed. Use `matomo` font instead
+* The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
+* The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
+* The controller action `Proxy.redirect` has been removed. Instead link to the URL directly in HTML and set an attribute `rel="noreferrer noopener"`  
+* GeoIP Legacy support has been fully removed. Users of GeoIP Legacy need to set up a new location provider like GeoIP2, otherwise the default location provider will be used.
+* Site search category and count are no longer stored as custom variables. That also means they will now have an extra field in action details and no longer appear in custom variables.
+* The dimension and `log_link_visit_action` column interaction_position has been renamed to pageview_position. If your database queries rely on the column you can simply replace the name.
+* The metric (avg.) page generation time has been deprecated. It is no longer possible to track it. Already tracked values will still be shown in old reports. More detailed performance metrics are now available in PagePerformance plugin.
+* Added support for campaign name parameter `matomo_campaign` / `mtm_campaign` and campaign keyword parameter `matomo_kwd` / `mtm_kwd`
+* The following dimensions have been removed and replaced with versions that measure seconds: visitor_days_since_first, visitor_days_since_last, visitor_days_since_order
+* The _idvc, _idts, _viewts and _ects tracker parameters are no longer used, the values are calculated server side.
+  Note: tracking these values server side means replaying log data in the past will result in inaccurate values for these dimensions.
+
+## Matomo 3.13.6
+
+### API Changes
+* The first parameter `userLogin` in the `UsersManager.getUserPreference` method is now optional and defaults to the currently authenticated user login.
+
 ## Matomo 3.13.5
 
 ### New API
@@ -67,7 +208,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * It is now possible to queue a request on the JavaScript tracker using the method `queueRequest(requestUrl)`. This can be useful to group multiple tracking requests into one bulk request to reduce the number of tracking requests that are sent to your server making the tracking more efficient.
-* When specifying a callback in the JavaScript tracker in a tracker method, we now make sure to execute the callback even in error cases or when sentBeacon is used. The callback recevies an event parameter to determine which request was sent and whether the request was sent successfully.
+* When specifying a callback in the JavaScript tracker in a tracker method, we now make sure to execute the callback even in error cases or when sentBeacon is used. The callback receives an event parameter to determine which request was sent and whether the request was sent successfully.
 * Added new event `Metrics.getEvolutionUnit` which lets you set the unit for a metric used in evolution charts and row evolution.
 
 ### New Features
@@ -580,7 +721,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 
 ### Internal changes
 
-* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see [https://github.com/matomo-org/referrer-spam-blacklist](https://github.com/matomo-org/referrer-spam-blacklist)).
+* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see [https://github.com/matomo-org/referrer-spam-list](https://github.com/matomo-org/referrer-spam-list)).
 
 ## Piwik 2.12.0
 
@@ -830,7 +971,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
 * [Visit Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Dimension/VisitDimension) to add a dimension that tracks visit related information
 * [Conversion Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Dimension/ConversionDimension) to add a dimension that tracks conversion related information
 * [Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Columns/Dimension) to add a basic non tracking dimension that can be used in `Reports`
-* [Widgets](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Widgets) to add or modfiy widgets
+* [Widgets](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Widgets) to add or modify widgets
 * These Menu classes got new methods that make it easier to add new items to a specific section
   * [MenuAdmin](http://developer.matomo.org/2.x/api-reference/Piwik/Menu/MenuAdmin) to add or modify admin menu items. 
   * [MenuReporting](http://developer.matomo.org/2.x/api-reference/Piwik/Menu/MenuReporting) to add or modify reporting menu items
@@ -853,6 +994,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
 
 ### Breaking Changes
 ### Deprecations
+### API Changes
 ### New features
 ### New APIs
 ### New commands

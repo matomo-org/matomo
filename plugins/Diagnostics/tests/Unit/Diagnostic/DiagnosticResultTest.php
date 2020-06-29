@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Diagnostics\tests\Unit\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
 
-class DiagnosticResultTest extends \PHPUnit_Framework_TestCase
+class DiagnosticResultTest extends \PHPUnit\Framework\TestCase
 {
     public function test_getStatus_shouldReturnTheWorstStatus()
     {

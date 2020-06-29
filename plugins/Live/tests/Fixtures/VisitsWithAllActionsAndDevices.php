@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Live\tests\Fixtures;
@@ -20,7 +20,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::siteCreated($idSite = 1)) {
             self::createWebsite($this->dateTime, 1);
@@ -64,12 +64,12 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $this->trackVisitTablet($t, Date::factory($this->dateTime)->addHour(156.9)->getDatetime());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
 
-    private function trackVisitSmartphone(\PiwikTracker $t, $dateTime)
+    private function trackVisitSmartphone(\MatomoTracker $t, $dateTime)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (Linux; U; Android 4.4.2; fr-fr; HTC One_M8 Build/KOT49H) AppleWebKit/537.16 (KHTML, like Gecko) Version/4.0 Mobile Safari/537.16');
@@ -81,7 +81,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setLongitude(139.71);
 
         $t->setUrl('http://example.org/');
-        $t->setGenerationTime(251);
+        $t->setPerformanceTimings(12, 256, 222, 345, 158, 111);
         $t->setDebugStringAppend('bw_bytes=12053');
         self::checkResponse($t->doTrackPageView('home'));
 
@@ -98,7 +98,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setUrl('http://example.org/product42');
         $t->setCustomTrackingParameter('dimension2', 'NZD');
         $t->setEcommerceView($sku = 'P42X4D', $name = 'product 42', $category = 'software', $price = 60);
-        $t->setGenerationTime(83);
+        $t->setPerformanceTimings(33, 222, 356, 444, 522, 211);
         $t->setDebugStringAppend('bw_bytes=36053');
         self::checkResponse($t->doTrackPageView('product 42'));
 
@@ -112,7 +112,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.25)->getDatetime());
         $t->setUrl('http://example.org/search');
-        $t->setGenerationTime(318);
+        $t->setPerformanceTimings(99, 123, 288, 346, 444, 56);
         $t->setDebugStringAppend('bw_bytes=2583');
         self::checkResponse($t->doTrackPageView('product search'));
 
@@ -130,7 +130,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setUrl('http://example.org/fancyproduct');
         $t->setEcommerceView($sku = 'F4NCYX', $name = 'fancy product', $category = 'software', $price = 40);
-        $t->setGenerationTime(151);
+        $t->setPerformanceTimings(75, 199, 245, 288, 321, 123);
         $t->setDebugStringAppend('bw_bytes=68895');
         self::checkResponse($t->doTrackPageView('fancy product'));
 
@@ -139,7 +139,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackEcommerceCartUpdate(140));
 
         $t->setUrl('http://example.org/cart');
-        $t->setGenerationTime(33);
+        $t->setPerformanceTimings(0, 325, 165, 258, 333, 88);
         $t->setDebugStringAppend('bw_bytes=1590');
         self::checkResponse($t->doTrackPageView('cart'));
 
@@ -147,14 +147,14 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackAction('http://vendor.site', 'link'));
     }
 
-    private function trackVisitTablet(\PiwikTracker $t, $dateTime)
+    private function trackVisitTablet(\MatomoTracker $t, $dateTime)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (Linux; U; en-us; KFAPWI Build/JDQ39) AppleWebKit/535.19 (KHTML, like Gecko) Silk/3.8 Safari/535.19 Silk-Accelerated=true');
 
         $t->setUrlReferrer('http://www.google.com/search?q=product%2042');
         $t->setUrl('http://example.org/product42');
-        $t->setGenerationTime(96);
+        $t->setPerformanceTimings(55, 348, 256, 299, 165, 144);
         $t->setDebugStringAppend('bw_bytes=6851');
         $t->setCustomVariable(1, 'custom', 'variable', 'page');
         $t->setCustomTrackingParameter('dimension1', '42');
@@ -168,26 +168,26 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
         $t->setUrl('http://example.org/');
-        $t->setGenerationTime(511);
+        $t->setPerformanceTimings(78, 198, 245, 398, 400, 100);
         $t->setDebugStringAppend('bw_bytes=2012');
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
         $t->setUrl('http://example.org/');
-        $t->setGenerationTime(511);
+        $t->setPerformanceTimings(55, 222, 562, 359, 461, 67);
         $t->setDebugStringAppend('bw_bytes=2012');
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
         $t->setUrl('http://example.org/');
-        $t->setGenerationTime(222);
+        $t->setPerformanceTimings(75, 333, 1000, 299, 156, 99);
         $t->setDebugStringAppend('bw_bytes=950');
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
     }
 
-    private function trackVisitMediaPlayer(\PiwikTracker $t, $dateTime)
+    private function trackVisitMediaPlayer(\MatomoTracker $t, $dateTime)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (iPod; U; CPU iPhone OS 4_2_1 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Mobile/8C148');
@@ -196,7 +196,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setCustomVariable(1, 'promo', 'summer', 'visit');
         $t->setCustomTrackingParameter('dimension1', '16');
         $t->setUrl('http://example.org/');
-        $t->setGenerationTime(195);
+        $t->setPerformanceTimings(0, 255, 319, 395, 222, 92);
         $t->setDebugStringAppend('bw_bytes=631');
         self::checkResponse($t->doTrackPageView('home'));
 
@@ -208,18 +208,18 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.6)->getDatetime());
         $t->setUrl('');
-        $t->setGenerationTime(156);
+        $t->setPerformanceTimings(null, null, null, null, null, null);
         $t->setDebugStringAppend('bw_bytes=1254');
         self::checkResponse($t->doTrackPageView('Action without url'));
     }
 
-    private function trackDeviceVisit(\PiwikTracker $t, $dateTime, $useragent)
+    private function trackDeviceVisit(\MatomoTracker $t, $dateTime, $useragent)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent($useragent);
 
         $t->setUrl('http://example.org/');
-        $t->setGenerationTime(111);
+        $t->setPerformanceTimings(88, 165, 247, 355, 401, 196);
         $t->setDebugStringAppend('bw_bytes=555');
         self::checkResponse($t->doTrackPageView('home'));
 

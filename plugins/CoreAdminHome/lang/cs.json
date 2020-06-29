@@ -4,6 +4,7 @@
         "Administration": "Administrace",
         "ArchivingSettings": "Archivování nastavení",
         "BrandingSettings": "Nastavení označení",
+        "ErrorEmailFromAddressNotValid": "SMTP adresa odesílatele není platná",
         "ReleaseChannel": "Kanál vydání",
         "ClickHereToOptIn": "Klikněte zde pro přihlášení.",
         "ClickHereToOptOut": "Klikněte zde pro vyloučení.",

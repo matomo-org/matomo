@@ -112,6 +112,7 @@
         "Continue": "Doorgaan",
         "ContinueToPiwik": "Doorgaan naar Matomo",
         "CurrentlyUsingUnsecureHttp": "Momenteel gebruik je Matomo over een onveilige HTTP verbinding. Dit kan je Matomo kwetsbaar voor beveiligingsexploitaties maken. Je kunt ook in strijd zijn met de privacywetgeving, omdat sommige functies, waaronder opt-out-cookies, niet werken. We raden je aan Matomo in te stellen om SSL (HTTPS) te gebruiken voor verbeterde beveiliging.",
+        "CreationDate": "Aanmaakdatum",
         "CreatedByUser": "aangemaakt door %s",
         "CurrentMonth": "Huidige maand",
         "CurrentWeek": "Huidige week",
@@ -389,6 +390,7 @@
         "Search": "Zoeken",
         "Clear": "Legen",
         "SearchNoResults": "Geen resultaten",
+        "Security": "Beveiliging",
         "SeeAll": "Alles bekijken",
         "SeeTheOfficialDocumentationForMoreInformation": "Bekijk de %1$sofficiële documentatie%2$s voor meer informatie.",
         "SeeThisFaq": "Bekijk %1$sdeze veelgestelde vraag%2$s.",
@@ -511,7 +513,10 @@
         "ClickToRemoveComp": "Klik om deze vergelijking te verwijderen.",
         "MaximumNumberOfSegmentsComparedIs": "Het maximum aantal segmenten dat te gelijk vergeleken kan worden is %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s lengte van de query parameter moet overeenkomen %2$s lengte van de query parameter.",
-        "MaximumNumberOfPeriodsComparedIs": "Het maximum aantal perioden dat te gelijk vergeleken kan worden is %s."
+        "MaximumNumberOfPeriodsComparedIs": "Het maximum aantal perioden dat te gelijk vergeleken kan worden is %s.",
+        "Custom": "Maatwerk",
+        "PreviousPeriod": "Vorige periode",
+        "PreviousYear": "Vorig jaar"
     },
     "Mobile": {
         "AboutPiwikMobile": "Over Matomo Mobile",

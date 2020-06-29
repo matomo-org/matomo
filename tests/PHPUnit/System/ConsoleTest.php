@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -107,7 +107,7 @@ class TestCommandWithException extends ConsoleCommand
 
 class ConsoleTest extends ConsoleCommandTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->application->addCommands([
@@ -169,6 +169,7 @@ Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to 
 ',
 ))
 END;
+
         $this->assertEquals($expected, $output);
     }
 

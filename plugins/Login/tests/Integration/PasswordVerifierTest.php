@@ -27,7 +27,7 @@ class PasswordVerifierTest extends IntegrationTestCase
      */
     private $verifier;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

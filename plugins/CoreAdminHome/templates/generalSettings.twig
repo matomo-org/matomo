@@ -17,23 +17,22 @@
                 <h3 class="col s12">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</h3>
                 <div class="col s12 m6">
                     <p>
-                        <input type="radio" value="1" id="enableBrowserTriggerArchiving1"
-                               name="enableBrowserTriggerArchiving" {% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %}
-                        />
-                        <label for="enableBrowserTriggerArchiving1">
-                            {{ 'General_Yes'|translate }}
+                        <label>
+                            <input type="radio" value="1" id="enableBrowserTriggerArchiving1"
+                                   name="enableBrowserTriggerArchiving" {% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %}
+                            />
+                            <span>{{ 'General_Yes'|translate }}</span>
                             <span class="form-description">{{ 'General_Default'|translate }}</span>
                         </label>
                     </p>
 
                     <p>
-                    <input type="radio" value="0"
-                           id="enableBrowserTriggerArchiving2"
-                           name="enableBrowserTriggerArchiving"
-                            {% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
-
                     <label for="enableBrowserTriggerArchiving2">
-                        {{ 'General_No'|translate }}
+                        <input type="radio" value="0"
+                               id="enableBrowserTriggerArchiving2"
+                               name="enableBrowserTriggerArchiving"
+                                {% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
+                        <span>{{ 'General_No'|translate }}</span>
                         <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/setup-auto-archiving/'>","</a>")|raw }}</span>
                     </label>
                     </p>

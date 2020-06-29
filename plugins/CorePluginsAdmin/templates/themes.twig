@@ -15,7 +15,7 @@
         {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
 
         {% if isMarketplaceEnabled %}
-            {{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate('<a href="' ~ linkTo({'action':'browseThemes', 'sort': ''}) ~ '">', '</a>')|raw }}
+            {{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate('<a href="' ~ linkTo({'module': 'Marketplace','action':'overview', 'sort': '', 'show': 'themes'}) ~ '">', '</a>')|raw }}
         {% endif %}
 
         {% if otherUsersCount > 0 %}

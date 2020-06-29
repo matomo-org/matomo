@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -53,7 +53,7 @@ var broadcast = {
     /**
      * Initializes broadcast object
      *
-     * @deprecated in 3.2.2, will be removed in Piwik 4
+     * @deprecated in 3.2.2, will be removed in Matomo 5
      *
      * @return {void}
      */
@@ -81,7 +81,7 @@ var broadcast = {
      *
      * * Note: the method is manipulated in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
      *
-     * @deprecated since 3.2.2, will be removed in Piwik 4
+     * @deprecated since 3.2.2, will be removed in Matomo 5
      *
      * @param {string}  hash to load page with
      * @return {void}
@@ -199,7 +199,7 @@ var broadcast = {
      *
      * NOTE: this method will only make ajax call and replacing main content.
      *
-     * @deprecated in 3.2.2, will be removed in Piwik 4.
+     * @deprecated in 3.2.2, will be removed in Matomo 5.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
      * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
@@ -437,7 +437,7 @@ var broadcast = {
         var p_v = newParamValue.split("=");
 
         var paramName = p_v[0];
-        var valFromUrl = broadcast.getParamValue(paramName, urlStr);
+        var valFromUrl = broadcast.getParamValue(paramName, urlStr) || broadcast.getParamValue(encodeURIComponent(paramName), urlStr);
         // if set 'idGoal=' then we remove the parameter from the URL automatically (rather than passing an empty value)
         var paramValue = p_v[1];
         if (paramValue == '') {
@@ -453,7 +453,7 @@ var broadcast = {
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
                 // if new value is empty remove leading &, as well
-                regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
+                regToBeReplace = new RegExp('[\&]?(' + paramName + '|' + encodeURIComponent(paramName) + ')=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
         } else if (newParamValue != '') {

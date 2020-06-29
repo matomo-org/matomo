@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ namespace Piwik\Tracker;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
@@ -29,12 +28,12 @@ class Cache
 
     /**
      * Public for tests only
-     * @var \Piwik\Cache\Lazy
+     * @var \Matomo\Cache\Lazy
      */
     public static $cache;
 
     /**
-     * @return \Piwik\Cache\Lazy
+     * @return \Matomo\Cache\Lazy
      */
     private static function getCache()
     {
@@ -58,7 +57,7 @@ class Cache
      */
     public static function getCacheWebsiteAttributes($idSite)
     {
-        if ('all' == $idSite) {
+        if ('all' === $idSite) {
             return array();
         }
 

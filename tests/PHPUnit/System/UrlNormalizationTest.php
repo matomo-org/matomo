@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -28,9 +28,6 @@ class UrlNormalizationTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        if(self::isMysqli()) {
-            $this->markTestSkipped('Sometimes fail on MYSQLI (at random)');
-        }
         $this->runApiTests($api, $params);
     }
 
@@ -83,14 +80,6 @@ class UrlNormalizationTest extends SystemTestCase
             'date'       => $dateTime,
             'segment'    => 'referrerUrl==http://www.google.com/search?q=piwik',
         ));
-        $return[] = array('Referrers.getKeywordsForPageUrl', array(
-            'testSuffix'             => '_keywords',
-            'idSite'                 => $idSite,
-            'date'                   => $dateTime,
-            'otherRequestParameters' => array(
-                'url' => 'http://WWW.example.org/foo/bar.html'
-            )
-        ));
         return $return;
     }
 
@@ -113,7 +102,7 @@ class UrlNormalizationTest extends SystemTestCase
             array('name' => 'example.org/foo/bar2.html', 'url_prefix' => 3),
             array('name' => 'example.org/foo/bar3.html', 'url_prefix' => 1),
             array('name' => 'my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ', 'url_prefix' => 1),
-            array('name' => 'make.wordpress.org/?emoji=�l&param=test', 'url_prefix' => 2),
+            array('name' => 'make.wordpress.org/?emoji=😎l&param=test', 'url_prefix' => 2),
             array('name' => 'example.org/foo/bar4.html', 'url_prefix' => 2),
         );
         $this->assertEquals($expected, $urls, "normalization went wrong");

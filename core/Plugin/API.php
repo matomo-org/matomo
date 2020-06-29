@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -77,7 +77,7 @@ abstract class API
     /**
      * Used in tests only
      * @ignore
-     * @deprecated
+     * @internal
      */
     public static function unsetInstance()
     {
@@ -88,7 +88,7 @@ abstract class API
     /**
      * Used in tests only
      * @ignore
-     * @deprecated
+     * @internal
      */
     public static function unsetAllInstances()
     {
@@ -98,7 +98,7 @@ abstract class API
     /**
      * Sets the singleton instance. For testing purposes.
      * @ignore
-     * @deprecated
+     * @internal
      */
     public static function setSingletonInstance($instance)
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -201,7 +201,7 @@ class Controller extends \Piwik\Plugin\Controller
     //  --------------------------------------------------------
     //  ROW EVOLUTION
     //  The following methods render the popover that shows the
-    //  evolution of a singe or multiple rows in a data table
+    //  evolution of a single or multiple rows in a data table
     //  --------------------------------------------------------
 
     /** Render the entire row evolution popover for a single row */

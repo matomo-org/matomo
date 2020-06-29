@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Legg til ny bruker",
-        "Alias": "Alias",
         "AllWebsites": "Alle nettsteder",
         "AnonymousUser": "Anonym bruker",
         "AnonymousUserHasViewAccess": "Merk: brukeren %1$s har %2$s tilgang til dette nettstedet.",

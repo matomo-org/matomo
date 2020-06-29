@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -158,7 +158,7 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
     public function isConnectionUTF8()
     {
         $charset = $this->fetchOne('SHOW client_encoding');
-        return strtolower($charset) === 'utf8';
+        return strpos(strtolower($charset), 'utf8') === 0;
     }
 
     /**

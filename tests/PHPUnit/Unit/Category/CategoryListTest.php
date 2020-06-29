@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,14 +16,14 @@ use Piwik\Category\Category;
  * @group CategoryList
  * @group CategoryListTest
  */
-class CategoryListTest extends \PHPUnit_Framework_TestCase
+class CategoryListTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CategoryList
      */
     private $categoryList;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->categoryList = new CategoryList();
     }
@@ -40,12 +40,11 @@ class CategoryListTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('myTest' => $category), $this->categoryList->getCategories());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Category myTest already exists
-     */
     public function test_addCategory_shouldThrowException_IfAddingSameCategoryIdTwice()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Category myTest already exists');
+
         $this->addCategory('myTest');
         $this->addCategory('myTest');
     }

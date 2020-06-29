@@ -16,7 +16,7 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>העלא וועלט</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -44,11 +44,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>11</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>29880</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -103,6 +105,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>720</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -140,7 +143,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>hallå världen</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -157,7 +160,7 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>halló heimur</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -185,11 +188,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>10</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>29160</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>361</visitDuration>
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -244,6 +249,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>360</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -279,7 +285,7 @@
 				
 				<pageId>11</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>привет мир</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -307,11 +313,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>9</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>28800</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -366,6 +374,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>2880</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -401,7 +410,7 @@
 				
 				<pageId>10</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Dia duit ar domhan</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -429,11 +438,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>8</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>25920</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -488,6 +499,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>720</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -525,7 +537,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Hallo welt</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -542,7 +554,7 @@
 				
 				<pageId>9</pageId>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>¡hola mundo</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -570,11 +582,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>7</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>25200</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>361</visitDuration>
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -629,6 +643,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -664,7 +679,7 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Bonjour le monde</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -692,11 +707,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>6</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>18000</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -707,7 +724,7 @@
 		<referrerName>adwords (text)</referrerName>
 		<referrerKeyword>(adwords) www.example.com</referrerKeyword>
 		<referrerKeywordPosition />
-		<referrerUrl>http://googleads.g.doubleclick.net/pagead/ads?lient=ca-pub-x&amp;output=html&amp;h=15&amp;slotname=4299800108&amp;adk=2258396486&amp;w=728&amp;lmt=1381746604&amp;flash=11.9.900.117&amp;url=http%3A%2F%2Fwww.example.com%2Fphotofilters%2F%26section_id%3D%26p%3D4&amp;dt=1381746604865&amp;bpp=5&amp;bdt=83&amp;shv=r20131008&amp;cbv=r20130906&amp;saldr=sa&amp;correlator=1381746604888&amp;frm=20&amp;ga_vid=1273315809.1372079408&amp;ga_sid=1381744659&amp;ga_hid=2064025848&amp;ga_fc=1&amp;u_tz=120&amp;u_his=17&amp;u_java=1&amp;u_h=864&amp;u_w=1536&amp;u_ah=826&amp;u_aw=1536&amp;u_cd=24&amp;u_nplug=0&amp;u_nmime=0&amp;dff=times%20new%20roman&amp;dfs=12&amp;adx=404&amp;ady=159&amp;biw=1536&amp;bih=770&amp;oid=3&amp;ref=http%3A%2F%2Fwww.example.com%2Fphotofilters%2F%26section_id%3D%26p%3D3&amp;vis=0&amp;fu=0&amp;ifi=1&amp;pfi=0&amp;dtd=51&amp;xpc=Pn2WpF35Mu&amp;p=http%3A//www.example.com&amp;rl_rc=false&amp;adsense_enabled=true&amp;ad_type=text&amp;ui=rc:0&amp;oe=utf8&amp;height=15&amp;width=728&amp;format=fpkc_al_lp&amp;kw_type=radlink&amp;prev_fmts=728x15_0ads_al&amp;rt=ChBSW8euAAeWTgrCYs_kAEUQEhBQaG90byBCYWNrZ3JvdW5kGgjieib00mVdpSgBUhMIy7OEnY-WugIVoZDCCh0qUgC-&amp;hl=en&amp;kw0=Photo+Shop+Image&amp;kw1=Photo+Background&amp;kw2=Photo+to+Painting&amp;kw3=Photo+Digital&amp;okw=Photo+Background</referrerUrl>
+		<referrerUrl>http://googleads.g.doubleclick.net/pagead/ads?lient=ca-pub-x&amp;output=html&amp;h=15&amp;slotname=4299800108&amp;adk=2258396486&amp;w=728&amp;lmt=1381746604&amp;flash=11.9.900.117&amp;url=http%3A%2F%2Fwww.example.com%2Fphotofilters%2F%26section_id%3D%26p%3D4&amp;dt=1381746604865&amp;bpp=5&amp;bdt=83&amp;shv=r20131008&amp;cbv=r20130906&amp;saldr=sa&amp;correlator=1381746604888&amp;frm=20&amp;ga_vid=1273315809.1372079408&amp;ga_sid=1381744659&amp;ga_hid=2064025848&amp;ga_fc=1&amp;u_tz=120&amp;u_his=17&amp;u_java=1&amp;u_h=864&amp;u_w=1536&amp;u_ah=826&amp;u_aw=1536&amp;u_cd=24&amp;u_nplug=0&amp;u_nmime=0&amp;dff=times%20new%20roman&amp;dfs=12&amp;adx=404&amp;ady=159&amp;biw=1536&amp;bih=770&amp;oid=3&amp;ref=http%3A%2F%2Fwww.example.com%2Fphotofilters%2F%26section_id%3D%26p%3D3&amp;vis=0&amp;fu=0&amp;ifi=1&amp;pfi=0&amp;dtd=51&amp;xpc=Pn2WpF35Mu&amp;p=http%3A//www.example.com&amp;rl_rc=false&amp;adsense_enabled=true&amp;ad_type=text&amp;ui=rc:0&amp;oe=utf8&amp;height=15&amp;width=728&amp;format=fpkc_al_lp&amp;kw_type=radlink&amp;prev_fmts=728x15_0ads_al&amp;rt=ChBSW8euAAeWTgrCYs_kAEUQEhBQaG90byBCYWNrZ3JvdW5kGgjieib00mVdpSgBUhMIy7OEnY-WugIVoZDCCh0qUgC-&amp;hl=en&amp;kw0=Photo+Shop+Image&amp;kw1=Photo+Background&amp;kw2=Photo+to+Painting&amp;kw3=Photo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
@@ -751,6 +768,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -786,7 +804,7 @@
 				
 				<pageId>6</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Hello world</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -814,11 +832,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>14400</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -829,7 +849,7 @@
 		<referrerName>adwords (text_image)</referrerName>
 		<referrerKeyword>(adwords) example.com</referrerKeyword>
 		<referrerKeywordPosition />
-		<referrerUrl>http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-x&amp;output=html&amp;h=15&amp;slotname=2973049897&amp;adk=3777420323&amp;w=728&amp;lmt=1381755030&amp;flash=11.9.900.117&amp;url=http%3A%2F%2Fexample.com%2F&amp;dt=1381755030169&amp;bpp=8&amp;bdt=2592&amp;shv=r20131008&amp;cbv=r20130906&amp;saldr=sa&amp;correlator=1381755030200&amp;frm=20&amp;ga_vid=1659309719.1381755030&amp;ga_sid=1381755030&amp;ga_hid=1569070879&amp;ga_fc=0&amp;u_tz=660&amp;u_his=3&amp;u_java=1&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=24&amp;u_nplug=0&amp;u_nmime=0&amp;dff=times%20new%20roman&amp;dfs=13&amp;adx=311&amp;ady=107&amp;biw=1349&amp;bih=673&amp;oid=2&amp;ref=http%3A%2F%2Fwww.google.com.au%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26frm%3D1%26source%3Dweb%26cd%3D10%26ved%3D0CGcQFjAJ%26url%3Dhttp%253A%252F%252Fexample.com%252F%26ei%3DXNtbUvrJPKXOiAfw1IH4Bw%26usg%3DAFQjCNE66zRf2zaUw8FKf0JWxiM1FiXHVg&amp;vis=1&amp;fu=0&amp;ifi=1&amp;pfi=32&amp;dtd=122&amp;xpc=tBekiCZTWM&amp;p=http%3A//example.com&amp;rl_rc=true&amp;adsense_enabled=true&amp;ad_type=text_image&amp;oe=utf8&amp;height=15&amp;width=728&amp;format=fp_al_lp&amp;kw_type=radlink&amp;prev_fmts=728x15_0ads_al&amp;rt=ChBSW-iYAADltAqmmOfZAA2SEg1BbmltYXRlZCBUZXh0Ggj019wBciBqgSgBUhMI8OHhzq6WugIVhJOmCh2NYQBO&amp;hl=en&amp;kw0=Animated+Text&amp;kw1=Animated+GIF&amp;kw2=Animated+Graphics&amp;kw3=Fonts&amp;okw=Animated+Text</referrerUrl>
+		<referrerUrl>http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-x&amp;output=html&amp;h=15&amp;slotname=2973049897&amp;adk=3777420323&amp;w=728&amp;lmt=1381755030&amp;flash=11.9.900.117&amp;url=http%3A%2F%2Fexample.com%2F&amp;dt=1381755030169&amp;bpp=8&amp;bdt=2592&amp;shv=r20131008&amp;cbv=r20130906&amp;saldr=sa&amp;correlator=1381755030200&amp;frm=20&amp;ga_vid=1659309719.1381755030&amp;ga_sid=1381755030&amp;ga_hid=1569070879&amp;ga_fc=0&amp;u_tz=660&amp;u_his=3&amp;u_java=1&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=24&amp;u_nplug=0&amp;u_nmime=0&amp;dff=times%20new%20roman&amp;dfs=13&amp;adx=311&amp;ady=107&amp;biw=1349&amp;bih=673&amp;oid=2&amp;ref=http%3A%2F%2Fwww.google.com.au%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26frm%3D1%26source%3Dweb%26cd%3D10%26ved%3D0CGcQFjAJ%26url%3Dhttp%253A%252F%252Fexample.com%252F%26ei%3DXNtbUvrJPKXOiAfw1IH4Bw%26usg%3DAFQjCNE66zRf2zaUw8FKf0JWxiM1FiXHVg&amp;vis=1&amp;fu=0&amp;ifi=1&amp;pfi=32&amp;dtd=122&amp;xpc=tBekiCZTWM&amp;p=http%3A//example.com&amp;rl_rc=true&amp;adsense_enabled=true&amp;ad_type=text_image&amp;oe=utf8&amp;height=15&amp;width=728&amp;format=fp_al_lp&amp;kw_type=radlink&amp;prev_fmts=728x15_0ads_al&amp;rt=ChBSW-iYAADltAqmmOfZAA2SEg1BbmltYXRlZCBUZXh0Ggj</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
@@ -873,6 +893,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -908,7 +929,7 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -936,11 +957,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>4</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>10800</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -951,7 +974,7 @@
 		<referrerName>adwords campaign</referrerName>
 		<referrerKeyword>nintendo consoles second hand</referrerKeyword>
 		<referrerKeywordPosition />
-		<referrerUrl>http://www.google.co.nz/aclk?sa=L&amp;ai=uYmFyiZgAf0oO0J&amp;num=3&amp;sig=EpOCR4xQ&amp;ved=ENEM&amp;adurl=http://pixel.everesttech.net/3163/cq%3Fev_sid%3D3%26ev_cmpid%3D33%26ev_ln%3Dused%2520wii%2520consoles%26ev_crx%528386%26ev_mt%3Db%26ev_n%3Dg%26ev_ltx%3D%26ev_pl%3D%26ev_pos%3D1s2%26url%3Dhttp%253A//au.shopping.com/used%2520wii%2520consoles/products%253Flinkin_id%253D8077872&amp;rct=j&amp;q=nintendo+consoles+second+hand</referrerUrl>
+		<referrerUrl>http://www.google.co.nz/aclk?ai=uYmFyiZgAf0oO0J&amp;num=3&amp;sig=EpOCR4xQ&amp;adurl=http://pixel.everesttech.net/3163/cq%3Fev_sid%3D3%26ev_cmpid%3D33%26ev_ln%3Dused%2520wii%2520consoles%26ev_crx%528386%26ev_mt%3Db%26ev_n%3Dg%26ev_ltx%3D%26ev_pl%3D%26ev_pos%3D1s2%26url%3Dhttp%253A//au.shopping.com/used%2520wii%2520consoles/products%253Flinkin_id%253D8077872&amp;rct=j&amp;q=nintendo+consoles+second+hand</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
@@ -995,6 +1018,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -1030,7 +1054,7 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -1058,11 +1082,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>3</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>7200</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1117,6 +1143,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -1152,7 +1179,7 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
 				<icon />
@@ -1180,11 +1207,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1239,6 +1268,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>

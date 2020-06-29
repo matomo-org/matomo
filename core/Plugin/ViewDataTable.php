@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -36,7 +36,7 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
  * ViewDataTable instances are not created via the new operator, instead the {@link Piwik\ViewDataTable\Factory}
  * class is used.
  *
- * The specific subclass to create is determined, first, by the **viewDataTable** query paramater.
+ * The specific subclass to create is determined, first, by the **viewDataTable** query parameter.
  * If this parameter is not set, then the default visualization type for the report being
  * displayed is used.
  *
@@ -461,7 +461,7 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the list of view properties that can be overriden by query parameters.
+     * Returns the list of view properties that can be overridden by query parameters.
      *
      * @return array
      */

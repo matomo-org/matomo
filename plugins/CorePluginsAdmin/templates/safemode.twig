@@ -78,8 +78,8 @@
                 {% endif %}
             </p>
             <table>
-                {% for pluginName, plugin in plugins if plugin.uninstallable and plugin.activated %}
-                    <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
+                {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and plugin.activated) %}
+                    <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
                         <td style="min-width:200px;">
                             {{ pluginName }}
                         </td>
@@ -95,7 +95,7 @@
             </table>
 
             {% set uninstalledPluginsFound = false %}
-            {% for pluginName, plugin in plugins if plugin.uninstallable and not plugin.activated %}
+            {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and not plugin.activated) %}
                 {% set uninstalledPluginsFound = true %}
             {% endfor %}
 
@@ -107,8 +107,8 @@
                 </p>
 
                 <table>
-                    {% for pluginName, plugin in plugins if plugin.uninstallable and not plugin.activated %}
-                        <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
+                    {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and not plugin.activated) %}
+                        <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
                             <td style="min-width:200px;">
                                 {{ pluginName }}
                             </td>

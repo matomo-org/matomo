@@ -1,15 +1,19 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Interop\Container\ContainerInterface;
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\CronArchive;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
@@ -88,8 +92,11 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCron()
     {
-        $this->setLastRunArchiveOptions();
         $output = $this->runArchivePhpCron();
+
+        $expectedInvalidations = [];
+        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
         $this->compareArchivePhpOutputAgainstExpected($output);
 
@@ -113,8 +120,6 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCronArchivesFullRanges()
     {
-        $this->setLastRunArchiveOptions();
-
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_custom_ranges', ['2012-08-09,2012-08-13']);
@@ -125,6 +130,13 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['archiving_custom_ranges'][] = '';
 
         $output = $this->runArchivePhpCron(['--force-periods' => 'range', '--force-idsites' => 1]);
+
+        $expectedInvalidations = [];
+        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+        $invalidationEntries = array_filter($invalidationEntries, function ($entry) {
+            return $entry['period'] == 5;
+        });
+        $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
         $this->runApiTests(array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
@@ -139,28 +151,9 @@ class ArchiveCronTest extends SystemTestCase
     public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
-        $output = implode("\n", $output);
 
         $this->assertRegExp('/Usage:\s*core:archive/', $output);
-        $this->assertNotContains("Starting Piwik reports archiving...", $output);
-    }
-
-    private function setLastRunArchiveOptions()
-    {
-        $periodTypes = array('day', 'periods');
-        $idSites = API::getInstance()->getAllSitesId();
-
-        $daysAgoArchiveRanSuccessfully = 1500;
-        $this->assertTrue($daysAgoArchiveRanSuccessfully > (\Piwik\CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400));
-        $time = Date::factory(self::$fixture->dateTime)->subDay($daysAgoArchiveRanSuccessfully)->getTimestamp();
-
-        foreach ($periodTypes as $period) {
-            foreach ($idSites as $idSite) {
-                // lastRunKey() function inlined
-                $lastRunArchiveOption = "lastRunArchive" . $period . "_" . $idSite;
-                \Piwik\Option::set($lastRunArchiveOption, $time);
-            }
-        }
+        self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
     }
 
     private function runArchivePhpCron($options = array(), $archivePhpScript = false)
@@ -180,8 +173,10 @@ class ArchiveCronTest extends SystemTestCase
 
         // run the command
         exec($cmd, $output, $result);
-        if ($result !== 0 || stripos($result, "error")) {
-            $this->fail("archive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
+        $output = implode("\n", $output);
+
+        if ($result !== 0 || strpos($output, "ERROR") || strpos($output, "Error")) {
+            $this->fail("archive cron failed (result = $result): " . $output . "\n\ncommand used: $cmd");
         }
 
         return $output;
@@ -189,8 +184,6 @@ class ArchiveCronTest extends SystemTestCase
 
     private function compareArchivePhpOutputAgainstExpected($output)
     {
-        $output = implode("\n", $output);
-
         $fileName = 'test_ArchiveCronTest_archive_php_cron_output.txt';
         list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
 
@@ -216,13 +209,20 @@ class ArchiveCronTest extends SystemTestCase
             // is a translation token, and nothing else.
             'Piwik\Translation\Translator' => function (ContainerInterface $c) {
                 return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
-            }
+            },
+
+            'Tests.log.allowAllHandlers' => true,
         );
     }
 
     public static function getPathToTestDirectory()
     {
         return dirname(__FILE__);
+    }
+
+    private function getInvalidatedArchiveTableEntries()
+    {
+        return Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, name, status FROM " . Common::prefixTable('archive_invalidations'));
     }
 }
 

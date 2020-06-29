@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,8 +9,11 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Timer;
 use Piwik\Tracker;
 
 /**
@@ -22,12 +25,54 @@ use Piwik\Tracker;
 class DbTest extends IntegrationTestCase
 {
     private $tableName;
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->tableName = Common::prefixTable('option');
     }
 
+    public function test_innodb_lock_wait_timeout()
+    {
+        $idSite1 = Fixture::createWebsite('2020-01-01 02:02:02');
+        $idSite2 = Fixture::createWebsite('2020-01-01 02:02:02');
+
+        // we expect it does not take more than 3s for the lock exceeded time to happen
+        // usually be like 30-50 seconds
+        $tracker = Config::getInstance()->Tracker;
+        $tracker['innodb_lock_wait_timeout'] = 3;
+        Config::getInstance()->Tracker = $tracker;
+
+        $db1 = Tracker\Db::connectPiwikTrackerDb();
+        $db2 = Tracker\Db::connectPiwikTrackerDb();
+
+        $timer = new Timer();
+
+        $db1->beginTransaction();
+        $db2->beginTransaction();
+
+        $site = Common::prefixTable('site');
+        $db1->query("UPDATE $site SET name = ? WHERE idsite = ?", ['foo', $idSite1]);
+        $db2->query("UPDATE $site SET name = ? WHERE idsite = ?", ['foo', $idSite2]);
+
+        try {
+            $db1->query("UPDATE $site SET name = ? WHERE idsite = ?", ['bar', $idSite2]);
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('Lock wait timeout exceeded; try restarting transaction', $e->getMessage());
+            if ($this->isMysqli()) { // code is not included in error message on Mysqli
+                $this->assertEquals(1205, $e->getCode());
+            } else {
+                $this->assertStringContainsString(' 1205 ', $e->getMessage()); // mysql error code
+                $this->assertTrue($db1->isErrNo($e, 1205));
+            }
+            $this->assertTrue($e instanceof Tracker\Db\DbException);
+        }
+
+        $ms = $timer->getTimeMs();
+
+        $this->assertGreaterThan(3000, $ms);
+        $this->assertLessThan(5000, $ms);
+
+    }
     public function test_rowCount_whenUpdating_returnsAllMatchedRowsNotOnlyUpdatedRows()
     {
         $db = Tracker::getDatabase();
@@ -60,24 +105,22 @@ class DbTest extends IntegrationTestCase
         $this->assertSame(1, $db->rowCount($result));
     }
 
-    /**
-     * @expectedExceptionMessage doesn't exist
-     * @expectedException  \Piwik\Tracker\Db\DbException
-     */
     public function test_fetchOne_notExistingTable()
     {
+        $this->expectException(\Piwik\Tracker\Db\DbException::class);
+        $this->expectExceptionMessage('doesn\'t exist');
+
         $db = Tracker::getDatabase();
         $this->insertRowId(3);
         $val = $db->fetchOne('SELECT option_value FROM foobarbaz where option_value = "rowid"');
         $this->assertEquals('3', $val);
     }
 
-    /**
-     * @expectedExceptionMessage Duplicate entry
-     * @expectedException  \Piwik\Tracker\Db\DbException
-     */
     public function test_query_error_whenInsertingDuplicateRow()
     {
+        $this->expectException(\Piwik\Tracker\Db\DbException::class);
+        $this->expectExceptionMessage('Duplicate entry');
+
         $this->insertRowId();
         $this->insertRowId();
     }

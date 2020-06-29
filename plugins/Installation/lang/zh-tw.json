@@ -149,7 +149,6 @@
         "WelcomeHelp": "<p>Matomo 是一個輕鬆取得訪客資訊的免費網頁分析軟體。<\/p><p>此安裝過程分為 %s 個簡單步驟，大約需要 5 分鐘的時間。<\/p>",
         "WelcomeToCommunity": "歡迎來到 Matomo 社區！",
         "CannotConnectToDb": "無法連接資料庫",
-        "CannotConnectToDbResolvingExplanation": "這可能是暫時性的問題，試試%1$s重新整理頁面%2$s。如果問題持續發生請聯絡你的 Matomo 管理員。",
-        "EmailPrivacyNotice": "你的 Email 將只會收到 Matomo 的電子報。你可以在任何時候點擊取消訂閱連結來取消訂閱。我們將不會和其他人透漏或將你的 Email 做其他用途。請參考我們的%1$s隱私權政策%2$s取得更多資訊。"
+        "CannotConnectToDbResolvingExplanation": "這可能是暫時性的問題，試試%1$s重新整理頁面%2$s。如果問題持續發生請聯絡你的 Matomo 管理員。"
     }
 }

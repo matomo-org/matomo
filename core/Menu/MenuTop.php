@@ -1,14 +1,12 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Menu;
-
-use Piwik\Piwik;
 
 /**
  * Contains menu entries for the Top menu (the menu at the very top of the page).
@@ -47,7 +45,7 @@ class MenuTop extends MenuAbstract
     /**
      * Triggers the Menu.Top.addItems hook and returns the menu.
      *
-     * @return Array
+     * @return array
      */
     public function getMenu()
     {

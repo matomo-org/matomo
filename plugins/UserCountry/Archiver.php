@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,11 +9,9 @@
 
 namespace Piwik\Plugins\UserCountry;
 
-use Piwik\ArchiveProcessor;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\Plugins\UserCountry\LocationProvider;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {

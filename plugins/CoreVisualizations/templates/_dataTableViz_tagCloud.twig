@@ -3,15 +3,15 @@
     <span title="{{ value.word|rawSafeDecoded }} ({{ value.value }} {{ properties.translations[cloudColumn]|default(cloudColumn) }})" class="word size{{ value.size }}
     {# we strike tags with 0 hits #}
     {% if value.value == 0 %}valueIsZero{% endif %}">
-    {% if labelMetadata[value.word].url is not sameas(false) %}
+    {% if labelMetadata[value.word].url is not same as(false) %}
         <a href="{{ labelMetadata[value.word].url }}" rel="noreferrer noopener" target="_blank">
     {% endif %}
-    {% if labelMetadata[value.word].logo is not sameas(false) %}
+    {% if labelMetadata[value.word].logo is not same as(false) %}
         <img src="{{ labelMetadata[value.word].logo }}" width="{{ value.logoWidth }}" />
     {% else %}
         {{ value.wordTruncated|rawSafeDecoded }}
     {% endif %}
-    {% if labelMetadata[value.word].url is not sameas(false) %}</a>{% endif %}
+    {% if labelMetadata[value.word].url is not same as(false) %}</a>{% endif %}
     </span>
 {% endfor %}
 </div>

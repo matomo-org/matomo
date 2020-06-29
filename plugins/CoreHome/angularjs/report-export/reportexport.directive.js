@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -186,6 +186,7 @@
                     }
 
                     exportUrlParams.token_auth = piwik.token_auth;
+                    exportUrlParams.force_api_session = 1;
                     exportUrlParams.filter_limit = limit;
 
                     var currentUrl = $location.absUrl();
@@ -269,7 +270,12 @@
                         }
 
                         $timeout(function(){
-                            popover.dialog({position: ['center', 'center']});
+                            popover.dialog();
+                            $('.exportFullUrl, .btn', popover).tooltip({
+                                track: true,
+                                show: false,
+                                hide: false
+                            });
                         }, 100);
                     });
                 });

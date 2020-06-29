@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -68,12 +68,11 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertDbConnectionCreated();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsUserPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         $this->setAnonymousUser();
         $setting = $this->buildSetting('mysystem');
 
@@ -141,12 +140,11 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, 43939, 'integer');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Validation Fail
-     */
     public function test_setSettingValue_shouldValidateAValue_IfAFilterIsSet()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Validation Fail');
+
         $this->setUser();
         $self = $this;
 

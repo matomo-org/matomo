@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ namespace Piwik\DataAccess;
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
-use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
@@ -19,11 +18,8 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Metrics;
-use Piwik\Period;
-use Piwik\Piwik;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\Segment;
-use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker\GoalManager;
 use Psr\Log\LoggerInterface;
 
@@ -299,7 +295,7 @@ class LogAggregator
 
 	    if ($canSetTransactionLevel) {
 	        // i know this could be shortened to one if or one line but I want to make sure this line where we
-            // set uncomitted is easily noticable in the code as it could be missed quite easily otherwise
+            // set uncommitted is easily noticeable in the code as it could be missed quite easily otherwise
             // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
             // eg the visits table
 	        if (!$transactionLevel->setUncommitted()) {
@@ -482,7 +478,7 @@ class LogAggregator
      * - **{@link \Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits aggregated.
      * - **{@link \Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions performed in this group of
      *                                                aggregated visits.
-     * - **{@link \Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions perfomred in one visit for this group of
+     * - **{@link \Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions performed in one visit for this group of
      *                                                 visits.
      * - **{@link \Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}**: The total amount of time spent on the site for this
      *                                                      group of visits.
@@ -1122,6 +1118,11 @@ class LogAggregator
         $selects = array();
         $extraCondition = '';
 
+        $tableColumn = $column;
+        if (strpos($tableColumn, $table) === false) {
+            $tableColumn = "$table.$column";
+        }
+
         if ($restrictToReturningVisitors) {
             // extra condition for the SQL SELECT that makes sure only returning visits are counted
             // when creating the 'days since last visit' report
@@ -1138,13 +1139,13 @@ class LogAggregator
 
                 $selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
 
-                $selects[] = "sum(case when $table.$column between $lowerBound and $upperBound $extraCondition" .
+                $selects[] = "sum(case when $tableColumn between $lowerBound and $upperBound $extraCondition" .
                              " then 1 else 0 end) as `$selectAs`";
             } else {
                 $lowerBound = $gap[0];
 
                 $selectAs  = $selectColumnPrefix . ($lowerBound + 1) . urlencode('+');
-                $selects[] = "sum(case when $table.$column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
+                $selects[] = "sum(case when $tableColumn > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
             }
         }
 

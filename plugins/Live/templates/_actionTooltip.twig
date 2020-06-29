@@ -1,8 +1,18 @@
 {{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
 
-{{ action.url }}{% endif %}{%- if action.generationTime is defined %}
+{{ action.url }}{% endif %}{%- if action.pageLoadTime is defined %}
+
+{{ 'PagePerformance_PageLoadTime'|translate }}: {{ action.pageLoadTime|raw }}{% endif %}
+{%- if action.pageLoadTime is not defined and action.generationTime is defined %}
 
 {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}
+
 {%- if action.timeSpentPretty is defined %}
 
-{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif -%}
+{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}
+{%- if action.siteSearchCategory|default(false) %}
+
+{{ 'Actions_ColumnSearchCategory'|translate }}: {{ action.siteSearchCategory|rawSafeDecoded }}{% endif %}
+{%- if action.siteSearchCount|default(false) %}
+
+{{ 'Actions_ColumnSearchResultsCount'|translate }}: {{ action.siteSearchCount|rawSafeDecoded }}{% endif %}

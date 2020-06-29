@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -20,6 +20,11 @@ class VisitProperties
      * @var array
      */
     private $visitInfo = array();
+
+    public function __construct(array $visitInfo = [])
+    {
+        $this->visitInfo = $visitInfo;
+    }
 
     /**
      * Returns a visit property, or `null` if none is set.

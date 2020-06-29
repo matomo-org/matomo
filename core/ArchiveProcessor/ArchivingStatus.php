@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,20 +35,35 @@ class ArchivingStatus
      */
     private $lockStack = [];
 
-    private $pid;
-
     public function __construct(LockBackend $lockBackend, $archivingTTLSecs = self::DEFAULT_ARCHIVING_TTL)
     {
         $this->lockBackend = $lockBackend;
         $this->archivingTTLSecs = $archivingTTLSecs;
-        $this->pid = Common::getProcessId();
     }
 
     public function archiveStarted(Parameters $params)
     {
         $lock = $this->makeArchivingLock($params);
-        $lock->acquireLock($this->getInstanceProcessId(), $this->archivingTTLSecs);
-        array_push($this->lockStack, $lock);
+        $locked = $lock->acquireLock('', $this->archivingTTLSecs);
+        if ($locked) {
+            array_push($this->lockStack, $lock);
+        }
+        return $locked;
+    }
+
+    /**
+     * Try to acquire the lock that is acquired before starting archiving. If it is acquired, it
+     * means archiving is not ongoing. If it is not acquired, then archiving is ongoing.
+     *
+     * @param Parameters $params
+     * @param $doneFlag
+     * @return Lock
+     */
+    public function acquireArchiveInProgressLock($idSite, $date1, $date2, $period, $doneFlag)
+    {
+        $lock = $this->makeArchivingLockFromDoneFlag($idSite, $date1, $date2, $period, $doneFlag);
+        $lock->acquireLock('', $ttl = 1);
+        return $lock;
     }
 
     public function archiveFinished()
@@ -91,21 +106,21 @@ class ArchivingStatus
     {
         $doneFlag = Rules::getDoneStringFlagFor([$params->getSite()->getId()], $params->getSegment(),
             $params->getPeriod()->getLabel(), $params->getRequestedPlugin());
+        return $this->makeArchivingLockFromDoneFlag($params->getSite()->getId(), $params->getSite()->getId(), $params->getPeriod()->getDateStart()->toString(),
+            $params->getPeriod()->getDateEnd()->toString(), $doneFlag);
+    }
 
+    private function makeArchivingLockFromDoneFlag($idSite, $date1, $date2, $period, $doneFlag)
+    {
         $lockKeyParts = [
             self::LOCK_KEY_PREFIX,
-            $params->getSite()->getId(),
+            $idSite,
 
             // md5 to keep it within the 70 char limit in the table
-            md5($params->getPeriod()->getId() . $params->getPeriod()->getRangeString() . $doneFlag),
+            md5($period . $date1 . ',' . $date2 . $doneFlag),
         ];
 
         $lockKeyPrefix = implode('.', $lockKeyParts);
         return new Lock(StaticContainer::get(LockBackend::class), $lockKeyPrefix, $this->archivingTTLSecs);
-    }
-
-    private function getInstanceProcessId()
-    {
-        return SettingsPiwik::getPiwikInstanceId() . '.' . $this->pid;
     }
 }

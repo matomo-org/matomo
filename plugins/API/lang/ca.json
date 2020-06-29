@@ -5,7 +5,6 @@
         "LoadedAPIs": "S'ha carregat correctament un total de %s API",
         "MoreInformation": "Per mes informació sobre les APIs de Matomo, siusplau reviseu %1$s Introducció a l'API de Matomo %2$s i %3$s la Referència de l'API de Matomo %4$s.",
         "TopLinkTooltip": "Accediu a la vostra informació de l'anàlisis Web d'una forma programada a través d'una API simple en json, xml, etc.",
-        "UserAuthentication": "Autentificació de l'usuari",
-        "UsingTokenAuth": "Si voleu %1$s obtenir informació a través d'un script, un crontab, etc %2$s heu d'afegir el paràmetre %3$s a les crides a la APU per les URLs que requereixen autentificació."
+        "UserAuthentication": "Autentificació de l'usuari"
     }
 }

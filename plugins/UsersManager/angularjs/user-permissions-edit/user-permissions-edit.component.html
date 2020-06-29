@@ -34,7 +34,7 @@
                 <a
                     class='dropdown-trigger btn'
                     href=''
-                    data-activates='user-permissions-edit-bulk-actions'
+                    data-target='user-permissions-edit-bulk-actions'
                     piwik-dropdown-menu
                     ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
                 >
@@ -42,7 +42,7 @@
                 </a>
                 <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
                     <li>
-                        <a class='dropdown-trigger' data-activates="user-permissions-bulk-set-access" piwik-dropdown-menu>{{:: 'UsersManager_SetPermission'|translate }}</a>
+                        <a class='dropdown-trigger' data-target="user-permissions-bulk-set-access" piwik-dropdown-menu>{{:: 'UsersManager_SetPermission'|translate }}</a>
                         <ul id="user-permissions-bulk-set-access" class="dropdown-content">
                             <li ng-repeat="access in $ctrl.accessLevels">
                                 <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showChangeAccessConfirm();">{{ access.value }}</a>
@@ -114,8 +114,10 @@
         <tr>
             <th class="select-cell">
                 <span class="checkbox-container">
-                    <input type="checkbox" id="perm_edit_select_all" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
-                    <label for="perm_edit_select_all"></label>
+                    <label>
+                        <input type="checkbox" id="perm_edit_select_all" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
+                        <span></span>
+                    </label>
                 </span>
             </th>
             <th>{{:: 'General_Name'|translate }}</th>
@@ -150,8 +152,10 @@
         <tr ng-repeat="entry in $ctrl.siteAccess">
             <td class="select-cell">
                 <span class="checkbox-container">
-                    <input type="checkbox" ng-attr-id="perm_edit_select_row{{ $index }}" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
-                    <label ng-attr-for="perm_edit_select_row{{ $index }}"></label>
+                    <label>
+                        <input type="checkbox" ng-attr-id="perm_edit_select_row{{ $index }}" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
+                        <span></span>
+                    </label>
                 </span>
             </td>
             <td>

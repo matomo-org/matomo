@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -46,6 +46,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
         }
 
         $this->addThemeFiles();
+
+        $this->mapBowerComponentFilesForBC($this->fileLocations);
     }
 
     protected function addThemeFiles()
@@ -68,9 +70,12 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     protected function getPriorityOrder()
     {
         return array(
-            'libs/bower_components/jquery/dist/jquery.min.js',
-            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
-            'libs/jquery/jquery.browser.js',
+            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/materialize-css/dist/js/materialize.min.js', // so jquery ui datepicker overrides materializecss
+            'node_modules/jquery-ui-dist/jquery-ui.min.js',
+            "plugins/CoreHome/javascripts/materialize-bc.js",
+            "node_modules/jquery.browser/dist/jquery.browser.min.js",
+            'node_modules/',
             'libs/',
             'js/',
             'piwik.js',

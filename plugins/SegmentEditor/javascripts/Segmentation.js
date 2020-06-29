@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -392,9 +392,6 @@ Segmentation = (function($) {
                         || $(e.target).hasClass("filterNoResults")) {
                         e.stopPropagation();
                     } else {
-                        if (self.jscroll) {
-                            self.jscroll.destroy();
-                        }
                         self.target.closest('.segmentEditorPanel').removeClass('expanded');
                     }
                 } else {
@@ -402,10 +399,6 @@ Segmentation = (function($) {
                     closeAllOpenLists();
                     self.target.closest('.segmentEditorPanel').addClass('expanded');
                     self.target.find('.segmentFilter').val(self.translations['General_Search']).trigger('keyup');
-                    self.jscroll = self.target.find(".segmentList").jScrollPane({
-                        autoReinitialise: true,
-                        showArrows:true
-                    }).data().jsp;
                 }
             });
 
@@ -769,7 +762,8 @@ Segmentation = (function($) {
         };
 
         var makeDropList = function(spanId, selectId){
-            var select = $(self.form).find(selectId).hide();
+            var select = $(self.form).find(selectId);
+            select.hide().closest('.select-wrapper').children().hide();
             var dropList = $( '<a class="dropList dropdown">' )
                 .insertAfter( select )
                 .text( select.children(':selected').text() )
@@ -841,7 +835,7 @@ Segmentation = (function($) {
                 this.content = this.target.find(".segmentationContainer");
             }
 
-            // assign content to object attribute to make it easil accesible through all widget methods
+            // assign content to object attribute to make it easily accessible through all widget methods
             this.markCurrentSegment();
             setTimeout(function () {
                 self.markComparedSegments();
@@ -1101,6 +1095,7 @@ $(document).ready(function() {
 
         this.onMouseUp = function(e) {
             if ($(e.target).closest('.segment-element').length === 0
+                && !$(e.target).is('.ui-menu-item-wrapper')
                 && !$(e.target).is('.segment-element')
                 && $(e.target).hasClass("ui-corner-all") == false
                 && $(e.target).hasClass("ddmetric") == false

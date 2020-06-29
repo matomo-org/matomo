@@ -112,6 +112,7 @@
         "Continue": "Weiter",
         "ContinueToPiwik": "Weiter zu Matomo",
         "CurrentlyUsingUnsecureHttp": "Sie nutzen Matomo über eine unsichere HTTP-Verbindung. Wir empfehlen Ihnen, SSL (HTTPS) zu aktivieren. Dies kann Ihr Matomo für Sicherheitslücken anfällig machen. Sie verstoßen möglicherweise auch gegen Datenschutzgesetze, da einige Funktionen, einschließlich Opt-Out-Cookies, nicht funktionieren. Wir empfehlen, Matomo für die Verwendung von SSL (HTTPS) einzurichten, um so die Sicherheit zu erhöhen.",
+        "CreationDate": "Erstellungsdatum",
         "CreatedByUser": "Erstellt von %s",
         "CurrentMonth": "Aktueller Monat",
         "CurrentWeek": "Aktuelle Woche",
@@ -389,6 +390,7 @@
         "Search": "Suchen",
         "Clear": "Zurücksetzen",
         "SearchNoResults": "Keine Ergebnisse",
+        "Security": "Sicherheit",
         "SeeAll": "alle ansehen",
         "SeeTheOfficialDocumentationForMoreInformation": "Weitere Informationen finden Sie in der %1$soffiziellen Dokumentation%2$s.",
         "SeeThisFaq": "Siehe %1$sdiese FAQ%2$s.",
@@ -511,7 +513,8 @@
         "ClickToRemoveComp": "Klicken Sie um diesen Vergleich zu entfernen",
         "MaximumNumberOfSegmentsComparedIs": "Die maximale Anzahl von Segmenten die gleichzeitig verglichen werden können ist %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s Abfrageparameterlänge muss mit der %2$s Abfrageparameterlänge übereinstimmen.",
-        "MaximumNumberOfPeriodsComparedIs": "Die maximale Anzahl von Zeiträumen die gleichzeitig verglichen werden können ist %s."
+        "MaximumNumberOfPeriodsComparedIs": "Die maximale Anzahl von Zeiträumen die gleichzeitig verglichen werden können ist %s.",
+        "Custom": "Benutzerdefiniert"
     },
     "Mobile": {
         "AboutPiwikMobile": "Über Matomo Mobile",

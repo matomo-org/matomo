@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,9 +9,11 @@
 // there is a test that requires the class to be defined in a plugin
 namespace Piwik\Plugins\Test;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class FakeActionDimension extends ActionDimension
@@ -24,13 +26,13 @@ class FakeActionDimension extends ActionDimension
         $this->$param = $value;
     }
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setSegment('exitPageUrl');
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
         // custom type and sqlSegment
         $segment = new Segment();
@@ -39,7 +41,7 @@ class FakeActionDimension extends ActionDimension
         $segment->setType(Segment::TYPE_METRIC);
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 }
 
@@ -53,7 +55,7 @@ class ActionDimensionTest extends IntegrationTestCase
      */
     private $dimension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -104,7 +106,10 @@ class ActionDimensionTest extends IntegrationTestCase
 
     public function test_getSegment_ShouldReturnConfiguredSegments()
     {
-        $segments = $this->dimension->getSegments();
+        $list = new SegmentsList();
+        $this->dimension->configureSegments($list, new DimensionSegmentFactory($this->dimension));
+
+        $segments = $list->getSegments();
 
         $this->assertCount(2, $segments);
         $this->assertInstanceOf('\Piwik\Plugin\Segment', $segments[0]);
@@ -113,7 +118,10 @@ class ActionDimensionTest extends IntegrationTestCase
 
     public function test_addSegment_ShouldPrefilSomeSegmentValuesIfNotDefinedYet()
     {
-        $segments = $this->dimension->getSegments();
+        $list = new SegmentsList();
+        $this->dimension->configureSegments($list, new DimensionSegmentFactory($this->dimension));
+
+        $segments = $list->getSegments();
 
         $this->assertEquals('log_link_visit_action.fake_action_dimension_column', $segments[0]->getSqlSegment());
         $this->assertEquals(Segment::TYPE_DIMENSION, $segments[0]->getType());
@@ -121,7 +129,10 @@ class ActionDimensionTest extends IntegrationTestCase
 
     public function test_addSegment_ShouldNotOverwritePreAssignedValues()
     {
-        $segments = $this->dimension->getSegments();
+        $list = new SegmentsList();
+        $this->dimension->configureSegments($list, new DimensionSegmentFactory($this->dimension));
+
+        $segments = $list->getSegments();
 
         $this->assertEquals('customValue', $segments[1]->getSqlSegment());
         $this->assertEquals(Segment::TYPE_METRIC, $segments[1]->getType());

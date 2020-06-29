@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -41,16 +41,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $dataTable;
-    }
-
-    /**
-     * @ignore
-     */
-    public function getColumns($period)
-    {
-        $columns = $this->getCoreColumns($period);
-        $columns = array_merge($columns, array('bounce_rate', 'nb_actions_per_visit', 'avg_time_on_site'));
-        return $columns;
     }
 
     protected function getCoreColumns($period)

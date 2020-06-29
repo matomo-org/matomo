@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,6 +10,8 @@ namespace Piwik\Plugins\Login;
 
 use Piwik\AuthResult;
 use Piwik\Auth\Password;
+use Piwik\Date;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -53,12 +55,21 @@ class Auth implements \Piwik\Auth
      */
     public function authenticate()
     {
-        if (!empty($this->hashedPassword)) {
-            return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
-        } elseif (is_null($this->login)) {
-            return $this->authenticateWithToken($this->token_auth);
-        } elseif (!empty($this->login)) {
-            return $this->authenticateWithLoginAndToken($this->token_auth, $this->login);
+        try {
+            if (!empty($this->hashedPassword)) {
+                return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
+            } elseif (is_null($this->login)) {
+                return $this->authenticateWithToken($this->token_auth);
+            } elseif (!empty($this->login)) {
+                return $this->authenticateWithLoginAndToken($this->token_auth, $this->login);
+            }
+        } catch (\Zend_Db_Statement_Exception $e) {
+            // user_token_auth table might not yet exist when updating to Matomo 4
+            if (strpos($e->getMessage(), 'user_token_auth') && !DbHelper::tableExists('user_token_auth')) {
+                return new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous');
+            }
+
+            throw $e;
         }
 
         return new AuthResult(AuthResult::FAILURE, $this->login, $this->token_auth);
@@ -76,8 +87,9 @@ class Auth implements \Piwik\Auth
             if ($this->passwordHelper->needsRehash($user['password'])) {
                 $newPasswordHash = $this->passwordHelper->hash($passwordHash);
 
-                $this->userModel->updateUser($login, $newPasswordHash, $user['email'], $user['alias'], $user['token_auth']);
+                $this->userModel->updateUser($login, $newPasswordHash, $user['email']);
             }
+            $this->token_auth = null; // make sure to generate a random token 
 
             return $this->authenticationSuccess($user);
         }
@@ -90,6 +102,7 @@ class Auth implements \Piwik\Auth
         $user = $this->userModel->getUserByTokenAuth($token);
 
         if (!empty($user['login'])) {
+            $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
             return $this->authenticationSuccess($user);
         }
 
@@ -98,13 +111,10 @@ class Auth implements \Piwik\Auth
 
     private function authenticateWithLoginAndToken($token, $login)
     {
-        $user = $this->userModel->getUser($login);
+        $user = $this->userModel->getUserByTokenAuth($token);
 
-        if (!empty($user['token_auth'])
-            // authenticate either with the token or the "hash token"
-            && ((SessionInitializer::getHashTokenAuth($login, $user['token_auth']) === $token)
-                || $user['token_auth'] === $token)
-        ) {
+        if (!empty($user['login']) && $user['login'] === $login) {
+            $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
             return $this->authenticationSuccess($user);
         }
 
@@ -113,12 +123,15 @@ class Auth implements \Piwik\Auth
 
     private function authenticationSuccess(array $user)
     {
-        $this->setTokenAuth($user['token_auth']);
+        if (empty($this->token_auth)) {
+            $this->token_auth = $this->userModel->generateRandomTokenAuth();
+            // we generated one randomly which will then be stored in the session and used across the session
+        }
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
-        return new AuthResult($code, $user['login'], $user['token_auth']);
+        return new AuthResult($code, $user['login'], $this->token_auth);
     }
 
     /**

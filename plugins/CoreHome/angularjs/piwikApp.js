@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -9,7 +9,6 @@
         'ngSanitize',
         'ngAnimate',
         'ngCookies',
-        'ngDialog',
         'piwikApp.config',
         'piwikApp.service',
         'piwikApp.directive',
@@ -18,6 +17,6 @@
     angular.module('app', []);
 
     angular.module('piwikApp').config(['$locationProvider', function($locationProvider) {
-        $locationProvider.hashPrefix('');
+        $locationProvider.html5Mode({ enabled: false, rewriteLinks: false }).hashPrefix('');
     }]);
 })();

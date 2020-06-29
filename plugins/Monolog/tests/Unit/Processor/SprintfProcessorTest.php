@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,7 +14,7 @@ use Piwik\Plugins\Monolog\Processor\SprintfProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\SprintfProcessor
  */
-class SprintfProcessorTest extends \PHPUnit_Framework_TestCase
+class SprintfProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

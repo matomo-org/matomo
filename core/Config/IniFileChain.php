@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,9 +8,9 @@
 namespace Piwik\Config;
 
 use Piwik\Common;
-use Piwik\Ini\IniReader;
-use Piwik\Ini\IniReadingException;
-use Piwik\Ini\IniWriter;
+use Matomo\Ini\IniReader;
+use Matomo\Ini\IniReadingException;
+use Matomo\Ini\IniWriter;
 use Piwik\Piwik;
 
 /**
@@ -97,6 +97,11 @@ class IniFileChain
      */
     public function set($name, $value)
     {
+        $name = $this->replaceSectionInvalidChars($name);
+        if ($value !== null) {
+            $value = $this->replaceInvalidChars($value);
+        }
+
         $this->mergedSettings[$name] = $value;
     }
 
@@ -537,5 +542,28 @@ class IniFileChain
 
         $writer = new IniWriter();
         return $writer->writeToString($values, $header);
+    }
+
+    private function replaceInvalidChars($value)
+    {
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $arrayValue) {
+                $key = $this->replaceInvalidChars($key);
+                if (is_array($arrayValue)) {
+                    $arrayValue = $this->replaceInvalidChars($arrayValue);
+                }
+
+                $result[$key] = $arrayValue;
+            }
+            return $result;
+        } else {
+            return preg_replace('/[^a-zA-Z0-9_\[\]-]/', '', $value);
+        }
+    }
+
+    private function replaceSectionInvalidChars($value)
+    {
+        return preg_replace('/[^a-zA-Z0-9_-]/', '', $value);
     }
 }

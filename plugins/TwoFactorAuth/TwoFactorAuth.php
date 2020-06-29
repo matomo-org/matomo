@@ -32,9 +32,9 @@ class TwoFactorAuth extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'API.UsersManager.deleteUser.end' => 'deleteRecoveryCodes',
-            'API.UsersManager.getTokenAuth.end' => 'onApiGetTokenAuth',
+            'API.UsersManager.createAppSpecificTokenAuth.end' => 'onCreateAppSpecificTokenAuth',
             'Request.dispatch.end' => array('function' => 'onRequestDispatchEnd', 'after' => true),
-            'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings',
+            'Template.userSecurity.afterPassword' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
         );
     }
@@ -48,7 +48,7 @@ class TwoFactorAuth extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
         $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
-        $jsFiles[] = "libs/bower_components/qrcode.js/qrcode.js";
+        $jsFiles[] = "node_modules/qrcodejs2/qrcode.min.js";
     }
 
     public function deleteRecoveryCodes($returnedValue, $params)
@@ -107,9 +107,9 @@ class TwoFactorAuth extends \Piwik\Plugin
         return !empty($user);
     }
 
-    public function onApiGetTokenAuth($returnedValue, $params)
+    public function onCreateAppSpecificTokenAuth($returnedValue, $params)
     {
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             return;
         }
 

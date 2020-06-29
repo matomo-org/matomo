@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,6 +24,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
+use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
@@ -53,6 +54,7 @@ class PrivacyManager extends Plugin
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
         'delete_logs_unused_actions_schedule_lowest_interval' => 'Deletelogs',
+        'delete_logs_unused_actions_max_rows_per_query'       => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
         'enable_database_size_estimate'        => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
@@ -169,7 +171,7 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -181,9 +183,20 @@ class PrivacyManager extends Plugin
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Template.pageFooter' => 'renderPrivacyPolicyLinks',
+            'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
+            'Template.pageFooter'                     => 'renderPrivacyPolicyLinks',
+            'Db.getTablesInstalled'                   => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable(LogDataAnonymizations::getDbTableName());
     }
 
     public function isTrackerPlugin()
@@ -193,9 +206,63 @@ class PrivacyManager extends Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'General_Visit';
+        $translationKeys[] = 'General_Action';
+        $translationKeys[] = 'General_Details';
+        $translationKeys[] = 'General_VisitId';
+        $translationKeys[] = 'General_VisitorID';
+        $translationKeys[] = 'General_VisitorIP';
+        $translationKeys[] = 'General_UserId';
+        $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'Live_ViewVisitorProfile';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
+        $translationKeys[] = 'PrivacyManager_OptOutCustomize';
+        $translationKeys[] = 'PrivacyManager_FontColor';
+        $translationKeys[] = 'PrivacyManager_BackgroundColor';
+        $translationKeys[] = 'PrivacyManager_FontSize';
+        $translationKeys[] = 'PrivacyManager_FontFamily';
+        $translationKeys[] = 'PrivacyManager_OptOutHtmlCode';
+        $translationKeys[] = 'PrivacyManager_OptOutPreview';
+        $translationKeys[] = 'PrivacyManager_AnonymizeSites';
+        $translationKeys[] = 'PrivacyManager_AnonymizeRowDataFrom';
+        $translationKeys[] = 'PrivacyManager_AnonymizeRowDataTo';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIpHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeLocation';
+        $translationKeys[] = 'PrivacyManager_AnonymizeLocationHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeUserId';
+        $translationKeys[] = 'PrivacyManager_AnonymizeUserIdHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeProcessInfo';
+        $translationKeys[] = 'PrivacyManager_AnonymizeDataNow';
+        $translationKeys[] = 'PrivacyManager_AnonymizeDataConfirm';
+        $translationKeys[] = 'PrivacyManager_UnsetVisitColumns';
+        $translationKeys[] = 'PrivacyManager_UnsetVisitColumnsHelp';
+        $translationKeys[] = 'PrivacyManager_UnsetActionColumns';
+        $translationKeys[] = 'PrivacyManager_UnsetActionColumnsHelp';
+        $translationKeys[] = 'PrivacyManager_SearchForDataSubject';
+        $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';
+        $translationKeys[] = 'PrivacyManager_NoDataSubjectsFound';
+        $translationKeys[] = 'PrivacyManager_DeleteVisitsConfirm';
+        $translationKeys[] = 'PrivacyManager_ResultTruncated';
+        $translationKeys[] = 'PrivacyManager_AddVisitorIdToSearch';
+        $translationKeys[] = 'PrivacyManager_AddVisitorIPToSearch';
+        $translationKeys[] = 'PrivacyManager_AddUserIdToSearch';
+        $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
+        $translationKeys[] = 'PrivacyManager_DeleteSelectedVisits';
+        $translationKeys[] = 'PrivacyManager_SelectWebsite';
+        $translationKeys[] = 'PrivacyManager_MatchingDataSubjects';
+        $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
+        $translationKeys[] = 'PrivacyManager_ExportingNote';
+        $translationKeys[] = 'PrivacyManager_DeletionFromMatomoOnly';
+        $translationKeys[] = 'PrivacyManager_ResultIncludesAllVisits';
+        $translationKeys[] = 'PrivacyManager_GdprTools';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntro1';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntro2';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroAccessRight';
+        $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroEraseRight';
+        $translationKeys[] = 'PrivacyManager_GdprToolsOverviewHint';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

@@ -2,400 +2,10 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>1</idVisit>
-		<visitIp>156.5.3.2</visitIp>
-		
-		<fingerprint>e16cf2bbaeea2c88</fingerprint>
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle>Ads</pageTitle>
-				<pageIdAction>2</pageIdAction>
-				
-				
-				<pageId>1</pageId>
-				<bandwidth />
-				<timeSpent>271</timeSpent>
-				<timeSpentPretty>4 min 31s</timeSpentPretty>
-				<generationTimeMilliseconds>333</generationTimeMilliseconds>
-				<generationTime>0.33s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<title>Ads</title>
-				<subtitle>http://www.example.org/page</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>2</pageId>
-				<contentName>ImageAd</contentName>
-				<contentPiece>Unknown</contentPiece>
-				<contentTarget />
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>ImageAd - Unknown</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>3</pageId>
-				<contentName>ImageAd</contentName>
-				<contentPiece />
-				<contentTarget />
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>ImageAd</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>120</timeSpentRef>
-				<pageId>4</pageId>
-				<contentName>ImageAd</contentName>
-				<contentPiece>/path/ad.jpg</contentPiece>
-				<contentTarget>http://www.example.com</contentTarget>
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>ImageAd - /path/ad.jpg</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>5</pageId>
-				<contentName>ImageAd</contentName>
-				<contentPiece>/path/ad2.jpg</contentPiece>
-				<contentTarget>http://www.example.com</contentTarget>
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>ImageAd - /path/ad2.jpg</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>6</pageId>
-				<contentName>ImageAd</contentName>
-				<contentPiece>/path/ad.jpg</contentPiece>
-				<contentTarget>http://www.example.com</contentTarget>
-				<contentInteraction>submit</contentInteraction>
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
-				<title>Content Interaction (submit)</title>
-				<subtitle>ImageAd - /path/ad.jpg</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>60</timeSpentRef>
-				<pageId>7</pageId>
-				<contentName>Text Ad</contentName>
-				<contentPiece>Click to download Piwik now</contentPiece>
-				<contentTarget>http://piwik.org/download</contentTarget>
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>Text Ad - Click to download Piwik now</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>8</pageId>
-				<contentName>Text Ad</contentName>
-				<contentPiece>Click NOW</contentPiece>
-				<contentTarget>http://piwik.org/</contentTarget>
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>Text Ad - Click NOW</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>9</pageId>
-				<contentName>Text Ad</contentName>
-				<contentPiece>Click to download Piwik now</contentPiece>
-				<contentTarget>http://piwik.org/download</contentTarget>
-				<contentInteraction>click</contentInteraction>
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
-				<title>Content Interaction (click)</title>
-				<subtitle>Text Ad - Click to download Piwik now</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>10</pageId>
-				<contentName>Text Ad</contentName>
-				<contentPiece>Click NOW</contentPiece>
-				<contentTarget>http://piwik.org/download</contentTarget>
-				<contentInteraction>click</contentInteraction>
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
-				<title>Content Interaction (click)</title>
-				<subtitle>Text Ad - Click NOW</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>60</timeSpentRef>
-				<pageId>11</pageId>
-				<contentName>Text Ad</contentName>
-				<contentPiece>Click to download Piwik now</contentPiece>
-				<contentTarget />
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>Text Ad - Click to download Piwik now</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>30</timeSpentRef>
-				<pageId>12</pageId>
-				<contentName>Video Ad</contentName>
-				<contentPiece>movie.mov</contentPiece>
-				<contentTarget />
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>Video Ad - movie.mov</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.com/de/suche?q=foo</url>
-				<pageTitle />
-				<pageIdAction>18</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>13</pageId>
-				<contentName>Video Ad</contentName>
-				<contentPiece>movie.mov</contentPiece>
-				<contentTarget />
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/contentimpression.png</icon>
-				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
-				<title>Content Impression</title>
-				<subtitle>Video Ad - movie.mov</subtitle>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-		</actionDetails>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>271</visitDuration>
-		<visitDurationPretty>4 min 31s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<interactions>1</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode>fr</languageCode>
-		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
-		<resolution>1024x768</resolution>
-		<plugins>cookie, flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-	</row>
-	<row>
-		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<fingerprint>8f3c392c43450541</fingerprint>
+		<fingerprint>14db763aafccd039</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -405,12 +15,12 @@
 				
 				
 				<pageId>14</pageId>
+				<pageLoadTime>1.15s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
-				<generationTimeMilliseconds>333</generationTimeMilliseconds>
-				<generationTime>0.33s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageLoadTimeMilliseconds>1152</pageLoadTimeMilliseconds>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Ads</title>
 				<subtitle>http://www.example.org/page</subtitle>
 				<icon />
@@ -432,7 +42,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -454,7 +64,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -476,7 +86,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -498,7 +108,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -520,7 +130,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction>submit</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (submit)</title>
@@ -542,7 +152,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -564,7 +174,7 @@
 				<contentTarget>http://piwik.org/</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -586,7 +196,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
@@ -608,7 +218,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
@@ -630,7 +240,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -652,7 +262,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -674,7 +284,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
@@ -706,7 +316,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>271</visitDuration>
 		<visitDurationPretty>4 min 31s</visitDurationPretty>
 		<searches>0</searches>
@@ -761,18 +373,408 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>cookie, director</plugins>
+		<plugins>cookie</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+		</pluginsIcons>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle>Ads</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>1</pageId>
+				<pageLoadTime>1.15s</pageLoadTime>
+				<bandwidth />
+				<timeSpent>271</timeSpent>
+				<timeSpentPretty>4 min 31s</timeSpentPretty>
+				<pageLoadTimeMilliseconds>1152</pageLoadTimeMilliseconds>
+				<pageviewPosition>1</pageviewPosition>
+				<title>Ads</title>
+				<subtitle>http://www.example.org/page</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>2</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>Unknown</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - Unknown</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>3</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece />
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>ImageAd</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>120</timeSpentRef>
+				<pageId>4</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - /path/ad.jpg</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>5</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad2.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - /path/ad2.jpg</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>6</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
+				<title>Content Interaction (submit)</title>
+				<subtitle>ImageAd - /path/ad.jpg</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>60</timeSpentRef>
+				<pageId>7</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>8</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click NOW</contentPiece>
+				<contentTarget>http://piwik.org/</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click NOW</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>9</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction>click</contentInteraction>
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
+				<title>Content Interaction (click)</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>10</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click NOW</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction>click</contentInteraction>
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
+				<title>Content Interaction (click)</title>
+				<subtitle>Text Ad - Click NOW</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>60</timeSpentRef>
+				<pageId>11</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>30</timeSpentRef>
+				<pageId>12</pageId>
+				<contentName>Video Ad</contentName>
+				<contentPiece>movie.mov</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>Video Ad - movie.mov</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.com/de/suche?q=foo</url>
+				<pageTitle />
+				<pageIdAction>18</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>13</pageId>
+				<contentName>Video Ad</contentName>
+				<contentPiece>movie.mov</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>Video Ad - movie.mov</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>271</visitDuration>
+		<visitDurationPretty>4 min 31s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
 	</row>

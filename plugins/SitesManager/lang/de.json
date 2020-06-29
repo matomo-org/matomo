@@ -34,6 +34,8 @@
         "GlobalListExcludedUserAgents_Desc": "Falls der übermittelte Browser Agent des Besuchers einen der angegebenen Begriffe enthält, wird der Besucher von Matomo ignoriert.",
         "GlobalSettings": "Globale Einstellungen",
         "GlobalWebsitesSettings": "Globale Website-Einstellungen",
+        "InstallationGuides": "Installationsanleitungen",
+        "InstallationGuidesIntro": "Wir bieten Schrittt-für-Schritt-Anleitungen an, die erklären, wie man einen Tracking Code für einige beliebte CMS und Webseiten- Ersteller einbettet:",
         "ExtraInformationNeeded": "Um Matomo auf ihrem System aufzusetzen könnten Sie folgende Informationen benötigen:",
         "Integrations": "Integrationen",
         "HelpExcludedIpAddresses": "Geben Sie eine Liste von IPs an (eine pro Zeile), die von Matomo beim Erfassen von Besuchen ignoriert werden sollen. Es können die CIDR Schreibweise wie z.B. %1$s oder Wildcards wie z.B. %2$s oder %3$s genutzt werden.",

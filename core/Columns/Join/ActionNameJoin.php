@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,7 @@ class ActionNameJoin extends Columns\Join
 {
     public function __construct()
     {
-        return parent::__construct('log_action', 'idaction', 'name');
+        parent::__construct('log_action', 'idaction', 'name');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,14 +17,14 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
  * @group Plugin
  * @group API
  */
-class ConsoleRendererTest extends \PHPUnit_Framework_TestCase
+class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Console
      */
     private $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array());
         DataTable\Manager::getInstance()->deleteAll();
@@ -114,12 +114,11 @@ class ConsoleRendererTest extends \PHPUnit_Framework_TestCase
 ", $response);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Data structure returned is not convertible in the requested format
-     */
     public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Data structure returned is not convertible in the requested format');
+
         $input = array(
             "firstElement"  => "isFirst",
             "secondElement" => array(

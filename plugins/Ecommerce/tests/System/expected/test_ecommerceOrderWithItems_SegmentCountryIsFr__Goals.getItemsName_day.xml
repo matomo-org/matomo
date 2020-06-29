@@ -2,8 +2,8 @@
 <result>
 	<row>
 		<label>PRODUCT name</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>4</nb_actions>
 		<avg_price>888.37</avg_price>
 		<avg_quantity>0</avg_quantity>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,7 +26,7 @@ class PingRequestTest extends IntegrationTestCase
     const CHANGED_COUNTRY = 'jp';
     const CHANGED_REGION = '22';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -183,7 +183,7 @@ class PingRequestTest extends IntegrationTestCase
         return Db::fetchOne("SELECT $columnName FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
     }
 
-    private function doPingRequest(\PiwikTracker $tracker, $pingTime, $changeDimensionValues)
+    private function doPingRequest(\MatomoTracker $tracker, $pingTime, $changeDimensionValues)
     {
         if ($changeDimensionValues) {
             $tracker->setUserAgent(self::CHANGED_USER_AGENT);

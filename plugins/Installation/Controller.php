@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,7 +27,6 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
-
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -291,6 +290,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $newsletterPiwikORG,
                     $newsletterProfessionalServices
                 );
+                Onboarding::sendSysAdminMail($email);
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {
@@ -522,8 +522,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $files = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
-            'libs/jquery/themes/base/jquery-ui.min.css',
-            'libs/bower_components/materialize/dist/css/materialize.min.css',
+            "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
+            'node_modules/materialize-css/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Installation/stylesheets/installation.css'
@@ -543,14 +543,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
 
         $files = array(
-            'libs/bower_components/jquery/dist/jquery.min.js',
-            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
-            'libs/bower_components/materialize/dist/js/materialize.min.js',
-            'libs/bower_components/angular/angular.min.js',
-            'libs/bower_components/angular-sanitize/angular-sanitize.min.js',
-            'libs/bower_components/angular-animate/angular-animate.min.js',
-            'libs/bower_components/angular-cookies/angular-cookies.min.js',
-            'libs/bower_components/ngDialog/js/ngDialog.min.js',
+            "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/jquery-ui-dist/jquery-ui.min.js",
+            'node_modules/materialize-css/dist/js/materialize.min.js',
+            "plugins/CoreHome/javascripts/materialize-bc.js",
+            'node_modules/angular/angular.min.js',
+            'node_modules/angular-sanitize/angular-sanitize.min.js',
+            'node_modules/angular-animate/angular-animate.min.js',
+            'node_modules/angular-cookies/angular-cookies.min.js',
+            'node_modules/ng-dialog/js/ngDialog.min.js',
             'plugins/CoreHome/angularjs/common/services/service.module.js',
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
@@ -599,9 +600,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config->General['installation_in_progress'] = 1;
 
         $config->database = $dbInfos;
-        if (!DbHelper::isDatabaseConnectionUTF8()) {
-            $config->database['charset'] = 'utf8';
-        }
+        $config->database['charset'] = DbHelper::getDefaultCharset();
 
         $config->forceSave();
 
@@ -619,7 +618,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function checkPiwikIsNotInstalled($possibleErrorMessage = null)
     {
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             return;
         }
 

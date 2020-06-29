@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,6 +15,7 @@ use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
@@ -124,8 +125,10 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
 
+        $tempTokenAuth = Piwik::requestTemporarySystemAuthToken('OneClickUpdate', 1);
         $partTwoUrl = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
             'action' => 'oneClickUpdatePartTwo',
+            'token_auth' => $tempTokenAuth,
         ]);
 
         $response = Http::sendHttpRequest($partTwoUrl, 300);

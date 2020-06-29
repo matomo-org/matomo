@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -108,21 +108,19 @@ class FactoryTest extends IntegrationTestCase
         $this->assertInstanceOf(TestPeriod::class, $period);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidPeriod
-     */
     public function test_build_ThrowsIfPeriodIsUnrecognized()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidPeriod');
+
         Period\Factory::build('garbageperiod', '2015-01-01');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidPeriod
-     */
     public function test_build_ThrowsIfPeriodIsNotEnabledForApi()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidPeriod');
+
         Config::getInstance()->General['enabled_periods_API'] = 'day';
         Period\Factory::build('week', '2015-01-01');
     }

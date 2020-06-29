@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,14 +15,14 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
  * @group Sparklines
  * @group Plugins
  */
-class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
+class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Config
      */
     private $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = new Config();
     }

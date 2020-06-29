@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
@@ -63,6 +63,11 @@ class Visit implements VisitInterface
      * @var VisitProperties
      */
     protected $visitProperties;
+
+    /**
+     * @var VisitProperties
+     */
+    protected $previousVisitProperties;
 
     /**
      * @var ArchiveInvalidator
@@ -179,6 +184,7 @@ class Visit implements VisitInterface
         }
 
         $isNewVisit = $this->request->getMetadata('CoreHome', 'isNewVisit');
+        $this->previousVisitProperties = new VisitProperties($this->request->getMetadata('CoreHome', 'lastKnownVisit') ?: []);
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -211,7 +217,6 @@ class Visit implements VisitInterface
 
             $processor->recordLogs($this->visitProperties, $this->request);
         }
-
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
     }
 
@@ -243,6 +248,15 @@ class Visit implements VisitInterface
         foreach ($this->requestProcessors as $processor) {
             $processor->onExistingVisit($valuesToUpdate, $this->visitProperties, $this->request);
         }
+
+        // we we remove values that haven't actually changed and are still the same when comparing to the initially
+        // selected visit row. In best case this avoids the update completely. Eg when there is a bulk tracking request
+        // of many content impressions. Then it will update the visit in the first request of the bulk request, and
+        // all other visits that have same visit_last_action_time etc will be ignored and won't issue an update SQL
+        // statement at all avoiding potential lock wait time when too many requests try to update the same visit at
+        // same time
+        $visitorRecognizer = StaticContainer::get(VisitorRecognizer::class);
+        $valuesToUpdate = $visitorRecognizer->removeUnchangedValues($valuesToUpdate, $this->previousVisitProperties);
 
         $this->updateExistingVisit($valuesToUpdate);
 
@@ -409,7 +423,10 @@ class Visit implements VisitInterface
 
         if ($wasInserted) {
             Common::printDebug('Updated existing visit: ' . var_export($valuesToUpdate, true));
-        } else {
+        } elseif (!$this->getModel()->hasVisit($idSite, $idVisit)) {
+            // mostly for WordPress. see https://github.com/matomo-org/matomo/pull/15587
+            // as WP doesn't set `MYSQLI_CLIENT_FOUND_ROWS` and therefore when the update succeeded but no value changed
+            // it would still return 0 vs OnPremise would return 1 or 2.
             throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
                 . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
@@ -546,8 +563,7 @@ class Visit implements VisitInterface
     {
         // Might update the idvisitor when it was forced or overwritten for this visit
         if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID) {
-            $binIdVisitor = $this->visitProperties->getProperty('idvisitor');
-            $valuesToUpdate['idvisitor'] = $binIdVisitor;
+            $valuesToUpdate['idvisitor'] = $this->visitProperties->getProperty('idvisitor');
         }
 
         return $valuesToUpdate;
@@ -596,6 +612,6 @@ class Visit implements VisitInterface
 
     private function makeVisitorFacade()
     {
-        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request);
+        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request, $this->previousVisitProperties);
     }
 }

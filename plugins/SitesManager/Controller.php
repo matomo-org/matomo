@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -98,18 +98,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $toReturn;
-    }
-
-    /**
-     *  User will download a file called PiwikTracker.php that is the content of the actual script
-     */
-    function downloadPiwikTracker()
-    {
-        $path = PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/';
-        $filename = 'PiwikTracker.php';
-        Common::sendHeader('Content-type: text/php');
-        Common::sendHeader('Content-Disposition: attachment; filename="' . $filename . '"');
-        return file_get_contents($path . $filename);
     }
 
     public function ignoreNoDataMessage()

@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot integration tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,19 +13,25 @@ describe("TwoFactorAuth", function () {
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
-        userSettings = '?module=UsersManager&action=userSettings&' + generalParams,
+        userSettings = '?module=UsersManager&action=userSecurity&' + generalParams,
         logoutUrl = '?module=Login&action=logout&period=day&date=yesterday';
 
 
     async function selectModalButton(button)
     {
         await (await page.jQuery('.modal.open .modal-footer a:contains('+button+')')).click();
+        await page.waitForNetworkIdle();
     }
 
     async function loginUser(username, doAuth)
     {
         // make sure to log out previous session
         await page.goto(logoutUrl);
+
+        var cookies = await page.cookies();
+        cookies.forEach(cookie => {
+            page.deleteCookie(cookie);
+        });
 
         if (typeof doAuth === 'undefined') {
             doAuth = true;
@@ -143,11 +149,13 @@ describe("TwoFactorAuth", function () {
         await page.click('.disable2FaLink');
 
         const modal = await page.$('.modal.open');
+        await page.waitFor(250); // animation
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
     it('should be possible to disable two factor step 2 confirmed', async function () {
         await selectModalButton('Yes');
+        await page.waitFor(150);
         expect(await page.screenshotSelector('.loginSection')).to.matchImage('usersettings_twofa_disable_step2');
     });
 

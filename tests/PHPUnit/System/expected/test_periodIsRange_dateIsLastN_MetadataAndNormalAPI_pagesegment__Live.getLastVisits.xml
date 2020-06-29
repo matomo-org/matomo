@@ -16,7 +16,7 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
-				<interactionPosition />
+				<pageviewPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -35,11 +35,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -94,6 +96,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
@@ -152,7 +155,7 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Homepage</title>
 				<subtitle>http://example.org/homepage</subtitle>
 				<icon />
@@ -175,7 +178,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>361</visitDuration>
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -230,6 +235,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
@@ -290,7 +296,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Homepage</title>
 				<subtitle>http://example.org/homepage</subtitle>
 				<icon />
@@ -324,7 +330,7 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>Profile page</title>
 				<subtitle>http://example.org/user/profile</subtitle>
 				<icon />
@@ -351,7 +357,7 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<interactionPosition>3</interactionPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<title>Profile page for user *_)%</title>
 				<subtitle>http://example.org/user/profile</subtitle>
 				<icon />
@@ -388,7 +394,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>364</visitDuration>
 		<visitDurationPretty>6 min 4s</visitDurationPretty>
 		<searches>0</searches>
@@ -399,7 +407,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>this keyword should be ranked</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB4QFjAA&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;ei=V8WfTePkKKLfiALrpZWGAw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
+		<referrerUrl>http://www.google.com/url?source=web&amp;cd=1&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -443,6 +451,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,6 +21,7 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Factory;
+use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
@@ -43,7 +44,7 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertEquals([false, false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, false, false], $archiveInfo);
     }
 
     /**
@@ -58,6 +59,11 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+
+        $this->assertNotEmpty($archiveInfo[4]);
+        $this->assertLessThanOrEqual(time(), strtotime($archiveInfo[4]));
+        unset($archiveInfo[4]);
+
         $this->assertNotEquals([false, false, false, false], $archiveInfo);
 
         Config::getInstance()->Debug[$configSetting] = 1;
@@ -85,6 +91,10 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+
+        $this->assertNotEmpty($archiveInfo[4]);
+        unset($archiveInfo[4]);
+
         $this->assertEquals(['1', '10', '0', true], $archiveInfo);
     }
 
@@ -96,6 +106,10 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+
+        $this->assertNotEmpty($archiveInfo[4]);
+        unset($archiveInfo[4]);
+
         $this->assertEquals(['1', '10', '0', true], $archiveInfo);
     }
 
@@ -107,6 +121,10 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+
+        $this->assertNotEmpty($archiveInfo[4]);
+        unset($archiveInfo[4]);
+
         $this->assertEquals([false, '10', '0', true], $archiveInfo); // visits are still returned as this was the original behavior
     }
 
@@ -209,6 +227,110 @@ class LoaderTest extends IntegrationTestCase
         ];
     }
 
+    public function test_canSkipThisArchive_returnsFalseIfSiteIsNotUsingTracker()
+    {
+        Piwik::addAction('CronArchive.getIdSitesNotUsingTracker', function (&$idSites) {
+            $idSites[] = 1;
+        });
+
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipThisArchive_returnsFalseIfSiteHasVisitWithinTimeframe_ForPeriodDay()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
+        $loader = new Loader($params);
+
+        $tracker = Fixture::getTracker(1, '2016-02-03 04:00:00');
+        $tracker->setUrl('http://example.org/abc');
+        Fixture::checkResponse($tracker->doTrackPageView('abc'));
+
+        $this->assertFalse($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipThisArchive_returnsFalseIfSiteHasVisitWithinTimeframe_ForPeriodYear()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
+        $loader = new Loader($params);
+
+        $tracker = Fixture::getTracker(1, '2016-03-04 00:00:00');
+        $tracker->setUrl('http://example.org/abc');
+        Fixture::checkResponse($tracker->doTrackPageView('abc'));
+
+        $this->assertFalse($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipThisArchive_returnsFalseIfSiteHasChildArchiveWithinPeriod_ForPeriodWeek()
+    {
+        $params = new Parameters(new Site(1), Factory::build('week', '2016-02-03'), new Segment('browserCode==ch', []));
+        $loader = new Loader($params);
+
+        $dayParams = new Parameters(new Site(1), Factory::build('day', '2016-02-03'), new Segment('', []));
+
+        $archiveWriter = new ArchiveWriter($dayParams);
+        $archiveWriter->initNewArchive();
+        $archiveWriter->finalizeArchive();
+
+        $this->assertFalse($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipThisArchive_returnsFalseIfSiteHasChildArchiveWithinPeriod_ForPeriodMonth_WhenWeekChildSpansTwoMonths()
+    {
+        $params = new Parameters(new Site(1), Factory::build('month', '2016-02-01'), new Segment('browserCode==ch', []));
+        $loader = new Loader($params);
+
+        $dayParams = new Parameters(new Site(1), Factory::build('week', '2016-02-01'), new Segment('', []));
+
+        $archiveWriter = new ArchiveWriter($dayParams);
+        $archiveWriter->initNewArchive();
+        $archiveWriter->finalizeArchive();
+
+        $this->assertFalse($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipThisArchive_returnsFalseIfSiteHasChildArchiveWithinPeriod_ForPeriodYear()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('browserCode==ch', []));
+        $loader = new Loader($params);
+
+        $dayParams = new Parameters(new Site(1), Factory::build('day', '2016-03-04'), new Segment('', []));
+
+        $archiveWriter = new ArchiveWriter($dayParams);
+        $archiveWriter->initNewArchive();
+        $archiveWriter->finalizeArchive();
+
+        $this->assertFalse($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipThisArchive_returnsTrueIfThereAreNoVisits_NoChildArchives_AndSiteIsUsingTheTracker()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipThisArchive());
+
+        $tracker = Fixture::getTracker(2, '2016-03-04 00:00:00');
+        $tracker->setUrl('http://example.org/abc');
+        Fixture::checkResponse($tracker->doTrackPageView('abc'));
+
+        $this->assertTrue($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipThisArchive_ignoresSegments()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('browserCode==ch', []));
+        $loader = new Loader($params);
+
+        $tracker = Fixture::getTracker(1, '2016-03-04 00:00:00');
+        $tracker->setUrl('http://example.org/abc');
+        Fixture::checkResponse($tracker->doTrackPageView('abc'));
+
+        $this->assertFalse($loader->canSkipThisArchive());
+    }
+
     private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)
     {
         $archiveWriter = new ArchiveWriter($params);
@@ -220,5 +342,11 @@ class LoaderTest extends IntegrationTestCase
             Db::query("UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart()) . " SET ts_archived = ?",
                 [Date::factory($tsArchived)->getDatetime()]);
         }
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }

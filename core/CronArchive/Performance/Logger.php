@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ namespace Piwik\CronArchive\Performance;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Option;
 use Piwik\Timer;
 use Piwik\Url;
 use Psr\Log\LoggerInterface;

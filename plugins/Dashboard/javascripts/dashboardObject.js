@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function ($) {
@@ -29,7 +29,7 @@
      */
     var dashboardElement = null;
     /**
-     * Boolean indicating wether the layout config has been changed or not
+     * Boolean indicating weather the layout config has been changed or not
      * @type {boolean}
      */
     var dashboardChanged = false;

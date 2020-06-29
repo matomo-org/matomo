@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,8 +10,6 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\FailedCopyException;
-use Piwik\Exception\MissingFilePermissionException;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Cache as PiwikCache;
 use Piwik\Exception\Exception;
@@ -226,7 +224,6 @@ class Filesystem
         if ($deleteRootToo) {
             @rmdir($dir);
         }
-        return;
     }
 
     /**
@@ -253,7 +250,7 @@ class Filesystem
 
     /**
      * Sort all given paths/filenames by its path length. Long path names will be listed first. This method can be
-     * useful if you have for instance a bunch of files/directories to delete. By sorting them by lengh you can make
+     * useful if you have for instance a bunch of files/directories to delete. By sorting them by length you can make
      * sure to delete all files within the folders before deleting the actual folder.
      *
      * @param string[] $files

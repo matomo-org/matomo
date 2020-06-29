@@ -21,7 +21,7 @@ describe("Transitions", function () {
         }, field);
         await page.waitFor(500);
         await page.webpage.evaluate((field, title) => {
-            $(field + ' .dropdown-content.active li:contains("' + title + '"):first').click()
+            $(field + ' .dropdown-content li:contains("' + title + '"):first').click()
         }, field, title);
     }
 

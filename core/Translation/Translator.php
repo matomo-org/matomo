@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@ namespace Piwik\Translation;
 
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Translation\Loader\LoaderInterface;
 
 /**
@@ -59,6 +58,17 @@ class Translator
             $directories = array(PIWIK_INCLUDE_PATH . '/lang');
         }
         $this->directories = $directories;
+    }
+
+    /**
+     * Clean a string that may contain HTML special chars, single/double quotes, HTML entities, leading/trailing whitespace
+     *
+     * @param string $s
+     * @return string
+     */
+    public static function clean($s)
+    {
+        return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
     }
 
     /**

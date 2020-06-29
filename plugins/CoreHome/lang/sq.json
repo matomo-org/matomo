@@ -102,6 +102,7 @@
         "RowLimit": "Kufi i papërpunuar",
         "CustomLimit": "Kufi vetjak",
         "ExportFormat": "Format eksportimi",
+        "ExportTooltip": "Shënim: URL e prodhuar për eksportimin do të funksionojë vetëm në sesionin e tanishëm të shfletuesit. Nëse doni ta përdorni gjetkë, lypset të përdorni një token të posaçëm për aplikacionin. Këta token-ë mund t’i formësoni te Përgjegjës -> Siguri -> Mirëfilltësime Me Token.",
         "ExpandSubtables": "Zgjeroji nëntabelat",
         "StandardReport": "Raport standard",
         "FlattenReport": "Raport i sheshtë",

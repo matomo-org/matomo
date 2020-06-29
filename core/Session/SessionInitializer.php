@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -83,7 +83,7 @@ class SessionInitializer
     protected function processSuccessfulSession(AuthResult $authResult)
     {
         $sessionIdentifier = new SessionFingerprint();
-        $sessionIdentifier->initialize($authResult->getIdentity(), $this->isRemembered());
+        $sessionIdentifier->initialize($authResult->getIdentity(), $authResult->getTokenAuth(), $this->isRemembered());
 
         /**
          * @ignore
@@ -94,19 +94,6 @@ class SessionInitializer
     protected function regenerateSessionId()
     {
         Session::regenerateId();
-    }
-
-    /**
-     * Accessor to compute the hashed authentication token.
-     *
-     * @param string $login user login
-     * @param string $token_auth authentication token
-     * @return string hashed authentication token
-     * @deprecated
-     */
-    public static function getHashTokenAuth($login, $token_auth)
-    {
-        return md5($login . $token_auth);
     }
 
     private function isRemembered()

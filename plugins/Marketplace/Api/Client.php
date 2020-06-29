@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,15 +8,13 @@
  */
 namespace Piwik\Plugins\Marketplace\Api;
 
-use Piwik\Cache;
+use Matomo\Cache\Lazy;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
-use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\SettingsServer;
 use Exception as PhpException;
 use Psr\Log\LoggerInterface;
@@ -35,7 +33,7 @@ class Client
     private $service;
 
     /**
-     * @var Cache\Lazy
+     * @var Lazy
      */
     private $cache;
 
@@ -54,7 +52,7 @@ class Client
      */
     private $environment;
 
-    public function __construct(Service $service, Cache\Lazy $cache, LoggerInterface $logger, Environment $environment)
+    public function __construct(Service $service, Lazy $cache, LoggerInterface $logger, Environment $environment)
     {
         $this->service = $service;
         $this->cache = $cache;
@@ -143,7 +141,7 @@ class Client
         }
 
         // in the beginning we allowed to specify a download path but this way we make sure security is always taken
-        // care of and we always generate a random download filename.
+        // care of and we always generate a random download filename.Marketplace/Api/Client.php
         $target = $this->getRandomTmpPluginDownloadFilename();
 
         Filesystem::deleteFileIfExists($target);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -211,7 +211,7 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
     define('HEAD_MAGNIFICATION', 1.1);
 
     /**
-     * height of cell repect font height
+     * height of cell respect font height
      */
     define('K_CELL_HEIGHT_RATIO', 1.25);
 

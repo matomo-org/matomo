@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ namespace Piwik\DataAccess;
 
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\DbHelper;
 
 class ArchiveTableCreator
 {
@@ -63,25 +62,28 @@ class ArchiveTableCreator
         self::$tablesAlreadyInstalled = null;
     }
 
-    public static function refreshTableList($forceReload = false)
+    public static function refreshTableList()
     {
-        self::$tablesAlreadyInstalled = DbHelper::getTablesInstalled($forceReload);
+        self::$tablesAlreadyInstalled = self::getModel()->getInstalledArchiveTables();
     }
 
     /**
      * Returns all table names archive_*
      *
      * @param string $type The type of table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`.
+     * @param bool   $forceReload
      * @return array
      */
-    public static function getTablesArchivesInstalled($type = null)
+    public static function getTablesArchivesInstalled($type = null, $forceReload = false)
     {
-        if (is_null(self::$tablesAlreadyInstalled)) {
+        if (is_null(self::$tablesAlreadyInstalled)
+            || $forceReload
+        ) {
             self::refreshTableList();
         }
 
         if (empty($type)) {
-            $tableMatchRegex = '/archive_(numeric|blob)_/';
+            return self::$tablesAlreadyInstalled;
         } else {
             $tableMatchRegex = '/archive_' . preg_quote($type) . '_/';
         }

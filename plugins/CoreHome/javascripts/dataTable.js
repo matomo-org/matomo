@@ -1,8 +1,8 @@
 
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -639,7 +639,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var normalOverlapBecauseTableIsFullWidth = showScrollbarIfMoreThanThisPxOverlap || 51;
         if (tableWidth > widthToCheckElementIsActuallyThere && dataTableWidth > widthToCheckElementIsActuallyThere
             && (dataTableWidth - tableWidth) > normalOverlapBecauseTableIsFullWidth) {
-            // when after adjusting the columns the widget/report is sitll wider than the actual dataTable, we need
+            // when after adjusting the columns the widget/report is still wider than the actual dataTable, we need
             // to make it scrollable otherwise reports overlap each other
 
             $domNodeToSetOverflow.css('overflow-y', 'scroll');
@@ -1494,7 +1494,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         });
 
-        // higlight all columns on hover
+        // highlight all columns on hover
         $(domElem).on('mouseenter', 'td', function (e) {
             e.stopPropagation();
             var $this = $(e.target);
@@ -1974,6 +1974,24 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     items: 'a',
                     content: '<h3>'+action.dataTableIconTooltip[0]+'</h3>'+action.dataTableIconTooltip[1],
                     tooltipClass: 'rowActionTooltip',
+                    // ensure the tooltips of parent elements are hidden when the action tooltip is shown
+                    // otherwise it can happen that tooltips for subtable rows are shown as well.
+                    open: function() {
+                        var tooltip = $(this).parents().filter(function() {
+                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
+                        }).tooltip('instance');
+                        if (tooltip) {
+                            tooltip.disable();
+                        }
+                    },
+                    close: function() {
+                        var tooltip = $(this).parents().filter(function() {
+                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
+                        }).tooltip('instance');
+                        if (tooltip) {
+                            tooltip.enable();
+                        }
+                    },
                     show: false,
                     hide: false
                 });

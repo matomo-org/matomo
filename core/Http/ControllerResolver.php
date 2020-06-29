@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,10 +10,8 @@ namespace Piwik\Http;
 
 use DI\FactoryInterface;
 use Exception;
-use Piwik\Plugin;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Session;
 use Piwik\Plugin\WidgetsProvider;
 
 /**

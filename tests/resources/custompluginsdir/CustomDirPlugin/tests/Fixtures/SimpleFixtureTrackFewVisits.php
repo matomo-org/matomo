@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\CustomDirPlugin\tests\Fixtures;
@@ -14,12 +14,12 @@ class SimpleFixtureTrackFewVisits extends Fixture
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsite();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

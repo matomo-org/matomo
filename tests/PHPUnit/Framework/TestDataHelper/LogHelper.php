@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Framework\TestDataHelper;
 
 use Piwik\Common;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Db;
 
 /**
@@ -30,18 +30,16 @@ class LogHelper
             'location_country' => 'xx',
             'config_os' => 'xxx',
             'visit_total_events' => 0,
-            'visitor_days_since_last' => 0,
+            'visitor_seconds_since_last' => 0,
             'config_quicktime' => 0,
             'config_pdf' => 0,
             'config_realplayer' => 0,
             'config_silverlight' => 0,
             'config_windowsmedia' => 0,
             'config_java' => 0,
-            'config_gears' => 0,
             'config_resolution' => 0,
             'config_resolution' => '',
             'config_cookie' => 0,
-            'config_director' => 0,
             'config_flash' => 0,
             'config_browser_version' => '',
             'visitor_count_visits' => 1,
@@ -49,8 +47,8 @@ class LogHelper
             'visit_total_time' => 123,
             'visit_entry_idaction_name' => 0,
             'visit_entry_idaction_url' => 0,
-            'visitor_days_since_order' => 0,
-            'visitor_days_since_first' => 0,
+            'visitor_seconds_since_order' => 0,
+            'visitor_seconds_since_first' => 0,
             'visit_first_action_time' => '2012-01-01 00:00:00',
             'visit_goal_buyer' => 0,
             'visit_goal_converted' => 0,
@@ -103,8 +101,8 @@ class LogHelper
             'location_country' => 'xx',
             'visitor_count_visits' => 0,
             'visitor_returning' => 0,
-            'visitor_days_since_order' => 0,
-            'visitor_days_since_first' => 0
+            'visitor_seconds_since_order' => 0,
+            'visitor_seconds_since_first' => 0
         );
 
         $properties = array_merge($defaultProperties, $properties);

@@ -149,7 +149,6 @@
         "WelcomeHelp": "<p>Matomo web sitenizin ziyaretçileri hakkında bilgileri derleyerek incelemenizi kolaylaştıran özgür ve ücretsiz bir web istatistikleri yazılımıdır.<\/p><p>Bu işlem %s kolay adımda tamamlanacak ve yaklaşık 5 dakika sürecek.<\/p>",
         "WelcomeToCommunity": "Matomo Topluluğuna Hoş Geldiniz!",
         "CannotConnectToDb": "Veritabanı bağlantısı kurulamadı",
-        "CannotConnectToDbResolvingExplanation": "Bu durum geçici bir sorun olabilir, %1$ssayfayı yenilemeyi deneyin%2$s. Sorun sürerse Matomo yöneticinizle görüşün.",
-        "EmailPrivacyNotice": "E-posta adresiniz yalnız Matomo bilgilendirmelerinin gönderilmesi için kullanılır. İstediğiniz an gelen bilgilendirme e-postasındaki bağlantıya tıklayarak abonelikten çıkabilirsiniz. E-posta adresinizi başka biri ile paylaşmayacağız ya da Matomo bilgilendirmelerini göndermek dışında başka bir amaçla kullanmayacağız. Ayrıntılı bilgi almak için %1$sGizlilik İlkemize%2$s bakabilirsiniz."
+        "CannotConnectToDbResolvingExplanation": "Bu durum geçici bir sorun olabilir, %1$ssayfayı yenilemeyi deneyin%2$s. Sorun sürerse Matomo yöneticinizle görüşün."
     }
 }

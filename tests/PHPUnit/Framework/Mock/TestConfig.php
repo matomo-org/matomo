@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -89,10 +89,6 @@ class TestConfig extends Config
         $general =& $chain->get('General');
         $log =& $chain->get('log');
         $database =& $chain->get('database');
-
-        if ($testingEnvironment->configFileLocal) {
-            $general['session_save_handler'] = 'dbtable';
-        }
 
         $log['log_writers'] = array('file');
 

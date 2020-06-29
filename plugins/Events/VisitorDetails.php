@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -24,7 +24,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $action['icon'] = 'plugins/Morpheus/images/event.png';
             $action['iconSVG'] = 'plugins/Morpheus/images/event.svg';
             $action['title'] = Piwik::translate('Events_Event');
-            $action['subtitle'] = Piwik::translate('Event_Category') . ': "' . $action['eventCategory'] . "'";
+            $action['subtitle'] = Piwik::translate('Events_Category') . ': "' . $action['eventCategory'] . "'";
 
             if (!empty($action['eventName'])) {
                 $action['subtitle'] .= ', ' . Piwik::translate('General_Name') . ': "' . $action['eventName'] . '"';
@@ -65,6 +65,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $view                 = new View('@Events/_actionEvent.twig');
+        $view->sendHeadersWhenRendering = false;
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;

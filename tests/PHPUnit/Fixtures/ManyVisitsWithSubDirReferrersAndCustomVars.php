@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,13 +19,13 @@ class ManyVisitsWithSubDirReferrersAndCustomVars extends Fixture
     public $dateTime = '2010-03-05 11:22:33';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -51,7 +51,6 @@ class ManyVisitsWithSubDirReferrersAndCustomVars extends Fixture
                 for ($page = 0; $page < 3; $page++) {
                     $t->setUrl('http://example.org/dir' . $referrerSite . '/sub/dir/page' . $page . '.html');
                     $t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue' . $page, 'page');
-                    $t->setGenerationTime($referrerPage * $referrerSite * ($page + 1) * 100);
                     self::checkResponse($t->doTrackPageView('title'));
                 }
             }

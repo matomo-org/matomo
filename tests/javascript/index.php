@@ -21,8 +21,8 @@ try {
     $mysql = false;
 }
 
-use \Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
-use \Piwik\Plugins\CustomPiwikJs\TrackingCode\JsTestPluginTrackerFiles;
+use \Piwik\Plugins\CustomJsTracker\TrackerUpdater;
+use \Piwik\Plugins\CustomJsTracker\TrackingCode\JsTestPluginTrackerFiles;
 
 $targetFileName = '/tests/resources/matomo.test.js';
 $sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
@@ -110,7 +110,7 @@ testTrackPageViewAsync();
         bottom: 0px;
     }
 </style>
- <script src="../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+ <script src="../../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
 
  <script type="text/javascript">
@@ -547,95 +547,95 @@ function PiwikTest() {
 
         var tracker = Piwik.getTracker(), dummy;
 
-        equal( typeof JSON_PIWIK.stringify, 'function', 'JSON.stringify function' );
-        equal( typeof JSON_PIWIK.stringify(dummy), 'undefined', 'undefined' );
+        equal( typeof Piwik.JSON.stringify, 'function', 'JSON.stringify function' );
+        equal( typeof Piwik.JSON.stringify(dummy), 'undefined', 'undefined' );
 
-        equal( JSON_PIWIK.stringify(null), 'null', 'null' );
-        equal( JSON_PIWIK.stringify(true), 'true', 'true' );
-        equal( JSON_PIWIK.stringify(false), 'false', 'false' );
-        ok( JSON_PIWIK.stringify(0) === '0', 'Number 0' );
-        ok( JSON_PIWIK.stringify(1) === '1', 'Number 1' );
-        ok( JSON_PIWIK.stringify(-1) === '-1', 'Number -1' );
-        ok( JSON_PIWIK.stringify(42) === '42', 'Number 42' );
+        equal( Piwik.JSON.stringify(null), 'null', 'null' );
+        equal( Piwik.JSON.stringify(true), 'true', 'true' );
+        equal( Piwik.JSON.stringify(false), 'false', 'false' );
+        ok( Piwik.JSON.stringify(0) === '0', 'Number 0' );
+        ok( Piwik.JSON.stringify(1) === '1', 'Number 1' );
+        ok( Piwik.JSON.stringify(-1) === '-1', 'Number -1' );
+        ok( Piwik.JSON.stringify(42) === '42', 'Number 42' );
 
-        ok( JSON_PIWIK.stringify(1.0) === '1.0'
-            || JSON_PIWIK.stringify(1.0) === '1', 'float 1.0' );
+        ok( Piwik.JSON.stringify(1.0) === '1.0'
+            || Piwik.JSON.stringify(1.0) === '1', 'float 1.0' );
 
-        equal( JSON_PIWIK.stringify(1.1), '1.1', 'float 1.1' );
-        equal( JSON_PIWIK.stringify(""), '""', 'empty string' );
-        equal( JSON_PIWIK.stringify('"'), '"' + '\\' + '"' + '"', 'string "' );
-        equal( JSON_PIWIK.stringify('\\'), '"' + '\\\\' + '"', 'string \\' );
+        equal( Piwik.JSON.stringify(1.1), '1.1', 'float 1.1' );
+        equal( Piwik.JSON.stringify(""), '""', 'empty string' );
+        equal( Piwik.JSON.stringify('"'), '"' + '\\' + '"' + '"', 'string "' );
+        equal( Piwik.JSON.stringify('\\'), '"' + '\\\\' + '"', 'string \\' );
 
-        equal( JSON_PIWIK.stringify("1"), '"1"', 'string "1"' );
-        equal( JSON_PIWIK.stringify("ABC"), '"ABC"', 'string ABC' );
-        equal( JSON_PIWIK.stringify("\x40\x41\x42\x43"), '"@ABC"', '\\x hex string @ABC' );
+        equal( Piwik.JSON.stringify("1"), '"1"', 'string "1"' );
+        equal( Piwik.JSON.stringify("ABC"), '"ABC"', 'string ABC' );
+        equal( Piwik.JSON.stringify("\x40\x41\x42\x43"), '"@ABC"', '\\x hex string @ABC' );
 
-        ok( JSON_PIWIK.stringify("\u60a8\u597d") == '"您好"'
-            || JSON_PIWIK.stringify("\u60a8\u597d") == '"\\u60a8\\u597d"', '\\u Unicode string 您好' );
+        ok( Piwik.JSON.stringify("\u60a8\u597d") == '"您好"'
+            || Piwik.JSON.stringify("\u60a8\u597d") == '"\\u60a8\\u597d"', '\\u Unicode string 您好' );
 
-        ok( JSON_PIWIK.stringify("ßéàêö您好") == '"ßéàêö您好"'
-            || JSON_PIWIK.stringify("ßéàêö您好") == '"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"', 'string non-ASCII text' );
+        ok( Piwik.JSON.stringify("ßéàêö您好") == '"ßéàêö您好"'
+            || Piwik.JSON.stringify("ßéàêö您好") == '"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"', 'string non-ASCII text' );
 
-        equal( JSON_PIWIK.stringify("20060228T08:00:00"), '"20060228T08:00:00"', 'string "20060228T08:00:00"' );
+        equal( Piwik.JSON.stringify("20060228T08:00:00"), '"20060228T08:00:00"', 'string "20060228T08:00:00"' );
 
         var d = new Date();
         d.setTime(1240013340000);
-        ok( JSON_PIWIK.stringify(d) === '"2009-04-18T00:09:00Z"'
-            || JSON_PIWIK.stringify(d) === '"2009-04-18T00:09:00.000Z"', 'Date');
+        ok( Piwik.JSON.stringify(d) === '"2009-04-18T00:09:00Z"'
+            || Piwik.JSON.stringify(d) === '"2009-04-18T00:09:00.000Z"', 'Date');
 
-        equal( JSON_PIWIK.stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
-        equal( JSON_PIWIK.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
-        equal( JSON_PIWIK.stringify(
+        equal( Piwik.JSON.stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
+        equal( Piwik.JSON.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
+        equal( Piwik.JSON.stringify(
             [ {'domains' : ['example.com', 'example.ca']},
             {'names' : ['Sean', 'Cathy'] } ]
         ), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
 
         equal( typeof eval('('+dummy+')'), 'undefined', 'eval undefined' );
 
-        equal( typeof JSON_PIWIK.parse, 'function', 'JSON.parse function' );
+        equal( typeof Piwik.JSON.parse, 'function', 'JSON.parse function' );
 
         // these throw a SyntaxError
-//      equal( typeof JSON_PIWIK.parse('undefined'), 'undefined', 'undefined' );
-//      equal( typeof JSON_PIWIK.parse(dummy), 'undefined', 'undefined' );
-//      equal( JSON_PIWIK.parse('undefined'), dummy, 'undefined' );
-//      equal( JSON_PIWIK.parse('undefined'), undefined, 'undefined' );
+//      equal( typeof Piwik.JSON.parse('undefined'), 'undefined', 'undefined' );
+//      equal( typeof Piwik.JSON.parse(dummy), 'undefined', 'undefined' );
+//      equal( Piwik.JSON.parse('undefined'), dummy, 'undefined' );
+//      equal( Piwik.JSON.parse('undefined'), undefined, 'undefined' );
 
-        strictEqual( JSON_PIWIK.parse('null'), null, 'null' );
-        strictEqual( JSON_PIWIK.parse('true'), true, 'true' );
-        strictEqual( JSON_PIWIK.parse('false'), false, 'false' );
+        strictEqual( Piwik.JSON.parse('null'), null, 'null' );
+        strictEqual( Piwik.JSON.parse('true'), true, 'true' );
+        strictEqual( Piwik.JSON.parse('false'), false, 'false' );
 
-        equal( JSON_PIWIK.parse('0'), 0, 'Number 0' );
-        equal( JSON_PIWIK.parse('1'), 1, 'Number 1' );
-        equal( JSON_PIWIK.parse('-1'), -1, 'Number -1' );
-        equal( JSON_PIWIK.parse('42'), 42, 'Number 42' );
+        equal( Piwik.JSON.parse('0'), 0, 'Number 0' );
+        equal( Piwik.JSON.parse('1'), 1, 'Number 1' );
+        equal( Piwik.JSON.parse('-1'), -1, 'Number -1' );
+        equal( Piwik.JSON.parse('42'), 42, 'Number 42' );
 
-        ok( JSON_PIWIK.parse('1.0') === 1.0
-            || JSON_PIWIK.parse('1.0') === 1, 'float 1.0' );
+        ok( Piwik.JSON.parse('1.0') === 1.0
+            || Piwik.JSON.parse('1.0') === 1, 'float 1.0' );
 
-        equal( JSON_PIWIK.parse('1.1'), 1.1, 'float 1.1' );
-        equal( JSON_PIWIK.parse('""'), "", 'empty string' );
-        equal( JSON_PIWIK.parse('"' + '\\' + '"' + '"'), '"', 'string "' );
-        equal( JSON_PIWIK.parse('"\\\\"'), '\\', 'string \\' );
+        equal( Piwik.JSON.parse('1.1'), 1.1, 'float 1.1' );
+        equal( Piwik.JSON.parse('""'), "", 'empty string' );
+        equal( Piwik.JSON.parse('"' + '\\' + '"' + '"'), '"', 'string "' );
+        equal( Piwik.JSON.parse('"\\\\"'), '\\', 'string \\' );
 
-        equal( JSON_PIWIK.parse('"1"'), "1", 'string "1"' );
-        equal( JSON_PIWIK.parse('"ABC"'), "ABC", 'string ABC' );
-        equal( JSON_PIWIK.parse('"@ABC"'), "\x40\x41\x42\x43", 'Hex string @ABC' );
+        equal( Piwik.JSON.parse('"1"'), "1", 'string "1"' );
+        equal( Piwik.JSON.parse('"ABC"'), "ABC", 'string ABC' );
+        equal( Piwik.JSON.parse('"@ABC"'), "\x40\x41\x42\x43", 'Hex string @ABC' );
 
-        ok( JSON_PIWIK.parse('"您好"') == "\u60a8\u597d"
-            && JSON_PIWIK.parse('"\\u60a8\\u597d"') == "您好", 'Unicode string 您好' );
+        ok( Piwik.JSON.parse('"您好"') == "\u60a8\u597d"
+            && Piwik.JSON.parse('"\\u60a8\\u597d"') == "您好", 'Unicode string 您好' );
 
-        ok( JSON_PIWIK.parse('"ßéàêö您好"') == "ßéàêö您好"
-            && JSON_PIWIK.parse('"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"') == "ßéàêö您好", 'string non-ASCII text' );
+        ok( Piwik.JSON.parse('"ßéàêö您好"') == "ßéàêö您好"
+            && Piwik.JSON.parse('"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"') == "ßéàêö您好", 'string non-ASCII text' );
 
-        equal( JSON_PIWIK.parse('"20060228T08:00:00"'), "20060228T08:00:00", 'string "20060228T08:00:00"' );
+        equal( Piwik.JSON.parse('"20060228T08:00:00"'), "20060228T08:00:00", 'string "20060228T08:00:00"' );
 
         // these aren't converted back to Date objects
-        equal( JSON_PIWIK.parse('"2009-04-18T00:09:00Z"'), "2009-04-18T00:09:00Z", 'string "2009-04-18T00:09:00Z"' );
-        equal( JSON_PIWIK.parse('"2009-04-18T00:09:00.000Z"'), "2009-04-18T00:09:00.000Z", 'string "2009-04-18T00:09:00.000Z"' );
+        equal( Piwik.JSON.parse('"2009-04-18T00:09:00Z"'), "2009-04-18T00:09:00Z", 'string "2009-04-18T00:09:00Z"' );
+        equal( Piwik.JSON.parse('"2009-04-18T00:09:00.000Z"'), "2009-04-18T00:09:00.000Z", 'string "2009-04-18T00:09:00.000Z"' );
 
-        deepEqual( JSON_PIWIK.parse('[1,2,3]'), [1, 2, 3], 'Array of numbers' );
-        deepEqual( JSON_PIWIK.parse('{"key":"value"}'), {'key' : 'value'}, 'Object (members)' );
-        deepEqual( JSON_PIWIK.parse('[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]'),
+        deepEqual( Piwik.JSON.parse('[1,2,3]'), [1, 2, 3], 'Array of numbers' );
+        deepEqual( Piwik.JSON.parse('{"key":"value"}'), {'key' : 'value'}, 'Object (members)' );
+        deepEqual( Piwik.JSON.parse('[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]'),
             [ {'domains' : ['example.com', 'example.ca']}, {'names' : ['Sean', 'Cathy'] } ], 'Nested members' );
     });
 
@@ -1302,7 +1302,7 @@ function PiwikTest() {
         function assertShouldIgnoreInteraction(id, message) {
             var node = content.findTargetNode(_e(id));
             strictEqual(content.shouldIgnoreInteraction(node), true, message);
-            ok($(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), "needs to have either attribute or class");
+            ok($(node).hasClass(content.LEGACY_CONTENT_IGNOREINTERACTION_CLASS) || $(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), id + " needs to have either attribute or class");
         }
 
         function assertShouldNotIgnoreInteraction(id, message) {
@@ -1784,7 +1784,7 @@ function PiwikTest() {
     });
 
     test("ContentTrackerInternals", function() {
-        expect(151);
+        expect(111);
         var tracker = Piwik.getTracker();
         var actual, expected, trackerUrl;
 
@@ -1801,7 +1801,7 @@ function PiwikTest() {
                 message += ', ';
             }
 
-            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message + " " +  actual + ' should start with ' + expectedStartsWith);
 
             var expectedString = '&idsite=1&rec=1';
             strictEqual(actual.indexOf(expectedString), expectedStartsWith.length, 'did not find ' + expectedString + ' in ' + actual);
@@ -1854,39 +1854,6 @@ function PiwikTest() {
         actual   = tracker.buildContentInteractionRequestNode($('#ex18 a')[0], 'CustomInteraction://');
         expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
         assertTrackingRequest(actual, expected, 'should automatically find parent and search for content from there');
-
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl();
-        strictEqual(actual, undefined, 'nothing set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db',
-            'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db',
-            'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
-
-        trackerUrl = tracker.getTrackerUrl();
-        tracker.setTrackerUrl('matomo.php?test=1');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'matomo.php?test=1&redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'should use & if tracker url already contains question mark');
-
-        tracker.setTrackerUrl('matomo.php');
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('matomo.php?redirecturl=http://www.example.com', 'click', 'name', 'piece', 'target');
-        strictEqual(actual, 'matomo.php?redirecturl=http://www.example.com', 'should return unmodified url if it is already a tracker url so users can set matomo.php link in href');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('http://www.example.com', 'click', 'name');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + encodeWrapper('http://www.example.com') + '&c_i=click&c_n=name&c_t=http%3A%2F%2Fwww.example.com', 'should not change url if absolute');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl(origin, 'something', 'name', undefined, 'target');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + originEncoded + '&c_i=something&c_n=name&c_t=target', 'should not change url if same domain');
-
-        tracker.setTrackerUrl(trackerUrl);
 
         ok('test wasContentImpressionAlreadyTracked()');
         actual = tracker.wasContentImpressionAlreadyTracked(impression);
@@ -1964,16 +1931,10 @@ function PiwikTest() {
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))({target: _s('#ex108')});
         assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com', 'trackContentImpressionClickInteraction, is outlink but should use xhr as link tracking not enabled');
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
-        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
-        assertTrackingRequest($(_s('#ex109')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/file.pdf') + '&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
+        assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t='+originEncoded+'%2Ffile.pdf', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))({target: _s('#ex110')});
-        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should be tracked using redirect');
-        assertTrackingRequest($(_s('#ex110')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/example') + '&c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, the href link should be replaced with a redirect link to tracker');
-
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex111')))({target: _s('#ex111')});
-        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should detect it is a link to same page');
-        strictEqual($(_s('#ex111')).attr('href'), 'matomo.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
+        assertTrackingRequest(actual, 'c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, should be tracked using redirect');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))({target: _s('#ex112')});
         assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + toEncodedAbsoluteUrl('#example'), 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
@@ -2082,56 +2043,16 @@ function PiwikTest() {
         strictEqual(actual.length, 1, 'getVisibleImpressions, two hidden ones before a visible ones to make sure removing hidden content block from array works and does not ignore one');
         assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img115.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img115.jpg') + '&c_t=http%3A%2F%2Fwww.example.com');
 
-
-        ok('test replaceHrefIfInternalLink()')
-
-        var trackerUrl = tracker.getTrackerUrl();
-        tracker.setTrackerUrl('matomo.php');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(), false, 'no content node set');
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), false, 'should be ignored');
-        $(_s('#ignoreInternalLink')).removeClass('piwikContentIgnoreInteraction'); // now it should be no longer ignored and as it is an intenral link replaced
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), true, 'should be replaced as is internal link');
-        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/internallink') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
-        strictEqual($(_s('#ignoreInternalLink')).attr('data-content-target'), origin + '/internallink', 'we need to set data-content-target when link is set otherwise a replace would not be found');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex122')), true, 'should be replaced');
-        strictEqual($(_s('#replacedLinkWithTarget')).attr('data-content-target'), '/test', 'should replace href but not a data-content-target if already exists');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex118')), true, 'should not replace already replaced link');
-        strictEqual($(_s('#ex118')).attr('href'), 'matomo.php?test=5', 'link should not be replaced');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex119')), false, 'anchor link should not be replaced');
-        strictEqual($(_s('#ex119')).attr('href'), '#test', 'link should not replace anchor link');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex120')), false, 'external link should not be replaced');
-        strictEqual($(_s('#ex120')).attr('href'), 'http://www.example.com', 'should not replace external link');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), true, 'should replace download link if link tracking not enabled');
-        assertTrackingRequest($(_s('#ex121')).attr('href'), 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('/download.pdf') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
-
-        $(_s('#ex121')).attr('href', '/download.pdf'); // reset link
-        tracker.enableLinkTracking();
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), false, 'should not replace download link');
-        strictEqual($(_s('#ex121')).attr('href'), '/download.pdf', 'should not replace download link');
-
-        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex123')), false, 'should not replace a link that has no href');
-        strictEqual($(_s('#ex123')).attr('href'), undefined, 'should still not have a href attribute');
-
-
-
-        tracker.setTrackerUrl(trackerUrl);
-
         removeContentTrackingFixture();
     });
 
     test("Basic requirements", function() {
-        expect(3);
+        expect(4);
 
         equal( typeof encodeURIComponent, 'function', 'encodeURIComponent' );
         ok( RegExp, "RegExp" );
         ok( Piwik, "Piwik" );
+        ok( Matomo, "Matomo" );
     });
 
     test("Test API - addPlugin(), getTracker(), getHook(), and hook", function() {
@@ -2149,7 +2070,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(110);
+        expect(111);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2193,6 +2114,7 @@ function PiwikTest() {
         equal( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
         equal( typeof tracker.getLinkTrackingTimer, 'function', 'getLinkTrackingTimer' );
         equal( typeof tracker.alwaysUseSendBeacon, 'function', 'alwaysUseSendBeacon' );
+        equal( typeof tracker.disableAlwaysUseSendBeacon, 'function', 'disableAlwaysUseSendBeacon' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
         equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
@@ -2875,7 +2797,7 @@ function PiwikTest() {
         var isSameCrossDomainDevice = tracker.hook.test._isSameCrossDomainDevice;
         var makeCrossDomainDeviceId = tracker.hook.test._makeCrossDomainDeviceId;
         var replaceHrefForCrossDomainLink = tracker.hook.test._replaceHrefForCrossDomainLink;
-        var isLinkToDifferentDomainButSamePiwikWebsite = tracker.hook.test._isLinkToDifferentDomainButSamePiwikWebsite;
+        var isLinkToDifferentDomainButSameMatomoWebsite = tracker.hook.test._isLinkToDifferentDomainButSameMatomoWebsite;
 
         strictEqual(false, tracker.isCrossDomainLinkingEnabled(), 'function', "isCrossDomainLinkingEnabled is disabled by default" );
 
@@ -2970,7 +2892,7 @@ function PiwikTest() {
             if (url !== null) {
                 a.setAttribute('href', url);
             }
-            return isLinkToDifferentDomainButSamePiwikWebsite(a);
+            return isLinkToDifferentDomainButSameMatomoWebsite(a);
         }
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(null), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if no href is set');
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(''), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if empty href is set');
@@ -3015,7 +2937,7 @@ function PiwikTest() {
     });
 
     test("Tracker getClassesRegExp()", function() {
-        expect(3);
+        expect(5);
 
         var tracker = Piwik.getTracker();
 
@@ -3024,8 +2946,11 @@ function PiwikTest() {
         var download = tracker.hook.test._getClassesRegExp([], 'download');
         ok( download.test('piwik_download'), 'piwik_download (default)' );
 
+        ok( download.test('matomo_download'), 'matomo_download (default)' );
+
         var outlink = tracker.hook.test._getClassesRegExp([], 'link');
         ok( outlink.test('piwik_link'), 'piwik_link (default)' );
+        ok( outlink.test('matomo_link'), 'matomo_link (default)' );
 
     });
 
@@ -3504,20 +3429,20 @@ function PiwikTest() {
         var tracker = Piwik.getTracker();
 
         // test getPiwikUrlForOverlay
-        var getPiwikUrlForOverlay = tracker.hook.test._getPiwikUrlForOverlay;
+        var getMatomoUrlForOverlay = tracker.hook.test._getMatomoUrlForOverlay;
 
-        equal( typeof getPiwikUrlForOverlay, 'function', 'getPiwikUrlForOverlay' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/js/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/master/js/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
-        equal( getPiwikUrlForOverlay('http://www.example.com/master/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
-        equal( getPiwikUrlForOverlay('/matomo.php'), toAbsoluteUrl('/'), 'only matomo.php with leading slash' );
-        equal( getPiwikUrlForOverlay('matomo.php'), toAbsoluteUrl(''), 'only matomo.php' );
-        equal( getPiwikUrlForOverlay('/matomo.php?version=1234'), toAbsoluteUrl('/'), 'only matomo.php with leading slash with query' );
+        equal( typeof getMatomoUrlForOverlay, 'function', 'getMatomoUrlForOverlay' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/js/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/matomo.php'), 'http://www.example.com/', 'with matomo.php and no js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/master/js/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
+        equal( getMatomoUrlForOverlay('http://www.example.com/master/matomo.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
+        equal( getMatomoUrlForOverlay('/matomo.php'), toAbsoluteUrl('/'), 'only matomo.php with leading slash' );
+        equal( getMatomoUrlForOverlay('matomo.php'), toAbsoluteUrl(''), 'only matomo.php' );
+        equal( getMatomoUrlForOverlay('/matomo.php?version=1234'), toAbsoluteUrl('/'), 'only matomo.php with leading slash with query' );
     });
 
     function generateAnIframeInDocument() {
@@ -3530,7 +3455,7 @@ function PiwikTest() {
             <html><body> \
             <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + 'matomotest.js" type="text/javascript"></sc' + 'ript> \
-            <scr' + 'ipt src="' + hostAndPath + '../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + '../../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
             window.onload = function() { \
                 $(document).ready(function () { \
@@ -3641,7 +3566,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(180);
+        expect(159);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3942,12 +3867,7 @@ if ($mysql) {
         tracker.trackEvent("Event Category3", "Event Action3", "Event Name3", 3.333);
 
         //Ecommerce views
-        tracker.setEcommerceView( "", false, ["CATEGORY1","CATEGORY2"] );
-        deepEqual( tracker.getCustomVariable(3, "page"), false, "Ecommerce view SKU");
         tracker.setEcommerceView( "SKUMultiple", false, ["CATEGORY1","CATEGORY2"] );
-        deepEqual( tracker.getCustomVariable(3, "page"), ["_pks","SKUMultiple"], "Ecommerce view sku");
-        deepEqual( tracker.getCustomVariable(4, "page"), ["_pkn",""], "Ecommerce view Name");
-        deepEqual( tracker.getCustomVariable(5, "page"), ["_pkc","[\"CATEGORY1\",\"CATEGORY2\"]"], "Ecommerce view Category");
         tracker.trackPageView("MultipleCategories");
 
         var tracker2 = Piwik.getTracker();
@@ -3976,35 +3896,8 @@ if ($mysql) {
 
         // Ecommerce Views
         tracker3.setEcommerceView( "SKU", "NAME HERE", "CATEGORY HERE" );
-        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks","SKU"], "Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn","NAME HERE"], "Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc","CATEGORY HERE"], "Ecommerce view Category");
         tracker3.trackPageView("EcommerceView");
 
-        tracker3.deleteCustomVariables('page');
-
-        // No data set
-        tracker3.setEcommerceView( );
-        deepEqual( tracker3.getCustomVariable(2, "page"), false, "No data Ecommerce price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), false, "No data Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), false, "No data Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc",""], "No data Ecommerce view Category");
-        tracker3.deleteCustomVariables('page');
-
-        // all numbers
-        tracker3.setEcommerceView( 34343, 3432, 343, 12121 );
-        deepEqual( tracker3.getCustomVariable(2, "page"), ["_pkp",12121], "All numbers Ecommerce view price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks",34343], "All numbers Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn",3432], "All numbers Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", '343'], "All numbers Ecommerce view Category");
-        tracker3.deleteCustomVariables('page');
-
-        // all false
-        tracker3.setEcommerceView( false, false, false, false );
-        deepEqual( tracker3.getCustomVariable(2, "page"), false, "All numbers Ecommerce view price");
-        deepEqual( tracker3.getCustomVariable(3, "page"), false, "All numbers Ecommerce view SKU");
-        deepEqual( tracker3.getCustomVariable(4, "page"), false, "All numbers Ecommerce view Name");
-        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", ''], "All numbers Ecommerce view Category");
         tracker3.deleteCustomVariables('page');
 
         //Ecommerce tests
@@ -4222,21 +4115,13 @@ if ($mysql) {
             ok( /e_c=Event%20Category3&e_a=Event%20Action3&e_n=Event%20Name3&e_v=3.333&idsite=1/.test(results), "event Category + Action + Name + Value");
 
             // ecommerce view
-            ok( /(EcommerceView).*(&cvar=%7B%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%7D)/.test(results)
-             || /(EcommerceView).*(&cvar=%7B%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%7D)/.test(results), "ecommerce view");
+            ok( /(EcommerceView).*(&_pkc=CATEGORY%20HERE&_pks=SKU&_pkn=NAME)/.test(results), "ecommerce view");
 
             // ecommerce view multiple categories
-            ok( /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%7D)/.test(results)
-            || /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%7D)/.test(results), "ecommerce view multiple categories");
+            ok( /(MultipleCategories).*(&_pkc=%5B%22CATEGORY1%22%2C%22CATEGORY2%22%5D&_pks=SKUMultiple&_pkn=)/.test(results), "ecommerce view multiple categories");
 
             // Ecommerce order
             ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with items" );
-
-            // Not set for the first ecommerce order
-            ok( ! /idgoal=0&ec_id=ORDER%20ID.*_ects=1/.test(results), "Ecommerce last timestamp set");
-
-            // Ecommerce last timestamp set properly for subsequent page view
-            ok( /DoTrack.*_ects=1/.test(results), "Ecommerce last timestamp set");
 
             // Cart update
             ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceCartUpdate() with items" );
@@ -4378,6 +4263,7 @@ if ($mysql) {
 
         function resetTracker(track, token, replace)
         {
+            tracker.getRequestQueue().sendRequests(); // make sure to send any remaining queued requests
             tracker.clearTrackedContentImpressions();
             tracker.clearEnableTrackOnlyVisibleContent();
             tracker.setCustomData('token', token);
@@ -4450,7 +4336,7 @@ if ($mysql) {
         tracker.trackAllContentImpressions();
         strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should mark 7 content blocks as tracked');
 
-        wait(300);
+        wait(3000);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
@@ -4462,7 +4348,7 @@ if ($mysql) {
         tracker.trackContentImpressionsWithinNode(_e('click1'));
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track anything as does not contain content block');
 
-        wait(300);
+        wait(3000);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
@@ -4472,17 +4358,17 @@ if ($mysql) {
         tracker.trackContentImpression('Any://Name', 'AnyPiece?', 'http://www.example.com');
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'manual impression call should not be marked as already tracked');
 
-        wait(300);
+        wait(3000);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
         tracker.trackContentInteraction(); // should not track anything as interaction and name is required
         tracker.trackContentInteraction('Clicki'); // should not track anything as interaction and name is required
         tracker.trackContentInteraction('Clicke', 'IntName'); // should use default for piece and ignore target as it is not set
-        wait(500);
+        wait(300);
         tracker.trackContentInteraction('Clicki', 'IntN:/ame', 'IntPiece?', 'http://int.example.com');
 
-        wait(300);
+        wait(3000);
 
         setupContentTrackingFixture('trackingContent', document.body);
 
@@ -4490,7 +4376,7 @@ if ($mysql) {
         resetTracker(tracker, token5);
         tracker.trackContentInteractionNode(_s('#ex5'), 'Clicki?iii');
 
-        wait(300);
+        wait(3000);
 
         var token6 = '6' + token;
         resetTracker(tracker, token6);
@@ -4498,6 +4384,8 @@ if ($mysql) {
         tracker.trackAllContentImpressions();
         expected = [contentBlocks[7], contentBlocks[6], contentBlocks[5], contentBlocks[1], contentBlocks[4], contentBlocks[3], contentBlocks[2]];
         propEqual(tracker.getTrackedContentImpressions().length, 7, 'should still track all impressions even if visible enabled');
+
+        wait(3000);
 
         var token7 = '7' + token;
         resetTracker(tracker, token7);
@@ -4510,8 +4398,7 @@ if ($mysql) {
         expected = [contentBlocks[6], contentBlocks[5]];
         propEqual(tracker.getTrackedContentImpressions(), expected, 'should track the two visible ones');
 
-
-        wait(300);
+        wait(3000);
 
         var token8 = '8' + token;
         resetTracker(tracker, token8);
@@ -4519,8 +4406,7 @@ if ($mysql) {
         expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
         propEqual(tracker.getTrackedContentImpressions(), expected, 'should only track all visible impressions');
 
-
-        wait(300);
+        wait(3000);
 
         // test detection of content via interval
         var token9  = '9' + token;
@@ -4575,6 +4461,7 @@ if ($mysql) {
 
             // trackAllContentImpressions()
             var results = fetchTrackedRequests(token);
+
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count trackAllContentImpressions requests. all content blocks should be tracked" );
 
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
@@ -4694,7 +4581,7 @@ if ($mysql) {
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests, via scroll. " );
 
             start();
-        }, 7000);
+        }, 13000);
 
         expected =
             [
@@ -4794,7 +4681,7 @@ if ($mysql) {
     });
 
     test("trackingContentInteractionInteractive", function() {
-        expect(18);
+        expect(15);
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -4812,6 +4699,7 @@ if ($mysql) {
 
         function resetTracker(track, token)
         {
+            tracker.getRequestQueue().sendRequests(); // make sure to send any remaining queued requests
             tracker.clearTrackedContentImpressions();
             tracker.clearEnableTrackOnlyVisibleContent();
             tracker.setCustomData('token', token);
@@ -4878,20 +4766,6 @@ if ($mysql) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        var expectedLink = toAbsoluteUrl('matomo.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/anylink5') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&idsite=1&rec=1';
-        var newHref = _s('#internalLink').href;
-        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
-        strictEqual(_s('#internalLink').wasContentTargetAttrReplaced, true, 'has to be marked as replaced so we know we have to update content target again in case the url changes meanwhile');
-        // now we are going to change the link to see whether it will be replaced again
-        tracker.getContent().setHrefAttribute(_s('#internalLink'), '/newlink');
-
-        wait(300);
-
-        triggerEvent(_s('#internalLink'), 'click'); // should replace href php
-        newHref = _s('#internalLink').href;
-        expectedLink = toAbsoluteUrl('matomo.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/newlink') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fnewlink&idsite=1&rec=1';
-        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href2 is replaced again: ' + newHref); // make sure was already replace by trackContentImpressions()
-
         wait(300);
 
         stop();

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -147,22 +148,6 @@ class Controller extends Plugin\ControllerAdmin
         );
 
         return $view->render();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function browsePlugins()
-    {
-        $this->redirectToIndex('Marketplace', 'overview');
-    }
-
-    /**
-     * @deprecated
-     */
-    public function browseThemes()
-    {
-        $this->redirectToIndex('Marketplace', 'overview', null, null, null, array('show' => 'themes'));
     }
 
     public function tagManagerTeaser()
@@ -483,7 +468,7 @@ class Controller extends Plugin\ControllerAdmin
     public function deactivate($redirectAfter = true)
     {
         if($this->isAllowedToTroubleshootAsSuperUser()) {
-            Piwik::doAsSuperUser(function() use ($redirectAfter) {
+            Access::doAsSuperUser(function() use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
             });
         } else {

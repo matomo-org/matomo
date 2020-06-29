@@ -1,5 +1,5 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * JavaScript tracking client
  *
@@ -19,6 +19,7 @@
  * Incompatible with these (and earlier) versions of:
  * - IE4 - try..catch and for..in introduced in IE5
  * - IE5 - named anonymous functions, array.push, encodeURIComponent, decodeURIComponent, and getElementsByTagName introduced in IE5.5
+ * - IE6 and 7 - window.JSON introduced in IE8
  * - Firefox 1.0 and Netscape 8.x - FF1.5 adds array.indexOf, among other things
  * - Mozilla 1.7 and Netscape 6.x-7.x
  * - Netscape 4.8
@@ -26,945 +27,21 @@
  * - Opera 7
  */
 
-/*global JSON_PIWIK:true */
-
-if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'function' && typeof window.JSON.parse === 'function') {
-    JSON_PIWIK = window.JSON;
-} else {
-    (function () {
-        // we make sure to not break any site that uses JSON3 as well as we do not know if they run it in conflict mode
-        // or not.
-        var exports = {};
-
-        // Create a JSON object only if one does not already exist. We create the
-        // methods in a closure to avoid creating global variables.
-
-        /*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
-        (function () {
-            // Detect the `define` function exposed by asynchronous module loaders. The
-            // strict `define` check is necessary for compatibility with `r.js`.
-            var isLoader = typeof define === "function" && define.amd;
-
-            // A set of types used to distinguish objects from primitives.
-            var objectTypes = {
-                "function": true,
-                "object": true
-            };
-
-            // Detect the `exports` object exposed by CommonJS implementations.
-            var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
-
-            // Use the `global` object exposed by Node (including Browserify via
-            // `insert-module-globals`), Narwhal, and Ringo as the default context,
-            // and the `window` object in browsers. Rhino exports a `global` function
-            // instead.
-            var root = objectTypes[typeof window] && window || this,
-                freeGlobal = freeExports && objectTypes[typeof module] && module && !module.nodeType && typeof global == "object" && global;
-
-            if (freeGlobal && (freeGlobal["global"] === freeGlobal || freeGlobal["window"] === freeGlobal || freeGlobal["self"] === freeGlobal)) {
-                root = freeGlobal;
-            }
-
-            // Public: Initializes JSON 3 using the given `context` object, attaching the
-            // `stringify` and `parse` functions to the specified `exports` object.
-            function runInContext(context, exports) {
-                context || (context = root["Object"]());
-                exports || (exports = root["Object"]());
-
-                // Native constructor aliases.
-                var Number = context["Number"] || root["Number"],
-                    String = context["String"] || root["String"],
-                    Object = context["Object"] || root["Object"],
-                    Date = context["Date"] || root["Date"],
-                    SyntaxError = context["SyntaxError"] || root["SyntaxError"],
-                    TypeError = context["TypeError"] || root["TypeError"],
-                    Math = context["Math"] || root["Math"],
-                    nativeJSON = context["JSON"] || root["JSON"];
-
-                // Delegate to the native `stringify` and `parse` implementations.
-                if (typeof nativeJSON == "object" && nativeJSON) {
-                    exports.stringify = nativeJSON.stringify;
-                    exports.parse = nativeJSON.parse;
-                }
-
-                // Convenience aliases.
-                var objectProto = Object.prototype,
-                    getClass = objectProto.toString,
-                    isProperty, forEach, undef;
-
-                // Test the `Date#getUTC*` methods. Based on work by @Yaffle.
-                var isExtended = new Date(-3509827334573292);
-                try {
-                    // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
-                    // results for certain dates in Opera >= 10.53.
-                    isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
-                        // Safari < 2.0.2 stores the internal millisecond time value correctly,
-                        // but clips the values returned by the date methods to the range of
-                        // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
-                        isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;
-                } catch (exception) {}
-
-                // Internal: Determines whether the native `JSON.stringify` and `parse`
-                // implementations are spec-compliant. Based on work by Ken Snyder.
-                function has(name) {
-                    if (has[name] !== undef) {
-                        // Return cached feature test result.
-                        return has[name];
-                    }
-                    var isSupported;
-                    if (name == "bug-string-char-index") {
-                        // IE <= 7 doesn't support accessing string characters using square
-                        // bracket notation. IE 8 only supports this for primitives.
-                        isSupported = "a"[0] != "a";
-                    } else if (name == "json") {
-                        // Indicates whether both `JSON.stringify` and `JSON.parse` are
-                        // supported.
-                        isSupported = has("json-stringify") && has("json-parse");
-                    } else {
-                        var value, serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}';
-                        // Test `JSON.stringify`.
-                        if (name == "json-stringify") {
-                            var stringify = exports.stringify, stringifySupported = typeof stringify == "function" && isExtended;
-                            if (stringifySupported) {
-                                // A test function object with a custom `toJSON` method.
-                                (value = function () {
-                                    return 1;
-                                }).toJSON = value;
-                                try {
-                                    stringifySupported =
-                                        // Firefox 3.1b1 and b2 serialize string, number, and boolean
-                                        // primitives as object literals.
-                                        stringify(0) === "0" &&
-                                        // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
-                                        // literals.
-                                        stringify(new Number()) === "0" &&
-                                        stringify(new String()) == '""' &&
-                                        // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
-                                        // does not define a canonical JSON representation (this applies to
-                                        // objects with `toJSON` properties as well, *unless* they are nested
-                                        // within an object or array).
-                                        stringify(getClass) === undef &&
-                                        // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
-                                        // FF 3.1b3 pass this test.
-                                        stringify(undef) === undef &&
-                                        // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
-                                        // respectively, if the value is omitted entirely.
-                                        stringify() === undef &&
-                                        // FF 3.1b1, 2 throw an error if the given value is not a number,
-                                        // string, array, object, Boolean, or `null` literal. This applies to
-                                        // objects with custom `toJSON` methods as well, unless they are nested
-                                        // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
-                                        // methods entirely.
-                                        stringify(value) === "1" &&
-                                        stringify([value]) == "[1]" &&
-                                        // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
-                                        // `"[null]"`.
-                                        stringify([undef]) == "[null]" &&
-                                        // YUI 3.0.0b1 fails to serialize `null` literals.
-                                        stringify(null) == "null" &&
-                                        // FF 3.1b1, 2 halts serialization if an array contains a function:
-                                        // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
-                                        // elides non-JSON values from objects and arrays, unless they
-                                        // define custom `toJSON` methods.
-                                        stringify([undef, getClass, null]) == "[null,null,null]" &&
-                                        // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
-                                        // where character escape codes are expected (e.g., `\b` => `\u0008`).
-                                        stringify({ "a": [value, true, false, null, "\x00\b\n\f\r\t"] }) == serialized &&
-                                        // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
-                                        stringify(null, value) === "1" &&
-                                        stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
-                                        // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
-                                        // serialize extended years.
-                                        stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
-                                        // The milliseconds are optional in ES 5, but required in 5.1.
-                                        stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
-                                        // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
-                                        // four-digit years instead of six-digit years. Credits: @Yaffle.
-                                        stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
-                                        // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
-                                        // values less than 1000. Credits: @Yaffle.
-                                        stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
-                                } catch (exception) {
-                                    stringifySupported = false;
-                                }
-                            }
-                            isSupported = stringifySupported;
-                        }
-                        // Test `JSON.parse`.
-                        if (name == "json-parse") {
-                            var parse = exports.parse;
-                            if (typeof parse == "function") {
-                                try {
-                                    // FF 3.1b1, b2 will throw an exception if a bare literal is provided.
-                                    // Conforming implementations should also coerce the initial argument to
-                                    // a string prior to parsing.
-                                    if (parse("0") === 0 && !parse(false)) {
-                                        // Simple parsing test.
-                                        value = parse(serialized);
-                                        var parseSupported = value["a"].length == 5 && value["a"][0] === 1;
-                                        if (parseSupported) {
-                                            try {
-                                                // Safari <= 5.1.2 and FF 3.1b1 allow unescaped tabs in strings.
-                                                parseSupported = !parse('"\t"');
-                                            } catch (exception) {}
-                                            if (parseSupported) {
-                                                try {
-                                                    // FF 4.0 and 4.0.1 allow leading `+` signs and leading
-                                                    // decimal points. FF 4.0, 4.0.1, and IE 9-10 also allow
-                                                    // certain octal literals.
-                                                    parseSupported = parse("01") !== 1;
-                                                } catch (exception) {}
-                                            }
-                                            if (parseSupported) {
-                                                try {
-                                                    // FF 4.0, 4.0.1, and Rhino 1.7R3-R4 allow trailing decimal
-                                                    // points. These environments, along with FF 3.1b1 and 2,
-                                                    // also allow trailing commas in JSON objects and arrays.
-                                                    parseSupported = parse("1.") !== 1;
-                                                } catch (exception) {}
-                                            }
-                                        }
-                                    }
-                                } catch (exception) {
-                                    parseSupported = false;
-                                }
-                            }
-                            isSupported = parseSupported;
-                        }
-                    }
-                    return has[name] = !!isSupported;
-                }
-
-                if (!has("json")) {
-                    // Common `[[Class]]` name aliases.
-                    var functionClass = "[object Function]",
-                        dateClass = "[object Date]",
-                        numberClass = "[object Number]",
-                        stringClass = "[object String]",
-                        arrayClass = "[object Array]",
-                        booleanClass = "[object Boolean]";
-
-                    // Detect incomplete support for accessing string characters by index.
-                    var charIndexBuggy = has("bug-string-char-index");
-
-                    // Define additional utility methods if the `Date` methods are buggy.
-                    if (!isExtended) {
-                        var floor = Math.floor;
-                        // A mapping between the months of the year and the number of days between
-                        // January 1st and the first of the respective month.
-                        var Months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-                        // Internal: Calculates the number of days between the Unix epoch and the
-                        // first day of the given month.
-                        var getDay = function (year, month) {
-                            return Months[month] + 365 * (year - 1970) + floor((year - 1969 + (month = +(month > 1))) / 4) - floor((year - 1901 + month) / 100) + floor((year - 1601 + month) / 400);
-                        };
-                    }
-
-                    // Internal: Determines if a property is a direct property of the given
-                    // object. Delegates to the native `Object#hasOwnProperty` method.
-                    if (!(isProperty = objectProto.hasOwnProperty)) {
-                        isProperty = function (property) {
-                            var members = {}, constructor;
-                            if ((members.__proto__ = null, members.__proto__ = {
-                                    // The *proto* property cannot be set multiple times in recent
-                                    // versions of Firefox and SeaMonkey.
-                                    "toString": 1
-                                }, members).toString != getClass) {
-                                // Safari <= 2.0.3 doesn't implement `Object#hasOwnProperty`, but
-                                // supports the mutable *proto* property.
-                                isProperty = function (property) {
-                                    // Capture and break the object's prototype chain (see section 8.6.2
-                                    // of the ES 5.1 spec). The parenthesized expression prevents an
-                                    // unsafe transformation by the Closure Compiler.
-                                    var original = this.__proto__, result = property in (this.__proto__ = null, this);
-                                    // Restore the original prototype chain.
-                                    this.__proto__ = original;
-                                    return result;
-                                };
-                            } else {
-                                // Capture a reference to the top-level `Object` constructor.
-                                constructor = members.constructor;
-                                // Use the `constructor` property to simulate `Object#hasOwnProperty` in
-                                // other environments.
-                                isProperty = function (property) {
-                                    var parent = (this.constructor || constructor).prototype;
-                                    return property in this && !(property in parent && this[property] === parent[property]);
-                                };
-                            }
-                            members = null;
-                            return isProperty.call(this, property);
-                        };
-                    }
-
-                    // Internal: Normalizes the `for...in` iteration algorithm across
-                    // environments. Each enumerated key is yielded to a `callback` function.
-                    forEach = function (object, callback) {
-                        var size = 0, Properties, members, property;
-
-                        // Tests for bugs in the current environment's `for...in` algorithm. The
-                        // `valueOf` property inherits the non-enumerable flag from
-                        // `Object.prototype` in older versions of IE, Netscape, and Mozilla.
-                        (Properties = function () {
-                            this.valueOf = 0;
-                        }).prototype.valueOf = 0;
-
-                        // Iterate over a new instance of the `Properties` class.
-                        members = new Properties();
-                        for (property in members) {
-                            // Ignore all properties inherited from `Object.prototype`.
-                            if (isProperty.call(members, property)) {
-                                size++;
-                            }
-                        }
-                        Properties = members = null;
-
-                        // Normalize the iteration algorithm.
-                        if (!size) {
-                            // A list of non-enumerable properties inherited from `Object.prototype`.
-                            members = ["valueOf", "toString", "toLocaleString", "propertyIsEnumerable", "isPrototypeOf", "hasOwnProperty", "constructor"];
-                            // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
-                            // properties.
-                            forEach = function (object, callback) {
-                                var isFunction = getClass.call(object) == functionClass, property, length;
-                                var hasProperty = !isFunction && typeof object.constructor != "function" && objectTypes[typeof object.hasOwnProperty] && object.hasOwnProperty || isProperty;
-                                for (property in object) {
-                                    // Gecko <= 1.0 enumerates the `prototype` property of functions under
-                                    // certain conditions; IE does not.
-                                    if (!(isFunction && property == "prototype") && hasProperty.call(object, property)) {
-                                        callback(property);
-                                    }
-                                }
-                                // Manually invoke the callback for each non-enumerable property.
-                                for (length = members.length; property = members[--length]; hasProperty.call(object, property) && callback(property));
-                            };
-                        } else if (size == 2) {
-                            // Safari <= 2.0.4 enumerates shadowed properties twice.
-                            forEach = function (object, callback) {
-                                // Create a set of iterated properties.
-                                var members = {}, isFunction = getClass.call(object) == functionClass, property;
-                                for (property in object) {
-                                    // Store each property name to prevent double enumeration. The
-                                    // `prototype` property of functions is not enumerated due to cross-
-                                    // environment inconsistencies.
-                                    if (!(isFunction && property == "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
-                                        callback(property);
-                                    }
-                                }
-                            };
-                        } else {
-                            // No bugs detected; use the standard `for...in` algorithm.
-                            forEach = function (object, callback) {
-                                var isFunction = getClass.call(object) == functionClass, property, isConstructor;
-                                for (property in object) {
-                                    if (!(isFunction && property == "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
-                                        callback(property);
-                                    }
-                                }
-                                // Manually invoke the callback for the `constructor` property due to
-                                // cross-environment inconsistencies.
-                                if (isConstructor || isProperty.call(object, (property = "constructor"))) {
-                                    callback(property);
-                                }
-                            };
-                        }
-                        return forEach(object, callback);
-                    };
-
-                    // Public: Serializes a JavaScript `value` as a JSON string. The optional
-                    // `filter` argument may specify either a function that alters how object and
-                    // array members are serialized, or an array of strings and numbers that
-                    // indicates which properties should be serialized. The optional `width`
-                    // argument may be either a string or number that specifies the indentation
-                    // level of the output.
-                    if (!has("json-stringify")) {
-                        // Internal: A map of control characters and their escaped equivalents.
-                        var Escapes = {
-                            92: "\\\\",
-                            34: '\\"',
-                            8: "\\b",
-                            12: "\\f",
-                            10: "\\n",
-                            13: "\\r",
-                            9: "\\t"
-                        };
-
-                        // Internal: Converts `value` into a zero-padded string such that its
-                        // length is at least equal to `width`. The `width` must be <= 6.
-                        var leadingZeroes = "000000";
-                        var toPaddedString = function (width, value) {
-                            // The `|| 0` expression is necessary to work around a bug in
-                            // Opera <= 7.54u2 where `0 == -0`, but `String(-0) !== "0"`.
-                            return (leadingZeroes + (value || 0)).slice(-width);
-                        };
-
-                        // Internal: Double-quotes a string `value`, replacing all ASCII control
-                        // characters (characters with code unit values between 0 and 31) with
-                        // their escaped equivalents. This is an implementation of the
-                        // `Quote(value)` operation defined in ES 5.1 section 15.12.3.
-                        var unicodePrefix = "\\u00";
-                        var quote = function (value) {
-                            var result = '"', index = 0, length = value.length, useCharIndex = !charIndexBuggy || length > 10;
-                            var symbols = useCharIndex && (charIndexBuggy ? value.split("") : value);
-                            for (; index < length; index++) {
-                                var charCode = value.charCodeAt(index);
-                                // If the character is a control character, append its Unicode or
-                                // shorthand escape sequence; otherwise, append the character as-is.
-                                switch (charCode) {
-                                    case 8: case 9: case 10: case 12: case 13: case 34: case 92:
-                                    result += Escapes[charCode];
-                                    break;
-                                    default:
-                                        if (charCode < 32) {
-                                            result += unicodePrefix + toPaddedString(2, charCode.toString(16));
-                                            break;
-                                        }
-                                        result += useCharIndex ? symbols[index] : value.charAt(index);
-                                }
-                            }
-                            return result + '"';
-                        };
-
-                        // Internal: Recursively serializes an object. Implements the
-                        // `Str(key, holder)`, `JO(value)`, and `JA(value)` operations.
-                        var serialize = function (property, object, callback, properties, whitespace, indentation, stack) {
-                            var value, className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, result;
-                            try {
-                                // Necessary for host object support.
-                                value = object[property];
-                            } catch (exception) {}
-                            if (typeof value == "object" && value) {
-                                className = getClass.call(value);
-                                if (className == dateClass && !isProperty.call(value, "toJSON")) {
-                                    if (value > -1 / 0 && value < 1 / 0) {
-                                        // Dates are serialized according to the `Date#toJSON` method
-                                        // specified in ES 5.1 section 15.9.5.44. See section 15.9.1.15
-                                        // for the ISO 8601 date time string format.
-                                        if (getDay) {
-                                            // Manually compute the year, month, date, hours, minutes,
-                                            // seconds, and milliseconds if the `getUTC*` methods are
-                                            // buggy. Adapted from @Yaffle's `date-shim` project.
-                                            date = floor(value / 864e5);
-                                            for (year = floor(date / 365.2425) + 1970 - 1; getDay(year + 1, 0) <= date; year++);
-                                            for (month = floor((date - getDay(year, 0)) / 30.42); getDay(year, month + 1) <= date; month++);
-                                            date = 1 + date - getDay(year, month);
-                                            // The `time` value specifies the time within the day (see ES
-                                            // 5.1 section 15.9.1.2). The formula `(A % B + B) % B` is used
-                                            // to compute `A modulo B`, as the `%` operator does not
-                                            // correspond to the `modulo` operation for negative numbers.
-                                            time = (value % 864e5 + 864e5) % 864e5;
-                                            // The hours, minutes, seconds, and milliseconds are obtained by
-                                            // decomposing the time within the day. See section 15.9.1.10.
-                                            hours = floor(time / 36e5) % 24;
-                                            minutes = floor(time / 6e4) % 60;
-                                            seconds = floor(time / 1e3) % 60;
-                                            milliseconds = time % 1e3;
-                                        } else {
-                                            year = value.getUTCFullYear();
-                                            month = value.getUTCMonth();
-                                            date = value.getUTCDate();
-                                            hours = value.getUTCHours();
-                                            minutes = value.getUTCMinutes();
-                                            seconds = value.getUTCSeconds();
-                                            milliseconds = value.getUTCMilliseconds();
-                                        }
-                                        // Serialize extended years correctly.
-                                        value = (year <= 0 || year >= 1e4 ? (year < 0 ? "-" : "+") + toPaddedString(6, year < 0 ? -year : year) : toPaddedString(4, year)) +
-                                            "-" + toPaddedString(2, month + 1) + "-" + toPaddedString(2, date) +
-                                            // Months, dates, hours, minutes, and seconds should have two
-                                            // digits; milliseconds should have three.
-                                            "T" + toPaddedString(2, hours) + ":" + toPaddedString(2, minutes) + ":" + toPaddedString(2, seconds) +
-                                            // Milliseconds are optional in ES 5.0, but required in 5.1.
-                                            "." + toPaddedString(3, milliseconds) + "Z";
-                                    } else {
-                                        value = null;
-                                    }
-                                } else if (typeof value.toJSON == "function" && ((className != numberClass && className != stringClass && className != arrayClass) || isProperty.call(value, "toJSON"))) {
-                                    // Prototype <= 1.6.1 adds non-standard `toJSON` methods to the
-                                    // `Number`, `String`, `Date`, and `Array` prototypes. JSON 3
-                                    // ignores all `toJSON` methods on these objects unless they are
-                                    // defined directly on an instance.
-                                    value = value.toJSON(property);
-                                }
-                            }
-                            if (callback) {
-                                // If a replacement function was provided, call it to obtain the value
-                                // for serialization.
-                                value = callback.call(object, property, value);
-                            }
-                            if (value === null) {
-                                return "null";
-                            }
-                            className = getClass.call(value);
-                            if (className == booleanClass) {
-                                // Booleans are represented literally.
-                                return "" + value;
-                            } else if (className == numberClass) {
-                                // JSON numbers must be finite. `Infinity` and `NaN` are serialized as
-                                // `"null"`.
-                                return value > -1 / 0 && value < 1 / 0 ? "" + value : "null";
-                            } else if (className == stringClass) {
-                                // Strings are double-quoted and escaped.
-                                return quote("" + value);
-                            }
-                            // Recursively serialize objects and arrays.
-                            if (typeof value == "object") {
-                                // Check for cyclic structures. This is a linear search; performance
-                                // is inversely proportional to the number of unique nested objects.
-                                for (length = stack.length; length--;) {
-                                    if (stack[length] === value) {
-                                        // Cyclic structures cannot be serialized by `JSON.stringify`.
-                                        throw TypeError();
-                                    }
-                                }
-                                // Add the object to the stack of traversed objects.
-                                stack.push(value);
-                                results = [];
-                                // Save the current indentation level and indent one additional level.
-                                prefix = indentation;
-                                indentation += whitespace;
-                                if (className == arrayClass) {
-                                    // Recursively serialize array elements.
-                                    for (index = 0, length = value.length; index < length; index++) {
-                                        element = serialize(index, value, callback, properties, whitespace, indentation, stack);
-                                        results.push(element === undef ? "null" : element);
-                                    }
-                                    result = results.length ? (whitespace ? "[\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "]" : ("[" + results.join(",") + "]")) : "[]";
-                                } else {
-                                    // Recursively serialize object members. Members are selected from
-                                    // either a user-specified list of property names, or the object
-                                    // itself.
-                                    forEach(properties || value, function (property) {
-                                        var element = serialize(property, value, callback, properties, whitespace, indentation, stack);
-                                        if (element !== undef) {
-                                            // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
-                                            // is not the empty string, let `member` {quote(property) + ":"}
-                                            // be the concatenation of `member` and the `space` character."
-                                            // The "`space` character" refers to the literal space
-                                            // character, not the `space` {width} argument provided to
-                                            // `JSON.stringify`.
-                                            results.push(quote(property) + ":" + (whitespace ? " " : "") + element);
-                                        }
-                                    });
-                                    result = results.length ? (whitespace ? "{\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "}" : ("{" + results.join(",") + "}")) : "{}";
-                                }
-                                // Remove the object from the traversed object stack.
-                                stack.pop();
-                                return result;
-                            }
-                        };
-
-                        // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
-                        exports.stringify = function (source, filter, width) {
-                            var whitespace, callback, properties, className;
-                            if (objectTypes[typeof filter] && filter) {
-                                if ((className = getClass.call(filter)) == functionClass) {
-                                    callback = filter;
-                                } else if (className == arrayClass) {
-                                    // Convert the property names array into a makeshift set.
-                                    properties = {};
-                                    for (var index = 0, length = filter.length, value; index < length; value = filter[index++], ((className = getClass.call(value)), className == stringClass || className == numberClass) && (properties[value] = 1));
-                                }
-                            }
-                            if (width) {
-                                if ((className = getClass.call(width)) == numberClass) {
-                                    // Convert the `width` to an integer and create a string containing
-                                    // `width` number of space characters.
-                                    if ((width -= width % 1) > 0) {
-                                        for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ");
-                                    }
-                                } else if (className == stringClass) {
-                                    whitespace = width.length <= 10 ? width : width.slice(0, 10);
-                                }
-                            }
-                            // Opera <= 7.54u2 discards the values associated with empty string keys
-                            // (`""`) only if they are used directly within an object member list
-                            // (e.g., `!("" in { "": 1})`).
-                            return serialize("", (value = {}, value[""] = source, value), callback, properties, whitespace, "", []);
-                        };
-                    }
-
-                    // Public: Parses a JSON source string.
-                    if (!has("json-parse")) {
-                        var fromCharCode = String.fromCharCode;
-
-                        // Internal: A map of escaped control characters and their unescaped
-                        // equivalents.
-                        var Unescapes = {
-                            92: "\\",
-                            34: '"',
-                            47: "/",
-                            98: "\b",
-                            116: "\t",
-                            110: "\n",
-                            102: "\f",
-                            114: "\r"
-                        };
-
-                        // Internal: Stores the parser state.
-                        var Index, Source;
-
-                        // Internal: Resets the parser state and throws a `SyntaxError`.
-                        var abort = function () {
-                            Index = Source = null;
-                            throw SyntaxError();
-                        };
-
-                        // Internal: Returns the next token, or `"$"` if the parser has reached
-                        // the end of the source string. A token may be a string, number, `null`
-                        // literal, or Boolean literal.
-                        var lex = function () {
-                            var source = Source, length = source.length, value, begin, position, isSigned, charCode;
-                            while (Index < length) {
-                                charCode = source.charCodeAt(Index);
-                                switch (charCode) {
-                                    case 9: case 10: case 13: case 32:
-                                    // Skip whitespace tokens, including tabs, carriage returns, line
-                                    // feeds, and space characters.
-                                    Index++;
-                                    break;
-                                    case 123: case 125: case 91: case 93: case 58: case 44:
-                                    // Parse a punctuator token (`{`, `}`, `[`, `]`, `:`, or `,`) at
-                                    // the current position.
-                                    value = charIndexBuggy ? source.charAt(Index) : source[Index];
-                                    Index++;
-                                    return value;
-                                    case 34:
-                                        // `"` delimits a JSON string; advance to the next character and
-                                        // begin parsing the string. String tokens are prefixed with the
-                                        // sentinel `@` character to distinguish them from punctuators and
-                                        // end-of-string tokens.
-                                        for (value = "@", Index++; Index < length;) {
-                                            charCode = source.charCodeAt(Index);
-                                            if (charCode < 32) {
-                                                // Unescaped ASCII control characters (those with a code unit
-                                                // less than the space character) are not permitted.
-                                                abort();
-                                            } else if (charCode == 92) {
-                                                // A reverse solidus (`\`) marks the beginning of an escaped
-                                                // control character (including `"`, `\`, and `/`) or Unicode
-                                                // escape sequence.
-                                                charCode = source.charCodeAt(++Index);
-                                                switch (charCode) {
-                                                    case 92: case 34: case 47: case 98: case 116: case 110: case 102: case 114:
-                                                    // Revive escaped control characters.
-                                                    value += Unescapes[charCode];
-                                                    Index++;
-                                                    break;
-                                                    case 117:
-                                                        // `\u` marks the beginning of a Unicode escape sequence.
-                                                        // Advance to the first character and validate the
-                                                        // four-digit code point.
-                                                        begin = ++Index;
-                                                        for (position = Index + 4; Index < position; Index++) {
-                                                            charCode = source.charCodeAt(Index);
-                                                            // A valid sequence comprises four hexdigits (case-
-                                                            // insensitive) that form a single hexadecimal value.
-                                                            if (!(charCode >= 48 && charCode <= 57 || charCode >= 97 && charCode <= 102 || charCode >= 65 && charCode <= 70)) {
-                                                                // Invalid Unicode escape sequence.
-                                                                abort();
-                                                            }
-                                                        }
-                                                        // Revive the escaped character.
-                                                        value += fromCharCode("0x" + source.slice(begin, Index));
-                                                        break;
-                                                    default:
-                                                        // Invalid escape sequence.
-                                                        abort();
-                                                }
-                                            } else {
-                                                if (charCode == 34) {
-                                                    // An unescaped double-quote character marks the end of the
-                                                    // string.
-                                                    break;
-                                                }
-                                                charCode = source.charCodeAt(Index);
-                                                begin = Index;
-                                                // Optimize for the common case where a string is valid.
-                                                while (charCode >= 32 && charCode != 92 && charCode != 34) {
-                                                    charCode = source.charCodeAt(++Index);
-                                                }
-                                                // Append the string as-is.
-                                                value += source.slice(begin, Index);
-                                            }
-                                        }
-                                        if (source.charCodeAt(Index) == 34) {
-                                            // Advance to the next character and return the revived string.
-                                            Index++;
-                                            return value;
-                                        }
-                                        // Unterminated string.
-                                        abort();
-                                    default:
-                                        // Parse numbers and literals.
-                                        begin = Index;
-                                        // Advance past the negative sign, if one is specified.
-                                        if (charCode == 45) {
-                                            isSigned = true;
-                                            charCode = source.charCodeAt(++Index);
-                                        }
-                                        // Parse an integer or floating-point value.
-                                        if (charCode >= 48 && charCode <= 57) {
-                                            // Leading zeroes are interpreted as octal literals.
-                                            if (charCode == 48 && ((charCode = source.charCodeAt(Index + 1)), charCode >= 48 && charCode <= 57)) {
-                                                // Illegal octal literal.
-                                                abort();
-                                            }
-                                            isSigned = false;
-                                            // Parse the integer component.
-                                            for (; Index < length && ((charCode = source.charCodeAt(Index)), charCode >= 48 && charCode <= 57); Index++);
-                                            // Floats cannot contain a leading decimal point; however, this
-                                            // case is already accounted for by the parser.
-                                            if (source.charCodeAt(Index) == 46) {
-                                                position = ++Index;
-                                                // Parse the decimal component.
-                                                for (; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
-                                                if (position == Index) {
-                                                    // Illegal trailing decimal.
-                                                    abort();
-                                                }
-                                                Index = position;
-                                            }
-                                            // Parse exponents. The `e` denoting the exponent is
-                                            // case-insensitive.
-                                            charCode = source.charCodeAt(Index);
-                                            if (charCode == 101 || charCode == 69) {
-                                                charCode = source.charCodeAt(++Index);
-                                                // Skip past the sign following the exponent, if one is
-                                                // specified.
-                                                if (charCode == 43 || charCode == 45) {
-                                                    Index++;
-                                                }
-                                                // Parse the exponential component.
-                                                for (position = Index; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
-                                                if (position == Index) {
-                                                    // Illegal empty exponent.
-                                                    abort();
-                                                }
-                                                Index = position;
-                                            }
-                                            // Coerce the parsed value to a JavaScript number.
-                                            return +source.slice(begin, Index);
-                                        }
-                                        // A negative sign may only precede numbers.
-                                        if (isSigned) {
-                                            abort();
-                                        }
-                                        // `true`, `false`, and `null` literals.
-                                        if (source.slice(Index, Index + 4) == "true") {
-                                            Index += 4;
-                                            return true;
-                                        } else if (source.slice(Index, Index + 5) == "false") {
-                                            Index += 5;
-                                            return false;
-                                        } else if (source.slice(Index, Index + 4) == "null") {
-                                            Index += 4;
-                                            return null;
-                                        }
-                                        // Unrecognized token.
-                                        abort();
-                                }
-                            }
-                            // Return the sentinel `$` character if the parser has reached the end
-                            // of the source string.
-                            return "$";
-                        };
-
-                        // Internal: Parses a JSON `value` token.
-                        var get = function (value) {
-                            var results, hasMembers;
-                            if (value == "$") {
-                                // Unexpected end of input.
-                                abort();
-                            }
-                            if (typeof value == "string") {
-                                if ((charIndexBuggy ? value.charAt(0) : value[0]) == "@") {
-                                    // Remove the sentinel `@` character.
-                                    return value.slice(1);
-                                }
-                                // Parse object and array literals.
-                                if (value == "[") {
-                                    // Parses a JSON array, returning a new JavaScript array.
-                                    results = [];
-                                    for (;; hasMembers || (hasMembers = true)) {
-                                        value = lex();
-                                        // A closing square bracket marks the end of the array literal.
-                                        if (value == "]") {
-                                            break;
-                                        }
-                                        // If the array literal contains elements, the current token
-                                        // should be a comma separating the previous element from the
-                                        // next.
-                                        if (hasMembers) {
-                                            if (value == ",") {
-                                                value = lex();
-                                                if (value == "]") {
-                                                    // Unexpected trailing `,` in array literal.
-                                                    abort();
-                                                }
-                                            } else {
-                                                // A `,` must separate each array element.
-                                                abort();
-                                            }
-                                        }
-                                        // Elisions and leading commas are not permitted.
-                                        if (value == ",") {
-                                            abort();
-                                        }
-                                        results.push(get(value));
-                                    }
-                                    return results;
-                                } else if (value == "{") {
-                                    // Parses a JSON object, returning a new JavaScript object.
-                                    results = {};
-                                    for (;; hasMembers || (hasMembers = true)) {
-                                        value = lex();
-                                        // A closing curly brace marks the end of the object literal.
-                                        if (value == "}") {
-                                            break;
-                                        }
-                                        // If the object literal contains members, the current token
-                                        // should be a comma separator.
-                                        if (hasMembers) {
-                                            if (value == ",") {
-                                                value = lex();
-                                                if (value == "}") {
-                                                    // Unexpected trailing `,` in object literal.
-                                                    abort();
-                                                }
-                                            } else {
-                                                // A `,` must separate each object member.
-                                                abort();
-                                            }
-                                        }
-                                        // Leading commas are not permitted, object property names must be
-                                        // double-quoted strings, and a `:` must separate each property
-                                        // name and value.
-                                        if (value == "," || typeof value != "string" || (charIndexBuggy ? value.charAt(0) : value[0]) != "@" || lex() != ":") {
-                                            abort();
-                                        }
-                                        results[value.slice(1)] = get(lex());
-                                    }
-                                    return results;
-                                }
-                                // Unexpected token encountered.
-                                abort();
-                            }
-                            return value;
-                        };
-
-                        // Internal: Updates a traversed object member.
-                        var update = function (source, property, callback) {
-                            var element = walk(source, property, callback);
-                            if (element === undef) {
-                                delete source[property];
-                            } else {
-                                source[property] = element;
-                            }
-                        };
-
-                        // Internal: Recursively traverses a parsed JSON object, invoking the
-                        // `callback` function for each value. This is an implementation of the
-                        // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
-                        var walk = function (source, property, callback) {
-                            var value = source[property], length;
-                            if (typeof value == "object" && value) {
-                                // `forEach` can't be used to traverse an array in Opera <= 8.54
-                                // because its `Object#hasOwnProperty` implementation returns `false`
-                                // for array indices (e.g., `![1, 2, 3].hasOwnProperty("0")`).
-                                if (getClass.call(value) == arrayClass) {
-                                    for (length = value.length; length--;) {
-                                        update(value, length, callback);
-                                    }
-                                } else {
-                                    forEach(value, function (property) {
-                                        update(value, property, callback);
-                                    });
-                                }
-                            }
-                            return callback.call(source, property, value);
-                        };
-
-                        // Public: `JSON.parse`. See ES 5.1 section 15.12.2.
-                        exports.parse = function (source, callback) {
-                            var result, value;
-                            Index = 0;
-                            Source = "" + source;
-                            result = get(lex());
-                            // If a JSON string contains multiple tokens, it is invalid.
-                            if (lex() != "$") {
-                                abort();
-                            }
-                            // Reset the parser state.
-                            Index = Source = null;
-                            return callback && getClass.call(callback) == functionClass ? walk((value = {}, value[""] = result, value), "", callback) : result;
-                        };
-                    }
-                }
-
-                exports["runInContext"] = runInContext;
-                return exports;
-            }
-
-            if (freeExports && !isLoader) {
-                // Export for CommonJS environments.
-                runInContext(root, freeExports);
-            } else {
-                // Export for web browsers and JavaScript engines.
-                var nativeJSON = root.JSON,
-                    previousJSON = root["JSON3"],
-                    isRestored = false;
-
-                var JSON3 = runInContext(root, (root["JSON3"] = {
-                    // Public: Restores the original value of the global `JSON` object and
-                    // returns a reference to the `JSON3` object.
-                    "noConflict": function () {
-                        if (!isRestored) {
-                            isRestored = true;
-                            root.JSON = nativeJSON;
-                            root["JSON3"] = previousJSON;
-                            nativeJSON = previousJSON = null;
-                        }
-                        return JSON3;
-                    }
-                }));
-
-                root.JSON = {
-                    "parse": JSON3.parse,
-                    "stringify": JSON3.stringify
-                };
-            }
-
-            // Export for asynchronous module loaders.
-            if (isLoader) {
-                define(function () {
-                    return JSON3;
-                });
-            }
-        }).call(this);
-        /************************************************************
-         * end JSON
-         ************************************************************/
-
-        JSON_PIWIK = exports;
-
-    })();
-}
-
 /* startjslint */
 /*jslint browser:true, plusplus:true, vars:true, nomen:true, evil:true, regexp: false, bitwise: true, white: true */
-/*global JSON_PIWIK */
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
 /*global Blob */
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
+    shift, unshift, piwikAsyncInit, matomoAsyncInit, matomoPluginAsyncInit , frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
-    location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
-    performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
-    responseEnd, event, which, button, srcElement, type, target, data,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name,
+    performance, mozPerformance, msPerformance, webkitPerformance, timing, connectEnd, requestStart, responseStart,
+    responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
+    event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
@@ -974,7 +51,7 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, gears, ag, showModalDialog,
+    pdf, qt, realp, wma, fla, java, ag, showModalDialog,
     maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -984,22 +61,22 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
-    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getCurrentUrl,
+    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
     setConsentGiven, rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
-    discardHashTag, alwaysUseSendBeacon,
+    discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
-    disablePerformanceTracking, setGenerationTimeMs, maq_confirm_opted_in,
+    disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
+    requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -1013,10 +90,10 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
     search, trim, getBoundingClientRect, bottom, right, left, innerWidth, innerHeight, clientWidth, clientHeight,
     isOrWasNodeInViewport, isNodeVisible, buildInteractionRequestParams, buildImpressionRequestParams,
     shouldIgnoreInteraction, setHrefAttribute, setAttribute, buildContentBlock, collectContent, setLocation,
-    CONTENT_ATTR, CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS,
-    CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS,
+    CONTENT_ATTR, CONTENT_CLASS, LEGACY_CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS, LEGACY_CONTENT_PIECE_CLASS,
+    CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, LEGACY_CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS, LEGACY_CONTENT_IGNOREINTERACTION_CLASS,
     trackCallbackOnLoad, trackCallbackOnReady, buildContentImpressionsRequests, wasContentImpressionAlreadyTracked,
-    getQuery, getContent, setVisitorId, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
+    getQuery, getContent, setVisitorId, getContentImpressionsRequestsFromNodes,
     buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
     appendContentInteractionToRequestIfPossible, setupInteractionsTracking, trackContentImpressionClickInteraction,
     internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackAllContentImpressions,
@@ -1024,11 +101,11 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent, logAllContentBlocksOnPage,
-    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain, piwikTrackers,
-    isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
+    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain, matomoTrackers,
+    isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
+    substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
+    getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
@@ -1037,9 +114,10 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
 /*global _paq:true */
 /*members push */
 /*global Piwik:true */
+/*global Matomo:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
           DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
-/*global Piwik_Overlay_Client */
+/*global Matomo_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
 /*global define */
@@ -1053,8 +131,8 @@ if (typeof _paq !== 'object') {
     _paq = [];
 }
 
-// Piwik singleton and namespace
-if (typeof window.Piwik !== 'object') {
+// Matomo singleton and namespace
+if (typeof window.Matomo !== 'object') {
     window.Matomo = window.Piwik = (function () {
         'use strict';
 
@@ -1093,8 +171,8 @@ if (typeof window.Piwik !== 'object') {
             /* iterator */
             iterator,
 
-            /* local Piwik */
-            Piwik,
+            /* local Matomo */
+            Matomo,
 
             missedPluginTrackerCalls = [],
 
@@ -1110,10 +188,10 @@ if (typeof window.Piwik !== 'object') {
          ************************************************************/
 
         /**
-         * See https://github.com/piwik/piwik/issues/8413
+         * See https://github.com/matomo-org/matomo/issues/8413
          * To prevent Javascript Error: Uncaught URIError: URI malformed when encoding is not UTF-8. Use this method
          * instead of decodeWrapper if a text could contain any non UTF-8 encoded characters eg
-         * a URL like http://apache.piwik/test.html?%F6%E4%FC or a link like
+         * a URL like http://apache.matomo/test.html?%F6%E4%FC or a link like
          * <a href="test-with-%F6%E4%FC/story/0">(encoded iso-8859-1 URL)</a>
          */
         function safeDecodeWrapper(url)
@@ -1231,12 +309,12 @@ if (typeof window.Piwik !== 'object') {
                     context = fParts[0];
                     f = fParts[1];
 
-                    if ('object' === typeof Piwik[context] && 'function' === typeof Piwik[context][f]) {
-                        Piwik[context][f].apply(Piwik[context], parameterArray);
+                    if ('object' === typeof Matomo[context] && 'function' === typeof Matomo[context][f]) {
+                        Matomo[context][f].apply(Matomo[context], parameterArray);
                     } else if (trackerCall) {
                         // we try to call that method again later as the plugin might not be loaded yet
-                        // a plugin can call "Piwik.retryMissedPluginCalls();" once it has been loaded and then the
-                        // method call to "Piwik[context][f]" may be executed
+                        // a plugin can call "Matomo.retryMissedPluginCalls();" once it has been loaded and then the
+                        // method call to "Matomo[context][f]" may be executed
                         missedPluginTrackerCalls.push(trackerCall);
                     }
 
@@ -1262,7 +340,7 @@ if (typeof window.Piwik !== 'object') {
                             if (context[f]) {
                                 context[f].apply(context, parameterArray);
                             } else {
-                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: https://developer.piwik.org/api-reference/tracking-javascript';
+                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Matomo tracker documentation: https://developer.matomo.org/api-reference/tracking-javascript';
                                 logConsoleError(message);
 
                                 if (!isPluginTrackerCall) {
@@ -1644,7 +722,7 @@ if (typeof window.Piwik !== 'object') {
             // + namespaced by: Michael White (http://getsprink.com)
             // +      input by: Brett Zamir (http://brett-zamir.me)
             // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-            // +   jslinted by: Anthon Pang (http://piwik.org)
+            // +   jslinted by: Anthon Pang (https://matomo.org)
 
             var
                 rotate_left = function (n, s) {
@@ -2387,22 +1465,26 @@ if (typeof window.Piwik !== 'object') {
 
         var content = {
             CONTENT_ATTR: 'data-track-content',
-            CONTENT_CLASS: 'piwikTrackContent',
+            CONTENT_CLASS: 'matomoTrackContent',
+            LEGACY_CONTENT_CLASS: 'piwikTrackContent',
             CONTENT_NAME_ATTR: 'data-content-name',
             CONTENT_PIECE_ATTR: 'data-content-piece',
-            CONTENT_PIECE_CLASS: 'piwikContentPiece',
+            CONTENT_PIECE_CLASS: 'matomoContentPiece',
+            LEGACY_CONTENT_PIECE_CLASS: 'piwikContentPiece',
             CONTENT_TARGET_ATTR: 'data-content-target',
-            CONTENT_TARGET_CLASS: 'piwikContentTarget',
+            CONTENT_TARGET_CLASS: 'matomoContentTarget',
+            LEGACY_CONTENT_TARGET_CLASS: 'piwikContentTarget',
             CONTENT_IGNOREINTERACTION_ATTR: 'data-content-ignoreinteraction',
-            CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
+            CONTENT_IGNOREINTERACTION_CLASS: 'matomoContentIgnoreInteraction',
+            LEGACY_CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
             location: undefined,
 
             findContentNodes: function ()
             {
-
                 var cssSelector  = '.' + this.CONTENT_CLASS;
+                var cssSelector2  = '.' + this.LEGACY_CONTENT_CLASS;
                 var attrSelector = '[' + this.CONTENT_ATTR + ']';
-                var contentNodes = query.findMultiple([cssSelector, attrSelector]);
+                var contentNodes = query.findMultiple([cssSelector, cssSelector2, attrSelector]);
 
                 return contentNodes;
             },
@@ -2415,6 +1497,7 @@ if (typeof window.Piwik !== 'object') {
                 // NOTE: we do not use query.findMultiple here as querySelectorAll would most likely not deliver the result we want
 
                 var nodes1 = query.findNodesHavingCssClass(node, this.CONTENT_CLASS);
+                nodes1     = query.findNodesHavingCssClass(node, this.LEGACY_CONTENT_CLASS, nodes1);
                 var nodes2 = query.findNodesHavingAttribute(node, this.CONTENT_ATTR);
 
                 if (nodes2 && nodes2.length) {
@@ -2427,6 +1510,8 @@ if (typeof window.Piwik !== 'object') {
                 if (query.hasNodeAttribute(node, this.CONTENT_ATTR)) {
                     nodes1.push(node);
                 } else if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
+                    nodes1.push(node);
+                } else if (query.hasNodeCssClass(node, this.LEGACY_CONTENT_CLASS)) {
                     nodes1.push(node);
                 }
 
@@ -2450,6 +1535,9 @@ if (typeof window.Piwik !== 'object') {
                     if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
                         return node;
                     }
+                    if (query.hasNodeCssClass(node, this.LEGACY_CONTENT_CLASS)) {
+                        return node;
+                    }
 
                     node = node.parentNode;
 
@@ -2467,6 +1555,9 @@ if (typeof window.Piwik !== 'object') {
 
                 if (!contentPiece) {
                     contentPiece = query.findFirstNodeHavingClass(node, this.CONTENT_PIECE_CLASS);
+                }
+                if (!contentPiece) {
+                    contentPiece = query.findFirstNodeHavingClass(node, this.LEGACY_CONTENT_PIECE_CLASS);
                 }
 
                 if (contentPiece) {
@@ -2492,6 +1583,11 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 target = query.findFirstNodeHavingClass(node, this.CONTENT_TARGET_CLASS);
+                if (target) {
+                    return target;
+                }
+
+                target = query.findFirstNodeHavingClass(node, this.LEGACY_CONTENT_TARGET_CLASS);
                 if (target) {
                     return target;
                 }
@@ -2825,7 +1921,7 @@ if (typeof window.Piwik !== 'object') {
                     return this.getLocation().origin + this.getLocation().pathname + url;
                 }
 
-                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javasript:... ecmascript: ... and many more
+                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javascript:... ecmascript: ... and many more
                 if (0 === url.search('^[a-zA-Z]{2,11}:')) {
                     return url;
                 }
@@ -2873,9 +1969,16 @@ if (typeof window.Piwik !== 'object') {
             },
             shouldIgnoreInteraction: function (targetNode)
             {
-                var hasAttr  = query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR);
-                var hasClass = query.hasNodeCssClass(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS);
-                return hasAttr || hasClass;
+                if (query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR)) {
+                    return true;
+                }
+                if (query.hasNodeCssClass(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS)) {
+                    return true;
+                }
+                if (query.hasNodeCssClass(targetNode, this.LEGACY_CONTENT_IGNOREINTERACTION_CLASS)) {
+                    return true;
+                }
+                return false;
             }
         };
 
@@ -2883,7 +1986,7 @@ if (typeof window.Piwik !== 'object') {
          * Page Overlay
          ************************************************************/
 
-        function getPiwikUrlForOverlay(trackerUrl, apiUrl) {
+        function getMatomoUrlForOverlay(trackerUrl, apiUrl) {
             if (apiUrl) {
                 return apiUrl;
             }
@@ -2903,14 +2006,14 @@ if (typeof window.Piwik !== 'object') {
                 // if eg without domain or path "piwik.php" => ''
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'piwik.php'.length);
             } else if (stringEndsWith(trackerUrl, '.php')) {
-                // if eg http://www.example.com/js/piwik.php => http://www.example.com/js/
+                // if eg http://www.example.com/js/matomo.php => http://www.example.com/js/
                 // or if eg http://www.example.com/tracker.php => http://www.example.com/
                 var lastSlash = trackerUrl.lastIndexOf('/');
                 var includeLastSlash = 1;
                 trackerUrl = trackerUrl.slice(0, lastSlash + includeLastSlash);
             }
 
-            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Piwik JS loaded)
+            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Matomo JS loaded)
             if (stringEndsWith(trackerUrl, '/js/')) {
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'js/'.length);
             }
@@ -2927,9 +2030,9 @@ if (typeof window.Piwik !== 'object') {
          * {@internal side-effect: modifies window.name }}
          */
         function isOverlaySession(configTrackerSiteId) {
-            var windowName = 'Piwik_Overlay';
+            var windowName = 'Matomo_Overlay';
 
-            // check whether we were redirected from the piwik overlay plugin
+            // check whether we were redirected from the matomo overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
                 + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
 
@@ -2971,12 +2074,12 @@ if (typeof window.Piwik !== 'object') {
                 period = windowNameParts[1],
                 date = windowNameParts[2],
                 segment = windowNameParts[3],
-                piwikUrl = getPiwikUrlForOverlay(configTrackerUrl, configApiUrl);
+                matomoUrl = getMatomoUrlForOverlay(configTrackerUrl, configApiUrl);
 
             loadScript(
-                piwikUrl + 'plugins/Overlay/client/client.js?v=1',
+                matomoUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date, segment);
+                    Matomo_Overlay_Client.initialize(matomoUrl, configTrackerSiteId, period, date, segment);
                 }
             );
         }
@@ -3009,7 +2112,7 @@ if (typeof window.Piwik !== 'object') {
          ************************************************************/
 
         /*
-         * Piwik Tracker class
+         * Matomo Tracker class
          *
          * trackerUrl and trackerSiteId are optional arguments to the constructor
          *
@@ -3078,7 +2181,7 @@ if (typeof window.Piwik !== 'object') {
                 configTitle = '',
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
+                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','rtf','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -3096,7 +2199,7 @@ if (typeof window.Piwik !== 'object') {
                 configTrackerPause = 500,
 
                 // If enabled, always use sendBeacon if the browser supports it
-                configAlwaysUseSendBeacon = false,
+                configAlwaysUseSendBeacon = true,
 
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
@@ -3117,10 +2220,10 @@ if (typeof window.Piwik !== 'object') {
                 configCustomData,
 
                 // Campaign names
-                configCampaignNameParameters = [ 'pk_campaign', 'piwik_campaign', 'utm_campaign', 'utm_source', 'utm_medium' ],
+                configCampaignNameParameters = [ 'pk_campaign', 'mtm_campaign', 'piwik_campaign', 'matomo_campaign', 'utm_campaign', 'utm_source', 'utm_medium' ],
 
                 // Campaign keywords
-                configCampaignKeywordParameters = [ 'pk_kwd', 'piwik_kwd', 'utm_term' ],
+                configCampaignKeywordParameters = [ 'pk_kwd', 'mtm_kwd', 'piwik_kwd', 'matomo_kwd', 'utm_term' ],
 
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
@@ -3174,8 +2277,11 @@ if (typeof window.Piwik !== 'object') {
                 // Is performance tracking enabled
                 configPerformanceTrackingEnabled = true,
 
-                // Generation time set from the server
-                configPerformanceGenerationTime = 0,
+                // will be set to true automatically once the onload event has finished
+                performanceAvailable = false,
+
+                // indicates if performance metrics for the page view have been sent with a request
+                performanceTracked = false,
 
                 // Whether Custom Variables scope "visit" should be stored in a cookie during the time of the visit
                 configStoreCustomVariablesInCookie = false,
@@ -3196,6 +2302,9 @@ if (typeof window.Piwik !== 'object') {
 
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
+
+                // Ecommerce product view
+                ecommerceProductView = {},
 
                 // Ecommerce items
                 ecommerceItems = {},
@@ -3221,12 +2330,12 @@ if (typeof window.Piwik !== 'object') {
                 heartBeatSetUp = false,
 
                 // bool used to detect whether this browser window had focus at least once. So far we cannot really
-                // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
+                // detect this 100% correct for an iframe so whenever Matomo is loaded inside an iframe we presume
                 // the window had focus at least once.
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
-                timeWindowLastFocussed = null,
+                timeWindowLastFocused = null,
 
-                // Timestamp of last tracker request sent to Piwik
+                // Timestamp of last tracker request sent to Matomo
                 lastTrackerRequestTime = null,
 
                 // Handle to the current heart beat timeout
@@ -3319,7 +2428,7 @@ if (typeof window.Piwik !== 'object') {
             function purify(url) {
                 var targetPattern;
 
-                // we need to remove this parameter here, they wouldn't be removed in Piwik tracker otherwise eg
+                // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
 
@@ -3531,7 +2640,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
-             * Send image request to Piwik server using GET.
+             * Send image request to Matomo server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
@@ -3606,7 +2715,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
-             * POST request to Piwik server using XMLHttpRequest.
+             * POST request to Matomo server using XMLHttpRequest.
              */
             function sendXmlHttpRequest(request, callback, fallbackToGet) {
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
@@ -3621,9 +2730,9 @@ if (typeof window.Piwik !== 'object') {
                     // we execute it with a little delay in case the unload event occurred just after sending this request
                     // this is to avoid the following behaviour: Eg on form submit a tracking request is sent via POST
                     // in this method. Then a few ms later the browser wants to navigate to the new page and the unload
-                    // event occurrs and the browser cancels the just triggered POST request. This causes or fallback
+                    // event occurs and the browser cancels the just triggered POST request. This causes or fallback
                     // method to be triggered and we execute the same request again (either as fallbackGet or sendBeacon).
-                    // The problem is that we do not know whether the inital POST request was already fully transferred
+                    // The problem is that we do not know whether the initial POST request was already fully transferred
                     // to the server or not when the onreadystatechange callback is executed and we might execute the
                     // same request a second time. To avoid this, we delay the actual execution of this POST request just
                     // by 50ms which gives it usually enough time to detect the unload event in most cases.
@@ -3742,7 +2851,7 @@ if (typeof window.Piwik !== 'object') {
 
             function heartBeatOnFocus() {
                 hadWindowFocusAtLeastOnce = true;
-                timeWindowLastFocussed = new Date().getTime();
+                timeWindowLastFocused = new Date().getTime();
             }
 
             function hadWindowMinimalFocusToConsiderViewed() {
@@ -3750,7 +2859,7 @@ if (typeof window.Piwik !== 'object') {
                 // the page otherwise we can assume user was not really on the page and for example only switching
                 // through tabs
                 var now = new Date().getTime();
-                return !timeWindowLastFocussed || (now - timeWindowLastFocussed) > configHeartBeatDelay;
+                return !timeWindowLastFocused || (now - timeWindowLastFocused) > configHeartBeatDelay;
             }
 
             function heartBeatOnBlur() {
@@ -3777,7 +2886,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // when using multiple trackers then we need to add this event for each tracker
                 coreHeartBeatCounter++;
-                Piwik.addPlugin('HeartBeat' + coreHeartBeatCounter, {
+                Matomo.addPlugin('HeartBeat' + coreHeartBeatCounter, {
                     unload: function () {
                         // we can't remove the unload plugin event when disabling heart beat timer but we at least
                         // check if it is still enabled... note: when enabling heart beat, then disabling, then
@@ -3932,7 +3041,7 @@ if (typeof window.Piwik !== 'object') {
              * Get cookie name with prefix and domain hash
              */
             function getCookieName(baseName) {
-                // NOTE: If the cookie name is changed, we must also update the PiwikTracker.php which
+                // NOTE: If the cookie name is changed, we must also update the MatomoTracker.php which
                 // will attempt to discover first party cookies. eg. See the PHP Client method getVisitorId()
                 return configCookieNamePrefix + baseName + '.' + configTrackerSiteId + '.' + domainHash;
             }
@@ -3988,12 +3097,10 @@ if (typeof window.Piwik !== 'object') {
                         wma: 'application/x-mplayer2',
 
                         // interactive multimedia
-                        dir: 'application/x-director',
                         fla: 'application/x-shockwave-flash',
 
                         // RIA
                         java: 'application/x-java-vm',
-                        gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
                     };
 
@@ -4019,11 +3126,6 @@ if (typeof window.Piwik !== 'object') {
                         browserFeatures.java = '1';
                     }
 
-                    // Firefox
-                    if (isFunction(windowAlias.GearsFactory)) {
-                        browserFeatures.gears = '1';
-                    }
-
                     // other browser features
                     browserFeatures.cookie = hasCookies();
                 }
@@ -4041,8 +3143,8 @@ if (typeof window.Piwik !== 'object') {
                 var cookieName = getCookieName('cvar'),
                     cookie = getCookie(cookieName);
 
-                if (cookie.length) {
-                    cookie = JSON_PIWIK.parse(cookie);
+                if (cookie && cookie.length) {
+                    cookie = windowAlias.JSON.parse(cookie);
 
                     if (isObject(cookie)) {
                         return cookie;
@@ -4071,7 +3173,7 @@ if (typeof window.Piwik !== 'object') {
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
-                    JSON_PIWIK.stringify(browserFeatures) +
+                    windowAlias.JSON.stringify(browserFeatures) +
                     (new Date()).getTime() +
                     Math.random()
                 ).slice(0, 16);
@@ -4083,7 +3185,7 @@ if (typeof window.Piwik !== 'object') {
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
-                    JSON_PIWIK.stringify(browserFeatures)).slice(0, 6);
+                    windowAlias.JSON.stringify(browserFeatures)).slice(0, 6);
             }
 
             function getCurrentTimestampInSeconds()
@@ -4206,19 +3308,7 @@ if (typeof window.Piwik !== 'object') {
                     uuid,
 
                     // creation timestamp - seconds since Unix epoch
-                    nowTs,
-
-                    // visitCount - 0 = no previous visit
-                    0,
-
-                    // current visit timestamp
-                    nowTs,
-
-                    // last visit timestamp - blank = no previous visit
-                    '',
-
-                    // last ecommerce order timestamp
-                    ''
+                    nowTs
                 ];
 
                 return cookieValue;
@@ -4232,26 +3322,12 @@ if (typeof window.Piwik !== 'object') {
                 var cookieVisitorIdValue = loadVisitorIdCookie(),
                     newVisitor = cookieVisitorIdValue[0],
                     uuid = cookieVisitorIdValue[1],
-                    createTs = cookieVisitorIdValue[2],
-                    visitCount = cookieVisitorIdValue[3],
-                    currentVisitTs = cookieVisitorIdValue[4],
-                    lastVisitTs = cookieVisitorIdValue[5];
-
-                // case migrating from pre-1.5 cookies
-                if (!isDefined(cookieVisitorIdValue[6])) {
-                    cookieVisitorIdValue[6] = "";
-                }
-
-                var lastEcommerceOrderTs = cookieVisitorIdValue[6];
+                    createTs = cookieVisitorIdValue[2];
 
                 return {
                     newVisitor: newVisitor,
                     uuid: uuid,
-                    createTs: createTs,
-                    visitCount: visitCount,
-                    currentVisitTs: currentVisitTs,
-                    lastVisitTs: lastVisitTs,
-                    lastEcommerceOrderTs: lastEcommerceOrderTs
+                    createTs: createTs
                 };
             }
 
@@ -4283,11 +3359,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
-                    visitorIdCookieValues.createTs + '.' +
-                    visitorIdCookieValues.visitCount + '.' +
-                    nowTs + '.' +
-                    visitorIdCookieValues.lastVisitTs + '.' +
-                    visitorIdCookieValues.lastEcommerceOrderTs;
+                    visitorIdCookieValues.createTs + '.';
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
@@ -4309,7 +3381,7 @@ if (typeof window.Piwik !== 'object') {
 
                 if (cookie.length) {
                     try {
-                        cookie = JSON_PIWIK.parse(cookie);
+                        cookie = windowAlias.JSON.parse(cookie);
                         if (isObject(cookie)) {
                             return cookie;
                         }
@@ -4410,12 +3482,46 @@ if (typeof window.Piwik !== 'object') {
                 return id;
             }
 
+            function appendAvailablePerformanceMetrics(request) {
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.connectEnd && performanceAlias.timing.fetchStart) {
+                    request += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.requestStart) {
+                    request += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
+                    request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
+                    request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
+                    request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+                }
+
+                if (performanceAlias && performanceAlias.timing && performanceAlias
+                    && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
+                    request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+                }
+
+                return request;
+            }
+
             /**
-             * Returns the URL to call piwik.php,
+             * Returns the URL to call matomo.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
              * Sends the pageview and browser settings with every request in case of race conditions.
              */
-            function getRequest(request, customData, pluginMethod, currentEcommerceOrderTs) {
+            function getRequest(request, customData, pluginMethod) {
                 var i,
                     now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
@@ -4443,13 +3549,10 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
-                if (!isDefined(currentEcommerceOrderTs)) {
-                    currentEcommerceOrderTs = "";
-                }
 
                 // send charset if document charset is not utf-8. sometimes encoding
                 // of urls will be the same as this and not utf-8, which will cause problems
-                // do not send charset if it is utf8 since it's assumed by default in Piwik
+                // do not send charset if it is utf8 since it's assumed by default in Matomo
                 var charSet = documentAlias.characterSet || documentAlias.charset;
 
                 if (!charSet || charSet.toLowerCase() === 'utf-8') {
@@ -4463,16 +3566,6 @@ if (typeof window.Piwik !== 'object') {
 
                 if (!cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
-
-                    // here we make sure that if 'ses' cookie is deleted few times within the visit
-                    // and so this code path is triggered many times for one visit,
-                    // we only increase visitCount once per Visit window (default 30min)
-                    var visitDuration = configSessionCookieTimeout / 1000;
-                    if (!cookieVisitorIdValues.lastVisitTs
-                        || (nowTs - cookieVisitorIdValues.lastVisitTs) > visitDuration) {
-                        cookieVisitorIdValues.visitCount++;
-                        cookieVisitorIdValues.lastVisitTs = cookieVisitorIdValues.currentVisitTs;
-                    }
 
 
                     // Detect the campaign information from the current URL
@@ -4526,7 +3619,7 @@ if (typeof window.Piwik !== 'object') {
                             purify(referralUrl.slice(0, referralUrlMaxLength))
                         ];
 
-                        setCookie(cookieReferrerName, JSON_PIWIK.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain);
+                        setCookie(cookieReferrerName, windowAlias.JSON.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
                     }
                 }
 
@@ -4538,13 +3631,12 @@ if (typeof window.Piwik !== 'object') {
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                    '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
+                    '&_id=' + cookieVisitorIdValues.uuid +
+
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
                     (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
                     '&_refts=' + referralTs +
-                    '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
-                    (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
@@ -4575,6 +3667,13 @@ if (typeof window.Piwik !== 'object') {
                     // we deleted all keys from custom data
                 }
 
+                // product page view
+                for (i in ecommerceProductView) {
+                    if (Object.prototype.hasOwnProperty.call(ecommerceProductView, i)) {
+                        request += '&' + i + '=' + encodeWrapper(ecommerceProductView[i]);
+                    }
+                }
+
                 // custom dimensions
                 for (i in customDimensions) {
                     if (Object.prototype.hasOwnProperty.call(customDimensions, i)) {
@@ -4587,14 +3686,14 @@ if (typeof window.Piwik !== 'object') {
 
                 // custom data
                 if (customData) {
-                    request += '&data=' + encodeWrapper(JSON_PIWIK.stringify(customData));
+                    request += '&data=' + encodeWrapper(windowAlias.JSON.stringify(customData));
                 } else if (configCustomData) {
-                    request += '&data=' + encodeWrapper(JSON_PIWIK.stringify(configCustomData));
+                    request += '&data=' + encodeWrapper(windowAlias.JSON.stringify(configCustomData));
                 }
 
                 // Custom Variables, scope "page"
                 function appendCustomVariablesToRequest(customVariables, parameterName) {
-                    var customVariablesStringified = JSON_PIWIK.stringify(customVariables);
+                    var customVariablesStringified = windowAlias.JSON.stringify(customVariables);
                     if (customVariablesStringified.length > 2) {
                         return '&' + parameterName + '=' + encodeWrapper(customVariablesStringified);
                     }
@@ -4621,18 +3720,14 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                     if (configStoreCustomVariablesInCookie) {
-                        setCookie(cookieCustomVariablesName, JSON_PIWIK.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                        setCookie(cookieCustomVariablesName, windowAlias.JSON.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
                     }
                 }
 
                 // performance tracking
-                if (configPerformanceTrackingEnabled) {
-                    if (configPerformanceGenerationTime) {
-                        request += '&gt_ms=' + configPerformanceGenerationTime;
-                    } else if (performanceAlias && performanceAlias.timing
-                        && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                        request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
-                    }
+                if (configPerformanceTrackingEnabled && performanceAvailable && !performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                    performanceTracked = true;
                 }
 
                 if (configIdPageView) {
@@ -4640,7 +3735,6 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 // update cookies
-                cookieVisitorIdValues.lastEcommerceOrderTs = isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : cookieVisitorIdValues.lastEcommerceOrderTs;
                 setVisitorIdCookie(cookieVisitorIdValues);
                 setSessionCookie();
 
@@ -4686,7 +3780,6 @@ if (typeof window.Piwik !== 'object') {
 
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
-                    lastEcommerceOrderTs,
                     now = new Date(),
                     items = [],
                     sku,
@@ -4694,8 +3787,6 @@ if (typeof window.Piwik !== 'object') {
 
                 if (isEcommerceOrder) {
                     request += '&ec_id=' + encodeWrapper(orderId);
-                    // Record date of order in the visitor cookie
-                    lastEcommerceOrderTs = Math.round(now.getTime() / 1000);
                 }
 
                 request += '&revenue=' + grandTotal;
@@ -4744,9 +3835,9 @@ if (typeof window.Piwik !== 'object') {
                             items.push(ecommerceItems[sku]);
                         }
                     }
-                    request += '&ec_items=' + encodeWrapper(JSON_PIWIK.stringify(items));
+                    request += '&ec_items=' + encodeWrapper(windowAlias.JSON.stringify(items));
                 }
-                request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
+                request = getRequest(request, configCustomData, 'ecommerce');
                 sendRequest(request, configTrackerPause);
 
                 if (isEcommerceOrder) {
@@ -4775,6 +3866,11 @@ if (typeof window.Piwik !== 'object') {
 
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
+                // append already available performance metrics if they were not already tracked (or appended)
+                if (!performanceTracked) {
+                    request = appendAvailablePerformanceMetrics(request);
+                }
+
                 sendRequest(request, configTrackerPause, callback);
             }
 
@@ -4783,7 +3879,7 @@ if (typeof window.Piwik !== 'object') {
              */
             function getClassesRegExp(configClasses, defaultClass) {
                 var i,
-                    classesRegExp = '(^| )(piwik[_-]' + defaultClass;
+                    classesRegExp = '(^| )(piwik[_-]' + defaultClass + '|matomo[_-]' + defaultClass;
 
                 if (configClasses) {
                     for (i = 0; i < configClasses.length; i++) {
@@ -4863,10 +3959,6 @@ if (typeof window.Piwik !== 'object') {
 
                 var href = query.getAttributeValueFromNode(sourceElement, 'href');
 
-                if (startsUrlWithTrackerUrl(href)) {
-                    return;
-                }
-
                 var originalSourcePath = sourceElement.pathname || getPathName(sourceElement.href);
 
                 // browsers, such as Safari, don't downcase hostname and href
@@ -4899,28 +3991,6 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 return getRequest(params, null, 'contentInteraction');
-            }
-
-            function buildContentInteractionTrackingRedirectUrl(url, contentInteraction, contentName, contentPiece, contentTarget)
-            {
-                if (!isDefined(url)) {
-                    return;
-                }
-
-                if (startsUrlWithTrackerUrl(url)) {
-                    return url;
-                }
-
-                var redirectUrl = content.toAbsoluteUrl(url);
-                var request  = 'redirecturl=' + encodeWrapper(redirectUrl) + '&';
-                request     += buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
-
-                var separator = '&';
-                if (configTrackerUrl.indexOf('?') < 0) {
-                    separator = '?';
-                }
-
-                return configTrackerUrl + separator + request;
             }
 
             function isNodeAuthorizedToTriggerInteraction(contentNode, interactedNode)
@@ -5002,81 +4072,6 @@ if (typeof window.Piwik !== 'object') {
                 return false;
             }
 
-            function replaceHrefIfInternalLink(contentBlock)
-            {
-                if (!contentBlock) {
-                    return false;
-                }
-
-                var targetNode = content.findTargetNode(contentBlock);
-
-                if (!targetNode || content.shouldIgnoreInteraction(targetNode)) {
-                    return false;
-                }
-
-                var link = getLinkIfShouldBeProcessed(targetNode);
-
-                if (linkTrackingEnabled && link && link.type) {
-
-                    return false; // will be handled via outlink or download.
-                }
-
-                if (query.isLinkElement(targetNode) &&
-                    query.hasNodeAttributeWithValue(targetNode, 'href')) {
-                    var url = String(query.getAttributeValueFromNode(targetNode, 'href'));
-
-                    if (0 === url.indexOf('#')) {
-                        return false;
-                    }
-
-                    if (startsUrlWithTrackerUrl(url)) {
-                        return true;
-                    }
-
-                    if (!content.isUrlToCurrentDomain(url)) {
-                        return false;
-                    }
-
-                    var block = content.buildContentBlock(contentBlock);
-
-                    if (!block) {
-                        return;
-                    }
-
-                    var contentName   = block.name;
-                    var contentPiece  = block.piece;
-                    var contentTarget = block.target;
-
-                    if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR) || targetNode.wasContentTargetAttrReplaced) {
-                        // make sure we still track the correct content target when an interaction is happening
-                        targetNode.wasContentTargetAttrReplaced = true;
-                        contentTarget = content.toAbsoluteUrl(url);
-                        query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, contentTarget);
-                    }
-
-                    var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
-
-                    // location.href does not respect target=_blank so we prefer to use this
-                    content.setHrefAttribute(targetNode, targetUrl);
-
-                    return true;
-                }
-
-                return false;
-            }
-
-            function replaceHrefsIfInternalLink(contentNodes)
-            {
-                if (!contentNodes || !contentNodes.length) {
-                    return;
-                }
-
-                var index;
-                for (index = 0; index < contentNodes.length; index++) {
-                    replaceHrefIfInternalLink(contentNodes[index]);
-                }
-            }
-
             function trackContentImpressionClickInteraction (targetNode)
             {
                 return function (event) {
@@ -5099,47 +4094,23 @@ if (typeof window.Piwik !== 'object') {
                         return;
                     }
 
-                    setExpireDateTime(configTrackerPause);
-
-                    if (query.isLinkElement(targetNode) &&
-                        query.hasNodeAttributeWithValue(targetNode, 'href') &&
-                        query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR)) {
-                        // there is a href attribute, the link was replaced with piwik.php but later the href was changed again by the application.
-                        var href = query.getAttributeValueFromNode(targetNode, 'href');
-                        if (!startsUrlWithTrackerUrl(href) && targetNode.wasContentTargetAttrReplaced) {
-                            query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, '');
-                        }
+                    if (!contentBlock) {
+                        return false;
                     }
 
-                    var link = getLinkIfShouldBeProcessed(targetNode);
+                    var theTargetNode = content.findTargetNode(contentBlock);
 
-                    if (linkTrackingInstalled && link && link.type) {
-                        // click ignore, will be tracked via processClick, we do not want to track it twice
-
-                        return link.type;
+                    if (!theTargetNode || content.shouldIgnoreInteraction(theTargetNode)) {
+                        return false;
                     }
 
-                    if (replaceHrefIfInternalLink(contentBlock)) {
-                        return 'href';
+                    var link = getLinkIfShouldBeProcessed(theTargetNode);
+
+                    if (linkTrackingEnabled && link && link.type) {
+                        return link.type; // will be handled via outlink or download.
                     }
 
-                    var block = content.buildContentBlock(contentBlock);
-
-                    if (!block) {
-                        return;
-                    }
-
-                    var contentName   = block.name;
-                    var contentPiece  = block.piece;
-                    var contentTarget = block.target;
-
-                    // click on any non link element, or on a link element that has not an href attribute or on an anchor
-                    var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
-                    if (request) {
-                        sendRequest(request, configTrackerPause);
-                    }
-
-                    return request;
+                    return trackerInstance.trackContentInteractionNode(interactedElement, 'click');
                 };
             }
 
@@ -5186,7 +4157,6 @@ if (typeof window.Piwik !== 'object') {
                     return [];
                 }
 
-                replaceHrefsIfInternalLink(contentNodes);
                 setupInteractionsTracking(contentNodes);
 
                 var requests = [];
@@ -5283,7 +4253,7 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                if (!isNumberOrHasLength(category) || !isNumberOrHasLength(action)) {
                     logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }
@@ -5389,7 +4359,7 @@ if (typeof window.Piwik !== 'object') {
 
             function getCrossDomainVisitorId()
             {
-                var visitorId = getValuesFromVisitorIdCookie().uuid;
+                var visitorId = trackerInstance.getVisitorId();
                 var deviceId = makeCrossDomainDeviceId();
                 return visitorId + deviceId;
             }
@@ -5410,6 +4380,10 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                if (!trackerInstance.getVisitorId()) {
+                    return; // cookies are disabled.
+                }
+
                 // we need to remove the parameter and add it again if needed to make sure we have latest timestamp
                 // and visitorId (eg userId might be set etc)
                 link = removeUrlParameter(link, configVisitorIdUrlParameter);
@@ -5421,7 +4395,7 @@ if (typeof window.Piwik !== 'object') {
                 query.setAnyAttribute(element, 'href', link);
             }
 
-            function isLinkToDifferentDomainButSamePiwikWebsite(element)
+            function isLinkToDifferentDomainButSameMatomoWebsite(element)
             {
                 var targetLink = query.getAttributeValueFromNode(element, 'href');
 
@@ -5474,7 +4448,7 @@ if (typeof window.Piwik !== 'object') {
                     // in case the clicked element is within the <a> (for example there is a <div> within the <a>) this will get the actual <a> link element
                     sourceElement = getSourceElement(sourceElement);
 
-                    if(isLinkToDifferentDomainButSamePiwikWebsite(sourceElement)) {
+                    if(isLinkToDifferentDomainButSameMatomoWebsite(sourceElement)) {
                         replaceHrefForCrossDomainLink(sourceElement);
                     }
 
@@ -5633,15 +4607,15 @@ if (typeof window.Piwik !== 'object') {
                     for (i = 0; i < linkElements.length; i++) {
                         linkElement = linkElements[i];
                         if (!ignorePattern.test(linkElement.className)) {
-                            trackerType = typeof linkElement.piwikTrackers;
+                            trackerType = typeof linkElement.matomoTrackers;
 
                             if ('undefined' === trackerType) {
-                                linkElement.piwikTrackers = [];
+                                linkElement.matomoTrackers = [];
                             }
 
-                            if (-1 === indexOfArray(linkElement.piwikTrackers, trackerInstance)) {
+                            if (-1 === indexOfArray(linkElement.matomoTrackers, trackerInstance)) {
                                 // we make sure to setup link only once for each tracker
-                                linkElement.piwikTrackers.push(trackerInstance);
+                                linkElement.matomoTrackers.push(trackerInstance);
                                 addClickListener(linkElement, enable);
                             }
                         }
@@ -5756,11 +4730,25 @@ if (typeof window.Piwik !== 'object') {
                         sendBulkRequest(requestsToTrack, configTrackerPause);
                     }
                 },
+                canQueue: function () {
+                    return !isPageUnloading && this.enabled;
+                },
+                pushMultiple: function (requests) {
+                    if (!this.canQueue()) {
+                        sendBulkRequest(requests, configTrackerPause);
+                        return;
+                    }
+
+                    var i;
+                    for (i = 0; i < requests.length; i++) {
+                        this.push(requests[i]);
+                    }
+                },
                 push: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
-                    if (isPageUnloading || !this.enabled) {
+                    if (!this.canQueue()) {
                         // we don't queue as we need to ensure the request will be sent when the page is unloading...
                         sendRequest(requestUrl, configTrackerPause);
                         return;
@@ -5781,7 +4769,7 @@ if (typeof window.Piwik !== 'object') {
                     var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
                     if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
                         // we setup one unload handler per tracker...
-                        // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make
+                        // Matomo.addPlugin might not be defined at this point, we add the plugin directly also to make
                         // JSLint happy.
                         plugins[trackerQueueId] = {
                             unload: function () {
@@ -5837,7 +4825,6 @@ if (typeof window.Piwik !== 'object') {
             this.buildContentImpressionRequest = buildContentImpressionRequest;
             this.buildContentInteractionRequest = buildContentInteractionRequest;
             this.buildContentInteractionRequestNode = buildContentInteractionRequestNode;
-            this.buildContentInteractionTrackingRedirectUrl = buildContentInteractionTrackingRedirectUrl;
             this.getContentImpressionsRequestsFromNodes = getContentImpressionsRequestsFromNodes;
             this.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet;
             this.trackCallbackOnLoad = trackCallbackOnLoad;
@@ -5849,7 +4836,6 @@ if (typeof window.Piwik !== 'object') {
             this.trackContentImpressionClickInteraction = trackContentImpressionClickInteraction;
             this.internalIsNodeVisible = isVisible;
             this.isNodeAuthorizedToTriggerInteraction = isNodeAuthorizedToTriggerInteraction;
-            this.replaceHrefIfInternalLink = replaceHrefIfInternalLink;
             this.getDomains = function () {
                 return configHostsAlias;
             };
@@ -5924,7 +4910,7 @@ if (typeof window.Piwik !== 'object') {
              * To access specific data point, you should use the other functions getAttributionReferrer* and getAttributionCampaign*
              *
              * @return array Attribution array, Example use:
-             *   1) Call JSON_PIWIK.stringify(piwikTracker.getAttributionInfo())
+             *   1) Call windowAlias.JSON.stringify(matomoTracker.getAttributionInfo())
              *   2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
              */
             this.getAttributionInfo = function () {
@@ -5970,7 +4956,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Specify the Piwik tracking URL
+             * Specify the Matomo tracking URL
              *
              * @param string trackerUrl
              */
@@ -5979,7 +4965,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik tracking URL
+             * Returns the Matomo tracking URL
              * @returns string
              */
             this.getTrackerUrl = function () {
@@ -5987,31 +4973,40 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik server URL.
+             * Returns the Matomo server URL.
              *
              * @returns string
              */
-            this.getPiwikUrl = function () {
-                return getPiwikUrlForOverlay(this.getTrackerUrl(), configApiUrl);
+            this.getMatomoUrl = function () {
+                return getMatomoUrlForOverlay(this.getTrackerUrl(), configApiUrl);
             };
 
             /**
-             * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
+             * Returns the Matomo server URL.
+             * @deprecated since Matomo 4.0.0 use `getMatomoUrl()` instead.
+             * @returns string
+             */
+            this.getPiwikUrl = function () {
+                return this.getMatomoUrl();
+            };
+
+            /**
+             * Adds a new tracker. All sent requests will be also sent to the given siteId and matomoUrl.
              *
-             * @param string piwikUrl  The tracker URL of the current tracker instance
+             * @param string matomoUrl  The tracker URL of the current tracker instance
              * @param int|string siteId
              * @return Tracker
              */
-            this.addTracker = function (piwikUrl, siteId) {
-                if (!isDefined(piwikUrl) || null === piwikUrl) {
-                    piwikUrl = this.getTrackerUrl();
+            this.addTracker = function (matomoUrl, siteId) {
+                if (!isDefined(matomoUrl) || null === matomoUrl) {
+                    matomoUrl = this.getTrackerUrl();
                 }
 
-                var tracker = new Tracker(piwikUrl, siteId);
+                var tracker = new Tracker(matomoUrl, siteId);
 
                 asyncTrackers.push(tracker);
 
-                Piwik.trigger('TrackerAdded', [this]);
+                Matomo.trigger('TrackerAdded', [this]);
 
                 return tracker;
             };
@@ -6113,7 +5108,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Appends the specified query string to the piwik.php?... Tracking API URL
+             * Appends the specified query string to the matomo.php?... Tracking API URL
              *
              * @param string queryString eg. 'lat=140&long=100'
              */
@@ -6123,7 +5118,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Returns the query string for the current HTTP Tracking API request.
-             * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+             * Matomo would prepend the hostname and path to Matomo: http://example.org/matomo/matomo.php?
              * prior to sending the request.
              *
              * @param request eg. "param=value&param2=value2"
@@ -6359,12 +5354,12 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
-             * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
-             * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
+             * Set array of domains to be treated as local. Also supports path, eg '.matomo.org/subsite1'. In this
+             * case all links that don't go to '*.matomo.org/subsite1/ *' would be treated as outlinks.
+             * For example a link to 'matomo.org/' or 'matomo.org/subsite2' both would be treated as outlinks.
              *
-             * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
-             * that don't go to piwik.org/index* would be treated as outlinks.
+             * Also supports page wildcard, eg 'matomo.org/index*'. In this case all links
+             * that don't go to matomo.org/index* would be treated as outlinks.
              *
              * The current domain will be added automatically if no given host alias contains a path and if no host
              * alias is already given for the current host alias. Say you are on "example.org" and set
@@ -6373,7 +5368,7 @@ if (typeof window.Piwik !== 'object') {
              * it automatically if there was any other host specifying any path like
              * "['example.com', 'example2.com/test']". In this case we would also not add the current
              * domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path
-             * feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts
+             * feature, for Matomo JS Tracker to work correctly in all cases, one needs to specify all hosts
              * manually.
              *
              * @param string|array hostsAlias
@@ -6401,8 +5396,8 @@ if (typeof window.Piwik !== 'object') {
                 // and if no host alias is already given for the current host alias.
                 if (!hasDomainAliasAlready) {
                     /**
-                     * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
-                     * not add piwik.org as it would increase the allowed scope.
+                     * eg if domainAlias = 'matomo.org' and someone set hostsAlias = ['matomo.org/foo'] then we should
+                     * not add matomo.org as it would increase the allowed scope.
                      */
                     configHostsAlias.push(domainAlias);
                 }
@@ -6417,7 +5412,7 @@ if (typeof window.Piwik !== 'object') {
              * current timestamp and the last 6 characters are an id based on the userAgent to identify the users device).
              * This way the current visitorId is forwarded to the page of the different domain.
              *
-             * On the different domain, the Piwik tracker will recognize the set visitorId from the URL parameter and
+             * On the different domain, the Matomo tracker will recognize the set visitorId from the URL parameter and
              * reuse this parameter if the page was loaded within 45 seconds. If cross domain linking was not enabled,
              * it would create a new visit on that page because we wouldn't be able to access the previously created
              * cookie. By enabling cross domain linking you can track several different domains into one website and
@@ -6467,7 +5462,7 @@ if (typeof window.Piwik !== 'object') {
              *
              * Eg:
              *
-             * var url = 'http://myotherdomain.com/?' + piwikTracker.getCrossDomainLinkingUrlParameter();
+             * var url = 'http://myotherdomain.com/?' + matomoTracker.getCrossDomainLinkingUrlParameter();
              * $element.append('<a href="' + url + '"/>');
              */
             this.getCrossDomainLinkingUrlParameter = function () {
@@ -6539,7 +5534,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set the URL of the Piwik API. It is used for Page Overlay.
+             * Set the URL of the Matomo API. It is used for Page Overlay.
              * This method should only be called when the API URL differs from the tracker URL.
              *
              * @param string apiUrl
@@ -6569,7 +5564,7 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Set array of campaign name parameters
              *
-             * @see http://piwik.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/#faq_120
              * @param string|array campaignNames
              */
             this.setCampaignNameKey = function (campaignNames) {
@@ -6579,7 +5574,7 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Set array of campaign keyword parameters
              *
-             * @see http://piwik.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/#faq_120
              * @param string|array campaignKeywords
              */
             this.setCampaignKeywordKey = function (campaignKeywords) {
@@ -6588,7 +5583,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Strip hash tag (or anchor) from URL
-             * Note: this can be done in the Piwik>Settings>Websites on a per-website basis
+             * Note: this can be done in the Matomo>Settings>Websites on a per-website basis
              *
              * @deprecated
              * @param bool enableFilter
@@ -6605,7 +5600,9 @@ if (typeof window.Piwik !== 'object') {
             this.setCookieNamePrefix = function (cookieNamePrefix) {
                 configCookieNamePrefix = cookieNamePrefix;
                 // Re-init the Custom Variables cookie
-                customVariables = getCustomVariablesFromCookie();
+                if (customVariables) {
+                    customVariables = getCustomVariablesFromCookie();
+                }
             };
 
             /**
@@ -6802,8 +5799,16 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Disables send beacon usage instead and instead enables using regular XHR when possible. This makes
+             * callbacks work and also tracking requests will appear in the browser developer tools console.
+             */
+            this.disableAlwaysUseSendBeacon = function () {
+                configAlwaysUseSendBeacon = false;
+            };
+
+            /**
              * Add click listener to a specific link element.
-             * When clicked, Piwik will log the click automatically.
+             * When clicked, Matomo will log the click automatically.
              *
              * @param DOMElement element
              * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
@@ -6816,7 +5821,7 @@ if (typeof window.Piwik !== 'object') {
              * Install link tracker.
              *
              * If you change the DOM of your website or web application you need to make sure to call this method
-             * again so Piwik can detect links that were added newly.
+             * again so Matomo can detect links that were added newly.
              *
              * The default behaviour is to use actual click events. However, some browsers
              * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
@@ -6847,6 +5852,9 @@ if (typeof window.Piwik !== 'object') {
                     trackCallbackOnReady(function () {
                         addClickListeners(enable, self);
                     });
+                    trackCallbackOnLoad(function () {
+                        addClickListeners(enable, self);
+                    });
                 });
             };
 
@@ -6864,7 +5872,7 @@ if (typeof window.Piwik !== 'object') {
              *
              * Make sure not to overwrite the window.onerror handler after enabling the JS error
              * tracking as the error tracking won't work otherwise. To capture all JS errors we
-             * recommend to include the Piwik JavaScript tracker in the HTML as early as possible.
+             * recommend to include the Matomo JavaScript tracker in the HTML as early as possible.
              * If possible directly in <head></head> before loading any other JavaScript.
              */
             this.enableJSErrorTracking = function () {
@@ -6900,16 +5908,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disablePerformanceTracking = function () {
                 configPerformanceTrackingEnabled = false;
-            };
-
-            /**
-             * Set the server generation time.
-             * If set, the browser's performance.timing API in not used anymore to determine the time.
-             *
-             * @param int generationTime
-             */
-            this.setGenerationTimeMs = function (generationTime) {
-                configPerformanceGenerationTime = parseInt(generationTime, 10);
             };
 
             /**
@@ -7065,7 +6063,7 @@ if (typeof window.Piwik !== 'object') {
                         var contentNodes = content.findContentNodes();
                         var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
 
-                        sendBulkRequest(requests, configTrackerPause);
+                        requestQueue.pushMultiple(requests);
                     });
                 });
             };
@@ -7125,7 +6123,7 @@ if (typeof window.Piwik !== 'object') {
                         var contentNodes = content.findContentNodes();
                         var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
 
-                        sendBulkRequest(requests, configTrackerPause);
+                        requestQueue.pushMultiple(requests);
                     });
                 });
             };
@@ -7155,7 +6153,7 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    requestQueue.push(request);
                 });
             };
 
@@ -7179,7 +6177,7 @@ if (typeof window.Piwik !== 'object') {
                             var contentNodes = content.findContentNodesWithinNode(domNode);
 
                             var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            requestQueue.pushMultiple(requests);
                         });
                     } else {
                         trackCallbackOnReady(function () {
@@ -7187,7 +6185,7 @@ if (typeof window.Piwik !== 'object') {
                             var contentNodes = content.findContentNodesWithinNode(domNode);
 
                             var requests = getContentImpressionsRequestsFromNodes(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            requestQueue.pushMultiple(requests);
                         });
                     }
                 });
@@ -7222,7 +6220,7 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
                     if (request) {
-                        sendRequest(request, configTrackerPause);
+                        requestQueue.push(request);
                     }
                 });
             };
@@ -7233,10 +6231,10 @@ if (typeof window.Piwik !== 'object') {
              * By default we track interactions on click but sometimes you might want to track interactions yourself.
              * For instance you might want to track an interaction manually on a double click or a form submit.
              * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
-             * class `piwikContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
+             * class `matomoContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
              *
              * @param Element domNode  This element itself or any of its parent elements has to be a content block
-             *                         element. Meaning one of those has to have a `piwikTrackContent` CSS class or
+             *                         element. Meaning one of those has to have a `matomoTrackContent` CSS class or
              *                         a `data-track-content` attribute.
              * @param string [contentInteraction='Unknown] The name of the interaction that happened. For instance
              *                                             'click', 'formSubmit', 'DblClick', ...
@@ -7246,12 +6244,16 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                var theRequest = null;
+
                 trackCallback(function () {
-                    var request = buildContentInteractionRequestNode(domNode, contentInteraction);
-                    if (request) {
-                        sendRequest(request, configTrackerPause);
+                    theRequest = buildContentInteractionRequestNode(domNode, contentInteraction);
+                    if (theRequest) {
+                        requestQueue.push(theRequest);
                     }
                 });
+                //note: return value is only for tests... will only work if dom is already ready...
+                return theRequest;
             };
 
             /**
@@ -7304,33 +6306,35 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
              * This must be called before trackPageView() on the product/category page.
-             * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
-             * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
              *
              * On a category page, you can set the parameter category, and set the other parameters to empty string or false
              *
-             * Tracking Product/Category page views will allow Piwik to report on Product & Categories
+             * Tracking Product/Category page views will allow Matomo to report on Product & Categories
              * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
              *
              * @param string sku Item's SKU code being viewed
              * @param string name Item's Name being viewed
              * @param string category Category page being viewed. On an Item's page, this is the item's category
-             * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
+             * @param float price Item's display price, not use in standard Matomo reports, but output in API product reports.
              */
             this.setEcommerceView = function (sku, name, category, price) {
+                ecommerceProductView = {};
+
                 if (isNumberOrHasLength(category)) {
                     category = String(category);
                 }
                 if (!isDefined(category) || category === null || category === false || !category.length) {
                     category = "";
                 } else if (category instanceof Array) {
-                    category = JSON_PIWIK.stringify(category);
+                    category = windowAlias.JSON.stringify(category);
                 }
 
-                customVariablesPage[5] = ['_pkc', category];
+                var param = '_pkc';
+                ecommerceProductView[param] = category;
 
                 if (isDefined(price) && price !== null && price !== false && String(price).length) {
-                    customVariablesPage[2] = ['_pkp', price];
+                    param = '_pkp';
+                    ecommerceProductView[param] = price;
                 }
 
                 // On a category page, do not track Product name not defined
@@ -7339,14 +6343,16 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (isNumberOrHasLength(sku)) {
-                    customVariablesPage[3] = ['_pks', sku];
+                    param = '_pks';
+                    ecommerceProductView[param] = sku;
                 }
 
                 if (!isNumberOrHasLength(name)) {
                     name = "";
                 }
 
-                customVariablesPage[4] = ['_pkn', name];
+                param = '_pkn';
+                ecommerceProductView[param] = name;
             };
 
             /**
@@ -7406,13 +6412,13 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Tracks an Ecommerce order.
              * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
-             * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
+             * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Matomo reports.
              * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
              * After calling this method, items added to the cart will be removed from this JavaScript object.
              *
              * @param string|int orderId (required) Unique Order ID.
              *                   This will be used to count this order only once in the event the order page is reloaded several times.
-             *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik.
+             *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Matomo.
              * @param float grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
              * @param float subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied)
              * @param float tax (optional) Tax amount for this order
@@ -7437,7 +6443,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Sends a tracking request with custom request parameters.
-             * Piwik will prepend the hostname and path to Piwik, as well as all other needed tracking request
+             * Matomo will prepend the hostname and path to Matomo, as well as all other needed tracking request
              * parameters prior to sending the request. Useful eg if you track custom dimensions via a plugin.
              *
              * @param request eg. "param=value&param2=value2"
@@ -7568,7 +6574,7 @@ if (typeof window.Piwik !== 'object') {
             this.requireConsent = function () {
                 configConsentRequired = true;
                 configHasConsent = this.hasRememberedConsent();
-                // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
+                // Matomo.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
                 plugins['CoreConsent' + coreConsentCounter] = {
@@ -7661,7 +6667,16 @@ if (typeof window.Piwik !== 'object') {
              */
             this.forgetUserOptOut = this.rememberConsentGiven;
 
-            Piwik.trigger('TrackerSetup', [this]);
+            /**
+             * Mark performance metrics as available, once onload event has finished
+             */
+            trackCallbackOnLoad(function(){
+                setTimeout(function(){
+                    performanceAvailable = true;
+                }, 0);
+            });
+
+            Matomo.trigger('TrackerSetup', [this]);
         }
 
         function TrackerProxy() {
@@ -7697,7 +6712,7 @@ if (typeof window.Piwik !== 'object') {
 
                             if (appliedMethods[methodName] > 1
                                 && methodName !== "addTracker") {
-                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
+                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Matomo trackers documentation: https://developer.matomo.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
                             appliedMethods[methodName]++;
@@ -7713,11 +6728,11 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
-        function createFirstTracker(piwikUrl, siteId)
+        function createFirstTracker(matomoUrl, siteId)
         {
-            var tracker = new Tracker(piwikUrl, siteId);
+            var tracker = new Tracker(matomoUrl, siteId);
             asyncTrackers.push(tracker);
 
             _paq = applyMethodsInOrder(_paq, applyFirst);
@@ -7732,7 +6747,7 @@ if (typeof window.Piwik !== 'object') {
             // replace initialization array with proxy object
             _paq = new TrackerProxy();
 
-            Piwik.trigger('TrackerAdded', [tracker]);
+            Matomo.trigger('TrackerAdded', [tracker]);
 
             return tracker;
         }
@@ -7743,7 +6758,7 @@ if (typeof window.Piwik !== 'object') {
          *   after the Tracker has been initialized and loaded
          ************************************************************/
 
-        // initialize the Piwik singleton
+        // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 
         addEventListener(windowAlias,'message', function(e) {
@@ -7754,9 +6769,9 @@ if (typeof window.Piwik !== 'object') {
             var tracker, i, matomoHost;
             var originHost = getHostName(e.origin);
 
-            var trackers = Piwik.getAsyncTrackers();
+            var trackers = Matomo.getAsyncTrackers();
             for (i = 0; i < trackers.length; i++) {
-                matomoHost = getHostName(trackers[i].getPiwikUrl());
+                matomoHost = getHostName(trackers[i].getMatomoUrl());
 
                 // find the matching tracker
                 if (matomoHost === originHost) {
@@ -7807,12 +6822,12 @@ if (typeof window.Piwik !== 'object') {
 
                 postMessageToCorrectFrame({
                     maq_opted_in: data.maq_initial_value && tracker.hasConsent(),
-                    maq_url: tracker.getPiwikUrl(),
+                    maq_url: tracker.getMatomoUrl(),
                     maq_optout_by_default: tracker.isConsentRequired()
                 });
             } else if (isDefined(data.maq_opted_in)) {
                 // perform the opt in or opt out...
-                trackers = Piwik.getAsyncTrackers();
+                trackers = Matomo.getAsyncTrackers();
                 for (i = 0; i < trackers.length; i++) {
                     tracker = trackers[i];
                     if (data.maq_opted_in) {
@@ -7825,7 +6840,7 @@ if (typeof window.Piwik !== 'object') {
                 // Make a message to tell the optout iframe about the current state
                 postMessageToCorrectFrame({
                     maq_confirm_opted_in: tracker.hasConsent(),
-                    maq_url: tracker.getPiwikUrl(),
+                    maq_url: tracker.getMatomoUrl(),
                     maq_optout_by_default: tracker.isConsentRequired()
                 });
             }
@@ -7837,10 +6852,10 @@ if (typeof window.Piwik !== 'object') {
          * Public data and methods
          ************************************************************/
 
-        Piwik = {
+        Matomo = {
             initialized: false,
 
-            JSON: JSON_PIWIK,
+            JSON: windowAlias.JSON,
 
             /**
              * DOM Document related methods
@@ -7954,19 +6969,19 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Get Tracker (factory method)
              *
-             * @param string piwikUrl
+             * @param string matomoUrl
              * @param int|string siteId
              * @return Tracker
              */
-            getTracker: function (piwikUrl, siteId) {
+            getTracker: function (matomoUrl, siteId) {
                 if (!isDefined(siteId)) {
                     siteId = this.getAsyncTracker().getSiteId();
                 }
-                if (!isDefined(piwikUrl)) {
-                    piwikUrl = this.getAsyncTracker().getTrackerUrl();
+                if (!isDefined(matomoUrl)) {
+                    matomoUrl = this.getAsyncTracker().getTrackerUrl();
                 }
 
-                return new Tracker(piwikUrl, siteId);
+                return new Tracker(matomoUrl, siteId);
             },
 
             /**
@@ -7979,19 +6994,19 @@ if (typeof window.Piwik !== 'object') {
             },
 
             /**
-             * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
-             * If piwikUrl is not set, current url will be used.
+             * Adds a new tracker. All sent requests will be also sent to the given siteId and matomoUrl.
+             * If matomoUrl is not set, current url will be used.
              *
-             * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param null|string matomoUrl  If null, will reuse the same tracker URL of the current tracker instance
              * @param int|string siteId
              * @return Tracker
              */
-            addTracker: function (piwikUrl, siteId) {
+            addTracker: function (matomoUrl, siteId) {
                 var tracker;
                 if (!asyncTrackers.length) {
-                    tracker = createFirstTracker(piwikUrl, siteId);
+                    tracker = createFirstTracker(matomoUrl, siteId);
                 } else {
-                    tracker = asyncTrackers[0].addTracker(piwikUrl, siteId);
+                    tracker = asyncTrackers[0].addTracker(matomoUrl, siteId);
                 }
                 return tracker;
             },
@@ -7999,23 +7014,23 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Get internal asynchronous tracker object.
              *
-             * If no parameters are given, it returns the internal asynchronous tracker object. If a piwikUrl and idSite
+             * If no parameters are given, it returns the internal asynchronous tracker object. If a matomoUrl and idSite
              * is given, it will try to find an optional
              *
-             * @param string piwikUrl
+             * @param string matomoUrl
              * @param int|string siteId
              * @return Tracker
              */
-            getAsyncTracker: function (piwikUrl, siteId) {
+            getAsyncTracker: function (matomoUrl, siteId) {
 
                 var firstTracker;
                 if (asyncTrackers && asyncTrackers.length && asyncTrackers[0]) {
                     firstTracker = asyncTrackers[0];
                 } else {
-                    return createFirstTracker(piwikUrl, siteId);
+                    return createFirstTracker(matomoUrl, siteId);
                 }
 
-                if (!siteId && !piwikUrl) {
+                if (!siteId && !matomoUrl) {
                     // for BC and by default we just return the initially created tracker
                     return firstTracker;
                 }
@@ -8025,8 +7040,8 @@ if (typeof window.Piwik !== 'object') {
                     siteId = firstTracker.getSiteId();
                 }
 
-                if ((!isDefined(piwikUrl) || null === piwikUrl) && firstTracker) {
-                    piwikUrl = firstTracker.getTrackerUrl();
+                if ((!isDefined(matomoUrl) || null === matomoUrl) && firstTracker) {
+                    matomoUrl = firstTracker.getTrackerUrl();
                 }
 
                 var tracker, i = 0;
@@ -8034,7 +7049,7 @@ if (typeof window.Piwik !== 'object') {
                     tracker = asyncTrackers[i];
                     if (tracker
                         && String(tracker.getSiteId()) === String(siteId)
-                        && tracker.getTrackerUrl() === piwikUrl) {
+                        && tracker.getTrackerUrl() === matomoUrl) {
 
                         return tracker;
                     }
@@ -8046,11 +7061,7 @@ if (typeof window.Piwik !== 'object') {
              * matomo.js is not writable then there is a chance that first matomo.js is loaded and later the plugin.
              * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
              * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
-             * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
-             *
-             * @param string piwikUrl
-             * @param int|string siteId
-             * @return Tracker
+             * "Matomo.retryMissedPluginCalls()" so they will be executed after all.
              */
             retryMissedPluginCalls: function () {
                 var missedCalls = missedPluginTrackerCalls;
@@ -8063,13 +7074,13 @@ if (typeof window.Piwik !== 'object') {
 
     };
 
-        // Expose Piwik as an AMD module
+        // Expose Matomo as an AMD module
         if (typeof define === 'function' && define.amd) {
-            define('piwik', [], function () { return Piwik; });
-            define('matomo', [], function () { return Piwik; });
+            define('piwik', [], function () { return Matomo; });
+            define('matomo', [], function () { return Matomo; });
         }
 
-        return Piwik;
+        return Matomo;
     }());
 }
 
@@ -8093,12 +7104,12 @@ if (typeof window.Piwik !== 'object') {
     }
 
     if (window
-        && 'object' === typeof window.piwikPluginAsyncInit
-        && window.piwikPluginAsyncInit.length) {
+        && 'object' === typeof window.matomoPluginAsyncInit
+        && window.matomoPluginAsyncInit.length) {
         var i = 0;
-        for (i; i < window.piwikPluginAsyncInit.length; i++) {
-            if (typeof window.piwikPluginAsyncInit[i] === 'function') {
-                window.piwikPluginAsyncInit[i]();
+        for (i; i < window.matomoPluginAsyncInit.length; i++) {
+            if (typeof window.matomoPluginAsyncInit[i] === 'function') {
+                window.matomoPluginAsyncInit[i]();
             }
         }
     }
@@ -8107,12 +7118,16 @@ if (typeof window.Piwik !== 'object') {
         window.piwikAsyncInit();
     }
 
-    if (!window.Piwik.getAsyncTrackers().length) {
-        // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
+    if (window && window.matomoAsyncInit) {
+        window.matomoAsyncInit();
+    }
+
+    if (!window.Matomo.getAsyncTrackers().length) {
+        // we only create an initial tracker when no other async tracker has been created yet in matomoAsyncInit()
         if (hasPaqConfiguration()) {
             // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
-            // Piwik.getAsyncTrackers() would return unconfigured trackers
-            window.Piwik.addTracker();
+            // Matomo.getAsyncTrackers() would return unconfigured trackers
+            window.Matomo.addTracker();
         } else {
             _paq = {push: function (args) {
                     // needed to write it this way for jslint
@@ -8124,8 +7139,8 @@ if (typeof window.Piwik !== 'object') {
         }
     }
 
-    window.Piwik.trigger('PiwikInitialized', []);
-    window.Piwik.initialized = true;
+    window.Matomo.trigger('MatomoInitialized', []);
+    window.Matomo.initialized = true;
 }());
 
 
@@ -8133,7 +7148,7 @@ if (typeof window.Piwik !== 'object') {
 (function () {
     var jsTrackerType = (typeof AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
-        AnalyticsTracker = window.Piwik;
+        AnalyticsTracker = window.Matomo;
     }
 }());
 /*jslint sloppy: false */
@@ -8144,7 +7159,7 @@ if (typeof window.Piwik !== 'object') {
  ************************************************************/
 
 /*
- * Piwik globals
+ * Matomo globals
  *
  *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
  */
@@ -8156,11 +7171,11 @@ if (typeof window.Piwik !== 'object') {
  *
  * @param string documentTitle
  * @param int|string siteId
- * @param string piwikUrl
+ * @param string matomoUrl
  * @param mixed customData
  */
 if (typeof piwik_log !== 'function') {
-    piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
+    piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
         'use strict';
 
         function getOption(optionName) {
@@ -8175,39 +7190,39 @@ if (typeof piwik_log !== 'function') {
 
         // instantiate the tracker
         var option,
-            piwikTracker = window.Piwik.getTracker(piwikUrl, siteId);
+            matomoTracker = window.Matomo.getTracker(matomoUrl, siteId);
 
         // initialize tracker
-        piwikTracker.setDocumentTitle(documentTitle);
-        piwikTracker.setCustomData(customData);
+        matomoTracker.setDocumentTitle(documentTitle);
+        matomoTracker.setCustomData(customData);
 
-        // handle Piwik globals
+        // handle Matomo globals
         option = getOption('tracker_pause');
 
         if (option) {
-            piwikTracker.setLinkTrackingTimer(option);
+            matomoTracker.setLinkTrackingTimer(option);
         }
 
         option = getOption('download_extensions');
 
         if (option) {
-            piwikTracker.setDownloadExtensions(option);
+            matomoTracker.setDownloadExtensions(option);
         }
 
         option = getOption('hosts_alias');
 
         if (option) {
-            piwikTracker.setDomains(option);
+            matomoTracker.setDomains(option);
         }
 
         option = getOption('ignore_classes');
 
         if (option) {
-            piwikTracker.setIgnoreClasses(option);
+            matomoTracker.setIgnoreClasses(option);
         }
 
         // track this page view
-        piwikTracker.trackPageView();
+        matomoTracker.trackPageView();
 
         // default is to install the link tracker
         if (getOption('install_tracker')) {
@@ -8217,17 +7232,17 @@ if (typeof piwik_log !== 'function') {
              *
              * @param string sourceUrl
              * @param int|string siteId
-             * @param string piwikUrl
+             * @param string matomoUrl
              * @param string linkType
              */
-            piwik_track = function (sourceUrl, siteId, piwikUrl, linkType) {
-                piwikTracker.setSiteId(siteId);
-                piwikTracker.setTrackerUrl(piwikUrl);
-                piwikTracker.trackLink(sourceUrl, linkType);
+            piwik_track = function (sourceUrl, siteId, matomoUrl, linkType) {
+                matomoTracker.setSiteId(siteId);
+                matomoTracker.setTrackerUrl(matomoUrl);
+                matomoTracker.trackLink(sourceUrl, linkType);
             };
 
             // set-up link tracking
-            piwikTracker.enableLinkTracking();
+            matomoTracker.enableLinkTracking();
         }
     };
 }

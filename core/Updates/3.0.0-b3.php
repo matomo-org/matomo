@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Updater;
-use Piwik\Updates as PiwikUpdates;
 use Piwik\Updates;
 
 class Updates_3_0_0_b3 extends Updates

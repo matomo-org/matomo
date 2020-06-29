@@ -1,19 +1,19 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests;
+namespace Piwik\Plugins\PrivacyManager\tests\Unit;
 
-use Piwik\Network\IP;
+use Matomo\Network\IP;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
-class AnonymizeIPTest extends \PHPUnit_Framework_TestCase
+class AnonymizeIPTest extends \PHPUnit\Framework\TestCase
 {
     // IPv4 addresses and expected results
     public function getipv4Addresses()

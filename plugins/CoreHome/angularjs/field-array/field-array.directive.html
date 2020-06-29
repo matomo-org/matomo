@@ -4,6 +4,7 @@
 
         <div piwik-field uicontrol="{{ field.uiControl }}"
              data-title="{{ field.title }}"
+             name="{{ name + '-' + $index }}"
              full-width="true"
              ng-if="field.templateFile"
              template-file="{{ field.templateFile }}"

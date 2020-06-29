@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -105,7 +105,7 @@ class LogTablesProvider {
              *
              * @param array &$logTables An array containing a list of log entries.
              *
-             * @deprecated Only used for tests
+             * @internal Only used for tests
              * @ignore
              */
             Piwik::postEvent('LogTables.addLogTables', array(&$logTables));

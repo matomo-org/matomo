@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,10 +13,8 @@ use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
-use Piwik\Version;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
@@ -44,15 +42,6 @@ class Console extends Application
             null,
             InputOption::VALUE_OPTIONAL,
             'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
-        );
-
-        $this->getDefinition()->addOption($option);
-
-        // @todo  Remove this alias in Matomo 4.0
-        $option = new InputOption('piwik-domain',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            '[DEPRECATED] Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
         );
 
         $this->getDefinition()->addOption($option);
@@ -137,7 +126,8 @@ class Console extends Application
         if ($exitCode === null) {
             $self = $this;
             $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
-                return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+                return
+                    call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
             });
         }
 
@@ -229,10 +219,6 @@ class Console extends Application
     protected function initMatomoHost(InputInterface $input)
     {
         $matomoHostname = $input->getParameterOption('--matomo-domain');
-
-        if (empty($matomoHostname)) {
-            $matomoHostname = $input->getParameterOption('--piwik-domain');
-        }
 
         if (empty($matomoHostname)) {
             $matomoHostname = $input->getParameterOption('--url');

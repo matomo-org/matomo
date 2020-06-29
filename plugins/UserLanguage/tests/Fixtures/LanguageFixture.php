@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -18,13 +18,13 @@ class LanguageFixture extends Fixture
     public $dateTime = '2014-09-04 00:00:00';
     public $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsite();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
 
     }

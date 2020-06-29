@@ -12,6 +12,7 @@
 	<totalUniquePageViews>1</totalUniquePageViews>
 	<totalRevisitedPages>0</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<totalPageViewsWithLoadTime>0</totalPageViewsWithLoadTime>
 	<searches>
 	</searches>
 	<totalGoalConversions>1</totalGoalConversions>
@@ -40,7 +41,7 @@
 					
 					<pageId>5</pageId>
 					<bandwidth />
-					<interactionPosition />
+					<pageviewPosition />
 					<icon>plugins/Morpheus/images/link.png</icon>
 					<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 					<title>Outlink</title>
@@ -68,11 +69,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>2</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -127,6 +130,7 @@
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 			<customVariables>
 				<row>
 					<customVariableName1>VisitorType</customVariableName1>
@@ -185,7 +189,7 @@
 					
 					<pageId>4</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>Homepage</title>
 					<subtitle>http://example.org/homepage</subtitle>
 					<icon />
@@ -217,7 +221,9 @@
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>361</visitDuration>
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<searches>0</searches>
@@ -272,6 +278,7 @@
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<secondsSinceLastVisit>0</secondsSinceLastVisit>
 			<customVariables>
 				<row>
 					<customVariableName1>VisitorType</customVariableName1>

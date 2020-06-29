@@ -50,7 +50,7 @@ class ChallengeTest extends IntegrationTestCase
      */
     private $challenge2;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -58,7 +58,7 @@ class ChallengeTest extends IntegrationTestCase
         $this->challenge2 = new CustomTest2Challenge();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Challenge::clearCache();
         parent::tearDown();

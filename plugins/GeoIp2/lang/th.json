@@ -1,0 +1,7 @@
+{
+    "GeoIp2": {
+        "DownloadingDb": "กำลังดาวน์โหลด %s",
+        "ISPDatabase": "ฐานข้อมูล ISP",
+        "UpdaterWasLastRun": "ตัวปรับปรุงทำงานครั้งล่าสุดเมื่อ %s"
+    }
+}

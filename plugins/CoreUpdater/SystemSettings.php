@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\CoreUpdater;
 
+use Piwik\Db\Settings;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminController;
@@ -30,6 +32,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     /** @var Setting */
     public $sendPluginUpdateEmail;
+
+    /** @var Setting */
+    public $updateToUtf8mb4;
 
     /**
      * @var ReleaseChannels
@@ -54,6 +59,12 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $isWritable = $isWritable && PluginUpdateCommunication::canBeEnabled();
         $this->sendPluginUpdateEmail = $this->createSendPluginUpdateEmail();
         $this->sendPluginUpdateEmail->setIsWritableByCurrentUser($isWritable);
+
+        $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
+        $dbSettings = new Settings();
+        if ($isWritable && $dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4') {
+            $this->updateToUtf8mb4 = $this->createUpdateToUtf8mb4();
+        }
     }
 
     private function createReleaseChannel()
@@ -80,7 +91,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->validate = function ($channel) use ($releaseChannels) {
                 if (!$releaseChannels->isValidReleaseChannelId($channel)) {
                     throw new \Exception('Release channel is not valid');
-                };
+                }
             };
 
             $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess')
@@ -101,6 +112,21 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->availableValues = array('1' => sprintf('%s (%s)', Piwik::translate('General_Yes'), Piwik::translate('General_Default')),
                                             '0' => Piwik::translate('General_No'));
             $field->inlineHelp = Piwik::translate('CoreAdminHome_SendPluginUpdateCommunicationHelp');
+        });
+    }
+
+    private function createUpdateToUtf8mb4()
+    {
+        return $this->makeSetting('update_to_utf8mb4', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->introduction = Piwik::translate('CoreUpdater_ConvertToUtf8mb4');
+            $field->title = Piwik::translate('CoreUpdater_TriggerDatabaseConversion');
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+            $field->inlineHelp = Piwik::translate('CoreUpdater_Utf8mb4ConversionHelp', [
+                '�',
+                '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>',
+                '<a href="https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/" rel="noreferrer noopener" target="_blank">',
+                '</a>'
+            ]);
         });
     }
 

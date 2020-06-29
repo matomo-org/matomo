@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,6 +14,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Metrics\Formatter;
+use Piwik\Tracker\VisitorRecognizer;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
@@ -67,7 +68,15 @@ class VisitLastActionTime extends VisitDimension
         if ($request->getParam('ping') == 1) {
             return false;
         }
-        
+
+        $originalVisitLastActionTime = $visitor->getPreviousVisitColumn('visit_last_action_time');
+
+        if (!empty($originalVisitLastActionTime)
+            && Date::factory($originalVisitLastActionTime)->getTimestamp() > $request->getCurrentTimestamp()) {
+            // make sure to not set visit_last_action_time to an earlier time eg if tracking requests aren't sent in order
+            return $originalVisitLastActionTime;
+        }
+
         return $this->onNewVisit($request, $visitor, $action);
     }
 }

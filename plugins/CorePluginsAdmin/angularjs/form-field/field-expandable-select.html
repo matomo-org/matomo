@@ -1,6 +1,7 @@
 <div class="expandableSelector" piwik-focus-anywhere-but-here="formField.showSelect  = false">
-    <div ng-click="formField.showSelect = !formField.showSelect" class="select-wrapper"
-        ><span class="caret">▼</span><input type="text" class="select-dropdown"
+    <div ng-click="formField.showSelect = !formField.showSelect" class="select-wrapper">
+        <svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
+        <input type="text" class="select-dropdown"
                                             readonly="true" value="{{ formField.title }}">
     </div>
 

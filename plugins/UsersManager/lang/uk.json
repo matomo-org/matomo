@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Додати нового користувача",
-        "Alias": "Псевдонім",
         "AllWebsites": "Усі сайти",
         "AnonymousUser": "Анонімний користувач",
         "AnonymousUserHasViewAccess": "Примітка: користувач %1$s має %2$s доступ до цього сайту.",

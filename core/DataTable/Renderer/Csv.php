@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -179,7 +179,7 @@ class Csv extends Renderer
             $row = $table->getFirstRow();
             if ($row !== false) {
                 $columnNameToValue = $row->getColumns();
-                if (count($columnNameToValue) == 1) {
+                if (count($columnNameToValue) === 1) {
                     // simple tables should only have one column, the value
                     $allColumns['value'] = true;
 
@@ -300,7 +300,7 @@ class Csv extends Renderer
         if ($period || $date) {
             // in test cases, there are no request params set
 
-            if ($period == 'range') {
+            if ($period === 'range') {
                 $period = new Range($period, $date);
             } elseif (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
@@ -311,8 +311,9 @@ class Csv extends Renderer
             $prettyDate = $period->getLocalizedLongString();
 
             $meta = $this->getApiMetaData();
+            $name = !empty($meta['name']) ? $meta['name'] : '';
 
-            $fileName .= ' _ ' . $meta['name']
+            $fileName .= ' _ ' . $name
                 . ' _ ' . $prettyDate . '.csv';
         }
 
@@ -339,7 +340,7 @@ class Csv extends Renderer
                     && is_array(reset($value))
                 ) {
                     foreach ($value as $level1Key => $level1Value) {
-                        $inner = $name == 'goals' ? Piwik::translate('Goals_GoalX', $level1Key) : $name . ' ' . $level1Key;
+                        $inner = $name === 'goals' ? Piwik::translate('Goals_GoalX', $level1Key) : $name . ' ' . $level1Key;
                         $columnNameTemplate = '%s (' . $inner . ')';
 
                         $this->flattenColumnArray($level1Value, $csvRow, $columnNameTemplate);
@@ -375,7 +376,7 @@ class Csv extends Renderer
 
         // specific case, we have only one column and this column wasn't named properly (indexed by a number)
         // we don't print anything in the CSV file => an empty line
-        if (sizeof($allColumns) == 1
+        if (sizeof($allColumns) === 1
             && reset($allColumns)
             && !is_string(key($allColumns))
         ) {
@@ -413,7 +414,7 @@ class Csv extends Renderer
             if ($this->exportMetadata) {
                 $metadata = $row->getMetadata();
                 foreach ($metadata as $name => $value) {
-                    if ($name == 'idsubdatatable_in_db') {
+                    if ($name === 'idsubdatatable_in_db') {
                         continue;
                     }
                     //if a metadata and a column have the same name make sure they don't overwrite

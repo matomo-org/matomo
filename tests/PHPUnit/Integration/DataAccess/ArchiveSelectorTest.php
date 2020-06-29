@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -40,6 +40,13 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
         $params = new Parameters(new Site(1), Factory::build('day', '2019-10-05'), new Segment($segment, [1]));
         $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDateProcessed, $includeInvalidated);
+
+        if ($result[4] !== false) {
+            Date::factory($result[4]);
+        }
+
+        unset($result[4]);
+
         $this->assertEquals($expected, $result);
     }
 
