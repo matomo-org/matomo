@@ -1118,6 +1118,11 @@ class LogAggregator
         $selects = array();
         $extraCondition = '';
 
+        $tableColumn = $column;
+        if (strpos($tableColumn, $table) === false) {
+            $tableColumn = "$table.$column";
+        }
+
         if ($restrictToReturningVisitors) {
             // extra condition for the SQL SELECT that makes sure only returning visits are counted
             // when creating the 'days since last visit' report
@@ -1134,13 +1139,13 @@ class LogAggregator
 
                 $selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
 
-                $selects[] = "sum(case when $table.$column between $lowerBound and $upperBound $extraCondition" .
+                $selects[] = "sum(case when $tableColumn between $lowerBound and $upperBound $extraCondition" .
                              " then 1 else 0 end) as `$selectAs`";
             } else {
                 $lowerBound = $gap[0];
 
                 $selectAs  = $selectColumnPrefix . ($lowerBound + 1) . urlencode('+');
-                $selects[] = "sum(case when $table.$column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
+                $selects[] = "sum(case when $tableColumn > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
             }
         }
 

@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Plugins\CoreHome\Columns\UserId;
 use Piwik\Plugins\CoreHome\Columns\VisitLastActionTime;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\Visit;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -57,12 +58,12 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         return new Request($request);
     }
 
-    private function getVisitor()
+    private function getVisitor(VisitProperties $previousProperties = null)
     {
         $visit = new VisitProperties();
         $visit->setProperty('idvisit', '321');
         $visit->setProperty('idvisitor', Common::hex2bin('1234567890234567'));
-        $visitor = new Visitor($visit, $isKnown = false);
+        $visitor = new Visitor($visit, $isKnown = false, $previousProperties);
 
         return $visitor;
     }
@@ -93,10 +94,9 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         $request = $this->makeRequest(array('cdt' => $now));
         $this->assertEquals($now, $request->getCurrentTimestamp());
 
-        $visitor = $this->getVisitor();
-        $visitor->setVisitorColumn(VisitorRecognizer::KEY_ORIGINAL_VISIT_ROW,
-            array('visit_last_action_time' => Date::factory($previousTime)->getDatetime())
-        );
+        $visitor = $this->getVisitor(new VisitProperties([
+            'visit_last_action_time' => Date::factory($previousTime)->getDatetime(),
+        ]));
 
         $expected = Date::factory($now)->getDatetime();
         $this->assertSame($expected, $this->lastAction->onExistingVisit($request, $visitor, $action = null));
@@ -109,10 +109,9 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         $request = $this->makeRequest(array('cdt' => $now));
         $this->assertEquals($now, $request->getCurrentTimestamp());
 
-        $visitor = $this->getVisitor();
-        $visitor->setVisitorColumn(VisitorRecognizer::KEY_ORIGINAL_VISIT_ROW,
-            array('visit_last_action_time' => Date::factory($previousTime)->getDatetime())
-        );
+        $visitor = $this->getVisitor(new VisitProperties([
+            'visit_last_action_time' => Date::factory($previousTime)->getDatetime(),
+        ]));
 
         $expected = Date::factory($previousTime)->getDatetime();
         // should keep existing visit last action time

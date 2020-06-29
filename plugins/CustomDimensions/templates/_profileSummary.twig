@@ -1,0 +1,13 @@
+<div class="visitor-profile-summary visitor-profile-customdimensions">
+    <h1>{{ 'CustomDimensions_CustomDimensions'|translate }} ({{ scopeName }})</h1>
+    <div>
+        {%- for dimension in dimensions -%}
+            <p>
+                <span>{{ dimension.name }}: </span>
+                {%- for value in dimension.values -%}
+                    <strong title="{{ value.count }}x">{{ value.value|rawSafeDecoded }}</strong>{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            </p>
+        {%- endfor -%}
+    </div>
+</div>

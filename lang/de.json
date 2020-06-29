@@ -407,7 +407,7 @@
         "SmtpServerAddress": "SMTP-Server-Adresse",
         "SmtpUsername": "SMTP-Benutzername",
         "SmtpFromName": "SMTP Von-Name",
-        "SmtpFromAddress": "SMTP Von-Adresse",
+        "SmtpFromAddress": "SMTP Absender-Adresse",
         "Source": "Quelle",
         "StatisticsAreNotRecorded": "Das Besuchertracking von Matomo ist derzeit deaktiviert! Reaktivieren Sie das Tracking, indem Sie in der Datei config\/config.ini.php record_statistics = 1 setzen.",
         "Subtotal": "Zwischensumme",

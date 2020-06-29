@@ -65,6 +65,11 @@ class Visit implements VisitInterface
     protected $visitProperties;
 
     /**
+     * @var VisitProperties
+     */
+    protected $previousVisitProperties;
+
+    /**
      * @var ArchiveInvalidator
      */
     private $invalidator;
@@ -179,6 +184,7 @@ class Visit implements VisitInterface
         }
 
         $isNewVisit = $this->request->getMetadata('CoreHome', 'isNewVisit');
+        $this->previousVisitProperties = new VisitProperties($this->request->getMetadata('CoreHome', 'lastKnownVisit') ?: []);
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -211,7 +217,6 @@ class Visit implements VisitInterface
 
             $processor->recordLogs($this->visitProperties, $this->request);
         }
-
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
     }
 
@@ -251,7 +256,7 @@ class Visit implements VisitInterface
         // statement at all avoiding potential lock wait time when too many requests try to update the same visit at
         // same time
         $visitorRecognizer = StaticContainer::get(VisitorRecognizer::class);
-        $valuesToUpdate = $visitorRecognizer->removeUnchangedValues($this->visitProperties, $valuesToUpdate);
+        $valuesToUpdate = $visitorRecognizer->removeUnchangedValues($valuesToUpdate, $this->previousVisitProperties);
 
         $this->updateExistingVisit($valuesToUpdate);
 
@@ -618,6 +623,6 @@ class Visit implements VisitInterface
 
     private function makeVisitorFacade()
     {
-        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request);
+        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request, $this->previousVisitProperties);
     }
 }
