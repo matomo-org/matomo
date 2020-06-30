@@ -358,7 +358,7 @@ describe("UsersManager", function () {
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_bulk_access_set_all',
-            comparisonThreshold: 0.0005
+            comparisonThreshold: 0.0015
         });
     });
 

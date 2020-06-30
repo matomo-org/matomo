@@ -177,6 +177,7 @@
         "EmailChangedEmail1": "The email address associated with your account has been changed to %1$s",
         "EmailChangedEmail2": "This change was initiated from the following device: %1$s (IP address = %2$s).",
         "IfThisWasYouIgnoreIfNot": "If this was you, feel free to ignore this email. If this was not you, please login, correct your email address, change your password and contact your Matomo administrator.",
+        "IfThisWasYouPasswordChange": "If this was you, feel free to ignore this email. If this was not you, please contact your Matomo administrator immediately, as your account might have been compromised!",
         "PasswordChangeNotificationSubject": "Your Matomo account's password has just been changed",
         "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s).",
         "NewsletterSignupTitle": "Newsletter Signup",

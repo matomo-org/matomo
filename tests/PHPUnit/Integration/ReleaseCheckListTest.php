@@ -666,7 +666,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         // some assertions below to make sure we're actually doing valid tests and there is no bug in above code
         $this->assertGreaterThan(50, $numTestedCorePlugins);
         // eg this here shows the plugins that have update files but from older matomo versions.
-        $this->assertSame(array('DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_unique($pluginsWithUpdates));
+        $this->assertSame(array('CustomDimensions', 'DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_values(array_unique($pluginsWithUpdates)));
     }
 
     public function test_bowerComponentsBc_referencesFilesThatExists()
