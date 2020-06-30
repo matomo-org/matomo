@@ -149,7 +149,7 @@ describe("Login", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset');
     });
 
-    it("should reset password when password reset link is clicked", async function() {
+    it("should show reset password confirmation page when password reset link is clicked", async function() {
         var expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
             fileContents = require("fs").readFileSync(expectedMailOutputFile),
             mailSent = JSON.parse(fileContents),
@@ -161,6 +161,15 @@ describe("Login", function () {
         resetUrl = resetUrl[0].replace(/<\/p>$/, '');
 
         await page.goto(resetUrl);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_confirm');
+    });
+
+    it("should reset password when password reset link is clicked", async function() {
+
+        await page.type("#mtmpasswordconfirm", "superUserPass2");
+        await page.click("#login_reset_confirm");
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_complete');

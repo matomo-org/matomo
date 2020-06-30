@@ -51,19 +51,7 @@ class PasswordResetterTest extends IntegrationTestCase
 
     public function test_passwordReset_processWorksAsExpected()
     {
-        $user = $this->userModel->getUser('superUserLogin');
-        $password = $user['password'];
-        $passwordModified = $user['ts_password_modified'];
-
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
-
-        $this->assertNotEmpty($this->capturedToken);
-
-        $user = $this->userModel->getUser('superUserLogin');
-        $this->assertEquals($password, $user['password']);
-        $this->assertEquals($passwordModified, $user['ts_password_modified']);
-
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $this->capturedToken);
+        $this->passwordResetter->setHashedPasswordForLogin('superUserLogin', $this->capturedToken);
 
         $this->checkPasswordIs(self::NEWPASSWORD);
     }
@@ -116,6 +104,9 @@ class PasswordResetterTest extends IntegrationTestCase
 
         Option::set($optionName, json_encode($data));
 
+        $this->assertTrue($this->passwordResetter->doesResetPasswordHashMatchesPassword(self::NEWPASSWORD, $data['hash']));
+        $this->assertFalse($this->passwordResetter->doesResetPasswordHashMatchesPassword('foobar', $data['hash']));
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
 
         $optionName = $this->passwordResetter->getPasswordResetInfoOptionName('superUserLogin');
@@ -133,7 +124,7 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $this->capturedToken);
+        $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $this->capturedToken);
         $this->checkPasswordIs(self::NEWPASSWORD);
 
         sleep(1);
@@ -142,7 +133,7 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', 'anotherpassword');
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $oldCapturedToken);
+        $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $oldCapturedToken);
     }
 
     public function test_passwordReset_shouldNeverGenerateTheSameToken()
@@ -172,7 +163,7 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $oldCapturedToken);
+        $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $oldCapturedToken);
     }
 
     /**

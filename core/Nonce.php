@@ -127,28 +127,35 @@ class Nonce
     public static function getAcceptableOrigins()
     {
         $host = Url::getCurrentHost(null);
-        $port = '';
-
-        // parse host:port
-        if (preg_match('/^([^:]+):([0-9]+)$/D', $host, $matches)) {
-            $host = $matches[1];
-            $port = $matches[2];
-        }
 
         if (empty($host)) {
             return array();
         }
 
-        // standard ports
-        $origins = array(
-            'http://' . $host,
-            'https://' . $host,
-        );
-
-        // non-standard ports
-        if (!empty($port) && $port != 80 && $port != 443) {
-            $origins[] = 'http://' . $host . ':' . $port;
+        // parse host:port
+        if (preg_match('/^([^:]+):([0-9]+)$/D', $host, $matches)) {
+            $host = $matches[1];
+            $port = $matches[2];
+            $origins = array(
+                'http://' . $host,
+                'https://' . $host,
+            );
+            if ($port != 443) {
+                $origins[] = 'http://' . $host .':' . $port;
+            }
             $origins[] = 'https://' . $host . ':' . $port;
+        } elseif (Config::getInstance()->General['force_ssl']) {
+            $origins = array(
+                'https://' . $host,
+                'https://' . $host . ':443',
+            );
+        } else {
+            $origins = array(
+                'http://' . $host,
+                'https://' . $host,
+                'http://' . $host . ':80',
+                'https://' . $host . ':443',
+            );
         }
 
         return $origins;

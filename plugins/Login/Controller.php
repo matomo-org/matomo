@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\Access;
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -18,6 +20,7 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\UsersManager\Model AS UsersModel;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Url;
@@ -30,6 +33,8 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
+    const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
+
     /**
      * @var PasswordResetter
      */
@@ -425,25 +430,49 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function confirmResetPassword()
     {
-        $errorMessage = null;
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot confirm reset password with untrusted hostname!");
+        }
 
-        $login = Common::getRequestVar('login', '');
-        $resetToken = Common::getRequestVar('resetToken', '');
+        $errorMessage = null;
+        $passwordHash = null;
+
+        $login = Common::getRequestVar('login');
+        $resetToken = Common::getRequestVar('resetToken');
 
         try {
-            $this->passwordResetter->confirmNewPassword($login, $resetToken);
+            $passwordHash = $this->passwordResetter->checkValidConfirmPasswordToken($login, $resetToken);
         } catch (Exception $ex) {
             Log::debug($ex);
 
             $errorMessage = $ex->getMessage();
         }
 
-        if (is_null($errorMessage)) { // if success, show login w/ success message
-            return $this->resetPasswordSuccess();
-        } else {
-            // show login page w/ error. this will keep the token in the URL
+        if (!empty($errorMessage)) {
             return $this->login($errorMessage);
         }
+
+        if (!empty($_POST['nonce'])
+            && !empty($_POST['mtmpasswordconfirm'])
+            && !empty($resetToken)
+            && !empty($login)
+            && !empty($passwordHash)
+            && empty($errorMessage)) {
+            Nonce::checkNonce(self::NONCE_CONFIRMRESETPASSWORD, $_POST['nonce']);
+            if ($this->passwordResetter->doesResetPasswordHashMatchesPassword($_POST['mtmpasswordconfirm'], $passwordHash)) {
+                $this->passwordResetter->setHashedPasswordForLogin($login, $passwordHash);
+                return $this->resetPasswordSuccess();
+            } else {
+                $errorMessage = Piwik::translate('Login_ConfirmPasswordResetWrongPassword');
+            }
+        }
+
+        $nonce = Nonce::getNonce(self::NONCE_CONFIRMRESETPASSWORD);
+
+        return $this->renderTemplateAs('confirmResetPassword', array(
+            'nonce' => $nonce,
+            'errorMessage' => $errorMessage
+        ), 'basic');
     }
 
     /**
@@ -453,6 +482,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function resetPasswordSuccess()
     {
+        $_POST = array(); // prevent showing error message username and password is missing
         return $this->login($errorMessage = null, $infoMessage = Piwik::translate('Login_PasswordChanged'));
     }
 
