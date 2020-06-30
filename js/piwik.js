@@ -6813,13 +6813,12 @@ if (typeof window.Piwik !== 'object') {
                         setVisitorIdCookie();
                         if (hasSentTrackingRequestYet) {
                             // sets attribution cookie, we don't actually send the request
-                            // we assume in this case there might not be a following tracking request so we trigger one
-                            // ourselves to ensure also that in the backend the visitorId for this fingerprint will be
-                            // set... otherwise if no tracking request follows, it would never be updated and this visit
-                            // would not be linked to this visitor. If no tracking request was sent yet we assume one will
-                            // follow. We don't use the ping tracking method as it might be queued... send it directly...
-                            var request = getRequest('ping=1', null, 'ping');
-                            sendRequest(request, configTrackerPause);
+                            // because hasSentTrackingRequestYet=true we assume there might not be another tracking
+                            // request within this page view so we trigger one ourselves.
+                            // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
+                            // sets the cookie only when there is a tracking request. It'll be set if the user sends
+                            // a tracking request afterwards
+                            getRequest('ping=1', null, 'ping');
                         }
                     }
                 }
