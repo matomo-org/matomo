@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\tests\Integration\Tracker;
 
 use Piwik\Cache;
 use Piwik\CacheId;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreHome\Tracker\VisitRequestProcessor;
@@ -118,6 +119,41 @@ class VisitRequestProcessorTest extends IntegrationTestCase
 
         $result = $visit->isVisitNew($visitProperties, $request, null);
 
+        $this->assertTrue($result);
+    }
+
+    public function test_isVisitNew_ReturnsFalse_WhenUserIdChanges()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+
+        /** @var VisitRequestProcessor $visit */
+        /** @var Request $request */
+        list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
+            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true);
+
+        $visitProperties->setProperty('user_id', 'foo_different');
+        $request->setParam('uid', 'foo');
+        $result = $visit->isVisitNew($visitProperties, $request, null);
+        $this->assertFalse($result);
+    }
+
+    public function test_isVisitNew_ReturnsTrue_WhenUserChanges_AndUserIdNotOverwritesVisitorId()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+        $config = Config::getInstance();
+        $tracker = $config->Tracker;
+        $tracker['enable_userid_overwrites_visitorid'] = 0;
+        $config->Tracker = $tracker;
+
+        /** @var VisitRequestProcessor $visit */
+        /** @var VisitProperties $visitProperties */
+        /** @var Request $request */
+        list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
+            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true);
+
+        $visitProperties->setProperty('user_id', 'foo_different');
+        $request->setParam('uid', 'foo');
+        $result = $visit->isVisitNew($visitProperties, $request, null);
         $this->assertTrue($result);
     }
 

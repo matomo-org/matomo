@@ -51,6 +51,34 @@ class RequestTest extends IntegrationTestCase
         $this->time = 1416795617;
     }
 
+    public function test_getVisitorId_noData()
+    {
+        $request = $this->buildRequest(array());
+        $this->assertFalse($request->getVisitorId());
+    }
+
+    public function test_getVisitorId_idParam()
+    {
+        $request = $this->buildRequest(array('_id' => '1234567890ABCDEF'));
+        $this->assertSame('1234567890abcdef', bin2hex($request->getVisitorId()));
+    }
+
+    public function test_getVisitorId_userIdOverwritesVisitorId()
+    {
+        $request = $this->buildRequest(array('_id' => '1234567890ABCDEF', 'uid' => 'foo'));
+        $this->assertSame('0beec7b5ea3f0fdb', bin2hex($request->getVisitorId()));
+    }
+
+    public function test_getVisitorId_notOverwritesWhenDisabled()
+    {
+        $config = Config::getInstance();
+        $tracker = $config->Tracker;
+        $tracker['enable_userid_overwrites_visitorid'] = 0;
+        $config->Tracker = $tracker;
+        $request = $this->buildRequest(array('_id' => '1234567890ABCDEF', 'uid' => 'foo'));
+        $this->assertSame('1234567890abcdef', bin2hex($request->getVisitorId()));
+    }
+
     public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
     {
         $this->expectException(\Exception::class);

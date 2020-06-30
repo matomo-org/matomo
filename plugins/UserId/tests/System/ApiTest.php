@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UserId\tests\System;
 
+use Piwik\Config;
 use Piwik\Plugins\UserId\tests\Fixtures\TrackFewVisitsAndCreateUsers;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -30,6 +31,24 @@ class ApiTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        $this->runApiTests($api, $params);
+    }
+
+    /**
+     * @dataProvider getApiForTesting
+     */
+    public function testApi_notOverwritesVisitorId($api, $params)
+    {
+        $config = Config::getInstance();
+        $tracker = $config->Tracker;
+        $tracker['enable_userid_overwrites_visitorid'] = 0;
+        $config->Tracker = $tracker;
+
+        if (!isset($params['testSuffix'])) {
+            $params['testSuffix'] = '';
+        }
+        $params['testSuffix'] = 'userIdNotOverwritesVisitorId_' . $params['testSuffix'];
+
         $this->runApiTests($api, $params);
     }
 
