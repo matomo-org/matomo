@@ -284,15 +284,16 @@ class Php extends GeoIp2
     }
 
     /**
-     * Returns true if this location provider is available. Piwik ships w/ the MaxMind
-     * PHP library, so this provider is available if a location GeoIP database can be found.
+     * Returns true if this location provider is available. That is the case if either a location or a isp database is
+     * available
      *
      * @return bool
      */
     public function isAvailable()
     {
-        $path = self::getPathToGeoIpDatabase($this->customDbNames['loc']);
-        return $path !== false;
+        $pathLoc = self::getPathToGeoIpDatabase($this->customDbNames['loc']);
+        $pathIsp = self::getPathToGeoIpDatabase($this->customDbNames['isp']);
+        return $pathLoc !== false || $pathIsp !== false;
     }
 
     /**
