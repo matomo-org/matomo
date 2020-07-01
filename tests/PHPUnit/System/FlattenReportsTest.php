@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\EventDispatcher;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Referrers\Reports\GetWebsites;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
@@ -88,16 +89,20 @@ class FlattenReportsTest extends SystemTestCase
             ));
 
         // custom variables for multiple days
-        $return[] = array('CustomVariables.getCustomVariables', array(
-            'idSite'                 => $idSite,
-            'date'                   => $dateTime,
-            'otherRequestParameters' => array(
-                'date'                   => '2010-03-05,2010-03-08',
-                'flat'                   => '1',
-                'include_aggregate_rows' => '1',
-                'expanded'               => '0'
-            )
-        ));
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $return[] = array(
+                'CustomVariables.getCustomVariables', array(
+                    'idSite'                 => $idSite,
+                    'date'                   => $dateTime,
+                    'otherRequestParameters' => array(
+                        'date'                   => '2010-03-05,2010-03-08',
+                        'flat'                   => '1',
+                        'include_aggregate_rows' => '1',
+                        'expanded'               => '0'
+                    )
+                )
+            );
+        }
 
         // test expanded=1 w/ idSubtable=X
         $return[] = array('Actions.getPageUrls', array('idSite'                 => $idSite,

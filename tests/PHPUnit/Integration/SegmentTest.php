@@ -37,7 +37,7 @@ class SegmentTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        // setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
+        // setup the access layer (required in Segment constructor testing if anonymous is allowed to use segments)
         FakeAccess::$superUser = true;
 
         Fixture::createWebsite('2015-01-01 00:00:00');
@@ -100,15 +100,6 @@ class SegmentTest extends IntegrationTestCase
                 'bind'  => array('ff')
             )),
 
-            // test multiple column segments
-            array('customVariableName==abc;customVariableValue==def', array(
-                'where' => ' (log_visit.custom_var_k1 = ? OR log_visit.custom_var_k2 = ? OR log_visit.custom_var_k3 = ? OR log_visit.custom_var_k4 = ? OR log_visit.custom_var_k5 = ?) AND (log_visit.custom_var_v1 = ? OR log_visit.custom_var_v2 = ? OR log_visit.custom_var_v3 = ? OR log_visit.custom_var_v4 = ? OR log_visit.custom_var_v5 = ? )',
-                'bind' => array(
-                    'abc', 'abc', 'abc', 'abc', 'abc',
-                    'def', 'def', 'def', 'def', 'def',
-                ),
-            )),
-
             array(urlencode('browserCode!=' . $encodedComplexValue . ',browserCode==' . $encodedComplexValue . ';browserCode!=' . $encodedComplexValue), [
                 'where' => ' (( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? ) OR log_visit.config_browser_name = ?) AND ( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? ) ',
                 'bind' => [
@@ -159,7 +150,7 @@ class SegmentTest extends IntegrationTestCase
         $where = 'idsite = ?';
         $bind = array(1);
 
-        $segment = 'customVariableName1==Test;visitorType==new';
+        $segment = 'deviceBrand==Apple;visitorType==new';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -174,8 +165,8 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( idsite = ? )
                     AND
-                    ( log_visit.custom_var_k1 = ? AND log_visit.visitor_returning = ? )",
-            "bind" => array(1, 'Test', 0));
+                    ( log_visit.config_device_brand = ? AND log_visit.visitor_returning = ? )",
+            "bind" => array(1, 'AP', 0));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -187,7 +178,7 @@ class SegmentTest extends IntegrationTestCase
         $where = 'log_link_visit_action.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'customVariablePageName1==Test;visitorType==new';
+        $segment = 'siteSearchCategory==Test;visitorType==new';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -203,7 +194,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
-                    ( log_link_visit_action.custom_var_k1 = ? AND log_visit.visitor_returning = ? )",
+                    ( log_link_visit_action.search_cat = ? AND log_visit.visitor_returning = ? )",
             "bind" => array(1, 'Test', 0));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -216,7 +207,7 @@ class SegmentTest extends IntegrationTestCase
         $where = 'log_visit.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'customVariablePageName1==Test;visitorType==new';
+        $segment = 'siteSearchCategory==Test;visitorType==new';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -237,7 +228,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.custom_var_k1 = ? AND log_visit.visitor_returning = ? )
+                    ( log_link_visit_action.search_cat = ? AND log_visit.visitor_returning = ? )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
@@ -253,7 +244,7 @@ class SegmentTest extends IntegrationTestCase
         $where = 'log_link_visit_action.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'customVariablePageName1==Test;visitConvertedGoalId==1;customVariablePageName2==Test2';
+        $segment = 'siteSearchCategory==Test;visitConvertedGoalId==1;siteSearchCount==5';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -269,8 +260,8 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
-                    ( log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? AND log_link_visit_action.custom_var_k2 = ? )",
-            "bind" => array(1, 'Test', 1, 'Test2'));
+                    ( log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ? AND log_link_visit_action.search_count = ? )",
+            "bind" => array(1, 'Test', 1, 5));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -282,7 +273,7 @@ class SegmentTest extends IntegrationTestCase
         $where = 'log_conversion.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'visitConvertedGoalId!=2;customVariablePageName1==Test;visitConvertedGoalId==1';
+        $segment = 'visitConvertedGoalId!=2;siteSearchCategory==Test;visitConvertedGoalId==1';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -298,7 +289,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
-                    ( ( log_conversion.idgoal IS NULL OR log_conversion.idgoal <> ? ) AND log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? )",
+                    ( ( log_conversion.idgoal IS NULL OR log_conversion.idgoal <> ? ) AND log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ? )",
             "bind" => array(1, 2, 'Test', 1));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -645,7 +636,7 @@ class SegmentTest extends IntegrationTestCase
         $where = false;
         $bind = array();
 
-        $segment = 'visitConvertedGoalId==1;visitServerHour==12;customVariablePageName1==Test;pageUrl!=';
+        $segment = 'visitConvertedGoalId==1;visitServerHour==12;siteSearchCategory==Test;pageUrl!=';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -663,7 +654,7 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                 WHERE
-                    log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
+                    log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.search_cat = ?
                     AND (
                           log_link_visit_action.idaction_url IS NOT NULL
                           AND log_link_visit_action.idaction_url <> ''
@@ -943,7 +934,7 @@ class SegmentTest extends IntegrationTestCase
         $where = 'log_visit.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'customVariablePageName1==Test';
+        $segment = 'siteSearchCategory==Test';
         $segment = new Segment($segment, $idSites = array());
 
         $orderBy = false;
@@ -966,7 +957,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.custom_var_k1 = ? )
+                    ( log_link_visit_action.search_cat = ? )
                 ORDER BY NULL
                 LIMIT 0, 33
                     ) AS log_inner",
@@ -1080,7 +1071,7 @@ log_visit.visit_total_actions
         $where = 'log_visit.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'customVariablePageName1==Test';
+        $segment = 'siteSearchCategory==Test';
         $segment = new Segment($segment, $idSites = array());
 
         $orderBy = false;
@@ -1104,7 +1095,7 @@ log_visit.visit_total_actions
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.custom_var_k1 = ? )
+                    ( log_link_visit_action.search_cat = ? )
                 ORDER BY NULL
                 LIMIT 10, 33
                     ) AS log_inner",
@@ -1120,7 +1111,7 @@ log_visit.visit_total_actions
         $where = 'log_visit.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'customVariablePageName1==Test';
+        $segment = 'siteSearchCategory==Test';
         $segment = new Segment($segment, $idSites = array());
 
         $orderBy = false;
@@ -1144,7 +1135,7 @@ log_visit.visit_total_actions
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.custom_var_k1 = ? )
+                    ( log_link_visit_action.search_cat = ? )
                 ORDER BY NULL
                 LIMIT 0, 33
                     ) AS log_inner",
@@ -1160,7 +1151,7 @@ log_visit.visit_total_actions
         $where = 'log_visit.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'customVariablePageName1==Test';
+        $segment = 'siteSearchCategory==Test';
         $segment = new Segment($segment, $idSites = array());
 
         $orderBy = false;
@@ -1184,7 +1175,7 @@ log_visit.visit_total_actions
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.custom_var_k1 = ? )
+                    ( log_link_visit_action.search_cat = ? )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",

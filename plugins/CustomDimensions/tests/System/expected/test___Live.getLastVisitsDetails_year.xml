@@ -125,8 +125,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>345240</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -146,6 +144,8 @@
 		<dimension1 />
 		<dimension2 />
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -272,8 +272,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>86400</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -293,6 +291,8 @@
 		<dimension1>value1</dimension1>
 		<dimension2>value2</dimension2>
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -419,8 +419,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>172440</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -440,6 +438,8 @@
 		<dimension1 />
 		<dimension2 />
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -608,8 +608,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -629,6 +627,8 @@
 		<dimension1>value5 1</dimension1>
 		<dimension2>en_US</dimension2>
 		<dimension6>value6</dimension6>
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -755,8 +755,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -776,5 +774,7 @@
 		<dimension1 />
 		<dimension2 />
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 </result>

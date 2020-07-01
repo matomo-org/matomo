@@ -377,7 +377,7 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $rowNotDefined = $dataTable->getRowFromLabel(\Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED);
+        $rowNotDefined = $dataTable->getRowFromLabel('Value not defined');
         if ($rowNotDefined) {
             $rowNotDefined->setColumn('label', $notDefinedStringPretty);
         }
@@ -385,8 +385,8 @@ class API extends \Piwik\Plugin\API
 
     protected function enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $segment, $idSubtable)
     {
-        if (in_array('nb_visits', $dataTable->getColumns())) {
-            // skip if table already contains visits
+        if (!Manager::getInstance()->isPluginActivated('CustomVariables') || in_array('nb_visits', $dataTable->getColumns())) {
+            // skip if CustomVariables plugin is not available or table already contains visits
             return;
         }
 

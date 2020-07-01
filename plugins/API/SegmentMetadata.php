@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\API;
 
 use Piwik\Category\CategoryList;
-use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;

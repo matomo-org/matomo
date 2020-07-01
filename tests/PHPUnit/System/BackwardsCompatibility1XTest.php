@@ -229,6 +229,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'VisitsSummary.getSumVisitsLengthPretty',
         );
 
+        if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            // includes some columns that are not available when CustomVariables plugin is not available
+            $apiNotToCall[] = 'PrivacyManager.getAvailableLinkVisitActionColumnsToAnonymize';
+        }
+
         $apiNotToCall = array_merge($apiNotToCall, $reportsToCompareSeparately);
 
         $allReportsOptions = $defaultOptions;

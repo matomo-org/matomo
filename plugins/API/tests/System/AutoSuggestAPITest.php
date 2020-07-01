@@ -14,14 +14,11 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
-use Piwik\DataTable\Manager;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
-use Piwik\Plugins\CustomVariables\Model;
-use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIPAndEcommerce;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Cache;
@@ -74,7 +71,6 @@ class AutoSuggestAPITest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
 
         $this->runApiTests($api, $params);
@@ -119,7 +115,6 @@ class AutoSuggestAPITest extends SystemTestCase
             ));
         }
 
-        // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
         // disable browser archiving so the APIs are used
         Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 0);
@@ -248,7 +243,6 @@ class AutoSuggestAPITest extends SystemTestCase
 
     public static function getSegmentsMetadata($onlyWithSuggestedValuesApi = false)
     {
-        // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
         PiwikCache::getTransientCache()->flushAll();
 
@@ -265,7 +259,7 @@ class AutoSuggestAPITest extends SystemTestCase
                 if ($dimension instanceof CustomVariableName
                     || $dimension instanceof CustomVariableValue
                 ) {
-                    continue; // added manually below
+                    continue; // ignore custom variables dimensions as they are tested in the plugin
                 }
 
                 foreach ($dimension->getSegments() as $segment) {
@@ -278,12 +272,6 @@ class AutoSuggestAPITest extends SystemTestCase
                     $segments[] = $segment->getSegment();
                 }
             }
-
-            // add CustomVariables manually since the data provider may not have access to the DB
-            for ($i = 1; $i != Model::DEFAULT_CUSTOM_VAR_COUNT + 1; ++$i) {
-                $segments = array_merge($segments, self::getCustomVariableSegments($i));
-            }
-            $segments = array_merge($segments, self::getCustomVariableSegments());
         } catch (\Exception $ex) {
             $exception = $ex;
 
@@ -297,24 +285,6 @@ class AutoSuggestAPITest extends SystemTestCase
         }
 
         return $segments;
-    }
-
-    private static function getCustomVariableSegments($columnIndex = null)
-    {
-        $result = array(
-            'customVariableName',
-            'customVariableValue',
-            'customVariablePageName',
-            'customVariablePageValue',
-        );
-
-        if ($columnIndex !== null) {
-            foreach ($result as &$name) {
-                $name = $name . $columnIndex;
-            }
-        }
-
-        return $result;
     }
 
     public static function getPathToTestDirectory()
