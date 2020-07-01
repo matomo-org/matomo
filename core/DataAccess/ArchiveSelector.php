@@ -101,14 +101,6 @@ class ArchiveSelector
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
-        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
-            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
-        }
-
-        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
-            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
-        }
-
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
             && !empty($result['idarchive'])
@@ -401,7 +393,7 @@ class ArchiveSelector
             self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => false,
         ];
 
-        foreach ($results as &$result) {
+        foreach ($results as $result) {
             if (in_array($result['name'], $requestedPluginDoneFlags)
                 && in_array($result['idarchive'], $idArchives)
             ) {

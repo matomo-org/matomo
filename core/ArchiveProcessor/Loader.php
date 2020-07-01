@@ -103,7 +103,9 @@ class Loader
 
         if (SettingsServer::isArchivePhpTriggered()) {
             $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
-            $this->params->setArchiveOnlyReport($requestedReport);
+            if (!empty($requestedReport)) {
+                $this->params->setArchiveOnlyReport($requestedReport);
+            }
         }
 
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
