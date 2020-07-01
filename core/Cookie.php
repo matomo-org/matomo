@@ -231,7 +231,7 @@ class Cookie
             if (!is_numeric($value) && !is_string($value)) {
                 die("cookies can only contain strings and numbers"); //TODO: replace with proper handling
             }
-            $cookieStrArr[] = "$name=$value";
+            $cookieStrArr[] = "$name=$value"; 
         }
 
         return implode(self::VALUE_SEPARATOR, $cookieStrArr);
