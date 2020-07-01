@@ -67,10 +67,11 @@ class ArchiveTest extends IntegrationTestCase
         $metrics = $archive->getNumeric(['ExamplePlugin_archive1metric', 'ExamplePlugin_archive2metric', 'ExamplePlugin_archive3metric']);
 
         $expected = [
-            'ExamplePlugin_archive1metric' => 1,
-            'ExamplePlugin_archive2metric' => 2,
+            'ExamplePlugin_archive1metric' => 0,
+            'ExamplePlugin_archive2metric' => 0,
             'ExamplePlugin_archive3metric' => 7,
         ];
+
         $this->assertEquals($expected, $metrics);
     }
 
