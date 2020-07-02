@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
@@ -208,8 +209,41 @@ class Segment
         // and apply a filter to the value to match if necessary (to map DB fields format)
         $cleanedExpressions = array();
         foreach ($expressions as $expression) {
+            $cleanedExpression = null;
             $operand = $expression[SegmentExpression::INDEX_OPERAND];
-            $cleanedExpression = $this->getCleanedExpression($operand);
+            $name    = $operand[SegmentExpression::INDEX_OPERAND_NAME];
+
+            // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
+            // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
+            if (!$this->isVisitSegment($name) && in_array($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], [
+                SegmentExpression::MATCH_DOES_NOT_CONTAIN,
+                SegmentExpression::MATCH_NOT_EQUAL
+            ])) {
+                $operator = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR] === SegmentExpression::MATCH_DOES_NOT_CONTAIN ? SegmentExpression::MATCH_CONTAINS : SegmentExpression::MATCH_EQUAL;
+                $stringSegment = $operand[SegmentExpression::INDEX_OPERAND_NAME] . $operator . $operand[SegmentExpression::INDEX_OPERAND_VALUE];
+                $segmentObj = new Segment($stringSegment, $idSites);
+
+                $date = Common::getRequestVar('date', false);
+                $periodStr = Common::getRequestVar('period', false);
+                $period = Period\Factory::build($periodStr, $date);
+
+                $params = new ArchiveProcessor\Parameters(new Site(is_array($idSites) ? reset($idSites) : $idSites), $period, $segmentObj);
+                $logAggregator = new LogAggregator($params);
+                $select = 'log_visit.idvisit';
+                $from = 'log_visit';
+                $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
+                $query = $logAggregator->generateQuery($select, $from, $where, 'log_visit.idvisit', '');
+
+                $cleanedExpression = [
+                    SegmentExpression::INDEX_OPERAND_NAME => 'log_visit.idvisit',
+                    SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS,
+                    SegmentExpression::INDEX_OPERAND_VALUE => $query
+                ];
+            }
+
+            if (empty($cleanedExpression)) {
+                $cleanedExpression = $this->getCleanedExpression($operand);
+            }
             $expression[SegmentExpression::INDEX_OPERAND] = $cleanedExpression;
             $cleanedExpressions[] = $expression;
         }
@@ -226,7 +260,11 @@ class Segment
 
             $availableSegment = $this->getSegmentByName($name);
 
-            if (!empty($availableSegment['unionOfSegments'])) {
+            // We leave segments using !@ and != operands untouched for segments not on log_visit table as they will be build using a subquery
+            if ((!in_array($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], [
+                SegmentExpression::MATCH_DOES_NOT_CONTAIN,
+                SegmentExpression::MATCH_NOT_EQUAL
+            ]) || $this->isVisitSegment($name)) && !empty($availableSegment['unionOfSegments'])) {
                 $count = 0;
                 foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
                     $count++;
@@ -250,6 +288,26 @@ class Segment
         }
 
         return $expressionsWithUnions;
+    }
+
+    private function isVisitSegment($name)
+    {
+        $availableSegment = $this->getSegmentByName($name);
+
+        $isVisitSegment = false;
+        if (!empty($availableSegment['unionOfSegments'])) {
+            foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
+                $unionSegment = $this->getSegmentByName($segmentNameOfUnion);
+                if (strpos($unionSegment['sqlSegment'], 'log_visit.') === 0) {
+                    $isVisitSegment = true;
+                    break;
+                }
+            }
+        } else if (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
+            $isVisitSegment = true;
+        }
+
+        return $isVisitSegment;
     }
 
     /**
