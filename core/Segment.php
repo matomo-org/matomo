@@ -77,6 +77,11 @@ class Segment
     protected $idSites = null;
 
     /**
+     * @var Period
+     */
+    protected $period = null;
+
+    /**
      * @var LogQueryBuilder
      */
     private $segmentQueryBuilder;
@@ -97,9 +102,10 @@ class Segment
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
      * @param array $idSites The list of sites the segment will be used with. Some segments are
      *                       dependent on the site, such as goal segments.
+     * @param Period|null $period
      * @throws
      */
-    public function __construct($segmentCondition, $idSites)
+    public function __construct($segmentCondition, $idSites, $period = null)
     {
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
@@ -111,6 +117,16 @@ class Segment
         }
 
         $this->originalString = $segmentCondition;
+
+        if ($period instanceof Period) {
+            $this->period = $period;
+        }
+
+        if (empty($this->period)) {
+            $date = Common::getRequestVar('date', false);
+            $periodStr = Common::getRequestVar('period', false);
+            $this->period = Period\Factory::build($periodStr, $date);
+        }
 
         // The segment expression can be urlencoded. Unfortunately, both the encoded and decoded versions
         // can usually be parsed successfully. To pick the right one, we try both and pick the one w/ more
@@ -333,11 +349,7 @@ class Segment
             $stringSegment = $name . $operator . $value;
             $segmentObj = new Segment($stringSegment, $this->idSites);
 
-            $date = Common::getRequestVar('date', false);
-            $periodStr = Common::getRequestVar('period', false);
-            $period = Period\Factory::build($periodStr, $date);
-
-            $params = new ArchiveProcessor\Parameters(new Site(is_array($this->idSites) ? reset($this->idSites) : $this->idSites), $period, $segmentObj);
+            $params = new ArchiveProcessor\Parameters(new Site(is_array($this->idSites) ? reset($this->idSites) : $this->idSites), $this->period, $segmentObj);
             $logAggregator = new LogAggregator($params);
             $select = 'log_visit.idvisit';
             $from = 'log_visit';

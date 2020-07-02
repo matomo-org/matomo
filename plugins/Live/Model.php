@@ -466,7 +466,7 @@ class Model
             $filterSortOrder = 'DESC';
         }
 
-        $segment = new Segment($segment, $idSite);
+        $segment = new Segment($segment, $idSite, Period\Factory::build('day', implode(',', array_filter([$startDate,$endDate]))));
 
         // Subquery to use the indexes for ORDER BY
         $select = "log_visit.*";
