@@ -989,7 +989,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $expectedInvalidatedArchives, $report);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified() {
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
 
         $this->invalidator->reArchiveReport([1], 'VisitsSummary');
@@ -1044,6 +1047,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReportSpecified()
     {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
 
         $this->invalidator->reArchiveReport([1], 'VisitsSummary', 'some.Report');
@@ -1099,6 +1104,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     public function test_reArchive_alsoInvalidatesSegments()
     {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last2';
         Config::getInstance()->General['process_new_segments_from'] = 'beginning_of_time';
 
