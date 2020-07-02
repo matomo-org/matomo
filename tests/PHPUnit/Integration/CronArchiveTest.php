@@ -277,6 +277,10 @@ No more sites left to archive, stopping.
 
 LOG;
 
+        print "\n";
+        print $logger->output;
+        print "\n\n";
+
         $this->assertStringMatchesFormat($expected, $logger->output);
     }
 

@@ -436,7 +436,6 @@ class CronArchive
 
         $responses = $cliMulti->request($urls);
         $timers = $cliMulti->getTimers();
-
         $successCount = 0;
 
         foreach ($urls as $index => $url) {
@@ -445,7 +444,9 @@ class CronArchive
 
             $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
-                $this->logError("Error unserializing the following response from $url: " . $content);
+                $this->logger->info(var_export($content, true));
+
+                $this->logError("Error unserializing the following response from $url: '" . $content . "'");
                 continue;
             }
 
@@ -907,7 +908,7 @@ class CronArchive
             $this->logger->info("  See the doc at: https://matomo.org/docs/setup-auto-archiving/");
         }
 
-        $cliMulti = new CliMulti();
+        $cliMulti = new CliMulti($this->logger);
         $supportsAsync = $cliMulti->supportsAsync();
         $this->logger->info("- " . ($supportsAsync ? 'Async process archiving supported, using CliMulti.' : 'Async process archiving not supported, using curl requests.'));
 
@@ -1066,7 +1067,7 @@ class CronArchive
     private function makeCliMulti()
     {
         /** @var CliMulti $cliMulti */
-        $cliMulti = StaticContainer::getContainer()->make('Piwik\CliMulti');
+        $cliMulti = new CliMulti($this->logger);
         $cliMulti->setUrlToPiwik($this->urlToPiwik);
         $cliMulti->setPhpCliConfigurationOptions($this->phpCliConfigurationOptions);
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);

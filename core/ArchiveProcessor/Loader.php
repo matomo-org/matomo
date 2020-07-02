@@ -124,7 +124,7 @@ class Loader
         // we don't create an archive in this case, because the archive may be in progress in some way, so a 0
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
-            return false;
+            return [false, 0];
         }
 
         // if there is an archive, but we can't use it for some reason, invalidate existing archives before
@@ -152,7 +152,7 @@ class Loader
             return [[$idArchive], $visits];
         }
 
-        return false;
+        return [false, false];
     }
 
     /**
