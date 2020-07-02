@@ -24,7 +24,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 #### Recommendations for Matomo JS tracker
 
-The following changes are recommendations and don't have to be done as we will still support them for many years. However, it could change in the future.
+These are only recommendations (because we will keep backward compatibility forever), but we recommend you update your code for consistency with the Matomo documentations:
 
 * If using the `piwik_ignore` css class to ignore outlinks we recommend replacing it with `matomo_ignore` 
 * If using the `piwik_download` css class to mark a link as download we recommend replacing it with `matomo_download` 
