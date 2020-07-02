@@ -8,7 +8,7 @@
 		<sum_visit_length>12</sum_visit_length>
 		<bounce_count>19</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>30</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>31</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>30</sum_daily_nb_users>
 		
 		<segment>userId==user3</segment>
@@ -21,7 +21,7 @@
 		<sum_visit_length>8</sum_visit_length>
 		<bounce_count>13</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>21</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>20</sum_daily_nb_users>
 		
 		<segment>userId==user2</segment>

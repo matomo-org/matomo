@@ -6812,13 +6812,14 @@ if (typeof window.Piwik !== 'object') {
                     if (configTrackerSiteId) {
                         setVisitorIdCookie();
                         if (hasSentTrackingRequestYet) {
-                            // sets attribution cookie, we don't actually send the request
+                            // sets attribution cookie, and updates visitorId in the backend
                             // because hasSentTrackingRequestYet=true we assume there might not be another tracking
                             // request within this page view so we trigger one ourselves.
                             // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
                             // sets the cookie only when there is a tracking request. It'll be set if the user sends
                             // a tracking request afterwards
-                            getRequest('ping=1', null, 'ping');
+                            var request = getRequest('ping=1', null, 'ping');
+                            sendRequest(request, configTrackerPause);
                         }
                     }
                 }

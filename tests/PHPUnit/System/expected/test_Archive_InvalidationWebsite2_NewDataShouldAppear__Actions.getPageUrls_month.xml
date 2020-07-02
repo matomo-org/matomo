@@ -33,7 +33,7 @@
 					<entry_nb_actions>18</entry_nb_actions>
 					<entry_sum_visit_length>2</entry_sum_visit_length>
 					<entry_bounce_count>0</entry_bounce_count>
-					<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+					<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 					<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 					<avg_time_on_page>0</avg_time_on_page>
 					<bounce_rate>0%</bounce_rate>
@@ -50,7 +50,7 @@
 					<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 					<min_bandwidth />
 					<max_bandwidth />
-					<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+					<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 					<avg_time_on_page>0</avg_time_on_page>
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
@@ -66,7 +66,7 @@
 					<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 					<min_bandwidth />
 					<max_bandwidth />
-					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 					<avg_time_on_page>0</avg_time_on_page>
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
@@ -100,7 +100,7 @@
 			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 			<min_bandwidth />
 			<max_bandwidth />
-			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_on_page>0</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
@@ -117,7 +117,7 @@
 			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 			<min_bandwidth />
 			<max_bandwidth />
-			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_on_page>0</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
@@ -151,7 +151,7 @@
 					<min_bandwidth />
 					<max_bandwidth />
 					<exit_nb_visits>2</exit_nb_visits>
-					<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+					<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 					<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
 					<avg_time_on_page>0</avg_time_on_page>
 					<bounce_rate>0%</bounce_rate>

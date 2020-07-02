@@ -8,7 +8,7 @@
 		<sum_visit_length>1108</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>40</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>36</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
 		
 		<segment>userId==user4</segment>
