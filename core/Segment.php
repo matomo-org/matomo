@@ -209,39 +209,8 @@ class Segment
         // and apply a filter to the value to match if necessary (to map DB fields format)
         $cleanedExpressions = array();
         foreach ($expressions as $expression) {
-            $cleanedExpression = null;
             $operand = $expression[SegmentExpression::INDEX_OPERAND];
-            $name    = $operand[SegmentExpression::INDEX_OPERAND_NAME];
-
-            // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
-            // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
-            if ($this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name)) {
-                $operator = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR] === SegmentExpression::MATCH_DOES_NOT_CONTAIN ? SegmentExpression::MATCH_CONTAINS : SegmentExpression::MATCH_EQUAL;
-                $stringSegment = $operand[SegmentExpression::INDEX_OPERAND_NAME] . $operator . $operand[SegmentExpression::INDEX_OPERAND_VALUE];
-                $segmentObj = new Segment($stringSegment, $idSites);
-
-                $date = Common::getRequestVar('date', false);
-                $periodStr = Common::getRequestVar('period', false);
-                $period = Period\Factory::build($periodStr, $date);
-
-                $params = new ArchiveProcessor\Parameters(new Site(is_array($idSites) ? reset($idSites) : $idSites), $period, $segmentObj);
-                $logAggregator = new LogAggregator($params);
-                $select = 'log_visit.idvisit';
-                $from = 'log_visit';
-                $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
-                $query = $logAggregator->generateQuery($select, $from, $where, 'log_visit.idvisit', '');
-
-                $cleanedExpression = [
-                    SegmentExpression::INDEX_OPERAND_NAME => 'log_visit.idvisit',
-                    SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS,
-                    SegmentExpression::INDEX_OPERAND_VALUE => $query
-                ];
-            }
-
-            if (empty($cleanedExpression)) {
-                $cleanedExpression = $this->getCleanedExpression($operand);
-            }
-            $expression[SegmentExpression::INDEX_OPERAND] = $cleanedExpression;
+            $expression[SegmentExpression::INDEX_OPERAND] = $this->getCleanedExpression($operand);
             $cleanedExpressions[] = $expression;
         }
 
@@ -356,6 +325,27 @@ class Segment
 
         $segment = $this->getSegmentByName($name);
         $sqlName = $segment['sqlSegment'];
+
+        // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
+        // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
+        if ($this->doesSegmentNeedSubquery($matchType, $name)) {
+            $operator = $matchType === SegmentExpression::MATCH_DOES_NOT_CONTAIN ? SegmentExpression::MATCH_CONTAINS : SegmentExpression::MATCH_EQUAL;
+            $stringSegment = $name . $operator . $value;
+            $segmentObj = new Segment($stringSegment, $this->idSites);
+
+            $date = Common::getRequestVar('date', false);
+            $periodStr = Common::getRequestVar('period', false);
+            $period = Period\Factory::build($periodStr, $date);
+
+            $params = new ArchiveProcessor\Parameters(new Site(is_array($this->idSites) ? reset($this->idSites) : $this->idSites), $period, $segmentObj);
+            $logAggregator = new LogAggregator($params);
+            $select = 'log_visit.idvisit';
+            $from = 'log_visit';
+            $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
+            $query = $logAggregator->generateQuery($select, $from, $where, 'log_visit.idvisit', '');
+
+            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query];
+        }
 
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
