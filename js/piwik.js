@@ -960,7 +960,7 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
-    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
+    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, enableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
@@ -3261,7 +3261,10 @@ if (typeof window.Piwik !== 'object') {
                 consentRequestsQueue = [],
 
                 // a unique ID for this tracker during this request
-                uniqueTrackerId = trackerIdCounter++;
+                uniqueTrackerId = trackerIdCounter++,
+
+                // whether a tracking request has been sent yet during this page view
+                hasSentTrackingRequestYet = false;
 
             // Document title
             try {
@@ -3843,6 +3846,9 @@ if (typeof window.Piwik !== 'object') {
                     consentRequestsQueue.push(request);
                     return;
                 }
+
+                hasSentTrackingRequestYet = true;
+
                 if (!configDoNotTrack && request) {
                     if (configConsentRequired && configHasConsent) { // send a consent=1 when explicit consent is given for the apache logs
                         request += '&consent=1';
@@ -3908,6 +3914,8 @@ if (typeof window.Piwik !== 'object') {
                     consentRequestsQueue.push(requests);
                     return;
                 }
+
+                hasSentTrackingRequestYet = true;
 
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                     var chunks = arrayChunk(requests, 50);
@@ -6796,6 +6804,28 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enables cookies if they were disabled previously
+             */
+            this.enableCookies = function () {
+                if (configCookiesDisabled && !configDoNotTrack) {
+                    configCookiesDisabled = false;
+                    if (configTrackerSiteId) {
+                        setVisitorIdCookie();
+                        if (hasSentTrackingRequestYet) {
+                            // sets attribution cookie, and updates visitorId in the backend
+                            // because hasSentTrackingRequestYet=true we assume there might not be another tracking
+                            // request within this page view so we trigger one ourselves.
+                            // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
+                            // sets the cookie only when there is a tracking request. It'll be set if the user sends
+                            // a tracking request afterwards
+                            var request = getRequest('ping=1', null, 'ping');
+                            sendRequest(request, configTrackerPause);
+                        }
+                    }
+                }
+            };
+
+            /**
              * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
              * it maybe helps to "reset" tracking cookies to prevent data reuse for different users.
              */
@@ -7746,7 +7776,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'enableCookies', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
