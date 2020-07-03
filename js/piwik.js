@@ -960,7 +960,7 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
-    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, enableCookies,
+    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, enableCookies, areCookiesEnabled,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
