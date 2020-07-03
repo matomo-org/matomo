@@ -6802,6 +6802,10 @@ if (typeof window.Piwik !== 'object') {
                 }
             };
 
+            this.areCookiesEnabled = function () {
+                return !configCookiesDisabled;
+            };
+
             /**
              * Enables cookies if they were disabled previously
              */
