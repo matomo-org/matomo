@@ -212,6 +212,10 @@ class Segment
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
 
         $this->string  = $string;
+
+        if (!is_array($idSites)) {
+            $idSites = [$idSites];
+        }
         $this->idSites = $idSites;
         $segment = new SegmentExpression($string);
         $this->segmentExpression = $segment;
@@ -273,20 +277,18 @@ class Segment
     {
         $availableSegment = $this->getSegmentByName($name);
 
-        $isVisitSegment = false;
         if (!empty($availableSegment['unionOfSegments'])) {
             foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
                 $unionSegment = $this->getSegmentByName($segmentNameOfUnion);
                 if (strpos($unionSegment['sqlSegment'], 'log_visit.') === 0) {
-                    $isVisitSegment = true;
-                    break;
+                    return true;
                 }
             }
         } else if (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
-            $isVisitSegment = true;
+            return true;
         }
 
-        return $isVisitSegment;
+        return false;
     }
 
     private function doesSegmentNeedSubquery($operator, $segmentName)
@@ -295,6 +297,17 @@ class Segment
                 SegmentExpression::MATCH_DOES_NOT_CONTAIN,
                 SegmentExpression::MATCH_NOT_EQUAL
             ]) && !$this->isVisitSegment($segmentName);
+    }
+
+    private function getInvertedOperatorForSubQuery($operator)
+    {
+        if ($operator === SegmentExpression::MATCH_DOES_NOT_CONTAIN) {
+            return SegmentExpression::MATCH_CONTAINS;
+        } else if ($operator === SegmentExpression::MATCH_NOT_EQUAL) {
+            return SegmentExpression::MATCH_EQUAL;
+        }
+
+        throw new Exception("Operator not support for subqueries");
     }
 
     /**
@@ -322,9 +335,6 @@ class Segment
         }
 
         $idSites = $this->idSites;
-        if (!is_array($idSites)) {
-            $idSites = array($this->idSites);
-        }
 
         return Rules::isRequestAuthorizedToArchive()
             || Rules::isBrowserArchivingAvailableForSegments()
@@ -345,12 +355,16 @@ class Segment
         // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
         // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
         if ($this->doesSegmentNeedSubquery($matchType, $name)) {
-            $operator = $matchType === SegmentExpression::MATCH_DOES_NOT_CONTAIN ? SegmentExpression::MATCH_CONTAINS : SegmentExpression::MATCH_EQUAL;
+            $operator = $this->getInvertedOperatorForSubQuery($matchType);
             $stringSegment = $name . $operator . $value;
             $segmentObj = new Segment($stringSegment, $this->idSites);
 
-            $params = new ArchiveProcessor\Parameters(new Site(is_array($this->idSites) ? reset($this->idSites) : $this->idSites), $this->period, $segmentObj);
+            // use the first site to be able to initialize the Parameters object, but overwrite it for LogAggregator afterwards
+            $site = new Site(reset($this->idSites));
+            $params = new ArchiveProcessor\Parameters($site, $this->period, $segmentObj);
             $logAggregator = new LogAggregator($params);
+            $logAggregator->setSites($this->idSites);
+
             $select = 'log_visit.idvisit';
             $from = 'log_visit';
             $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
