@@ -7665,7 +7665,7 @@ if (typeof window.Piwik !== 'object') {
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
                     if (requestType === 'string') {
-                        sendRequest(consentRequestsQueue[i] + appendVisitorId, configTrackerPause);
+                        sendRequest(consentRequestsQueue[i], configTrackerPause);
                     } else if (requestType === 'object') {
                         sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
                     }
@@ -7753,7 +7753,7 @@ if (typeof window.Piwik !== 'object') {
                 // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
                 var enableCookies = false;
                 this.rememberConsentGiven(0, enableCookies);
-            }
+            };
 
             Piwik.trigger('TrackerSetup', [this]);
         }
