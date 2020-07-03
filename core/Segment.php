@@ -125,7 +125,9 @@ class Segment
         if (empty($this->period)) {
             $date = Common::getRequestVar('date', false);
             $periodStr = Common::getRequestVar('period', false);
-            $this->period = Period\Factory::build($periodStr, $date);
+            if ($date && $periodStr) {
+                $this->period = Period\Factory::build($periodStr, $date);
+            }
         }
 
         // The segment expression can be urlencoded. Unfortunately, both the encoded and decoded versions
@@ -293,7 +295,7 @@ class Segment
 
     private function doesSegmentNeedSubquery($operator, $segmentName)
     {
-        return in_array($operator, [
+        return $this->period instanceof Period && in_array($operator, [
                 SegmentExpression::MATCH_DOES_NOT_CONTAIN,
                 SegmentExpression::MATCH_NOT_EQUAL
             ]) && !$this->isVisitSegment($segmentName);
