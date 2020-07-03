@@ -4372,7 +4372,6 @@ if (typeof window.Piwik !== 'object') {
 
             function setSiteId(siteId) {
                 configTrackerSiteId = siteId;
-                setVisitorIdCookie();
             }
 
             function sortObjectByKeys(value) {
@@ -6809,18 +6808,17 @@ if (typeof window.Piwik !== 'object') {
             this.enableCookies = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
-                    if (configTrackerSiteId) {
+                    if (configTrackerSiteId && hasSentTrackingRequestYet) {
                         setVisitorIdCookie();
-                        if (hasSentTrackingRequestYet) {
-                            // sets attribution cookie, and updates visitorId in the backend
-                            // because hasSentTrackingRequestYet=true we assume there might not be another tracking
-                            // request within this page view so we trigger one ourselves.
-                            // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
-                            // sets the cookie only when there is a tracking request. It'll be set if the user sends
-                            // a tracking request afterwards
-                            var request = getRequest('ping=1', null, 'ping');
-                            sendRequest(request, configTrackerPause);
-                        }
+
+                        // sets attribution cookie, and updates visitorId in the backend
+                        // because hasSentTrackingRequestYet=true we assume there might not be another tracking
+                        // request within this page view so we trigger one ourselves.
+                        // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
+                        // sets the cookie only when there is a tracking request. It'll be set if the user sends
+                        // a tracking request afterwards
+                        var request = getRequest('ping=1', null, 'ping');
+                        sendRequest(request, configTrackerPause);
                     }
                 }
             };
@@ -7631,6 +7629,11 @@ if (typeof window.Piwik !== 'object') {
             this.requireConsent = function () {
                 configConsentRequired = true;
                 configHasConsent = this.hasRememberedConsent();
+                if (!configHasConsent) {
+                    // we won't call this.disableCookies() since we don't want to delete any cookies just yet
+                    // user might call `setConsentGiven` next
+                    configCookiesDisabled = true;
+                }
                 // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
@@ -7648,20 +7651,38 @@ if (typeof window.Piwik !== 'object') {
              * Call this method once the user has given consent. This will cause all tracking requests from this
              * page view to be sent. Please note that the given consent won't be remembered across page views. If you
              * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
+             *
+             * It will also automatically enable cookies if they were disabled previously.
+             *
+             * @param bool [enableCookies=true] Internal parameter. Defines whether cookies should be enabled or not.
              */
-            this.setConsentGiven = function () {
+            this.setConsentGiven = function (enableCookies) {
                 configHasConsent = true;
+
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
+
                 var i, requestType;
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
                     if (requestType === 'string') {
-                        sendRequest(consentRequestsQueue[i], configTrackerPause);
+                        sendRequest(consentRequestsQueue[i] + appendVisitorId, configTrackerPause);
                     } else if (requestType === 'object') {
                         sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
                     }
                 }
                 consentRequestsQueue = [];
+
+                // we need to enable cookies after sending the previous requests as it will make sure that we send
+                // a ping request if needed. Cookies are only set once we call `getRequest`. Above only calls sendRequest
+                // meaning no cookies will be created unless we called enableCookies after at least one request has been sent.
+                // this will cause a ping request to be sent that sets the cookies and also updates the newly generated visitorId
+                // on the server.
+                // If the user calls setConsentGiven before sending any tracking request (which usually is the case) then
+                // nothing will need to be done as it only enables cookies and the next tracking request will set the cookies
+                // etc.
+                if (!isDefined(enableCookies) || enableCookies) {
+                    this.enableCookies();
+                }
             };
 
             /**
@@ -7678,6 +7699,9 @@ if (typeof window.Piwik !== 'object') {
              * for all sites that match the configured cookieDomain and cookiePath. Depending on your website structure,
              * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
              * to the sites you want.
+             *
+             * @param int hoursToExpire After how many hours the consent should expire. By default the consent is valid
+             *                          for 30 years unless cookies are deleted by the user or the browser prior to this
              */
             this.rememberConsentGiven = function (hoursToExpire) {
                 if (hoursToExpire) {
@@ -7685,7 +7709,10 @@ if (typeof window.Piwik !== 'object') {
                 } else {
                     hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
-                this.setConsentGiven();
+                var enableCookies = true;
+                // we currently always enable cookies if we remember consent cause we don't store across requests whether
+                // cookies should be automatically enabled or not.
+                this.setConsentGiven(enableCookies);
                 var now = new Date().getTime();
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
@@ -7722,7 +7749,11 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
              */
-            this.forgetUserOptOut = this.rememberConsentGiven;
+            this.forgetUserOptOut = function () {
+                // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
+                var enableCookies = false;
+                this.rememberConsentGiven(0, enableCookies);
+            }
 
             Piwik.trigger('TrackerSetup', [this]);
         }
