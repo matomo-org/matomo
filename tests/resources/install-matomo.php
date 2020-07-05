@@ -150,6 +150,7 @@ function getTokenAuth()
 }
 
 $_SERVER['HTTP_HOST'] = $host;
+$_SERVER['SERVER_NAME'] = $host;
 $dbConfig['dbname'] = 'latest_stable';
 
 file_put_contents(PIWIK_INCLUDE_PATH . "/config/config.ini.php", '');
