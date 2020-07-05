@@ -530,7 +530,9 @@ function PiwikTest() {
 
                 // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
                 JSLINT.errors.forEach( function (item, index) {
-                    item.line += countOfLinesRemoved;
+                    if (item) {
+                        item.line += countOfLinesRemoved;
+                    }
                     console.log(item);
                 });
 
@@ -2149,7 +2151,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(112);
+        expect(113);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2245,6 +2247,7 @@ function PiwikTest() {
         equal( typeof tracker.setRequestQueueInterval, 'function', 'setRequestQueueInterval' );
         equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
         equal( typeof tracker.enableCookies, 'function', 'enableCookies' );
+        equal( typeof tracker.areCookiesEnabled, 'function', 'areCookiesEnabled' );
         equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
         // content
         equal( typeof tracker.trackAllContentImpressions, 'function', 'trackAllContentImpressions' );
@@ -4945,7 +4948,7 @@ if ($mysql) {
     });
 
     test("Test API - consent", function() {
-        expect(29);
+        expect(34);
 
         var queue;
         var tracker = Piwik.getTracker();
@@ -4955,8 +4958,12 @@ if ($mysql) {
         strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
         strictEqual(tracker.hasConsent(), true, "hasConsent, assumes consent by default" );
 
-        ok(!tracker.isConsentRequired(), 'by default consent is not required')
+        ok(!tracker.isConsentRequired(), 'by default consent is not required');
+        ok(tracker.areCookiesEnabled(), 'by default cookies are enabled');
         tracker.requireConsent();
+        ok(!tracker.areCookiesEnabled(), 'require consent disables cookies');
+
+
 
         ok(tracker.isConsentRequired(), 'consent is required after requiring it')
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, still empty after requiring consent" );
@@ -4976,7 +4983,10 @@ if ($mysql) {
         strictEqual(tracker.hasRememberedConsent(), false, "getConsentRequestsQueue, has not remembered consent" );
         strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
 
+        tracker.requireConsent();
+        ok(!tracker.areCookiesEnabled(), 'after requiring consent, cookies are disabled');
         tracker.rememberConsentGiven();
+        ok(tracker.areCookiesEnabled(), 'remember cookie consent enables cookies');
 
         strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
         var rememberedConsent = tracker.getRememberedConsent();
@@ -5004,7 +5014,8 @@ if ($mysql) {
             var results = fetchTrackedRequests(getConsentToken() + '1');
             strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
             strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
-            strictEqual(2, (results.match(/consent=1/g) || []).length, "consent=1 parameter appears in URL when explicit consent given");
+            strictEqual(true, results.indexOf('ping=1') > 0, "setConsentGiven does replay all queued requests" );// sent when enabling cookies as part of setConsentGiven. Called twice in total
+            strictEqual(4, (results.match(/consent=1/g) || []).length, "consent=1 parameter appears in URL when explicit consent given");
 
             var results2 = fetchTrackedRequests(getConsentToken() + '2');
             strictEqual(true, results2.indexOf('myFoo=bar&baz=3') > 0, "normal request" );
