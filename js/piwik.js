@@ -6828,6 +6828,28 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enables cookies if they were disabled previously
+             */
+            this.enableCookies = function () {
+                if (configCookiesDisabled && !configDoNotTrack) {
+                    configCookiesDisabled = false;
+                    if (configTrackerSiteId) {
+                        setVisitorIdCookie();
+                        if (hasSentTrackingRequestYet) {
+                            // sets attribution cookie, and updates visitorId in the backend
+                            // because hasSentTrackingRequestYet=true we assume there might not be another tracking
+                            // request within this page view so we trigger one ourselves.
+                            // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
+                            // sets the cookie only when there is a tracking request. It'll be set if the user sends
+                            // a tracking request afterwards
+                            var request = getRequest('ping=1', null, 'ping');
+                            sendRequest(request, configTrackerPause);
+                        }
+                    }
+                }
+            };
+
+            /**
              * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
              * it maybe helps to "reset" tracking cookies to prevent data reuse for different users.
              */
