@@ -193,11 +193,11 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets a user preference
-     * @param string $userLogin  Optional, defaults to current user log in.
+     * @param string|bool $userLogin  Optional, defaults to current user log in when set to false.
      * @param string $preferenceName
      * @return bool|string
      */
-    public function getUserPreference($userLogin = false, $preferenceName)
+    public function getUserPreference($userLogin, $preferenceName)
     {
         if ($userLogin === false) {
             // the default value for first parameter is there to have it an optional parameter in the HTTP API
