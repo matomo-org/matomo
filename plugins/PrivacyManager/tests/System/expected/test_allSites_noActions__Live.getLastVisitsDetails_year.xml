@@ -89,6 +89,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -105,12 +111,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>200</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -201,6 +201,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>14400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -217,12 +223,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -313,6 +313,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -329,12 +335,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -425,6 +425,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -441,12 +447,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -537,6 +537,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -553,12 +559,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -649,6 +649,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>28800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -665,12 +671,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -761,6 +761,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -773,12 +779,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -869,6 +869,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -885,12 +891,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -981,6 +981,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -997,12 +1003,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>200</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1093,6 +1093,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>14400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1109,12 +1115,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1205,6 +1205,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1221,12 +1227,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1317,6 +1317,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1333,12 +1339,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1429,6 +1429,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1445,12 +1451,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1541,6 +1541,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>28800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1557,12 +1563,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1653,6 +1653,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1665,12 +1671,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1761,6 +1761,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1777,12 +1783,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -1873,6 +1873,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1889,12 +1895,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>200</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -1985,6 +1985,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>14400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2001,12 +2007,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -2097,6 +2097,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2113,12 +2119,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -2209,6 +2209,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2225,12 +2231,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -2321,6 +2321,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2337,12 +2343,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -2433,6 +2433,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>28800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2449,12 +2455,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -2545,6 +2545,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2557,12 +2563,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -2653,6 +2653,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2669,12 +2675,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -2765,6 +2765,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2781,12 +2787,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -2877,6 +2877,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -2893,12 +2899,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>204</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -2989,6 +2989,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3005,12 +3011,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -3101,6 +3101,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3117,12 +3123,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>210</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -3213,6 +3213,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3229,12 +3235,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -3325,6 +3325,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3341,12 +3347,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>204</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -3437,6 +3437,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3453,12 +3459,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -3549,6 +3549,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3565,12 +3571,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>210</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3661,6 +3661,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3677,12 +3683,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3773,6 +3773,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3789,12 +3795,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>204</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3885,6 +3885,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3901,12 +3907,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -3997,6 +3997,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4013,12 +4019,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>210</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4109,6 +4109,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4125,12 +4131,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4221,6 +4221,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>255600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4237,12 +4243,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -4333,6 +4333,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4349,12 +4355,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -4445,6 +4445,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4461,12 +4467,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -4557,6 +4557,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4573,12 +4579,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -4669,6 +4669,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4685,12 +4691,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4781,6 +4781,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -4797,12 +4803,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4893,6 +4893,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4905,12 +4911,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -5001,6 +5001,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -5017,12 +5023,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -5113,6 +5113,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -5125,12 +5131,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -5221,6 +5221,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -5237,12 +5243,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -5333,6 +5333,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -5345,12 +5351,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5441,6 +5441,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -5457,12 +5463,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -5553,6 +5553,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -5569,12 +5575,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -5665,6 +5665,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -5681,12 +5687,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5777,6 +5777,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -5793,12 +5799,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5889,6 +5889,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>248400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -5905,12 +5911,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6001,6 +6001,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6017,12 +6023,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -6113,6 +6113,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6129,12 +6135,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -6225,6 +6225,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6241,12 +6247,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -6337,6 +6337,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6353,12 +6359,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -6449,6 +6449,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6465,12 +6471,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -6561,6 +6561,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6577,12 +6583,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -6673,6 +6673,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6689,12 +6695,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6785,6 +6785,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>248400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6801,12 +6807,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -6897,6 +6897,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -6913,12 +6919,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -7009,6 +7009,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7025,12 +7031,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7121,6 +7121,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>140400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7137,12 +7143,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7233,6 +7233,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7249,12 +7255,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -7345,6 +7345,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>140400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7361,12 +7367,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -7457,6 +7457,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7473,12 +7479,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -7569,6 +7569,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>140400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7585,12 +7591,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -7681,6 +7681,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7697,12 +7703,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7793,6 +7793,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>241200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7809,12 +7815,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -7905,6 +7905,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -7921,12 +7927,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -8017,6 +8017,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8033,12 +8039,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -8129,6 +8129,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8145,12 +8151,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -8241,6 +8241,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>230400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8257,12 +8263,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -8353,6 +8353,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8369,12 +8375,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -8465,6 +8465,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8481,12 +8487,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -8577,6 +8577,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8593,12 +8599,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -8689,6 +8689,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8705,12 +8711,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -8801,6 +8801,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8817,12 +8823,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -8913,6 +8913,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -8929,12 +8935,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -9025,6 +9025,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9041,12 +9047,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -9137,6 +9137,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9153,12 +9159,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -9249,6 +9249,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>212400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9265,12 +9271,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -9361,6 +9361,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9377,12 +9383,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -9473,6 +9473,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9489,12 +9495,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -9585,6 +9585,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9601,12 +9607,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -9697,6 +9697,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9713,12 +9719,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -9809,6 +9809,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>90000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9825,12 +9831,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -9921,6 +9921,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>90000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -9937,12 +9943,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -10033,6 +10033,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>90000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10049,12 +10055,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -10145,6 +10145,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>104400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10161,12 +10167,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -10257,6 +10257,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>104400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10273,12 +10279,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -10369,6 +10369,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10385,12 +10391,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -10481,6 +10481,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10497,12 +10503,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -10593,6 +10593,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10609,12 +10615,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -10705,6 +10705,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10721,12 +10727,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -10817,6 +10817,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10833,12 +10839,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>200</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -10929,6 +10929,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>14400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -10945,12 +10951,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11041,6 +11041,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11057,12 +11063,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11153,6 +11153,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11169,12 +11175,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11265,6 +11265,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11281,12 +11287,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11377,6 +11377,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>28800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11393,12 +11399,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11489,6 +11489,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -11501,12 +11507,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11597,6 +11597,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11613,12 +11619,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11709,6 +11709,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11725,12 +11731,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11821,6 +11821,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11837,12 +11843,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>204</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -11933,6 +11933,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -11949,12 +11955,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12045,6 +12045,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12061,12 +12067,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>210</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12157,6 +12157,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12173,12 +12179,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12269,6 +12269,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>255600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12285,12 +12291,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12381,6 +12381,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12397,12 +12403,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12493,6 +12493,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -12505,12 +12511,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12601,6 +12601,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12617,12 +12623,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12713,6 +12713,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12729,12 +12735,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12825,6 +12825,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>248400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12841,12 +12847,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -12937,6 +12937,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -12953,12 +12959,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13049,6 +13049,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>248400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13065,12 +13071,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13161,6 +13161,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>140400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13177,12 +13183,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13273,6 +13273,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13289,12 +13295,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13385,6 +13385,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>241200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13401,12 +13407,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13497,6 +13497,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13513,12 +13519,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13609,6 +13609,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>230400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13625,12 +13631,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13721,6 +13721,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13737,12 +13743,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13833,6 +13833,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13849,12 +13855,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -13945,6 +13945,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>212400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -13961,12 +13967,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14057,6 +14057,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>90000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14073,12 +14079,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14169,6 +14169,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>104400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14185,12 +14191,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14281,6 +14281,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>104400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14297,12 +14303,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14393,6 +14393,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14409,12 +14415,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>200</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14505,6 +14505,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>14400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14521,12 +14527,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14617,6 +14617,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14633,12 +14639,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14729,6 +14729,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14745,12 +14751,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14841,6 +14841,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14857,12 +14863,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -14953,6 +14953,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>28800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -14969,12 +14975,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -15065,6 +15065,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -15077,12 +15083,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -15173,6 +15173,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -15189,12 +15195,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15285,6 +15285,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -15301,12 +15307,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>200</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15397,6 +15397,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>14400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -15413,12 +15419,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15509,6 +15509,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -15525,12 +15531,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15621,6 +15621,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -15637,12 +15643,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15733,6 +15733,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -15749,12 +15755,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15845,6 +15845,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>28800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -15861,12 +15867,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -15957,6 +15957,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -15969,12 +15975,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16065,6 +16065,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16081,12 +16087,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -16177,6 +16177,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16193,12 +16199,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -16289,6 +16289,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16305,12 +16311,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>204</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -16401,6 +16401,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16417,12 +16423,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -16513,6 +16513,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>259200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16529,12 +16535,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>210</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16625,6 +16625,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16641,12 +16647,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16737,6 +16737,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16753,12 +16759,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>204</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16849,6 +16849,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16865,12 +16871,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -16961,6 +16961,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -16977,12 +16983,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>210</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -17073,6 +17073,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -17089,12 +17095,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -17185,6 +17185,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>255600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -17201,12 +17207,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -17297,6 +17297,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -17313,12 +17319,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -17409,6 +17409,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -17425,12 +17431,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -17521,6 +17521,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -17537,12 +17543,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -17633,6 +17633,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -17645,12 +17651,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -17741,6 +17741,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -17757,12 +17763,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -17853,6 +17853,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -17865,12 +17871,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -17961,6 +17961,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>252000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -17977,12 +17983,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -18073,6 +18073,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18089,12 +18095,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18185,6 +18185,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18201,12 +18207,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18297,6 +18297,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>248400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18313,12 +18319,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18409,6 +18409,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18425,12 +18431,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -18521,6 +18521,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18537,12 +18543,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -18633,6 +18633,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18649,12 +18655,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -18745,6 +18745,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18761,12 +18767,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -18857,6 +18857,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>248400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18873,12 +18879,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -18969,6 +18969,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -18985,12 +18991,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19081,6 +19081,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>140400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19097,12 +19103,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19193,6 +19193,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19209,12 +19215,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -19305,6 +19305,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>140400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19321,12 +19327,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -19417,6 +19417,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19433,12 +19439,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19529,6 +19529,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>241200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19545,12 +19551,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -19641,6 +19641,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19657,12 +19663,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19753,6 +19753,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19769,12 +19775,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -19865,6 +19865,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>230400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19881,12 +19887,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -19977,6 +19977,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -19993,12 +19999,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -20089,6 +20089,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20105,12 +20111,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20201,6 +20201,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20217,12 +20223,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -20313,6 +20313,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20329,12 +20335,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20425,6 +20425,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20441,12 +20447,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20537,6 +20537,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>2</daysSinceLastVisit>
 		<secondsSinceLastVisit>212400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20553,12 +20559,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -20649,6 +20649,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20665,12 +20671,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -20761,6 +20761,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20777,12 +20783,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -20873,6 +20873,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>90000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -20889,12 +20895,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -20985,6 +20985,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>90000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21001,12 +21007,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21097,6 +21097,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>104400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21113,12 +21119,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21209,6 +21209,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>104400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21225,12 +21231,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -21321,6 +21321,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21337,12 +21343,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -21433,6 +21433,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21449,12 +21455,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21545,6 +21545,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>200</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21561,12 +21567,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>200</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21657,6 +21657,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>14400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21673,12 +21679,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21769,6 +21769,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21785,12 +21791,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21881,6 +21881,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -21897,12 +21903,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -21993,6 +21993,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22009,12 +22015,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22105,6 +22105,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>28800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22121,12 +22127,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22217,6 +22217,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -22229,12 +22235,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22325,6 +22325,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22341,12 +22347,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22437,6 +22437,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22453,12 +22459,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22549,6 +22549,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>204</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22565,12 +22571,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>204</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22661,6 +22661,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22677,12 +22683,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22773,6 +22773,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>210</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22789,12 +22795,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>210</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22885,6 +22885,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -22901,12 +22907,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -22997,6 +22997,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23013,12 +23019,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23109,6 +23109,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23125,12 +23131,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23221,6 +23221,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>209</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -23233,12 +23239,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>209</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23329,6 +23329,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>201</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23345,12 +23351,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>201</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23441,6 +23441,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23457,12 +23463,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23553,6 +23553,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>205</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23569,12 +23575,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>205</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23665,6 +23665,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>7200</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23681,12 +23687,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23777,6 +23777,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>207</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23793,12 +23799,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>207</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -23889,6 +23889,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>140400</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>202</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -23905,12 +23911,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>202</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24001,6 +24001,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24017,12 +24023,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24113,6 +24113,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>206</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24129,12 +24135,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>206</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24225,6 +24225,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24241,12 +24247,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24337,6 +24337,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>208</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24353,12 +24359,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>208</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24449,6 +24449,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>10800</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24465,12 +24471,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24561,6 +24561,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>18000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24577,12 +24583,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24673,6 +24673,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>211</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24689,12 +24695,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>211</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -24785,6 +24785,12 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>90000</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>myCustomUserId</customVariableName1>
+				<customVariableValue1>203</customVariableValue1>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -24801,11 +24807,5 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName1>myCustomUserId</customVariableName1>
-				<customVariableValue1>203</customVariableValue1>
-			</row>
-		</customVariables>
 	</row>
 </result>

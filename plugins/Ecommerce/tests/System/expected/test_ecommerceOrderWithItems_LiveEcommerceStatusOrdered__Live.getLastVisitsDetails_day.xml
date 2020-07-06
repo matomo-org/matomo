@@ -137,6 +137,20 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>15480</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName4>ValueIsZero</customVariableName4>
+				<customVariableValue4>0</customVariableValue4>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -153,20 +167,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName3>VisitorName</customVariableName3>
-				<customVariableValue3>Great name!</customVariableValue3>
-			</row>
-			<row>
-				<customVariableName4>ValueIsZero</customVariableName4>
-				<customVariableValue4>0</customVariableValue4>
-			</row>
-			<row>
-				<customVariableName5>VisitorType</customVariableName5>
-				<customVariableValue5>NewLoggedOut</customVariableValue5>
-			</row>
-		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -370,6 +370,20 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>68040</secondsSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName4>ValueIsZero</customVariableName4>
+				<customVariableValue4>0</customVariableValue4>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -386,19 +400,5 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName3>VisitorName</customVariableName3>
-				<customVariableValue3>Great name!</customVariableValue3>
-			</row>
-			<row>
-				<customVariableName4>ValueIsZero</customVariableName4>
-				<customVariableValue4>0</customVariableValue4>
-			</row>
-			<row>
-				<customVariableName5>VisitorType</customVariableName5>
-				<customVariableValue5>NewLoggedOut</customVariableValue5>
-			</row>
-		</customVariables>
 	</row>
 </result>

@@ -131,6 +131,16 @@
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
 			<secondsSinceLastVisit>3600</secondsSinceLastVisit>
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 			<resolution>1111x222</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -147,16 +157,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			<customVariables>
-				<row>
-					<customVariableName1>VisitorType</customVariableName1>
-					<customVariableValue1>LoggedOut</customVariableValue1>
-				</row>
-				<row>
-					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-				</row>
-			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -279,6 +279,16 @@
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
 			<secondsSinceLastVisit>0</secondsSinceLastVisit>
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 			<resolution>1111x222</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -295,16 +305,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			<customVariables>
-				<row>
-					<customVariableName1>VisitorType</customVariableName1>
-					<customVariableValue1>LoggedOut</customVariableValue1>
-				</row>
-				<row>
-					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-				</row>
-			</customVariables>
 		</row>
 	</lastVisits>
 	

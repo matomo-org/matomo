@@ -1199,36 +1199,6 @@
 		</widgets>
 	</row>
 	<row>
-		<uniqueId>General_Visitors.UserId_UserReportTitle</uniqueId>
-		<category>
-			<id>General_Visitors</id>
-			<name>Visitors</name>
-			<order>5</order>
-			<icon>icon-reporting-visitors</icon>
-		</category>
-		<subcategory>
-			<id>UserId_UserReportTitle</id>
-			<name>User IDs</name>
-			<order>40</order>
-		</subcategory>
-		<widgets>
-			<row>
-				<name>User IDs</name>
-				<module>UserId</module>
-				<action>getUsers</action>
-				<order>109</order>
-				<parameters>
-					<module>UserId</module>
-					<action>getUsers</action>
-				</parameters>
-				<uniqueId>widgetUserIdgetUsers</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>table</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-		</widgets>
-	</row>
-	<row>
 		<uniqueId>General_Visitors.CustomVariables_CustomVariables</uniqueId>
 		<category>
 			<id>General_Visitors</id>
@@ -1252,6 +1222,36 @@
 					<action>getCustomVariables</action>
 				</parameters>
 				<uniqueId>widgetCustomVariablesgetCustomVariables</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>General_Visitors.UserId_UserReportTitle</uniqueId>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory>
+			<id>UserId_UserReportTitle</id>
+			<name>User IDs</name>
+			<order>40</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>User IDs</name>
+				<module>UserId</module>
+				<action>getUsers</action>
+				<order>109</order>
+				<parameters>
+					<module>UserId</module>
+					<action>getUsers</action>
+				</parameters>
+				<uniqueId>widgetUserIdgetUsers</uniqueId>
 				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
