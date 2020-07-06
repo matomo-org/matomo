@@ -139,7 +139,7 @@ class Http
      *@throws Exception
      */
     public static function sendHttpRequestBy(
-        $method = 'socket',
+        $method,
         $aUrl,
         $timeout,
         $userAgent = null,
