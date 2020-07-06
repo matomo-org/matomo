@@ -305,8 +305,10 @@ class Url
             && strlen($host = $_SERVER['SERVER_NAME'])) {
             // if server_name is set we don't want to look at HTTP_HOST
 
-            if (strpos($host, ':') === false &&
-                !empty($_SERVER['SERVER_PORT'])
+            if (strpos($host, ':') === false
+                && !empty($_SERVER['SERVER_PORT'])
+                && $_SERVER['SERVER_PORT'] != 80
+                && $_SERVER['SERVER_PORT'] != 443
             ) {
                 $host .= ':' . $_SERVER['SERVER_PORT'];
             }
