@@ -14,8 +14,11 @@ use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\Segment;
+use Piwik\Plugins\CustomVariables\Tracker\CustomVariablesRequestProcessor;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -31,6 +34,11 @@ class ProductViewCategory extends ActionDimension
     protected $category = 'Goals_Ecommerce';
     protected $categoryNumber = 1;
 
+    public function getName()
+    {
+        return parent::getName() . ' ' . $this->categoryNumber;
+    }
+
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $individualProductCategorySegments = $this->getProductCategorySegments(ProductCategory::PRODUCT_CATEGORY_COUNT);
@@ -45,7 +53,7 @@ class ProductViewCategory extends ActionDimension
             $segment = new Segment();
             $segment->setCategory($this->category);
             $segment->setType('dimension');
-            $segment->setName($this->getName() . ' ' . ($i + 1));
+            $segment->setName(Piwik::translate('Ecommerce_ViewedProductCategory') . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
             $segment->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
             $segment->setSqlSegment('log_link_visit_action.' . $productCategoryColumnName);
@@ -69,7 +77,7 @@ class ProductViewCategory extends ActionDimension
         $segment->setCategory($this->category);
         $segment->setType('dimension');
         $segment->setSegment('productViewCategory');
-        $segment->setName($this->getName());
+        $segment->setName(Piwik::translate('Ecommerce_ViewedProductCategory'));
         $segment->setUnionOfSegments($individualProductCategorySegments);
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
@@ -104,11 +112,13 @@ class ProductViewCategory extends ActionDimension
         }
 
         // fall back to custom variables (might happen if old logs are replayed)
-        $customVariables = $request->getCustomVariablesInPageScope();
-        if (isset($customVariables['custom_var_k5']) && $customVariables['custom_var_k5'] === '_pkc') {
-            $categories = $this->handleCategoryParam($customVariables['custom_var_v5'] ?? '');
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $customVariables = CustomVariablesRequestProcessor::getCustomVariablesInPageScope($request);
+            if (isset($customVariables['custom_var_k5']) && $customVariables['custom_var_k5'] === '_pkc') {
+                $categories = $this->handleCategoryParam($customVariables['custom_var_v5'] ?? '');
 
-            return $categories[$this->categoryNumber - 1] ?? false;
+                return $categories[$this->categoryNumber - 1] ?? false;
+            }
         }
 
         return parent::onLookupAction($request, $action);

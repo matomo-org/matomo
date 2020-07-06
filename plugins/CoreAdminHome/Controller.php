@@ -218,7 +218,11 @@ class Controller extends ControllerAdmin
 
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = Site::getCurrencySymbolFor($view->idSite);
-        $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        $view->maxCustomVariables = 0;
+
+        if (Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        }
 
         $view->defaultSite = array('id' => $view->idSite, 'name' => $view->defaultReportSiteName);
 

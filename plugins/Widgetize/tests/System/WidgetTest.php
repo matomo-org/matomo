@@ -275,14 +275,6 @@ class WidgetTest extends SystemTestCase
                         'small' => 1,
                     ),
             ),array (
-                'name' => 'Custom Variables',
-                'uniqueId' => 'widgetCustomVariablesgetCustomVariables',
-                'parameters' =>
-                    array (
-                        'module' => 'CustomVariables',
-                        'action' => 'getCustomVariables',
-                    ),
-            ),array (
                 'name' => 'Device type',
                 'uniqueId' => 'widgetDevicesDetectiongetType',
                 'parameters' =>

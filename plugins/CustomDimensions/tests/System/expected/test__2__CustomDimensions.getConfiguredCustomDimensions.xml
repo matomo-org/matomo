@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idcustomdimension>1</idcustomdimension>
+		<idsite>2</idsite>
+		<name>MyName1</name>
+		<index>1</index>
+		<scope>visit</scope>
+		<active>1</active>
+		<extractions>
+		</extractions>
+		<case_sensitive>1</case_sensitive>
+	</row>
+</result>

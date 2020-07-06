@@ -284,7 +284,7 @@ class ModelTest extends IntegrationTestCase
             $idSite = 1,
             $dateStart,
             $dateEnd,
-            $segment = 'customVariablePageName1==Test',
+            $segment = 'siteSearchCategory==Test',
             $offset = 10,
             $limit = 100,
             $visitorId = 'abc',
@@ -299,7 +299,7 @@ class ModelTest extends IntegrationTestCase
                             AND log_visit.idvisitor = ? 
                             AND log_visit.visit_last_action_time >= ? 
                             AND log_visit.visit_last_action_time <= ? ) 
-                            AND ( log_link_visit_action.custom_var_k1 = ? ) 
+                            AND ( log_link_visit_action.search_cat = ? ) 
                         GROUP BY log_visit.idvisit 
                         ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC
                          LIMIT 10, 100';

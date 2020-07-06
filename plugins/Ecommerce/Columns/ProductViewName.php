@@ -12,6 +12,8 @@ use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Common;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\CustomVariables\Tracker\CustomVariablesRequestProcessor;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
@@ -42,9 +44,11 @@ class ProductViewName extends ActionDimension
         }
 
         // fall back to custom variables (might happen if old logs are replayed)
-        $customVariables = $request->getCustomVariablesInPageScope();
-        if (isset($customVariables['custom_var_k4']) && $customVariables['custom_var_k4'] === '_pkn') {
-            return $customVariables['custom_var_v4'] ?? false;
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $customVariables = CustomVariablesRequestProcessor::getCustomVariablesInPageScope($request);
+            if (isset($customVariables['custom_var_k4']) && $customVariables['custom_var_k4'] === '_pkn') {
+                return $customVariables['custom_var_v4'] ?? false;
+            }
         }
 
         return parent::onLookupAction($request, $action);

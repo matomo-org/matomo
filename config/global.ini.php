@@ -1001,7 +1001,6 @@ Plugins[] = CoreConsole
 Plugins[] = ScheduledReports
 Plugins[] = UserCountryMap
 Plugins[] = Live
-Plugins[] = CustomVariables
 Plugins[] = PrivacyManager
 Plugins[] = ImageGraph
 Plugins[] = Annotations
@@ -1023,6 +1022,7 @@ Plugins[] = UserId
 Plugins[] = CustomJsTracker
 Plugins[] = Tour
 Plugins[] = PagePerformance
+Plugins[] = CustomDimensions
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

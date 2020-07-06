@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>value1</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>0</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		
+		<avg_time_on_site>1</avg_time_on_site>
+		<bounce_rate>100%</bounce_rate>
+		<nb_actions_per_visit>1</nb_actions_per_visit>
+		<segment>dimension1==value1</segment>
+	</row>
+	<row>
+		<label>value5 1</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>3</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>722</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>0</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		
+		<avg_time_on_site>722</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
+		<nb_actions_per_visit>3</nb_actions_per_visit>
+		<segment>dimension1==value5+1</segment>
+	</row>
+	<row>
+		<label>Value not defined</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>0</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		
+		<avg_time_on_site>0</avg_time_on_site>
+		<bounce_rate>100%</bounce_rate>
+		<nb_actions_per_visit>1</nb_actions_per_visit>
+		<segment>dimension1==</segment>
+	</row>
+</result>

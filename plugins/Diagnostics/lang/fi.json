@@ -3,6 +3,7 @@
         "ConfigFileTitle": "Asetustiedosto",
         "MysqlMaxPacketSize": "Paketin enimmäiskoko",
         "Sections": "Osiot",
+        "DatabaseUtf8mb4CharsetRecommended": "Tietokantasi ei tue vielä utf8mb4-merkistöä.",
         "CronArchivingLastRunCheck": "Viimeisin onnistunut arkistointi",
         "CronArchivingHasNotRun": "Arkistointia ei ole vielä suoritettu onnistuneesti.",
         "CronArchivingHasNotRunInAWhile": "Arkistointi suoritettiin onnistuneesti viimeksi %1$s, eli %2$s sitten.",
