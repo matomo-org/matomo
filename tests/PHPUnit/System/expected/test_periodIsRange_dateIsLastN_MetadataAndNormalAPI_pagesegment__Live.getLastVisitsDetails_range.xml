@@ -97,16 +97,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-			</row>
-		</customVariables>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -123,6 +113,16 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -236,16 +236,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-			</row>
-		</customVariables>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -262,6 +252,16 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -336,6 +336,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Status user</customVariablePageName4>
@@ -346,7 +347,6 @@
 						<customVariablePageValue5>looking at &quot;profile page&quot;</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -363,6 +363,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Language</customVariablePageName1>
@@ -377,7 +378,6 @@
 						<customVariablePageValue4>looking at &quot;profile page&quot;</customVariablePageValue4>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -452,20 +452,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedIn</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>SET WITH EMPTY VALUE</customVariableName2>
-				<customVariableValue2 />
-			</row>
-			<row>
-				<customVariableName3>Value will be VERY long and truncated</customVariableName3>
-				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</customVariableValue3>
-			</row>
-		</customVariables>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -482,5 +468,19 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedIn</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>SET WITH EMPTY VALUE</customVariableName2>
+				<customVariableValue2 />
+			</row>
+			<row>
+				<customVariableName3>Value will be VERY long and truncated</customVariableName3>
+				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</customVariableValue3>
+			</row>
+		</customVariables>
 	</row>
 </result>

@@ -22,9 +22,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<dimension3>en</dimension3>
 				<dimension5>en_US</dimension5>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -125,8 +125,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
 		<secondsSinceLastVisit>345240</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -146,6 +144,8 @@
 		<dimension1 />
 		<dimension2 />
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -169,9 +169,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<dimension3>en</dimension3>
 				<dimension5>value5 5</dimension5>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -272,8 +272,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>86400</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -293,6 +291,8 @@
 		<dimension1>value1</dimension1>
 		<dimension2>value2</dimension2>
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -316,9 +316,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<dimension3>en</dimension3>
 				<dimension5>en_US</dimension5>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -419,8 +419,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
 		<secondsSinceLastVisit>172440</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -440,6 +438,8 @@
 		<dimension1 />
 		<dimension2 />
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -465,9 +465,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<dimension3>value3</dimension3>
 				<dimension5>value5</dimension5>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -486,9 +486,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<dimension3>en</dimension3>
 				<dimension5>343</dimension5>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -522,9 +522,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<dimension3>value5 3</dimension3>
 				<dimension5>en_US</dimension5>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -608,8 +608,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -629,6 +627,8 @@
 		<dimension1>value5 1</dimension1>
 		<dimension2>en_US</dimension2>
 		<dimension6>value6</dimension6>
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -652,9 +652,9 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<dimension3 />
 				<dimension5 />
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -755,8 +755,6 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -776,5 +774,7 @@
 		<dimension1 />
 		<dimension2 />
 		<dimension6 />
+		<customVariables>
+		</customVariables>
 	</row>
 </result>
