@@ -216,7 +216,9 @@ class Segment
 
         $this->string  = $string;
 
-        if (!is_array($idSites)) {
+        if (empty($idSites)) {
+            $idSites = [];
+        } else if (!is_array($idSites)) {
             $idSites = [$idSites];
         }
         $this->idSites = $idSites;
@@ -365,8 +367,12 @@ class Segment
             $select = 'log_visit.idvisit';
             $from = 'log_visit';
             $datetimeField = 'visit_last_action_time';
-            $where = "$from.idsite IN (". Common::getSqlStringFieldsArray($this->idSites) . ")";
-            $bind = $this->idSites;
+            $where = "";
+            $bind = [];
+            if (!empty($this->idSites)) {
+                $where .= "$from.idsite IN (" . Common::getSqlStringFieldsArray($this->idSites) . ")";
+                $bind  = $this->idSites;
+            }
             if ($this->startDate instanceof Date) {
                 $where  .= " AND $from.$datetimeField >= ?";
                 $bind[] = $this->startDate->toString(Date::DATE_TIME_FORMAT);
