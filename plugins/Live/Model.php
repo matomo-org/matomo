@@ -359,8 +359,8 @@ class Model
         $now = $now ?: time();
 
         $bind   = $idSites;
-        $startDate = Date::factory($now - $lastMinutes * 60)->toString('Y-m-d H:i:s');
-        $bind[] = $startDate;
+        $startDate = Date::factory($now - $lastMinutes * 60);
+        $bind[] = $startDate->toString('Y-m-d H:i:s');
 
         $where = $whereIdSites . "AND " . $where;
 

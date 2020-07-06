@@ -201,12 +201,12 @@ class SegmentEditor extends \Piwik\Plugin
         if (empty($segment)) {
             return null;
         }
-        $segment = new Segment($segment, [$idSite]);
 
         // get period
         $date = Common::getRequestVar('date', false);
         $periodStr = Common::getRequestVar('period', false);
         $period = Period\Factory::build($periodStr, $date);
+        $segment = new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd());
 
         // check if archiving is enabled. if so, the segment should have been processed.
         $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);
