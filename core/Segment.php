@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
@@ -77,9 +76,14 @@ class Segment
     protected $idSites = null;
 
     /**
-     * @var Period
+     * @var Date
      */
-    protected $period = null;
+    protected $startDate = null;
+
+    /**
+     * @var Date
+     */
+    protected $endDate = null;
 
     /**
      * @var LogQueryBuilder
@@ -102,10 +106,11 @@ class Segment
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
      * @param array $idSites The list of sites the segment will be used with. Some segments are
      *                       dependent on the site, such as goal segments.
-     * @param Period|null $period
+     * @param Date|null $startDate
+     * @param Date|null $endDate
      * @throws
      */
-    public function __construct($segmentCondition, $idSites, $period = null)
+    public function __construct($segmentCondition, $idSites, Date $startDate = null, Date $endDate = null)
     {
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
@@ -118,16 +123,12 @@ class Segment
 
         $this->originalString = $segmentCondition;
 
-        if ($period instanceof Period) {
-            $this->period = $period;
+        if ($startDate instanceof Date) {
+            $this->startDate = $startDate;
         }
 
-        if (empty($this->period)) {
-            $date = Common::getRequestVar('date', false);
-            $periodStr = Common::getRequestVar('period', false);
-            if ($date && $periodStr) {
-                $this->period = Period\Factory::build($periodStr, $date);
-            }
+        if ($endDate instanceof Date) {
+            $this->endDate = $endDate;
         }
 
         // The segment expression can be urlencoded. Unfortunately, both the encoded and decoded versions
@@ -295,7 +296,7 @@ class Segment
 
     private function doesSegmentNeedSubquery($operator, $segmentName)
     {
-        return $this->period instanceof Period && in_array($operator, [
+        return in_array($operator, [
                 SegmentExpression::MATCH_DOES_NOT_CONTAIN,
                 SegmentExpression::MATCH_NOT_EQUAL
             ]) && !$this->isVisitSegment($segmentName);
@@ -361,16 +362,20 @@ class Segment
             $stringSegment = $name . $operator . $value;
             $segmentObj = new Segment($stringSegment, $this->idSites);
 
-            // use the first site to be able to initialize the Parameters object, but overwrite it for LogAggregator afterwards
-            $site = new Site(reset($this->idSites));
-            $params = new ArchiveProcessor\Parameters($site, $this->period, $segmentObj);
-            $logAggregator = new LogAggregator($params);
-            $logAggregator->setSites($this->idSites);
-
             $select = 'log_visit.idvisit';
             $from = 'log_visit';
-            $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
-            $query = $logAggregator->generateQuery($select, $from, $where, 'log_visit.idvisit', '');
+            $datetimeField = 'visit_last_action_time';
+            $where = "$from.idsite IN (". Common::getSqlStringFieldsArray($this->idSites) . ")";
+            $bind = $this->idSites;
+            if ($this->startDate instanceof Date) {
+                $where  .= " AND $from.$datetimeField >= ?";
+                $bind[] = $this->startDate->toString(Date::DATE_TIME_FORMAT);
+            }
+            if ($this->endDate instanceof Date) {
+                $where  .= " AND $from.$datetimeField <= ?";
+                $bind[] = $this->endDate->toString(Date::DATE_TIME_FORMAT);
+            }
+            $query = $segmentObj->getSelectQuery($select, $from, $where, $bind);
 
             return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query];
         }
