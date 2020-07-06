@@ -108,6 +108,8 @@ class Loader
             }
         }
 
+        // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
+        // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchives)
             && !$this->params->getArchiveOnlyReport()

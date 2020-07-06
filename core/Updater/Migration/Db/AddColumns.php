@@ -18,7 +18,11 @@ class AddColumns extends Sql
     public function __construct($table, $columns, $placeColumnAfter)
     {
         $tableMetadata = new TableMetadata();
-        $existingColumns = $tableMetadata->getColumns($table);
+        try {
+            $existingColumns = $tableMetadata->getColumns($table);
+        } catch (\Exception $ex) {
+            $existingColumns = [];
+        }
 
         $changes = array();
         foreach ($columns as $columnName => $columnType) {
