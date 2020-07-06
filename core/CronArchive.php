@@ -809,7 +809,7 @@ class CronArchive
 
             $loader = new Loader($params);
             if ($loader->canSkipThisArchive()) {
-                $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits, skipping invalidation...");
+                $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits for idSite = $idSite, skipping invalidation...");
                 continue;
             }
 
