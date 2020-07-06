@@ -305,6 +305,12 @@ class Url
             && strlen($host = $_SERVER['SERVER_NAME'])) {
             // if server_name is set we don't want to look at HTTP_HOST
 
+            if (strpos($host, ':') === false &&
+                !empty($_SERVER['SERVER_PORT'])
+            ) {
+                $host .= ':' . $_SERVER['SERVER_PORT'];
+            }
+
             if (!$checkIfTrusted || self::isValidHost($host)) {
                return $host;
             }
