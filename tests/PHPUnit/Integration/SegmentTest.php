@@ -287,10 +287,16 @@ class SegmentTest extends IntegrationTestCase
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                    LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
-                    ( ( log_conversion.idgoal IS NULL OR log_conversion.idgoal <> ? ) AND log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ? )",
+                    ( ( log_visit.idvisit NOT IN (
+                        SELECT log_inner.idvisit FROM (
+                            SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . " AS log_visit
+                            LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
+                        WHERE log_conversion.idgoal = ? GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner) )
+                    AND log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ? )",
             "bind" => array(1, 2, 'Test', 1));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1404,12 +1410,18 @@ log_visit.visit_total_actions
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                 WHERE (HOUR(log_visit.visit_last_action_time) = ?
                         OR (1 = 0)) " . // pageUrl==xyz
-                    "AND ((1 = 1) " . // pageUrl!=abcdefg
+                    "AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM log_visit AS log_visit WHERE (1 = 0) ) ) " . // pageUrl!=abcdefg
                     "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl=@does-not-exist
-                    "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )" . // pageUrl=@found-in-db
-                    "    OR   log_link_visit_action.idaction_url = ?" . // pageUrl=='.urlencode($pageUrlFoundInDb)
-                    "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) )" . // pageUrl!@not-found
-                    "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) )" . // pageUrl!@found
+                    "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl=@found-in-db
+                    "    OR   log_link_visit_action.idaction_url = ? " . // pageUrl=='.urlencode($pageUrlFoundInDb)
+                    "    OR ( log_visit.idvisit NOT IN ( SELECT log_inner.idvisit FROM
+                            ( SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                              WHERE ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
+                              GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner) ) " . // pageUrl!@not-found
+                    "    OR ( log_visit.idvisit NOT IN ( SELECT log_inner.idvisit FROM
+                            ( SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                              WHERE ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
+                              GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner) )" . // pageUrl!@found
                     " )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
@@ -1467,7 +1479,7 @@ log_visit.visit_total_actions
                 WHERE (HOUR(log_visit.visit_last_action_time) = ?
                         OR (1 = 0))" . // pageUrl==xyz
                 "
-                      AND ((1 = 1) " . // pageUrl!=abcdefg
+                        AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM log_visit AS log_visit WHERE (1 = 0) ) )" . // pageUrl!=abcdefg
                 "
                         OR (1 = 0) " . // pageUrl=@does-not-exist
                 "
@@ -1475,9 +1487,17 @@ log_visit.visit_total_actions
                 "
                         OR   log_link_visit_action.idaction_url = ?" . // pageUrl=='.urlencode($pageUrlFoundInDb)
                 "
-                        OR ( log_link_visit_action.idaction_url IN (?,?,?) )" . // pageUrl!@not-found
+                        OR ( log_visit.idvisit NOT IN ( SELECT log_inner.idvisit FROM (
+                            SELECT log_visit.idvisit FROM log_visit AS log_visit
+                            LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                            WHERE ( log_link_visit_action.idaction_url IN (?) )
+                            GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner) )" . // pageUrl!@not-found
                 "
-                        OR (1 = 0) " . // pageUrl!@found
+                        OR ( log_visit.idvisit NOT IN ( SELECT log_inner.idvisit FROM (
+                            SELECT log_visit.idvisit FROM log_visit AS log_visit
+                            LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                            WHERE ( log_link_visit_action.idaction_url IN (?,?,?,?) )
+                            GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner) ) " . // pageUrl!@found
                 ")
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
@@ -1488,9 +1508,11 @@ log_visit.visit_total_actions
                 2, // pageUrl=@found-in-db
                 3, // pageUrl=@found-in-db
                 $actionIdFoundInDb, // pageUrl=='.urlencode($pageUrlFoundInDb)
-                1, // pageUrl!@not-found
-                2, // pageUrl!@not-found
-                3, // pageUrl!@not-found
+                4, // pageUrl!@not-found
+                1, // pageUrl!@found
+                2, // pageUrl!@found
+                3, // pageUrl!@found
+                4, // pageUrl!@found
             ));
 
         $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
@@ -1505,13 +1527,13 @@ log_visit.visit_total_actions
         $this->assertCacheWasHit($hits = 0);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 8);
-
-        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
         $this->assertCacheWasHit($hits = 20);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 32);
+        $this->assertCacheWasHit($hits = 44);
+
+        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
+        $this->assertCacheWasHit($hits = 68);
 
     }
 
@@ -1531,9 +1553,9 @@ log_visit.visit_total_actions
 
         /**
          * pageUrl=@found-in-db-bis                  -- Will be cached
-         * pageUrl!@not-found                        -- Too big to cache
+         * siteSearchCategory!@not-found             -- Too big to cache
          */
-        $segment = 'pageUrl=@found-in-db-bis;pageUrl!@not-found';
+        $segment = 'pageUrl=@found-in-db-bis;siteSearchCategory!@not-found';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -1553,13 +1575,18 @@ log_visit.visit_total_actions
                 WHERE
                            ( log_link_visit_action.idaction_url IN (?) )" . // pageUrl=@found-in-db-bis
                 "
-                        AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl!@not-found
+                 AND ( log_visit.idvisit NOT IN ( SELECT log_inner.idvisit FROM (
+                    SELECT log_visit.idvisit
+                    FROM log_visit AS log_visit
+                    LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                    WHERE log_link_visit_action.search_cat LIKE ?
+                    GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner) ) " . // siteSearchCategory!@not-found
                 "GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(
                 2, // pageUrl=@found-in-db-bis
-                "not-found", // pageUrl!@not-found
+                "%not-found%", // siteSearchCategory!@not-found
             ));
 
         $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
@@ -1575,11 +1602,11 @@ log_visit.visit_total_actions
 
         // this will create the caches for both segments
         $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 4);
+        $this->assertCacheWasHit($hits = 2);
 
         // this will hit caches for both segments
         $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 10);
+        $this->assertCacheWasHit($hits = 5);
     }
 
     // se https://github.com/piwik/piwik/issues/9194
@@ -1709,7 +1736,7 @@ log_visit.visit_total_actions
                 SELECT log_inner.idgoal AS `idgoal`, count(*) AS `1`, count(distinct log_inner.idvisit) AS `3`, ROUND(SUM(log_inner.revenue),2) AS `2`
                 FROM (
                     SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue
-                    FROM log_conversion AS log_conversion
+                    FROM $logConversionTable AS log_conversion
                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                        LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                     WHERE ( log_conversion.server_time >= ?
@@ -1752,6 +1779,7 @@ log_visit.visit_total_actions
         // Adding some other actions to make test case more realistic
         $this->insertPageUrlAsAction('example.net/found-in-db-bis');
         $this->insertPageUrlAsAction('example.net/found-in-db-ter');
+        $this->insertPageUrlAsAction('example.net/page-not-found');
 
         return array($pageUrlFoundInDb, $actionIdFoundInDb);
     }
