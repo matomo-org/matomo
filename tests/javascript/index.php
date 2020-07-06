@@ -47,6 +47,9 @@ function getContentToken() {
 function getHeartbeatToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getCookieConsentToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 function getConsentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
@@ -2151,7 +2154,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(113);
+        expect(117);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2246,9 +2249,13 @@ function PiwikTest() {
         equal( typeof tracker.disableQueueRequest, 'function', 'disableQueueRequest' );
         equal( typeof tracker.setRequestQueueInterval, 'function', 'setRequestQueueInterval' );
         equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
-        equal( typeof tracker.enableCookies, 'function', 'enableCookies' );
+        equal( typeof tracker.setCookieConsentGiven, 'function', 'setCookieConsentGiven' );
         equal( typeof tracker.areCookiesEnabled, 'function', 'areCookiesEnabled' );
         equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
+        equal( typeof tracker.requireCookieConsent, 'function', 'requireCookieConsent' );
+        equal( typeof tracker.getRememberedCookieConsent, 'function', 'getRememberedCookieConsent' );
+        equal( typeof tracker.rememberCookieConsentGiven, 'function', 'rememberCookieConsentGiven' );
+        equal( typeof tracker.forgetCookieConsentGiven, 'function', 'forgetCookieConsentGiven' );
         // content
         equal( typeof tracker.trackAllContentImpressions, 'function', 'trackAllContentImpressions' );
         equal( typeof tracker.trackVisibleContentImpressions, 'function', 'trackVisibleContentImpressions' );
@@ -5022,6 +5029,49 @@ if ($mysql) {
             strictEqual(0, (results2.match(/consent=1/g) || []).length, "consent=1 parameter not added when consent is assumed");
             start();
         }, 2000);
+    });
+
+    test("Test API - cookie consent", function() {
+        expect(16);
+
+        var queue;
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData('token', getCookieConsentToken() + '1');
+        strictEqual(tracker.areCookiesEnabled(), true, "areCookiesEnabled, enabled by default" );
+        strictEqual(tracker.getRememberedCookieConsent(), 0, "getRememberedCookieConsent, not set by default" );
+
+        var success = tracker.requireCookieConsent();
+        ok(success, 'cookies were disabled after calling requireCookieConsent');
+        ok(!tracker.areCookiesEnabled(), 'disabling cookies disables cookies');
+
+        tracker.setCookieConsentGiven();
+        ok(tracker.areCookiesEnabled(), 'setCookieConsentGiven enables cookies');
+
+        tracker.rememberCookieConsentGiven();
+        var nowBefore = new Date().getTime() - 10000;
+        var nowAfter = new Date().getTime() + 10000;
+        var timeConsentGiven = tracker.getRememberedCookieConsent();
+        ok(timeConsentGiven && nowBefore < timeConsentGiven && nowAfter > timeConsentGiven, "getRememberedCookieConsent, returns time was given" );
+
+        success = tracker.requireCookieConsent();
+        ok(!success, 'cookies were not disabled because consent was remembered')
+        ok(tracker.areCookiesEnabled(), 'disableCookies wont disable cookies if cookie consent was remembered');
+
+        tracker.forgetCookieConsentGiven();
+        ok(!tracker.areCookiesEnabled(), 'forgetCookieConsentGiven will disable cookies');
+
+        tracker.setCookieConsentGiven();
+        ok(tracker.areCookiesEnabled(), 'cookies can be enabled again after forgetting cookies');
+
+        tracker.requireCookieConsent();
+        ok(!tracker.areCookiesEnabled(), 'requireCookieConsent works after forgetting cookies');
+
+        tracker.rememberCookieConsentGiven();
+        ok(tracker.areCookiesEnabled(), 'cookies are enabled before disabling it');
+
+        tracker.disableCookies();
+        ok(!tracker.areCookiesEnabled(), 'disable cookies always disables cookies');
+        tracker.forgetCookieConsentGiven();
     });
 
     test("Test API - optOut (via consent feature)", function () {

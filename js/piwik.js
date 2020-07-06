@@ -960,7 +960,8 @@ if (typeof window.JSON === 'object' && typeof window.JSON.stringify === 'functio
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
-    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, enableCookies, areCookiesEnabled,
+    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, setCookieConsentGiven,
+    areCookiesEnabled, getRememberedCookieConsent, rememberCookieConsentGiven, forgetCookieConsentGiven, requireCookieConsent,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
@@ -3033,6 +3034,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // constants
                 CONSENT_COOKIE_NAME = 'mtm_consent',
+                COOKIE_CONSENT_COOKIE_NAME = 'mtm_cookie_consent',
                 CONSENT_REMOVED_COOKIE_NAME = 'mtm_consent_removed',
 
                 // Current URL and Referrer URL
@@ -6802,14 +6804,18 @@ if (typeof window.Piwik !== 'object') {
                 }
             };
 
+            /**
+             * Detects if cookies are enabled or not
+             * @returns {boolean}
+             */
             this.areCookiesEnabled = function () {
                 return !configCookiesDisabled;
             };
 
             /**
-             * Enables cookies if they were disabled previously
+             * Enables cookies if they were disabled previously.
              */
-            this.enableCookies = function () {
+            this.setCookieConsentGiven = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
                     if (configTrackerSiteId && hasSentTrackingRequestYet) {
@@ -6828,25 +6834,83 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Enables cookies if they were disabled previously
+             * When called, no cookies will be set until you have called `setCookieConsentGiven()`
+             * unless consent was given previously AND you called {@link rememberCookieConsentGiven()} when the user
+             * gave consent.
+             *
+             * This may be useful when you want to implement for example a popup to ask for cookie consent.
+             * Once the user has given consent, you should call {@link setCookieConsentGiven()}
+             * or {@link rememberCookieConsentGiven()}.
+             *
+             * If you require tracking consent for example because you are tracking personal data and GDPR applies to you,
+             * then have a look at `_paq.push(['requireConsent'])` instead.
+             *
+             * If the user has already given consent in the past, you can either decide to not call `requireCookieConsent` at all
+             * or call `_paq.push(['setCookieConsentGiven'])` on each page view at any time after calling `requireCookieConsent`.
+             *
+             * When the user gives you the consent to set cookies, you can also call `_paq.push(['rememberCookieConsentGiven', optionalTimeoutInHours])`
+             * and for the duration while the cookie consent is remembered, any call to `requireCoookieConsent` will be automatically ignored
+             * until you call `forgetCookieConsentGiven`.
+             * `forgetCookieConsentGiven` needs to be called when the user removes consent for using cookies. This means if you call `rememberCookieConsentGiven` at the
+             * time the user gives you consent, you do not need to ever call `_paq.push(['setCookieConsentGiven'])` as the consent
+             * will be detected automatically through cookies.
              */
-            this.enableCookies = function () {
-                if (configCookiesDisabled && !configDoNotTrack) {
-                    configCookiesDisabled = false;
-                    if (configTrackerSiteId) {
-                        setVisitorIdCookie();
-                        if (hasSentTrackingRequestYet) {
-                            // sets attribution cookie, and updates visitorId in the backend
-                            // because hasSentTrackingRequestYet=true we assume there might not be another tracking
-                            // request within this page view so we trigger one ourselves.
-                            // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
-                            // sets the cookie only when there is a tracking request. It'll be set if the user sends
-                            // a tracking request afterwards
-                            var request = getRequest('ping=1', null, 'ping');
-                            sendRequest(request, configTrackerPause);
-                        }
-                    }
+            this.requireCookieConsent = function() {
+                if (this.getRememberedCookieConsent()) {
+                    return false;
                 }
+                this.disableCookies();
+                return true;
+            };
+
+            /**
+             * If the user has given cookie consent previously and this consent was remembered, it will return the number
+             * in milliseconds since 1970/01/01 which is the date when the user has given cookie consent. Please note that
+             * the returned time depends on the users local time which may not always be correct.
+             *
+             * @returns number|string
+             */
+            this.getRememberedCookieConsent = function () {
+                return getCookie(COOKIE_CONSENT_COOKIE_NAME);
+            };
+
+            /**
+             * Calling this method will remove any previously given cookie consent and it disables cookies for subsequent
+             * page views. You may call this method if the user removes cookie consent manually, or if you
+             * want to re-ask for cookie consent after a specific time period.
+             */
+            this.forgetCookieConsentGiven = function () {
+                deleteCookie(COOKIE_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                this.disableCookies();
+            };
+
+            /**
+             * Calling this method will remember that the user has given cookie consent across multiple requests by setting
+             * a cookie named "mtm_cookie_consent". You can optionally define the lifetime of that cookie in hours
+             * using a parameter.
+             *
+             * When you call this method, we imply that the user has given cookie consent for this page view, and will also
+             * imply consent for all future page views unless the cookie expires or the user
+             * deletes all her or his cookies. Remembering cookie consent means even if you call {@link disableCookies()},
+             * then cookies will still be enabled and it won't disable cookies since the user has given consent for cookies.
+             *
+             * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly. Please
+             * also note that when you call this method, consent will be implied for all sites that match the configured
+             * cookieDomain and cookiePath. Depending on your website structure, you may need to restrict or widen the
+             * scope of the cookie domain/path to ensure the consent is applied to the sites you want.
+             *
+             * @param int hoursToExpire After how many hours the cookie consent should expire. By default the consent is valid
+             *                          for 30 years unless cookies are deleted by the user or the browser prior to this
+             */
+            this.rememberCookieConsentGiven = function (hoursToExpire) {
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                } else {
+                    hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
+                }
+                this.setCookieConsentGiven();
+                var now = new Date().getTime();
+                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
 
             /**
@@ -7637,10 +7701,6 @@ if (typeof window.Piwik !== 'object') {
              * This may be useful when you want to implement for example a popup to ask for consent before tracking the user.
              * Once the user has given consent, you should call {@link setConsentGiven()} or {@link rememberConsentGiven()}.
              *
-             * Please note that when consent is required, we will temporarily set cookies but not track any data. Those
-             * cookies will only exist during this page view and deleted as soon as the user navigates to a different page
-             * or closes the browser.
-             *
              * If you require consent for tracking personal data for example, you should first call
              * `_paq.push(['requireConsent'])`.
              *
@@ -7680,9 +7740,9 @@ if (typeof window.Piwik !== 'object') {
              *
              * It will also automatically enable cookies if they were disabled previously.
              *
-             * @param bool [enableCookies=true] Internal parameter. Defines whether cookies should be enabled or not.
+             * @param bool [setCookieConsent=true] Internal parameter. Defines whether cookies should be enabled or not.
              */
-            this.setConsentGiven = function (enableCookies) {
+            this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
 
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
@@ -7706,14 +7766,14 @@ if (typeof window.Piwik !== 'object') {
                 // If the user calls setConsentGiven before sending any tracking request (which usually is the case) then
                 // nothing will need to be done as it only enables cookies and the next tracking request will set the cookies
                 // etc.
-                if (!isDefined(enableCookies) || enableCookies) {
-                    this.enableCookies();
+                if (!isDefined(setCookieConsent) || setCookieConsent) {
+                    this.setCookieConsentGiven();
                 }
             };
 
             /**
              * Calling this method will remember that the user has given consent across multiple requests by setting
-             * a cookie. You can optionally define the lifetime of that cookie in milliseconds using a parameter.
+             * a cookie. You can optionally define the lifetime of that cookie in hours using a parameter.
              *
              * When you call this method, we imply that the user has given consent for this page view, and will also
              * imply consent for all future page views unless the cookie expires (if timeout defined) or the user
@@ -7735,10 +7795,10 @@ if (typeof window.Piwik !== 'object') {
                 } else {
                     hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
-                var enableCookies = true;
+                var setCookieConsent = true;
                 // we currently always enable cookies if we remember consent cause we don't store across requests whether
                 // cookies should be automatically enabled or not.
-                this.setConsentGiven(enableCookies);
+                this.setConsentGiven(setCookieConsent);
                 var now = new Date().getTime();
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
@@ -7754,6 +7814,7 @@ if (typeof window.Piwik !== 'object') {
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure);
+                this.forgetCookieConsentGiven();
                 this.requireConsent();
             };
 
@@ -7777,8 +7838,8 @@ if (typeof window.Piwik !== 'object') {
              */
             this.forgetUserOptOut = function () {
                 // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
-                var enableCookies = false;
-                this.rememberConsentGiven(0, enableCookies);
+                var setCookieConsent = false;
+                this.rememberConsentGiven(0, setCookieConsent);
             };
 
             Piwik.trigger('TrackerSetup', [this]);
@@ -7833,7 +7894,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'enableCookies', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
