@@ -7,6 +7,8 @@
  */
 namespace Piwik\Updater\Migration\Db;
 
+use Piwik\DataAccess\TableMetadata;
+
 /**
  * @see Factory::addColumns()
  * @ignore
@@ -15,8 +17,15 @@ class AddColumns extends Sql
 {
     public function __construct($table, $columns, $placeColumnAfter)
     {
+        $tableMetadata = new TableMetadata();
+        $existingColumns = $tableMetadata->getColumns($table);
+
         $changes = array();
         foreach ($columns as $columnName => $columnType) {
+            if (in_array($columnName, $existingColumns)) {
+                continue;
+            }
+
             $part = sprintf("ADD COLUMN `%s` %s", $columnName, $columnType);
 
             if (!empty($placeColumnAfter)) {
