@@ -133,7 +133,10 @@
         "DaysHours": "%1$s Tage %2$s Stunden",
         "DaysSinceFirstVisit": "Tage seit dem ersten Besuch",
         "DaysSinceLastEcommerceOrder": "Tage seit letzter Ecommerce-Bestellung",
+        "SecondsSinceLastEcommerceOrder": "Sekunden seit der letzten Ecommerce-Bestellung",
         "DaysSinceLastVisit": "Tage seit dem letzten Besuch",
+        "SecondsSinceLastVisit": "Sekunden seit dem letzten Besuch",
+        "SecondsSinceFirstVisit": "Sekunden seit dem ersten Besuch",
         "Default": "Standard",
         "DefaultAppended": "(Standard)",
         "Delete": "Löschen",
@@ -514,7 +517,9 @@
         "MaximumNumberOfSegmentsComparedIs": "Die maximale Anzahl von Segmenten die gleichzeitig verglichen werden können ist %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s Abfrageparameterlänge muss mit der %2$s Abfrageparameterlänge übereinstimmen.",
         "MaximumNumberOfPeriodsComparedIs": "Die maximale Anzahl von Zeiträumen die gleichzeitig verglichen werden können ist %s.",
-        "Custom": "Benutzerdefiniert"
+        "Custom": "Benutzerdefiniert",
+        "PreviousPeriod": "Vorheriger Zeitraum",
+        "PreviousYear": "vorheriges Jahr"
     },
     "Mobile": {
         "AboutPiwikMobile": "Über Matomo Mobile",

@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Super User created successfully!",
         "SystemCheck": "System Check",
         "SystemCheckAutoUpdateHelp": "Note: Matomo's One Click update requires write-permissions to the Matomo folder and its contents.",
-        "SystemCheckCreateFunctionHelp": "Matomo uses anonymous functions for callbacks.",
         "SystemCheckDatabaseExtensions": "MySQL extensions",
         "SystemCheckDatabaseHelp": "Matomo requires either the mysqli extension or both the PDO and pdo_mysql extensions.",
         "SystemCheckDatabaseSSL": "Database SSL Connection",
