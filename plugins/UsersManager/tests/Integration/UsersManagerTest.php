@@ -1021,8 +1021,8 @@ class UsersManagerTest extends IntegrationTestCase
         $defaultReportPref = API::PREFERENCE_DEFAULT_REPORT;
         $defaultReportDatePref = API::PREFERENCE_DEFAULT_REPORT_DATE;
 
-        $this->assertEquals(1, $this->api->getUserPreference('someUser', $defaultReportPref));
-        $this->assertEquals('yesterday', $this->api->getUserPreference('someUser', $defaultReportDatePref));
+        $this->assertEquals(1, $this->api->getUserPreference($defaultReportPref, 'someUser'));
+        $this->assertEquals('yesterday', $this->api->getUserPreference($defaultReportDatePref, 'someUser'));
     }
 
     public function testGetAvailableRoles()
