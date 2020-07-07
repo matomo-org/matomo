@@ -209,7 +209,7 @@ class APITest extends IntegrationTestCase
 
     public function test_getUserPreference_ShouldReturnADefaultPreference_IfNoneIsSet()
     {
-        $siteId = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+        $siteId = $this->api->getUserPreference(API::PREFERENCE_DEFAULT_REPORT, $this->login);
         $this->assertEquals('1', $siteId);
     }
 
@@ -217,7 +217,7 @@ class APITest extends IntegrationTestCase
     {
         $this->api->setUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT, 5);
 
-        $siteId = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+        $siteId = $this->api->getUserPreference(API::PREFERENCE_DEFAULT_REPORT, $this->login);
         $this->assertEquals('5', $siteId);
     }
 
