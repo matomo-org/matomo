@@ -823,7 +823,7 @@ abstract class Controller
             $validHost = $validHosts[0];
 
             if (!empty($_SERVER['SERVER_NAME'])) {
-                $invalidHost = Common::sanitizeInputValue($_SERVER['SERVER_NAME']);
+                $invalidHost = Common::sanitizeInputValue(Url::getHostFromServerNameVar());
             } else {
                 $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
             }
