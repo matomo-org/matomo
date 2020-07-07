@@ -381,7 +381,12 @@ class Segment
                 $where  .= " AND $from.$datetimeField <= ?";
                 $bind[] = $this->endDate->toString(Date::DATE_TIME_FORMAT);
             }
+
+            $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+            $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
+            $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
             $query = $segmentObj->getSelectQuery($select, $from, $where, $bind);
+            $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
             return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query];
         }
