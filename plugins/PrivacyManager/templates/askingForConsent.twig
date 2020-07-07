@@ -20,8 +20,7 @@
     </div>
 
     <div piwik-content-block content-title="{{ 'PrivacyManager_HowDoIAskForConsent'|translate|e('html_attr') }}" class="privacyAskingForConsent">
-        <p>
-            Learn everything about <a href="https://developer.matomo.org/guides/tracking-consent" target="_blank" rel="noreferrer noopener">asking for cookie or tracking consent in our integration guide.</a>
+        <p>{{ 'PrivacyManager_HowDoIAskForConsentIntroduction'|translate('<a href="https://developer.matomo.org/guides/tracking-consent" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
         </p>
     </div>
 {% endblock %}
