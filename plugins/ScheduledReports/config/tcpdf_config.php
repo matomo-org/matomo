@@ -59,14 +59,7 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
             } else {
                 $k_path_url = 'http://';
             }
-            $k_path_url .= $_SERVER['SERVER_NAME'];
-            if (strpos($k_path_url, ':') === false
-                && !empty($_SERVER['SERVER_PORT'])
-                && $_SERVER['SERVER_PORT'] != 80
-                && $_SERVER['SERVER_PORT'] != 443
-            ) {
-                $k_path_url .= ':' . $_SERVER['SERVER_PORT'];
-            }
+            $k_path_url .= \Piwik\Url::getHostFromServerNameVar();
             $k_path_url .= str_replace('\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
         } elseif (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
             if (isset($_SERVER['HTTPS']) AND (!empty($_SERVER['HTTPS'])) AND strtolower($_SERVER['HTTPS']) != 'off') {

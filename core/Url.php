@@ -333,6 +333,7 @@ class Url
     {
         $_SERVER['SERVER_NAME'] = $host;
         $_SERVER['HTTP_HOST'] = $host;
+        unset($_SERVER['SERVER_PORT']);
     }
 
     /**
