@@ -208,7 +208,7 @@ class Url
         }
 
         if ($host === false) {
-            $host = @$_SERVER['SERVER_NAME'];
+            $host = self::getHostFromServerNameVar();
             if (empty($host)) {
                 // fallback to old behaviour
                 $host = @$_SERVER['HTTP_HOST'];
@@ -301,17 +301,8 @@ class Url
      */
     public static function getHost($checkIfTrusted = true)
     {
-        if (isset($_SERVER['SERVER_NAME'])
-            && strlen($host = $_SERVER['SERVER_NAME'])) {
+        if (strlen($host = self::getHostFromServerNameVar())) {
             // if server_name is set we don't want to look at HTTP_HOST
-
-            if (strpos($host, ':') === false
-                && !empty($_SERVER['SERVER_PORT'])
-                && $_SERVER['SERVER_PORT'] != 80
-                && $_SERVER['SERVER_PORT'] != 443
-            ) {
-                $host .= ':' . $_SERVER['SERVER_PORT'];
-            }
 
             if (!$checkIfTrusted || self::isValidHost($host)) {
                return $host;
@@ -779,5 +770,20 @@ class Url
     {
         $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
         return (bool) $assume_secure_protocol;
+    }
+
+    public static function getHostFromServerNameVar()
+    {
+        $host = @$_SERVER['SERVER_NAME'];
+        if (!empty($host)) {
+            if (strpos($host, ':') === false
+                && !empty($_SERVER['SERVER_PORT'])
+                && $_SERVER['SERVER_PORT'] != 80
+                && $_SERVER['SERVER_PORT'] != 443
+            ) {
+                $host .= ':' . $_SERVER['SERVER_PORT'];
+            }
+        }
+        return $host;
     }
 }
