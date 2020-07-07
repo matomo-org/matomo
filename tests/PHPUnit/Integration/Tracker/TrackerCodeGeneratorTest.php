@@ -39,7 +39,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = window._paq || [];
+  var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   _paq.push([\"setCookieDomain\", \"*.localhost\"]);
@@ -60,7 +60,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/matomo.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
@@ -78,7 +78,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = window._paq || [];
+  var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
@@ -87,7 +87,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -116,7 +116,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = window._paq || [];
+  var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -134,7 +134,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -163,7 +163,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = window._paq || [];
+  var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -182,7 +182,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -207,7 +207,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = window._paq || [];
+  var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   _paq.push(['trackPageView']);
@@ -244,7 +244,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = '&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = window._paq || [];
+  var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -260,7 +260,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
     _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
+    g.type=\'text/javascript\'; g.async=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -278,7 +278,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = '&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = window._paq || [];
+  var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\'trackPageView\']);
   _paq.push([\'enableLinkTracking\']);
@@ -287,7 +287,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
     _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
+    g.type=\'text/javascript\'; g.async=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
