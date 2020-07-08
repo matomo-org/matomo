@@ -45,11 +45,14 @@ function getBrowserFamilyLogo($label)
 
 function getBrowserNameWithVersion($label)
 {
-    $short = substr($label, 0, 2);
-    $ver = substr($label, 3, 10);
+    $pos = strrpos($label, ';');
+    $short = substr($label, 0, $pos);
+    $ver = substr($label, $pos+1);
     $browsers = BrowserParser::getAvailableBrowsers();
     if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]) . ' ' . $ver);
+    } else if (strlen($short) > 2 && $short !== 'UNK') {
+        return trim($short . ' ' . $ver);
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -61,6 +64,8 @@ function getBrowserName($label)
     $browsers = BrowserParser::getAvailableBrowsers();
     if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]));
+    } else if (strlen($label) > 2 && strpos($label, 'UNK') === false) {
+        return $label;
     } else {
         return Piwik::translate('General_Unknown');
     }

@@ -108,7 +108,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getBrowserName()
     {
-        return getBrowserName($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
+        return getBrowserName($this->details['config_browser_name']);
     }
 
     protected function getBrowserIcon()
