@@ -21,7 +21,7 @@ use Piwik\Tracker\Action;
 class BrowserName extends Base
 {
     protected $columnName = 'config_browser_name';
-    protected $columnType = 'VARCHAR(10) NULL';
+    protected $columnType = 'VARCHAR(40) NULL';
     protected $segmentName = 'browserCode';
     protected $nameSingular = 'DevicesDetection_ColumnBrowser';
     protected $namePlural = 'DevicesDetection_Browsers';

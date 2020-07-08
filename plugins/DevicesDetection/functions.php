@@ -120,6 +120,43 @@ function getDeviceBrandLabel($label)
     }
 }
 
+function getClientTypeMapping()
+{
+    return [
+        1 => 'browser',
+        2 => 'library',
+        3 => 'feed reader',
+        4 => 'mediaplayer',
+        5 => 'mobile app',
+        6 => 'pim',
+    ];
+}
+
+function getClientTypeLabel($label)
+{
+    $translations = [
+        'browser' => 'DevicesDetection_ColumnBrowser',
+        'library' => 'DevicesDetection_Library',
+        'feed reader' => 'DevicesDetection_FeedReader',
+        'mediaplayer' => 'DevicesDetection_MediaPlayer',
+        'mobile app' => 'DevicesDetection_MobileApp',
+        'pim' => 'DevicesDetection_Pim',
+    ];
+
+    $clientTypes = getClientTypeMapping();
+
+    if (is_numeric($label) &&
+        array_key_exists($label, $clientTypes) &&
+        isset($translations[$clientTypes[$label]])) {
+
+        return Piwik::translate($translations[$clientTypes[$label]]);
+    } else if (isset($translations[$label])) {
+        return Piwik::translate($translations[$label]);
+    } else {
+        return Piwik::translate('General_Unknown');
+    }
+}
+
 function getDeviceTypeLabel($label)
 {
     $translations = array(
