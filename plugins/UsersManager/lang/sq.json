@@ -177,6 +177,7 @@
         "EmailChangedEmail1": "Adresa email përshoqëruar llogarisë tuaj sapo u ndryshua në %1$s",
         "EmailChangedEmail2": "Ky ndryshim zuri fill prej pajisjes vijuese: %1$s (Adresë IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Nëse qetë ju, mos ngurroni ta shpërfillni këtë email. Nëse s’qetë ju, ju lutemi, bëni hyrjen në llogarinë tuaj, ndreqni adresën tuaj email, ndryshoni fjalëkalimin tuaj dhe lidhuni me përgjegjësin e instancës tuaj Matomo.",
+        "IfThisWasYouPasswordChange": "Nëse jeni ju, shpërfilleni pa problem këtë email. Nëse s’qetë ju, ju lutemi, lidhuni menjëherë me përgjegjësin e instancës tuaj Matomo, ngaqë mund të jetë komprometuar llogaria juaj!",
         "PasswordChangeNotificationSubject": "Fjalëkalimi i llogarisë tuaj Matomo sapo u ndryshua",
         "PasswordChangedEmail": "Fjalëkalimi juaj sapo u ndryshua. Ndryshimi zuri fill prej pajisjes vijuese: %1$s (Adresë IP = %2$s).",
         "NewsletterSignupTitle": "Regjistrim Për Buletin",

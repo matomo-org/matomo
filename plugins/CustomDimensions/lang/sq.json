@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "Mesatare Kohëqëndrimi Në Përmasë",
         "CustomDimensionId": "Përmasa Vetjake (Id %d)",
         "NoValue": "s’ka vlerë",
+        "PluginDescription": "Zgjerojeni Matomo-n në përputhje me nevojat tuaj, duke përkufizuar dhe ndjekur Përmasa Vetjake në fushëveprimin Veprim ose Vizitë",
         "EmptyValue": "vlerë e zbrazët"
     }
 }

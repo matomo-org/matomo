@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Plugin\Manager;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -42,7 +43,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Dashboard_Dashboard' => 1,
             'General_Actions' => 22,
             'General_KpiMetric' => 1,
-            'General_Visitors' => 33,
+            'General_Visitors' => 32,
             'SEO' => 1,
             'Goals_Goals' => 3,
             'Insights_WidgetCategory' => 2,
@@ -51,6 +52,11 @@ class WidgetsListTest extends IntegrationTestCase
             'About Matomo' => 11,
             'Marketplace_Marketplace' => 3,
         );
+
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $numberOfWidgets['General_Visitors']++;
+        }
+
         // number of main categories
         $this->assertEquals(count($numberOfWidgets), count($widgetsPerCategory));
 

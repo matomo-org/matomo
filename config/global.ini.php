@@ -1003,7 +1003,6 @@ Plugins[] = CoreConsole
 Plugins[] = ScheduledReports
 Plugins[] = UserCountryMap
 Plugins[] = Live
-Plugins[] = CustomVariables
 Plugins[] = PrivacyManager
 Plugins[] = ImageGraph
 Plugins[] = Annotations

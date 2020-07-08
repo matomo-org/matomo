@@ -294,9 +294,10 @@ class Profiler
                 Profiler::aggregateXhprofRuns($runs, $profilerNamespace, $saveTo = $runId);
 
                 $baseUrlStored = SettingsPiwik::getPiwikUrl();
+                $host = Url::getHost();
 
                 $out = "\n\n";
-                $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
+                $baseUrl = "http://" . $host . "/" . @$_SERVER['REQUEST_URI'];
                 if (strlen($baseUrlStored) > strlen($baseUrl)) {
                     $baseUrl = $baseUrlStored;
                 }

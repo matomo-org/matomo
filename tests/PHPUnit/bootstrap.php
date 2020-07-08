@@ -54,6 +54,7 @@ function setPiwikDomainFromEnvVar()
     $piwikDomain = getenv('PIWIK_DOMAIN');
     if (!empty($piwikDomain)) {
         $_SERVER['HTTP_HOST'] = $piwikDomain;
+        $_SERVER['SERVER_NAME'] = $piwikDomain;
     }
 }
 

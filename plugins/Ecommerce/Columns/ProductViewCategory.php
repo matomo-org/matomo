@@ -16,7 +16,9 @@ use Piwik\Db;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\Segment;
+use Piwik\Plugins\CustomVariables\Tracker\CustomVariablesRequestProcessor;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -110,11 +112,13 @@ class ProductViewCategory extends ActionDimension
         }
 
         // fall back to custom variables (might happen if old logs are replayed)
-        $customVariables = $request->getCustomVariablesInPageScope();
-        if (isset($customVariables['custom_var_k5']) && $customVariables['custom_var_k5'] === '_pkc') {
-            $categories = $this->handleCategoryParam($customVariables['custom_var_v5'] ?? '');
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $customVariables = CustomVariablesRequestProcessor::getCustomVariablesInPageScope($request);
+            if (isset($customVariables['custom_var_k5']) && $customVariables['custom_var_k5'] === '_pkc') {
+                $categories = $this->handleCategoryParam($customVariables['custom_var_v5'] ?? '');
 
-            return $categories[$this->categoryNumber - 1] ?? false;
+                return $categories[$this->categoryNumber - 1] ?? false;
+            }
         }
 
         return parent::onLookupAction($request, $action);

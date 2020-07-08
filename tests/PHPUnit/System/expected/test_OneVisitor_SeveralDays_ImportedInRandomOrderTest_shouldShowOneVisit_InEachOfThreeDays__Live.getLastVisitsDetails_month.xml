@@ -21,13 +21,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365328800</timestamp>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -111,11 +111,11 @@
 		<visitLocalHour>10</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -138,13 +138,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365246000</timestamp>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -228,11 +228,11 @@
 		<visitLocalHour>11</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -255,13 +255,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365163200</timestamp>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -345,10 +345,10 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 </result>

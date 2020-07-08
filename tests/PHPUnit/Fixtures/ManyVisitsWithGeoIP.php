@@ -99,10 +99,11 @@ class ManyVisitsWithGeoIP extends Fixture
         }
     }
 
+    protected $calledCounter = 0;
+
     private function trackVisits($visitorCount, $setIp = false, $useLocal = true, $doBulk = false)
     {
-        static $calledCounter = 0;
-        $calledCounter++;
+        $this->calledCounter++;
 
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
@@ -120,7 +121,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
 
         for ($i = 0; $i != $visitorCount; ++$i) {
-            $this->trackVisit($t, $calledCounter, $i, $doBulk, array('setIp' => $setIp));
+            $this->trackVisit($t, $this->calledCounter, $i, $doBulk, array('setIp' => $setIp));
         }
 
         if ($doBulk) {

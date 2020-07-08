@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -84,7 +83,7 @@ class ManySitesImportedLogs extends Fixture
                                             'autoArchive'     => true,
                                             'enabledAllUsers' => true),
 
-            'segmentNoAutoArchive' => array('definition'      => 'customVariableName1==Not-bot',
+            'segmentNoAutoArchive' => array('definition'      => 'deviceBrand==Apple',
                                             'idSite'          => false,
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
@@ -97,7 +96,7 @@ class ManySitesImportedLogs extends Fixture
             'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
                                                   'idSite'          => 1,
                                                   'autoArchive'     => true,
-                                                  'enabledAllUsers' => true)
+                                                  'enabledAllUsers' => true),
 
             // fails randomly and I really could not find why.
 //            'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),

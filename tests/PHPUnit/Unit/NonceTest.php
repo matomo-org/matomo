@@ -10,6 +10,7 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Config;
 use Piwik\Nonce;
+use Piwik\Url;
 
 /**
  * @backupGlobals enabled
@@ -37,7 +38,7 @@ class NonceTest extends \PHPUnit\Framework\TestCase
     public function test_getAcceptableOrigins($host, $expected)
     {
         Config::getInstance()->General['enable_trusted_host_check'] = 0;
-        $_SERVER['HTTP_HOST'] = $host;
+        Url::setHost($host);
         Config::getInstance()->General['trusted_hosts'] = array('example.com');
         $this->assertEquals($expected, Nonce::getAcceptableOrigins(), $host);
     }

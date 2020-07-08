@@ -184,11 +184,6 @@ abstract class Action
         return $this->actionType;
     }
 
-    public function getCustomVariables()
-    {
-        return $this->request->getCustomVariables($scope = 'page');
-    }
-
     // custom_float column
     public function getCustomFloatValue()
     {

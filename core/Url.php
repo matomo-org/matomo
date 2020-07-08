@@ -208,11 +208,14 @@ class Url
         }
 
         if ($host === false) {
-            $host = @$_SERVER['HTTP_HOST'];
+            $host = self::getHostFromServerNameVar();
             if (empty($host)) {
-                // if no current host, assume valid
-
-                return true;
+                // fallback to old behaviour
+                $host = @$_SERVER['HTTP_HOST'];
+                if (empty($host)) {
+                    // if no current host, assume valid
+                    return true;
+                }
             }
         }
 
@@ -298,12 +301,18 @@ class Url
      */
     public static function getHost($checkIfTrusted = true)
     {
-        // HTTP/1.1 request
-        if (isset($_SERVER['HTTP_HOST'])
+        if (strlen($host = self::getHostFromServerNameVar())) {
+            // if server_name is set we don't want to look at HTTP_HOST
+
+            if (!$checkIfTrusted || self::isValidHost($host)) {
+               return $host;
+            }
+        } elseif (isset($_SERVER['HTTP_HOST'])
             && strlen($host = $_SERVER['HTTP_HOST'])
             && (!$checkIfTrusted
                 || self::isValidHost($host))
         ) {
+            // HTTP/1.1 request
             return $host;
         }
 
@@ -322,7 +331,9 @@ class Url
      */
     public static function setHost($host)
     {
+        $_SERVER['SERVER_NAME'] = $host;
         $_SERVER['HTTP_HOST'] = $host;
+        unset($_SERVER['SERVER_PORT']);
     }
 
     /**
@@ -760,5 +771,20 @@ class Url
     {
         $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
         return (bool) $assume_secure_protocol;
+    }
+
+    public static function getHostFromServerNameVar()
+    {
+        $host = @$_SERVER['SERVER_NAME'];
+        if (!empty($host)) {
+            if (strpos($host, ':') === false
+                && !empty($_SERVER['SERVER_PORT'])
+                && $_SERVER['SERVER_PORT'] != 80
+                && $_SERVER['SERVER_PORT'] != 443
+            ) {
+                $host .= ':' . $_SERVER['SERVER_PORT'];
+            }
+        }
+        return $host;
     }
 }

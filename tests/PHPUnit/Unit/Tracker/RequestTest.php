@@ -11,8 +11,6 @@ namespace Piwik\Tests\Unit\Tracker;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Matomo\Network\IPUtils;
-use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
@@ -190,28 +188,6 @@ class RequestTest extends UnitTestCase
 
         $expected = array(1, 0, 0, 0, 0, 0, 1, 0);
         $this->assertEquals($expected, $request->getPlugins());
-    }
-
-    public function test_truncateCustomVariable_shouldNotTruncateAnything_IfValueIsShortEnough()
-    {
-        $len = CustomVariables::getMaxLengthCustomVariables();
-        $input = str_pad('test', $len - 2, 't');
-
-        $result = Request::truncateCustomVariable($input);
-
-        $this->assertSame($result, $input);
-    }
-
-    public function test_truncateCustomVariable_shouldActuallyTruncateTheValue()
-    {
-        $len = CustomVariables::getMaxLengthCustomVariables();
-        $input = str_pad('test', $len + 2, 't');
-
-        $this->assertGreaterThan(100, $len);
-
-        $truncated = Request::truncateCustomVariable($input);
-
-        $this->assertEquals(str_pad('test', $len, 't'), $truncated);
     }
 
     public function test_getUserAgent_ShouldReturnEmptyString_IfNoneIsSet()

@@ -11,7 +11,6 @@ namespace Piwik\Tracker;
 use Piwik\Common;
 use Piwik\EventDispatcher;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -281,11 +280,6 @@ class VisitorRecognizer
 
             array_unshift($fields, 'visit_first_action_time');
             array_unshift($fields, 'visit_last_action_time');
-
-            for ($index = 1; $index <= CustomVariables::getNumUsableCustomVariables(); $index++) {
-                $fields[] = 'custom_var_k' . $index;
-                $fields[] = 'custom_var_v' . $index;
-            }
 
             $this->visitFieldsToSelect = array_unique($fields);
         }
