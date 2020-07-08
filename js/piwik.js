@@ -4796,7 +4796,7 @@ if (typeof window.Piwik !== 'object') {
              */
             function getClassesRegExp(configClasses, defaultClass) {
                 var i,
-                    classesRegExp = '(^| )(piwik[_-]' + defaultClass;
+                    classesRegExp = '(^| )(piwik[_-]' + defaultClass + '|matomo[_-]' + defaultClass;
 
                 if (configClasses) {
                     for (i = 0; i < configClasses.length; i++) {
