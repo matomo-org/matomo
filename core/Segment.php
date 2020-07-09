@@ -375,25 +375,25 @@ class Segment
             $select = 'log_visit.idvisit';
             $from = 'log_visit';
             $datetimeField = 'visit_last_action_time';
-            $where = "";
+            $where = [];
             $bind = [];
             if (!empty($this->idSites)) {
-                $where .= "$from.idsite IN (" . Common::getSqlStringFieldsArray($this->idSites) . ")";
+                $where[] = "$from.idsite IN (" . Common::getSqlStringFieldsArray($this->idSites) . ")";
                 $bind  = $this->idSites;
             }
             if ($this->startDate instanceof Date) {
-                $where  .= " AND $from.$datetimeField >= ?";
+                $where[] = "$from.$datetimeField >= ?";
                 $bind[] = $this->startDate->toString(Date::DATE_TIME_FORMAT);
             }
             if ($this->endDate instanceof Date) {
-                $where  .= " AND $from.$datetimeField <= ?";
+                $where[] = "$from.$datetimeField <= ?";
                 $bind[] = $this->endDate->toString(Date::DATE_TIME_FORMAT);
             }
 
             $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
             $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
             $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
-            $query = $segmentObj->getSelectQuery($select, $from, $where, $bind);
+            $query = $segmentObj->getSelectQuery($select, $from, implode(' AND ', $where), $bind);
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
             return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query];
