@@ -11,6 +11,7 @@ use Piwik\Config;
 use Piwik\Config\Cache;
 use Piwik\Config\IniFileChain;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
+use Piwik\Url;
 
 /**
  * @group Core
@@ -24,11 +25,14 @@ class CacheTest extends IntegrationTestCase
 
     private $testHost = 'analytics.test.matomo.org';
 
+    private $originalHost = '';
+
     public function setUp(): void
     {
         unset($GLOBALS['ENABLE_CONFIG_PHP_CACHE']);
         $this->setTrustedHosts();
-        $_SERVER['HTTP_HOST'] = $this->testHost;
+        $this->originalHost = Url::getHost(false);
+        Url::setHost($this->testHost);
         $this->cache = new Cache();
         $this->cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
         parent::setUp();
@@ -43,7 +47,7 @@ class CacheTest extends IntegrationTestCase
     {
         $this->setTrustedHosts();
         $this->cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
-        unset($_SERVER['HTTP_HOST']);
+        Url::setHost($this->originalHost);
         parent::tearDown();
     }
 
@@ -61,7 +65,7 @@ class CacheTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unsupported host');
 
-        $_SERVER['HTTP_HOST'] = $host;
+        Url::setHost($host);
         new Cache();
     }
 

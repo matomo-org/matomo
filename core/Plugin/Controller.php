@@ -821,7 +821,12 @@ abstract class Controller
             // invalid host, so display warning to user
             $validHosts = Url::getTrustedHostsFromConfig();
             $validHost = $validHosts[0];
-            $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
+
+            if (!empty($_SERVER['SERVER_NAME'])) {
+                $invalidHost = Common::sanitizeInputValue(Url::getHostFromServerNameVar());
+            } else {
+                $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
+            }
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));

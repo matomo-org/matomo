@@ -116,7 +116,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     function redirectToCoreHomeIndex()
     {
-        $defaultReport = API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), API::PREFERENCE_DEFAULT_REPORT);
+        $defaultReport = API::getInstance()->getUserPreference(
+            API::PREFERENCE_DEFAULT_REPORT,
+            Piwik::getCurrentUserLogin()
+        );
         $module = 'CoreHome';
         $action = 'index';
 
