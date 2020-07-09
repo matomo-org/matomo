@@ -298,10 +298,18 @@ class Segment
 
     private function doesSegmentNeedSubquery($operator, $segmentName)
     {
-        return in_array($operator, [
+        $requiresSubQuery = in_array($operator, [
                 SegmentExpression::MATCH_DOES_NOT_CONTAIN,
                 SegmentExpression::MATCH_NOT_EQUAL
             ]) && !$this->isVisitSegment($segmentName);
+
+        if ($requiresSubQuery && empty($this->startDate)) {
+            $e = new Exception();
+            Log::warning("Avoiding segment subquery due to missing start date. Please ensure a start date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $e->getTraceAsString());
+            return false;
+        }
+
+        return $requiresSubQuery;
     }
 
     private function getInvertedOperatorForSubQuery($operator)
@@ -362,7 +370,7 @@ class Segment
         if ($this->doesSegmentNeedSubquery($matchType, $name)) {
             $operator = $this->getInvertedOperatorForSubQuery($matchType);
             $stringSegment = $name . $operator . $value;
-            $segmentObj = new Segment($stringSegment, $this->idSites);
+            $segmentObj = new Segment($stringSegment, $this->idSites, $this->startDate, $this->endDate);
 
             $select = 'log_visit.idvisit';
             $from = 'log_visit';
