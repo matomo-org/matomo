@@ -41,13 +41,13 @@
 	</row>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>4</nb_visits>
-		<nb_actions>4</nb_actions>
+		<nb_visits>3</nb_visits>
+		<nb_actions>3</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<bounce_count>3</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==UNK;browserVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
@@ -170,6 +170,19 @@
 		<logo>plugins/Morpheus/icons/dist/browsers/CM.png</logo>
 	</row>
 	<row>
+		<label>Fútbol 1.0</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserCode==F%C3%BAtbol;browserVersion==1.0</segment>
+		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
+	</row>
+	<row>
 		<label>Internet Explorer 5.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -209,16 +222,16 @@
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>
 	<row>
-		<label>Unknown</label>
+		<label>Java</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
-		<nb_visits_converted>1</nb_visits_converted>
+		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==UNK;browserVersion==1.0</segment>
+		<segment>browserCode==Java;browserVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
 </result>
