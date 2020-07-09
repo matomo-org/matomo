@@ -129,7 +129,7 @@ class ChunksTest extends IntegrationTestCase
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', $this->date);
 
-        $segment = new Segment(false, array(1));
+        $segment = new Segment(false, array(1), $oPeriod->getDateStart(), $oPeriod->getDateEnd());
         $params  = new Parameters(new Site(1), $oPeriod, $segment);
 
         return $params;

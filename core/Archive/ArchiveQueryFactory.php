@@ -29,7 +29,7 @@ class ArchiveQueryFactory
     {
         list($websiteIds, $timezone, $idSiteIsAll) = $this->getSiteInfoFromQueryParam($idSites, $_restrictSitesToLogin);
         list($allPeriods, $isMultipleDate) = $this->getPeriodInfoFromQueryParam($strDate, $strPeriod, $timezone);
-        $segment = $this->getSegmentFromQueryParam($strSegment, $websiteIds);
+        $segment = $this->getSegmentFromQueryParam($strSegment, $websiteIds, $allPeriods);
 
         return $this->factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
     }
@@ -118,10 +118,13 @@ class ArchiveQueryFactory
      *
      * @param string $strSegment the value of the 'segment' query parameter.
      * @param int[] $websiteIds the list of sites being queried.
+     * @param Period[] $allPeriods list of all periods
      * @return Segment
      */
-    protected function getSegmentFromQueryParam($strSegment, $websiteIds)
+    protected function getSegmentFromQueryParam($strSegment, $websiteIds, $allPeriods)
     {
-        return new Segment($strSegment, $websiteIds);
+        // we might have multiple periods, so use the start date of the first one and
+        // the end date of the last one to limit the possible segment subquery
+        return new Segment($strSegment, $websiteIds, reset($allPeriods)->getDateTimeStart(), end($allPeriods)->getDateTimeEnd());
     }
 }

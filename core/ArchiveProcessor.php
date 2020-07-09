@@ -650,7 +650,7 @@ class ArchiveProcessor
             return;
         }
 
-        $newSegment = new Segment($newSegment, $idSites);
+        $newSegment = new Segment($newSegment, $idSites, $params->getDateStart(), $params->getDateEnd());
         if (ArchiveProcessor\Rules::isSegmentPreProcessed($idSites, $newSegment)) {
             // will be processed anyway
             return;

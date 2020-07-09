@@ -589,7 +589,7 @@ class CronArchive
             $idSite = $archive['idsite'];
             $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
-            $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite]));
+            $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd()));
 
             $loader = new Loader($params);
             if ($loader->canSkipThisArchive()) {
@@ -941,7 +941,7 @@ class CronArchive
                     continue;
                 }
 
-                $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite]));
+                $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
                 if ($this->isThereExistingValidPeriod($params)) {
                     $this->logger->info('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSite]);
                     continue;
@@ -989,7 +989,7 @@ class CronArchive
             $date = Date::factory($dateStr);
             $period = PeriodFactory::build('day', $date);
 
-            $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite]));
+            $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
             if ($this->isThereExistingValidPeriod($params, $isYesterday)) {
                 $this->logger->debug("  Found existing valid archive for $dateStr, skipping invalidation...");
                 continue;
@@ -1420,7 +1420,7 @@ class CronArchive
         $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
         $period = PeriodFactory::build($periodLabel, $dateStr);
 
-        $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
+        $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']], $period->getDateStart(), $period->getDateEnd());
 
         $params = new Parameters($site, $period, $segment);
 
