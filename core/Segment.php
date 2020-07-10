@@ -309,9 +309,9 @@ class Segment
                 SegmentExpression::MATCH_NOT_EQUAL
             ]) && !$this->isVisitSegment($segmentName);
 
-        if ($requiresSubQuery && empty($this->startDate)) {
+        if ($requiresSubQuery && empty($this->startDate) && empty($this->endDate)) {
             $e = new Exception();
-            Log::warning("Avoiding segment subquery due to missing start date. Please ensure a start date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $e->getTraceAsString());
+            Log::warning("Avoiding segment subquery due to missing start date and/or an end date. Please ensure a start date and/or end date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $e->getTraceAsString());
             return false;
         }
 
