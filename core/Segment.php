@@ -105,9 +105,9 @@ class Segment
      *
      * When using segments that contain a != or !@ condition on a non visit dimension (e.g. action, conversion, ...) it
      * is needed to use a subquery to get correct results. To avoid subqueries that fetch too many data it's required to
-     * set a startDate in this case. That date will be used to limit the subquery (along with possibly given idSites or
-     * endDate). If no startDate is given for such a segment it will generate a query that directly joins the according
-     * tables, but trigger a php warning as results might be incorrect.
+     * set a startDate and/or an endDate in this case. That date will be used to limit the subquery (along with possibly
+     * given idSites). If no startDate and endDate is given for such a segment it will generate a query that directly
+     * joins the according tables, but trigger a php warning as results might be incorrect.
      *
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
      * @param array $idSites The list of sites the segment will be used with. Some segments are
@@ -309,9 +309,9 @@ class Segment
                 SegmentExpression::MATCH_NOT_EQUAL
             ]) && !$this->isVisitSegment($segmentName);
 
-        if ($requiresSubQuery && empty($this->startDate)) {
+        if ($requiresSubQuery && empty($this->startDate) && empty($this->endDate)) {
             $e = new Exception();
-            Log::warning("Avoiding segment subquery due to missing start date. Please ensure a start date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $e->getTraceAsString());
+            Log::warning("Avoiding segment subquery due to missing start date and/or an end date. Please ensure a start date and/or end date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $e->getTraceAsString());
             return false;
         }
 
