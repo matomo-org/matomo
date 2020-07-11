@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Superbruger oprettet.",
         "SystemCheck": "Systemtjek",
         "SystemCheckAutoUpdateHelp": "Note: Matomo's ét klik opdatering kræver skrive-tilladelser til Matomo mappen og dens indhold.",
-        "SystemCheckCreateFunctionHelp": "Matomo bruger anonyme funktioner til tilbagekald.",
         "SystemCheckDatabaseExtensions": "MySQL udvidelser",
         "SystemCheckDatabaseHelp": "Matomo behøver enten mysqli-udvidelsen eller både PDO- og pdo_mysql-udvidelserne.",
         "SystemCheckDatabaseSSL": "Database SSL-forbindelse",

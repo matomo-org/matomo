@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Konto Super Użytkownika utworzono pomyślnie!",
         "SystemCheck": "Sprawdzenie systemu",
         "SystemCheckAutoUpdateHelp": "Uwaga: automatyczna aktualizacja statystyk Matomo wymaga praw do zapisu w folderze Matomo i w jego podkatalogach.",
-        "SystemCheckCreateFunctionHelp": "Matomo używa funkcji anonimowych dla wywołań zwrotnych.",
         "SystemCheckDatabaseExtensions": "Rozszerzenia MySQL",
         "SystemCheckDatabaseHelp": "Do prawidłowego działania Matomo wymaga rozszerzenia mysqli lub jednocześnie działających rozszerzeń PDO i pdo_mysql.",
         "SystemCheckDatabaseSSL": "Połączenie SSL z bazą danych",

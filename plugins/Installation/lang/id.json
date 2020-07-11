@@ -51,7 +51,6 @@
         "SuperUserSetupSuccess": "Pengguna Super berhasil dibuat!",
         "SystemCheck": "Pemeriksaan Sistem",
         "SystemCheckAutoUpdateHelp": "Catatan: Satu-Klik pembaruan Matomo membutuhkan izin-tulis ke map Matomo dan isinya.",
-        "SystemCheckCreateFunctionHelp": "Matomo menggunakan fungsi anonim untuk panggil balik.",
         "SystemCheckDatabaseHelp": "Matomo membutuhkan ekstensi mysqli atau kedua ekstensi PDO dan pdo_mysql.",
         "SystemCheckDebugBacktraceHelp": "View::factory tidak akan dapat membuat tampilan untuk modul panggilan.",
         "SystemCheckError": "Telah terjadi galat - harus diperbaiki sebelum Anda melanjutkannya",

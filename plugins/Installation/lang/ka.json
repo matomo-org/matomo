@@ -29,7 +29,6 @@
         "SetupWebsiteSetupSuccess": "ვებ საიტი %s შეიქმნა წარმატებით!",
         "SystemCheck": "სისტემის შემოწმება",
         "SystemCheckAutoUpdateHelp": "შენიშვნა: Matomo–ის ერთი დაწკაპუნებით განახლება მოითხოვს ჩაწერის უფლებას Matomo საქაღალდეზე და მის შიგთავსზე.",
-        "SystemCheckCreateFunctionHelp": "Matomo დაბრუნებისთვის იყენებს ანონიმურ ფუნქციებს.",
         "SystemCheckDatabaseHelp": "Matomo მოითხოვს ან mysqli გაფართოებას ან ორივეს, PDO და pdo_mysql გაფართოებებს",
         "SystemCheckError": "მოხდა შეცდომა – უნდა გამოსწორდეს, სანამ გააგრძელებთ",
         "SystemCheckEvalHelp": "მოთხოვნილია HTML QuickForm და Smarty შაბლონირების სისტემის მიერ.",

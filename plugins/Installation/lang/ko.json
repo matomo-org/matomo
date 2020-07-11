@@ -65,7 +65,6 @@
         "SuperUserSetupSuccess": "슈퍼 유저가 만들어졌습니다!",
         "SystemCheck": "시스템 체크",
         "SystemCheckAutoUpdateHelp": "주의: Matomo의 원클릭 업데이트는 Matomo 폴더와 파일에 쓰기 권한이 필요합니다.",
-        "SystemCheckCreateFunctionHelp": "Matomo은 콜백에 익명 함수를 사용합니다.",
         "SystemCheckDatabaseExtensions": "MySQL 확장",
         "SystemCheckDatabaseHelp": "Matomo은 mysqli 확장하거나 PDO와 pdo_mysql 확장의 둘 중 하나가 필요합니다.",
         "SystemCheckDebugBacktraceHelp": "View::factory는 모듈을 호출하여 뷰를 만들 수 없습니다.",

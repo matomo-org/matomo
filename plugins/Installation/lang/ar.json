@@ -68,7 +68,6 @@
         "SuperUserSetupSuccess": "تم إنشاء المدير العام بنجاح!",
         "SystemCheck": "فحص النظام",
         "SystemCheckAutoUpdateHelp": "ملاحظة: يتطلب تحديث Matomo الآلي صلاحية الكتابة في مجلدات Matomo ومحتوياتها.",
-        "SystemCheckCreateFunctionHelp": "يستخدم Matomo دوال anonymous للاستدعاءات.",
         "SystemCheckDatabaseExtensions": "إضافات MySQL",
         "SystemCheckDatabaseHelp": "يحتاج Matomo إما الإضافةmysqli أو كلاً من PDO و pdo_mysql.",
         "SystemCheckDatabaseSSL": "اتصال SSL بقاعدة البيانات",

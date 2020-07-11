@@ -43,7 +43,6 @@
         "SuperUserSetupSuccess": "Superusuari creat correctament",
         "SystemCheck": "Comprovació del sistema",
         "SystemCheckAutoUpdateHelp": "Nota: L'actualització en un click del Matomo requereix permisos d'escriptura a la carpeta Matomo i el seu contingut.",
-        "SystemCheckCreateFunctionHelp": "El Matomo utiltiza funcions anònimes pels callbacks.",
         "SystemCheckDatabaseHelp": "El Matomo necessita l'extensió mysqli o ambdues extensións PDO i pdo_mysql.",
         "SystemCheckDebugBacktraceHelp": "View::factory no serà capaç de crear vistes per mòdul que la crida.",
         "SystemCheckError": "Hi ha hagut un error i s'ha d'arreglar abans de que pugueu continuar.",

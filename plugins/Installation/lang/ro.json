@@ -50,7 +50,6 @@
         "SuperUserSetupSuccess": "Utilizator privilegiat creat cu succes!",
         "SystemCheck": "System check",
         "SystemCheckAutoUpdateHelp": "Notă: Un singur click pe Matomo pentru actualizare se necesită scrie-permisiune la folderul Matomo și conținutul său.",
-        "SystemCheckCreateFunctionHelp": "Matomo foloseste functii anonime pentru callback.",
         "SystemCheckDatabaseHelp": "Matomo necesită fie extensia mysqli sau ambele extensiile DOP și PDO_MYSQL .",
         "SystemCheckDebugBacktraceHelp": "Vezi :: fabrica nu va fi capabila sa creeze vizualizări pentru modulul de asteptare.",
         "SystemCheckError": "A apărut o eroare - trebuie să fie reparata înainte de a continua",

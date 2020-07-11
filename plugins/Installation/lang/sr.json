@@ -65,7 +65,6 @@
         "SuperUserSetupSuccess": "Superkorisnik uspešno kreiran!",
         "SystemCheck": "Provera sistema",
         "SystemCheckAutoUpdateHelp": "Pažnja: Matomo nadogradnja putem jednog klika zahteva da bude omogućeno pisanje u Matomo direktorijum i njegov sadržaj",
-        "SystemCheckCreateFunctionHelp": "Matomo koristi anonimne funkcije",
         "SystemCheckDatabaseExtensions": "MySQL proširenja",
         "SystemCheckDatabaseHelp": "Matomo zahteva ili mysqli proširenje ili PDO i pdo_mysql proširenja.",
         "SystemCheckDebugBacktraceHelp": "View::factory neće biti u mogućnosti da generiše prikaze za module koji ga pozivaju.",

@@ -22,10 +22,17 @@
         "CommunityHelp": "Hulp van de gemeenschap",
         "ProfessionalHelp": "Professionele hulp",
         "ProfessionalServicesOfferIntro": "Van welke diensten kan je gebruik maken?",
+        "ProfessionalServicesSupport": "24\/7 online aanvraag service",
+        "ProfessionalServicesTraining": "Exclusieve toegang tot Matomo-trainingsvideo's",
+        "ProfessionalServicesEmailAlerts": "E-mail waarschuwingen voor beveiligingsreleases voor Matomo",
         "ContactUs": "Neem contact met ons op",
         "VisitTheForums": "Bezoek het %1$s Forums%2$s en ontvang hulp van de community van Matomo users",
         "Forums": "Forums",
         "ReviewMatomoTitle": "Geloof je in Matomo?",
+        "RemindMeLater": "Herinner mij later",
+        "NeverAskMeAgain": "Vraag het me nooit meer",
+        "HowCanWeHelp": "Hoe kunnen we helpen?",
+        "NotTrackingVisits": "Matomo houdt geen bezoeken bij",
         "PopularHelpTopics": "Populaire help onderwerpen"
     }
 }

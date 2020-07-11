@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "スーパーユーザーの作成に成功しました！",
         "SystemCheck": "システムの確認",
         "SystemCheckAutoUpdateHelp": "注意： Matomo のワンクリックアップデートには、Matomo のフォルダとその内容に書き込み権限が必要となります。",
-        "SystemCheckCreateFunctionHelp": "Matomo はコールバックに匿名関数を使用します。",
         "SystemCheckDatabaseExtensions": "MySQL 拡張モジュール",
         "SystemCheckDatabaseHelp": "Matomo には、mysqli エクステンションか、PDO と pdo_mysql エクステンションの両方の、どちらかが必要です。",
         "SystemCheckDatabaseSSL": "データベース SSL 接続",

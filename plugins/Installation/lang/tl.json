@@ -48,7 +48,6 @@
         "SuperUserSetupSuccess": "Ang super user ay tagumpay na nagawa!",
         "SystemCheck": "Pagsusuri sa System",
         "SystemCheckAutoUpdateHelp": "Tandaan: Ang Matomo One click update ay nangangailangan ng permiso upang mabago ang folder at mga laman nito.",
-        "SystemCheckCreateFunctionHelp": "Gumagamit ang Matomo ng hindi kilalang function para sa callback.",
         "SystemCheckDatabaseHelp": "Ang Matomo ay nangangailangan ng alinman sa extension mysqli o pareho ang PDO at pdo_mysql extension.",
         "SystemCheckDebugBacktraceHelp": "Tingnan :: ang factory ay hindi magagawang lumikha ng mga view para sa calling module.",
         "SystemCheckError": "May naganap na error - kailangan itong maayos bago magpatuloy.",

@@ -66,7 +66,6 @@
         "SuperUserSetupSuccess": "Pääkäyttäjän luominen onnistui!",
         "SystemCheck": "Järjestelmän asetukset",
         "SystemCheckAutoUpdateHelp": "Huomioi: Matomon yhden klikkauksen päivitys vaatii kirjoitusoikeudet Matomon kansioon ja kansion kaikkeen sisältöön.",
-        "SystemCheckCreateFunctionHelp": "Matomo käyttää anonyymejä funktioita takaisinkutsuihin.",
         "SystemCheckDatabaseExtensions": "MySQL-lisäosat",
         "SystemCheckDatabaseHelp": "Matomo vaatii joko mysqli-lisäosan tai sekä PDO- että pdo_mysql-lisäosat..",
         "SystemCheckDatabaseSSL": "Tietokannan SSL-yhteys",

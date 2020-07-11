@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "超级用户已创建成功！",
         "SystemCheck": "系统检查",
         "SystemCheckAutoUpdateHelp": "注意: Matomo 的一键更新功能必须要有 Matomo 文件夹及内容的写入权限。",
-        "SystemCheckCreateFunctionHelp": "Matomo 使用匿名函数用作回调。",
         "SystemCheckDatabaseExtensions": "MySQL 扩展",
         "SystemCheckDatabaseHelp": "Matomo 正常工作要么需要 mysqli 扩展，要么需要 PDO 及 pdo_mysql 两个扩展。",
         "SystemCheckDatabaseSSL": "数据库SSL连接",
