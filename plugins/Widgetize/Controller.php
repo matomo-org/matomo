@@ -9,8 +9,11 @@
 namespace Piwik\Plugins\Widgetize;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Session\SessionInitializer;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -27,6 +30,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function iframe()
     {
+        $this->initWidgetAuth();
         $this->init();
 
         $controllerName = Common::getRequestVar('moduleToWidgetize');
@@ -81,5 +85,27 @@ class Controller extends \Piwik\Plugin\Controller
         $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
 
         return $view->render();
+    }
+
+    private function initWidgetAuth()
+    {
+        $token_auth = Common::getRequestVar('token_auth', '', 'string');
+
+        if (!empty($token_auth)) {
+            $auth = StaticContainer::get('Piwik\Auth');
+            $auth->setTokenAuth($token_auth);
+            $auth->setPassword(null);
+            $auth->setPasswordHash(null);
+            $auth->setLogin(null);
+
+            $sessionInitializer = new SessionInitializer();
+            $sessionInitializer->initSession($auth);
+
+            $url = preg_replace('/&token_auth=[^&]{20,38}|$/i', '', Url::getCurrentUrl());
+            if ($url) {
+                Url::redirectToUrl($url);
+                return;
+            }
+        }
     }
 }
