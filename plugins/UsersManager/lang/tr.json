@@ -177,6 +177,7 @@
         "EmailChangedEmail1": "Hesabınız ile ilişkilendirilmiş e-posta adresi %1$s olarak değiştirildi",
         "EmailChangedEmail2": "Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s).",
         "IfThisWasYouIgnoreIfNot": "Bu değişikliği siz yaptıysanız bu bildirimi yok sayabilirsiniz. Değişikliği siz yapmadıysanız lütfen oturum açarak e-posta adresinizi düzeltin, parolanızı değiştirin ve Matomo yöneticiniz ile görüşün.",
+        "IfThisWasYouPasswordChange": "Bu değişikliği siz yaptıysanız bu e-postayı yok sayabilirsiniz. Değişikliği siz yapmadıysanız, hesabınız ele geçirilmiş olabileceğinden hemen Matomo yöneticiniz ile görüşün.",
         "PasswordChangeNotificationSubject": "Matomo hesabınızın parolası değiştirildi",
         "PasswordChangedEmail": "Parolanız değiştirildi. Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s).",
         "NewsletterSignupTitle": "Bülten Aboneliği",

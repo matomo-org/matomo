@@ -65,7 +65,6 @@
         "SuperUserSetupSuccess": "Superbruker ble opprettet!",
         "SystemCheck": "Systemsjekk",
         "SystemCheckAutoUpdateHelp": "Merk: Matomos énklikksoppdatering krever skriverettigheter til Matomo-mappen og dens innhold.",
-        "SystemCheckCreateFunctionHelp": "Matomo bruker anonyme funksjoner for callbacks.",
         "SystemCheckDatabaseExtensions": "MySQL-utvidelser",
         "SystemCheckDatabaseHelp": "Matomo krever enten mysqli utvidelsen eller både PDO og pdo_mysql utvidelsene.",
         "SystemCheckDebugBacktraceHelp": "View::factory vil ikke være i stand til å lage visninger for calling-modulen.",

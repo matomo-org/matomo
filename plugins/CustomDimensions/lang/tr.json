@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "Boyut Üzerindeki Ortalama Süre",
         "CustomDimensionId": "Özel Boyutlar (Kod %d)",
         "NoValue": "değer yok",
+        "PluginDescription": "Matomo , İşlem ya da Ziyaret aralığında tanımlanıp izlenebilen özel boyutlar tanımlanarak gereksinimlerinize göre genişletilebilir",
         "EmptyValue": "değer boş"
     }
 }

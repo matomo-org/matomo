@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Η Υπερχρήστης δημιουργήθηκε με επιτυχία!",
         "SystemCheck": "Έλεγχος συστήματος",
         "SystemCheckAutoUpdateHelp": "Σημείωση: Η αναβάθμιση με Ένα Πάτημα του Matomo απαιτεί δικαιώματα εγγραφής στο φάκελο Matomo και στα περιεχόμενά του.",
-        "SystemCheckCreateFunctionHelp": "Το Matomo χρησιμοποιεί ανώνυμες συναρτήσεις για ανακλήσεις.",
         "SystemCheckDatabaseExtensions": "Επεκτάσεις MySQL",
         "SystemCheckDatabaseHelp": "Το Matomo απαιτεί είτε την επέκταση mysqli ή και τις δύο επεκτάσεις PDO και pdo_mysql.",
         "SystemCheckDatabaseSSL": "SSL σύνδεση βάσης",

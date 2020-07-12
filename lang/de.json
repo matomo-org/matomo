@@ -20,7 +20,7 @@
         "AverageOrderValue": "Durchschnittlicher Bestellwert",
         "AveragePrice": "Durchschnittlicher Preis",
         "AverageQuantity": "Durchschnittliche Menge",
-        "AverageX": "Mtlw. %s",
+        "AverageX": "Durchschnitt %s",
         "BackToPiwik": "Zurück zu Matomo",
         "Broken": "Defekt",
         "BrokenDownReportDocumentation": "Die Daten sind in verschiedene Berichte unterteilt, die in Sparklines am Ende der Seite angezeigt werden. Sie können die Sparklines vergrößern, indem Sie auf den gewünschen Bericht klicken.",

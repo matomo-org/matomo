@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Süper Kullanıcı eklendi.",
         "SystemCheck": "Sistem Denetimi",
         "SystemCheckAutoUpdateHelp": "Not: Matomo Tek Tıklamayla güncelleme özelliği için Matomo klasörüne ve içeriğine yazma izinleri gerekir.",
-        "SystemCheckCreateFunctionHelp": "Matomo geri bağlantılar için isimsiz işlevleri kullanır.",
         "SystemCheckDatabaseExtensions": "MySQL eklentileri",
         "SystemCheckDatabaseHelp": "Matomo mysqli eklentisi ya da PDO ve pdo_mysql eklentilerine gerek duyar.",
         "SystemCheckDatabaseSSL": "Veritabanı SSL Bağlantısı",

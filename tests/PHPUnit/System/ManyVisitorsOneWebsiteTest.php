@@ -148,6 +148,23 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'otherRequestParameters' => array('filter_offset' => '4', 'filter_limit' => 3)
         ));
 
+        // #13785
+        // check that not contains / not equals action segments filter away all visits having any matching action
+        $apiToTest[] = array('Live.getLastVisitsDetails', array(
+            'idSite'                 => $idSite,
+            'date'                   => $dateString,
+            'periods'                => 'month',
+            'testSuffix'             => '_pageurlNotContainsSegment',
+            'segment'                => 'pageUrl!@quest'
+        ));
+        $apiToTest[] = array('Live.getLastVisitsDetails', array(
+            'idSite'                 => $idSite,
+            'date'                   => $dateString,
+            'periods'                => 'month',
+            'testSuffix'             => '_siteSearchCategoryNotEqualsSegment',
+            'segment'                => 'siteSearchCategory!=CAT'
+        ));
+
         // #8324
         // testing filter_excludelowpop and filter_excludelowpop_value
         $apiToTest[] = array('UserCountry.getCountry', array(

@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Administratör skapades utan problem!",
         "SystemCheck": "Systemkontroll",
         "SystemCheckAutoUpdateHelp": "Notering: Matomo Ett-Klicks-uppdatering kräver skriv-behörigheter till Matomo mappen och dess innehåll.",
-        "SystemCheckCreateFunctionHelp": "Matomo använder anonyma funktioner för återanropning.",
         "SystemCheckDatabaseExtensions": "MySQL-tillägg",
         "SystemCheckDatabaseHelp": "Matomo kräver antingen tillägget mysqli eller båda tilläggen PDO och pdo_mysql.",
         "SystemCheckDatabaseSSL": "Säker databasanslutning (SSL)",

@@ -139,7 +139,7 @@ class Controller extends ControllerAdmin
      */
     protected function getDefaultDateForUser($user)
     {
-        return APIUsersManager::getInstance()->getUserPreference($user, APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
+        return APIUsersManager::getInstance()->getUserPreference(APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE, $user);
     }
 
     /**

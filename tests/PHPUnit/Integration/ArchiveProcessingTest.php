@@ -86,7 +86,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $site = $this->_createWebsite($siteTimezone);
         $date = Date::factory($dateLabel);
         $period = Period\Factory::build($periodLabel, $date);
-        $segment = new Segment('', [$site->getId()]);
+        $segment = new Segment('', [$site->getId()], $period->getDateStart(), $period->getDateEnd());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         return new ArchiveProcessorTest($params);

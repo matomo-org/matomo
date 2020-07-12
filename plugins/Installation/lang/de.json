@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Hauptadministrator erfolgreich angelegt!",
         "SystemCheck": "Systemprüfung",
         "SystemCheckAutoUpdateHelp": "Hinweis: Matomo's Ein-Klick-Aktualisierung benötigt Schreibrechte für den Matomo-Ordner und dessen Inhalt.",
-        "SystemCheckCreateFunctionHelp": "Matomo verwendet anonyme Funktionen für Rückfragen.",
         "SystemCheckDatabaseExtensions": "MySQL Erweiterungen",
         "SystemCheckDatabaseHelp": "Matomo erfordert entweder die mysqli Erweiterung oder die PDO und pdo_mysql Erweiterung.",
         "SystemCheckDatabaseSSL": "Datenbank SSL Verbindung",
@@ -149,6 +148,7 @@
         "WelcomeHelp": "<p>Matomo ist eine frei verfügbare Webanalyse-Software, welche erlaubt, einfach die gewünschten Informationen über die Besucher Ihrer Website zu erhalten.<\/p><p>Dieser Prozess ist aufgeteilt in %s einfache Schritte und wird rund 5 Minuten dauern.<\/p>",
         "WelcomeToCommunity": "Willkommen in der Matomo Community!",
         "CannotConnectToDb": "Verbindung zur Datenbank ist fehlgeschlagen",
-        "CannotConnectToDbResolvingExplanation": "Dies könnte ein temporäres Problem sein. Versuchen Sie diese %1$sSeite neu zu laden%2$s. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo Administrator."
+        "CannotConnectToDbResolvingExplanation": "Dies könnte ein temporäres Problem sein. Versuchen Sie diese %1$sSeite neu zu laden%2$s. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo Administrator.",
+        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird nur dafür verwendet, Ihnen den Newsletter zu senden. Dafür werden wir sie an einen Third-Party-Provider weitergeben. Dieser Provider ist aktuell Mad Mimi, aber das wird in Zukunft möglicherweise ändern. Wir werden Ihre E-Mail-Adresse sonst mit niemandem teilen oder sie für etwas anderes als für den Newsletter verwenden. Sie können sich jederzeit abmelden. Bitte konsultieren Sie unsere %1$sDatenschutzerklärung%2$s für weitere Informationen."
     }
 }

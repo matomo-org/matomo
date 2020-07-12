@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Super-uživatel úspěšně vytvořen",
         "SystemCheck": "Kontrola systému",
         "SystemCheckAutoUpdateHelp": "Poznámla: Aktualizace pomocí jednoho kliknutí vyžaduje práva pro zápis do adresářů Matomou a jejich obsahu",
-        "SystemCheckCreateFunctionHelp": "Matomo pro zpětná volání využívá anonymní funkce",
         "SystemCheckDatabaseExtensions": "MySQL rozšíření",
         "SystemCheckDatabaseHelp": "Matomo vyžaduje buď rozšíření mysqli, nebo PDO s pdo_mysql rozšířením",
         "SystemCheckDatabaseSSL": "SSL připojení do databáze",

@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Superpërdoruesi u krijua me sukses!",
         "SystemCheck": "Kontroll sistemi",
         "SystemCheckAutoUpdateHelp": "Shënim: përditësimi me Një Klikim i Matomo-s lyp leje për shkrim te dosja Matomo dhe lënda e saj.",
-        "SystemCheckCreateFunctionHelp": "Matomo përdor funksione anonime për \\\"callbacks\\\".",
         "SystemCheckDatabaseExtensions": "Zgjerime MySQL",
         "SystemCheckDatabaseHelp": "Matomo lyp ose zgjerimin mysqli, ose që të dy zgjerimet PDO dhe pdo_mysql.",
         "SystemCheckDatabaseSSL": "Lidhje SSL Baze të Dhënash",

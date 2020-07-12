@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "Durchschn. Zeit Der Dimension",
         "CustomDimensionId": "Benutzerdefinierte Dimensionen (Id %d)",
         "NoValue": "kein Wert",
+        "PluginDescription": "Erweitern Sie Matomo nach Ihren Bedürfnissen, in dem Sie benutzerdefinierte Dimensionen im Bereich Scope Aktionen oder Besuche erzeugen und auswerten",
         "EmptyValue": "leerer Wert"
     }
 }

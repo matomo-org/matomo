@@ -748,6 +748,12 @@ rearchive_reports_in_past_last_n_months = last6
 
 [Tracker]
 
+; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
+; identify the same user as the same visitor across devices. 
+; Disabling this feature can be useful for example when using the third party cookie, where all Matomo tracked sites 
+; use the same "global" visitorId for a device and you want to see when the same user switches between devices.
+enable_userid_overwrites_visitorid = 1
+
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
 ; If you want to track unique users across websites you may set this setting to 1.
