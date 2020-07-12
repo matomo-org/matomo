@@ -21,6 +21,7 @@
         "ShowMap": "tampilkan peta",
         "SimpleRealTimeWidget_Message": "%1$s dan %2$s dalam %3$s terakhir.",
         "ViewVisitorProfile": "Lihat profil pengunjung",
+        "RevisitedPages": "Halaman-halaman yang dilihat lebih dari sekali",
         "VisitorLogDocumentation": "Tabel berikut menampilkan kunjungan terakhir selama rentang tanggal yang dipilih.%1$s Bila hari ini termasuk dalam rentang tanggal, Anda dapat melihat pengunjung Anda dalam waktu nyata! %2$s Data yang ditampilkan di sini selalu ditampilkan secara langsung, tidak terpengaruh bagaimana Anda mengatur pengarsipan di tugas Cron.",
         "VisitorProfile": "Profil pengunjung",
         "VisitorsLastVisit": "Pengunjung ini telah berkunjung %s hari yang lalu."

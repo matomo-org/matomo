@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "已成功新增超級使用者！",
         "SystemCheck": "系統檢查",
         "SystemCheckAutoUpdateHelp": "注意：Matomo 的一鍵更新功能必須要有 Matomo 資料夾及內容的寫入權限。",
-        "SystemCheckCreateFunctionHelp": "Matomo 的回傳使用匿名功能。",
         "SystemCheckDatabaseExtensions": "MySQL 擴充功能",
         "SystemCheckDatabaseHelp": "Matomo 需要 mysqli 或包含 PDO 及 pdo_mysql 的擴充功能。",
         "SystemCheckDatabaseSSL": "資料庫 SSL 連線",

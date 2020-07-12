@@ -48,7 +48,6 @@
         "SuperUserSetupSuccess": "ابرکاربر را با موفقیت ایجاد شد!",
         "SystemCheck": "بررسی سیستم",
         "SystemCheckAutoUpdateHelp": "توجه: Matomo یک کلیک کنید به روز رسانی نیاز به نوشتن مجوز به پوشه Matomo و محتویات آن است.",
-        "SystemCheckCreateFunctionHelp": "Matomo با استفاده از توابع ناشناس برای تماس مجدد.",
         "SystemCheckDatabaseHelp": "Matomo نیاز یا پسوند mysqli و یا هر دو PDO و pdo_mysql پسوند.",
         "SystemCheckDebugBacktraceHelp": "مشاهده :: کارخانه قادر نخواهد بود برای ایجاد دیدگاه برای ماژول های فراخوانی شده است.",
         "SystemCheckError": "خطا رخ داده - باید ثابت قبل از شما ادامه",

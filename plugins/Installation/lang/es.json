@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "¡Super usuario creado con éxito!",
         "SystemCheck": "Comprobación del sistema",
         "SystemCheckAutoUpdateHelp": "Nota: Las actualizaciones a un solo-clic de Matomo necesitan permisos de escritura en la carpeta de instalación Matomo y sus contenidos.",
-        "SystemCheckCreateFunctionHelp": "Matomo utiliza funciones anónimas para repeticiones de llamada.",
         "SystemCheckDatabaseExtensions": "Extensiones MySQL",
         "SystemCheckDatabaseHelp": "Matomo requiere o bien la extensión mysqli o PDO y pdo_mysql.",
         "SystemCheckDatabaseSSL": "Conexión SSL a la base de datos",

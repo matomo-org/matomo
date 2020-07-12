@@ -102,6 +102,7 @@
         "RowLimit": "Zeilenlimit",
         "CustomLimit": "Eigenes Limit",
         "ExportFormat": "Exportformat",
+        "ExportTooltip": "Hinweis: Die generierte Export URL wird nur in der aktuellen Browser Session funktionieren. Wenn Sie sie andernorts verwenden wollen, müssen Sie einen appspezifischen Token verwenden. Sie können diese Token in Admin -> Security ->Token Auths konfigurieren.",
         "ExpandSubtables": "Erweitere Untertabellen",
         "StandardReport": "Standard Bericht",
         "FlattenReport": "Flacher Bericht",
