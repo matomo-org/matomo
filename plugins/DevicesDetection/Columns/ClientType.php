@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 class ClientType extends Base
 {
     protected $columnName = 'config_client_type';
-    protected $columnType = 'TINYINT( 10 ) NULL DEFAULT NULL';
+    protected $columnType = 'TINYINT( 1 ) NULL DEFAULT NULL';
     //protected $segmentName = 'clientType';
     protected $type = self::TYPE_ENUM;
     protected $nameSingular = 'DevicesDetection_ClientType';
