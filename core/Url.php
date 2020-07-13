@@ -417,6 +417,7 @@ class Url
     public static function getCurrentQueryStringWithParametersModified($params)
     {
         $urlValues = self::getArrayFromCurrentQueryString();
+        $urlValues = self::rawUrlEncodeParameters($urlValues);
         foreach ($params as $key => $value) {
             $urlValues[$key] = $value;
         }
@@ -786,5 +787,17 @@ class Url
             }
         }
         return $host;
+    }
+
+    private static function rawUrlEncodeParameters($urlValues)
+    {
+        foreach ($urlValues as $key => $value) {
+            if (is_array($urlValues)) {
+                $urlValues[$key] = rawurlencode($value);
+            } elseif (!is_object($urlValues)) {
+                $urlValues[$key] = self::rawUrlEncodeParameters($value);
+            }
+        }
+        return $urlValues;
     }
 }

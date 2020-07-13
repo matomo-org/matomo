@@ -60,6 +60,27 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getTestDataForGetCurrentQueryStringWithParametersModified
+     */
+    public function test_getCurrentQueryStringWithParametersModified($get, $modified, $expected)
+    {
+        $_GET = $get;
+        $_SERVER['QUERY_STRING'] = http_build_query($get);
+
+        $actual = Url::getCurrentQueryStringWithParametersModified($modified);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForGetCurrentQueryStringWithParametersModified()
+    {
+        return [
+            [['param1' => 'paramValue', 'param2' => 'otherValue'], [], '?param1=paramValue&param2=otherValue'],
+            [['param1' => 'paramValue', 'param2' => ['1', '2']], ['param2' => 'abc'], '?param1=paramValue&param2%5B0%5D=1&param2%5B1%5D=2&param2=abc'],
+            [['param1' => 'paramValue&this', 'param2' => ['1', '2'], 'param3' => '<>!!'], ['param2' => '&that'], '?param1=paramValue%2526this&param2%5B0%5D=1&param2%5B1%5D=2&param3=%253C%253E%2521%2521&param2=&that'],
+        ];
+    }
+
+    /**
      * @dataProvider getCurrentHosts
      */
     public function testGetCurrentHost($description, $test)
