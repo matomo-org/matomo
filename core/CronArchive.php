@@ -222,6 +222,13 @@ class CronArchive
     public $segmentsToForce = array();
 
     /**
+     * List of segment strings to skip archiving for. If a segment is in this list, it will not be archived.
+     *
+     * @var string[]
+     */
+    public $segmentsToSkip = [];
+
+    /**
      * @var bool
      */
     public $disableSegmentsArchiving = false;
@@ -617,6 +624,27 @@ class CronArchive
 
         $segments = array_filter($segments, function ($segment) use ($idSegments) {
             return in_array($segment['idsegment'], $idSegments);
+        });
+
+        $segments = array_map(function ($segment) {
+            return $segment['definition'];
+        }, $segments);
+
+        $this->segmentsToForce = $segments;
+    }
+
+
+    /**
+     * @param int[] $idSegments
+     */
+    public function setSegmentsToSkipFromSegmentIds($idSegments)
+    {
+        /** @var SegmentEditorModel $segmentEditorModel */
+        $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+        $segments = $segmentEditorModel->getAllSegmentsAndIgnoreVisibility();
+
+        $segments = array_filter($segments, function ($segment) use ($idSegments) {
+            return (!in_array($segment['idsegment'], $idSegments));
         });
 
         $segments = array_map(function ($segment) {

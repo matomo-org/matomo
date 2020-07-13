@@ -59,6 +59,11 @@ class CoreArchiver extends ConsoleCommand
         $segmentIds = array_map('trim', $segmentIds);
         $archiver->setSegmentsToForceFromSegmentIds($segmentIds);
 
+        $segmentIdsToSkip = $input->getOption('skip-idsegments');
+        $segmentIdsToSkip = explode(',', $segmentIdsToSkip);
+        $segmentIdsToSkip = array_map('trim', $segmentIdsToSkip);
+        $archiver->setSegmentsToSkipFromSegmentIds($segmentIdsToSkip);
+
         $archiver->setUrlToPiwik($url);
 
         return $archiver;
@@ -112,6 +117,10 @@ class CoreArchiver extends ConsoleCommand
             "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
         $command->addOption('force-idsegments', null, InputOption::VALUE_REQUIRED,
             'If specified, only these segments will be processed (if the segment should be applied to a site in the first place).'
+            . "\nSpecify stored segment IDs, not the segments themselves, eg, 1,2,3. "
+            . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
+        $command->addOption('skip-idsegments', null, InputOption::VALUE_REQUIRED,
+            'If specified, these segments will not be processed (if the segment should be applied to a site in the first place).'
             . "\nSpecify stored segment IDs, not the segments themselves, eg, 1,2,3. "
             . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
         $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL,
