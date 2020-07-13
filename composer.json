@@ -1,5 +1,5 @@
 {
-    "name": "piwik/piwik",
+    "name": "matomo/matomo",
     "type": "application",
     "description": "the leading free/libre analytics platform",
     "keywords": ["piwik","matomo","web","analytics"],
