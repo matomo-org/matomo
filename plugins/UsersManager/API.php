@@ -288,9 +288,6 @@ class API extends \Piwik\Plugin\API
             self::PREFERENCE_DEFAULT_REPORT_DATE,
             'isLDAPUser', // used in loginldap
             'hideSegmentDefinitionChangeMessage',// used in JS
-            'randomDoesNotExist',// for tests
-            'RandomNOTREQUESTED',// for tests
-            'preferenceName'// for tests
         );
         $customPreferences = StaticContainer::get('usersmanager.user_preference_names');
 
