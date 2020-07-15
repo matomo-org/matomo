@@ -52,6 +52,14 @@ See https://matomo.org/docs/installation/.
 
 (When using Matomo for development you need to [install Matomo from the Git repository](https://matomo.org/faq/how-to-install/faq_18271/)).
 
+## One Click Deployment
+
+You can deploy a Matomo server and MySQL database, hosted on Render, with a single click using the `Deploy to Render` button.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/matomo)
+
+Learn more at: https://render.com/docs/deploy-matomo
+
 ## Free trial 
 
 If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (21 day free trial): https://matomo.org/start-free-analytics-trial/
