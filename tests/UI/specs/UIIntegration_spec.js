@@ -921,7 +921,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('email_reports');
         });
 
+        it('should show the generated report when clicking the download button', async function () {
+            await page.evaluate(function () {
+                $('#downloadReportForm_7').attr('target', ''); // do not open the download in new windows
+            });
+            await page.click('#downloadReportForm_7 + a');
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshot({fullPage: true})).to.matchImage('email_reports_download');
+        });
+
         it('should load the scheduled reports when Edit button is clicked', async function () {
+            await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
             await page.click('.entityTable tr:nth-child(4) button[title="Edit"]');
 
             pageWrap = await page.$('.pageWrap');
