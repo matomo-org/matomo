@@ -207,6 +207,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'config_browser_engine' => null,
             'config_browser_name' => null,
             'config_browser_version' => null,
+            'config_client_type' => null,
             'config_device_brand' => null,
             'config_device_model' => null,
             'config_device_type' => null,

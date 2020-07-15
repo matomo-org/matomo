@@ -13,6 +13,10 @@
 		<default_value />
 	</row>
 	<row>
+		<column_name>config_client_type</column_name>
+		<default_value />
+	</row>
+	<row>
 		<column_name>config_cookie</column_name>
 		<default_value />
 	</row>

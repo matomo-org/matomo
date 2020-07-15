@@ -21,7 +21,7 @@ use Piwik\Tracker\Action;
 class BrowserName extends Base
 {
     protected $columnName = 'config_browser_name';
-    protected $columnType = 'VARCHAR(10) NULL';
+    protected $columnType = 'VARCHAR(40) NULL';
     protected $segmentName = 'browserCode';
     protected $nameSingular = 'DevicesDetection_ColumnBrowser';
     protected $namePlural = 'DevicesDetection_Browsers';
@@ -83,6 +83,9 @@ class BrowserName extends Base
         if (!empty($aBrowserInfo['short_name'])) {
 
             return $aBrowserInfo['short_name'];
+        } else if (!empty($aBrowserInfo['name'])) {
+
+            return $aBrowserInfo['name'];
         }
 
         return 'UNK';

@@ -45,11 +45,14 @@ function getBrowserFamilyLogo($label)
 
 function getBrowserNameWithVersion($label)
 {
-    $short = substr($label, 0, 2);
-    $ver = substr($label, 3, 10);
+    $pos = strrpos($label, ';');
+    $short = substr($label, 0, $pos);
+    $ver = substr($label, $pos+1);
     $browsers = BrowserParser::getAvailableBrowsers();
     if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]) . ' ' . $ver);
+    } else if (strlen($short) > 2 && $short !== 'UNK') {
+        return trim($short . ' ' . $ver);
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -61,6 +64,8 @@ function getBrowserName($label)
     $browsers = BrowserParser::getAvailableBrowsers();
     if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]));
+    } else if (strlen($label) > 2 && strpos($label, 'UNK') === false) {
+        return $label;
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -115,6 +120,43 @@ function getDeviceBrandLabel($label)
 {
     if (array_key_exists($label, DeviceParser::$deviceBrands)) {
         return ucfirst(DeviceParser::$deviceBrands[$label]);
+    } else {
+        return Piwik::translate('General_Unknown');
+    }
+}
+
+function getClientTypeMapping()
+{
+    return [
+        1 => 'browser',
+        2 => 'library',
+        3 => 'feed reader',
+        4 => 'mediaplayer',
+        5 => 'mobile app',
+        6 => 'pim',
+    ];
+}
+
+function getClientTypeLabel($label)
+{
+    $translations = [
+        'browser' => 'DevicesDetection_ColumnBrowser',
+        'library' => 'DevicesDetection_Library',
+        'feed reader' => 'DevicesDetection_FeedReader',
+        'mediaplayer' => 'DevicesDetection_MediaPlayer',
+        'mobile app' => 'DevicesDetection_MobileApp',
+        'pim' => 'DevicesDetection_Pim',
+    ];
+
+    $clientTypes = getClientTypeMapping();
+
+    if (is_numeric($label) &&
+        array_key_exists($label, $clientTypes) &&
+        isset($translations[$clientTypes[$label]])) {
+
+        return Piwik::translate($translations[$clientTypes[$label]]);
+    } else if (isset($translations[$label])) {
+        return Piwik::translate($translations[$label]);
     } else {
         return Piwik::translate('General_Unknown');
     }

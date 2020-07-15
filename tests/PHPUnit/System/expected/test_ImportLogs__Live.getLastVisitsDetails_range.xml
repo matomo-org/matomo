@@ -3970,10 +3970,10 @@
 		<operatingSystemVersion>7.1</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
+		<browser>Fútbol 1.0</browser>
+		<browserName>Fútbol</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<browserCode>UNK</browserCode>
+		<browserCode>Fútbol</browserCode>
 		<browserVersion>1.0</browserVersion>
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
@@ -5209,10 +5209,10 @@
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
+		<browser>Java</browser>
+		<browserName>Java</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<browserCode>UNK</browserCode>
+		<browserCode>Java</browserCode>
 		<browserVersion />
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
