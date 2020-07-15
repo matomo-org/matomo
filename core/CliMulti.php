@@ -372,7 +372,7 @@ class CliMulti
 
         try {
             $this->logger->debug("Execute HTTP API request: "  . $url);
-            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate, false, false, 'POST', null, null, $requestBody, $forcePost = true, [], $forcePost = true);
+            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate, false, false, 'POST', null, null, $requestBody, [], $forcePost = true);
             $output->write($response);
         } catch (\Exception $e) {
             $message = "Got invalid response from API request: $url. ";
