@@ -8,18 +8,15 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Common;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Tracker\Action;
 
 class Profilable extends VisitDimension
 {
+    const COLUMN_TYPE = 'TINYINT(1) NULL';
     protected $columnName = 'profilable';
-    protected $columnType = 'TINYINT(1) NULL';
+    protected $columnType = self::COLUMN_TYPE;
     protected $nameSingular = 'CoreHome_Profilable';
     protected $segmentName = 'profilable';
     protected $type = self::TYPE_BOOL;
