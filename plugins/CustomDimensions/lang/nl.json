@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "Gem. tijd op Dimension",
         "CustomDimensionId": "Aangepaste dimensies (ID %d)",
         "NoValue": "geen waarde",
+        "PluginDescription": "Breid Matomo uit naar je behoeften door aangepaste dimensies te definiëren en te volgen in scope Actie of Bezoek",
         "EmptyValue": "lege waarde"
     }
 }

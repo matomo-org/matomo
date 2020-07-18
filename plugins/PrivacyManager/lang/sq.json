@@ -13,6 +13,7 @@
         "WhenConsentIsNeeded1": "Në kontekstin e %1$srregullave GDPR mbi privatësinë%2$s, kur përpunoni të dhëna personale, në disa raste do t’ju duhet të kërkoni për pranim nga përdoruesit tuaj. Që të përcaktoni nëse ju duhet apo jo të kërkoni pranim, duhet të përcaktoni nëse baza juaj ligjore për përpunim të dhënash personale është \"Pranim\" ose \"Interes i ligjshëm\", ose nëse mund të shmangni fare grumbullim të dhënash personale. Këshillojmë të mësoni më tepër mbi %3$sbazën ligjore sipas GDPR-së për Matomo-n%4$s.",
         "WhenConsentIsNeeded2": "Mbani parasysh se kur e keni detyrim të merrni pranimin e përdoruesve dhe nuk provoni dot se patët \"Pranimin\" e përdoruesve tuaj në të kaluarën, atëherë këshillojmë të %1$sanonimizoni të dhënat e papërpunuara të përdoruesve të ndjekur dikur%2$s.",
         "HowDoIAskForConsent": "Si ta kërkoj pranimin nga përdoruesit?",
+        "HowDoIAskForConsentIntroduction": "Mësoni gjithçka rreth %1$skërkimit të pranimit për cookie ose gjurmim, te udhërrëfyesi ynë i integrimeve.%2$s",
         "AnonymizeSites": "Anonimizo të dhënat e këtij sajti(eve)",
         "AnonymizeRowDataFrom": "Anonimizo krejt të dhënat e papërpunuara duke filluar nga:",
         "AnonymizeRowDataTo": "Anonimizo krejt të dhënat e papërpunuara deri më:",

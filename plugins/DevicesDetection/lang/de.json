@@ -47,6 +47,7 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "User-Agent",
+        "MobileApp": "Mobile App",
         "XVisitsFromDevices": "%1$s Besuche von %2$s Geräten",
         "Wearable": "Tragbare Geräte",
         "WidgetBrowsers": "Besucher-Browser",

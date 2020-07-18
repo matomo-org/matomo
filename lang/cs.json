@@ -133,7 +133,10 @@
         "DaysHours": "%1$s dní %2$s hodin",
         "DaysSinceFirstVisit": "Dnů od první návštěvy",
         "DaysSinceLastEcommerceOrder": "Dnů od poslední elektronické objednávky",
+        "SecondsSinceLastEcommerceOrder": "Dnů od poslední Ecommerce objednávky",
         "DaysSinceLastVisit": "Dnů od poslední návštěvy",
+        "SecondsSinceLastVisit": "Vteřin od poslední návštěvy",
+        "SecondsSinceFirstVisit": "Vteřin od první návštěvy",
         "Default": "Výchozí",
         "DefaultAppended": "(výchozí)",
         "Delete": "Vymazat",
@@ -513,7 +516,10 @@
         "ClickToRemoveComp": "Klepnutím toto porovnání odeberete.",
         "MaximumNumberOfSegmentsComparedIs": "Maximální počet segmentů, které lze porovnat současně, je %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s délka parametru dotazu se musí shodovat s %2$s délkou parametru dotazu.",
-        "MaximumNumberOfPeriodsComparedIs": "Maximální počet period, které lze porovnat současně, je %s."
+        "MaximumNumberOfPeriodsComparedIs": "Maximální počet period, které lze porovnat současně, je %s.",
+        "Custom": "Vlastní",
+        "PreviousPeriod": "Předchozí období",
+        "PreviousYear": "Předchozí rok"
     },
     "Mobile": {
         "AboutPiwikMobile": "O Matomo Mobile",

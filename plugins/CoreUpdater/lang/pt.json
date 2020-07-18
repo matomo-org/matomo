@@ -5,7 +5,7 @@
         "CriticalErrorDuringTheUpgradeProcess": "Erro crítico durante o processo de atualização:",
         "DatabaseUpgradeRequired": "Necessária uma atualização da base de dados",
         "DisablingIncompatiblePlugins": "A desativar extensões incompatíveis: %s",
-        "DownloadingUpdateFromX": "A transferir atualização de %s",
+        "DownloadingUpdateFromX": "A transferir a atualização de %s",
         "DownloadX": "Transferir %s",
         "EmptyDatabaseError": "A base de dados %s está vazia. Deve editar ou remover o seu ficheiro de configuração do Matomo.",
         "ErrorDIYHelp": "Se for um utilizador avançado e encontrar um erro na atualização da base de dados:",
@@ -48,7 +48,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "A base de dados do Matomo será atualizada da versão %1$s para a nova versão %2$s.",
         "ReadyToGo": "Pronto?",
         "TheFollowingPluginsWillBeUpgradedX": "As seguintes extensões serão atualizadas: %s.",
-        "TheFollowingDimensionsWillBeUpgradedX": "Serão atualizadas as seguintes dimensões: %s.",
+        "TheFollowingDimensionsWillBeUpgradedX": "As seguintes dimensões serão atualizadas: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Algumas das extensões que utiliza foram atualizadas na loja:",
         "ThereIsNewVersionAvailableForUpdate": "Há uma nova versão do Matomo disponível para atualizar",
         "TheUpgradeProcessMayFailExecuteCommand": "Se tiver uma grande base de dados do Matomo, as atualizações podem demorar demasiado tempo a executar no seu navegador. Nesta situação, pode executar as atualizações a partir da linha de comandos: %s",
@@ -88,9 +88,11 @@
         "WarningMessages": "Mensagens de aviso:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Desativámos automaticamente as seguintes extensões: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Pode atualizar automaticamente para a versão %s ou transferir o pacote e instalá-lo manualmente:",
-        "YouMustDownloadPackageOrFixPermissions": "O Matomo não consegue substituir a sua instalação atual. Pode corrigir as permissões das pastas\/ficheiros ou transferir o pacote e instalar a versão %s manualmente:",
+        "YouMustDownloadPackageOrFixPermissions": "Matomo não consegue substituir a sua instalação atual. Pode corrigir as permissões de diretoria\/ficheiro ou transferir o pacote e instalar manualmente a versão %s:",
         "YourDatabaseIsOutOfDate": "A sua base de dados do Matomo está desatualizada e tem que ser atualizada antes de poder continuar.",
         "ViewVersionChangelog": "Ver o registo de alterações para esta versão:",
-        "ReceiveEmailBecauseIsSuperUser": "Recebeu este e-mail porque é um super-utilizador do Matomo em: %s"
+        "ReceiveEmailBecauseIsSuperUser": "Recebeu este e-mail porque é um super-utilizador do Matomo em: %s",
+        "ConvertToUtf8mb4": "Converter a base de dados para o conjuntos de carateres UTF8mb4",
+        "TriggerDatabaseConversion": "Ativar a conversão da base de dados em segundo plano"
     }
 }
