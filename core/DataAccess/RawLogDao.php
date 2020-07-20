@@ -226,7 +226,7 @@ class RawLogDao
                 FROM " . Common::prefixTable('log_visit') . "
                 WHERE idsite = ?
                 AND visit_last_action_time >= ?
-                AND visit_last_action_time < ?
+                AND visit_last_action_time <= ?
                 LIMIT 1", array($idSite, $fromDateTime, $toDateTime));
 
         return (bool) $sites;
