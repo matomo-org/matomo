@@ -140,6 +140,7 @@ These are only recommendations (because we will keep backward compatibility for 
 * The following dimensions have been removed and replaced with versions that measure seconds: visitor_days_since_first, visitor_days_since_last, visitor_days_since_order
 * The _idvc, _idts, _viewts and _ects tracker parameters are no longer used, the values are calculated server side.
   Note: tracking these values server side means replaying log data in the past will result in inaccurate values for these dimensions.
+* The path to the Matomo PHP Tracker changed from `matomo/vendor/piwik/piwik-php-tracker/PiwikTracker.php` to `matomo/vendor/matomo/matomo-php-tracker/PiwikTracker.php`. There is now also a `MatomoTracker` class in `matomo/vendor/matomo/matomo-php-tracker/MatomoTracker.php` which is recommended. It has the same structure as `PiwikTracker`.
 
 ## Matomo 3.13.6
 
