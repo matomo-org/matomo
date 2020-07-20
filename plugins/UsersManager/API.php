@@ -179,7 +179,13 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets a user preference
+     * Sets a user preference. Plugins can add custom preference names by declaring them in their plugin config/config.php
+     * like this:
+     *
+     * ```php
+     * return array('usersmanager.user_preference_names' => DI\add(array('preference_name_1', 'preference_name_2')));
+     * ```
+     *
      * @param string $userLogin
      * @param string $preferenceName
      * @param string $preferenceValue
@@ -282,11 +288,11 @@ class API extends \Piwik\Plugin\API
             self::PREFERENCE_DEFAULT_REPORT_DATE,
             'isLDAPUser', // used in loginldap
             'hideSegmentDefinitionChangeMessage',// used in JS
-            'randomDoesNotExist',// for tests
-            'RandomNOTREQUESTED',// for tests
-            'preferenceName'// for tests
         );
-        if (!in_array($preference, $names, true)) {
+        $customPreferences = StaticContainer::get('usersmanager.user_preference_names');
+
+        if (!in_array($preference, $names, true)
+            && !in_array($preference, $customPreferences, true)) {
             throw new Exception('Not supported preference name: ' . $preference);
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
