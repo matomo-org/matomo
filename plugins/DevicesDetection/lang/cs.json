@@ -41,6 +41,7 @@
         "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
+        "MobileApp": "Mobilní aplikace",
         "XVisitsFromDevices": "%1$s návštěv ze zařízení %2$s",
         "WidgetBrowsers": "Web prohlížeče návštěvníků",
         "WidgetBrowsersDocumentation": "Toto hlášení obsahuje informace o tom, jaký druh prohlížeče vaši návštěvníci použili. Každá verze je počítána samostatně."
