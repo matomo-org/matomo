@@ -395,7 +395,9 @@ class Loader
         }
 
         $timezone = Site::getTimezoneFor($idSite);
-        list($date1, $date2) = $period->getBoundsInTimezone($timezone);
+        
+        $date1 = $period->getDateTimeStart()->setTimezone($timezone);
+        $date2 = $period->getDateTimeEnd()->setTimezone($timezone);
 
         if ($date2->isEarlier($minVisitTimesPerSite)) {
             return false;
