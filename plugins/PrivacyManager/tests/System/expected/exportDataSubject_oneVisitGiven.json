@@ -4,6 +4,7 @@
             "config_browser_engine": "WebKit (Safari, Chrome)",
             "config_browser_name": "Chrome",
             "config_browser_version": "17.0",
+            "config_client_type": "Browser",
             "config_cookie": "Yes",
             "config_device_brand": "Unknown",
             "config_device_model": "generic desktop",
@@ -332,6 +333,7 @@
         {
             "buster": "0",
             "config_browser_name": "CH",
+            "config_client_type": "1",
             "config_device_brand": "",
             "config_device_model": "generic desktop",
             "config_device_type": "0",

@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "Průměrný čas na dimenzi",
         "CustomDimensionId": "Vlastní dimenze (Id %d)",
         "NoValue": "bez hodnoty",
+        "PluginDescription": "Rozšiřte Matomo podle svých potřeb definováním a sledováním vlastních dimenzí v rámci Akce nebo Návštěvy",
         "EmptyValue": "prázdná hodnota"
     }
 }

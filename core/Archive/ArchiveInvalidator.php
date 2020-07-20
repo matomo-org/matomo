@@ -198,7 +198,7 @@ class ArchiveInvalidator
 
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
     {
-        $id = $this->buildRememberArchivedReportIdForSite($idSite);
+        $id = $this->buildRememberArchivedReportIdForSite($idSite) . '\_';
         $this->deleteOptionLike($id);
         Cache::clearCacheGeneral();
     }

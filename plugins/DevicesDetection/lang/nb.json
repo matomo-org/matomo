@@ -38,6 +38,7 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "Bruker-agent",
+        "MobileApp": "Mobil-app",
         "WidgetBrowsers": "Besøkendes nettlesere",
         "WidgetBrowsersDocumentation": "Denne rapporten inneholder informasjon om hva slags nettleser som dine besøkere bruker. Alle nettleserversjoner er opplistet separat."
     }

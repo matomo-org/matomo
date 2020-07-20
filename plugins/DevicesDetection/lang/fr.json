@@ -47,6 +47,7 @@
         "Phablet": "Phablette",
         "TV": "TV",
         "UserAgent": "Agent Utilisateur (User-Agent)",
+        "MobileApp": "Application mobile",
         "XVisitsFromDevices": "%1$svisites de %2$spériphériques",
         "WidgetBrowsers": "Navigateurs du visiteur",
         "WidgetBrowsersDocumentation": "Ce rapport contient des informations à propos de quel type de navigateur vos visiteurs utilisent. Chaque version du navigateur est listée séparément."

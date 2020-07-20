@@ -133,7 +133,10 @@
         "DaysHours": "%1$s dias %2$s horas",
         "DaysSinceFirstVisit": "Dias desde a primeira visita",
         "DaysSinceLastEcommerceOrder": "Dias desde o último pedido de Ecommerce",
+        "SecondsSinceLastEcommerceOrder": "Segundos desde o último pedido de Ecommerce",
         "DaysSinceLastVisit": "Dias desde a última visita",
+        "SecondsSinceLastVisit": "Segundos desde a última visita",
+        "SecondsSinceFirstVisit": "Segundos desde a primeira visita",
         "Default": "Padrão",
         "DefaultAppended": "(padrão)",
         "Delete": "Excluir",
@@ -514,7 +517,9 @@
         "MaximumNumberOfSegmentsComparedIs": "O número máximo de segmentos que podem ser comparados simultaneamente é %s.",
         "CompareDatesParamMustMatchComparePeriods": "O comprimento do parâmetro de consulta %1$s deve corresponder ao comprimento do parâmetro de consulta %2$s.",
         "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s.",
-        "Custom": "Personalizado"
+        "Custom": "Personalizado",
+        "PreviousPeriod": "Período anterior",
+        "PreviousYear": "Ano anterior"
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Móvel",

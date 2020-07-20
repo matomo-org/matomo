@@ -47,6 +47,7 @@
         "Phablet": "Phabletti",
         "TV": "TV",
         "UserAgent": "Käyttäjäagentti",
+        "MobileApp": "Mobiilisovellus",
         "XVisitsFromDevices": "Käyntien määrä: %1$s, laitteelta tyyppiä %2$s",
         "Wearable": "Puettava",
         "WidgetBrowsers": "Kävijöiden selaimet",

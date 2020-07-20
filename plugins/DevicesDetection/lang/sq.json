@@ -47,6 +47,11 @@
         "Phablet": "Fablet",
         "TV": "Tv",
         "UserAgent": "Agjent përdoruesi",
+        "Library": "Bibliotekë",
+        "FeedReader": "Lexues Prurjesh",
+        "MobileApp": "Aplikacion Celulari",
+        "Pim": "PIM",
+        "MediaPlayer": "Lojtës Mediash",
         "XVisitsFromDevices": "%1$s vizita nga %2$s pajisje",
         "WidgetBrowsers": "Shfletues Vizitori",
         "WidgetBrowsersDocumentation": "Ky raport përmban të dhëna rreth llojeve të shfletuesit që përdornin vizitorët tuaj. Secili version i një shfletuesi tregohet veçmas."

@@ -90,7 +90,7 @@
         "QuickAccessTitle": "Pesquisa por %s. Utilize as teclas direcionais para navegar pelos resultados da pesquisa. Tecla de atalho: Pressione 'f' para pesquisar.",
         "MenuEntries": "Entradas do menu",
         "Segments": "Segmentos",
-        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "A atualização com um clique não está disponível pois está a utilizar o Matomo em vários servidores. Por favor, descarregue a última versão a partir de %1$s para continuar.",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "A atualização de um clique não está disponível porque está a utilizar o Matomo em vários servidores. Por favor, transfira a última versão de %1$s para continuar.",
         "CssDidntLoad": "O seu navegador não conseguiu carregar o estilo para esta página.",
         "JsDidntLoad": "O seu navegador não conseguiu carregar os scripts para esta página.",
         "AdblockIsMaybeUsed": "No caso de estar a utilizar um bloqueador de publicidade, por favor desative-o para garantir que o Matomo funciona sem quaisquer problemas.",
@@ -105,7 +105,7 @@
         "ExpandSubtables": "Expandir sub-tabelas",
         "StandardReport": "Relatório padrão",
         "FlattenReport": "Nivelar relatório",
-        "ReportWithMetadata": "Relatório com meta-dados",
+        "ReportWithMetadata": "Relatório com metadados",
         "ReadMoreOnlineGuide": "Leia mais sobre este tópico no guia online.",
         "SeeAvailableVersions": "Ver versões disponíveis",
         "QuickLinks": "Ligações rápidas"
