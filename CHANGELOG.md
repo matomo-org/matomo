@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New API
 
 The following new JavaScript tracker methods have been added:
+
 * `_paq.push(['setVisitorId', visitorId]);`. This can be used to force a specific visitorId. It takes a 16 digit hexadecimal string.
 * `_paq.push(['requireCookieConsent']);`. Call this method if cookies should be only used when consent was given.
 * `_paq.push(['rememberCookieConsentGiven']);`. Call this method when a user gives you cookie consent.
