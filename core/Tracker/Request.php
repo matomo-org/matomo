@@ -751,6 +751,17 @@ class Request
     {
         $found = false;
 
+        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {
+            // If User ID is set it takes precedence
+            $userId = $this->getForcedUserId();
+            if ($userId) {
+                $userIdHashed = $this->getUserIdHashed($userId);
+                $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
+                Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
+                $found = true;
+            }
+        }
+
         // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
         if (!$found) {
             $idVisitor = $this->getForcedVisitorId();
