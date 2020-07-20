@@ -214,7 +214,8 @@ class RawLogDao
     }
     
     /**
-     * Returns the list of the website IDs that received some visits between the specified timestamp.
+     * Returns the list of the website IDs that received some visits between the specified timestamp. The
+     * start date and the end date is included in the time frame.
      *
      * @param string $fromDateTime
      * @param string $toDateTime
