@@ -755,6 +755,8 @@ enable_tracking_failures_notification = 1
 
 [Tracker]
 
+enable_userid_overwrites_visitorid = 0
+
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
 ; If you want to track unique users across websites you may set this setting to 1.
