@@ -488,11 +488,10 @@ datatable_archiving_maximum_rows_subtable_referrers = 50
 ; maximum number of rows for the Users report
 datatable_archiving_maximum_rows_userid_users = 50000
 
-; maximum number of rows for the Custom Variables names report
-; Note: if the website is Ecommerce enabled, the two values below will be automatically set to 50000
-datatable_archiving_maximum_rows_custom_variables = 1000
-; maximum number of rows for the Custom Variables values reports
-datatable_archiving_maximum_rows_subtable_custom_variables = 1000
+; maximum number of rows for the Custom Dimensions report
+datatable_archiving_maximum_rows_custom_dimensions = 1000
+; maximum number of rows for the Custom Dimensions subtable reports
+datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
