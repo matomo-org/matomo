@@ -2,6 +2,7 @@
     "Widgetize": {
         "OpenInNewWindow": "Open in a new window",
         "PluginDescription": "Display any Matomo report in your website or app with a simple Embed HTML tag.",
-        "TopLinkTooltip": "Export Matomo Reports as Widgets and embed the Dashboard in your app as an iframe."
+        "TopLinkTooltip": "Export Matomo Reports as Widgets and embed the Dashboard in your app as an iframe.",
+        "ViewAccessRequired": "The token_auth used has too much access to be used with an embedded widget. Please use an app specific password for a user that only has view access."
     }
 }

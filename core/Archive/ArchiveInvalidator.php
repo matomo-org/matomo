@@ -30,6 +30,7 @@ use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\Model as TrackerModel;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -255,6 +256,12 @@ class ArchiveInvalidator
         if ($name && strpos($name, '.') !== false) {
             list($plugin) = explode('.', $name);
         }
+
+        // remove sites w/ no visits
+        $trackerModel = new TrackerModel();
+        $idSites = array_filter($idSites, function ($idSite) use ($trackerModel) {
+            return !$trackerModel->isSiteEmpty($idSite);
+        });
 
         if ($plugin
             && !Manager::getInstance()->isPluginActivated($plugin)

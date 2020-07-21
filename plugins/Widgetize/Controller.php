@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Widgetize;
 
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
@@ -101,10 +102,8 @@ class Controller extends \Piwik\Plugin\Controller
             $sessionInitializer = new SessionInitializer();
             $sessionInitializer->initSession($auth);
 
-            $url = preg_replace('/&token_auth=[^&]{20,38}|$/i', '', Url::getCurrentUrl());
-            if ($url) {
-                Url::redirectToUrl($url);
-                return;
+            if (Access::getInstance()->isUserHasSomeAdminAccess()) {
+                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
             }
         }
     }

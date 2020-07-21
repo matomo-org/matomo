@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
 
@@ -289,7 +290,7 @@ class ArchiveWriter
 
     protected function getInsertRecordBind()
     {
-        $now = date("Y-m-d H:i:s");
+        $now = Date::now()->getDatetime();
         if (empty($this->earliestNow)) {
             $this->earliestNow = $now;
         }
