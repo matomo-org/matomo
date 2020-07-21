@@ -433,7 +433,7 @@ class Controller extends ControllerAdmin
             $site = Request::processRequest('SitesManager.getSiteFromId', array('idSite' => $idSite));
             // Work around manual website deletion
             if (!empty($site)) {
-                $anonymousSites[] = array('key' => $idSite, 'value' => $site['name']);
+                $anonymousSites[] = array('key' => $idSite, 'value' => Common::unsanitizeInputValue($site['name']));
             }
         }
         $view->anonymousSites = $anonymousSites;
