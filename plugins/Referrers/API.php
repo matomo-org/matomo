@@ -352,7 +352,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $campaigns = $this->getCampaigns($idSite, $period, $date, $segment);
         $campaigns->applyQueuedFilters();
-        $campaign  = $campaigns->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
+        $row = $campaigns->getRowFromIdSubDataTable($idSubtable);
+        $campaign = $row ? $row->getColumn('label') : '';
 
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('AddSegmentByLabel', array('referrerKeyword'));
