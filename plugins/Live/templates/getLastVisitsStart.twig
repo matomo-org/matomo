@@ -73,7 +73,7 @@
                         {% else %}
 
                             {% if action.url is defined and action.url is not empty %}
-                            <a href="{{ action.url|safelink|e('html_attr') }}" target="_blank">
+                            <a href="{{ action.url|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">
                             {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
