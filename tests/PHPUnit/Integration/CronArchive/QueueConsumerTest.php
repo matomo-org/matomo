@@ -7,7 +7,7 @@
  *
  */
 
-namespace PHPUnit\Integration\CronArchive;
+namespace Piwik\Tests\Integration\CronArchive;
 
 use Piwik\CliMulti\RequestParser;
 use Piwik\Common;
@@ -16,7 +16,10 @@ use Piwik\CronArchive;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SegmentArchiving;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
@@ -370,5 +373,177 @@ class QueueConsumerTest extends IntegrationTestCase
             Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
                 VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, 0)", $bind);
         }
+    }
+
+    public function test_canSkipArchiveBecauseNoPoint_returnsTrueIfDateRangeHasNoVisits()
+    {
+        Fixture::createWebsite('2010-04-06');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $cronArchive = new CronArchive();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving('beginning_of_time'),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $invalidation = [
+            'idsite' => 1,
+            'period' => 1,
+            'date1' => '2020-04-05',
+            'date2' => '2020-04-05',
+            'name' => 'done',
+            'segment' => '',
+        ];
+
+        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
+        $this->assertTrue($result);
+    }
+
+    public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodDoesNotIncludeToday()
+    {
+        $idSite = Fixture::createWebsite('2015-02-03');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $t = Fixture::getTracker($idSite, '2020-03-05 10:34:00');
+        $t->setUrl('http://whatever.com');
+        Fixture::checkResponse($t->doTrackPageView('test title'));
+
+        $cronArchive = new CronArchive();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving('beginning_of_time'),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $invalidation = [
+            'idsite' => 1,
+            'period' => 1,
+            'date1' => '2020-03-05',
+            'date2' => '2020-03-05',
+            'name' => 'done',
+            'segment' => '',
+        ];
+
+        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
+        $this->assertFalse($result);
+    }
+
+    public function test_canSkipArchiveBecauseNoPoint_returnsTrueIfDateRangeHasVisits_AndPeriodIncludesToday_AndExistingArchiveIsRecent()
+    {
+        $idSite = Fixture::createWebsite('2015-02-03');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
+        $t->setUrl('http://whatever.com');
+        Fixture::checkResponse($t->doTrackPageView('test title'));
+
+        $cronArchive = new CronArchive();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving('beginning_of_time'),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $invalidation = [
+            'idsite' => 1,
+            'period' => 2,
+            'date1' => '2020-03-30',
+            'date2' => '2020-04-05',
+            'name' => 'done',
+            'segment' => '',
+        ];
+
+        $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
+        ]);
+
+        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
+        $this->assertTrue($result);
+    }
+
+    public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodIncludesToday_AndOnlyExistingArchiveIsRecentButPartial()
+    {
+        $idSite = Fixture::createWebsite('2015-02-03');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
+        $t->setUrl('http://whatever.com');
+        Fixture::checkResponse($t->doTrackPageView('test title'));
+
+        $cronArchive = new CronArchive();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving('beginning_of_time'),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $invalidation = [
+            'idsite' => 1,
+            'period' => 2,
+            'date1' => '2020-03-30',
+            'date2' => '2020-04-05',
+            'name' => 'done',
+            'segment' => '',
+        ];
+
+        $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_PARTIAL, $tsArchived
+        ]);
+
+        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
+        $this->assertFalse($result);
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }

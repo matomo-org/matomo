@@ -122,6 +122,10 @@ class Model
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
                                                $forceInvalidateNonexistantRanges = false, $name = null)
     {
+        if (empty($idSites)) {
+            return 0;
+        }
+
         // select all idarchive/name pairs we want to invalidate
         $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
                   FROM `$archiveTable`
@@ -245,6 +249,10 @@ class Model
      */
     public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null)
     {
+        if (empty($idSites)) {
+            return;
+        }
+
         $bind = array();
 
         $periodConditions = array();

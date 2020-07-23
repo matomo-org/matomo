@@ -8,18 +8,24 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period\Factory;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
 use Piwik\Plugins\SegmentEditor\Model;
+use Piwik\Segment;
+use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
 use Piwik\Version;
+use Psr\Log\NullLogger;
 
 /**
  * @group Archiver
@@ -27,6 +33,111 @@ use Piwik\Version;
  */
 class CronArchiveTest extends IntegrationTestCase
 {
+    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
+    {
+        Fixture::createWebsite('2019-04-04 03:45:45');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $archiver = new CronArchive();
+
+        $params = new Parameters(new Site(1), Factory::build('week', '2020-04-05'), new Segment('', [1]));
+
+        $tsArchived = Date::now()->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
+        ]);
+
+        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $this->assertTrue($actual);
+    }
+
+    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnoughAndInvalidated()
+    {
+        Fixture::createWebsite('2019-04-04 03:45:45');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $archiver = new CronArchive();
+
+        $params = new Parameters(new Site(1), Factory::build('week', '2020-04-05'), new Segment('', [1]));
+
+        $tsArchived = Date::now()->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
+        ]);
+
+        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $this->assertTrue($actual);
+    }
+
+    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodDoesNotHaveToday_AndExistingArchiveIsOk()
+    {
+        Fixture::createWebsite('2019-04-04 03:45:45');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $archiver = new CronArchive();
+
+        $params = new Parameters(new Site(1), Factory::build('day', '2020-03-05'), new Segment('', [1]));
+
+        $tsArchived = Date::now()->subDay(1)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-05'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 1, '2020-03-05', '2020-03-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
+        ]);
+
+        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $this->assertTrue($actual);
+    }
+
+    public function test_isThereExistingValidPeriod_returnsFalseIfDayHasChangedAndDateIsYesterday()
+    {
+        Fixture::createWebsite('2019-04-04 03:45:45');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $archiver = new CronArchive();
+
+        $params = new Parameters(new Site(1), Factory::build('day', '2020-04-04'), new Segment('', [1]));
+
+        $tsArchived = Date::now()->subDay(1)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-04-04'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
+        ]);
+
+        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = true);
+        $this->assertFalse($actual);
+    }
+
+    public function test_isThereExistingValidPeriod_returnsTrueIfDayHasNotChangedAndDateIsYesterday()
+    {
+        Fixture::createWebsite('2019-04-04 03:45:45');
+
+        Date::$now = strtotime('2020-04-05 06:23:40');
+
+        $archiver = new CronArchive();
+
+        $params = new Parameters(new Site(1), Factory::build('day', '2020-04-04'), new Segment('', [1]));
+
+        $tsArchived = Date::now()->subSeconds(1500)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-04-04'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
+        ]);
+
+        $actual = $archiver->isThereExistingValidPeriod($params, $isYesterday = true);
+        $this->assertTrue($actual);
+    }
+
     public function test_getColumnNamesFromTable()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -179,42 +290,42 @@ Checking for queued invalidations...
   Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
 Done invalidating
 Start processing archives for site 1.
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 43, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 43, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 73, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 73, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 44, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 44, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 74, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 74, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 42, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 42, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 72, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 72, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 40, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 40, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 70, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 70, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 41, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 41, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 71, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 71, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 36, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 36, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 66, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 66, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 33, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 33, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 63, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 63, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 34, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 34, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 64, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 64, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 35, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 35, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 65, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 65, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 28, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 28, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 58, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 58, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 26, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 26, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 56, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 56, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 27, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 27, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 57, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 57, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 24, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 24, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 54, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 54, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 25, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 25, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 55, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 55, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 22, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 22, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 52, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 52, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 23, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 23, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 53, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 53, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = done49a9440bd6dba4b8850035e09d043c67]
 Skipping invalidated archive 1, segment '' is not in --force-idsegments: [idinvalidation = 1, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = done]
 Skipping invalidated archive 5, segment '' is not in --force-idsegments: [idinvalidation = 5, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = done]
 Skipping invalidated archive 9, segment '' is not in --force-idsegments: [idinvalidation = 9, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = done]
-Found invalidated archive we can skip (no visits or latest archive is not invalidated): [idinvalidation = 20, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 20, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Skipping invalidated archive 50, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 50, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = done49a9440bd6dba4b8850035e09d043c67]
 Skipping invalidated archive 2, segment '' is not in --force-idsegments: [idinvalidation = 2, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
 Skipping invalidated archive 6, segment '' is not in --force-idsegments: [idinvalidation = 6, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
@@ -329,8 +440,8 @@ LOG;
 START
 Starting Matomo reports archiving...
 Checking for queued invalidations...
-  Today archive can be skipped due to no visits, skipping invalidation...
-  Yesterday archive can be skipped due to no visits, skipping invalidation...
+  Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
+  Yesterday archive can be skipped due to no visits for idSite = 1, skipping invalidation...
 Done invalidating
 Start processing archives for site 1.
 No next invalidated archive.

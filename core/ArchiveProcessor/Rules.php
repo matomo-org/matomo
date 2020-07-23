@@ -311,16 +311,16 @@ class Rules
      *
      * @return string[]
      */
-    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null)
+    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null, $checkAuthorizedToArchive = true)
     {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
-        if (!Rules::isRequestAuthorizedToArchive($params)
-            && $includeInvalidated
-        ) {
-            //If request is not authorized to archive then fetch also invalidated archives
-            $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
-            $possibleValues[] = ArchiveWriter::DONE_PARTIAL;
+        if ($includeInvalidated) {
+            if (!$checkAuthorizedToArchive || !Rules::isRequestAuthorizedToArchive($params)) {
+                //If request is not authorized to archive then fetch also invalidated archives
+                $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
+                $possibleValues[] = ArchiveWriter::DONE_PARTIAL;
+            }
         }
 
         return $possibleValues;

@@ -26,6 +26,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Metrics\Formatter;
+use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
@@ -724,11 +725,26 @@ class CronArchive
 
         foreach ($sitesPerDays as $date => $siteIds) {
             //Concurrent transaction logic will end up with duplicates set.  Adding array_unique to the siteIds.
-            $listSiteIds = implode(',', array_unique($siteIds));
+            $siteIds = array_unique($siteIds);
+
+            $period = Factory::build('day', $date);
+
+            $siteIdsToInvalidate = [];
+            foreach ($siteIds as $idSite) {
+                $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
+                if ($this->isThereExistingValidPeriod($params)) {
+                    $this->logger->info('  Found usable archive for date range {date} for site {idSite}, skipping invalidation for now.', ['date' => $date, 'idSite' => $idSite]);
+                    continue;
+                }
+
+                $siteIdsToInvalidate[] = $idSite;
+            }
+
+            $listSiteIds = implode(',', $siteIdsToInvalidate);
 
             try {
                 $this->logger->info('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
-                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIds, $date);
+                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIdsToInvalidate, $date);
             } catch (Exception $e) {
                 $this->logger->info('  Failed to invalidate archived reports: ' . $e->getMessage());
             }
@@ -822,15 +838,15 @@ class CronArchive
         }
     }
 
-    private function isThereExistingValidPeriod(Parameters $params, $isYesterday = false)
+    public function isThereExistingValidPeriod(Parameters $params, $isYesterday = false)
     {
-        $today = Date::factory('today');
+        $today = Date::factoryInTimezone('today', Site::getTimezoneFor($params->getSite()->getId()));
 
         $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
         $minArchiveProcessedTime = $isPeriodIncludesToday ? Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel())) : null;
 
         // empty plugins param since we only check for an 'all' archive
-        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = false);
+        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
 
         // day has changed since the archive was created, we need to reprocess it
         if ($isYesterday

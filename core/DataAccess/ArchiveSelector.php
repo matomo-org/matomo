@@ -57,7 +57,7 @@ class ArchiveSelector
      *               - the ts_archived for the latest usable archive
      * @throws Exception
      */
-    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = true)
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = null)
     {
         $idSite       = $params->getSite()->getId();
         $period       = $params->getPeriod()->getId();
@@ -73,7 +73,7 @@ class ArchiveSelector
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $requestedPluginDoneFlags = Rules::getDoneFlags([$requestedPlugin], $segment);
-        $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated, $params);
+        $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
