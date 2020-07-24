@@ -14,6 +14,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Tracker\Visit\VisitProperties;
 
 class RequestProcessor extends Tracker\RequestProcessor
 {
@@ -36,6 +37,16 @@ class RequestProcessor extends Tracker\RequestProcessor
                 $request->setParam('ec_id', $orderIdAnonymized);
             }
         }
+    }
+
+    public function onNewVisit(VisitProperties $visitProperties, Request $request)
+    {
+        $this->anonymiseReferrer($visitProperties);
+    }
+
+    public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
+    {
+        $this->anonymiseReferrer($valuesToUpdate, $visitProperties);
     }
 
     /**

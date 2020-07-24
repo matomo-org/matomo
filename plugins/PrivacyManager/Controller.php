@@ -208,6 +208,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 array('key' => '30',
                       'value' => Piwik::translate('Intl_PeriodMonth'))
             );
+            $view->referrerAnonymizationOptions = ReferrerAnonymizer::getAvailableAnonymizationOptions();
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
@@ -317,6 +318,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
         $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
         $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $privacyConfig->useAnonymizedIpForVisitEnrichment;
+        $anonymizeIP["anonymizeReferrer"] = $privacyConfig->anonymizeReferrer;
         if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
             $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
         }

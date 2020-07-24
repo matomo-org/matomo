@@ -42,6 +42,14 @@
             </div>
         </div>
 
+        <div piwik-field uicontrol="select" name="anonymizeReferrer"
+             ng-model="anonymizeIp.anonymizeReferrer"
+             options='{{ referrerAnonymizationOptions|json_encode|e('html_attr') }}'
+             data-title="{{ 'PrivacyManager_AnonymizeReferrer'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.anonymizeReferrer }}"
+             inline-help="{{ 'PrivacyManager_PseudonymizeUserIdNote'|translate|e('html_attr') }}<br/><br/><em>{{ 'PrivacyManager_PseudonymizeUserIdNote2'|translate|e('html_attr') }}</em>">
+        </div>
+
         <div piwik-field uicontrol="checkbox" name="anonymizeUserId"
              ng-model="anonymizeIp.anonymizeUserId"
              data-title="{{ 'PrivacyManager_PseudonymizeUserId'|translate|e('html_attr') }}"

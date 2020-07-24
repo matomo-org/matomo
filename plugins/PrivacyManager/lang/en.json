@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "When users visit your website, Matomo will not use the full IP address (such as %1$s) but instead Matomo will anonymize it first (to %2$s). IP address anonymisation is one of the requirements set by the privacy laws in some countries such as Germany.",
         "AnonymizeIpMaskLengtDescription": "Select how many bytes of the visitors' IPs should be masked.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - e.g. %2$s",
+        "AnonymizeReferrer": "Anonymize Referrer",
         "AskingForConsent": "Asking for consent",
         "ConsentExplanation": "Consent means offering individuals choice and control about how their personal data is processed.",
         "ClickHereSettings": "Click here to access the %s settings.",

@@ -25,6 +25,7 @@ use Piwik\Tracker\Cache;
  *                                      For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
  * @property int  $anonymizeUserId      If enabled, it will pseudo anonymize the User ID
  * @property int  $anonymizeOrderId     If enabled, it will anonymize the Order ID
+ * @property string  $anonymizeReferrer  Whether the referrer should be anonymized and how it much it should be anonymized
  */
 class Config
 {
@@ -35,6 +36,7 @@ class Config
         'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => true),
         'anonymizeUserId'                   => array('type' => 'boolean', 'default' => false),
         'anonymizeOrderId'                  => array('type' => 'boolean', 'default' => false),
+        'anonymizeReferrer'                 => array('type' => 'string', 'default' => false),
     );
 
     public function __set($name, $value)

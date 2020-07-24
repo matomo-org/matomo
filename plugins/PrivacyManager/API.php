@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
@@ -39,8 +40,11 @@ class API extends \Piwik\Plugin\API
      */
     private $logDataAnonymizer;
 
-    public function __construct(DataSubjects $gdpr, LogDataAnonymizations $logDataAnonymizations, LogDataAnonymizer $logDataAnonymizer)
-    {
+    public function __construct(
+        DataSubjects $gdpr,
+        LogDataAnonymizations $logDataAnonymizations,
+        LogDataAnonymizer $logDataAnonymizer
+    ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
@@ -75,8 +79,15 @@ class API extends \Piwik\Plugin\API
         return $this->gdpr->exportDataSubjects($visits);
     }
 
-    public function anonymizeSomeRawData($idSites, $date, $anonymizeIp = false, $anonymizeLocation = false, $anonymizeUserId = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [])
-    {
+    public function anonymizeSomeRawData(
+        $idSites,
+        $date,
+        $anonymizeIp = false,
+        $anonymizeLocation = false,
+        $anonymizeUserId = false,
+        $unsetVisitColumns = [],
+        $unsetLinkVisitActionColumns = []
+    ) {
         Piwik::checkUserHasSuperUserAccess();
 
         if ($idSites === 'all' || empty($idSites)) {
@@ -85,7 +96,16 @@ class API extends \Piwik\Plugin\API
             $idSites = Site::getIdSitesFromIdSitesString($idSites);
         }
         $requester = Piwik::getCurrentUserLogin();
-        $this->logDataAnonymizations->scheduleEntry($requester, $idSites, $date, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $unsetVisitColumns, $unsetLinkVisitActionColumns);
+        $this->logDataAnonymizations->scheduleEntry(
+            $requester,
+            $idSites,
+            $date,
+            $anonymizeIp,
+            $anonymizeLocation,
+            $anonymizeUserId,
+            $unsetVisitColumns,
+            $unsetLinkVisitActionColumns
+        );
     }
 
     public function getAvailableVisitColumnsToAnonymize()
@@ -93,6 +113,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $columns = $this->logDataAnonymizer->getAvailableVisitColumnsToAnonymize();
+
         return $this->formatAvailableColumnsToAnonymize($columns);
     }
 
@@ -101,6 +122,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $columns = $this->logDataAnonymizer->getAvailableLinkVisitActionColumnsToAnonymize();
+
         return $this->formatAvailableColumnsToAnonymize($columns);
     }
 
@@ -114,13 +136,14 @@ class API extends \Piwik\Plugin\API
                 'default_value' => $default
             );
         }
+
         return $formatted;
     }
 
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false)
+    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '')
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -132,9 +155,14 @@ class API extends \Piwik\Plugin\API
             // pass
         }
 
+        if (!empty($anonymizeReferrer) && !array_key_exists($anonymizeReferrer, ReferrerAnonymizer::getAvailableAnonymizationOptions())) {
+            $anonymizeReferrer = '';
+        }
+
         $privacyConfig = new Config();
         $privacyConfig->ipAddressMaskLength = (int) $maskLength;
         $privacyConfig->useAnonymizedIpForVisitEnrichment = (bool) $useAnonymizedIpForVisitEnrichment;
+        $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
 
         if (false !== $anonymizeUserId) {
             $privacyConfig->anonymizeUserId = (bool) $anonymizeUserId;
