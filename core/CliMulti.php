@@ -357,7 +357,7 @@ class CliMulti
             $url = str_replace("http://", "https://", $url);
         }
 
-        $body = null;
+        $requestBody = null;
         if ($this->runAsSuperUser) {
             $tokenAuth = self::getSuperUserTokenAuth();
 

@@ -416,7 +416,6 @@ class Loader
 
         $timezone = Site::getTimezoneFor($idSite);
         list($date1, $date2) = $period->getBoundsInTimezone($timezone);
-
         if ($date2->isEarlier($minVisitTimesPerSite)) {
             return false;
         }
@@ -432,7 +431,9 @@ class Loader
         $value = $cache->fetch($cacheKey);
         if ($value === false) {
             $value = $this->rawLogDao->getMinimumVisitTimeForSite($idSite);
-            $cache->save($cacheKey, $value, $ttl = self::MIN_VISIT_TIME_TTL);
+            if (!empty($value)) {
+                $cache->save($cacheKey, $value, $ttl = self::MIN_VISIT_TIME_TTL);
+            }
         }
 
         if (!empty($value)) {
