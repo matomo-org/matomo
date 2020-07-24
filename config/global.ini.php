@@ -62,7 +62,7 @@ host = localhost
 username = "@USERNAME@"
 password =
 dbname = matomo_tests
-tables_prefix = matomotests_
+tables_prefix =
 port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
@@ -744,8 +744,8 @@ enable_tracking_failures_notification = 1
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
-; identify the same user as the same visitor across devices. 
-; Disabling this feature can be useful for example when using the third party cookie, where all Matomo tracked sites 
+; identify the same user as the same visitor across devices.
+; Disabling this feature can be useful for example when using the third party cookie, where all Matomo tracked sites
 ; use the same "global" visitorId for a device and you want to see when the same user switches between devices.
 enable_userid_overwrites_visitorid = 1
 

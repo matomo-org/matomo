@@ -57,6 +57,17 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
         }
 
+        $client = $deviceDetector->getClient();
+        if (!empty($client['name']) && $client['name'] === 'Internet Explorer') {
+            // we assume cookies are disabled... when in tracker cookies are disabled, this ensures when upgrading to this version
+            // that no fingerprint changes in the 30min window during the upgrade...
+            // We don't include it anymore as it otherwise may cause new visits to be created when switching between
+            // cookies disabled and enabled in IE11 or older. Before Matomo 3.13.7 when cookies were disabled, then
+            // this value was set to 0. For people with cookies enabled the fingerprint is not as relevant as the visitorId
+            // is used to identify a visitor
+            $plugin_Cookie = '0';
+        }
+
         $browserLang = substr($request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
         $trackerConfig = Config::getInstance()->Tracker;
 

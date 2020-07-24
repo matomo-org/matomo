@@ -49,10 +49,11 @@ class Option
     }
 
     /**
-     * Returns option values for options whose names are like a given pattern.
+     * Returns option values for options whose names are like a given pattern. Only `%` is supported as part of the
+     * pattern.
      *
      * @param string $namePattern The pattern used in the SQL `LIKE` expression
-     *                            used to SELECT options.
+     *                            used to SELECT options.`'%'` characters should be used as wildcard. Underscore match is not supported.
      * @return array Array mapping option names with option values.
      */
     public static function getLike($namePattern)
@@ -85,10 +86,10 @@ class Option
     }
 
     /**
-     * Deletes all options that match the supplied pattern.
+     * Deletes all options that match the supplied pattern. Only `%` is supported as part of the
+     * pattern.
      *
-     * @param string $namePattern Pattern of key to match. `'%'` characters should be used as wildcards, and literal
-     *                            `'_'` characters should be escaped.
+     * @param string $namePattern Pattern of key to match. `'%'` characters should be used as wildcard. Underscore match is not supported.
      * @param string $value If supplied, options will be deleted only if their value matches this value.
      */
     public static function deleteLike($namePattern, $value = null)
@@ -231,6 +232,8 @@ class Option
     protected function deleteNameLike($name, $value = null)
     {
         $name   = $this->trimOptionNameIfNeeded($name);
+        $name = $this->getNameForLike($name);
+
         $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind[] = $name;
 
@@ -244,9 +247,19 @@ class Option
         $this->clearCache();
     }
 
+    private function getNameForLike($name)
+    {
+        $name = str_replace('\_', '###NOREPLACE###', $name);
+        $name = str_replace('_', '\_', $name);
+        $name = str_replace( '###NOREPLACE###', '\_', $name);
+        return $name;
+    }
+
     protected function getNameLike($name)
     {
         $name = $this->trimOptionNameIfNeeded($name);
+        $name = $this->getNameForLike($name);
+
         $sql  = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind = array($name);
         $rows = Db::fetchAll($sql, $bind);
