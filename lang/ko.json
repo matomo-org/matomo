@@ -93,6 +93,7 @@
         "ConfigFileIsNotWritable": "Matomo 설정 파일 %1$s를 쓸수 없기 때문에 일부 변경이 저장되지 않을 수 있습니다. %2$s 설정 파일의 권한을 쓸 수 있게 변경하세요.",
         "Continue": "계속",
         "ContinueToPiwik": "Matomo 계속 하기",
+        "CreationDate": "생성 일자",
         "CreatedByUser": "%s가 만듬",
         "CurrentMonth": "이번달",
         "CurrentWeek": "이번주",

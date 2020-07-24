@@ -281,15 +281,8 @@ abstract class Period
      */
     public function getBoundsInTimezone(string $timezone)
     {
-        $date1 = $this->getDateStart();
-        $date1 = Date::factory($date1)->getTimestamp();
-        $date1 = Date::adjustForTimezone($date1, $timezone);
-        $date1 = Date::factory($date1);
-
-        $date2 = $this->getDateEnd();
-        $date2 = Date::factory($date2)->addDay(1)->getStartOfDay();
-        $date2 = Date::adjustForTimezone($date2->getTimestamp(), $timezone);
-        $date2 = Date::factory($date2);
+        $date1 = $this->getDateTimeStart()->setTimezone($timezone);
+        $date2 = $this->getDateTimeEnd()->setTimezone($timezone);
 
         return [$date1, $date2];
     }

@@ -9,6 +9,7 @@
         "HideUnchanged": "Se quiser ver apenas os valores alterados, pode %1$socultar todos os valores inalterados%2$s.",
         "Sections": "Secções",
         "DatabaseReaderConnection": "Ligação do leitor da base de dados",
+        "DatabaseUtf8mb4CharsetRecommended": "A sua base de dados não suporta ainda o conjuntos de carateres UTF8mb4",
         "CronArchivingLastRunCheck": "Última conclusão do processo de arquivamento",
         "CronArchivingHasNotRun": "O arquivamento ainda não foi executado com sucesso.",
         "CronArchivingHasNotRunInAWhile": "O arquivamento foi executado com sucesso pela última a %1$s há %2$s.",

@@ -47,6 +47,7 @@
         "Phablet": "平板手机",
         "TV": "TV",
         "UserAgent": "用户代理（User-Agent）",
+        "MobileApp": "移动应用程序",
         "XVisitsFromDevices": "来自%2$s设备的%1$s次访问",
         "Wearable": "适合的",
         "WidgetBrowsers": "访客浏览器",
