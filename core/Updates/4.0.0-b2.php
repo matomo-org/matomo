@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Config;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -54,6 +55,16 @@ class Updates_4_0_0_b2 extends PiwikUpdates
 
         if (!Manager::getInstance()->isPluginActivated('CustomDimensions')) {
             $migrations[] = $this->migration->plugin->activate('CustomDimensions');
+        }
+
+        $configTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_custom_variables'] ?? null;
+        $configSubTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_subtable_custom_variables'] ?? null;
+
+        if ($configTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_custom_dimensions', $configTableLimit);
+        }
+        if ($configSubTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_subtable_custom_dimensions', $configSubTableLimit);
         }
 
         return $migrations;
