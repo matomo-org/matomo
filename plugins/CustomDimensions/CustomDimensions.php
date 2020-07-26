@@ -168,6 +168,11 @@ class CustomDimensions extends Plugin
         }
 
         $dimensions = $this->getCustomDimensions($idSite);
+
+        usort($dimensions, function ($a, $b) {
+            return strcmp($a['name'], $b['name']);
+        });
+
         $order = 70;
 
         foreach ($dimensions as $dimension) {
