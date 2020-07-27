@@ -161,6 +161,10 @@
 		<default_value />
 	</row>
 	<row>
+		<column_name>profilable</column_name>
+		<default_value />
+	</row>
+	<row>
 		<column_name>referer_keyword</column_name>
 		<default_value />
 	</row>

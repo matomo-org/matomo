@@ -180,6 +180,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Profilable</name>
+		<segment>profilable</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Resolution</name>
 		<segment>resolution</segment>
 	</row>

@@ -179,6 +179,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Profilable</name>
+		<segment>profilable</segment>
+		<acceptedValues>1 for profilable (eg cookies were used), 0 for not profilable (eg no cookies were used)</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Resolution</name>
 		<segment>resolution</segment>
 		<acceptedValues>1280x1024, 800x600, etc.</acceptedValues>

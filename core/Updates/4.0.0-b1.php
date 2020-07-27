@@ -13,6 +13,7 @@ use Piwik\DataAccess\TableMetadata;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreHome\Columns\Profilable;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
 use Piwik\Plugins\UsersManager\Model;
@@ -122,6 +123,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $columnsToAdd[$table]['visitor_seconds_since_order'] = VisitorSecondsSinceOrder::COLUMN_TYPE;
         }
         $columnsToAdd['log_visit']['visitor_seconds_since_last'] = VisitorSecondsSinceLast::COLUMN_TYPE;
+        $columnsToAdd['log_visit']['profilable'] = Profilable::COLUMN_TYPE;
 
         $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
         $columnsLogConversion = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
@@ -152,6 +154,10 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = custom_var_v4 WHERE custom_var_k4 = '_pk_scat'");
             $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_count = custom_var_v5 WHERE custom_var_k5 = '_pk_scount'");
         }
+
+        $logVisit = Common::prefixTable('log_visit');
+        // until 3.14.0 config_cookie was always 0 if cookies were disabled so for most visits this will be fairly accurate.
+        $migrations[] = $this->migration->db->sql("UPDATE $logVisit SET profilable = config_cookie WHERE profilable is null");
 
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // activate GeoIp2 plugin for users still using GeoIp2 Legacy (others might have it disabled on purpose)

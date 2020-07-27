@@ -28,6 +28,7 @@
             "location_browser_lang": "French (fr)",
             "location_country": "Intl_Continent_ie",
             "location_ip": "156.5.3.200",
+            "profilable": "Yes",
             "referer_name": "www.example.com",
             "referer_type": "Websites",
             "referer_url": "http:\/\/www.example.com\/",
