@@ -186,6 +186,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
     public function test_getAvailableVisitColumnsToAnonymize()
     {
         $this->assertSame(array(
+            'profilable' => null,
             'user_id' => null,
             'visit_goal_buyer' => null,
             'visit_goal_converted' => null,
