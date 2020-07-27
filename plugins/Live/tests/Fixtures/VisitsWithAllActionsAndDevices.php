@@ -96,7 +96,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.org/product42');
-        $t->setCustomTrackingParameter('dimension2', 'NZD');
+        $t->setCustomDimension('2', 'NZD');
         $t->setEcommerceView($sku = 'P42X4D', $name = 'product 42', $category = 'software', $price = 60);
         $t->setPerformanceTimings(33, 222, 356, 444, 522, 211);
         $t->setDebugStringAppend('bw_bytes=36053');
@@ -157,8 +157,8 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setPerformanceTimings(55, 348, 256, 299, 165, 144);
         $t->setDebugStringAppend('bw_bytes=6851');
         $t->setCustomVariable(1, 'custom', 'variable', 'page');
-        $t->setCustomTrackingParameter('dimension1', '42');
-        $t->setCustomTrackingParameter('dimension2', '€');
+        $t->setCustomDimension('1', '42');
+        $t->setCustomDimension('2', '€');
         self::checkResponse($t->doTrackPageView('product 42'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.09)->getDatetime());
@@ -194,7 +194,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setUrlReferrer('http://www.nice.website/page3');
         $t->setCustomVariable(1, 'promo', 'summer', 'visit');
-        $t->setCustomTrackingParameter('dimension1', '16');
+        $t->setCustomDimension('1', '16');
         $t->setUrl('http://example.org/');
         $t->setPerformanceTimings(0, 255, 319, 395, 222, 92);
         $t->setDebugStringAppend('bw_bytes=631');

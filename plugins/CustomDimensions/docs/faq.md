@@ -26,7 +26,7 @@ Please have a look at the [JavaScript Tracker guide for Custom Dimensions](https
 
 __How do I set a value for a dimension in the PHP Tracker?__
 
-`$tracker->setCustomTrackingParameter('dimension' . $customDimensionId, $value);`
+`$tracker->setCustomDimension($customDimensionId, $value);`
 
 Please note custom tracking parameters are cleared after each tracking request. If you want to keep the same
 Custom Dimensions over all request make sure to call this method before each tracking call.

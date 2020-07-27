@@ -81,25 +81,25 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
     {
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
-        $t->setCustomTrackingParameter('dimension1', 'value1');
-        $t->setCustomTrackingParameter('dimension2', 'value2');
-        $t->setCustomTrackingParameter('dimension3', 'value3');
-        $t->setCustomTrackingParameter('dimension4', 'value4');
-        $t->setCustomTrackingParameter('dimension5', 'value5');
-        $t->setCustomTrackingParameter('dimension6', 'value6');
+        $t->setCustomDimension('1', 'value1');
+        $t->setCustomDimension('2', 'value2');
+        $t->setCustomDimension('3', 'value3');
+        $t->setCustomDimension('4', 'value4');
+        $t->setCustomDimension('5', 'value5');
+        $t->setCustomDimension('6', 'value6');
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.com/');
         self::checkResponse($t->doTrackPageView('Viewing homepage'));
 
-        $t->setCustomTrackingParameter('dimension1', 'value5 1');
-        $t->setCustomTrackingParameter('dimension2', 'dim 2');
+        $t->setCustomDimension('1', 'value5 1');
+        $t->setCustomDimension('2', 'dim 2');
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page?test=343&param=23');
         self::checkResponse($t->doTrackPageView('Second page view'));
 
-        $t->setCustomTrackingParameter('dimension2', 'en_US');
-        $t->setCustomTrackingParameter('dimension3', 'value5 3');
+        $t->setCustomDimension('2', 'en_US');
+        $t->setCustomDimension('3', 'value5 3');
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page?param=en_US');
         self::checkResponse($t->doTrackPageView('Third page view'));
@@ -112,9 +112,9 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $t->setUrl('http://example.com/sub_en/page?param=en_US');
         self::checkResponse($t->doTrackPageView('Fifth page view'));
 
-        $t->setCustomTrackingParameter('dimension1', 'value1');
-        $t->setCustomTrackingParameter('dimension2', 'value2');
-        $t->setCustomTrackingParameter('dimension5', 'value5 5');
+        $t->setCustomDimension('1', 'value1');
+        $t->setCustomDimension('2', 'value2');
+        $t->setCustomDimension('5', 'value5 5');
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addDay(3)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page?param=en_US');
         self::checkResponse($t->doTrackPageView('Sixth page view'));
@@ -125,12 +125,12 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $t = self::getTracker($this->idSite2, $this->dateTime, $defaultInit = true);
         $t->setIp('56.11.55.73');
 
-        $t->setCustomTrackingParameter('dimension1', 'site2 value1');
-        $t->setCustomTrackingParameter('dimension2', 'site2 value2');
-        $t->setCustomTrackingParameter('dimension3', 'site2 value3');
-        $t->setCustomTrackingParameter('dimension4', 'site2 value4');
-        $t->setCustomTrackingParameter('dimension5', 'site2 value5');
-        $t->setCustomTrackingParameter('dimension6', 'site2 value6');
+        $t->setCustomDimension('1', 'site2 value1');
+        $t->setCustomDimension('2', 'site2 value2');
+        $t->setCustomDimension('3', 'site2 value3');
+        $t->setCustomDimension('4', 'site2 value4');
+        $t->setCustomDimension('5', 'site2 value5');
+        $t->setCustomDimension('6', 'site2 value6');
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page');
@@ -151,8 +151,8 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->setIp('56.11.55.79');
 
-        $t->setCustomTrackingParameter('dimension1', '');
-        $t->setCustomTrackingParameter('dimension3', '');
+        $t->setCustomDimension('1', '');
+        $t->setCustomDimension('3', '');
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page');

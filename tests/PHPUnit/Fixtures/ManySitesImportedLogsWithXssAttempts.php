@@ -175,7 +175,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
             $t = self::getTracker($this->idSite, $dateTime, $defaultInit= true);
             $t->setUrl('http://example.org/' . urlencode($urlXss));
             $t->setUrlReferrer($referrerUrlXss);
-            $t->setCustomTrackingParameter('dimension1', $xssTesting->$type('customdimension'));
+            $t->setCustomDimension('1', $xssTesting->$type('customdimension'));
             $t->setCustomVariable(1, $xssTesting->$type('customvarname'), $xssTesting->$type('customvarval'));
             $t->setUserId($xssTesting->$type('userid'));
             $t->setBrowserLanguage($xssTesting->$type('lang'));
