@@ -208,7 +208,7 @@ class Request
                 return true;
             }
         }
-        
+
         Piwik::postEvent('Request.initAuthenticationObject');
 
         /** @var \Piwik\Auth $auth */
@@ -541,7 +541,7 @@ class Request
         return Common::getRequestVar('ua', $default, 'string', $this->params);
     }
 
-    protected function shouldUseThirdPartyCookie()
+    public function shouldUseThirdPartyCookie()
     {
         return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
     }
@@ -564,6 +564,10 @@ class Request
     public function setThirdPartyCookie($idVisitor)
     {
         if (!$this->shouldUseThirdPartyCookie()) {
+            return;
+        }
+
+        if (\Piwik\Tracker\IgnoreCookie::isIgnoreCookieFound()) {
             return;
         }
 
@@ -631,7 +635,7 @@ class Request
         $found = false;
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {
-            // If User ID is set it takes precedence 
+            // If User ID is set it takes precedence
             $userId = $this->getForcedUserId();
             if ($userId) {
                 $userIdHashed = $this->getUserIdHashed($userId);

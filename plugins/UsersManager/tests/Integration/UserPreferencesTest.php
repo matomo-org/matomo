@@ -36,6 +36,38 @@ class UserPreferencesTest extends IntegrationTestCase
         $this->userPreferences = new UserPreferences();
 
         $this->setSuperUser();
+
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = 'foo'; // avoids error user already exists when it doesn't
+        APIUsersManager::getInstance()->addUser($identity, '22111214k4,mdw<L', 'foo@example.com');
+        FakeAccess::$identity = $identity;
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage User does not exist
+     */
+    public function test_getDefaultReport_WhenLoginNotExists()
+    {
+        APIUsersManager::getInstance()->setUserPreference(
+            'foo',
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT,
+            '1'
+        );
+    }
+
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Not supported preference name
+     */
+    public function test_getDefaultReport_WhenWrongPreference()
+    {
+        APIUsersManager::getInstance()->setUserPreference(
+            Piwik::getCurrentUserLogin(),
+            'foo',
+            '1'
+        );
     }
 
     public function test_getDefaultReport_ShouldReturnFalseByDefault()

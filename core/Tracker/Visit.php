@@ -561,9 +561,25 @@ class Visit implements VisitInterface
      */
     private function setIdVisitorForExistingVisit($valuesToUpdate)
     {
-        // Might update the idvisitor when it was forced or overwritten for this visit
         if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID) {
             $valuesToUpdate['idvisitor'] = $this->visitProperties->getProperty('idvisitor');
+        }
+        
+        $visitorId = $this->request->getVisitorId();
+        if ($visitorId && strlen($visitorId) === Tracker::LENGTH_BINARY_ID) {
+            // Might update the idvisitor when it was forced or overwritten for this visit
+            $valuesToUpdate['idvisitor'] = $this->request->getVisitorId(); 
+        }
+
+        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {
+            // User ID takes precedence and overwrites idvisitor value
+            $userId = $this->request->getForcedUserId();
+            if ($userId) {
+                $userIdHash = $this->request->getUserIdHashed($userId);
+                $binIdVisitor = Common::hex2bin($userIdHash);
+                $this->visitProperties->setProperty('idvisitor', $binIdVisitor);
+                $valuesToUpdate['idvisitor'] = $binIdVisitor;
+            }
         }
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {

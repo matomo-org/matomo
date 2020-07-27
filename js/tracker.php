@@ -67,6 +67,19 @@ $environment = new \Piwik\Application\Environment(null, array(
 ));
 $environment->init();
 
+if (!\Piwik\Tracker\IgnoreCookie::isIgnoreCookieFound()) {
+    
+    $request = new \Piwik\Tracker\Request(array());
+    
+    if ($request->shouldUseThirdPartyCookie()) {
+        $visitorId = $request->getVisitorIdForThirdPartyCookie();
+        if (!$visitorId) {
+            $visitorId = \Piwik\Common::hex2bin(\Piwik\Tracker\Visit::generateUniqueVisitorId());
+        }
+        $request->setThirdPartyCookie($visitorId);
+    }
+}
+
 ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture, $byteStart, $byteEnd);
 
 exit;
