@@ -155,10 +155,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_count = custom_var_v5 WHERE custom_var_k5 = '_pk_scount'");
         }
 
-        $logVisit = Common::prefixTable('log_visit');
-        // until 3.14.0 config_cookie was always 0 if cookies were disabled so for most visits this will be fairly accurate.
-        $migrations[] = $this->migration->db->sql("UPDATE $logVisit SET profilable = config_cookie WHERE profilable is null");
-
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // activate GeoIp2 plugin for users still using GeoIp2 Legacy (others might have it disabled on purpose)
             $migrations[] = $this->migration->plugin->activate('GeoIp2');
