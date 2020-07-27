@@ -266,7 +266,8 @@ class API extends \Piwik\Plugin\API
         $isArchivePhpTriggered = SettingsServer::isArchivePhpTriggered();
         $invalidateBeforeArchiving = !$isArchivePhpTriggered;
 
-        $parameters = new ArchiveProcessor\Parameters(new Site($idSite), Factory::build($period, $date), new Segment($segment, [$idSite]));
+        $period = Factory::build($period, $date);
+        $parameters = new ArchiveProcessor\Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd()));
         if ($report) {
             $parameters->setArchiveOnlyReport($report);
         }

@@ -166,6 +166,11 @@ class LogAggregator
     private $allowUsageSegmentCache = false;
 
     /**
+     * @var Parameters
+     */
+    private $params;
+
+    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
@@ -178,6 +183,7 @@ class LogAggregator
         $this->sites = $params->getIdSites();
         $this->isRootArchiveRequest = $params->isRootArchiveRequest();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->params = $params;
     }
 
     public function setSites($sites)
@@ -328,7 +334,7 @@ class LogAggregator
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
             // here we create the TMP table and apply the segment including the datetime and the requested idsite
             // at the end we generated query will no longer need to apply the datetime/idsite and segment
-            $segment = new Segment('', $this->sites);
+            $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
 
             $segmentTable = $this->getSegmentTmpTableName();
 
