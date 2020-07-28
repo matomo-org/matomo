@@ -36,7 +36,7 @@ class Config
         'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => true),
         'anonymizeUserId'                   => array('type' => 'boolean', 'default' => false),
         'anonymizeOrderId'                  => array('type' => 'boolean', 'default' => false),
-        'anonymizeReferrer'                 => array('type' => 'string', 'default' => false),
+        'anonymizeReferrer'                 => array('type' => 'string', 'default' => ''),
     );
 
     public function __set($name, $value)

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\PrivacyManager\Tracker;
 
 use Piwik\Common;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker;
@@ -18,11 +19,18 @@ use Piwik\Tracker\Visit\VisitProperties;
 
 class RequestProcessor extends Tracker\RequestProcessor
 {
+    private $config;
+    private $referrerAnonymizer;
+
+    public function __construct(PrivacyManagerConfig $config, ReferrerAnonymizer $referrerAnonymizer)
+    {
+        $this->config = $config;
+        $this->referrerAnonymizer = $referrerAnonymizer;
+    }
+
     public function manipulateRequest(Request $request)
     {
-        $privacyConfig = new PrivacyManagerConfig();
-
-        if ($privacyConfig->anonymizeUserId) {
+        if ($this->config->anonymizeUserId) {
             $userId = $request->getParam('uid');
             if ($this->isValueSet($userId)) {
                 $userIdAnonymized = self::anonymizeUserId($userId);
@@ -30,23 +38,31 @@ class RequestProcessor extends Tracker\RequestProcessor
             }
         }
 
-        if ($privacyConfig->anonymizeOrderId) {
+        if ($this->config->anonymizeOrderId) {
             $orderId = $request->getParam('ec_id');
             if ($this->isValueSet($orderId)) {
                 $orderIdAnonymized = sha1(Common::getRandomInt() . $orderId . time() . SettingsPiwik::getSalt());
                 $request->setParam('ec_id', $orderIdAnonymized);
             }
         }
+
+        if ($this->config->anonymizeReferrer === ReferrerAnonymizer::EXCLUDE_ALL) {
+            $request->setParam('urlref', '');
+        }
     }
 
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
-        $this->anonymiseReferrer($visitProperties);
+        $url = $visitProperties->getProperty('referer_url');
+        $url = $this->referrerAnonymizer->anonymiseReferrerUrl($url, $this->config->anonymizeReferrer);
+        $visitProperties->setProperty('referer_url', $url);
     }
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
-        $this->anonymiseReferrer($valuesToUpdate, $visitProperties);
+        if (isset($valuesToUpdate['referer_url'])) {
+            $valuesToUpdate['referer_url'] = $this->referrerAnonymizer->anonymiseReferrerUrl($valuesToUpdate['referer_url'], $this->config->anonymizeReferrer);
+        }
     }
 
     /**

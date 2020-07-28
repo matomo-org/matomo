@@ -40,10 +40,16 @@ class API extends \Piwik\Plugin\API
      */
     private $logDataAnonymizer;
 
+    /**
+     * @var ReferrerAnonymizer
+     */
+    private $referrerAnonymizer;
+
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
-        LogDataAnonymizer $logDataAnonymizer
+        LogDataAnonymizer $logDataAnonymizer,
+        ReferrerAnonymizer $referrerAnonymizer
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
@@ -155,7 +161,8 @@ class API extends \Piwik\Plugin\API
             // pass
         }
 
-        if (!empty($anonymizeReferrer) && !array_key_exists($anonymizeReferrer, ReferrerAnonymizer::getAvailableAnonymizationOptions())) {
+        if (!empty($anonymizeReferrer)
+            && !array_key_exists($anonymizeReferrer, $this->referrerAnonymizer->getAvailableAnonymizationOptions())) {
             $anonymizeReferrer = '';
         }
 
