@@ -563,21 +563,21 @@
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Bandwidth</name>
 		<segment>bandwidth</segment>
 		<acceptedValues>Any number in bytes, eg. 1000</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Action Type</name>
 		<segment>actionType</segment>
 		<acceptedValues>A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Action URL</name>
 		<segment>actionUrl</segment>
 		<unionOfSegments>
@@ -589,108 +589,108 @@
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Content Interaction</name>
 		<segment>contentInteraction</segment>
 		<acceptedValues>The type of interaction with the content. For instance &quot;click&quot; or &quot;submit&quot;.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Content Name</name>
 		<segment>contentName</segment>
 		<acceptedValues>The name of a content block, for instance &quot;Ad Sale&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Content Piece</name>
 		<segment>contentPiece</segment>
 		<acceptedValues>The actual content. For instance &quot;ad.jpg&quot; or &quot;My text ad&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Content Target</name>
 		<segment>contentTarget</segment>
 		<acceptedValues>For instance the URL of a landing page: &quot;http://landingpage.example.com&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Download URL</name>
 		<segment>downloadUrl</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Entry Page URL</name>
 		<segment>entryPageUrl</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Entry Page title</name>
 		<segment>entryPageTitle</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Exit Page Title</name>
 		<segment>exitPageTitle</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Exit Page URL</name>
 		<segment>exitPageUrl</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Keyword (Site Search)</name>
 		<segment>siteSearchKeyword</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Keyword count (Site Search)</name>
 		<segment>siteSearchCount</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Page Title</name>
 		<segment>pageTitle</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Page URL</name>
 		<segment>pageUrl</segment>
 		<acceptedValues>All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Search Category</name>
 		<segment>siteSearchCategory</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Server time - hour</name>
 		<segment>actionServerHour</segment>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Server time - minute</name>
 		<segment>actionServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
@@ -728,28 +728,28 @@
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<name>Channel Type</name>
 		<segment>referrerType</segment>
 		<acceptedValues>direct, search, website, campaign</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<name>Keyword</name>
 		<segment>referrerKeyword</segment>
 		<acceptedValues>Encoded%20Keyword, keyword</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<name>Referrer Name</name>
 		<segment>referrerName</segment>
 		<acceptedValues>twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<name>Referrer URL</name>
 		<segment>referrerUrl</segment>
 		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
