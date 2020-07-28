@@ -20,6 +20,8 @@ class Matomo_LocalTracker extends MatomoTracker
 {
     protected function sendRequest($url, $method = 'GET', $data = null, $force = false)
     {
+        self::$DEBUG_LAST_REQUESTED_URL = $url;
+
         if ($this->DEBUG_APPEND_URL) {
             $url .= $this->DEBUG_APPEND_URL;
         }
@@ -39,6 +41,11 @@ class Matomo_LocalTracker extends MatomoTracker
             $testEnvironmentArgs = array();
         } else {
             $testEnvironmentArgs = $this->parseUrl($url);
+
+            if (!empty($this->token_auth)) {
+                $testEnvironmentArgs['token_auth'] = $this->token_auth;
+            }
+
             $requests = array($testEnvironmentArgs);
         }
 

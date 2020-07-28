@@ -90,7 +90,7 @@
                 <p>
                 {{ 'CustomDimensions_HowToTrackManuallyViaPhp'|translate }}
                 </p>
-                <pre piwik-select-on-focus><code>$tracker->setCustomTrackingParameter('dimension{{ editDimension.dimension.idcustomdimension }}', '{{ 'CustomDimensions_ExampleValue'|translate }}');</code></pre>
+                <pre piwik-select-on-focus><code>$tracker->setCustomDimension('{{ editDimension.dimension.idcustomdimension }}', '{{ 'CustomDimensions_ExampleValue'|translate }}');</code></pre>
                 <p>
                 {{ 'CustomDimensions_HowToTrackManuallyViaHttp'|translate }}
                 </p>
