@@ -28,10 +28,10 @@ class ReferrerAnonymizer
         // referer_name: eg referer host of website or campaign name or search engine name or social network name
         // referer_keyword: searched keyword or campaign keyword
         return array(
-            self::EXCLUDE_NONE => 'Don\'t anonymize',
-            self::EXCLUDE_QUERY => 'Remove query parameters',
-            self::EXCLUDE_PATH => 'Keep only the domain, remove path and query parameters',
-            self::EXCLUDE_URL => 'Don\'t record the referrer url but still detect referrer type, keywords, etc)',
+            self::EXCLUDE_NONE => 'Don\'t anonymize the referrer',
+            self::EXCLUDE_QUERY => 'Remove URL query parameters from the referrer URL',
+            self::EXCLUDE_PATH => 'Keep only the domain from the referrer URL, remove path and query parameters',
+            self::EXCLUDE_URL => 'Don\'t record the referrer url but still detect referrer type, keywords, and campaign names',
             self::EXCLUDE_ALL => "Don't record any kind of referrer, not even the type of referrer."
         );
     }
