@@ -69,6 +69,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         for ($i = 0; $i != 10; ++$i) {
             Fixture::createWebsite('2012-03-04');
         }
+
+        self::addVisitToEachSite();
+
+        Option::deleteLike('%report_to_invalidate_%'); // test w/ a blank slate
     }
 
     public function setUp(): void
@@ -1111,6 +1115,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $idSite = Fixture::createWebsite(Date::today()->subMonth(1)->getDatetime());
 
+        $t = Fixture::getTracker($idSite, '2020-05-04 03:45:45');
+        $t->setUrl('http://test.com/test');
+        Fixture::checkResponse($t->doTrackPageView('test page'));
+
         API::getInstance()->add('autoArchiveSegment', 'browserCode==IE', false, true);
         API::getInstance()->add('browserArchiveSegment', 'browserCode==IE', false, false);
 
@@ -1307,5 +1315,23 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         $table = Common::prefixTable('archive_invalidations');
         return Db::fetchAll("SELECT idsite, period, name, report, GROUP_CONCAT(CONCAT(date1, ',', date2) SEPARATOR '|') as dates, COUNT(*) as count FROM $table GROUP BY idsite, period, name, report");
+    }
+
+    private static function addVisitToEachSite()
+    {
+        $t = Fixture::getTracker(1, '2012-04-05 00:00:00');
+        $t->enableBulkTracking();
+        for ($i = 0; $i < 10; ++$i) {
+            $t->setIdSite($i + 1);
+            $t->setUrl('http://test.com');
+            self::assertTrue($t->doTrackPageView('test page'));
+        }
+        Fixture::checkBulkTrackingResponse($t->doBulkTrack());
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }
