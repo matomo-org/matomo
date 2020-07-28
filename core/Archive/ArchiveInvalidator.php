@@ -83,7 +83,7 @@ class ArchiveInvalidator
     {
         $this->model = $model;
         $this->archivingStatus = $archivingStatus;
-        $this->segmentArchiving = new SegmentArchiving(StaticContainer::get('ini.General.process_new_segments_from'));
+        $this->segmentArchiving = null;
     }
 
     public function getAllRememberToInvalidateArchivedReportsLater()
@@ -486,7 +486,7 @@ class ArchiveInvalidator
         $this->markArchivesAsInvalidated($idSites, $dates, 'day', null, $cascadeDown = false, $forceInvalidateRanges = false, $name);
 
         foreach ($idSites as $idSite) {
-            $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidate($idSite);
+            $segmentDatesToInvalidate = $this->getSegmentArchiving()->getSegmentArchivesToInvalidate($idSite);
             foreach ($segmentDatesToInvalidate as $info) {
                 $latestDate = Date::factory($info['date']);
                 $latestDate = $latestDate->isEarlier($date1) ? $latestDate : $date1;
@@ -605,5 +605,13 @@ class ArchiveInvalidator
         } else {
             return Period\Factory::build($period, $date);
         }
+    }
+
+    private function getSegmentArchiving()
+    {
+        if (empty($this->segmentArchiving)) {
+            $this->segmentArchiving = new SegmentArchiving(StaticContainer::get('ini.General.process_new_segments_from'));
+        }
+        return $this->segmentArchiving;
     }
 }
