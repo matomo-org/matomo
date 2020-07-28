@@ -102,7 +102,9 @@ class Controller extends \Piwik\Plugin\Controller
             $sessionInitializer = new SessionInitializer();
             $sessionInitializer->initSession($auth);
 
-            if (Access::getInstance()->isUserHasSomeAdminAccess()) {
+            if (Access::getInstance()->isUserHasSomeAdminAccess()
+                && !defined('PIWIK_TEST_MODE')
+            ) {
                 throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
             }
         }
