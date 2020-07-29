@@ -165,17 +165,11 @@ class ArchiveCronTest extends SystemTestCase
         $sequence = new Sequence('ExamplePlugin_archiveCount');
         $beforeCount = $sequence->getCurrentId();
 
-        $archivesOld = Db::fetchAll("SELECT idsite, date1, date2, period, value FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'))
-            . " WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
-print_r($archivesOld);
         $output = $this->runArchivePhpCron(['-vvv' => null]);
 
         $afterCount = $sequence->getCurrentId();
 
         $this->assertNotEquals($beforeCount, $afterCount, 'example plugin archiving was not triggered');
-        $archivesOld2 = Db::fetchAll("SELECT idsite, date1, date2, period, value FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'))
-            . " WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
-        print_r($archivesOld2);
 
         $this->runApiTests('ExamplePlugin.getExampleArchivedMetric', [
             'idSite' => 'all',
@@ -189,6 +183,27 @@ print_r($archivesOld);
             . " WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
 
         $expected = [
+            [ // first test from previous archive test
+                'idsite' => '1',
+                'date1' => '2007-04-01',
+                'date2' => '2007-04-30',
+                'period' => '3',
+                'value' => '5',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-02',
+                'date2' => '2007-04-08',
+                'period' => '2',
+                'value' => '5',
+            ],
+            [
+                'idsite' => '1',
+                'date1' => '2007-04-05',
+                'date2' => '2007-04-05',
+                'period' => '1',
+                'value' => '5',
+            ],
             [
                 'idsite' => '1',
                 'date1' => '2007-04-01',
@@ -210,9 +225,6 @@ print_r($archivesOld);
                 'period' => '1',
                 'value' => '5',
             ],
-            [],
-            [],
-            [],
         ];
 
         $this->assertEquals($expected, $archives);
