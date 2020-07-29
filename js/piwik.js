@@ -2340,9 +2340,6 @@ if (typeof window.Matomo !== 'object') {
                 // Timestamp of last tracker request sent to Matomo
                 lastTrackerRequestTime = null,
 
-                // Handle to the current heart beat timeout
-                heartBeatTimeout,
-
                 // Internal state of the pseudo click handler
                 lastButton,
                 lastTarget,
@@ -2804,56 +2801,6 @@ if (typeof window.Matomo !== 'object') {
                 }
             }
 
-            /*
-             * Sets up the heart beat timeout.
-             */
-            function heartBeatUp(delay) {
-                if (heartBeatTimeout
-                    || !configHeartBeatDelay
-                    || !configHasConsent
-                ) {
-                    return;
-                }
-
-                heartBeatTimeout = setTimeout(function heartBeat() {
-                    heartBeatTimeout = null;
-
-                    if (!hadWindowFocusAtLeastOnce) {
-                        // if browser does not support .hasFocus (eg IE5), we assume that the window has focus.
-                        hadWindowFocusAtLeastOnce = (!documentAlias.hasFocus || documentAlias.hasFocus());
-                    }
-
-                    if (!hadWindowFocusAtLeastOnce) {
-                        // only send a ping if the tab actually had focus at least once. For example do not send a ping
-                        // if window was opened via "right click => open in new window" and never had focus see #9504
-                        heartBeatUp(configHeartBeatDelay);
-                        return;
-                    }
-
-                    if (heartBeatPingIfActivityAlias()) {
-                        return;
-                    }
-
-                    var now = new Date(),
-                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
-                    // sanity check
-                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay);
-                    heartBeatUp(heartBeatDelay);
-                }, delay || configHeartBeatDelay);
-            }
-
-            /*
-             * Removes the heart beat timeout.
-             */
-            function heartBeatDown() {
-                if (!heartBeatTimeout) {
-                    return;
-                }
-
-                clearTimeout(heartBeatTimeout);
-                heartBeatTimeout = null;
-            }
-
             function heartBeatOnFocus() {
                 hadWindowFocusAtLeastOnce = true;
                 timeWindowLastFocused = new Date().getTime();
@@ -2871,7 +2818,6 @@ if (typeof window.Matomo !== 'object') {
                 if (hadWindowMinimalFocusToConsiderViewed()) {
                     heartBeatPingIfActivityAlias();
                 }
-                heartBeatDown();
             }
 
             /*
@@ -6075,7 +6021,6 @@ if (typeof window.Matomo !== 'object') {
              * Disable heartbeat if it was previously activated.
              */
             this.disableHeartBeatTimer = function () {
-                heartBeatDown();
 
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
