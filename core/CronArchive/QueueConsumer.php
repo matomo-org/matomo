@@ -514,7 +514,8 @@ class QueueConsumer
         );
     }
 
-    private function usableArchiveExists(array $invalidatedArchive)
+    // public for test
+    public function usableArchiveExists(array $invalidatedArchive)
     {
         $site = new Site($invalidatedArchive['idsite']);
 

@@ -165,8 +165,8 @@ class ArchiveCronTest extends SystemTestCase
         $sequence = new Sequence('ExamplePlugin_archiveCount');
         $beforeCount = $sequence->getCurrentId();
 
-        $output = $this->runArchivePhpCron();
-
+        $output = $this->runArchivePhpCron(['-vvv' => null]);
+print "$output\n";
         $afterCount = $sequence->getCurrentId();
 
         $this->assertNotEquals($beforeCount, $afterCount, 'example plugin archiving was not triggered');
@@ -204,6 +204,9 @@ class ArchiveCronTest extends SystemTestCase
                 'period' => '1',
                 'value' => '5',
             ],
+            [],
+            [],
+            [],
         ];
 
         $this->assertEquals($expected, $archives);

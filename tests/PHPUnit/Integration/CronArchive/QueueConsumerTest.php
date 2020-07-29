@@ -449,7 +449,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_canSkipArchiveBecauseNoPoint_returnsTrueIfDateRangeHasVisits_AndPeriodIncludesToday_AndExistingArchiveIsRecent()
+    public function test_usableArchiveExists_returnsTrueIfDateRangeHasVisits_AndPeriodIncludesToday_AndExistingArchiveIsRecent()
     {
         $idSite = Fixture::createWebsite('2015-02-03');
 
@@ -491,7 +491,7 @@ class QueueConsumerTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
         ]);
 
-        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
+        $result = $queueConsumer->usableArchiveExists($invalidation);
         $this->assertTrue($result);
     }
 
