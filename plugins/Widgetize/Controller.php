@@ -31,7 +31,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function iframe()
     {
-        $this->initWidgetAuth();
         $this->init();
 
         $controllerName = Common::getRequestVar('moduleToWidgetize');
@@ -88,25 +87,4 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    private function initWidgetAuth()
-    {
-        $token_auth = Common::getRequestVar('token_auth', '', 'string');
-
-        if (!empty($token_auth)) {
-            $auth = StaticContainer::get('Piwik\Auth');
-            $auth->setTokenAuth($token_auth);
-            $auth->setPassword(null);
-            $auth->setPasswordHash(null);
-            $auth->setLogin(null);
-
-            $sessionInitializer = new SessionInitializer();
-            $sessionInitializer->initSession($auth);
-
-            if (Access::getInstance()->isUserHasSomeAdminAccess()
-                && !defined('PIWIK_TEST_MODE')
-            ) {
-                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
-            }
-        }
-    }
 }
