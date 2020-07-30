@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\SystemSettings;
+use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\View;
 
@@ -251,9 +252,12 @@ class ServerModule extends GeoIp2
         $configUrl = Url::getCurrentQueryStringWithParametersModified(array(
             'module' => 'CoreAdminHome', 'action' => 'generalSettings'
         ));
-        $view = new View('@GeoIp2/serverModule');
-        $view->configUrl = $configUrl;
-        $extraMessage .= $view->render();
+        if (!SettingsServer::isTrackerApiRequest()) {
+            // can't render in tracking mode as there is no theme
+            $view = new View('@GeoIp2/serverModule');
+            $view->configUrl = $configUrl;
+            $extraMessage .= $view->render();
+        }
 
         return array('id'            => self::ID,
             'title'         => $title,
