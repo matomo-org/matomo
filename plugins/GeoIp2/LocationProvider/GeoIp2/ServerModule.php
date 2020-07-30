@@ -17,6 +17,7 @@ use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\SystemSettings;
 use Piwik\Url;
+use Piwik\View;
 
 /**
  * A LocationProvider that uses an GeoIP 2 module installed in an HTTP Server.
@@ -250,7 +251,9 @@ class ServerModule extends GeoIp2
         $configUrl = Url::getCurrentQueryStringWithParametersModified(array(
             'module' => 'CoreAdminHome', 'action' => 'generalSettings'
         ));
-        $extraMessage .= '<br />'.Piwik::translate('GeoIp2_GeoIPVariablesConfigurationHere', ['<a href="'.$configUrl.'">', '</a>']);
+        $view = new View('@GeoIp2/serverModule');
+        $view->configUrl = $configUrl;
+        $extraMessage .= $view->render();
 
         return array('id'            => self::ID,
             'title'         => $title,
