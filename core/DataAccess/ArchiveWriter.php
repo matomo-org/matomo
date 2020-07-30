@@ -167,7 +167,10 @@ class ArchiveWriter
         $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
 
-        if ($this->parameters->isPartialArchive()) {
+        if (!$this->parameters->isPartialArchive()
+            // sanity check, just in case nothing was inserted (the archive status should always be inserted)
+            && !empty($this->earliestNow)
+        ) {
             $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $this->idArchive);
         }
     }

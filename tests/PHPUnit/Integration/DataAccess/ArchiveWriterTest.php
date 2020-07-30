@@ -18,9 +18,10 @@ use Piwik\Db;
 use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Segment;
+use Piwik\Sequence;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Integration\Settings\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class TestArchiveWriter extends ArchiveWriter {
     public function flushSpools()
@@ -40,8 +41,82 @@ class ArchiveWriterTest extends IntegrationTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
+
         Access::getInstance()->setSuperUserAccess(true);
         $this->idSite = Fixture::createWebsite('2019-08-29');
+    }
+
+    public function test_finalizeArchive_removesOldArchivesIfNotPartial()
+    {
+        Date::$now = strtotime('2020-04-05 03:00:00');
+
+        $period = 'day';
+        $date = '2019-08-29';
+
+        $initialArchiveData = [
+            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-02 03:44:44'],
+            ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-04 03:44:44'],
+        ];
+
+        $this->insertArchiveData($initialArchiveData);
+
+        $writer = $this->buildWriter($period, $date);
+        $writer->initNewArchive();
+        $writer->insertRecord('nb_visits', 5);
+
+        $this->assertEquals($initialArchiveData, $this->getAllColsOfAllNumericRows($date));
+
+        $writer->finalizeArchive();
+
+        $expected = [
+            ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => 1, 'ts_archived' => '2020-04-05 03:00:00'],
+            ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'nb_visits', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
+        ];
+        $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
+    }
+
+    public function test_finalizeArchive_doesNotRemoveOldArchivesIfPartial()
+    {
+        Date::$now = strtotime('2020-04-05 03:00:00');
+
+        $period = 'day';
+        $date = '2019-08-29';
+
+        $initialArchiveData = [
+            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'],
+            ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 03:44:44'],
+        ];
+
+        $this->insertArchiveData($initialArchiveData);
+
+        $writer = $this->buildWriter($period, $date, $isPartial = true);
+        $writer->initNewArchive();
+        $writer->insertRecord('nb_visits', 5);
+
+        $this->assertEquals($initialArchiveData, $this->getAllColsOfAllNumericRows($date));
+
+        $writer->finalizeArchive();
+
+        $expected = [
+            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'],
+            ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 03:44:44'],
+            ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
+            ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'nb_visits', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
+        ];
+        $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
+    }
+
+    public function test_finaliseArchive_writesArchiveStatusToFile()
+    {
+        $period = 'day';
+        $date = '2019-08-29';
+
+        $writer = $this->buildWriter($period, $date);
+        $writer->initNewArchive();
+        $writer->finalizeArchive();
+
+        $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_OK);
     }
 
     public function test_initNewArchive_doesNotWiteNewArchiveStatusToFileRightAway()
@@ -58,18 +133,6 @@ class ArchiveWriterTest extends IntegrationTestCase
         $writer->flushSpools();
         $this->assertCount(1, $this->getAllNumericRows($date));
         $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_ERROR);
-    }
-
-    public function test_finaliseArchive_writesArchiveStatusToFile()
-    {
-        $period = 'day';
-        $date = '2019-08-29';
-
-        $writer = $this->buildWriter($period, $date);
-        $writer->initNewArchive();
-        $writer->finalizeArchive();
-
-        $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_OK);
     }
 
     public function test_insertRecord_notFlushedUntilFinaliseCalled()
@@ -163,11 +226,15 @@ class ArchiveWriterTest extends IntegrationTestCase
         }
     }
 
-    private function buildWriter($period, $date)
+    private function buildWriter($period, $date, $isPartial = false)
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', $period, $date);
         $segment = new Segment('', []);
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
+        if ($isPartial) {
+            $params->setRequestedPlugin('ExamplePlugin');
+            $params->setIsPartialArchive(true);
+        }
         $writer  = new TestArchiveWriter($params);
         return $writer;
     }
@@ -217,5 +284,35 @@ class ArchiveWriterTest extends IntegrationTestCase
             . '" AND period=' . $periodId;
         $result = Db::get()->query($sql);
         return $result->fetch();
+    }
+
+    private function insertArchiveData($archiveRows)
+    {
+        if (!empty($archiveRows)) {
+            $idarchives = array_column($archiveRows, 'idarchive');
+            $max = max($idarchives);
+
+            $d = Date::factory($archiveRows[0]['date1']);
+            $tableName = Common::prefixTable('archive_numeric_' . $d->toString('Y_m'));
+            $seq = new Sequence($tableName);
+            $seq->create($max);
+        }
+
+        foreach ($archiveRows as $row) {
+            $d = Date::factory($row['date1']);
+            $table = ArchiveTableCreator::getNumericTable($d);
+            $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
+
+            Db::query("INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]);
+        }
+    }
+
+    private function getAllColsOfAllNumericRows(string $date)
+    {
+        $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        $sql = 'SELECT idarchive, idsite, date1, date2, period, name, value, ts_archived FROM ' . $archiveTableName;
+
+        return Db::fetchAll($sql);
     }
 }
