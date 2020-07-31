@@ -54,6 +54,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         if ($this->requestedReport) {
             $processor->getParams()->setIsPartialArchive(true);
         }
+
+        $this->createSequence();
     }
 
     public function aggregateDayReport()
@@ -112,6 +114,18 @@ class Archiver extends \Piwik\Plugin\Archiver
     private function incrementArchiveCount()
     {
         $sequence = new Sequence('ExamplePlugin_archiveCount');
+        $result = $sequence->getNextId();
+        return $result;
+    }
+
+    private function isArchiving(string $reportName)
+    {
+        return empty($this->requestedReport) || $this->requestedReport == $reportName;
+    }
+
+    private function createSequence()
+    {
+        $sequence = new Sequence('ExamplePlugin_archiveCount');
         if (!$sequence->exists()) {
             for ($i = 0; $i < 100; ++$i) {
                 try {
@@ -122,12 +136,5 @@ class Archiver extends \Piwik\Plugin\Archiver
                 }
             }
         }
-        $result = $sequence->getNextId();
-        return $result;
-    }
-
-    private function isArchiving(string $reportName)
-    {
-        return empty($this->requestedReport) || $this->requestedReport == $reportName;
     }
 }

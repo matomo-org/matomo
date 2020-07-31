@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "The maximum number of periods that can be compared simultaneously is %s.",
         "Custom": "Custom",
         "PreviousPeriod": "Previous Period",
-        "PreviousYear": "Previous Year"
+        "PreviousYear": "Previous Year",
+        "ViewAccessRequired": "The token_auth used has too much access to be used in a non-API request URL. Please use an app specific password for a user that only has view access."
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

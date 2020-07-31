@@ -15,6 +15,11 @@ use Piwik\DataTable\DataTableInterface;
 
 class Original extends ApiRenderer
 {
+    public static function sendPlainTextHeader()
+    {
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+    }
+
     public function renderSuccess($message)
     {
         return true;
@@ -72,7 +77,7 @@ class Original extends ApiRenderer
     public function sendHeader()
     {
         if ($this->shouldSerialize()) {
-            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+            self::sendPlainTextHeader();
         }
     }
 
