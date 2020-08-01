@@ -22,6 +22,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
+use Psr\Log\LoggerInterface;
 
 /**
  * Tests to call the cron core:archive command script and check there is no error,
