@@ -726,6 +726,7 @@ class CronArchive
         foreach ($sitesPerDays as $date => $siteIds) {
             //Concurrent transaction logic will end up with duplicates set.  Adding array_unique to the siteIds.
             $siteIds = array_unique($siteIds);
+            StaticContainer::get(LoggerInterface::class)->info('SITE IDS: ' . print_r($siteIds, true));
 
             $period = Factory::build('day', $date);
 
@@ -806,9 +807,6 @@ class CronArchive
         $this->setInvalidationTime();
 
         $this->logger->info("Done invalidating");
-
-        $rows = Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name` FROM " . Common::prefixTable('archive_invalidations'));
-        StaticContainer::get(LoggerInterface::class)->info(print_r($rows, true));
     }
 
     private function invalidateRecentDate($dateStr)
