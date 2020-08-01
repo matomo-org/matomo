@@ -114,6 +114,7 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCron()
     {
+        StaticContainer::get(LoggerInterface::class)->info("START ARCHIVE CRON");
         // invalidate exampleplugin only archives in past
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
@@ -127,7 +128,7 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
 
         $output = $this->runArchivePhpCron();
-
+        StaticContainer::get(LoggerInterface::class)->info("END ARCHIVE CRON");
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidations, $invalidationEntries);
