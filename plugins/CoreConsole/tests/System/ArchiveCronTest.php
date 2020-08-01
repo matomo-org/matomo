@@ -182,6 +182,7 @@ class ArchiveCronTest extends SystemTestCase
         // test that latest archives for ExamplePlugin are partial
         $archiveValues = Db::fetchAll("SELECT value FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'))
             . " WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
+        $archiveValues = array_column($archiveValues, 'value');
         $archiveValues = array_unique($archiveValues);
         $this->assertEquals([5], $archiveValues);
     }
