@@ -180,55 +180,10 @@ class ArchiveCronTest extends SystemTestCase
         ]);
 
         // test that latest archives for ExamplePlugin are partial
-        $archives = Db::fetchAll("SELECT idsite, date1, date2, period, value FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'))
+        $archiveValues = Db::fetchAll("SELECT value FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'))
             . " WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
-print_r($archives);
-        $expected = [
-            [ // first test from previous archive test
-                'idsite' => '1',
-                'date1' => '2007-04-01',
-                'date2' => '2007-04-30',
-                'period' => '3',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-02',
-                'date2' => '2007-04-08',
-                'period' => '2',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-05',
-                'date2' => '2007-04-05',
-                'period' => '1',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-01',
-                'date2' => '2007-04-30',
-                'period' => '3',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-02',
-                'date2' => '2007-04-08',
-                'period' => '2',
-                'value' => '5',
-            ],
-            [
-                'idsite' => '1',
-                'date1' => '2007-04-05',
-                'date2' => '2007-04-05',
-                'period' => '1',
-                'value' => '5',
-            ],
-        ];
-
-        $this->assertEquals($expected, $archives);
+        $archiveValues = array_unique($archiveValues);
+        $this->assertEquals([5], $archiveValues);
     }
 
     public function testArchivePhpCronArchivesFullRanges()
