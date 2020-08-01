@@ -88,7 +88,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         if ($this->isArchiving(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
             $archiveCount = $this->incrementArchiveCount();
-            $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_CONST_METRIC_NAME, 50 + $archiveCount);
+            $archiveCount = 50 + $archiveCount;
+            $archiveCount += 5 - ($archiveCount % 5); // round up to nearest 5 multiple to avoid random test failures
+            $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_CONST_METRIC_NAME, $archiveCount);
         }
     }
 

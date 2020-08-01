@@ -726,7 +726,6 @@ class CronArchive
         foreach ($sitesPerDays as $date => $siteIds) {
             //Concurrent transaction logic will end up with duplicates set.  Adding array_unique to the siteIds.
             $siteIds = array_unique($siteIds);
-            StaticContainer::get(LoggerInterface::class)->info('SITE IDS: ' . print_r($siteIds, true));
 
             $period = Factory::build('day', $date);
 
