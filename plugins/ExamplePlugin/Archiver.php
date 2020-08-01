@@ -9,9 +9,11 @@
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Sequence;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Archiver
@@ -115,6 +117,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $sequence = new Sequence('ExamplePlugin_archiveCount');
         $result = $sequence->getNextId();
+        StaticContainer::get(LoggerInterface::class)->info($this->getProcessor()->getParams());
         return $result;
     }
 
