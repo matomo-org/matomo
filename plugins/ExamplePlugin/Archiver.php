@@ -117,7 +117,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $sequence = new Sequence('ExamplePlugin_archiveCount');
         $result = $sequence->getNextId();
-        StaticContainer::get(LoggerInterface::class)->info($this->getProcessor()->getParams());
         return $result;
     }
 

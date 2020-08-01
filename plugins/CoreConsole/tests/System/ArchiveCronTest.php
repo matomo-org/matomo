@@ -129,6 +129,7 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
 
         $output = $this->runArchivePhpCron();
+        print "$output\n";
         StaticContainer::get(LoggerInterface::class)->info("END ARCHIVE CRON");
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();

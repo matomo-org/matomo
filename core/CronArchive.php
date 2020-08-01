@@ -803,11 +803,12 @@ class CronArchive
             }
         }
 
-        Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name` FROM " . Common::prefixTable('archive_invalidations'));
-
         $this->setInvalidationTime();
 
         $this->logger->info("Done invalidating");
+
+        $rows = Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name` FROM " . Common::prefixTable('archive_invalidations'));
+        StaticContainer::get(LoggerInterface::class)->info(print_r($rows, true));
     }
 
     private function invalidateRecentDate($dateStr)
