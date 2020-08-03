@@ -53,7 +53,7 @@ class PiwikJsManipulator
          *
          * @param string $content the generated JavaScript tracker code
          */
-        Piwik::postEvent('CustomMatomoJs.manipulateJsTracker', array(&$content));
+        Piwik::postEvent('CustomJsTracker.manipulateJsTracker', array(&$content));
         $this->content = $content;
 
         return $this->content;

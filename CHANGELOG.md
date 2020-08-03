@@ -69,6 +69,7 @@ These are only recommendations (because we will keep backward compatibility for 
 
 * The event `CustomPiwikJs.piwikJsChanged` has been renamed to `CustomJsTracker.trackerJsChanged`
 * The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.shouldAddTrackerFile`
+* The event `CustomMatomoJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.manipulateJsTracker`
 * The event `Live.getAllVisitorDetails` has been removed. Use a `VisitorDetails` class instead (see Live plugin).
 * The event `Live.getExtraVisitorDetails'` has been removed. Use the `VisitorDetails` class within each plugin instead.
 * The event `Piwik.getJavascriptCode` has been renamed to `Tracker.getJavascriptCode`.
