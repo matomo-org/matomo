@@ -448,7 +448,14 @@ class Request
         SettingsServer::raiseMemoryLimitIfNecessary();
     }
 
-    private static function shouldReloadAuthUsingTokenAuth($request)
+    /**
+     * @internal
+     * @ignore
+     * @param $request
+     * @return bool
+     * @throws Exception
+     */
+    public static function shouldReloadAuthUsingTokenAuth($request)
     {
         if (is_null($request)) {
             $request = self::getDefaultRequest();
