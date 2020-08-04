@@ -741,6 +741,10 @@ custom_cacert_pem=
 ; Default is 1.
 enable_tracking_failures_notification = 1
 
+; Controls how many months in the past reports are re-archived for plugins that support
+; doing this (such as CustomReports). Set to 0 to disable the feature. Default is 6.
+rearchive_reports_in_past_last_n_months = last6
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to

@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
 
@@ -56,12 +57,11 @@ class ArchiveWriter
     const DONE_INVALIDATED = 4;
 
     /**
-     * Flag indicating that the archive is currently being archived. If the archiving process is aborted or killed, the
-     * archive may remain w/ this flag.
+     * Flag indicating that the archive is
      *
      * @var int
      */
-    const DONE_IN_PROGRESS = 5;
+    const DONE_PARTIAL = 5;
 
     protected $fields = array('idarchive',
         'idsite',
@@ -80,6 +80,16 @@ class ArchiveWriter
     const MAX_SPOOL_SIZE = 50;
 
     /**
+     * @var ArchiveProcessor\Parameters
+     */
+    private $parameters;
+
+    /**
+     * @var string
+     */
+    private $earliestNow;
+
+    /**
      * ArchiveWriter constructor.
      * @param ArchiveProcessor\Parameters $params
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
@@ -91,6 +101,7 @@ class ArchiveWriter
         $this->idSite    = $params->getSite()->getId();
         $this->segment   = $params->getSegment();
         $this->period    = $params->getPeriod();
+        $this->parameters = $params;
 
         $idSites = array($this->idSite);
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
@@ -141,8 +152,9 @@ class ArchiveWriter
 
     public function initNewArchive()
     {
-        $this->allocateNewArchiveId();
+        $idArchive = $this->allocateNewArchiveId();
         $this->logArchiveStatusAsIncomplete();
+        return $idArchive;
     }
 
     public function finalizeArchive()
@@ -152,7 +164,15 @@ class ArchiveWriter
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
-        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, self::DONE_OK);
+        $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
+        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
+
+        if (!$this->parameters->isPartialArchive()
+            // sanity check, just in case nothing was inserted (the archive status should always be inserted)
+            && !empty($this->earliestNow)
+        ) {
+            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $this->idArchive);
+        }
     }
 
     protected function compress($data)
@@ -273,12 +293,16 @@ class ArchiveWriter
 
     protected function getInsertRecordBind()
     {
+        $now = Date::now()->getDatetime();
+        if (empty($this->earliestNow)) {
+            $this->earliestNow = $now;
+        }
         return array($this->getIdArchive(),
             $this->idSite,
             $this->dateStart->toString('Y-m-d'),
             $this->period->getDateEnd()->toString('Y-m-d'),
             $this->period->getId(),
-            date("Y-m-d H:i:s"));
+            $now);
     }
 
     protected function getTableNameToInsert($value)

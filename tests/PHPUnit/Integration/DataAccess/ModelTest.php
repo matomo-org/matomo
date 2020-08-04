@@ -263,6 +263,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-24',
                 'period' => '5',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '12',
@@ -272,6 +273,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-06',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '13',
@@ -281,6 +283,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-06',
                 'period' => '1',
                 'name' => 'done764644a7142bdcbedaab92f9dedef5e5',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '19',
@@ -290,6 +293,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-12',
                 'period' => '2',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '5',
@@ -299,6 +303,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-12',
                 'period' => '2',
                 'name' => 'done764644a7142bdcbedaab92f9dedef5e5',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '15',
@@ -308,6 +313,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-05',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '8',
@@ -317,6 +323,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-04',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '14',
@@ -326,6 +333,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-03',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '20',
@@ -335,6 +343,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-02',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '3',
@@ -344,6 +353,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-02',
                 'period' => '1',
                 'name' => 'done67564f109e3f4bba6b185a5343ff2bb0',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '2',
@@ -353,6 +363,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-01',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '10',
@@ -362,6 +373,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-30',
                 'period' => '3',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '17',
@@ -371,6 +383,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-30',
                 'period' => '3',
                 'name' => 'done67564f109e3f4bba6b185a5343ff2bb0',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '22',
@@ -380,6 +393,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-03-31',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '7',
@@ -389,6 +403,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-03-30',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '1',
@@ -398,6 +413,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-03-30',
                 'period' => '1',
                 'name' => 'done0bb102ea2ac682a578480dd184736607',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '16',
@@ -407,6 +423,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-04-05',
                 'period' => '2',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '6',
@@ -416,6 +433,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-03-29',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '9',
@@ -425,6 +443,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-03-29',
                 'period' => '1',
                 'name' => 'doneb321434abb5a139c17dadf08c9d2e315',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '18',
@@ -434,6 +453,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-03-24',
                 'period' => '1',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '21',
@@ -443,6 +463,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-03-31',
                 'period' => '3',
                 'name' => 'done',
+                'report' => null,
             ),
             array (
                 'idinvalidation' => '4',
@@ -452,6 +473,7 @@ class ModelTest extends IntegrationTestCase
                 'date2' => '2015-12-31',
                 'period' => '4',
                 'name' => 'done',
+                'report' => null,
             ),
         );
 

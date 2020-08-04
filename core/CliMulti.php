@@ -12,6 +12,8 @@ use Piwik\CliMulti\CliPhp;
 use Piwik\CliMulti\Output;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Class CliMulti.
@@ -71,9 +73,15 @@ class CliMulti
 
     protected $isTimingRequests = false;
 
-    public function __construct()
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->supportsAsync = $this->supportsAsync();
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
@@ -333,7 +341,7 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
-        Log::debug($command);
+        $this->logger->debug("Running command: {command}", ['command' => $command]);
         shell_exec($command);
     }
 
@@ -349,6 +357,7 @@ class CliMulti
             $url = str_replace("http://", "https://", $url);
         }
 
+        $requestBody = null;
         if ($this->runAsSuperUser) {
             $tokenAuth = self::getSuperUserTokenAuth();
 
@@ -358,12 +367,12 @@ class CliMulti
                 $url .= '&';
             }
 
-            $url .= 'token_auth=' . $tokenAuth;
+            $requestBody = 'token_auth=' . $tokenAuth;
         }
 
         try {
-            Log::debug("Execute HTTP API request: "  . $url);
-            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
+            $this->logger->debug("Execute HTTP API request: "  . $url);
+            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate, false, false, 'POST', null, null, $requestBody, [], $forcePost = true);
             $output->write($response);
         } catch (\Exception $e) {
             $message = "Got invalid response from API request: $url. ";
@@ -376,7 +385,7 @@ class CliMulti
 
             $output->write($message);
 
-            Log::debug($e);
+            $this->logger->debug($message, ['exception' => $e]);
         }
     }
 

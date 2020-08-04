@@ -99,8 +99,9 @@ class ArchivePurgerTest extends IntegrationTestCase
 
         self::$fixture->assertInvalidatedArchivesPurged($this->february);
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
+        self::$fixture->assertPartialArchivesPurged($this->february);
 
-        $this->assertEquals(9 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(10 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
 
         $this->checkNoDuplicateArchives();
     }
@@ -142,7 +143,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         //Archive #29 also has a deleted segment but it's before the purge threshold so it stays for now.
         $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
         $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
-        self::$fixture->assertArchivesDoNotExist(array(24, 25, 26, 30), $this->january);
+        self::$fixture->assertArchivesDoNotExist(array(26, 27, 28, 32), $this->january);
     }
 
     public function test_purgeNoSegmentArchives_preservesSingleSiteSegmentArchivesForDeletedAllSiteSegment()
@@ -158,7 +159,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         // Archives for idsite=1 should be purged, but those for idsite=2 can stay
         $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
         $this->assertEquals(2 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
-        self::$fixture->assertArchivesDoNotExist(array(22, 23), $this->january);
+        self::$fixture->assertArchivesDoNotExist(array(24, 25), $this->january);
     }
 
     public function test_purgeNoSegmentArchives_blankSegmentName()

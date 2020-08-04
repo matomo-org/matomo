@@ -72,6 +72,7 @@ class PluginsArchiver
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
+
         $shouldAggregateFromRawData = $this->params->isSingleSiteDayArchive();
 
         /**
@@ -149,7 +150,6 @@ class PluginsArchiver
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
-
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
                 try {
@@ -266,13 +266,17 @@ class PluginsArchiver
         if (Rules::shouldProcessReportsAllPlugins(
             array($this->params->getSite()->getId()),
             $this->params->getSegment(),
-            $this->params->getPeriod()->getLabel())) {
+            $this->params->getPeriod()->getLabel())
+        ) {
             return true;
         }
 
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())) {
-            return true;
+        if ($this->params->getRequestedPlugin() &&
+            !\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())
+        ) {
+            return false;
         }
+
         return false;
     }
 

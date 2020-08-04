@@ -673,7 +673,7 @@ class Access
 
         try {
             $result = $function();
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $access->setSuperUserAccess($isSuperUser);
             if ($shouldResetLogin) {
                 $access->login = null;

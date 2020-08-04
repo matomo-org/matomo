@@ -54,6 +54,16 @@ class Parameters
     private $isRootArchiveRequest = true;
 
     /**
+     * @var string
+     */
+    private $archiveOnlyReport = null;
+
+    /**
+     * @var bool
+     */
+    private $isArchiveOnlyReportHandled;
+
+    /**
      * Constructor.
      *
      * @ignore
@@ -63,6 +73,29 @@ class Parameters
         $this->site = $site;
         $this->period = $period;
         $this->segment = $segment;
+    }
+
+    /**
+     * If we want to archive only a single report, we can request that via this method.
+     * It is up to each plugin's archiver to respect the setting.
+     *
+     * @param string $archiveOnlyReport
+     * @api
+     */
+    public function setArchiveOnlyReport($archiveOnlyReport)
+    {
+        $this->archiveOnlyReport = $archiveOnlyReport;
+    }
+
+    /**
+     * Gets the report we want to archive specifically, or null if none was specified.
+     *
+     * @return string|null
+     * @api
+     */
+    public function getArchiveOnlyReport()
+    {
+        return $this->archiveOnlyReport;
     }
 
     /**
@@ -265,5 +298,31 @@ class Parameters
     public function __toString()
     {
         return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}]";
+    }
+
+    /**
+     * Returns whether the setArchiveOnlyReport() was handled by an Archiver.
+     *
+     * @return bool
+     */
+    public function isPartialArchive()
+    {
+        if (!$this->getRequestedPlugin()) { // sanity check, partial archives are only for
+            return false;
+        }
+
+        return $this->isArchiveOnlyReportHandled;
+    }
+
+    /**
+     * If a plugin's archiver handles the setArchiveOnlyReport() setting, it should call this method
+     * so it is known that the archive only contains the requested report. This should be called
+     * in an Archiver's __construct method.
+     *
+     * @param bool $isArchiveOnlyReportHandled
+     */
+    public function setIsPartialArchive($isArchiveOnlyReportHandled)
+    {
+        $this->isArchiveOnlyReportHandled = $isArchiveOnlyReportHandled;
     }
 }

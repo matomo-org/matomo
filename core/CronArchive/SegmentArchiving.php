@@ -31,7 +31,7 @@ class SegmentArchiving
     const BEGINNING_OF_TIME = 'beginning_of_time';
     const CREATION_TIME = 'segment_creation_time';
     const LAST_EDIT_TIME = 'segment_last_edit_time';
-    const DEFAULT_BEGINNIN_OF_TIME_LAST_N_YEARS = 7;
+    const DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS = 7;
 
     /**
      * @var Model
@@ -65,7 +65,7 @@ class SegmentArchiving
      */
     private $forceArchiveAllSegments;
 
-    public function __construct($processNewSegmentsFrom, $beginningOfTimeLastNInYears = self::DEFAULT_BEGINNIN_OF_TIME_LAST_N_YEARS,
+    public function __construct($processNewSegmentsFrom, $beginningOfTimeLastNInYears = self::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS,
                                 Model $segmentEditorModel = null, Cache $segmentListCache = null, Date $now = null,
                                 LoggerInterface $logger = null)
     {
@@ -80,6 +80,11 @@ class SegmentArchiving
 
     public function getSegmentArchivesToInvalidateForNewSegments($idSite)
     {
+        return $this->getSegmentArchivesToInvalidate($idSite, true);
+    }
+
+    public function getSegmentArchivesToInvalidate($idSite, $checkOnlyForNewSegments = false)
+    {
         $result = [];
 
         $segmentsForSite = $this->getAllSegments();
@@ -88,7 +93,7 @@ class SegmentArchiving
                 continue;
             }
 
-            $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $storedSegment);
+            $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $storedSegment, $checkOnlyForNewSegments);
             if (empty($oldestDateToProcessForNewSegment)) {
                 continue;
             }
@@ -128,7 +133,7 @@ class SegmentArchiving
         return null;
     }
 
-    private function getOldestDateToProcessForNewSegment($idSite, $storedSegment)
+    private function getOldestDateToProcessForNewSegment($idSite, $storedSegment, $checkOnlyForNewSegments)
     {
         /**
          * @var Date $segmentCreatedTime
@@ -145,11 +150,13 @@ class SegmentArchiving
         }
 
         $segmentTimeToUse = $segmentLastEditedTime ?: $segmentCreatedTime;
-        if (!empty($lastInvalidationTime)
-            && !empty($segmentTimeToUse)
-            && $segmentTimeToUse->isEarlier($lastInvalidationTime)
-        ) {
-            return null; // has already have been invalidated, ignore
+        if ($checkOnlyForNewSegments) {
+            if (!empty($lastInvalidationTime)
+                && !empty($segmentTimeToUse)
+                && $segmentTimeToUse->isEarlier($lastInvalidationTime)
+            ) {
+                return null; // has already have been invalidated, ignore
+            }
         }
 
         if ($this->processNewSegmentsFrom == self::CREATION_TIME) {

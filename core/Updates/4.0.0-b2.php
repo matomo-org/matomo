@@ -47,6 +47,7 @@ class Updates_4_0_0_b2 extends PiwikUpdates
             'period' => 'TINYINT UNSIGNED NOT NULL',
             'ts_invalidated' => 'DATETIME NOT NULL',
             'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
+            'report' => 'VARCHAR(255) NULL',
         ], ['idinvalidation']);
 
         $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');

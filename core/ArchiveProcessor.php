@@ -247,8 +247,7 @@ class ArchiveProcessor
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
         foreach ($metrics as $column => $value) {
-            $value = Common::forceDotAsSeparatorForDecimalPoint($value);
-            $this->archiveWriter->insertRecord($column, $value);
+            $this->insertNumericRecord($column, $value);
         }
         // if asked for only one field to sum
         if (count($metrics) === 1) {

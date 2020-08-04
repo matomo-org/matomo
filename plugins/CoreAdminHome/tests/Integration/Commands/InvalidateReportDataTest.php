@@ -123,9 +123,9 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getTestDataForSuccessTests
      */
-    public function test_Command_InvalidatesCorrectSitesAndDates($dates, $periods, $sites, $cascade, $segments, $expectedOutputs)
+    public function test_Command_InvalidatesCorrectSitesAndDates($dates, $periods, $sites, $cascade, $segments, $plugin, $expectedOutputs)
     {
-        $code = $this->applicationTester->run(array(
+        $options = array(
             'command' => 'core:invalidate-report-data',
             '--dates' => $dates,
             '--periods' => $periods,
@@ -134,7 +134,13 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             '--segment' => $segments ?: array(),
             '--dry-run' => true,
             '-vvv' => true,
-        ));
+        );
+
+        if (!empty($plugin)) {
+            $options['--plugin'] = $plugin;
+        }
+
+        $code = $this->applicationTester->run($options);
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
 
@@ -278,6 +284,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '1',
                 false,
                 null,
+                null,
                 array(
                     '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [  ]',
                 ),
@@ -288,6 +295,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'day',
                 '1',
                 true,
+                null,
                 null,
                 array(
                     '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [  ]',
@@ -300,6 +308,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '1',
                 false,
                 null,
+                null,
                 array(
                     '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2011-12-26 ], period = [ week ], segment = [  ]',
                 ),
@@ -310,6 +319,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'month,week',
                 '1,3',
                 false,
+                null,
                 null,
                 array(
                     '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01, 2012-02-01 ], period = [ month ], segment = [  ], cascade = [ 0 ]',
@@ -327,6 +337,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '2',
                 true,
                 null,
+                null,
                 array(
                     '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-02-06 ], period = [ week ], segment = [  ], cascade = [ 1 ]',
                 ),
@@ -337,6 +348,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'month,week,day',
                 'all',
                 true,
+                null,
                 null,
                 array(
                     '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-01 ], period = [ month ], segment = [  ], cascade = [ 1 ]',
@@ -354,10 +366,24 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'all',
                 true,
                 array('browserCode==FF'),
+                null,
                 array(
                     '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09 ], period = [ week ], segment = [ browserCode==FF ], cascade = [ 1 ]',
                 ),
             ),
+
+            // w/ plugin
+            [
+                ['2015-05-04'],
+                'day',
+                '1',
+                false,
+                null,
+                'ExamplePlugin',
+                [
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [  ], cascade = [ 0 ], plugin = [ ExamplePlugin ]',
+                ],
+            ],
         );
     }
 }

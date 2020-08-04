@@ -27,6 +27,13 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
         parent::setUpBeforeClass();
     }
 
+    protected function setUp(): void
+    {
+        // test results change based on time of day for some reason
+        Date::$now = strtotime(date('Y-m-d') . ' 20:00:00');
+        parent::setUp();
+    }
+
     /**
      * @dataProvider getApiForTesting
      */

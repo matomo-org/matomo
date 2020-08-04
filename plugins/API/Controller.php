@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\API\Renderer\Original;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
@@ -27,6 +28,8 @@ class Controller extends \Piwik\Plugin\Controller
     function index()
     {
         $tokenAuth = Common::getRequestVar('token_auth', 'anonymous', 'string');
+        $format = Common::getRequestVar('format', false);
+        $serialize = Common::getRequestVar('serialize', false);
 
         $token = 'token_auth=' . $tokenAuth;
 
@@ -43,6 +46,12 @@ class Controller extends \Piwik\Plugin\Controller
         $response = $request->process();
 
         if (is_array($response)) {
+            if ($format == 'original'
+                && $serialize != 1
+            ) {
+                Original::sendPlainTextHeader();
+            }
+
             $response = var_export($response, true);
         }
 

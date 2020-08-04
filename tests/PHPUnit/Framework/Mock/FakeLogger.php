@@ -25,6 +25,10 @@ class FakeLogger extends AbstractLogger implements LoggerInterface
 
     public function log($level, $message, array $context = array())
     {
+        if (strpos($message, 'Running command') !== false) {
+            return;
+        }
+
         $record = $this->processor->__invoke(array('message' => $message, 'context' => $context));
 
         $this->output .= $record['message'] . PHP_EOL;

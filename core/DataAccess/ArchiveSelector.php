@@ -57,7 +57,7 @@ class ArchiveSelector
      *               - the ts_archived for the latest usable archive
      * @throws Exception
      */
-    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = true)
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = null)
     {
         $idSite       = $params->getSite()->getId();
         $period       = $params->getPeriod()->getId();
@@ -73,7 +73,7 @@ class ArchiveSelector
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $requestedPluginDoneFlags = Rules::getDoneFlags([$requestedPlugin], $segment);
-        $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated, $params);
+        $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
@@ -86,6 +86,11 @@ class ArchiveSelector
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
 
+        $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
+        if (isset($result['partial'])) {
+            $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+        }
+
         if (isset($result['value'])
             && !in_array($result['value'], $doneFlagValues)
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
@@ -96,25 +101,17 @@ class ArchiveSelector
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
-        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
-            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
-        }
-
-        if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
-            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
-        }
-
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
-            && isset($result['idarchive'])
+            && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
 
-        $idArchive = isset($result['idarchive']) ? $result['idarchive'] : false;
+        $idArchives = !empty($result['idarchive']) ? $result['idarchive'] : false;
 
-        return [$idArchive, $visits, $visitsConverted, true, $tsArchived];
+        return [$idArchives, $visits, $visitsConverted, true, $tsArchived];
     }
 
     /**
@@ -264,7 +261,8 @@ class ArchiveSelector
         $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
                                 FROM %s
                                 WHERE idarchive IN (%s)
-                                  AND " . $whereNameIs;
+                                  AND " . $whereNameIs . "
+                             ORDER BY ts_archived ASC"; // ascending order so we use the latest data found
 
         // get data from every table we're querying
         $rows = array();
@@ -381,10 +379,12 @@ class ArchiveSelector
     {
         // find latest idarchive for each done flag
         $idArchives = [];
+        $tsArchiveds = [];
         foreach ($results as $row) {
             $doneFlag = $row['name'];
-            if (!isset($idArchives[$doneFlag])) {
+            if (!isset($idArchives[$doneFlag]) && $row['value'] != ArchiveWriter::DONE_PARTIAL) {
                 $idArchives[$doneFlag] = $row['idarchive'];
+                $tsArchiveds[$doneFlag] = $row['ts_archived'];
             }
         }
 
@@ -393,7 +393,7 @@ class ArchiveSelector
             self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP => false,
         ];
 
-        foreach ($results as &$result) {
+        foreach ($results as $result) {
             if (in_array($result['name'], $requestedPluginDoneFlags)
                 && in_array($result['idarchive'], $idArchives)
             ) {
@@ -419,6 +419,22 @@ class ArchiveSelector
                         $archiveData[$metric] = $result[$metric];
                     }
                 }
+            }
+        }
+
+        // add partial archives
+        foreach ($results as $row) {
+            if (!isset($idArchives[$row['name']])) {
+                continue;
+            }
+
+            $mainTsArchived = $tsArchiveds[$row['name']];
+            $thisTsArchived = $row['ts_archived'];
+
+            if ($row['value'] === ArchiveWriter::DONE_PARTIAL
+                && ($mainTsArchived == $thisTsArchived || Date::factory($mainTsArchived)->isEarlier($thisTsArchived))
+            ) {
+                $idArchives['partial'][] = $row['idarchive'];
             }
         }
 
