@@ -33,7 +33,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $token_auth = Common::getRequestVar('token_auth', '', 'string');
 
-        if (!empty($token_auth) && Access::getInstance()->isUserHasSomeAdminAccess() && !defined('PIWIK_TEST_MODE')) {
+        if ($token_auth !== ''
+            && Access::getInstance()->isUserHasSomeAdminAccess()
+            && !defined('PIWIK_TEST_MODE')) {
             throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
         }
 
