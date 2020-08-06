@@ -64,7 +64,9 @@ class SessionAuth implements Auth
 
     public function getLogin()
     {
-        return $this->user['login'];
+        if (isset($this->user['login'])) {
+            return $this->user['login'];
+        }
     }
 
     public function getTokenAuthSecret()
