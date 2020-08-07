@@ -134,7 +134,7 @@ function copyDashboardToUser() {
                 format: 'json'
             }, 'get');
             ajaxRequest.addParams({
-                dashboardName: encodeURIComponent(copyDashboardName),
+                dashboardName: copyDashboardName,
                 idDashboard: $('#dashboardWidgetsArea').dashboard('getDashboardId'),
                 copyToUser: copyDashboardUser
             }, 'post');
