@@ -127,6 +127,7 @@ These are only recommendations (because we will keep backward compatibility for 
 
 ### Other Breaking changes
 
+* When embedding reports (widgets) into a different site, it is no longer possible to use authentication tokens of users with at least write access 
 * The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
 * Matomo now uses the SERVER_NAME for host validation and no longer the HOST header. If you're running Matomo behind a load balancer or a proxy you need to ensure that SERVER_NAME is set correctly.
 * Deprecated `piwik` font was removed. Use `matomo` font instead
