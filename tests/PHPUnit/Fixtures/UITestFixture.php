@@ -133,6 +133,7 @@ class UITestFixture extends SqlDump
 
         if (empty($user)) {
             $model->addUser(self::VIEW_USER_LOGIN, self::VIEW_USER_PASSWORD, 'hello2@example.org', Date::now()->getDatetime());
+            $model->addUserAccess(self::VIEW_USER_LOGIN, 'view', array(1));
         } else {
             $model->updateUser(self::VIEW_USER_LOGIN, self::VIEW_USER_PASSWORD, 'hello2@example.org');
         }
