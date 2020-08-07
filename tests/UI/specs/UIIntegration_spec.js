@@ -731,6 +731,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     describe("AdminPages", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
+        it('should not be possible to render any action using token_auth with at least some admin access', async function () {
+            await page.goto("?" + generalParams + "&module=CoreAdminHome&action=home&token_auth=c4ca4238a0b923820dcc509a6f75849b");
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('admin_home_admintoken_not_allowed');
+        });
+
         it('should load the Admin home page correct', async function () {
             await page.goto("?" + generalParams + "&module=CoreAdminHome&action=home");
 
