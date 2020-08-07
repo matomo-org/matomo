@@ -210,7 +210,7 @@ describe("Dashboard", function () {
         await page.evaluate(function () {
             $('#copyDashboardName').val('');
         });
-        await page.type('#copyDashboardName', 'newdash');
+        await page.type('#copyDashboardName', 'new <dash> 💩');
         await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
         await page.select('#copyDashboardUser', 'superUserLogin');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
