@@ -83,6 +83,10 @@ class Fixture extends \PHPUnit\Framework\Assert
     const ADMIN_USER_PASSWORD = 'superUserPass';
     const ADMIN_USER_TOKEN = 'c4ca4238a0b923820dcc509a6f75849b';
 
+    const VIEW_USER_LOGIN = 'viewUserLogin';
+    const VIEW_USER_PASSWORD = 'viewUserPass';
+    const VIEW_USER_TOKEN = 'a4ca4238a0b923820dcc509a6f75849f';
+
     const PERSIST_FIXTURE_DATA_ENV = 'PERSIST_FIXTURE_DATA';
 
     public $dbName = false;

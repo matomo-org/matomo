@@ -18,14 +18,14 @@ describe("BarGraph", function () {
         testEnvironment.save();
     });
 
-    it("should load correctly", async function () {
-        await page.goto(url);
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
+    it("should fail when admin token is used", async function () {
+        await page.goto(url + 'token_auth=' + tokenAuth);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('load_fail_when_token_used');
     });
 
-    it("should fail when admin token is used", async function () {
-        await page.goto(url + tokenAuth);
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('load_fail_when_token_used');
+    it("should load correctly", async function () {
+        await page.goto(url + 'token_auth=a4ca4238a0b923820dcc509a6f75849f');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });
 
     it("should display the metric picker on hover of metric picker icon", async function () {

@@ -127,6 +127,18 @@ class UITestFixture extends SqlDump
         );
 
         $this->addDangerousLinks();
+
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUser(self::VIEW_USER_LOGIN);
+
+        if (empty($user)) {
+            $model->addUser(self::VIEW_USER_LOGIN, self::VIEW_USER_PASSWORD, 'hello2@example.org', Date::now()->getDatetime());
+        } else {
+            $model->updateUser(self::VIEW_USER_LOGIN, self::VIEW_USER_PASSWORD, 'hello2@example.org');
+        }
+        if (!$model->getUserByTokenAuth(self::VIEW_USER_TOKEN)) {
+            $model->addTokenAuth(self::VIEW_USER_LOGIN,self::VIEW_USER_TOKEN, 'View user token', Date::now()->getDatetime());
+        }
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
