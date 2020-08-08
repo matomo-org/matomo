@@ -13,6 +13,7 @@
         "WhenConsentIsNeeded1": "Im Kontext der %1$sDSGVO Datenschutzregulierungen%2$s, wenn Sie persönliche Daten auswerten, werden Sie in bestimmten Fällen darauf angewiesen sein, eine Einverständniserklärung bei Ihrem Benutzer einzuholen. Um festzustellen ob Sie eine Einverständniserklärung benötigen, müssen Sie festlegen ob Ihre rechtliche Basis zur Auswertung persönlicher Daten \"einverständnisbasiert\" oder \"legitimiertes Interesse\" ist, oder ob Sie das sammeln von persönlichen Daten generell vermeiden können. Wir empfehlen Ihnen mehr über die %3$srechtliche Situation unter der DSGVO für Matomo%4$s zu lesen.",
         "WhenConsentIsNeeded2": "Beachten Sie, dass wenn Sie eine Einverständniserklärung Ihres Benutzers benötigen und Sie nicht beweisen können, dass Sie das Einverständnis der Benutzer in der Vergangenheit bekommen habe, wir Ihnen empfehlen die %1$szuvor getrackten Benutzer-Rohdaten zu anonymisieren%2$s.",
         "HowDoIAskForConsent": "Wie bitte ich die Benutzer um Zustimmung?",
+        "HowDoIAskForConsentIntroduction": "Lernen Sie alles über %1$sfragen nach Cookies oder Tracking-Einverständnisse in unserer Integrationsanleitung.%2$s",
         "AnonymizeSites": "Die Daten für diese Seite(n) anonymisieren",
         "AnonymizeRowDataFrom": "Alle Rohdaten anonymisieren startend ab:",
         "AnonymizeRowDataTo": "Alle Rohdaten anonymisieren bis zu:",

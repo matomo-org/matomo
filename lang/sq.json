@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "Numri maksimum i periudhave që mund të krahasohen në të njëjtën kohë është %s.",
         "Custom": "Vetjake",
         "PreviousPeriod": "Periudhën e Kaluar",
-        "PreviousYear": "Vitin e Kaluar"
+        "PreviousYear": "Vitin e Kaluar",
+        "ViewAccessRequired": "token_auth i përdorur ka shumë fuqi hyrjeje për t’u përdorur në një URL kërkese jo API. Ju lutemi, përdorni një fjalëkalim specifik për aplikacionin për një përdorues që ka vetëm leje parjesh."
     },
     "Mobile": {
         "AboutPiwikMobile": "Rreth Matomo-s për Celular",
