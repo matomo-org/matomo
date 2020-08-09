@@ -254,7 +254,7 @@ class API extends \Piwik\Plugin\API
      * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
      * @internal
      */
-    public function archiveReports($idSite, $period, $date, $segment = false, $plugin = false, $report = false)
+    public function archiveReports($idSite, $period, $date, $segment = false, $plugin = false, $report = false, $force = false)
     {
         if (\Piwik\API\Request::getRootApiRequestMethod() === 'CoreAdminHome.archiveReports') {
             Piwik::checkUserHasSuperUserAccess();
@@ -268,6 +268,9 @@ class API extends \Piwik\Plugin\API
 
         $period = Factory::build($period, $date);
         $parameters = new ArchiveProcessor\Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd()));
+        if ($plugin) {
+            $parameters->onlyArchiveRequestedPlugin();
+        }
         if ($report) {
             $parameters->setArchiveOnlyReport($report);
         }
@@ -275,7 +278,7 @@ class API extends \Piwik\Plugin\API
         // TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
         $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
 
-        $result = $archiveLoader->prepareArchive($plugin);
+        $result = $archiveLoader->prepareArchive($plugin, $force);
         if (!empty($result)) {
             $result = [
                 'idarchives' => $result[0],

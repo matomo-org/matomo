@@ -90,14 +90,14 @@ class Loader
         return $visits === false;
     }
 
-    public function prepareArchive($pluginName)
+    public function prepareArchive($pluginName, $force = false)
     {
-        return Context::changeIdSite($this->params->getSite()->getId(), function () use ($pluginName) {
-            return $this->prepareArchiveImpl($pluginName);
+        return Context::changeIdSite($this->params->getSite()->getId(), function () use ($pluginName, $force) {
+            return $this->prepareArchiveImpl($pluginName, $force);
         });
     }
 
-    private function prepareArchiveImpl($pluginName)
+    private function prepareArchiveImpl($pluginName, $force = false)
     {
         $this->params->setRequestedPlugin($pluginName);
 
@@ -111,7 +111,8 @@ class Loader
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchives)
+        if (!$force
+            && !empty($idArchives)
             && !$this->params->getArchiveOnlyReport()
         ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
@@ -125,7 +126,9 @@ class Loader
         //
         // we don't create an archive in this case, because the archive may be in progress in some way, so a 0
         // visits archive can be inaccurate in the long run.
-        if ($this->canSkipThisArchive()) {
+        if (!$force
+            && $this->canSkipThisArchive()
+        ) {
             return [false, 0];
         }
 
@@ -201,7 +204,7 @@ class Loader
             $visitsConverted = $metrics['nb_visits_converted'];
         }
 
-        $forceArchivingWithoutVisits = !$this->isThereSomeVisits($visits) && $this->shouldArchiveForSiteEvenWhenNoVisits();
+        $forceArchivingWithoutVisits = true;//!$this->isThereSomeVisits($visits) && $this->shouldArchiveForSiteEvenWhenNoVisits();
         $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits);
 
         $idArchive = $pluginsArchiver->finalizeArchive();
