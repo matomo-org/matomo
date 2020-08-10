@@ -1104,7 +1104,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertNotEmpty($idArchive);
 
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2016-02-03'));
-        $doneFlag = Db::fetchOne("SELECT `name` FROM `$table` WHERE `name` LIKE 'done%' AND idarchive IN (" . implode($idArchive, ',') . ")");
+        $doneFlag = Db::fetchOne("SELECT `name` FROM `$table` WHERE `name` LIKE 'done%' AND idarchive IN (" . implode(',', $idArchive) . ")");
         $this->assertEquals('done.Actions', $doneFlag);
     }
 
