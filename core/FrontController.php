@@ -411,11 +411,7 @@ class FrontController extends Singleton
         if (Common::getRequestVar('token_auth', '', 'string') !== ''
             && Request::shouldReloadAuthUsingTokenAuth(null)) {
             Request::reloadAuthUsingTokenAuth();
-            if (($module !== 'API' || ($action && $action !== 'index')) && Piwik::isUserHasSomeWriteAccess() && !Common::isPhpCliMode()) {
-                // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
-                // access.
-                // token_auth is fine for API calls since they would be always authenticated later anyway
-                // token_auth is also fine in CLI mode as eg doAsSuperUser might be used etc
+            if (Request::isTokenAuthLimitedToViewAccess($module, $action)) {
                 throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
             }
         }
