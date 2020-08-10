@@ -6008,8 +6008,8 @@ if (typeof window.Matomo !== 'object') {
              * @param int heartBeatDelayInSeconds Defaults to 15s. Cannot be lower than 5.
              */
             this.enableHeartBeatTimer = function (heartBeatDelayInSeconds) {
-                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 5);
-                configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
+                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds || 15, 5);
+                configHeartBeatDelay = heartBeatDelayInSeconds * 1000;
 
                 // if a tracking request has already been sent, start the heart beat timeout
                 if (lastTrackerRequestTime !== null) {
