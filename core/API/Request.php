@@ -448,7 +448,39 @@ class Request
         SettingsServer::raiseMemoryLimitIfNecessary();
     }
 
-    private static function shouldReloadAuthUsingTokenAuth($request)
+    /**
+     * Needs to be called AFTER the user has been authenticated using a token.
+     *
+     * @internal
+     * @ignore
+     * @param string $module
+     * @param string $action
+     * @return bool
+     * @throws Exception
+     */
+    public static function isTokenAuthLimitedToViewAccess($module, $action)
+    {
+        if (($module !== 'API' || ($action && $action !== 'index'))
+            && Piwik::isUserHasSomeWriteAccess()
+            && !Common::isPhpCliMode()) {
+            // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
+            // access. it's mostly there to get users to use auth tokens of view users when embedding reports
+            // token_auth is fine for API calls since they would be always authenticated later anyway
+            // token_auth is also fine in CLI mode as eg doAsSuperUser might be used etc
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @internal
+     * @ignore
+     * @param $request
+     * @return bool
+     * @throws Exception
+     */
+    public static function shouldReloadAuthUsingTokenAuth($request)
     {
         if (is_null($request)) {
             $request = self::getDefaultRequest();
