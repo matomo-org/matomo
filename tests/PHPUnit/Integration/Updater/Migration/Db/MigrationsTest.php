@@ -247,7 +247,7 @@ class MigrationsTest extends IntegrationTestCase
         DbHelper::createTable('foobarbaz', 'barbaz VARCHAR(1), foobaz VARCHAR(1), foobaz2 VARCHAR(1)');
         $this->factory->dropColumns('foobarbaz', array('column10', 'barbaz', 'column3', 'foobaz'))->exec();
 
-        $columns = DbHelper::getTableColumns($this->testTablePrefixed);
+        $columns = DbHelper::getTableColumns(Common::prefixTable('foobarbaz'));
         $columns = array_keys($columns);
 
         $this->assertSame(array('foobaz2'), $columns);
