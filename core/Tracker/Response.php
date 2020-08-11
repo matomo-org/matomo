@@ -34,8 +34,6 @@ class Response
 
     public function getOutput()
     {
-        $this->outputAccessControlHeaders();
-
         if (is_null($this->content) && ob_get_level() > 0) {
             $this->content = ob_get_clean();
         }
@@ -100,15 +98,6 @@ class Response
         if ($tracker->isDebugModeEnabled()) {
             Common::printDebug($_COOKIE);
             Common::printDebug((string)$this->timer);
-        }
-    }
-
-    private function outputAccessControlHeaders()
-    {
-        if (!$this->isHttpGetRequest()) {
-            $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
-            Common::sendHeader('Access-Control-Allow-Origin: ' . $origin);
-            Common::sendHeader('Access-Control-Allow-Credentials: true');
         }
     }
 
