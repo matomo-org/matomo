@@ -174,7 +174,10 @@ class Update extends ConsoleCommand
         $output->writeln(array("    *** ".Piwik::translate('CoreUpdater_DryRun')." ***", ""));
 
         foreach ($migrationQueries as $query) {
-            $output->writeln("    " . $query->__toString());
+            $result = $query->__toString();
+            if (!empty($result)) {
+                $output->writeln("    " . $result);
+            }
         }
 
         $output->writeln(array("", "    *** " . Piwik::translate('CoreUpdater_DryRunEnd') . " ***", ""));

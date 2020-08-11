@@ -177,6 +177,22 @@ class Factory
     }
 
     /**
+     * Drops an existing database table column.
+     *
+     * @param string $table  Unprefixed database table name, eg 'log_visit'.
+     * @param array $columnName  An array of column names that should be dropped eg ['column1', 'column2'].
+     * @return DropColumns
+     */
+    public function dropColumns($table, $columnNames)
+    {
+        $table = $this->prefixTable($table);
+
+        return $this->container->make('Piwik\Updater\Migration\Db\DropColumns', array(
+            'tableName' => $table, 'columnNames' => $columnNames
+        ));
+    }
+
+    /**
      * Changes the column name and column type of an existing database table column.
      *
      * @param string $table  Unprefixed database table name, eg 'log_visit'.
