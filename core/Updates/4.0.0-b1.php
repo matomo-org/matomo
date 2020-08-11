@@ -149,7 +149,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         if (Manager::getInstance()->isPluginInstalled('CustomVariables')) {
             $visitActionTable = Common::prefixTable('log_link_visit_action');
-            $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = if(custom_var_k4 = '_pk_scat', custom_var_v4, search_cat), search_count = if(custom_var_v5 = '_pk_scount', custom_var_v5, search_count) WHERE custom_var_k4 = '_pk_scat' or custom_var_k5 = '_pk_scount'");
+            $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = if(custom_var_k4 = '_pk_scat', custom_var_v4, search_cat), search_count = if(custom_var_k5 = '_pk_scount', custom_var_v5, search_count) WHERE custom_var_k4 = '_pk_scat' or custom_var_k5 = '_pk_scount'");
         }
 
         if ($this->usesGeoIpLegacyLocationProvider()) {
