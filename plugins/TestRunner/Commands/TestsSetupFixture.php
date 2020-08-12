@@ -164,7 +164,7 @@ class TestsSetupFixture extends ConsoleCommand
     private function createSymbolicLinksForUITests()
     {
         // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-        foreach (array('libs', 'plugins', 'tests', 'misc', 'piwik.js', 'matomo.js') as $linkName) {
+        foreach (array('libs', 'plugins', 'tests', 'misc', 'node_modules', 'piwik.js', 'matomo.js') as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
                 $target = PIWIK_INCLUDE_PATH . '/' . $linkName;
