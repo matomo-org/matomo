@@ -77,7 +77,7 @@ class MenuTest extends IntegrationTestCase
         $this->assertEquals([
             'idSite' => $this->idSiteToday,
             'period' => $period,
-            'date' => $this->dateSiteCreatedToday,
+            'date' => $period === 'week' ? $yesterday : $this->dateSiteCreatedToday,
         ], $default);
     }
 
