@@ -202,33 +202,34 @@ class Menu
         }
         if (empty($defaultDate)) {
             $defaultDate = $userPreferences->getDefaultDate();
-            if ($defaultPeriod !== 'range' && !empty($defaultDate) && $defaultDate !== 'today') {
-                // not easy to make it work for range... is rarely the default anyway especially when just setting up
-                // Matomo as this logic is basically only applied on the first day a site is created
-                // no need to run logic when today is selected. It basically runs currently only when "yesterday" is selected
-                // as a default date but would also support future new default dates like past month etc.
-                try {
-                    $siteCreationDate = Site::getCreationDateFor($websiteId);
-                    $siteTimezone = Site::getTimezoneFor($websiteId);
+        }
 
-                    if (!empty($siteCreationDate)) {
-                        if (is_numeric($defaultDate)) {
-                            $defaultDate = (int) $defaultDate; //prevent possible exception should defaultDate be a string timestamp
-                        }
-                        $siteCreationDate = Date::factory($siteCreationDate, $siteTimezone);
-                        $defaultDateObj = Date::factory($defaultDate, $siteTimezone);
+        if ($defaultPeriod !== 'range' && !empty($defaultDate) && $defaultDate !== 'today') {
+            // not easy to make it work for range... is rarely the default anyway especially when just setting up
+            // Matomo as this logic is basically only applied on the first day a site is created
+            // no need to run logic when today is selected. It basically runs currently only when "yesterday" is selected
+            // as a default date but would also support future new default dates like past month etc.
+            try {
+                $siteCreationDate = Site::getCreationDateFor($websiteId);
+                $siteTimezone = Site::getTimezoneFor($websiteId);
 
-                        $period = Period\Factory::build($defaultPeriod, $defaultDateObj);
-                        $start = $period->getDateStart();
-
-                        if (!$start->isLater($siteCreationDate)) {
-                            // when selected date is before site creation date or it is the site creation day
-                            $defaultDate = $siteCreationDate->toString();
-                        }
+                if (!empty($siteCreationDate)) {
+                    if (is_numeric($defaultDate)) {
+                        $defaultDate = (int) $defaultDate; //prevent possible exception should defaultDate be a string timestamp
                     }
-                } catch (\Exception $e) {
-                    //ignore any error in case site was just deleted or the given date is not valid etc.
+                    $siteCreationDate = Date::factory($siteCreationDate, $siteTimezone);
+                    $defaultDateObj = Date::factory($defaultDate, $siteTimezone);
+
+                    $period = Period\Factory::build($defaultPeriod, $defaultDateObj);
+                    $endDate = $period->getDateEnd();
+
+                    if (!$endDate->isLater($siteCreationDate)) {
+                        // when selected date is before site creation date or it is the site creation day
+                        $defaultDate = $siteCreationDate->toString();
+                    }
                 }
+            } catch (\Exception $e) {
+                //ignore any error in case site was just deleted or the given date is not valid etc.
             }
         }
         return array(
