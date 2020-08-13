@@ -148,6 +148,19 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
+    private function setSqlRequirePrimaryKeySetting($val)
+    {
+        try {
+            $this->logAggregator->getDb()->exec('SET SESSION sql_require_primary_key=' . $val);
+        } catch (\Exception $e) {
+            if ($this->logAggregator->getDb()->isErrNo($e, 1193)) {
+                // ignore General error: 1193 Unknown system variable 'sql_require_primary_key'
+                return;
+            }
+            throw $e;
+        }
+    }
+
     public function test_generateQuery_withSegment_shouldUseTmpTableWhenEnabledAndPrimaryKeyRequired()
     {
         $segment = new Segment('userId==2', array($this->site->getId()));
@@ -155,11 +168,12 @@ class LogAggregatorTest extends IntegrationTestCase
         $params = new Parameters($this->site, $this->period, $segment);
         $this->logAggregator = new LogAggregator($params);
         $this->logAggregator->allowUsageSegmentCache();
-        $this->logAggregator->getDb()->exec('SET SESSION sql_require_primary_key=1');
+
+        $this->setSqlRequirePrimaryKeySetting(1);
 
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
-        $this->logAggregator->getDb()->exec('SET SESSION sql_require_primary_key=0');// reset variable
+        $this->setSqlRequirePrimaryKeySetting(0);// reset variable
         $expected = array(
             'sql' => 'SELECT /* 2010-03-01,2010-03-31 sites 1 segmenthash 4a4d16d6897e7fed2d5d151016a5a19c */
 				test, test2
