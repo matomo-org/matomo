@@ -49,8 +49,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations = [];
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_gears');
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'config_director');
         $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
 
         /** APP SPECIFIC TOKEN START */
@@ -151,8 +149,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         if (Manager::getInstance()->isPluginInstalled('CustomVariables')) {
             $visitActionTable = Common::prefixTable('log_link_visit_action');
-            $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = custom_var_v4 WHERE custom_var_k4 = '_pk_scat'");
-            $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_count = custom_var_v5 WHERE custom_var_k5 = '_pk_scount'");
+            $migrations[]     = $this->migration->db->sql("UPDATE $visitActionTable SET search_cat = if(custom_var_k4 = '_pk_scat', custom_var_v4, search_cat), search_count = if(custom_var_k5 = '_pk_scount', custom_var_v5, search_count) WHERE custom_var_k4 = '_pk_scat' or custom_var_k5 = '_pk_scount'");
         }
 
         if ($this->usesGeoIpLegacyLocationProvider()) {
@@ -184,12 +181,17 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         // remove old days_to_... columns
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_first');
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_order');
-        $migrations[] = $this->migration->db->dropColumn('log_visit', 'visitor_days_since_last');
-
-        $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_first');
-        $migrations[] = $this->migration->db->dropColumn('log_conversion', 'visitor_days_since_order');
+        $migrations[] = $this->migration->db->dropColumns('log_visit', [
+            'config_gears',
+            'config_director',
+            'visitor_days_since_first',
+            'visitor_days_since_order',
+            'visitor_days_since_last',
+        ]);
+        $migrations[] = $this->migration->db->dropColumns('log_conversion', [
+            'visitor_days_since_first',
+            'visitor_days_since_order',
+        ]);
 
         $config = Config::getInstance();
 
