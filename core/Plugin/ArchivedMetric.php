@@ -162,6 +162,11 @@ class ArchivedMetric extends Metric
         return $value;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function getTranslatedName()
     {
         if (!empty($this->translatedName)) {
