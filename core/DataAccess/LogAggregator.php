@@ -294,7 +294,9 @@ class LogAggregator
             if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
                 return;
             } elseif ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_REQUIRES_PRIMARY_KEY)
-                || $readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_UNABLE_CREATE_TABLE_WITHOUT_PRIMARY_KEY)
+                || $readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_UNABLE_CREATE_TABLE_WITHOUT_PRIMARY_KEY
+                || stripos($e->getMessage(), 'requires a primary key') !== false
+                || stripos($e->getMessage(), 'table without a primary key') !== false)
             ) {
                 $createTableSql = str_replace($tempTableIdVisitColumn, $tempTableIdVisitColumn . ', PRIMARY KEY (`idvisit`)', $createTableSql);
 
