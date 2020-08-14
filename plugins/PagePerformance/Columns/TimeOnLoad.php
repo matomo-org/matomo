@@ -58,7 +58,7 @@ class TimeOnLoad extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_on_load');
-        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithOnLoadTime'));
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeOnLoad'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -67,8 +67,8 @@ class TimeOnLoad extends ActionDimension
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_time_on_load');
-        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageOnLoadTime'));
-        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageOnLoadTimeDocumentation'));
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTimeOnLoad'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTimeOnLoadDocumentation'));
         $metricsList->addMetric($metric);
     }
 }
