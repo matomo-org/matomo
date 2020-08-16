@@ -298,7 +298,15 @@ class LogAggregator
             ) {
                 $createTableSql = str_replace($tempTableIdVisitColumn, $tempTableIdVisitColumn . ', PRIMARY KEY (`idvisit`)', $createTableSql);
 
-                $readerDb->query($createTableSql);
+                try {
+                    $readerDb->query($createTableSql);
+                } catch (\Exception $e) {
+                    if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
+                        return;
+                    } else {
+                        throw $e;
+                    }
+                }
             } else {
                 throw $e;
             }
