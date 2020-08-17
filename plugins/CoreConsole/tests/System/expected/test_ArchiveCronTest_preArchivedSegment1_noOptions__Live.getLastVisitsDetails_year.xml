@@ -1418,23 +1418,23 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>59</idVisit>
-		<visitIp>175.41.193.46</visitIp>
+		<idVisit>61</idVisit>
+		<visitIp>175.41.191.46</visitIp>
 		
 		
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://www.included4.com/blog/category/meta/</url>
+				<url>http://www.included2.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>61</pageIdAction>
+				<pageIdAction>63</pageIdAction>
 				
 				
-				<pageId>81</pageId>
+				<pageId>83</pageId>
 				<bandwidth>3574</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
-				<subtitle>http://www.included4.com/blog/category/meta/</subtitle>
+				<subtitle>http://www.included2.com/blog/category/meta/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
@@ -1452,9 +1452,9 @@
 				<goalId>1</goalId>
 				
 				<revenue>5</revenue>
-				<goalPageId>81</goalPageId>
+				<goalPageId>83</goalPageId>
 				
-				<url>http://www.included4.com/blog/category/meta/</url>
+				<url>http://www.included2.com/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1530,13 +1530,13 @@
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
+		<country>Singapore</country>
+		<countryCode>sg</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
 		<region />
 		<regionCode />
-		<city />
-		<location>Japan</location>
+		<city>Singapore</city>
+		<location>Singapore, Singapore</location>
 		<visitLocalTime>08:10:39</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>

@@ -10,84 +10,84 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 
 
-INFO [2020-08-17 21:14:46] 10280  ---------------------------
-INFO [2020-08-17 21:14:46] 10280  INIT
-INFO [2020-08-17 21:14:46] 10280  Running Matomo 4.0.0-b2 as Super User
-INFO [2020-08-17 21:14:46] 10280  ---------------------------
-INFO [2020-08-17 21:14:46] 10280  NOTES
-INFO [2020-08-17 21:14:46] 10280  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
-INFO [2020-08-17 21:14:46] 10280    See the doc at: https://matomo.org/docs/setup-auto-archiving/
-INFO [2020-08-17 21:14:46] 10280  - Async process archiving supported, using CliMulti.
-INFO [2020-08-17 21:14:46] 10280  - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
-INFO [2020-08-17 21:14:46] 10280  ---------------------------
-INFO [2020-08-17 21:14:46] 10280  START
-INFO [2020-08-17 21:14:46] 10280  Starting Matomo reports archiving...
-INFO [2020-08-17 21:14:46] 10280  Checking for queued invalidations...
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2014-03-13 for following websites ids: 3,1
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2014-03-12 for following websites ids: 3,1
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2012-09-30 for following websites ids: 1
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2012-08-19 for following websites ids: 1
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2012-08-15 for following websites ids: 1,3,2
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2012-08-11 for following websites ids: 1
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2012-08-10 for following websites ids: 1
-INFO [2020-08-17 21:14:46] 10280    Will invalidate archived reports for 2012-08-09 for following websites ids: 1
-INFO [2020-08-17 21:14:46] 10280    Segment "browserCode==IE" was created or changed recently and will therefore archive today (for site ID = 1)
-INFO [2020-08-17 21:14:46] 10280    Segment "visitCount<=5;pageUrl=@/blog/" was created or changed recently and will therefore archive today (for site ID = 1)
-INFO [2020-08-17 21:14:46] 10280    Segment "visitCount<=5;pageUrl=@%2Fblog%2F" was created or changed recently and will therefore archive today (for site ID = 1)
-INFO [2020-08-17 21:14:46] 10280  Done invalidating
-INFO [2020-08-17 21:14:46] 10280  Start processing archives for site 1.
-INFO [2020-08-17 21:14:50] 10280  Archived website id 1, period = day, date = 2014-03-13, segment = '', 11 visits found. Time elapsed: 1.390s
-INFO [2020-08-17 21:14:50] 10280  Archived website id 1, period = day, date = 2014-03-12, segment = '', 1 visits found. Time elapsed: 1.695s
-INFO [2020-08-17 21:14:50] 10280  Archived website id 1, period = day, date = 2012-09-30, segment = '', 1 visits found. Time elapsed: 1.968s
-INFO [2020-08-17 21:14:52] 10280  Archived website id 1, period = week, date = 2014-03-10, segment = '', 12 visits found. Time elapsed: 2.081s
-INFO [2020-08-17 21:14:52] 10280  Archived website id 1, period = week, date = 2012-09-24, segment = '', 1 visits found. Time elapsed: 2.081s
-INFO [2020-08-17 21:14:52] 10280  Archived website id 1, period = day, date = 2012-08-19, segment = '', 1 visits found. Time elapsed: 2.081s
-INFO [2020-08-17 21:14:54] 10280  Archived website id 1, period = month, date = 2014-03-01, segment = '', 12 visits found. Time elapsed: 2.017s
-INFO [2020-08-17 21:14:54] 10280  Archived website id 1, period = month, date = 2012-09-01, segment = '', 1 visits found. Time elapsed: 2.017s
-INFO [2020-08-17 21:14:54] 10280  Archived website id 1, period = day, date = 2012-08-15, segment = '', 2 visits found. Time elapsed: 2.017s
-INFO [2020-08-17 21:14:57] 10280  Archived website id 1, period = year, date = 2014-01-01, segment = '', 12 visits found. Time elapsed: 2.643s
-INFO [2020-08-17 21:14:57] 10280  Archived website id 1, period = week, date = 2012-08-13, segment = '', 3 visits found. Time elapsed: 2.643s
-INFO [2020-08-17 21:14:57] 10280  Archived website id 1, period = day, date = 2012-08-11, segment = '', 11 visits found. Time elapsed: 2.643s
-INFO [2020-08-17 21:15:02] 10280  Archived website id 1, period = year, date = 2014-01-01, segment = 'browserCode%3D%3DIE', 1 visits found. Time elapsed: 3.430s
-INFO [2020-08-17 21:15:02] 10280  Archived website id 1, period = year, date = 2012-01-01, segment = 'browserCode%3D%3DIE', 6 visits found. Time elapsed: 5.092s
-INFO [2020-08-17 21:15:02] 10280  Archived website id 1, period = day, date = 2007-04-05, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 5.092s
-INFO [2020-08-17 21:15:09] 10280  Archived website id 1, period = year, date = 2014-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F', 2 visits found. Time elapsed: 3.695s
-INFO [2020-08-17 21:15:09] 10280  Archived website id 1, period = year, date = 2012-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F', 12 visits found. Time elapsed: 6.200s
-INFO [2020-08-17 21:15:09] 10280  Archived website id 1, period = week, date = 2007-04-02, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 6.200s
-INFO [2020-08-17 21:15:10] 10280  Archived website id 1, period = day, date = 2012-08-10, segment = '', 8 visits found. Time elapsed: 0.888s
-INFO [2020-08-17 21:15:10] 10280  Archived website id 1, period = day, date = 2012-08-09, segment = '', 11 visits found. Time elapsed: 0.888s
-INFO [2020-08-17 21:15:11] 10280  Archived website id 1, period = week, date = 2012-08-06, segment = '', 30 visits found. Time elapsed: 0.840s
-INFO [2020-08-17 21:15:12] 10280  Archived website id 1, period = month, date = 2012-08-01, segment = '', 33 visits found. Time elapsed: 1.119s
-INFO [2020-08-17 21:15:13] 10280  Archived website id 1, period = year, date = 2012-01-01, segment = '', 34 visits found. Time elapsed: 1.387s
-INFO [2020-08-17 21:15:14] 10280  Archived website id 1, period = month, date = 2007-04-01, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 0.558s
-INFO [2020-08-17 21:15:14] 10280  Archived website id 1, period = year, date = 2007-01-01, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 0.563s
-INFO [2020-08-17 21:15:14] 10280  Finished archiving for site 1, 25 API requests, Time elapsed: 28.001s [1 / 3 done]
-INFO [2020-08-17 21:15:15] 10280  Start processing archives for site 2.
-INFO [2020-08-17 21:15:15] 10280  Archived website id 2, period = day, date = 2012-08-15, segment = '', 1 visits found. Time elapsed: 0.841s
-INFO [2020-08-17 21:15:16] 10280  Archived website id 2, period = week, date = 2012-08-13, segment = '', 1 visits found. Time elapsed: 0.829s
-INFO [2020-08-17 21:15:17] 10280  Archived website id 2, period = month, date = 2012-08-01, segment = '', 1 visits found. Time elapsed: 1.141s
-INFO [2020-08-17 21:15:19] 10280  Archived website id 2, period = year, date = 2012-01-01, segment = '', 1 visits found. Time elapsed: 1.377s
-INFO [2020-08-17 21:15:19] 10280  Finished archiving for site 2, 4 API requests, Time elapsed: 4.368s [2 / 3 done]
-INFO [2020-08-17 21:15:19] 10280  Start processing archives for site 3.
-INFO [2020-08-17 21:15:20] 10280  Archived website id 3, period = day, date = 2014-03-13, segment = '', 11 visits found. Time elapsed: 1.341s
-INFO [2020-08-17 21:15:20] 10280  Archived website id 3, period = day, date = 2014-03-12, segment = '', 1 visits found. Time elapsed: 1.341s
-INFO [2020-08-17 21:15:20] 10280  Archived website id 3, period = day, date = 2012-08-15, segment = '', 3 visits found. Time elapsed: 1.341s
-INFO [2020-08-17 21:15:22] 10280  Archived website id 3, period = week, date = 2014-03-10, segment = '', 12 visits found. Time elapsed: 1.544s
-INFO [2020-08-17 21:15:22] 10280  Archived website id 3, period = week, date = 2012-08-13, segment = '', 3 visits found. Time elapsed: 1.544s
-INFO [2020-08-17 21:15:24] 10280  Archived website id 3, period = month, date = 2014-03-01, segment = '', 12 visits found. Time elapsed: 1.840s
-INFO [2020-08-17 21:15:24] 10280  Archived website id 3, period = month, date = 2012-08-01, segment = '', 3 visits found. Time elapsed: 2.115s
-INFO [2020-08-17 21:15:27] 10280  Archived website id 3, period = year, date = 2014-01-01, segment = '', 12 visits found. Time elapsed: 2.587s
-INFO [2020-08-17 21:15:27] 10280  Archived website id 3, period = year, date = 2012-01-01, segment = '', 3 visits found. Time elapsed: 2.587s
-INFO [2020-08-17 21:15:27] 10280  Finished archiving for site 3, 9 API requests, Time elapsed: 7.797s [3 / 3 done]
-INFO [2020-08-17 21:15:27] 10280  Done archiving!
-INFO [2020-08-17 21:15:27] 10280  ---------------------------
-INFO [2020-08-17 21:15:27] 10280  SUMMARY
-INFO [2020-08-17 21:15:27] 10280  Processed 38 archives.
-INFO [2020-08-17 21:15:27] 10280  Total API requests: 38
-INFO [2020-08-17 21:15:27] 10280  done: 38 req, 41019 ms, no error
-INFO [2020-08-17 21:15:27] 10280  Time elapsed: 41.019s
-INFO [2020-08-17 21:15:27] 10280  ---------------------------
-INFO [2020-08-17 21:15:27] 10280  SCHEDULED TASKS
-INFO [2020-08-17 21:15:27] 10280  Starting Scheduled tasks...
-INFO [2020-08-17 21:15:27] 10280  done
-INFO [2020-08-17 21:15:27] 10280  ---------------------------
+INFO [2020-08-17 21:52:57] 10440  ---------------------------
+INFO [2020-08-17 21:52:57] 10440  INIT
+INFO [2020-08-17 21:52:57] 10440  Running Matomo 4.0.0-b2 as Super User
+INFO [2020-08-17 21:52:57] 10440  ---------------------------
+INFO [2020-08-17 21:52:57] 10440  NOTES
+INFO [2020-08-17 21:52:57] 10440  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
+INFO [2020-08-17 21:52:57] 10440    See the doc at: https://matomo.org/docs/setup-auto-archiving/
+INFO [2020-08-17 21:52:57] 10440  - Async process archiving supported, using CliMulti.
+INFO [2020-08-17 21:52:57] 10440  - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
+INFO [2020-08-17 21:52:57] 10440  ---------------------------
+INFO [2020-08-17 21:52:57] 10440  START
+INFO [2020-08-17 21:52:57] 10440  Starting Matomo reports archiving...
+INFO [2020-08-17 21:52:57] 10440  Checking for queued invalidations...
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2014-03-13 for following websites ids: 3,1
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2014-03-12 for following websites ids: 1,3
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2012-09-30 for following websites ids: 1
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2012-08-19 for following websites ids: 1
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2012-08-15 for following websites ids: 2,1,3
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2012-08-11 for following websites ids: 1
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2012-08-10 for following websites ids: 1
+INFO [2020-08-17 21:52:57] 10440    Will invalidate archived reports for 2012-08-09 for following websites ids: 1
+INFO [2020-08-17 21:52:57] 10440    Segment "browserCode==IE" was created or changed recently and will therefore archive today (for site ID = 1)
+INFO [2020-08-17 21:52:57] 10440    Segment "visitCount<=5;pageUrl=@/blog/" was created or changed recently and will therefore archive today (for site ID = 1)
+INFO [2020-08-17 21:52:57] 10440    Segment "visitCount<=5;pageUrl=@%2Fblog%2F" was created or changed recently and will therefore archive today (for site ID = 1)
+INFO [2020-08-17 21:52:57] 10440  Done invalidating
+INFO [2020-08-17 21:52:57] 10440  Start processing archives for site 1.
+INFO [2020-08-17 21:53:00] 10440  Archived website id 1, period = day, date = 2014-03-13, segment = '', 11 visits found. Time elapsed: 1.602s
+INFO [2020-08-17 21:53:00] 10440  Archived website id 1, period = day, date = 2014-03-12, segment = '', 1 visits found. Time elapsed: 1.602s
+INFO [2020-08-17 21:53:00] 10440  Archived website id 1, period = day, date = 2012-09-30, segment = '', 1 visits found. Time elapsed: 1.602s
+INFO [2020-08-17 21:53:02] 10440  Archived website id 1, period = week, date = 2014-03-10, segment = '', 12 visits found. Time elapsed: 1.744s
+INFO [2020-08-17 21:53:02] 10440  Archived website id 1, period = week, date = 2012-09-24, segment = '', 1 visits found. Time elapsed: 1.744s
+INFO [2020-08-17 21:53:02] 10440  Archived website id 1, period = day, date = 2012-08-19, segment = '', 1 visits found. Time elapsed: 1.744s
+INFO [2020-08-17 21:53:04] 10440  Archived website id 1, period = month, date = 2014-03-01, segment = '', 12 visits found. Time elapsed: 1.754s
+INFO [2020-08-17 21:53:04] 10440  Archived website id 1, period = month, date = 2012-09-01, segment = '', 1 visits found. Time elapsed: 1.754s
+INFO [2020-08-17 21:53:04] 10440  Archived website id 1, period = day, date = 2012-08-15, segment = '', 2 visits found. Time elapsed: 1.754s
+INFO [2020-08-17 21:53:06] 10440  Archived website id 1, period = year, date = 2014-01-01, segment = '', 12 visits found. Time elapsed: 2.303s
+INFO [2020-08-17 21:53:06] 10440  Archived website id 1, period = week, date = 2012-08-13, segment = '', 3 visits found. Time elapsed: 2.303s
+INFO [2020-08-17 21:53:06] 10440  Archived website id 1, period = day, date = 2012-08-11, segment = '', 11 visits found. Time elapsed: 2.303s
+INFO [2020-08-17 21:53:11] 10440  Archived website id 1, period = year, date = 2014-01-01, segment = 'browserCode%3D%3DIE', 1 visits found. Time elapsed: 3.017s
+INFO [2020-08-17 21:53:11] 10440  Archived website id 1, period = year, date = 2012-01-01, segment = 'browserCode%3D%3DIE', 6 visits found. Time elapsed: 4.373s
+INFO [2020-08-17 21:53:11] 10440  Archived website id 1, period = day, date = 2007-04-05, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 4.373s
+INFO [2020-08-17 21:53:17] 10440  Archived website id 1, period = year, date = 2014-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F', 2 visits found. Time elapsed: 3.026s
+INFO [2020-08-17 21:53:17] 10440  Archived website id 1, period = year, date = 2012-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F', 12 visits found. Time elapsed: 5.491s
+INFO [2020-08-17 21:53:17] 10440  Archived website id 1, period = week, date = 2007-04-02, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 5.491s
+INFO [2020-08-17 21:53:18] 10440  Archived website id 1, period = day, date = 2012-08-10, segment = '', 8 visits found. Time elapsed: 0.652s
+INFO [2020-08-17 21:53:18] 10440  Archived website id 1, period = day, date = 2012-08-09, segment = '', 11 visits found. Time elapsed: 0.925s
+INFO [2020-08-17 21:53:19] 10440  Archived website id 1, period = week, date = 2012-08-06, segment = '', 30 visits found. Time elapsed: 0.827s
+INFO [2020-08-17 21:53:20] 10440  Archived website id 1, period = month, date = 2012-08-01, segment = '', 33 visits found. Time elapsed: 1.119s
+INFO [2020-08-17 21:53:21] 10440  Archived website id 1, period = year, date = 2012-01-01, segment = '', 34 visits found. Time elapsed: 1.112s
+INFO [2020-08-17 21:53:22] 10440  Archived website id 1, period = month, date = 2007-04-01, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 0.561s
+INFO [2020-08-17 21:53:22] 10440  Archived website id 1, period = year, date = 2007-01-01, segment = '', plugin = ExamplePlugin, 1 visits found. Time elapsed: 0.554s
+INFO [2020-08-17 21:53:22] 10440  Finished archiving for site 1, 25 API requests, Time elapsed: 24.719s [1 / 3 done]
+INFO [2020-08-17 21:53:22] 10440  Start processing archives for site 2.
+INFO [2020-08-17 21:53:23] 10440  Archived website id 2, period = day, date = 2012-08-15, segment = '', 1 visits found. Time elapsed: 0.558s
+INFO [2020-08-17 21:53:24] 10440  Archived website id 2, period = week, date = 2012-08-13, segment = '', 1 visits found. Time elapsed: 0.827s
+INFO [2020-08-17 21:53:25] 10440  Archived website id 2, period = month, date = 2012-08-01, segment = '', 1 visits found. Time elapsed: 1.097s
+INFO [2020-08-17 21:53:26] 10440  Archived website id 2, period = year, date = 2012-01-01, segment = '', 1 visits found. Time elapsed: 1.102s
+INFO [2020-08-17 21:53:26] 10440  Finished archiving for site 2, 4 API requests, Time elapsed: 3.740s [2 / 3 done]
+INFO [2020-08-17 21:53:26] 10440  Start processing archives for site 3.
+INFO [2020-08-17 21:53:27] 10440  Archived website id 3, period = day, date = 2014-03-13, segment = '', 11 visits found. Time elapsed: 0.812s
+INFO [2020-08-17 21:53:27] 10440  Archived website id 3, period = day, date = 2014-03-12, segment = '', 1 visits found. Time elapsed: 1.131s
+INFO [2020-08-17 21:53:27] 10440  Archived website id 3, period = day, date = 2012-08-15, segment = '', 3 visits found. Time elapsed: 1.131s
+INFO [2020-08-17 21:53:28] 10440  Archived website id 3, period = week, date = 2014-03-10, segment = '', 12 visits found. Time elapsed: 1.257s
+INFO [2020-08-17 21:53:28] 10440  Archived website id 3, period = week, date = 2012-08-13, segment = '', 3 visits found. Time elapsed: 1.257s
+INFO [2020-08-17 21:53:30] 10440  Archived website id 3, period = month, date = 2014-03-01, segment = '', 12 visits found. Time elapsed: 1.263s
+INFO [2020-08-17 21:53:30] 10440  Archived website id 3, period = month, date = 2012-08-01, segment = '', 3 visits found. Time elapsed: 1.812s
+INFO [2020-08-17 21:53:32] 10440  Archived website id 3, period = year, date = 2014-01-01, segment = '', 12 visits found. Time elapsed: 2.156s
+INFO [2020-08-17 21:53:32] 10440  Archived website id 3, period = year, date = 2012-01-01, segment = '', 3 visits found. Time elapsed: 2.156s
+INFO [2020-08-17 21:53:32] 10440  Finished archiving for site 3, 9 API requests, Time elapsed: 6.551s [3 / 3 done]
+INFO [2020-08-17 21:53:33] 10440  Done archiving!
+INFO [2020-08-17 21:53:33] 10440  ---------------------------
+INFO [2020-08-17 21:53:33] 10440  SUMMARY
+INFO [2020-08-17 21:53:33] 10440  Processed 38 archives.
+INFO [2020-08-17 21:53:33] 10440  Total API requests: 38
+INFO [2020-08-17 21:53:33] 10440  done: 38 req, 35735 ms, no error
+INFO [2020-08-17 21:53:33] 10440  Time elapsed: 35.735s
+INFO [2020-08-17 21:53:33] 10440  ---------------------------
+INFO [2020-08-17 21:53:33] 10440  SCHEDULED TASKS
+INFO [2020-08-17 21:53:33] 10440  Starting Scheduled tasks...
+INFO [2020-08-17 21:53:33] 10440  done
+INFO [2020-08-17 21:53:33] 10440  ---------------------------
