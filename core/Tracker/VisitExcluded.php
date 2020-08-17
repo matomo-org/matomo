@@ -101,6 +101,14 @@ class VisitExcluded
          * These are of higher priority and should not be overwritten by plugins.
          */
 
+        // Checking if in config some requests are excluded
+        if (!$excluded) {
+            $excluded = $this->request->isRequestExcluded();
+            if ($excluded) {
+                Common::printDebug("Request is excluded.");
+            }
+        }
+
         // Checking if the Piwik ignore cookie is set
         if (!$excluded) {
             $excluded = $this->isIgnoreCookieFound();
