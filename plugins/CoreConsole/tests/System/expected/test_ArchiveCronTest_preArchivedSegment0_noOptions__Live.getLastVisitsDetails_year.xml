@@ -489,32 +489,27 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>27</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<idVisit>26</idVisit>
+		<visitIp>::ffff:123.45.67.89</visitIp>
 		
 		
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://example.org/index.htm</url>
-				<pageTitle>incredible title!</pageTitle>
-				<pageIdAction>29</pageIdAction>
+				<url>http://piwik.net/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
 				
 				
-				<pageId>30</pageId>
-				<productViewName>PRODUCT name</productViewName>
-				<productViewSku>SKU2</productViewSku>
-				<bandwidth>43</bandwidth>
+				<pageId>29</pageId>
+				<bandwidth>3574</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
-				<title>incredible title!</title>
-				<subtitle>http://example.org/index.htm</subtitle>
+				<title />
+				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
-				<productViewCategories>
-				<row>Electronics &amp; Cameras</row>
-				</productViewCategories>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -528,9 +523,9 @@
 				<goalId>1</goalId>
 				
 				<revenue>5</revenue>
-				<goalPageId>30</goalPageId>
+				<goalPageId>29</goalPageId>
 				
-				<url>http://example.org/index.htm</url>
+				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -569,12 +564,12 @@
 		<searches>0</searches>
 		<actions>1</actions>
 		<interactions>1</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>piwik.org</referrerName>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
 		<referrerKeyword />
 		<referrerKeywordPosition />
-		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
+		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
@@ -583,168 +578,20 @@
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
+		<deviceBrand>Apple</deviceBrand>
 		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Trident</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browser>Internet Explorer 6.0</browser>
-		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>6.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<resolution>1024x768</resolution>
-		<plugins>cookie, flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<customVariables>
-			<row>
-				<customVariableName5>VisitorType</customVariableName5>
-				<customVariableValue5>NewLoggedOut</customVariableValue5>
-			</row>
-		</customVariables>
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>28</idVisit>
-		<visitIp>0.0.0.0</visitIp>
-		
-		
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
-				<pageTitle>Piwik Forums</pageTitle>
-				<pageIdAction>34</pageIdAction>
-				
-				
-				<pageId>31</pageId>
-				<bandwidth>43</bandwidth>
-				<pageviewPosition>1</pageviewPosition>
-				<title>Piwik Forums</title>
-				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<bandwidth_pretty>43 B</bandwidth_pretty>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				
-				<revenue>5</revenue>
-				<goalPageId>31</goalPageId>
-				
-				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
-				<title>Goal conversion</title>
-				<subtitle>all ($5 revenue)</subtitle>
-				
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<secondsSinceLastEcommerceOrder />
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<interactions>1</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>sn110w.snt110.mail.live.com</referrerName>
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Chrome 11.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>11.0</browserVersion>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
@@ -752,47 +599,26 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<visitLocalTime>08:00:47</visitLocalTime>
-		<visitLocalHour>8</visitLocalHour>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>South Korea</country>
+		<countryCode>kr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/kr.png</countryFlag>
+		<region>Seoul Teugbyeolsi</region>
+		<regionCode>11</regionCode>
+		<city>Seoul</city>
+		<location>Seoul, Seoul Teugbyeolsi, South Korea</location>
+		<visitLocalTime>20:15:41</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<resolution>1280x800</resolution>
-		<plugins>cookie, flash, java, pdf, windowsmedia</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
-			</row>
-		</pluginsIcons>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
-				<customVariableName3>Forum status</customVariableName3>
-				<customVariableValue3>Anonymous</customVariableValue3>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
 	</row>
@@ -933,8 +759,8 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>26</idVisit>
-		<visitIp>::ffff:123.45.67.89</visitIp>
+		<idVisit>19</idVisit>
+		<visitIp>175.41.192.41</visitIp>
 		
 		
 		<actionDetails>
@@ -945,7 +771,7 @@
 				<pageIdAction>1</pageIdAction>
 				
 				
-				<pageId>29</pageId>
+				<pageId>19</pageId>
 				<bandwidth>3574</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
@@ -967,7 +793,7 @@
 				<goalId>1</goalId>
 				
 				<revenue>5</revenue>
-				<goalPageId>29</goalPageId>
+				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -1045,166 +871,6 @@
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
-		<country>South Korea</country>
-		<countryCode>kr</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/kr.png</countryFlag>
-		<region>Seoul Teugbyeolsi</region>
-		<regionCode>11</regionCode>
-		<city>Seoul</city>
-		<location>Seoul, Seoul Teugbyeolsi, South Korea</location>
-		<visitLocalTime>20:15:41</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
-			</row>
-		</customVariables>
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>24</idVisit>
-		<visitIp>175.41.192.43</visitIp>
-		
-		
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/moved-permanently</url>
-				<pageTitle>301/URL = http%3A%2F%2Fpiwik.net%2Fmoved-permanently</pageTitle>
-				<pageIdAction>25</pageIdAction>
-				
-				
-				<pageId>26</pageId>
-				<bandwidth>3574</bandwidth>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<pageviewPosition>1</pageviewPosition>
-				<title>301/URL = http%3A%2F%2Fpiwik.net%2Fmoved-permanently</title>
-				<subtitle>http://piwik.net/moved-permanently</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>301</customVariablePageValue1>
-					</row>
-				</customVariables>
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				
-				<revenue>5</revenue>
-				<goalPageId>26</goalPageId>
-				
-				<url>http://piwik.net/moved-permanently</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
-				<title>Goal conversion</title>
-				<subtitle>all ($5 revenue)</subtitle>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/temp-redirect</url>
-				<pageTitle>307/URL = http%3A%2F%2Fpiwik.net%2Ftemp-redirect</pageTitle>
-				<pageIdAction>27</pageIdAction>
-				
-				
-				<pageId>27</pageId>
-				<bandwidth>3574</bandwidth>
-				<pageviewPosition>2</pageviewPosition>
-				<title>307/URL = http%3A%2F%2Fpiwik.net%2Ftemp-redirect</title>
-				<subtitle>http://piwik.net/temp-redirect</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>307</customVariablePageValue1>
-					</row>
-				</customVariables>
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<secondsSinceLastEcommerceOrder />
-		<visitDuration>182</visitDuration>
-		<visitDurationPretty>3 min 2s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>2</actions>
-		<interactions>2</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Apple</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Mac 10.6</operatingSystem>
-		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemVersion>10.6</operatingSystemVersion>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>RockMelt 0.9</browser>
-		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
@@ -1212,8 +878,8 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<visitLocalTime>19:12:40</visitLocalTime>
-		<visitLocalHour>19</visitLocalHour>
+		<visitLocalTime>16:10:38</visitLocalTime>
+		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
@@ -1228,193 +894,23 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>23</idVisit>
-		<visitIp>175.41.192.42</visitIp>
-		
-		
-		<actionDetails>
-			<row>
-				<type>download</type>
-				<url>http://piwik.net/thing.js</url>
-				<pageTitle />
-				<pageIdAction>21</pageIdAction>
-				
-				
-				<pageId>23</pageId>
-				<bandwidth>3574</bandwidth>
-				<timeSpent>61</timeSpent>
-				<timeSpentPretty>1 min 1s</timeSpentPretty>
-				<pageviewPosition />
-				<icon>plugins/Morpheus/images/download.png</icon>
-				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
-				<title>Download</title>
-				<subtitle>http://piwik.net/thing.js</subtitle>
-				
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-			</row>
-			<row>
-				<type>download</type>
-				<url>http://piwik.net/thing.css</url>
-				<pageTitle />
-				<pageIdAction>22</pageIdAction>
-				
-				
-				<pageId>24</pageId>
-				<bandwidth>3574</bandwidth>
-				<timeSpent>61</timeSpent>
-				<timeSpentPretty>1 min 1s</timeSpentPretty>
-				<pageviewPosition />
-				<icon>plugins/Morpheus/images/download.png</icon>
-				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
-				<title>Download</title>
-				<subtitle>http://piwik.net/thing.css</subtitle>
-				
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-			</row>
-			<row>
-				<type>download</type>
-				<url>http://piwik.net/other.png</url>
-				<pageTitle />
-				<pageIdAction>23</pageIdAction>
-				
-				
-				<pageId>25</pageId>
-				<bandwidth>3574</bandwidth>
-				<pageviewPosition />
-				<icon>plugins/Morpheus/images/download.png</icon>
-				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
-				<title>Download</title>
-				<subtitle>http://piwik.net/other.png</subtitle>
-				
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-			</row>
-		</actionDetails>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<secondsSinceLastEcommerceOrder />
-		<visitDuration>123</visitDuration>
-		<visitDurationPretty>2 min 3s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>3</actions>
-		<interactions>0</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Apple</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Mac 10.6</operatingSystem>
-		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemVersion>10.6</operatingSystemVersion>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>RockMelt 0.9</browser>
-		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<visitLocalTime>18:10:38</visitLocalTime>
-		<visitLocalHour>18</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
-			</row>
-		</customVariables>
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>22</idVisit>
-		<visitIp>72.44.32.11</visitIp>
+		<idVisit>15</idVisit>
+		<visitIp>177.71.128.21</visitIp>
 		
 		
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/</url>
+				<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
 				<pageTitle />
-				<pageIdAction>5</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				
-				<pageId>22</pageId>
+				<pageId>15</pageId>
 				<bandwidth>3574</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
-				<subtitle>http://piwik.net/</subtitle>
+				<subtitle>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
@@ -1432,144 +928,9 @@
 				<goalId>1</goalId>
 				
 				<revenue>5</revenue>
-				<goalPageId>22</goalPageId>
+				<goalPageId>15</goalPageId>
 				
-				<url>http://piwik.net/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
-				<title>Goal conversion</title>
-				<subtitle>all ($5 revenue)</subtitle>
-				
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<secondsSinceLastEcommerceOrder />
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<interactions>1</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel>Unknown</deviceModel>
-		<operatingSystem>Bot</operatingSystem>
-		<operatingSystemName>Bot</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
-		<operatingSystemCode>BOT</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
-		<region>Virginia</region>
-		<regionCode>VA</regionCode>
-		<city>Ashburn</city>
-		<location>Ashburn, Virginia, United States</location>
-		<visitLocalTime>17:48:08</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-		<customVariables>
-			<row>
-				<customVariableName1>Bot</customVariableName1>
-				<customVariableValue1>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</customVariableValue1>
-			</row>
-		</customVariables>
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>21</idVisit>
-		<visitIp>72.44.32.11</visitIp>
-		
-		
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/to-an-error</url>
-				<pageTitle>500/URL = http%3A%2F%2Fpiwik.net%2Fto-an-error</pageTitle>
-				<pageIdAction>20</pageIdAction>
-				
-				
-				<pageId>21</pageId>
-				<bandwidth>3574</bandwidth>
-				<pageviewPosition>1</pageviewPosition>
-				<title>500/URL = http%3A%2F%2Fpiwik.net%2Fto-an-error</title>
-				<subtitle>http://piwik.net/to-an-error</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>500</customVariablePageValue1>
-					</row>
-				</customVariables>
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				
-				<revenue>5</revenue>
-				<goalPageId>21</goalPageId>
-				
-				<url>http://piwik.net/to-an-error</url>
+				<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1629,13 +990,13 @@
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
-		<browserFamily>Trident</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browser>Internet Explorer 9.0</browser>
-		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>9.0</browserVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Chrome 20.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>20.0</browserVersion>
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
@@ -1643,27 +1004,547 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
-		<region>Virginia</region>
-		<regionCode>VA</regionCode>
-		<city>Ashburn</city>
-		<location>Ashburn, Virginia, United States</location>
-		<visitLocalTime>17:48:07</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
+		<continent>South America</continent>
+		<continentCode>ams</continentCode>
+		<country>Brazil</country>
+		<countryCode>br</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/br.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Brazil</location>
+		<visitLocalTime>20:22:08</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<customVariables>
+		</customVariables>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>60</idVisit>
+		<visitIp>175.41.191.45</visitIp>
+		
+		
+		<actionDetails>
 			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</customVariableValue1>
+				<type>action</type>
+				<url>http://included1.com/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>62</pageIdAction>
+				
+				
+				<pageId>82</pageId>
+				<bandwidth>3574</bandwidth>
+				<pageviewPosition>1</pageviewPosition>
+				<title />
+				<subtitle>http://included1.com/blog/category/meta/</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				
+				<revenue>5</revenue>
+				<goalPageId>82</goalPageId>
+				
+				<url>http://included1.com/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($5 revenue)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Singapore</country>
+		<countryCode>sg</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
+		<region />
+		<regionCode />
+		<city>Singapore</city>
+		<location>Singapore, Singapore</location>
+		<visitLocalTime>08:10:38</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		<customVariables>
+		</customVariables>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>58</idVisit>
+		<visitIp>175.41.193.45</visitIp>
+		
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://included3.com/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>60</pageIdAction>
+				
+				
+				<pageId>80</pageId>
+				<bandwidth>3574</bandwidth>
+				<pageviewPosition>1</pageviewPosition>
+				<title />
+				<subtitle>http://included3.com/blog/category/meta/</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				
+				<revenue>5</revenue>
+				<goalPageId>80</goalPageId>
+				
+				<url>http://included3.com/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($5 revenue)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<visitLocalTime>08:10:38</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		<customVariables>
+		</customVariables>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>3</idVisit>
+		<visitIp>175.41.192.40</visitIp>
+		
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/blog/category/community/</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<pageId>3</pageId>
+				<bandwidth>3574</bandwidth>
+				<pageviewPosition>1</pageviewPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/community/</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				
+				<revenue>5</revenue>
+				<goalPageId>3</goalPageId>
+				
+				<url>http://piwik.net/blog/category/community/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($5 revenue)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemName>GNU/Linux</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemVersion />
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
+		<browserCode>EP</browserCode>
+		<browserVersion>2.30</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<visitLocalTime>08:11:56</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		<customVariables>
+		</customVariables>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>59</idVisit>
+		<visitIp>175.41.193.46</visitIp>
+		
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://www.included4.com/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>61</pageIdAction>
+				
+				
+				<pageId>81</pageId>
+				<bandwidth>3574</bandwidth>
+				<pageviewPosition>1</pageviewPosition>
+				<title />
+				<subtitle>http://www.included4.com/blog/category/meta/</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				
+				<revenue>5</revenue>
+				<goalPageId>81</goalPageId>
+				
+				<url>http://www.included4.com/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($5 revenue)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<visitLocalTime>08:10:39</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		<customVariables>
 		</customVariables>
 	</row>
 </result>
