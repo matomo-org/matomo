@@ -128,7 +128,7 @@ class DocumentationGenerator
 
     protected function addExamples($class, $methodName, $prefixUrls)
     {
-        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
+        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth() . "&force_api_session=1";
         $parametersToSet = array(
             'idSite' => Common::getRequestVar('idSite', 1, 'int'),
             'period' => Common::getRequestVar('period', 'day', 'string'),
