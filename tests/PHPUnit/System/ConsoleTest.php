@@ -175,6 +175,16 @@ END;
 
     public function test_Console_handlesExceptionsCorrectly()
     {
+        $cliPhp = new CliPhp();
+        $php = $cliPhp->findPhpBinary();
+        $command = $php . " -i | grep 'memory_limit => -1'";
+
+        $output = shell_exec($command);
+
+        if ($output == "memory_limit => -1 => -1\n") {
+            $this->markTestSkipped("no memory limit in php-cli");
+        }
+
         $command = Fixture::getCliCommandBase();
         $command .= ' test-command-with-exception';
         $command .= ' 2>&1';
