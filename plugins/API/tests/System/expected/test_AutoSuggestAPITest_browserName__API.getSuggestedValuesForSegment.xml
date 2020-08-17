@@ -33,6 +33,7 @@
 	<row>BlackHawk</row>
 	<row>Bunjalloo</row>
 	<row>B-Line</row>
+	<row>Blue Browser</row>
 	<row>Brave</row>
 	<row>BriskBard</row>
 	<row>BrowseX</row>
@@ -40,6 +41,7 @@
 	<row>CCleaner</row>
 	<row>Centaury</row>
 	<row>Coc Coc</row>
+	<row>Colibri</row>
 	<row>Comodo Dragon</row>
 	<row>Coast</row>
 	<row>Charon</row>
@@ -93,6 +95,7 @@
 	<row>Fireweb Navigator</row>
 	<row>FreeU</row>
 	<row>Galeon</row>
+	<row>Glass Browser</row>
 	<row>Google Earth</row>
 	<row>Hawk Turbo Browser</row>
 	<row>hola! Browser</row>
@@ -112,6 +115,7 @@
 	<row>Iron</row>
 	<row>Jasmine</row>
 	<row>Jig Browser</row>
+	<row>Jig Browser Plus</row>
 	<row>Jio Browser</row>
 	<row>K.Browser</row>
 	<row>Kindle Browser</row>
@@ -129,7 +133,9 @@
 	<row>Links</row>
 	<row>Lovense Browser</row>
 	<row>LuaKit</row>
+	<row>Lulumi</row>
 	<row>Lunascape</row>
+	<row>Lunascape Lite</row>
 	<row>Lynx</row>
 	<row>mCent</row>
 	<row>MicroB</row>
@@ -160,6 +166,7 @@
 	<row>Obigo</row>
 	<row>Odyssey Web Browser</row>
 	<row>Off By One</row>
+	<row>OhHai Browser</row>
 	<row>ONE Browser</row>
 	<row>Opera GX</row>
 	<row>Opera Neon</row>
@@ -178,6 +185,7 @@
 	<row>Otter Browser</row>
 	<row>Palm Blazer</row>
 	<row>Pale Moon</row>
+	<row>Polypane</row>
 	<row>Oppo Browser</row>
 	<row>Palm Pre</row>
 	<row>Puffin</row>
@@ -190,6 +198,7 @@
 	<row>QQ Browser Mini</row>
 	<row>QQ Browser</row>
 	<row>Qutebrowser</row>
+	<row>Quark</row>
 	<row>QupZilla</row>
 	<row>Qwant Mobile</row>
 	<row>QtWebEngine</row>
@@ -201,9 +210,11 @@
 	<row>SEMC-Browser</row>
 	<row>Sogou Explorer</row>
 	<row>Safari</row>
+	<row>Safe Exam Browser</row>
 	<row>SalamWeb</row>
 	<row>Shiira</row>
 	<row>SimpleBrowser</row>
+	<row>Sizzy</row>
 	<row>Skyfire</row>
 	<row>Seraphic Sraf</row>
 	<row>Sleipnir</row>
@@ -225,6 +236,8 @@
 	<row>TenFourFox</row>
 	<row>Tenta Browser</row>
 	<row>Tizen Browser</row>
+	<row>Tungsten</row>
+	<row>ToGate</row>
 	<row>TweakStyle</row>
 	<row>TV Bro</row>
 	<row>UBrowser</row>
@@ -243,8 +256,12 @@
 	<row>Whale Browser</row>
 	<row>wOSBrowser</row>
 	<row>WeTab Browser</row>
+	<row>Yahoo! Japan Browser</row>
 	<row>Yandex Browser</row>
 	<row>Yandex Browser Lite</row>
+	<row>Yaani Browser</row>
 	<row>Xiino</row>
+	<row>Xvast</row>
+	<row>Zvu</row>
 	<row>Unknown</row>
 </result>
