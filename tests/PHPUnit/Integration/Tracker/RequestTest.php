@@ -108,6 +108,31 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($request->isRequestExcluded());
     }
 
+    public function test_isRequestExcluded_emptyRightValue()
+    {
+        $this->setTrackerExcludedConfig('foo==');
+
+        $request = $this->buildRequest(array('foo' => ''));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array());
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'b'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $this->setTrackerExcludedConfig('foo!=');
+
+        $request = $this->buildRequest(array('foo' => ''));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array());
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'b'));
+        $this->assertTrue($request->isRequestExcluded());
+    }
+
     public function test_isRequestExcluded_equals()
     {
         $this->setTrackerExcludedConfig('foo==bar');
@@ -120,6 +145,20 @@ class RequestTest extends IntegrationTestCase
 
         $request = $this->buildRequest(array('foo1' => 'bar'));
         $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_not_equals()
+    {
+        $this->setTrackerExcludedConfig('foo!=bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
     }
 
     public function test_isRequestExcluded_contains()
@@ -137,6 +176,29 @@ class RequestTest extends IntegrationTestCase
 
         $request = $this->buildRequest(array('foo1' => 'bar'));
         $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_notContains()
+    {
+        $this->setTrackerExcludedConfig('foo!@bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'fffbar1'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'hello'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'ba'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
     }
 
     public function test_isRequestExcluded_startsWith()

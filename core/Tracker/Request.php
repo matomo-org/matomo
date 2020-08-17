@@ -243,7 +243,9 @@ class Request
         if (!empty($tracker['exclude_requests'])) {
             $excludedRequests = explode(',', $tracker['exclude_requests']);
             $pattern = '/^(.+?)('.SegmentExpression::MATCH_EQUAL.'|'
+                .SegmentExpression::MATCH_NOT_EQUAL.'|'
                 .SegmentExpression::MATCH_CONTAINS.'|'
+                .SegmentExpression::MATCH_DOES_NOT_CONTAIN.'|'
                 .preg_quote(SegmentExpression::MATCH_STARTS_WITH).'|'
                 .preg_quote(SegmentExpression::MATCH_ENDS_WITH)
                 .'){1}(.*)/';
@@ -253,7 +255,11 @@ class Request
                 if (!empty($match)) {
                     $leftMember = $matches[1];
                     $operation = $matches[2];
-                    $valueRightMember = urldecode($matches[3]);
+                    if (!isset($matches[3])) {
+                        $valueRightMember = '';
+                    } else {
+                        $valueRightMember = urldecode($matches[3]);
+                    }
                     $actual = Common::getRequestVar($leftMember, '', 'string', $this->params);
                     $actual = Common::mb_strtolower($actual);
                     $valueRightMember = Common::mb_strtolower($valueRightMember);
@@ -263,8 +269,18 @@ class Request
                                 return true;
                             }
                             break;
+                        case SegmentExpression::MATCH_NOT_EQUAL:
+                            if ($actual !== $valueRightMember) {
+                                return true;
+                            }
+                            break;
                         case SegmentExpression::MATCH_CONTAINS:
                             if (stripos($actual, $valueRightMember) !== false) {
+                                return true;
+                            }
+                            break;
+                        case SegmentExpression::MATCH_DOES_NOT_CONTAIN:
+                            if (stripos($actual, $valueRightMember) === false) {
                                 return true;
                             }
                             break;

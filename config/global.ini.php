@@ -904,7 +904,7 @@ enable_spam_filter = 1
 innodb_lock_wait_timeout = 0
 
 ; Allows you to exclude specific requests from being tracked. The definition is similar to segments.
-; The following operands are supported: Equals: `==`, Contains: `=@`, Starts with: `=^`, Ends with: `=$`.
+; The following operands are supported: Equals: `==`, Not equals: `!=`, Contains: `=@`, Not Contains: `!@`, Starts with: `=^`, Ends with: `=$`.
 ; The structure is as following: {tracking parameter}{operand}{value to match}.
 ; For example "e_c==Media" means that all tracking requests will be excluded where the event category is Media.
 ; Multiple exclusions can be configured separated by a comma. The request will be excluded if any expressions matches (not all of them). For example: "e_c==Media,action_name=@privacy".
