@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77ee4f8dcec82efcc88cd3d27e3fb495",
+    "content-hash": "700bebdcb248d636e79ee338ad6f86f3",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -623,20 +623,21 @@
             "time": "2020-01-01T12:57:48+00:00"
         },
         {
-            "name": "matomo/referrer-spam-blacklist",
-            "version": "3.11.0",
+            "name": "matomo/referrer-spam-list",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/matomo-org/referrer-spam-blacklist.git",
-                "reference": "0968ea308924ed4b9c636133fff9eb54820626f7"
+                "url": "https://github.com/matomo-org/referrer-spam-list.git",
+                "reference": "afe4c1ea107ee7a8915a0d5eb0031cf0366608a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-blacklist/zipball/0968ea308924ed4b9c636133fff9eb54820626f7",
-                "reference": "0968ea308924ed4b9c636133fff9eb54820626f7",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/afe4c1ea107ee7a8915a0d5eb0031cf0366608a8",
+                "reference": "afe4c1ea107ee7a8915a0d5eb0031cf0366608a8",
                 "shasum": ""
             },
             "replace": {
+                "matomo/referrer-spam-blacklist": "*",
                 "piwik/referrer-spam-blacklist": "*"
             },
             "type": "library",
@@ -645,7 +646,7 @@
                 "CC0-1.0"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2020-01-07T13:07:59+00:00"
+            "time": "2020-08-10T19:54:07+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
