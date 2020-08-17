@@ -972,7 +972,24 @@ class Report
 
         $result = array();
         foreach ($processedMetrics as $processedMetric) {
-            if ($processedMetric instanceof ProcessedMetric || $processedMetric instanceof ArchivedMetric) { // instanceof check for backwards compatibility
+            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+                $result[$processedMetric->getName()] = $processedMetric;
+            } elseif ($processedMetric instanceof ArchivedMetric
+                && $processedMetric->getType() !== Dimension::TYPE_NUMBER
+                && $processedMetric->getType() !== Dimension::TYPE_FLOAT
+                && $processedMetric->getType() !== Dimension::TYPE_BOOL
+                && $processedMetric->getType() !== Dimension::TYPE_ENUM
+            ) {
+                // we do not format regular numbers from regular archived metrics here because when they are rendered
+                // in a visualisation (eg HtmlTable) they would be formatted again in the regular number filter.
+                // These metrics aren't "processed metrics". Eventually could maybe format them when "&format_metrics=all"
+                // is used but may not be needed. It caused a problem when eg language==de. Then eg 555444 would be formatted
+                // to "555.444" (which is the German version of the English "555,444") in the data table post processor
+                // when formatting metrics. Then when rendering the visualisation it would check "is_numeric()" which is
+                // true for German formatting but false for English formatting. Meaning for English formatting the number
+                // would be correctly printed as is but for the German formatting it would format it again and it would think
+                // it would be assumed the dot is a decimal separator and therefore the number be formatted to "555,44" which
+                // is the English version of "555.44" (because we only show 2 fractions).
                 $result[$processedMetric->getName()] = $processedMetric;
             }
         }
