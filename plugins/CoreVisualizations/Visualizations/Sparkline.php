@@ -171,7 +171,7 @@ class Sparkline extends ViewDataTable
         } elseif ($this->dataTable instanceof DataTable) {
             $values = $this->dataTable->getColumn($columnToPlot);
         } else {
-            $values = false;
+            $values = [];
         }
 
         return $values;
