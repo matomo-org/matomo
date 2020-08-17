@@ -60,6 +60,13 @@ class ColumnDelete extends BaseFilter
     private $deleteIfZeroOnly;
 
     /**
+     * Delete the column recursively in all nested arrays as well
+     *
+     * @var bool
+     */
+    private $deleteRecursive;
+
+    /**
      * Constructor.
      *
      * @param DataTable $table The DataTable instance that will eventually be filtered.
@@ -69,8 +76,9 @@ class ColumnDelete extends BaseFilter
      *                                    comma-separated list of column names. Columns not in
      *                                    this list will be removed.
      * @param bool $deleteIfZeroOnly If true, columns will be removed only if their value is 0.
+     * @param bool $deleteRecursive If true, columns will be removed in nested arrays.
      */
-    public function __construct($table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false)
+    public function __construct($table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false, $deleteRecursive = false)
     {
         parent::__construct($table);
 
@@ -85,6 +93,7 @@ class ColumnDelete extends BaseFilter
         $this->columnsToRemove = $columnsToRemove;
         $this->columnsToKeep = array_flip($columnsToKeep); // flip so we can use isset instead of in_array
         $this->deleteIfZeroOnly = $deleteIfZeroOnly;
+        $this->deleteRecursive = $deleteRecursive;
     }
 
     /**
@@ -182,7 +191,9 @@ class ColumnDelete extends BaseFilter
                 unset($table[$index][$column]);
             }
 
-            $this->removeColumnsFromTable($table[$index]);
+            if ($this->deleteRecursive) {
+                $this->removeColumnsFromTable($table[$index]);
+            }
         }
     }
 
