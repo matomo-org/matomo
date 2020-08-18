@@ -143,6 +143,9 @@ These are only recommendations (because we will keep backward compatibility for 
 * The following dimensions have been removed and replaced with versions that measure seconds: visitor_days_since_first, visitor_days_since_last, visitor_days_since_order
 * The _idvc, _idts, _viewts and _ects tracker parameters are no longer used, the values are calculated server side.
   Note: tracking these values server side means replaying log data in the past will result in inaccurate values for these dimensions.
+* The Dependency Injection library PHP-DI was updated. Some definitions need to be updated:
+  * The Method `\DI\object()` has been removed. You can use `\DI\autowire()` or `\DI\create()` instead
+  * Defining global observer functions in config now requires the functions to be wrapped in `\DI\value()`
 
 ## Matomo 3.14.0
 
