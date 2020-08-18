@@ -276,6 +276,7 @@ class DocumentationGenerator
         $aParameters['filter_pattern_recursive'] = false; 
         $aParameters['filter_truncate'] = false;
         $aParameters['hideColumns'] = false;
+        $aParameters['hideColumnsRecursively'] = false;
         $aParameters['showColumns'] = false;
         $aParameters['filter_pattern_recursive'] = false;
         $aParameters['pivotBy'] = false;
