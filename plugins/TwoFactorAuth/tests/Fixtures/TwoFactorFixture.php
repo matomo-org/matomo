@@ -78,7 +78,7 @@ class TwoFactorFixture extends Fixture
         foreach ([$this->userWith2Fa, $this->userWithout2Fa, $this->userWith2FaDisable, $this->userNo2Fa] as $user) {
             \Piwik\Plugins\UsersManager\API::getInstance()->addUser($user, $this->userPassword, $user . '@matomo.org');
             // we cannot set superuser as logme won't work for super user
-            UsersAPI::getInstance()->setUserAccess($user, 'admin', [$this->idSite, $this->idSite2]);
+            UsersAPI::getInstance()->setUserAccess($user, 'view', [$this->idSite, $this->idSite2]);
 
             if ($this->userWith2Fa === $user) {
                 $userModel = new Model();

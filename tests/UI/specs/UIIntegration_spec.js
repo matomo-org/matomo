@@ -1094,7 +1094,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should allow embedding the entire app', async function () {
-            var url = "tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + 'index.php?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
+            var url = "tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + 'index.php?' + urlBase + '&token_auth=a4ca4238a0b923820dcc509a6f75849f');
             await page.goto(url);
             await page.waitForNetworkIdle();
 
