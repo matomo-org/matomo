@@ -72,8 +72,8 @@ class ManySitesImportedLogs extends Fixture
         }
     }
 
-    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50';
-    const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50';
+    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;pageUrl=@/blog/;countryCode==jp';
+    const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;pageUrl=@%2Fblog%2F;countryCode==jp';
 
     public function getDefaultSegments()
     {
