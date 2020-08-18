@@ -82,7 +82,7 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
     public function test_filter_DataTable_removeExistingColumn()
     {
         $table = $this->makeDataTable();
-        $table->filter($this->filter, array('visits'));
+        $table->filter($this->filter, array('visits', array(), false, true));
 
         $this->assertSameDataTable($this->makeDataTable_withoutVisitsColumn(), $table);
     }
@@ -107,7 +107,7 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
 
     public function test_filter_array_removeExistingColumn()
     {
-        $columnDelete = new DataTable\Filter\ColumnDelete(new DataTable(), $hideColumns = 'visits', $showColumns = array());
+        $columnDelete = new DataTable\Filter\ColumnDelete(new DataTable(), $hideColumns = 'visits', $showColumns = array(), false, true);
         $filteredArray = $columnDelete->filter($this->makeArray());
 
         $this->assertSame($this->makeArray_withoutVisitsColumns(), $filteredArray);
