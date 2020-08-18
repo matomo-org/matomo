@@ -124,6 +124,7 @@ These are only recommendations (because we will keep backward compatibility for 
 #### New APIs
 * A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
 * A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
+* Reporting API: It is now possible to apply `hideColumns` recursively to nested values by setting `hideColumnsRecursively=1`. For all `Live` api methods this is the default behaviour.
 
 ### Other Breaking changes
 
