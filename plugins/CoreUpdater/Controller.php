@@ -27,6 +27,7 @@ use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
+use Piwik\Updates\Updates_4_0_0_b1;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\View\OneClickDone;
