@@ -13,6 +13,7 @@ use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
@@ -181,7 +182,19 @@ class Controller extends \Piwik\Plugin\Controller
         $messages = [];
 
         try {
-            Piwik::checkUserHasSuperUserAccess();
+            try {
+                Piwik::checkUserHasSuperUserAccess();
+            } catch (Exception $e) {
+                $token = Common::getRequestVar('token_auth', '', 'string');
+                $userTable = Common::prefixTable('user');
+                $userTableColumns = DbHelper::getTableColumns($userTable);
+                if (empty($token)
+                    || (int) \Piwik\Updater::getCurrentComponentVersion('core') >= 4
+                    || !isset($userTableColumns[$userTableColumns])
+                    || !Db::fetchAll('SELECT 1 FROM ' . $userTable . ' WHERE token_auth = ? and superuser_access = 1', $token )) {
+                    throw $e;
+                }
+            }
             $messages = $this->updater->oneClickUpdatePartTwo();
         } catch (UpdaterException $e) {
             $messages = $e->getUpdateLogMessages();
