@@ -98,29 +98,29 @@ return array(
 
     'observers.global' => DI\add(array(
 
-        array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
+        array('AssetManager.getStylesheetFiles', DI\value(function (&$stylesheets) {
             $useOverrideCss = \Piwik\Container\StaticContainer::get('test.vars.useOverrideCss');
             if ($useOverrideCss) {
                 $stylesheets[] = 'tests/resources/screenshot-override/override.css';
             }
-        }),
+        })),
 
-        array('AssetManager.getJavaScriptFiles', function (&$jsFiles) {
+        array('AssetManager.getJavaScriptFiles', DI\value(function (&$jsFiles) {
             $useOverrideJs = \Piwik\Container\StaticContainer::get('test.vars.useOverrideJs');
             if ($useOverrideJs) {
                 $jsFiles[] = 'tests/resources/screenshot-override/override.js';
             }
-        }),
+        })),
 
-        array('Updater.checkForUpdates', function () {
+        array('Updater.checkForUpdates', \DI\value(function () {
             try {
                 @\Piwik\Filesystem::deleteAllCacheOnUpdate();
             } catch (Exception $ex) {
                 // pass
             }
-        }),
+        })),
 
-        array('Test.Mail.send', function (\PHPMailer\PHPMailer\PHPMailer $mail) {
+        array('Test.Mail.send', \DI\value(function (\PHPMailer\PHPMailer\PHPMailer $mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
             $outputContent = str_replace("=\n", "", $mail->Body ?: $mail->AltBody);
             $outputContent = str_replace("=0A", "\n", $outputContent);
@@ -132,6 +132,6 @@ return array(
                 'contents' => $outputContent
             );
             file_put_contents($outputFile, json_encode($outputContents));
-        }),
+        })),
     )),
 );

@@ -236,9 +236,9 @@ var myArray = [];
     {
         return [
             'observers.global' => \DI\add([
-                ['CustomJsTracker.trackerJsChanged', function ($path) {
+                ['CustomJsTracker.trackerJsChanged', \DI\value(function ($path) {
                     $this->trackerJsChangedEventPath = $path;
-                }],
+                })],
             ]),
         ];
     }

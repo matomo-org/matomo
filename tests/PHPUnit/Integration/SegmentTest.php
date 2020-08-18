@@ -2021,14 +2021,14 @@ log_visit.visit_total_actions
     {
         return [
             'observers.global' => [
-                ['Segment.addSegments', function (Segment\SegmentsList $list) {
+                ['Segment.addSegments', \DI\value(function (Segment\SegmentsList $list) {
                     $segment = new \Piwik\Plugin\Segment();
                     $segment->setSegment('customSegment');
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
                     $segment->setName('Custom Segment');
                     $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)');
                     $list->addSegment($segment);
-                }],
+                })],
             ],
         ];
     }

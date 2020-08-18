@@ -69,9 +69,9 @@ class RequestCommand extends ConsoleCommand
         if ($input->getOption('superuser')) {
             StaticContainer::addDefinitions(array(
                 'observers.global' => \DI\add(array(
-                    array('Environment.bootstrapped', function () {
+                    array('Environment.bootstrapped', \DI\value(function () {
                         Access::getInstance()->setSuperUserAccess(true);
-                    })
+                    }))
                 )),
             ));
         }
