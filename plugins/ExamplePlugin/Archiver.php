@@ -52,8 +52,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         parent::__construct($processor);
 
-        $this->requestedReport = $processor->getParams()->getArchiveOnlyReport();
-        if ($this->requestedReport) {
+        $requestedReport = $processor->getParams()->getArchiveOnlyReport();
+        if ($requestedReport) {
             $processor->getParams()->setIsPartialArchive(true);
         }
 
@@ -120,11 +120,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $sequence = new Sequence('ExamplePlugin_archiveCount');
         $result = $sequence->getNextId();
         return $result;
-    }
-
-    private function isArchiving(string $reportName)
-    {
-        return empty($this->requestedReport) || $this->requestedReport == $reportName;
     }
 
     private function createSequence()
