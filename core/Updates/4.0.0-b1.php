@@ -250,6 +250,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
                     // otherwise cached information might be used and it won't be loaded otherwise within same request
                     $pluginObj = $pluginManager->loadPlugin($plugin);
                     $pluginObj->reloadPluginInformation();
+                    $pluginManager->unloadPlugin($pluginObj); // prevent any events being posted to it somehow
                 }
             }
         }
