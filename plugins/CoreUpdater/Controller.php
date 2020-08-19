@@ -13,6 +13,7 @@ use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
@@ -179,8 +180,24 @@ class Controller extends \Piwik\Plugin\Controller
 
         $messages = [];
 
+        $nonce = Common::getRequestVar('nonce', '', 'string');
+        if (empty($nonce)) {
+            return json_encode(['no token']);
+        }
+        $value = Option::get('NonceOneClickUpdatePartTwo');
+        if (empty($value)) {
+            return json_encode(['invalid token']);
+        }
+        $value = json_decode($value, true);
+
+        if (empty($value['nonce'])
+            || empty($value['ttl'])
+            || time() > (int) $value['ttl']
+            || $nonce !== $value['nonce']) {
+            return json_encode(['invalid nonce or nonce expired']);
+        }
+
         try {
-            Piwik::checkUserHasSuperUserAccess();
             $messages = $this->updater->oneClickUpdatePartTwo();
         } catch (UpdaterException $e) {
             $messages = $e->getUpdateLogMessages();
@@ -189,7 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
             $messages[] = $e->getMessage();
         }
 
-        echo json_encode($messages);
+        return json_encode($messages);
     }
 
     public function oneClickResults()

@@ -10,6 +10,8 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\CliMulti;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -124,15 +126,20 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
 
-        $partTwoUrl = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
-            'action' => 'oneClickUpdatePartTwo',
-        ]);
+        $validFor10Minutes = time() + (60 * 10);
+        $nonce = Common::generateUniqId();
+        Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
 
-        $response = Http::sendHttpRequest($partTwoUrl, 300);
-        $response = @json_decode($response, $assoc = true);
+        Filesystem::deleteAllCacheOnUpdate();
 
-        if (!empty($response)) {
-            $messages = array_merge($messages, $response);
+        $cliMulti = new CliMulti();
+        $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
+        if (!empty($responses)) {
+            $response = array_shift($responses);
+            $response = @json_decode($response, $assoc = true);
+            if (!empty($response) && is_array($response)) {
+                $messages = array_merge($messages, $response);
+            }
         }
 
         try {
