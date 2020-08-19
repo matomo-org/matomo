@@ -154,6 +154,8 @@ class FrontController extends Singleton
             return;
         }
 
+
+
         $filter = new Router();
         $redirection = $filter->filterUrl(Url::getCurrentUrl());
         if ($redirection !== null) {

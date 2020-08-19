@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Cache as PiwikCache;
 use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -25,7 +26,6 @@ use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
-use Piwik\Url;
 use Piwik\Version;
 
 class Updater
@@ -130,7 +130,7 @@ class Updater
         $nonce = Common::generateUniqId();
         Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
 
-        Filesystem::deleteAllCacheOnUpdate();
+        PiwikCache::flushAll();
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
