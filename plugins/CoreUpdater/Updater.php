@@ -130,8 +130,6 @@ class Updater
         $nonce = Common::generateUniqId();
         Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
 
-        PiwikCache::flushAll();
-
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
         if (!empty($responses)) {
