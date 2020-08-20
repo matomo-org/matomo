@@ -456,7 +456,11 @@ abstract class Dimension
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
             case Dimension::TYPE_DURATION_MS:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
+                $val = number_format($value / 1000, 2);
+                if ($val > 60) {
+                    $val = round($val);
+                }
+                return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);
             case Dimension::TYPE_BYTE:
