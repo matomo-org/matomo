@@ -64,7 +64,7 @@ class Output
         if (!empty($content)
             && is_string($content)
             && Common::mb_substr(trim($content), 0, strlen($search)) === $search) {
-            $content = trim(Common::mb_substr(trim($content), strlen($search)));
+            $content = trim(Common::mb_substr(trim($content), strlen($search)), " \t\n\r\0\x0B#");
         }
         return $content;
     }

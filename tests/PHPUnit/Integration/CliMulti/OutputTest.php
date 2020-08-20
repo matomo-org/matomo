@@ -115,7 +115,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     public function test_get_write_shouldRemoveHashBang()
     {
-        $anyContent = "\n#!/usr/bin/env php {}";
+        $anyContent = "\n###!/usr/bin/env php {}";
         $this->output->write($anyContent);
 
         $this->assertEquals('{}', $this->output->get());
