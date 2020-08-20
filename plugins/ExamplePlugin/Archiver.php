@@ -74,7 +74,7 @@ class Archiver extends \Piwik\Plugin\Archiver
          * $this->getProcessor()->insertBlobRecord(self::EXAMPLEPLUGIN_ARCHIVE_RECORD, $visitorReport);
          */
 
-        if ($this->isArchiving(self::EXAMPLEPLUGIN_METRIC_NAME)) {
+        if ($this->isRequestedReport(self::EXAMPLEPLUGIN_METRIC_NAME)) {
             // insert a test numeric metric that is the difference in days between the day we're archiving and
             // $this->daysFrom.
             $daysFrom = Date::factory($this->daysFrom);
@@ -86,7 +86,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_METRIC_NAME, $differenceInDays);
         }
 
-        if ($this->isArchiving(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
+        if ($this->isRequestedReport(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
             $archiveCount = $this->incrementArchiveCount();
             $archiveCount = 50 + $archiveCount;
             $archiveCount += 5 - ($archiveCount % 5); // round up to nearest 5 multiple to avoid random test failures
@@ -106,10 +106,10 @@ class Archiver extends \Piwik\Plugin\Archiver
          */
 
         $reports = [];
-        if ($this->isArchiving(self::EXAMPLEPLUGIN_METRIC_NAME)) {
+        if ($this->isRequestedReport(self::EXAMPLEPLUGIN_METRIC_NAME)) {
             $reports[] = self::EXAMPLEPLUGIN_METRIC_NAME;
         }
-        if ($this->isArchiving(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
+        if ($this->isRequestedReport(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
             $reports[] = self::EXAMPLEPLUGIN_CONST_METRIC_NAME;
         }
         $this->getProcessor()->aggregateNumericMetrics($reports);
