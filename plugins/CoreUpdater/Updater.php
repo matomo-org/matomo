@@ -24,7 +24,6 @@ use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
-use Piwik\Updates\Updates_4_0_0_b1;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -169,8 +168,6 @@ class Updater
         try {
 
             if (Marketplace::isMarketplaceEnabled()) {
-                Updates_4_0_0_b1::ensureCorePluginsThatWereMovedToMarketplaceCanBeUpdated();
-
                 $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
                 $pluginManager = PluginManager::getInstance();
                 $pluginManager->loadAllPluginsAndGetTheirInfo();
