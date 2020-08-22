@@ -20,6 +20,8 @@
         "dataTableLabelModels": "Model",
         "dataTableLabelSystemVersion": "Version Sistemi Operativ",
         "dataTableLabelTypes": "Lloj",
+        "ClientType": "Lloj klienti",
+        "ClientTypes": "Lloje klientësh",
         "Device": "Pajisje",
         "DeviceBrand": "Markë pajisjeje",
         "DeviceBrands": "Marka pajisjesh",

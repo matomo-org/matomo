@@ -20,6 +20,8 @@
         "dataTableLabelModels": "Μοντέλο",
         "dataTableLabelSystemVersion": "Έκδοση λειτουργικού συστήματος",
         "dataTableLabelTypes": "Τύπος",
+        "ClientType": "Τύπος πελάτη",
+        "ClientTypes": "Τύποι πελατών",
         "Device": "Συσκευή",
         "DeviceBrand": "Μάρκα συσκευής",
         "DeviceBrands": "Μάρκες συσκευής",

@@ -133,7 +133,10 @@
         "DaysHours": "%1$s jours %2$s heures",
         "DaysSinceFirstVisit": "Jours depuis la première visite",
         "DaysSinceLastEcommerceOrder": "Jours depuis la dernière commande e-commerce",
+        "SecondsSinceLastEcommerceOrder": "Secondes depuis la dernière commande Ecommerce",
         "DaysSinceLastVisit": "Jours depuis la dernière visite",
+        "SecondsSinceLastVisit": "Secondes depuis la dernière visite",
+        "SecondsSinceFirstVisit": "Secondes depuis la première visite",
         "Default": "Par défaut",
         "DefaultAppended": "(défaut)",
         "Delete": "Supprimer",
@@ -516,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "Le nombre maximum de périodes pouvant être comparées simultanément est de %s.",
         "Custom": "Personnalisé",
         "PreviousPeriod": "Période précédente",
-        "PreviousYear": "Année précédente"
+        "PreviousYear": "Année précédente",
+        "ViewAccessRequired": "Le jeton token_auth utilisé a trop d'accès pour être utilisé dans une URL de requête non-API. Veuillez définir un mot de passe spécifique à l'application pour un utilisateur qui n'a qu'un accès de visualisation."
     },
     "Mobile": {
         "AboutPiwikMobile": "À propos de Matomo Mobile",
