@@ -64,6 +64,7 @@ These are only recommendations (because we will keep backward compatibility for 
 #### New PHP events
 
 * Added new event `Db.getTablesInstalled`, plugins should use to register the tables they create.
+* Added new event `Template.confirmPasswordContent`, plugins can inject HTML content to the password confirmation view.
 
 #### Breaking changes in PHP events
 
