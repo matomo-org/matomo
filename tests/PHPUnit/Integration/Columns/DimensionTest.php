@@ -299,7 +299,7 @@ class ColumnDimensionTest extends IntegrationTestCase
             array($type = Dimension::TYPE_MONEY, $value = 5.392, $expected = '$5.39'),
             array($type = Dimension::TYPE_PERCENT, $value = 0.343, $expected = '34.3%'),
             array($type = Dimension::TYPE_DURATION_S, $value = 121, $expected = '00:02:01'),
-            array($type = Dimension::TYPE_DURATION_MS, $value = 0.392, $expected = '0.39s'),
+            array($type = Dimension::TYPE_DURATION_MS, $value = 392, $expected = '0.39s'),
             array($type = Dimension::TYPE_BYTE, $value = 3912, $expected = '3.8 K'),
             array($type = Dimension::TYPE_BOOL, $value = 0, $expected = 'No'),
             array($type = Dimension::TYPE_BOOL, $value = 1, $expected = 'Yes'),
