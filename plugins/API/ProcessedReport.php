@@ -13,8 +13,10 @@ use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
+use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
@@ -848,6 +850,21 @@ class ProcessedReport
             return $value;
         }
 
+        $dimension = self::getDimensionInstance($columnName);
+
+        if ($dimension) {
+            return $dimension->formatValue($value, $idSite, $formatter);
+        }
+
+        $metric = MetricsList::get()->getMetric($columnName);
+
+        if ($metric) {
+            return Context::changeIdSite($idSite, function () use ($metric, $value, $formatter) {
+                $metric->beforeFormat(null, new DataTable());
+                return $metric->format($value, $formatter);
+            });
+        }
+
         if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
             return $value == '0' ? '+0%' : $value;
         }
@@ -874,6 +891,12 @@ class ProcessedReport
         }
 
         return $value;
+    }
+
+    private static function getDimensionInstance($dimensionName)
+    {
+        $factory = StaticContainer::get('Piwik\Columns\DimensionsProvider');
+        return $factory->factory($dimensionName);
     }
 
     private function getComparisonColumns(array $metadataColumns)
