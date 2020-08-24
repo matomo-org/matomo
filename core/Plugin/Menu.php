@@ -223,7 +223,7 @@ class Menu
                     $period = Period\Factory::build($defaultPeriod, $defaultDateObj);
                     $endDate = $period->getDateEnd();
 
-                    if (!$endDate->isLater($siteCreationDate)) {
+                    if ($endDate->isEarlier($siteCreationDate)) {
                         // when selected date is before site creation date or it is the site creation day
                         $defaultDate = $siteCreationDate->toString();
                     }
