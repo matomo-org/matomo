@@ -1693,13 +1693,13 @@
             "idvisitor": "5484eb1bcd82eefe",
             "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "3 min 21s",
-            "time_dom_processing": "4 min 16s",
+            "time_dom_completion": "0.2s",
+            "time_dom_processing": "0.26s",
             "time_network": "0s",
-            "time_on_load": "1 min 45s",
-            "time_server": "6 min 5s",
+            "time_on_load": "0.11s",
+            "time_server": "0.37s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "1 min 6s"
+            "time_transfer": "0.07s"
         },
         {
             "custom_float": "0s",
@@ -1714,13 +1714,13 @@
             "idvisitor": "5484eb1bcd82eefe",
             "pageview_position": "3",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "2 min 2s",
-            "time_dom_processing": "6 min 45s",
+            "time_dom_completion": "0.12s",
+            "time_dom_processing": "0.41s",
             "time_network": "0s",
-            "time_on_load": "23s",
-            "time_server": "6 min 46s",
+            "time_on_load": "0.02s",
+            "time_server": "0.41s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "1 min 45s"
+            "time_transfer": "0.11s"
         },
         {
             "custom_float": "0s",
@@ -1920,7 +1920,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "29",
@@ -1943,7 +1943,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "3s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -1966,7 +1966,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "1s",
+            "custom_float": "0s",
             "idaction_event_action": "31",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -2088,13 +2088,13 @@
             "idvisitor": "dbfd79b34328023f",
             "pageview_position": "2",
             "server_time": "2016-12-31 08:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         },
         {
             "custom_float": "0s",
@@ -2130,13 +2130,13 @@
             "idvisitor": "dbfd79b34328023f",
             "pageview_position": "2",
             "server_time": "2017-01-01 23:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         },
         {
             "custom_float": "0s",
@@ -2172,13 +2172,13 @@
             "idvisitor": "dbfd79b34328023f",
             "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         },
         {
             "custom_float": "0s",
@@ -2214,13 +2214,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "2",
             "server_time": "2016-12-31 08:10:05",
-            "time_dom_completion": "3 min 8s",
-            "time_dom_processing": "3 min 36s",
-            "time_network": "1 min 46s",
-            "time_on_load": "2 min 45s",
-            "time_server": "3 min 18s",
+            "time_dom_completion": "0.19s",
+            "time_dom_processing": "0.22s",
+            "time_network": "0.11s",
+            "time_on_load": "0.17s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "2 min 48s"
+            "time_transfer": "0.17s"
         },
         {
             "custom_float": "0s",
@@ -2235,13 +2235,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "3",
             "server_time": "2016-12-31 08:10:05",
-            "time_dom_completion": "3 min 28s",
-            "time_dom_processing": "2 min 49s",
-            "time_network": "5 min 6s",
-            "time_on_load": "1 min 39s",
-            "time_server": "3 min 20s",
+            "time_dom_completion": "0.21s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.31s",
+            "time_on_load": "0.1s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "6 min 45s"
+            "time_transfer": "0.41s"
         },
         {
             "custom_float": "0s",
@@ -2277,13 +2277,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "2",
             "server_time": "2017-01-01 09:10:05",
-            "time_dom_completion": "3 min 8s",
-            "time_dom_processing": "3 min 36s",
-            "time_network": "1 min 46s",
-            "time_on_load": "2 min 45s",
-            "time_server": "3 min 18s",
+            "time_dom_completion": "0.19s",
+            "time_dom_processing": "0.22s",
+            "time_network": "0.11s",
+            "time_on_load": "0.17s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "2 min 48s"
+            "time_transfer": "0.17s"
         },
         {
             "custom_float": "0s",
@@ -2298,13 +2298,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "3",
             "server_time": "2017-01-01 09:10:05",
-            "time_dom_completion": "3 min 28s",
-            "time_dom_processing": "2 min 49s",
-            "time_network": "5 min 6s",
-            "time_on_load": "1 min 39s",
-            "time_server": "3 min 20s",
+            "time_dom_completion": "0.21s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.31s",
+            "time_on_load": "0.1s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "6 min 45s"
+            "time_transfer": "0.41s"
         },
         {
             "custom_float": "0s",
@@ -2340,13 +2340,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "2",
             "server_time": "2017-01-01 14:10:05",
-            "time_dom_completion": "3 min 8s",
-            "time_dom_processing": "3 min 36s",
-            "time_network": "1 min 46s",
-            "time_on_load": "2 min 45s",
-            "time_server": "3 min 18s",
+            "time_dom_completion": "0.19s",
+            "time_dom_processing": "0.22s",
+            "time_network": "0.11s",
+            "time_on_load": "0.17s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "2 min 48s"
+            "time_transfer": "0.17s"
         },
         {
             "custom_float": "0s",
@@ -2361,13 +2361,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "3",
             "server_time": "2017-01-01 14:10:05",
-            "time_dom_completion": "3 min 28s",
-            "time_dom_processing": "2 min 49s",
-            "time_network": "5 min 6s",
-            "time_on_load": "1 min 39s",
-            "time_server": "3 min 20s",
+            "time_dom_completion": "0.21s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.31s",
+            "time_on_load": "0.1s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "6 min 45s"
+            "time_transfer": "0.41s"
         },
         {
             "custom_float": "0s",
@@ -2403,13 +2403,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "2",
             "server_time": "2017-01-01 19:10:05",
-            "time_dom_completion": "3 min 8s",
-            "time_dom_processing": "3 min 36s",
-            "time_network": "1 min 46s",
-            "time_on_load": "2 min 45s",
-            "time_server": "3 min 18s",
+            "time_dom_completion": "0.19s",
+            "time_dom_processing": "0.22s",
+            "time_network": "0.11s",
+            "time_on_load": "0.17s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "2 min 48s"
+            "time_transfer": "0.17s"
         },
         {
             "custom_float": "0s",
@@ -2424,13 +2424,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "3",
             "server_time": "2017-01-01 19:10:05",
-            "time_dom_completion": "3 min 28s",
-            "time_dom_processing": "2 min 49s",
-            "time_network": "5 min 6s",
-            "time_on_load": "1 min 39s",
-            "time_server": "3 min 20s",
+            "time_dom_completion": "0.21s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.31s",
+            "time_on_load": "0.1s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "6 min 45s"
+            "time_transfer": "0.41s"
         },
         {
             "custom_float": "0s",
@@ -2466,13 +2466,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "2",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "3 min 8s",
-            "time_dom_processing": "3 min 36s",
-            "time_network": "1 min 46s",
-            "time_on_load": "2 min 45s",
-            "time_server": "3 min 18s",
+            "time_dom_completion": "0.19s",
+            "time_dom_processing": "0.22s",
+            "time_network": "0.11s",
+            "time_on_load": "0.17s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "2 min 48s"
+            "time_transfer": "0.17s"
         },
         {
             "custom_float": "0s",
@@ -2487,13 +2487,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "3",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "3 min 28s",
-            "time_dom_processing": "2 min 49s",
-            "time_network": "5 min 6s",
-            "time_on_load": "1 min 39s",
-            "time_server": "3 min 20s",
+            "time_dom_completion": "0.21s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.31s",
+            "time_on_load": "0.1s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "6 min 45s"
+            "time_transfer": "0.41s"
         },
         {
             "custom_float": "0s",
@@ -2529,13 +2529,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "2",
             "server_time": "2017-01-02 02:10:05",
-            "time_dom_completion": "3 min 8s",
-            "time_dom_processing": "3 min 36s",
-            "time_network": "1 min 46s",
-            "time_on_load": "2 min 45s",
-            "time_server": "3 min 18s",
+            "time_dom_completion": "0.19s",
+            "time_dom_processing": "0.22s",
+            "time_network": "0.11s",
+            "time_on_load": "0.17s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "2 min 48s"
+            "time_transfer": "0.17s"
         },
         {
             "custom_float": "0s",
@@ -2550,13 +2550,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "3",
             "server_time": "2017-01-02 02:10:05",
-            "time_dom_completion": "3 min 28s",
-            "time_dom_processing": "2 min 49s",
-            "time_network": "5 min 6s",
-            "time_on_load": "1 min 39s",
-            "time_server": "3 min 20s",
+            "time_dom_completion": "0.21s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.31s",
+            "time_on_load": "0.1s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "6 min 45s"
+            "time_transfer": "0.41s"
         },
         {
             "custom_float": "0s",
@@ -2592,13 +2592,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "3 min 8s",
-            "time_dom_processing": "3 min 36s",
-            "time_network": "1 min 46s",
-            "time_on_load": "2 min 45s",
-            "time_server": "3 min 18s",
+            "time_dom_completion": "0.19s",
+            "time_dom_processing": "0.22s",
+            "time_network": "0.11s",
+            "time_on_load": "0.17s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "2 min 48s"
+            "time_transfer": "0.17s"
         },
         {
             "custom_float": "0s",
@@ -2613,13 +2613,13 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "pageview_position": "3",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "3 min 28s",
-            "time_dom_processing": "2 min 49s",
-            "time_network": "5 min 6s",
-            "time_on_load": "1 min 39s",
-            "time_server": "3 min 20s",
+            "time_dom_completion": "0.21s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.31s",
+            "time_on_load": "0.1s",
+            "time_server": "0.2s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "6 min 45s"
+            "time_transfer": "0.41s"
         },
         {
             "custom_float": "0s",
@@ -2804,7 +2804,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "29",
@@ -2827,7 +2827,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "3s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -2850,7 +2850,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "1s",
+            "custom_float": "0s",
             "idaction_event_action": "31",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -3057,13 +3057,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "2",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "5 min 59s",
-            "time_dom_processing": "2 min 45s",
-            "time_network": "36s",
-            "time_on_load": "2 min 35s",
-            "time_server": "1 min 39s",
+            "time_dom_completion": "0.36s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.04s",
+            "time_on_load": "0.16s",
+            "time_server": "0.1s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "3 min 26s"
+            "time_transfer": "0.21s"
         },
         {
             "custom_float": "0s",
@@ -3078,13 +3078,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "3",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "2 min 35s",
-            "time_dom_processing": "3 min 19s",
-            "time_network": "26s",
-            "time_on_load": "1 min 30s",
-            "time_server": "3 min 55s",
+            "time_dom_completion": "0.16s",
+            "time_dom_processing": "0.2s",
+            "time_network": "0.03s",
+            "time_on_load": "0.09s",
+            "time_server": "0.24s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "36s"
+            "time_transfer": "0.04s"
         },
         {
             "custom_float": "0s",
@@ -3120,13 +3120,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "2",
             "server_time": "2017-01-01 22:10:05",
-            "time_dom_completion": "5 min 59s",
-            "time_dom_processing": "2 min 45s",
-            "time_network": "36s",
-            "time_on_load": "2 min 35s",
-            "time_server": "1 min 39s",
+            "time_dom_completion": "0.36s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.04s",
+            "time_on_load": "0.16s",
+            "time_server": "0.1s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "3 min 26s"
+            "time_transfer": "0.21s"
         },
         {
             "custom_float": "0s",
@@ -3141,13 +3141,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "3",
             "server_time": "2017-01-01 22:10:05",
-            "time_dom_completion": "2 min 35s",
-            "time_dom_processing": "3 min 19s",
-            "time_network": "26s",
-            "time_on_load": "1 min 30s",
-            "time_server": "3 min 55s",
+            "time_dom_completion": "0.16s",
+            "time_dom_processing": "0.2s",
+            "time_network": "0.03s",
+            "time_on_load": "0.09s",
+            "time_server": "0.24s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "36s"
+            "time_transfer": "0.04s"
         },
         {
             "custom_float": "0s",
@@ -3183,13 +3183,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "2",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "5 min 59s",
-            "time_dom_processing": "2 min 45s",
-            "time_network": "36s",
-            "time_on_load": "2 min 35s",
-            "time_server": "1 min 39s",
+            "time_dom_completion": "0.36s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.04s",
+            "time_on_load": "0.16s",
+            "time_server": "0.1s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "3 min 26s"
+            "time_transfer": "0.21s"
         },
         {
             "custom_float": "0s",
@@ -3204,13 +3204,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "3",
             "server_time": "2017-01-02 00:10:05",
-            "time_dom_completion": "2 min 35s",
-            "time_dom_processing": "3 min 19s",
-            "time_network": "26s",
-            "time_on_load": "1 min 30s",
-            "time_server": "3 min 55s",
+            "time_dom_completion": "0.16s",
+            "time_dom_processing": "0.2s",
+            "time_network": "0.03s",
+            "time_on_load": "0.09s",
+            "time_server": "0.24s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "36s"
+            "time_transfer": "0.04s"
         },
         {
             "custom_float": "0s",
@@ -3246,13 +3246,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "5 min 59s",
-            "time_dom_processing": "2 min 45s",
-            "time_network": "36s",
-            "time_on_load": "2 min 35s",
-            "time_server": "1 min 39s",
+            "time_dom_completion": "0.36s",
+            "time_dom_processing": "0.17s",
+            "time_network": "0.04s",
+            "time_on_load": "0.16s",
+            "time_server": "0.1s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "3 min 26s"
+            "time_transfer": "0.21s"
         },
         {
             "custom_float": "0s",
@@ -3267,13 +3267,13 @@
             "idvisitor": "f92bfd7922b77e32",
             "pageview_position": "3",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "2 min 35s",
-            "time_dom_processing": "3 min 19s",
-            "time_network": "26s",
-            "time_on_load": "1 min 30s",
-            "time_server": "3 min 55s",
+            "time_dom_completion": "0.16s",
+            "time_dom_processing": "0.2s",
+            "time_network": "0.03s",
+            "time_on_load": "0.09s",
+            "time_server": "0.24s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "36s"
+            "time_transfer": "0.04s"
         },
         {
             "custom_float": "0s",
@@ -3297,7 +3297,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "29",
@@ -3320,7 +3320,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "3s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -3343,7 +3343,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "1s",
+            "custom_float": "0s",
             "idaction_event_action": "31",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -3710,13 +3710,13 @@
             "idvisitor": "cb9a53c4ce1dc123",
             "pageview_position": "2",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "3 min 21s",
-            "time_dom_processing": "4 min 16s",
+            "time_dom_completion": "0.2s",
+            "time_dom_processing": "0.26s",
             "time_network": "0s",
-            "time_on_load": "1 min 45s",
-            "time_server": "6 min 5s",
+            "time_on_load": "0.11s",
+            "time_server": "0.37s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "1 min 6s"
+            "time_transfer": "0.07s"
         },
         {
             "custom_float": "0s",
@@ -3731,13 +3731,13 @@
             "idvisitor": "cb9a53c4ce1dc123",
             "pageview_position": "3",
             "server_time": "2017-01-02 01:10:05",
-            "time_dom_completion": "2 min 2s",
-            "time_dom_processing": "6 min 45s",
+            "time_dom_completion": "0.12s",
+            "time_dom_processing": "0.41s",
             "time_network": "0s",
-            "time_on_load": "23s",
-            "time_server": "6 min 46s",
+            "time_on_load": "0.02s",
+            "time_server": "0.41s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "1 min 45s"
+            "time_transfer": "0.11s"
         },
         {
             "custom_float": "0s",
@@ -3773,13 +3773,13 @@
             "idvisitor": "cb9a53c4ce1dc123",
             "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "3 min 21s",
-            "time_dom_processing": "4 min 16s",
+            "time_dom_completion": "0.2s",
+            "time_dom_processing": "0.26s",
             "time_network": "0s",
-            "time_on_load": "1 min 45s",
-            "time_server": "6 min 5s",
+            "time_on_load": "0.11s",
+            "time_server": "0.37s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "1 min 6s"
+            "time_transfer": "0.07s"
         },
         {
             "custom_float": "0s",
@@ -3794,13 +3794,13 @@
             "idvisitor": "cb9a53c4ce1dc123",
             "pageview_position": "3",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "2 min 2s",
-            "time_dom_processing": "6 min 45s",
+            "time_dom_completion": "0.12s",
+            "time_dom_processing": "0.41s",
             "time_network": "0s",
-            "time_on_load": "23s",
-            "time_server": "6 min 46s",
+            "time_on_load": "0.02s",
+            "time_server": "0.41s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "1 min 45s"
+            "time_transfer": "0.11s"
         },
         {
             "custom_float": "0s",
@@ -3846,7 +3846,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "2s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "29",
@@ -3868,7 +3868,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "3s",
+            "custom_float": "0s",
             "idaction_event_action": "27",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -3890,7 +3890,7 @@
             "time_transfer": "0s"
         },
         {
-            "custom_float": "1s",
+            "custom_float": "0s",
             "idaction_event_action": "31",
             "idaction_event_category": "28",
             "idaction_name": "30",
@@ -3988,13 +3988,13 @@
             "idvisitor": "26a1aa089f52e271",
             "pageview_position": "2",
             "server_time": "2017-01-02 02:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         },
         {
             "custom_float": "0s",
@@ -4030,13 +4030,13 @@
             "idvisitor": "26a1aa089f52e271",
             "pageview_position": "2",
             "server_time": "2017-01-01 14:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         },
         {
             "custom_float": "0s",
@@ -4072,13 +4072,13 @@
             "idvisitor": "26a1aa089f52e271",
             "pageview_position": "2",
             "server_time": "2017-01-01 17:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         },
         {
             "custom_float": "0s",
@@ -4114,13 +4114,13 @@
             "idvisitor": "26a1aa089f52e271",
             "pageview_position": "2",
             "server_time": "2017-01-01 23:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         },
         {
             "custom_float": "0s",
@@ -4156,13 +4156,13 @@
             "idvisitor": "26a1aa089f52e271",
             "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "6 min 9s",
-            "time_dom_processing": "5 min 21s",
-            "time_network": "1 min 39s",
-            "time_on_load": "3 min 21s",
-            "time_server": "1 min 50s",
+            "time_dom_completion": "0.37s",
+            "time_dom_processing": "0.32s",
+            "time_network": "0.1s",
+            "time_on_load": "0.2s",
+            "time_server": "0.11s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "4 min 8s"
+            "time_transfer": "0.25s"
         }
     ],
     "log_foo_bar_baz": [
