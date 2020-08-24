@@ -102,12 +102,14 @@
         "RowLimit": "Limite de linhas",
         "CustomLimit": "Limite personalizado",
         "ExportFormat": "Formato de exportação",
+        "ExportTooltip": "Nota: o endereço de exportação gerado apenas irá funcionar na sessão atual do navegador. Se quiser utilizá-lo noutro sítio, necessita de utilizar um código específico para a aplicação. Pode configurar estes códigos em Administração -> Segurança -> Códigos de autorização",
         "ExpandSubtables": "Expandir sub-tabelas",
         "StandardReport": "Relatório padrão",
         "FlattenReport": "Nivelar relatório",
         "ReportWithMetadata": "Relatório com metadados",
         "ReadMoreOnlineGuide": "Leia mais sobre este tópico no guia online.",
         "SeeAvailableVersions": "Ver versões disponíveis",
-        "QuickLinks": "Ligações rápidas"
+        "QuickLinks": "Ligações rápidas",
+        "Profilable": "Perfilável"
     }
 }

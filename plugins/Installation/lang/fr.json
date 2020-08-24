@@ -148,6 +148,7 @@
         "WelcomeHelp": "<p>Matomo est une application d'analyse du web Open Source qui vous permet d'obtenir facilement les informations que vous désirez sur vos visiteurs.<\/p>\t<p>Ce procédé est divisé en %s étapes faciles et vous prendra 5 minutes environ.<\/p>",
         "WelcomeToCommunity": "Bienvenue dans la communauté Matomo !",
         "CannotConnectToDb": "Impossible de se connecter à la base de données",
-        "CannotConnectToDbResolvingExplanation": "Cela peut être un problème temporaire, essayer de %1$srafraichir la page%2$s. Si le problème persiste veuillez contacter votre administrateur Matomo."
+        "CannotConnectToDbResolvingExplanation": "Cela peut être un problème temporaire, essayer de %1$srafraichir la page%2$s. Si le problème persiste veuillez contacter votre administrateur Matomo.",
+        "EmailPrivacyNotice": "Votre adresse courriel sera utilisée uniquement pour vous envoyer l'infolettre. Pour cela nous devons partager votre courriel avec un fournisseur tiers. Ce fournisseur est actuellement Mad Mimi, mais cela peut changer plus tard. Nous ne partagerons votre courriel avec personne d'autre et nous n'utiliserons pas votre courriel pour un autre motif que l'envoi de l'infolettre. Vous pouvez vous désinscrire à tout moment. Veuillez consulter notre %1$spolitique de respect de la vie privée%2$s pour plus d'information."
     }
 }

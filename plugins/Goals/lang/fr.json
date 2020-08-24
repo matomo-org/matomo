@@ -120,6 +120,7 @@
         "EventValueAsRevenueHelp": "Si l'évènement correspondant a un revenu, et que ce revenu est suivi en tant que valeur de l'évènement, vous pouvez activer cette option pour enregistrement la valeur de l'évènement en tant que revenu de conversion d'objectif. Si votre revenu objectif ne varie pas par conversion, vous pouvez ignorer cette option et simplement définir un revenu par défaut ci-dessus.",
         "EventValueAsRevenueHelp2": "Note : si un objectif de revenu par défaut ainsi qu'une valeur d'évènement sont définis, la valeur de l'évènement sera utilisée. Si cette option est activée et qu'aucune valeur d'évènement est envoyée avec la requête, la valeur par défault sera utilisée (si définie).",
         "AtLeastMinutes": "au moins %1$s minutes. Utiliser les décimales pour les secondes, par exemple, %2$s pour 30 secondes.",
-        "TimeInMinutes": "Durée en minute"
+        "TimeInMinutes": "Durée en minute",
+        "ClickToViewThisGoal": "Cliquer pour voir cet objectif."
     }
 }

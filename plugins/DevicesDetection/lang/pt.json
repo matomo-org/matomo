@@ -20,6 +20,8 @@
         "dataTableLabelModels": "Modelo",
         "dataTableLabelSystemVersion": "Versão do sistema operativo",
         "dataTableLabelTypes": "Tipo",
+        "ClientType": "Tipo de cliente",
+        "ClientTypes": "Tipos de clientes",
         "Device": "Dispositivo",
         "DeviceBrand": "Marca do dispositivo",
         "DeviceBrands": "Marcas dos dispositivos",
@@ -47,9 +49,13 @@
         "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
+        "Library": "Biblioteca",
+        "FeedReader": "Leitor de feeds",
         "MobileApp": "Aplicação Móvel",
+        "Pim": "PIM",
+        "MediaPlayer": "Reprodutor de media",
         "XVisitsFromDevices": "%1$s visitas de %2$s dispositivos",
-        "Wearable": "Usável",
+        "Wearable": "Dispositivo utilizável",
         "WidgetBrowsers": "Navegador do visitante",
         "WidgetBrowsersDocumentation": "Este relatório contém informações sobre o tipo de navegadores que os seus visitantes estavam a utilizar. Cada versão do navegador é listada separadamente."
     }
