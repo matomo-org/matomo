@@ -66,7 +66,7 @@ class TimeDomCompletion extends ActionDimension
         $metricsList->addMetric($metric4);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
-        $metric->setName('avg_page_time_dom_completion');
+        $metric->setName('avg_time_dom_completion');
         $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTimeDomCompletion'));
         $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTimeDomCompletionDocumentation'));
         $metricsList->addMetric($metric);
