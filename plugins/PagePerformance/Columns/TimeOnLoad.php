@@ -58,6 +58,7 @@ class TimeOnLoad extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_on_load');
+        $metric3->setType(self::TYPE_NUMBER);
         $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeOnLoad'));
         $metricsList->addMetric($metric3);
 
