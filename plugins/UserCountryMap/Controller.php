@@ -245,7 +245,6 @@ class Controller extends \Piwik\Plugin\Controller
     private function getEnrichedRequest($params, $encode = true)
     {
         $params['format'] = 'json';
-        $params['showRawMetrics'] = 1;
         if (empty($params['segment'])) {
             $segment = Request::getRawSegmentFromRequest();
             if (!empty($segment)) {
@@ -308,8 +307,7 @@ class Controller extends \Piwik\Plugin\Controller
             . "&date=" . $date
             . "&token_auth=" . $token_auth
             . "&segment=" . ($segmentOverride ? : Request::getRawSegmentFromRequest())
-            . "&enable_filter_excludelowpop=1"
-            . "&showRawMetrics=1";
+            . "&enable_filter_excludelowpop=1";
 
         if ($filter_by_country) {
             $url .= "&filter_column=country"

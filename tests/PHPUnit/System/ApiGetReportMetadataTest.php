@@ -65,13 +65,12 @@ class ApiGetReportMetadataTest extends SystemTestCase
                                                   'testSuffix'             => '_hideMetricsDoc',
                                                   'otherRequestParameters' => array('hideMetricsDoc' => 1))),
 
-            // Test w/ showRawMetrics=true
+            // Test w/ format_metrics=true
             array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
                                                   'apiModule'              => 'UserCountry', 'apiAction' => 'getCountry',
-                                                  'testSuffix'             => '_showRawMetrics',
-                                                  'otherRequestParameters' => array('showRawMetrics' => 1))),
+                                                  'testSuffix'             => '_formatMetrics',
+                                                  'otherRequestParameters' => array('format_metrics' => 1))),
 
-            // Test w/ showRawMetrics=true
             array('Actions.getPageTitles', array('idSite'     => $idSite, 'date' => $dateTime,
                                                  'testSuffix' => '_pageTitleZeroString')),
 

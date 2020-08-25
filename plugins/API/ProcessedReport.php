@@ -319,8 +319,8 @@ class ProcessedReport
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
                                        $apiParameters = false, $idGoal = false, $language = false,
-                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
-                                       $formatMetrics = null, $idDimension = false)
+                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false,
+                                       $idDimension = false)
     {
         $timer = new Timer();
         if (empty($apiParameters)) {
@@ -380,7 +380,7 @@ class ProcessedReport
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
+        [$newReport, $columns, $rowsMetadata, $totals] = $this->handleTableReport($idSite, $dataTable, $reportMetadata);
 
         if (function_exists('mb_substr')) {
             foreach ($columns as &$name) {
@@ -422,11 +422,9 @@ class ProcessedReport
      * @param int $idSite enables monetary value formatting based on site currency
      * @param \Piwik\DataTable\Map|\Piwik\DataTable\Simple $dataTable
      * @param array $reportMetadata
-     * @param bool $showRawMetrics
-     * @param bool|null $formatMetrics
      * @return array Simple|Set $newReport with human readable format & array $columns list of translated column names & Simple|Set $rowsMetadata
      */
-    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false, $formatMetrics = null)
+    private function handleTableReport($idSite, $dataTable, &$reportMetadata)
     {
         $hasDimension = isset($reportMetadata['dimension']);
         $columns = @$reportMetadata['metrics'] ?: array();
@@ -481,7 +479,7 @@ class ProcessedReport
             foreach ($dataTable->getDataTables() as $simpleDataTable) {
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
-                list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
+                [$enhancedSimpleDataTable, $rowMetadata] = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension);
                 $enhancedSimpleDataTable->setAllTableMetadata($simpleDataTable->getAllTableMetadata());
 
                 $period = $simpleDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedLongString();
@@ -492,7 +490,7 @@ class ProcessedReport
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
-            list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
+            [$newReport, $rowsMetadata] = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension);
 
             $totals = $this->aggregateReportTotalValues($dataTable, $totals);
         }
@@ -601,15 +599,15 @@ class ProcessedReport
      * - format metric values to a 'human readable' format
      * - extract row metadata to a separate Simple $rowsMetadata
      *
-     * @param int $idSite enables monetary value formatting based on site currency
+     * @param int       $idSite enables monetary value formatting based on site currency
      * @param DataTable $simpleDataTable
-     * @param array $metadataColumns
-     * @param boolean $hasDimension
-     * @param bool $returnRawMetrics If set to true, the original metrics will be returned
-     * @param bool|null $formatMetrics
+     * @param array     $metadataColumns
+     * @param boolean   $hasDimension
+     * @param bool      $keepMetadata
      * @return array DataTable $enhancedDataTable filtered metrics with human readable format & Simple $rowsMetadata
+     * @throws Exception
      */
-    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false, $formatMetrics = null, $keepMetadata = false)
+    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $keepMetadata = false)
     {
         $comparisonColumns = $this->getComparisonColumns($metadataColumns);
 
@@ -622,8 +620,6 @@ class ProcessedReport
         } else {
             $enhancedDataTable = new Simple();
         }
-
-        $formatter = new Formatter();
 
         $hasNonEmptyRowData = false;
 
@@ -646,35 +642,10 @@ class ProcessedReport
             $enhancedDataTable->addRow($enhancedRow);
 
             foreach ($rowMetrics as $columnName => $columnValue) {
-                // filter metrics according to metadata definition
-                if (isset($metadataColumns[$columnName])) {
-                    // generate 'human readable' metric values
-
-                    // if we handle MultiSites.getAll we do not always have the same idSite but different ones for
-                    // each site, see https://github.com/piwik/piwik/issues/5006
-                    $idSiteForRow = $idSite;
-                    $idSiteMetadata = $row->getMetadata('idsite');
-                    if ($idSiteMetadata && is_numeric($idSiteMetadata)) {
-                        $idSiteForRow = (int) $idSiteMetadata;
-                    }
-
-                    // format metrics manually here to maintain API.getProcessedReport BC if format_metrics query parameter is
-                    // not supplied. TODO: should be removed for 3.0. should only rely on format_metrics query parameter.
-                    if ($formatMetrics === null
-                        || $formatMetrics == 'bc'
-                    ) {
-                        $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
-                    } else {
-                        $prettyValue = $columnValue;
-                    }
-                    $enhancedRow->addColumn($columnName, $prettyValue);
-                } // For example the Maps Widget requires the raw metrics to do advanced datavis
-                else if ($returnRawMetrics) {
-                    if (!isset($columnValue)) {
-                        $columnValue = 0;
-                    }
-                    $enhancedRow->addColumn($columnName, $columnValue);
+                if (!isset($columnValue)) {
+                    $columnValue = 0;
                 }
+                $enhancedRow->addColumn($columnName, $columnValue);
             }
 
             /** @var DataTable $comparisons */
@@ -683,7 +654,7 @@ class ProcessedReport
             if (!empty($comparisons)
                 && $comparisons->getRowsCount() > 0
             ) {
-                list($newComparisons, $ignore) = $this->handleSimpleDataTable($idSite, $comparisons, $comparisonColumns, true, $returnRawMetrics, $formatMetrics, $keepMetadata = true);
+                [$newComparisons, $ignore] = $this->handleSimpleDataTable($idSite, $comparisons, $comparisonColumns, true, $keepMetadata = true);
                 $enhancedRow->setComparisons($newComparisons);
             }
 
@@ -833,70 +804,6 @@ class ProcessedReport
             }
             return $entry;
         }, $v));
-    }
-
-    /**
-     * Prettifies a metric value based on the column name.
-     *
-     * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
-     * @param string $columnName The metric name.
-     * @param mixed $value The metric value.
-     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
-     * @return string
-     */
-    public static function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value)
-    {
-        if (!is_numeric($value)) {
-            return $value;
-        }
-
-        $dimension = self::getDimensionInstance($columnName);
-
-        if ($dimension) {
-            return $dimension->formatValue($value, $idSite, $formatter);
-        }
-
-        $metric = MetricsList::get()->getMetric($columnName);
-
-        if ($metric) {
-            return Context::changeIdSite($idSite, function () use ($metric, $value, $formatter) {
-                $metric->beforeFormat(null, new DataTable());
-                return $metric->format($value, $formatter);
-            });
-        }
-
-        if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
-            return $value == '0' ? '+0%' : $value;
-        }
-
-        // Display time in human readable
-		if (strpos($columnName, 'time_generation') !== false) {
-			return $formatter->getPrettyTimeFromSeconds($value, true);
-		} 
-		if (strpos($columnName, 'time') !== false) {
-            return $formatter->getPrettyTimeFromSeconds($value);
-        }
-
-        // Add revenue symbol to revenues
-        $isMoneyMetric = strpos($columnName, 'revenue') !== false || strpos($columnName, 'price') !== false;
-        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
-            return $formatter->getPrettyMoney($value, $idSite);
-        }
-
-        // Add % symbol to rates
-        if (strpos($columnName, '_rate') !== false) {
-            if (strpos($value, "%") === false) {
-                return (100 * $value) . "%";
-            }
-        }
-
-        return $value;
-    }
-
-    private static function getDimensionInstance($dimensionName)
-    {
-        $factory = StaticContainer::get('Piwik\Columns\DimensionsProvider');
-        return $factory->factory($dimensionName);
     }
 
     private function getComparisonColumns(array $metadataColumns)

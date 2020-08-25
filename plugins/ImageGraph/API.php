@@ -373,7 +373,6 @@ class API extends \Piwik\Plugin\API
                     'showTimer' => true,
                     'hideMetricsDoc' => false,
                     'idSubtable' => $idSubtable,
-                    'showRawMetrics' => false
                 );
                 $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
             }

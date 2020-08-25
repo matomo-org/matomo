@@ -96,9 +96,7 @@
                     apiModule: module,
                     apiAction: action,
                     filter_limit: -1,
-                    limit: -1,
-                    format_metrics: 0,
-                    showRawMetrics: 1
+                    limit: -1
                 });
                 if (countryFilter) {
                     $.extend(params, {

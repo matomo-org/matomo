@@ -279,13 +279,12 @@ class API extends \Piwik\Plugin\API
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
                                        $apiParameters = false, $idGoal = false, $language = false,
-                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
-                                       $format_metrics = null, $idDimension = false)
+                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $idDimension = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
         $processed = $this->processedReport->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
-            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics, $idDimension);
+            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $idDimension);
 
         return $processed;
     }
