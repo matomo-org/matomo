@@ -13,7 +13,6 @@ use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
-use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
@@ -21,7 +20,6 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
@@ -174,19 +172,21 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function oneClickUpdatePartTwo()
+    public function oneClickUpdatePartTwo($sendHeader = true)
     {
-        Json::sendHeaderJSON();
+        if ($sendHeader) {
+            Json::sendHeaderJSON();
+        }
 
-        $messages = [];
+        $task = "Couldn't update Marketplace plugins.";
 
         $nonce = Common::getRequestVar('nonce', '', 'string');
         if (empty($nonce)) {
-            return json_encode(['no token']);
+            return json_encode(['No token. ' . $task]);
         }
         $value = Option::get('NonceOneClickUpdatePartTwo');
         if (empty($value)) {
-            return json_encode(['invalid token']);
+            return json_encode(['Invalid token. ' . $task]);
         }
         $value = json_decode($value, true);
 
@@ -194,7 +194,7 @@ class Controller extends \Piwik\Plugin\Controller
             || empty($value['ttl'])
             || time() > (int) $value['ttl']
             || $nonce !== $value['nonce']) {
-            return json_encode(['invalid nonce or nonce expired']);
+            return json_encode(['Invalid nonce or nonce expired. ' . $task]);
         }
 
         try {
@@ -203,7 +203,7 @@ class Controller extends \Piwik\Plugin\Controller
             $messages = $e->getUpdateLogMessages();
             $messages[] = $e->getMessage();
         } catch (Exception $e) {
-            $messages[] = $e->getMessage();
+            $messages = [$e->getMessage()];
         }
 
         return json_encode($messages);
