@@ -224,7 +224,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->config = array(
             'metrics'            => array(),
-            'svgBasePath'        => $view->piwikUrl . 'plugins/UserCountryMap/svg/',
+            'svgBasePath'        => 'plugins/UserCountryMap/svg/',
             'liveRefreshAfterMs' => $liveRefreshAfterMs,
             '_'                  => $locale,
             'reqParams'          => $reqParams,
