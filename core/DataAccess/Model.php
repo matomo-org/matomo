@@ -203,7 +203,13 @@ class Model
 
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
-            $siteCreationTime = Date::factory(Site::getCreationDateFor($idSite));
+            try {
+                $siteCreationTime = Site::getCreationDateFor($idSite);
+            } catch (\Exception $ex) {
+                continue;
+            }
+
+            $siteCreationTime = Date::factory($siteCreationTime);
             foreach ($allPeriodsToInvalidate as $period) {
                 if ($period->getLabel() == 'range'
                     && !$forceInvalidateNonexistantRanges
