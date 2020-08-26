@@ -8,11 +8,18 @@
 
 $cacheBuster = md5(uniqid(mt_rand(), true));
 
+
 // Note: when you want to debug the piwik.js during the tests, you need to set a cache buster that is always the same
 // between requests so the browser knows it is the same file and know where to breakpoint.
 //$cacheBuster= 'nocb'; // uncomment to debug
 
 $root = dirname(__FILE__) . '/../..';
+$testPluginOnly = '*';
+if (!empty($_GET['plugin'])
+    && ctype_alnum($_GET['plugin'])
+    && is_dir($root . '/plugins/' . $_GET['plugin'])) {
+    $testPluginOnly = $_GET['plugin'];
+}
 
 try {
     $mysql = include_once $root . "/tests/PHPUnit/bootstrap.php";
@@ -92,7 +99,7 @@ testTrackPageViewAsync();
 
     <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'head.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginOnly.'/tests/javascript', 'head.php');
     foreach ($files as $file) {
         include_once $file;
     }
@@ -5131,7 +5138,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
  
 <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'index.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginOnly.'/tests/javascript', 'index.php');
     foreach ($files as $file) {
         include_once $file;
     }
