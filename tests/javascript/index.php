@@ -14,11 +14,11 @@ $cacheBuster = md5(uniqid(mt_rand(), true));
 //$cacheBuster= 'nocb'; // uncomment to debug
 
 $root = dirname(__FILE__) . '/../..';
-$testPluginOnly = '*';
+$testPluginPath = '*';
 if (!empty($_GET['plugin'])
     && ctype_alnum($_GET['plugin'])
     && is_dir($root . '/plugins/' . $_GET['plugin'])) {
-    $testPluginOnly = $_GET['plugin'];
+    $testPluginPath = $_GET['plugin'];
 }
 
 try {
@@ -99,9 +99,16 @@ testTrackPageViewAsync();
 
     <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginOnly.'/tests/javascript', 'head.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginPath.'/tests/javascript', 'head.php');
     foreach ($files as $file) {
         include_once $file;
+    }
+    if ($testPluginPath !== '*') {
+        // Travis would always include tag manager
+        $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'head.php');
+        foreach ($files as $file) {
+            include_once $file;
+        }
     }
     ?>
 <style>
@@ -2276,6 +2283,7 @@ function PiwikTest() {
         equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
 
         wait(2000);
+
         var delayedTracker = Piwik.getTracker();
         var delayedVisitorId = delayedTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
@@ -5138,9 +5146,16 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
  
 <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginOnly.'/tests/javascript', 'index.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginPath.'/tests/javascript', 'index.php');
     foreach ($files as $file) {
         include_once $file;
+    }
+    if ($testPluginPath !== '*') {
+        // Travis would always include tag manager
+        $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'index.php');
+        foreach ($files as $file) {
+            include_once $file;
+        }
     }
 ?>
 
