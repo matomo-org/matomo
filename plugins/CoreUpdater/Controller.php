@@ -225,7 +225,11 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             $view = new View('@CoreUpdater/updateSuccess');
         }
-        $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        $messages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        if (!is_array($messages)) {
+            $messages = array();
+        }
+        $view->feedbackMessages = $messages;
 
         $this->addCustomLogoInfo($view);
         $this->setBasicVariablesView($view);

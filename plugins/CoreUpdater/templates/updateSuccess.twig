@@ -36,6 +36,7 @@
             </div>
         </div>
 
+        {% if feedbackMessages is defined and feedbackMessages is not empty %}
         <h2>{{ 'CoreUpdater_UpdateLog'|translate }}</h2>
         <div class="row">
             <div class="col s12">
@@ -46,6 +47,7 @@
                 </code></pre>
             </div>
         </div>
+        {% endif %}
 
     </div>
 
