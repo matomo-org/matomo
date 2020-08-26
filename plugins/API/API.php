@@ -340,59 +340,71 @@ class API extends \Piwik\Plugin\API
             $columnsMap[$column] = true;
         }
 
-        // find out which columns belong to which plugin
-        $columnsByPlugin = array();
-        $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
-        foreach ($meta as $reportMeta) {
-            // scan all *.get reports
-            if ($reportMeta['action'] == 'get'
-                && !isset($reportMeta['parameters'])
-                && $reportMeta['module'] != 'API'
-                && !empty($reportMeta['metrics'])
-            ) {
-                $plugin = $reportMeta['module'];
-                $allMetrics = array_merge($reportMeta['metrics'], @$reportMeta['processedMetrics'] ?: array());
-                foreach ($allMetrics as $column => $columnTranslation) {
-                    // a metric from this report has been requested
-                    if (isset($columnsMap[$column])
-                        // or by default, return all metrics
-                        || empty($columnsMap)
-                    ) {
-                        $columnsByPlugin[$plugin][] = $column;
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        $dataTables = new DataTable\Map();
+        $dataTables->setKeyName('idSite');
+
+        foreach ($idSites as $idSite) {
+
+            // find out which columns belong to which plugin
+            $columnsByPlugin = [];
+            $meta            = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
+            foreach ($meta as $reportMeta) {
+                // scan all *.get reports
+                if ($reportMeta['action'] == 'get'
+                    && !isset($reportMeta['parameters'])
+                    && $reportMeta['module'] != 'API'
+                    && !empty($reportMeta['metrics'])
+                ) {
+                    $plugin     = $reportMeta['module'];
+                    $allMetrics = array_merge($reportMeta['metrics'], @$reportMeta['processedMetrics'] ?: []);
+                    foreach ($allMetrics as $column => $columnTranslation) {
+                        // a metric from this report has been requested
+                        if (isset($columnsMap[$column])
+                            // or by default, return all metrics
+                            || empty($columnsMap)
+                        ) {
+                            $columnsByPlugin[$plugin][] = $column;
+                        }
                     }
                 }
             }
-        }
-        krsort($columnsByPlugin);
+            krsort($columnsByPlugin);
 
-        $mergedDataTable = false;
-        $params = compact('idSite', 'period', 'date', 'segment');
-        foreach ($columnsByPlugin as $plugin => $columns) {
-            // load the data
-            $className = Request::getClassNameAPI($plugin);
-            $params['columns'] = implode(',', $columns);
-            $dataTable = Proxy::getInstance()->call($className, 'get', $params);
+            $mergedDataTable = false;
+            $params          = compact('idSite', 'period', 'date', 'segment');
+            foreach ($columnsByPlugin as $plugin => $columns) {
+                // load the data
+                $className         = Request::getClassNameAPI($plugin);
+                $params['columns'] = implode(',', $columns);
+                $dataTable         = Proxy::getInstance()->call($className, 'get', $params);
 
-            $dataTable->filter(function (DataTable $table) {
-                $table->clearQueuedFilters();
-            });
+                $dataTable->filter(function (DataTable $table) {
+                    $table->clearQueuedFilters();
+                });
 
-            // merge reports
-            if ($mergedDataTable === false) {
-                $mergedDataTable = $dataTable;
-            } else {
-                $merger = new MergeDataTables();
-                $merger->mergeDataTables($mergedDataTable, $dataTable);
+                // merge reports
+                if ($mergedDataTable === false) {
+                    $mergedDataTable = $dataTable;
+                } else {
+                    $merger = new MergeDataTables();
+                    $merger->mergeDataTables($mergedDataTable, $dataTable);
+                }
+
+                if (!empty($columnsMap)
+                    && !empty($mergedDataTable)
+                ) {
+                    $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
+                }
+
+                $dataTables->addTable($mergedDataTable, $idSite);
             }
         }
 
-        if (!empty($columnsMap)
-            && !empty($mergedDataTable)
-        ) {
-            $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
-        }
+        $tables = $dataTables->getDataTables();
 
-        return $mergedDataTable;
+        return count($tables) > 1 ? $dataTables : reset($tables);
     }
 
     /**
