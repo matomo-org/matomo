@@ -746,7 +746,11 @@ class CronArchive
                 $this->logger->info('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIdsToInvalidate, $date);
             } catch (Exception $e) {
-                $this->logger->info('  Failed to invalidate archived reports: ' . $e->getMessage());
+                $message = $e->getMessage();
+                if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                    $message .= "\n" . $e->getTraceAsString();
+                }
+                $this->logger->info('  Failed to invalidate archived reports: ' . $message);
             }
         }
 
