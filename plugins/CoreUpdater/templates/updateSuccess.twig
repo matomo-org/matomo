@@ -36,6 +36,19 @@
             </div>
         </div>
 
+        {% if feedbackMessages is defined and feedbackMessages is not empty %}
+        <h2>{{ 'CoreUpdater_UpdateLog'|translate }}</h2>
+        <div class="row">
+            <div class="col s12">
+                <pre style="margin-top: 0;"><code>
+                    {%- for message in feedbackMessages %}
+&#10003; {{ message }}
+{% endfor -%}
+                </code></pre>
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 
     <div class="footer">

@@ -153,7 +153,7 @@ class FrontController extends Singleton
         if (self::$enableDispatch === false) {
             return;
         }
-
+        
         $filter = new Router();
         $redirection = $filter->filterUrl(Url::getCurrentUrl());
         if ($redirection !== null) {
