@@ -61,12 +61,12 @@ class BruteForceDetection {
 
     public function isAllowedToLogin($ipAddress)
     {
-        if ($this->settings->isBlacklistedIp($ipAddress)) {
-            return false;
-        }
-
         if ($this->settings->isWhitelistedIp($ipAddress)) {
             return true;
+        }
+
+        if ($this->settings->isBlacklistedIp($ipAddress)) {
+            return false;
         }
 
         $db = Db::get();
