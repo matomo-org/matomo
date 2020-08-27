@@ -248,6 +248,19 @@ class Cookie
             $varName = substr($nameValue, 0, $equalPos);
             $varValue = substr($nameValue, $equalPos + 1);
 
+            if (!is_numeric($varValue)) {
+                $tmpValue = base64_decode($varValue);
+                $varValue = safe_unserialize($tmpValue);
+
+                // discard entire cookie
+                // note: this assumes we never serialize a boolean
+                if ($varValue === false && $tmpValue !== 'b:0;') {
+                    $this->value = array();
+                    unset($_COOKIE[$this->name]);
+                    break;
+                }
+            }
+
             $this->value[$varName] = $varValue;
         }
     }
@@ -263,8 +276,8 @@ class Cookie
         $cookieStrArr = [];
 
         foreach ($this->value as $name => $value) {
-            if (!is_numeric($value) && !is_string($value)) {
-                throw new \Exception("cookies can only contain strings and numbers");
+            if (!is_numeric($value)) {
+                $value = base64_encode(safe_serialize($value));
             }
             $cookieStrArr[] = "$name=$value"; 
         }
