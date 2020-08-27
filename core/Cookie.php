@@ -203,6 +203,7 @@ class Cookie
 
     /**
      * Extract signed content from string: content VALUE_SEPARATOR '_=' signature
+     * Only needed for BC.
      *
      * @param string $content
      * @param bool $validate
@@ -234,7 +235,9 @@ class Cookie
         // this value
         $cookieStr = $this->extractSignedContent($_COOKIE[$this->name]);
 
-        if ($cookieStr === false) {
+        if ($cookieStr === false
+            && !empty($_COOKIE[$this->name])
+            && strpos($_COOKIE[$this->name], '=') !== false) {
             $cookieStr = $_COOKIE[$this->name];
         }
 
