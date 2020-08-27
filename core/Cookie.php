@@ -81,9 +81,8 @@ class Cookie
      *                                  use 0 (int zero) to expire cookie at end of browser session
      * @param string $path The path on the server in which the cookie will be available on.
      * @param bool|string $keyStore Will be used to store several bits of data (eg. one array per website)
-     * @param bool $validateSignature If true, the cookie signature will be validated (default).
      */
-    public function __construct($cookieName, $expire = null, $path = null, $keyStore = false, $validateSignature = true)
+    public function __construct($cookieName, $expire = null, $path = null, $keyStore = false)
     {
         $this->name = $cookieName;
         $this->path = $path;
@@ -97,7 +96,7 @@ class Cookie
 
         $this->keyStore = $keyStore;
         if ($this->isCookieFound()) {
-            $this->loadContentFromCookie($validateSignature);
+            $this->loadContentFromCookie();
         }
     }
 
@@ -209,12 +208,12 @@ class Cookie
      * @param bool $validate
      * @return string|bool  Content or false if unsigned
      */
-    private function extractSignedContent($content, $validate)
+    private function extractSignedContent($content)
     {
         $signature = substr($content, -40);
 
         if (substr($content, -43, 3) === self::VALUE_SEPARATOR . '_=' &&
-            (!$validate || $signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt()))
+            ($signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt()))
         ) {
             // strip trailing: VALUE_SEPARATOR '_=' signature"
             return substr($content, 0, -43);
@@ -229,9 +228,11 @@ class Cookie
      * Unserialize the array when necessary.
      * Decode the non numeric values that were base64 encoded.
      */
-    protected function loadContentFromCookie($validateSignature = true)
+    protected function loadContentFromCookie()
     {
-        $cookieStr = $this->extractSignedContent($_COOKIE[$this->name], $validateSignature);
+        // we keep trying to read signed content for BC ... if it detects a correctly signed cookie then we read
+        // this value
+        $cookieStr = $this->extractSignedContent($_COOKIE[$this->name]);
 
         if ($cookieStr === false) {
             $cookieStr = $_COOKIE[$this->name];
@@ -263,13 +264,12 @@ class Cookie
 
         foreach ($this->value as $name => $value) {
             if (!is_numeric($value) && !is_string($value)) {
-                die("cookies can only contain strings and numbers"); //TODO: replace with proper handling
+                throw new \Exception("cookies can only contain strings and numbers");
             }
             $cookieStrArr[] = "$name=$value"; 
         }
 
         return implode(self::VALUE_SEPARATOR, $cookieStrArr);
-
     }
 
     /**
