@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -131,7 +131,8 @@ class FormDatabaseSetup extends QuickForm2
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
-            'type'          => $this->getSubmitValue('type')
+            'type'          => $this->getSubmitValue('type'),
+            'enable_ssl'    => false
         );
 
         if (($portIndex = strpos($dbInfos['host'], '/')) !== false) {

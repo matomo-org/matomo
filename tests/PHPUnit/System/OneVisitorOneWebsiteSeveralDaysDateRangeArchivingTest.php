@@ -1,15 +1,19 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive\ArchivePurger;
 use Piwik\Archive\Chunk;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
@@ -23,6 +27,9 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  */
 class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCase
 {
+    /**
+     * @var VisitsOverSeveralDays
+     */
     public static $fixture = null; // initialized below test definition
 
     public static function getOutputPrefix()
@@ -101,17 +108,22 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      */
     public function test_checkArchiveRecords_whenPeriodIsRange()
     {
-        // we expect 5 blobs for Actions plugins, because flat=1 or expanded=1 was not set
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        foreach (self::$fixture->dateTimes as $date) {
+            $archivePurger->purgeInvalidatedArchivesFrom(Date::factory($date));
+        }
+
+        // we expect 6 blobs for Actions plugins, because flat=1 or expanded=1 was not set
         // so we only archived the parent table
-        $expectedActionsBlobs = 5;
+        $expectedActionsBlobs = 6;
 
         // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
 
         $tests = array(
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
+            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+3) /*Actions*/
                                             + 2 /* Resolution */
-                                            + 2 /* VisitTime */) * 3,
+                                            + 2 /* VisitTime */) * 3 + 1,
 
             /**
              *  In Each "Period=range" Archive, we expect following non zero numeric entries:
@@ -121,18 +133,19 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
              *               + 1 flag // VisitTime
              *               = 11
              *
-             *   because we call VisitFrequency.get, this creates an archive for the visitorType==returning segment.
+             *   because we call VisitFrequency.get, this creates archives for visitorType==returning
+             *   and visitorType==new segment.
              *          -> There are two archives for each segment (one for "countryCode!=aa"
-             *                      and VisitFrequency creates one for "countryCode!=aa;visitorType==returning")
+             *                      and VisitFrequency creates two more.
              *
-             * So each period=range will have = 11 records + (5 metrics + 1 flag // VisitsSummary)
-             *                                = 17
+             * So each period=range will have = 11 records + (5 metrics + 2 flags // VisitsSummary + 3 metrics // VisitorInterest)
+             *                                = 18
              *
              * Total expected records = count unique archives * records per archive
-             *                        = 3 * 17
-             *                        = 51
+             *                        = 3 * 21
+             *                        = 21
              */
-            'archive_numeric_2010_12' => 17 * 3,
+            'archive_numeric_2010_12' => 63,
 
             /**
              * In the January date range,
@@ -152,6 +165,10 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             'archive_numeric_2011_02' => 0,
         );
         foreach ($tests as $table => $expectedRows) {
+            if ($expectedRows === 0 && !$this->tableExists($table)) {
+                continue;
+            }
+
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Db::get()->fetchOne($sql);
 
@@ -200,6 +217,12 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
     protected function printDebugWhenTestFails($table)
     {
         $data = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC");
+        if (strpos($table, 'blob') !== false) {
+            $data = array_map(function ($r) {
+                unset($r['value']);
+                return $r;
+            }, $data);
+        }
         var_export($data);
 
         $idArchives = array();
@@ -211,6 +234,11 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             $numericTable = str_replace("blob", "numeric", Common::prefixTable($table));
             var_export(Db::get()->fetchAll("SELECT idarchive, name FROM " . $numericTable . " WHERE idarchive = ? AND name LIKE 'done%' LIMIT 1 ", $idArchive));
         }
+    }
+
+    private function tableExists($table)
+    {
+        return (bool) Db::fetchOne("SHOW TABLES LIKE '$table'");
     }
 
 }

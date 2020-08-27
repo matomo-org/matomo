@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,13 +12,10 @@ use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\ArchivedMetric;
-use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugins\UserCountry\Columns\City;
 use Piwik\Plugins\UserCountry\Columns\Country;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group ArchivedMetric
@@ -36,11 +33,11 @@ class ArchivedMetricTest extends IntegrationTestCase
      */
     private $metric;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         Fixture::createWebsite('2015-01-01 00:00:00');
 
@@ -48,9 +45,9 @@ class ArchivedMetricTest extends IntegrationTestCase
         $this->metric = $this->makeMetric('%s');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 
@@ -80,7 +77,7 @@ class ArchivedMetricTest extends IntegrationTestCase
         return array(
             array($type = Dimension::TYPE_NUMBER, $value = 5.354, $expected = 5),
             array($type = Dimension::TYPE_FLOAT, $value = 5.354, $expected = 5.35),
-            array($type = Dimension::TYPE_MONEY, $value = 5.392, $expected = '$ 5.39'),
+            array($type = Dimension::TYPE_MONEY, $value = 5.392, $expected = '$5.39'),
             array($type = Dimension::TYPE_PERCENT, $value = 0.343, $expected = '34.3%'),
             array($type = Dimension::TYPE_DURATION_S, $value = 121, $expected = '2 min 1s'),
             array($type = Dimension::TYPE_DURATION_MS, $value = 392, $expected = '0.39s'),

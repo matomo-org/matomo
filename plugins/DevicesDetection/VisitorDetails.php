@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -108,7 +108,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getBrowserName()
     {
-        return getBrowserName($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
+        return getBrowserName($this->details['config_browser_name']);
     }
 
     protected function getBrowserIcon()

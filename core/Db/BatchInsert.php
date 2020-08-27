@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\SettingsServer;
+use Piwik\SettingsPiwik;
 
 class BatchInsert
 {
@@ -42,6 +43,30 @@ class BatchInsert
     }
 
     /**
+     * Performs a batch insert into a specific table by sending all data in one SQL statement.
+     *
+     * @param string $tableName PREFIXED table name! you must call Common::prefixTable() before passing the table name
+     * @param array $fields array of unquoted field names
+     * @param array $values array of data to be inserted
+     * @param bool $ignoreWhenDuplicate Ignore new rows that contain unique key values that duplicate old rows
+     */
+    public static function tableInsertBatchSql($tableName, $fields, $values, $ignoreWhenDuplicate = true)
+    {
+        $insertLines = array();
+        $bind = array();
+        foreach ($values as $row) {
+            $insertLines[] = "(" . Common::getSqlStringFieldsArray($row) . ")";
+            $bind = array_merge($bind, $row);
+        }
+
+        $fieldList = '(' . implode(',', $fields) . ')';
+        $insertLines = implode(',', $insertLines);
+        $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
+        $query = "INSERT $ignore INTO $tableName $fieldList VALUES $insertLines";
+        Db::query($query, $bind);
+    }
+
+    /**
      * Performs a batch insert into a specific table using either LOAD DATA INFILE or plain INSERTs,
      * as a fallback. On MySQL, LOAD DATA INFILE is 20x faster than a series of plain INSERTs.
      *
@@ -62,7 +87,12 @@ class BatchInsert
             && Db::get()->hasBulkLoader()) {
 
             $path = self::getBestPathForLoadData();
-            $filePath = $path . $tableName . '-' . Common::generateUniqId() . '.csv';
+            $instanceId = SettingsPiwik::getPiwikInstanceId();
+            if (empty($instanceId)) {
+                $instanceId = '';
+            }
+            $filePath = $path . $tableName . '-' . $instanceId . Common::generateUniqId() . '.csv';
+
 
             try {
                 $fileSpec = array(
@@ -191,10 +221,9 @@ class BatchInsert
          * @see http://bugs.php.net/bug.php?id=54158
          */
         $openBaseDir = ini_get('open_basedir');
-        $isUsingNonBuggyMysqlnd = function_exists('mysqli_get_client_stats') && version_compare(PHP_VERSION, '5.6.17', '>=');
         $safeMode = ini_get('safe_mode');
 
-        if (($isUsingNonBuggyMysqlnd || empty($openBaseDir)) && empty($safeMode)) {
+        if ((function_exists('mysqli_get_client_stats') || empty($openBaseDir)) && empty($safeMode)) {
             // php 5.x - LOAD DATA LOCAL INFILE only used if open_basedir is not set (or we're using a non-buggy version of mysqlnd)
             //           and if safe mode is not enabled
             $keywords[] = 'LOCAL ';

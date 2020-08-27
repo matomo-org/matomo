@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,14 +11,14 @@ namespace Piwik\Tests\Integration\AssetManager;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetMinifier;
 
-class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
+class UIAssetMinifierTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var UIAssetMinifier
      */
     private $assetMinifier;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->assetMinifier = UIAssetMinifier::getInstance();
     }
@@ -26,9 +26,9 @@ class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
     public function provider_isMinifiedJs()
     {
         return array(
-            array('libs/bower_components/jquery/dist/jquery.min.js', true),
-            array('libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js', true),
-            array('libs/jquery/jquery.browser.js', true),
+            array('node_modules/jquery/dist/jquery.min.js', true),
+            array('node_modules/jquery-ui-dist/jquery-ui.min.js', true),
+            array('node_modules/jquery.browser/dist/jquery.browser.min.js', true),
             array('libs/jqplot/jqplot-custom.min.js', true),
             array('plugins/TreemapVisualization/libs/Jit/jit-2.0.1-yc.js', true),
             array('plugins/TreemapVisualization/javascripts/treemapViz.js', false),
@@ -45,7 +45,7 @@ class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function test_isMinifiedJs($scriptFileName, $isMinified)
     {
-        $scriptFile = new OnDiskUIAsset(PIWIK_USER_PATH, $scriptFileName);
+        $scriptFile = new OnDiskUIAsset(PIWIK_DOCUMENT_ROOT, $scriptFileName);
 
         $this->assertEquals(
             $isMinified,

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,6 +15,7 @@ use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
@@ -23,6 +24,7 @@ use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
+use Piwik\Url;
 use Piwik\Version;
 
 class Updater
@@ -114,21 +116,6 @@ class Updater
             $this->verifyDecompressedArchive($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_VerifyingUnpackedFiles');
 
-            if (Marketplace::isMarketplaceEnabled()) {
-                // we need to load the marketplace already here, otherwise it will use the new, updated file in Piwik 3
-
-                // we also need to make sure to create a new instance here as otherwise we would change the "global"
-                // environment, but we only want to change piwik version temporarily for this task here
-                $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
-                $environment->setPiwikVersion($newVersion);
-                /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
-                $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
-                    'environment' => $environment
-                ));
-                require_once PIWIK_DOCUMENT_ROOT . '/plugins/CorePluginsAdmin/PluginInstaller.php';
-                require_once PIWIK_DOCUMENT_ROOT . '/plugins/Marketplace/Api/Exception.php';
-            }
-
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
 
@@ -138,9 +125,49 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
 
+        $tempTokenAuth = Piwik::requestTemporarySystemAuthToken('OneClickUpdate', 1);
+        $partTwoUrl = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
+            'action' => 'oneClickUpdatePartTwo',
+            'token_auth' => $tempTokenAuth,
+        ]);
+
+        $response = Http::sendHttpRequest($partTwoUrl, 300);
+        $response = @json_decode($response, $assoc = true);
+
+        if (!empty($response)) {
+            $messages = array_merge($messages, $response);
+        }
+
+        try {
+            $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
+            if (!empty($disabledPluginNames)) {
+                $messages[] = $this->translator->translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $disabledPluginNames));
+            }
+        } catch (Exception $e) {
+            throw new UpdaterException($e, $messages);
+        }
+
+        return $messages;
+    }
+
+    public function oneClickUpdatePartTwo()
+    {
+        $messages = [];
+
+        $newVersion = Version::VERSION;
+
+        // we also need to make sure to create a new instance here as otherwise we would change the "global"
+        // environment, but we only want to change piwik version temporarily for this task here
+        $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
+        $environment->setPiwikVersion($newVersion);
+        /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
+        $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
+            'environment' => $environment
+        ));
+
         try {
 
-            if (Marketplace::isMarketplaceEnabled() && !empty($marketplaceClient)) {
+            if (Marketplace::isMarketplaceEnabled()) {
                 $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
                 $pluginManager = PluginManager::getInstance();
                 $pluginManager->loadAllPluginsAndGetTheirInfo();
@@ -152,22 +179,13 @@ class Updater
                 foreach ($pluginsWithUpdate as $pluginWithUpdate) {
                     $pluginName = $pluginWithUpdate['name'];
                     $messages[] = $this->translator->translate('CoreUpdater_UpdatingPluginXToVersionY',
-                                                               array($pluginName, $pluginWithUpdate['version']));
+                        array($pluginName, $pluginWithUpdate['version']));
                     $pluginInstaller = new PluginInstaller($marketplaceClient);
                     $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
                 }
             }
         } catch (MarketplaceApi\Exception $e) {
             // there is a problem with the connection to the server, ignore for now
-        } catch (Exception $e) {
-            throw new UpdaterException($e, $messages);
-        }
-
-        try {
-            $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
-            if (!empty($disabledPluginNames)) {
-                $messages[] = $this->translator->translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $disabledPluginNames));
-            }
         } catch (Exception $e) {
             throw new UpdaterException($e, $messages);
         }
@@ -198,11 +216,13 @@ class Updater
     {
         $extractionPath = $this->tmpPath . self::PATH_TO_EXTRACT_LATEST_VERSION;
 
-        $extractedArchiveDirectory = $extractionPath . 'piwik';
+        foreach (['piwik', 'matomo'] as $flavor) {
+            $extractedArchiveDirectory = $extractionPath . $flavor;
 
-        // Remove previous decompressed archive
-        if (file_exists($extractedArchiveDirectory)) {
-            Filesystem::unlinkRecursive($extractedArchiveDirectory, true);
+            // Remove previous decompressed archive
+            if (file_exists($extractedArchiveDirectory)) {
+                Filesystem::unlinkRecursive($extractedArchiveDirectory, true);
+            }
         }
 
         $archive = Unzip::factory('PclZip', $archiveFile);
@@ -218,7 +238,14 @@ class Updater
 
         unlink($archiveFile);
 
-        return $extractedArchiveDirectory;
+        foreach (['piwik', 'matomo'] as $flavor) {
+            $extractedArchiveDirectory = $extractionPath . $flavor;
+            if (file_exists($extractedArchiveDirectory)) {
+                return $extractedArchiveDirectory;
+            }
+        }
+
+        throw new \Exception('Could not find matomo or piwik directory in downloaded archive!');
     }
 
     private function verifyDecompressedArchive($extractedArchiveDirectory)
@@ -287,11 +314,6 @@ class Updater
             // Copy the non-PHP files (e.g., images, css, javascript)
             Filesystem::copyRecursive($extractedArchiveDirectory, PIWIK_DOCUMENT_ROOT, true);
             $model->removeGoneFiles($extractedArchiveDirectory, PIWIK_DOCUMENT_ROOT);
-        }
-
-        // Config files may be user (account) specific
-        if (PIWIK_INCLUDE_PATH !== PIWIK_USER_PATH) {
-            Filesystem::copyRecursive($extractedArchiveDirectory . '/config', PIWIK_USER_PATH . '/config');
         }
 
         Filesystem::unlinkRecursive($extractedArchiveDirectory, true);

@@ -1,24 +1,28 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login\tests\Integration;
 
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
-use Piwik\Mail;
+use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 
+/**
+ * @group PasswordResetterTest
+ */
 class PasswordResetterTest extends IntegrationTestCase
 {
     const NEWPASSWORD = 'newpassword';
@@ -38,7 +42,7 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     private $passwordResetter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->passwordResetter = new PasswordResetter();
@@ -50,33 +54,78 @@ class PasswordResetterTest extends IntegrationTestCase
 
     public function test_passwordReset_processWorksAsExpected()
     {
-        $user = $this->userModel->getUser('superUserLogin');
-        $password = $user['password'];
-        $passwordModified = $user['ts_password_modified'];
-
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
-
-        $this->assertNotEmpty($this->capturedToken);
-
-        $user = $this->userModel->getUser('superUserLogin');
-        $this->assertEquals($password, $user['password']);
-        $this->assertEquals($passwordModified, $user['ts_password_modified']);
-
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $this->capturedToken);
+        $this->passwordResetter->setHashedPasswordForLogin('superUserLogin', $this->capturedToken);
 
         $this->checkPasswordIs(self::NEWPASSWORD);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Token is invalid or has expired
-     */
+    public function tests_passwordReset_worksUpToThreeTimesInAnHour()
+    {
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $this->assertNotEmpty($this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+    }
+
+    public function test_passwordReset_notAllowedMoreThanThreeTimesInAnHour()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('You have requested too many password resets recently. A new request can be made in one hour. If you have problems resetting your password, please contact your administrator for help.');
+
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $this->assertNotEmpty($this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+    }
+
+    public function test_passwordReset_newRequestAllowedAfterAnHour()
+    {
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $optionName = $this->passwordResetter->getPasswordResetInfoOptionName('superUserLogin');
+        $data = json_decode(Option::get($optionName), true);
+
+        $data['timestamp'] = time()-3601;
+        $data['requests'] = 3;
+
+        Option::set($optionName, json_encode($data));
+
+        $this->assertTrue($this->passwordResetter->doesResetPasswordHashMatchesPassword(self::NEWPASSWORD, $data['hash']));
+        $this->assertFalse($this->passwordResetter->doesResetPasswordHashMatchesPassword('foobar', $data['hash']));
+
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $optionName = $this->passwordResetter->getPasswordResetInfoOptionName('superUserLogin');
+        $data = json_decode(Option::get($optionName), true);
+
+        $this->assertEquals(1, $data['requests']);
+    }
+
     public function test_passwordReset_shouldNotAllowTokenToBeUsedMoreThanOnce()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Token is invalid or has expired');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $this->capturedToken);
+        $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $this->capturedToken);
         $this->checkPasswordIs(self::NEWPASSWORD);
 
         sleep(1);
@@ -85,7 +134,7 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', 'anotherpassword');
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $oldCapturedToken);
+        $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $oldCapturedToken);
     }
 
     public function test_passwordReset_shouldNeverGenerateTheSameToken()
@@ -100,12 +149,11 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Token is invalid or has expired
-     */
     public function test_passwordReset_shouldNotAllowOldTokenToBeUsedAfterAnotherResetRequest()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Token is invalid or has expired');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 
@@ -115,7 +163,7 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $oldCapturedToken);
+        $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $oldCapturedToken);
     }
 
     /**
@@ -143,17 +191,18 @@ class PasswordResetterTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => [
-                ['Mail.send', function (Mail $mail) {
-                    $body = $mail->getBodyHtml(true);
-                    preg_match('/resetToken=3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', function (PHPMailer $mail) {
+                    $body = $mail->createBody();
+                    $body = preg_replace("/=[\r\n]+/", '', $body);
+                    preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
                     if (!empty($matches[1])) {
                         $capturedToken = $matches[1];
                         $capturedToken = preg_replace('/=\s*/', '', $capturedToken);
                         $this->capturedToken = $capturedToken;
                     }
                 }],
-            ],
+            ]),
         ];
     }
 }

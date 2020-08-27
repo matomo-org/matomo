@@ -202,7 +202,7 @@ body .ui-tooltip.Transitions_Tooltip_Small {
 
 #transitions_report {
     #Transitions_Container {
-        z-index: 980;
+        z-index: 0;
     }
     #Transitions_CenterBox {
         z-index: 987;
@@ -246,5 +246,15 @@ body .ui-tooltip.Transitions_Tooltip_Small {
         #Transitions_Container {
             overflow: scroll;
         }
+    }
+}
+
+#transitions_report > .row {
+    margin-left: 0;
+    margin-right: 0;
+
+    body.widgetized & {
+        margin-left: 0.75rem;
+        margin-right: 0.75rem;
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -29,7 +29,7 @@ class BlobReportLimitingTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         Cache::getTransientCache()->flushAll();
         parent::setUp();
@@ -46,6 +46,7 @@ class BlobReportLimitingTest extends SystemTestCase
             'Resolution.getResolution', 'Resolution.getConfiguration', 'DevicesDetection.getOsVersions',
             'DevicesDetection.getBrowserVersions',
             'UserCountry.getRegion', 'UserCountry.getCity',
+            'UserId.getUsers', 'Events', 'Contents',
         );
 
         $ecommerceApi = array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory');
@@ -126,6 +127,8 @@ class BlobReportLimitingTest extends SystemTestCase
 
     public function testApiWithRankingQuery()
     {
+        self::setUpConfigOptions();
+
         // custom setup
         self::deleteArchiveTables();
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
@@ -152,10 +155,11 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 500;
-        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 500;
-        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_custom_dimensions'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 500;
         $generalConfig['archiving_ranking_query_row_limit'] = 0;
         $generalConfig['datatable_archiving_maximum_rows_site_search'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_userid_users'] = 500;
 
         foreach ($this->getRankingQueryDisabledApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;
@@ -180,10 +184,13 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 4;
-        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 3;
-        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 2;
+        $generalConfig['datatable_archiving_maximum_rows_custom_dimensions'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_userid_users'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_events'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_events'] = 2;
         $generalConfig['archiving_ranking_query_row_limit'] = 50000;
         // Should be more than the datatable_archiving_maximum_rows_actions as code will take the max of these two 
         $generalConfig['datatable_archiving_maximum_rows_site_search'] = 5;

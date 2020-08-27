@@ -5,13 +5,13 @@
 		<nb_uniq_visitors>6</nb_uniq_visitors>
 		<nb_visits>6</nb_visits>
 		<nb_actions>6</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_users>6</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>6</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>URL unknown!</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
+		<is_summary>1</is_summary>
 		<Referrers_SearchEngine>Others</Referrers_SearchEngine>
 	</row>
 	<row>
@@ -19,14 +19,14 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://google.com</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
+		<is_summary>1</is_summary>
 		<Referrers_Keyword>Others</Referrers_Keyword>
 	</row>
 	<row>
@@ -34,14 +34,14 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://search.yahoo.com</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
 		<Referrers_SearchEngine>Yahoo!</Referrers_SearchEngine>
+		<is_summary>1</is_summary>
 		<Referrers_Keyword>Others</Referrers_Keyword>
 	</row>
 	<row>
@@ -49,7 +49,7 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -64,7 +64,7 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>0</nb_users>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>

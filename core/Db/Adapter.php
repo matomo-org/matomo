@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -25,7 +25,7 @@ class Adapter
     public static function factory($adapterName, & $dbInfos, $connect = true)
     {
         if ($connect) {
-            if ($dbInfos['port'][0] == '/') {
+            if (isset($dbInfos['port']) && is_string($dbInfos['port']) && $dbInfos['port'][0] === '/') {
                 $dbInfos['unix_socket'] = $dbInfos['port'];
                 unset($dbInfos['host']);
                 unset($dbInfos['port']);

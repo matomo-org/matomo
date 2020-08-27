@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -23,7 +23,7 @@ class Filechecks
         if (!is_writable(PIWIK_INCLUDE_PATH . '/') ||
             !is_writable(PIWIK_DOCUMENT_ROOT . '/index.php') ||
             !is_writable(PIWIK_INCLUDE_PATH . '/core') ||
-            !is_writable(PIWIK_USER_PATH . '/config/global.ini.php')
+            !is_writable(PIWIK_DOCUMENT_ROOT . '/config/global.ini.php')
         ) {
             return false;
         }
@@ -40,10 +40,6 @@ class Filechecks
     {
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {
-            if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)) {
-                $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
-            }
-
             Filesystem::mkdir($directoryToCheck);
 
             $directory = Filesystem::realpath($directoryToCheck);
@@ -111,8 +107,9 @@ class Filechecks
     {
         $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
         $message = '';
-        $message .= "<code>" . self::getCommandToChangeOwnerOfPiwikFiles() . "</code><br />";
-        $message .= "<code>chmod -R 0755 " . $realpath . "</code><br />";
+        $message .= "<br /><code>" . self::getCommandToChangeOwnerOfPiwikFiles() . "</code><br />";
+        $message .= self::getMakeWritableCommand($realpath);
+        $message .= '<code>chmod 755 '.$realpath.'/console</code><br />';
         $message .= 'After you execute these commands (or change permissions via your FTP software), refresh the page and you should be able to use the "Automatic Update" feature.';
         return $message;
     }
@@ -183,7 +180,7 @@ class Filechecks
         if (SettingsServer::isWindows()) {
             return "<code>cacls $realpath /t /g " . Common::sanitizeInputValue(self::getUser()) . ":f</code><br />\n";
         }
-        return "<code>chmod -R 0755 $realpath</code><br />";
+        return "<code>find $realpath -type f -exec chmod 644 {} \;</code><br /><code>find $realpath -type d -exec chmod 755 {} \;</code><br />";
     }
 
     /**

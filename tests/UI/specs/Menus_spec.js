@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot tests for main, top and admin menus.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -60,12 +60,12 @@ describe("Menus", function () {
     });
 
     // top menu on mobile
-    it('should load the admin reporting menu correctly', async function() {
+    it('should load the admin reporting menu correctly on mobile', async function() {
         page.webpage.setViewport({ width: 768, height: 512 });
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=index");
         await page.waitFor('.pageWrap');
         await page.evaluate(function(){
-            $('.activateTopMenu').click();
+            $('.activateTopMenu>span').click();
         });
         await page.waitFor(250);
 

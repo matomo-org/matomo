@@ -21,8 +21,8 @@
         If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions
         to the anonymous user in the <a href='index.php?module=UsersManager' rel='noreferrer noopener' target='_blank'>Users Management section</a>.
         <br/>Alternatively, if you are publishing widgets on a password protected or private page,
-        you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the
-        <a href='{{ linkTo({'module':'API','action':'listAllAPI'}) }}' rel='noreferrer noopener' target='_blank'>API page</a>) in the widget URL.
+        you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret <code>token_auth</code> parameter in the widget URL.
+        You can manage your auth tokens on your <a href='{{ linkTo({'module':'UsersManager','action':'userSecurity'}) }}' rel='noreferrer noopener' target='_blank'>Security page</a>.
     </p>
 </div>
 <div piwik-content-block content-title="Widgetize dashboards">

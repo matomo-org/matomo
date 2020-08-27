@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -33,7 +33,7 @@ class ChunksTest extends IntegrationTestCase
 {
     private $date = '2015-01-01';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -125,11 +125,11 @@ class ChunksTest extends IntegrationTestCase
         return $dataTable->getSerialized();
     }
 
-    private function createArchiveProcessorParamaters()
+    private function createArchiveProcessorParameters()
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', $this->date);
 
-        $segment = new Segment(false, array(1));
+        $segment = new Segment(false, array(1), $oPeriod->getDateStart(), $oPeriod->getDateEnd());
         $params  = new Parameters(new Site(1), $oPeriod, $segment);
 
         return $params;
@@ -137,9 +137,9 @@ class ChunksTest extends IntegrationTestCase
 
     private function createPluginsArchiver()
     {
-        $params = $this->createArchiveProcessorParamaters();
+        $params = $this->createArchiveProcessorParameters();
 
-        return new ArchiveProcessor\PluginsArchiver($params, $isTemporary = false);
+        return new ArchiveProcessor\PluginsArchiver($params);
     }
 
     public function provideContainerConfig()

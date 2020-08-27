@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,11 +10,11 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
-use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -24,27 +24,27 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ActionTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $section = Config::getInstance()->Tracker;
         $section['default_action_url'] = '/';
-        $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,utm_campaign,test_campaign_name';
+        $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,matomo_campaign,utm_campaign,test_campaign_name';
         $section['action_url_category_delimiter'] = '/';
-        $section['campaign_keyword_var_name']     = 'piwik_kwd,utm_term,test_piwik_kwd';
+        $section['campaign_keyword_var_name']     = 'piwik_kwd,matomo_kwd,utm_term,test_piwik_kwd';
         Config::getInstance()->Tracker = $section;
 
         PluginManager::getInstance()->loadPlugins(array('SitesManager'));
 
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     protected function setUpRootAccess()

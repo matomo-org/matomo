@@ -4,6 +4,7 @@
     class="userEditForm"
     ng-class="{ loading: $ctrl.isSavingUserInfo }"
 >
+
     <div class="row" piwik-form>
         <div class="col m2 entityList" ng-if="!$ctrl.isAdd">
             <ul class="listCircle">
@@ -55,6 +56,7 @@
                         ng-model="$ctrl.user.password"
                         data-title="Password"
                         data-disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
+                        ng-change="$ctrl.isPasswordModified = true"
                 >
                 </div>
 
@@ -98,8 +100,8 @@
 
             <div ng-if="!$ctrl.isAdd" ng-show="$ctrl.activeTab === 'permissions'" class="user-permissions">
                 <piwik-user-permissions-edit
-                    user-login="$ctrl.user.login"
                     ng-if="!$ctrl.user.superuser_access"
+                    user-login="$ctrl.user.login"
                     on-user-has-access-detected="$ctrl.userHasAccess = hasAccess"
                     on-access-change="$ctrl.isUserModified = true"
                     access-levels="$ctrl.accessLevels"
@@ -120,7 +122,7 @@
                     piwik-field
                     uicontrol="checkbox"
                     name="superuser_access"
-                    ng-model="$ctrl.user.superuser_access"
+                    ng-model="$ctrl.superUserAccessChecked"
                     ng-attr-title="{{:: 'UsersManager_HasSuperUserAccess'|translate }}"
                     ng-click="$ctrl.confirmSuperUserChange()"
                     data-disabled="$ctrl.isSavingUserInfo"
@@ -130,21 +132,28 @@
                 <div class="superuser-confirm-modal modal">
                     <div class="modal-content">
                         <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
-                        <p ng-if="!$ctrl.user.superuser_access">
+                        <p ng-if="$ctrl.user.superuser_access">
                             {{:: 'UsersManager_RemoveSuperuserAccessConfirm'|translate }}
                         </p>
-                        <p ng-if="$ctrl.user.superuser_access">
+                        <p ng-if="!$ctrl.user.superuser_access">
                             {{:: 'UsersManager_AddSuperuserAccessConfirm'|translate }}
                         </p>
+
+                        <div piwik-field uicontrol="password" name="currentUserPasswordForSuperUser" autocomplete="off"
+                             ng-model="$ctrl.passwordConfirmationForSuperUser"
+                             full-width="true"
+                             title="{{ 'UsersManager_YourCurrentPassword'|translate }}"
+                             value="">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleSuperuserAccess()">{{:: 'General_Yes'|translate }}</a>
-                        <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.superuser_access = !$ctrl.user.superuser_access">{{:: 'General_No'|translate }}</a>
+                        <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.setSuperUserAccessChecked()">{{:: 'General_No'|translate }}</a>
                     </div>
                 </div>
             </div>
 
-            <div ng-if="$ctrl.activeTab === '2fa' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="twofa-reset">
+            <div ng-show="$ctrl.activeTab === '2fa'" ng-if="$ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="twofa-reset">
                 <p>{{:: 'UsersManager_ResetTwoFactorAuthenticationInfo'|translate }}</p>
 
                 <div piwik-save-button
@@ -168,6 +177,7 @@
         </div>
     </div>
 
+
     <div class="change-password-modal modal">
         <div class="modal-content">
             <h2 piwik-translate="UsersManager_AreYouSureChangeDetails"><strong>{{ $ctrl.user.login }}</strong></h2>
@@ -185,4 +195,5 @@
             <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
         </div>
     </div>
+
 </div>

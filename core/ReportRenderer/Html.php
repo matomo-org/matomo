@@ -1,13 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\ReportRenderer;
 
+use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\ReportRenderer;
 use Piwik\View;
@@ -176,8 +177,6 @@ class Html extends ReportRenderer
             );
 
         $additionalFile['mimeType'] = 'image/png';
-
-        $additionalFile['encoding'] = \Zend_Mime::ENCODING_BASE64;
 
         return $additionalFile;
     }

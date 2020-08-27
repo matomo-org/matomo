@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -59,9 +59,6 @@
             if (width) {
                 $('td.label', domElem).width(parseInt(width * 0.50, 10));
             }
-
-            var showScrollbarIfMoreThanThisPxOverlap = 32;
-            this.overflowContentIfNeeded(domElem, showScrollbarIfMoreThanThisPxOverlap);
 
             var self = this;
 

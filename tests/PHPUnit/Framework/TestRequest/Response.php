@@ -1,15 +1,15 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Framework\TestRequest;
 
 use Piwik\API\Request;
-use PHPUnit_Framework_Assert as Asserts;
+use PHPUnit\Framework\Assert as Asserts;
 use Exception;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -71,6 +71,9 @@ class Response
     {
         $expectedText = $expected->getResponseText();
         $actualText = $actual->getResponseText();
+
+        $expectedText = preg_replace('/[^\x09-\x0d\x1b\x20-\xff]/', '', $expectedText);
+        $actualText = preg_replace('/[^\x09-\x0d\x1b\x20-\xff]/', '', $actualText);
 
         if ($expected->requestUrl['format'] == 'xml') {
             Asserts::assertXmlStringEqualsXmlString($expectedText, $actualText, $message);

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Mail;
 
-class MailTest extends \PHPUnit_Framework_TestCase
+class MailTest extends \PHPUnit\Framework\TestCase
 {
 
     public function getEmailFilenames()
@@ -26,7 +26,7 @@ class MailTest extends \PHPUnit_Framework_TestCase
      */
     public function test_EmailFilenamesAreSanitised($raw, $expected)
     {
-        $mail = new Mail;
+        $mail = new Mail();
         $this->assertEquals($expected, $mail->sanitiseString($raw));
     }
 }

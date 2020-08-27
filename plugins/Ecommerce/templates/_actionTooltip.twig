@@ -1,0 +1,15 @@
+
+{% apply spaceless %}
+{% if action.productViewName is defined %}
+{{ 'Ecommerce_ViewedProductName'|translate }}: {{ action.productViewName }}
+{% endif %}
+{% if action.productViewSku is defined %}
+{{ 'Ecommerce_ViewedProductSKU'|translate }}: {{ action.productViewSku }}
+{% endif %}
+{% if action.productViewPrice is defined %}
+{{ 'Ecommerce_ViewedProductPrice'|translate }}: {{ action.productViewPrice|money(visitInfo.idSite) }}
+{% endif %}
+{% if action.productViewCategories is defined %}
+{{ 'Ecommerce_ViewedProductCategory'|translate }}: {{ action.productViewCategories|implode(', ') }}
+{% endif %}
+{% endapply %}

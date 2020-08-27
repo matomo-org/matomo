@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -41,7 +41,7 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -87,7 +87,7 @@ class PluginsTest extends IntegrationTestCase
             'TreemapVisualization',
         );
         foreach ($expected as $name) {
-            $this->assertContains($name, $pluginNames);
+            self::assertTrue(in_array($name, $pluginNames));
         }
     }
 
@@ -371,7 +371,7 @@ class PluginsTest extends IntegrationTestCase
         $this->service->returnFixture('v2.0_plugins.json');
         $plugins = $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false);
 
-        $this->assertCount(54, $plugins);
+        $this->assertCount(47, $plugins);
         $names = array_map(function ($plugin) {
             return $plugin['name'];
         }, $plugins);
@@ -382,7 +382,7 @@ class PluginsTest extends IntegrationTestCase
             $this->assertFalse($plugin['isTheme']);
             $this->assertNotEmpty($plugin['homepage']);
 
-            $piwikProCampaign = 'pk_campaign=App_ProfessionalServices&pk_medium=Marketplace&pk_source=Piwik_App';
+            $piwikProCampaign = 'pk_campaign=App_ProfessionalServices&pk_medium=Marketplace&pk_source=Matomo_App';
 
             if ($name === 'SecurityInfo') {
                 $this->assertTrue($plugin['isFree']);
@@ -390,7 +390,7 @@ class PluginsTest extends IntegrationTestCase
                 $this->assertTrue(in_array($plugin['isInstalled'], array(true, false), true));
                 $this->assertFalse($plugin['isInvalid']);
                 $this->assertTrue(isset($plugin['canBeUpdated']));
-                $this->assertSame(array(), $plugin['missingRequirements']);
+                $this->assertSame([], $plugin['missingRequirements']);
                 $this->assertSame(Plugin\Manager::getInstance()->isPluginActivated('SecurityInfo'), $plugin['isActivated']);
             } elseif ($name === 'SimplePageBuilder') {
                 // should add campaign parameters if Piwik PRO plugin
@@ -398,9 +398,9 @@ class PluginsTest extends IntegrationTestCase
             }
 
             if ($plugin['owner'] === 'PiwikPRO') {
-                $this->assertContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringContainsString($piwikProCampaign, $plugin['homepage']);
             } else {
-                $this->assertNotContains($piwikProCampaign, $plugin['homepage']);
+                self::assertStringNotContainsString($piwikProCampaign, $plugin['homepage']);
             }
         }
     }
@@ -464,7 +464,7 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame($pluginName, $plugin['name']);
         $this->assertSame($pluginManager->getLoadedPlugin($pluginName)->getVersion(), $plugin['currentVersion']);
         $this->assertSame($pluginManager->isPluginActivated($pluginName), $plugin['isActivated']);
-        $this->assertSame(array(), $plugin['missingRequirements']);
+        $this->assertSame([], $plugin['missingRequirements']);
          $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
 
         $expectedApiCalls = array(
@@ -485,7 +485,6 @@ class PluginsTest extends IntegrationTestCase
     {
         return array (
             'AdminNotification',
-            'AdvancedCampaignReporting',
             'AnonymousPiwikUsageMeasurement',
             'ApiGetWithSitesInfo',
             'Bandwidth',
@@ -496,14 +495,12 @@ class PluginsTest extends IntegrationTestCase
             'CustomAlerts',
             'CustomDimensions',
             'CustomOptOut',
-            'CustomTrackerJs',
             'ExcludeByDDNS',
             'FeedAnnotation',
             'FlagCounter',
             'FreeMobileMessaging',
             'GoogleAuthenticator',
             'GrabGravatar',
-            'InterSites',
             'IntranetGeoIP',
             'Ip2Hostname',
             'IP2Location',
@@ -519,7 +516,6 @@ class PluginsTest extends IntegrationTestCase
             'PaidPlugin1',
             'PerformanceInfo',
             'PerformanceMonitor',
-            'PlatformsReport',
             'QueuedTracking',
             'ReferrersManager',
             'RerUserDates',
@@ -527,17 +523,14 @@ class PluginsTest extends IntegrationTestCase
             'ServerMonitor',
             'ShibbolethLogin',
             'ShortcodeTracker',
-            'SimplePageBuilder',
             'SimpleSysMon',
-            'SiteMigration',
             'SnoopyBehavioralScoring',
             'TasksTimetable',
             'TopPagesByActions',
             'TrackingCodeCustomizer',
             'TreemapVisualization',
             'UptimeRobotMonitor',
-            'VisitorAvatar',
-            'WebsiteGroups'
+            'VisitorAvatar'
         );
     }
 }

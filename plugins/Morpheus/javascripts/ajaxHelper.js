@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -72,12 +72,6 @@ function ajaxHelper() {
     this.format =         'json';
 
     /**
-     * Should ajax request be asynchronous
-     * @type {Boolean}
-     */
-    this.async =          true;
-
-    /**
      * A timeout for the request which will override any global timeout
      * @type {Boolean}
      */
@@ -97,7 +91,7 @@ function ajaxHelper() {
     /**
      * Callback function to be executed on error
      */
-    this.errorCallback =  this.defaultErrorCallback;
+    this.errorCallback;
 
     this.withToken = false;
 
@@ -166,7 +160,15 @@ function ajaxHelper() {
             params = broadcast.getValuesFromUrl(params);
         }
 
+        var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
+
         for (var key in params) {
+            if (arrayParams.indexOf(key) !== -1
+                && !params[key]
+            ) {
+                continue;
+            }
+
             if(type.toLowerCase() == 'get') {
                 this.getParams[key] = params[key];
             } else if(type.toLowerCase() == 'post') {
@@ -279,11 +281,18 @@ function ajaxHelper() {
         if(status == 'abort') {
             return;
         }
-        $('#loadingError').show();
-        setTimeout( function(){
-            $('#loadingError').fadeOut('slow');
-        }, 2000);
-    };
+
+        var loadingError = $('#loadingError');
+        if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
+            if (deferred && deferred.status === 500) {
+                $(document.body).html(piwikHelper.escape(deferred.responseText));
+            }
+        } else {
+            loadingError.show();
+        }
+    }
+
+    this.errorCallback =  this.defaultErrorCallback;
 
     /**
      * Sets the response format for the request
@@ -357,17 +366,9 @@ function ajaxHelper() {
 
     /**
      * Send the request
-     *
-     * Note: Sending synchronous requests will be removed in Matomo 4
-     *
-     * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */
-    this.send = function (sync) {
-        if (sync === true) {
-            this.async = false;
-        }
-
+    this.send = function () {
         if ($(this.errorElement).length) {
             $(this.errorElement).hide();
         }
@@ -418,7 +419,7 @@ function ajaxHelper() {
         url += $.param(parameters);
         var ajaxCall = {
             type:     'POST',
-            async:    this.async !== false,
+            async:    true,
             url:      url,
             dataType: this.format || 'json',
             complete: this.completeCallback,
@@ -491,7 +492,8 @@ function ajaxHelper() {
     this._getDefaultPostParams = function () {
         if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
             return {
-                token_auth: piwik.token_auth
+                token_auth: piwik.token_auth,
+                force_api_session: '1'
             };
         }
 
@@ -528,12 +530,9 @@ function ajaxHelper() {
      * @private
      */
     this._mixinDefaultGetParams = function (params) {
+        var piwikUrl = piwikHelper.getAngularDependency('piwikUrl');
 
-        if (window.location.hash) {
-            var segment = broadcast.getValueFromHash('segment', window.location.href.split('#')[1]);
-        } else {
-            var segment = broadcast.getValueFromUrl('segment');
-        }
+        var segment = piwikUrl.getSearchParam('segment');
 
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),

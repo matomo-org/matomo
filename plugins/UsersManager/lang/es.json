@@ -11,7 +11,6 @@
         "EditUser": "Modificar usuario",
         "CreateUser": "Crear usuario",
         "SaveBasicInfo": "Guardar información básica",
-        "Alias": "Alias",
         "AllWebsites": "Todos los sitios de internet",
         "AnonymousAccessConfirmation": "Está a punto de otorgarle al usuario anónimo el acceso de \"visualización\" a este sitio web. Esto significa que sus informes analíticos y la información de sus visitantes serán visibles públicamente por cualquier persona, incluso sin un inicio de sesión. ¿Está seguro que desea continuar?",
         "AnonymousUser": "Usuario anónimo",
@@ -127,8 +126,8 @@
         "SuperUserIntro2": "Por favor use esta función cuidadosamente.",
         "HasSuperUserAccess": "Posee acceso de Superusuario",
         "AreYouSure": "Está seguro?",
-        "RemoveSuperuserAccessConfirm": "La eliminación del acceso de superusuario dejará al usuario sin permisos (tendrá que agregarlos después). ¿Desea continuar?",
-        "AddSuperuserAccessConfirm": "Otorgarle acceso a un usuario superusuario le permitirá poseer un control total sobre Matomo y debe hacerse con cautela. ¿Desea continuar?",
+        "RemoveSuperuserAccessConfirm": "La eliminación del acceso de superusuario dejará al usuario sin permisos (tendrá que agregarlos después). Ingrese su contraseña para continuar",
+        "AddSuperuserAccessConfirm": "Otorgarle acceso a un usuario superusuario le permitirá poseer un control total sobre Matomo y debe hacerse con cautela. Ingrese su contraseña para continuar.",
         "DeleteUsers": "Eliminar usuarios",
         "UserSearch": "Buscar usuario",
         "FilterByAccess": "Filtrar por acceso",
@@ -161,6 +160,7 @@
         "EmailChangedEmail2": "Este cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Si fuistes vos, no dudes en ignorar este correo electrónico. Si no, inicia sesión, corrije tu dirección de correo electrónico, cambia tu contraseña y ponte en contacto con tu administrador de Matomo.",
         "PasswordChangeNotificationSubject": "La contraseña de su cuenta Matomo ha sido modificada",
-        "PasswordChangedEmail": "Tu contraseña acaba de ser modificada. Dicho cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s)."
+        "PasswordChangedEmail": "Tu contraseña acaba de ser modificada. Dicho cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s).",
+        "NewsletterSignupSuccessMessage": "Genial, ya te haz registrado! Estaremos en contacto pronto."
     }
 }

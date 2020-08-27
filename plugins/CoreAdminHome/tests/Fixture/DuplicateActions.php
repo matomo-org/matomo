@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\CoreAdminHome\tests\Fixture;
@@ -83,8 +83,8 @@ class DuplicateActions extends Fixture
                 'location_country' => 'nz',
                 'visitor_count_visits' => 1,
                 'visitor_returning' => 1,
-                'visitor_days_since_order' => 1,
-                'visitor_days_since_first' => 1,
+                'visitor_seconds_since_order' => 1,
+                'visitor_seconds_since_first' => 1,
                 'idaction_url' => 4,
             ),
 
@@ -99,8 +99,8 @@ class DuplicateActions extends Fixture
                 'location_country' => 'nz',
                 'visitor_count_visits' => 1,
                 'visitor_returning' => 1,
-                'visitor_days_since_order' => 1,
-                'visitor_days_since_first' => 1,
+                'visitor_seconds_since_order' => 1,
+                'visitor_seconds_since_first' => 1,
                 'idaction_url' => 7,
             )
         ),
@@ -142,7 +142,7 @@ class DuplicateActions extends Fixture
         )
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

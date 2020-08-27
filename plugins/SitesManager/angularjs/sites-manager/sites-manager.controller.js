@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -37,7 +37,6 @@
             initSelectLists();
             initUtcTime();
             initUserIP();
-            initCustomVariablesActivated();
             initIsTimezoneSupportEnabled();
             initGlobalParams();
 
@@ -155,18 +154,6 @@
             );
         };
 
-        var initCustomVariablesActivated = function() {
-
-            coreAPI.isPluginActivated(
-
-                function (customVariablesActivated) {
-                    $scope.customVariablesActivated = customVariablesActivated;
-                },
-
-                {pluginName: 'CustomVariables'}
-            );
-        };
-
         var initUserIP = function() {
 
             coreAPI.getIpFromHeader(function(ip) {
@@ -225,7 +212,6 @@
                 excludedQueryParameters: $scope.globalSettings.excludedQueryParametersGlobal.join(','),
                 excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.join(','),
                 keepURLFragments: $scope.globalSettings.keepURLFragmentsGlobal ? 1 : 0,
-                enableSiteUserAgentExclude: $scope.globalSettings.siteSpecificUserAgentExcludeEnabled ? 1 : 0,
                 searchKeywordParameters: $scope.globalSettings.searchKeywordParametersGlobal.join(','),
                 searchCategoryParameters: $scope.globalSettings.searchCategoryParametersGlobal.join(',')
             }, 'POST');

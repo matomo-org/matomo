@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -33,6 +33,7 @@ class PluginList
      */
     private $corePluginsDisabledByDefault = array(
         'DBStats',
+        'ExamplePlugin',
         'ExampleCommand',
         'ExampleSettingsPlugin',
         'ExampleUI',
@@ -41,8 +42,8 @@ class PluginList
         'ExampleTracker',
         'ExampleLogTables',
         'ExampleReport',
+        'ExampleAPI',
         'MobileAppMeasurable',
-        'Provider',
         'TagManager'
     );
 
@@ -65,7 +66,9 @@ class PluginList
     public function getActivatedPlugins()
     {
         $section = $this->settings->getSection('Plugins');
-        return @$section['Plugins'] ?: array();
+        $plugins = @$section['Plugins'] ?: array();
+
+        return $plugins;
     }
 
     /**

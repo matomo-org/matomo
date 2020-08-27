@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -73,6 +73,8 @@
                 } else {
                     that._parseResponse(r);
                 }
+
+                that.options.interval = parseInt(that.options.interval, 10);
 
                 // add default interval to last interval if not updated or reset to default if so
                 if (!that.updated) {
@@ -168,7 +170,12 @@
                 return;
             }
 
-            this.currentInterval = this.options.interval;
+            this.currentInterval = parseInt(this.options.interval, 10);
+
+            if (0 === $(this.element).parents('.widget').length) {
+                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                $rootScope.$emit('hidePeriodSelector');
+            }
 
             var self = this;
 
@@ -181,7 +188,6 @@
          * Stops requests if widget is destroyed
          */
         _destroy: function () {
-
             this.stop();
         },
 

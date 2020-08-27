@@ -1,0 +1,40 @@
+{% if showMatomoLinks %}** {{ 'General_JsTrackingTag'|translate }}{% endif %}
+
+{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail'|translate("'head'") }}
+
+{{ jsTag|raw }}
+
+{% if showMatomoLinks %}{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate('https://developer.matomo.org/guides/tracking-javascript-guide')|raw }}{% endif %}
+
+{{ 'SitesManager_EmailInstructionsGenerateTrackingCode'|translate(piwikUrl ~ linkTo({'module': 'CoreAdminHome', 'action': 'trackingCodeGenerator'}))|raw }}
+
+{% if showMatomoLinks %}
+** {{ 'SitesManager_InstallationGuides'|translate }}
+WordPress: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/
+Squarespace: https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/
+Wix: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/
+SharePoint: https://matomo.org/faq/how-to-install/faq_19424/
+Joomla: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/
+Shopify: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/
+
+** {{ 'SitesManager_Integrations'|translate }}
+{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('', '') }}
+https://matomo.org/integrate/
+
+** {{ 'SitesManager_LogAnalytics'|translate }}
+{{ 'SitesManager_LogAnalyticsDescription'|translate('', '') }}
+https://matomo.org/log-analytics/
+
+** {{ 'SitesManager_MobileAppsAndSDKs'|translate }}
+{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('', '') }}
+https://matomo.org/integrate/#programming-language-platforms-and-frameworks
+
+** {{ 'CoreAdminHome_HttpTrackingApi'|translate }}
+{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('', '') }}
+https://developer.matomo.org/api-reference/tracking-api
+    
+** {{ 'SitesManager_EmailInstructionsSiteDetailsHeading'|translate }}
+{{ 'SitesManager_EmailInstructionsSiteDetails'|translate }}
+* {{ 'SitesManager_EmailInstructionsYourSiteId'|translate(idSite) }}
+* {{ 'SitesManager_EmailInstructionsYourTrackingUrl'|translate(trackingUrl) }}
+{% endif %}

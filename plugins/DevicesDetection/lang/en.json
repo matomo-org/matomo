@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "This User-Agent is detected as %1$s. Visits with this user agent will not be tracked in Matomo by default.",
         "BrowserEngine": "Browser engine",
         "BrowserEngineDocumentation": "This report shows your visitors' browsers broken down into browser engines. %s The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.",
         "BrowserEngines": "Browser engines",
@@ -19,6 +20,8 @@
         "dataTableLabelModels": "Model",
         "dataTableLabelSystemVersion": "Operating System version",
         "dataTableLabelTypes": "Type",
+        "ClientType": "Client type",
+        "ClientTypes": "Client types",
         "Device": "Device",
         "DeviceBrand": "Device brand",
         "DeviceBrands": "Device brands",
@@ -37,6 +40,7 @@
         "PluginDescription": "Provides extended information about user devices, such as Brand (manufacturer), Model (device version), device type (tv, consoles, smart phones, desktop, etc) and more.",
         "SmartDisplay": "Smart display",
         "Smartphone": "Smartphone",
+        "SmartSpeaker": "Smart speaker",
         "PortableMediaPlayer": "Portable media player",
         "Devices": "Devices",
         "GenericDevice": "Generic %s",
@@ -45,7 +49,13 @@
         "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
+        "Library": "Library",
+        "FeedReader": "Feed Reader",
+        "MobileApp": "Mobile App",
+        "Pim": "PIM",
+        "MediaPlayer": "Media Player",
         "XVisitsFromDevices": "%1$s visits from %2$s devices",
+        "Wearable": "Wearable",
         "WidgetBrowsers": "Visitor Browser",
         "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately."
     }

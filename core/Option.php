@@ -1,12 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
+
+use Piwik\Container\StaticContainer;
 
 /**
  * Convenient key-value storage for user specified options and temporary
@@ -47,10 +49,11 @@ class Option
     }
 
     /**
-     * Returns option values for options whose names are like a given pattern.
+     * Returns option values for options whose names are like a given pattern. Only `%` is supported as part of the
+     * pattern.
      *
      * @param string $namePattern The pattern used in the SQL `LIKE` expression
-     *                            used to SELECT options.
+     *                            used to SELECT options.`'%'` characters should be used as wildcard. Underscore match is not supported.
      * @return array Array mapping option names with option values.
      */
     public static function getLike($namePattern)
@@ -63,7 +66,7 @@ class Option
      *
      * @param string $name The option name.
      * @param string $value The value to set the option to.
-     * @param int $autoLoad If set to 1, this option value will be automatically loaded when Piwik is initialzed;
+     * @param int $autoLoad If set to 1, this option value will be automatically loaded when Piwik is initialized;
      *                      should be set to 1 for options that will be used in every Piwik request.
      */
     public static function set($name, $value, $autoload = 0)
@@ -83,10 +86,10 @@ class Option
     }
 
     /**
-     * Deletes all options that match the supplied pattern.
+     * Deletes all options that match the supplied pattern. Only `%` is supported as part of the
+     * pattern.
      *
-     * @param string $namePattern Pattern of key to match. `'%'` characters should be used as wildcards, and literal
-     *                            `'_'` characters should be escaped.
+     * @param string $namePattern Pattern of key to match. `'%'` characters should be used as wildcard. Underscore match is not supported.
      * @param string $value If supplied, options will be deleted only if their value matches this value.
      */
     public static function deleteLike($namePattern, $value = null)
@@ -163,6 +166,7 @@ class Option
 
     protected function clearCachedOptionByName($name)
     {
+        $name = $this->trimOptionNameIfNeeded($name);
         if (isset($this->all[$name])) {
             unset($this->all[$name]);
         }
@@ -170,6 +174,7 @@ class Option
 
     protected function getValue($name)
     {
+        $name = $this->trimOptionNameIfNeeded($name);
         $this->autoload();
         if (isset($this->all[$name])) {
             return $this->all[$name];
@@ -178,10 +183,6 @@ class Option
         $value = Db::fetchOne('SELECT option_value FROM `' . Common::prefixTable('option') . '` ' .
                               'WHERE option_name = ?', $name);
 
-        if ($value === false) {
-            return false;
-        }
-
         $this->all[$name] = $value;
         return $value;
     }
@@ -189,6 +190,7 @@ class Option
     protected function setValue($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
+        $name     = $this->trimOptionNameIfNeeded($name);
 
         $sql  = 'UPDATE `' . Common::prefixTable('option') . '` SET option_value = ?, autoload = ? WHERE option_name = ?';
         $bind = array($value, $autoLoad, $name);
@@ -199,7 +201,7 @@ class Option
 
         if (! $rowsUpdated) {
             try {
-                $sql  = 'INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+                $sql  = 'INSERT IGNORE INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
                         'VALUES (?, ?, ?) ';
                 $bind = array($name, $value, $autoLoad);
 
@@ -213,6 +215,7 @@ class Option
 
     protected function deleteValue($name, $value)
     {
+        $name   = $this->trimOptionNameIfNeeded($name);
         $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?';
         $bind[] = $name;
 
@@ -228,6 +231,9 @@ class Option
 
     protected function deleteNameLike($name, $value = null)
     {
+        $name   = $this->trimOptionNameIfNeeded($name);
+        $name = $this->getNameForLike($name);
+
         $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind[] = $name;
 
@@ -241,8 +247,19 @@ class Option
         $this->clearCache();
     }
 
+    private function getNameForLike($name)
+    {
+        $name = str_replace('\_', '###NOREPLACE###', $name);
+        $name = str_replace('_', '\_', $name);
+        $name = str_replace( '###NOREPLACE###', '\_', $name);
+        return $name;
+    }
+
     protected function getNameLike($name)
     {
+        $name = $this->trimOptionNameIfNeeded($name);
+        $name = $this->getNameForLike($name);
+
         $sql  = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind = array($name);
         $rows = Db::fetchAll($sql, $bind);
@@ -275,5 +292,15 @@ class Option
         }
 
         $this->loaded = true;
+    }
+
+    private function trimOptionNameIfNeeded($name)
+    {
+        if (strlen($name) > 191) {
+            StaticContainer::get('Psr\Log\LoggerInterface')->debug("Option name '$name' is too long and was trimmed to 191 chars");
+            $name = substr($name, 0, 191);
+        }
+
+        return $name;
     }
 }

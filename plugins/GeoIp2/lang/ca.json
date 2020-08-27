@@ -1,0 +1,24 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "No s'ha pogut trobar la funció apache_get_modules, s'asumeix que s'utilitza un servidor web diferent del Apache.",
+        "CannotFindGeoIPServerVar": "La variable %s no està definida. Pot ser que el vostre servidor web no estigui configurat correctament.",
+        "CannotListContent": "No s'ha pogut llistar el contingut de %1$s: %2$s",
+        "DownloadingDb": "Descarregant %s",
+        "DownloadNewDatabasesEvery": "Actualitza la base de dades cada",
+        "FoundApacheModules": "El Matomo ha trobat els següents mòduls d'Apache",
+        "GeoIPImplHasAccessTo": "Aquesta implementació de GeoIP té accés als següents tipus de bases de dades",
+        "GeoIPDatabases": "Base de dades GeoIP",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Nota: L'anonimització IP no té cap efecte amb les localitzacions reportades per aquest proveïdor. Abans d'utilitzar amb l'anonimització IP, assegureu-vos que no viola cap llei de privacitat a la que podeu estar subjectes.",
+        "GeoIPNoServerVars": "El Matomo no ho pogut trobar cap variable GeoIP a %s",
+        "GeoIPServerVarsFound": "El Matomo detecta les següents variables GeoIP a %s",
+        "HowToSetupGeoIPIntro": "Sembla que no teniu configurada la Geolocalització. Es tracta d'una característica molt útil, i sense ella no podreu veure de forma acurada la localització completa dels vostres visitants. Tot seguit us expliquem com podeu començar a fer-la servir:",
+        "HowToInstallApacheModule": "Com instal·lo el módul GeoIP per l'Apache?",
+        "HowToInstallNginxModule": "Com instal·lo el modul GeoIP per Nginx?",
+        "HttpServerModule": "Mòdul del Servidor HTTP",
+        "InvalidGeoIPUpdatePeriod": "Període invàlid de l'actualització GeoIP: %1$s. Els valors vàlids són %2$s.",
+        "ISPDatabase": "Base de dades de ISP",
+        "LocationDatabase": "Base de dades de Localització",
+        "LocationDatabaseHint": "Una base de dades de localització és una base de dades de països, regions o ciutats.",
+        "UnsupportedArchiveType": "S'ha trobat un tipus de fitxer no soportat %1$s."
+    }
+}

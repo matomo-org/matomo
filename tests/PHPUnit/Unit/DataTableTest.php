@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Timer;
 use Symfony\Component\VarDumper\Cloner\Data;
 
@@ -20,7 +21,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
  * @group DataTable
  * @group Core
  */
-class DataTableTest extends \PHPUnit_Framework_TestCase
+class DataTableTest extends \PHPUnit\Framework\TestCase
 {
     public function testApplyFilter()
     {
@@ -395,12 +396,11 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(5, 145), $finalRow->getColumn('test_int'));
     }
 
-    /**
-     * @expectedException  \Exception
-     * @expectedExceptionMessage Unknown operation 'foobarinvalid'
-     */
     public function testSumRow_ShouldThrowExceptionIfInvalidOperationIsGiven()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unknown operation \'foobarinvalid\'');
+
         $row1 = new Row(array(Row::COLUMNS => array('test_int' => 145)));
         $finalRow = new Row(array(Row::COLUMNS => array('test_int' => 5)));
         $finalRow->sumRow($row1, $copyMetadata = true, $operation = array('test_int' => 'fooBarInvalid'));
@@ -441,11 +441,11 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     /**
      * Test serialize with an infinite recursion (a row linked to a table in the parent hierarchy)
      * After 100 recursion must throw an exception
-     *
-     * @expectedException \Exception
      */
     public function testSerializeWithInfiniteRecursion()
     {
+        $this->expectException(\Exception::class);
+
         $table = new DataTable;
         $table->addRowFromArray(array(Row::COLUMNS => array('visits' => 245, 'visitors' => 245),
                                       Row::DATATABLE_ASSOCIATED => $table));
@@ -672,7 +672,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
                 $subtableId = $row[Row::DATATABLE_ASSOCIATED];
 
-                if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW) {
+                if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW
+                    || $row[Row::COLUMNS]['label'] === DataTable::LABEL_ARCHIVED_METADATA_ROW
+                ) {
                     $this->assertNull($subtableId);
                 } else {
 
@@ -711,6 +713,38 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
             1 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
             2 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
         ), $tables);
+    }
+
+    public function test_serializationOfDataTableMetadata()
+    {
+        $table = new DataTable();
+        $table->addRow(new Row([
+            Row::COLUMNS => ['label' => 'abc', 'nb_visits' => 5],
+        ]));
+        $table->setAllTableMetadata([
+            'str' => 'str value',
+            'int' => 5,
+            'float' => 3.65,
+            'bool' => true,
+            'object' => Date::today(),
+        ]);
+
+        $serialized = $table->getSerialized();
+
+        $newTable = DataTable::fromSerializedArray(reset($serialized));
+
+        $this->assertEquals([
+            new Row([
+                Row::COLUMNS => ['label' => 'abc', 'nb_visits' => 5],
+            ]),
+        ], $newTable->getRows());
+
+        $this->assertEquals([
+            'str' => 'str value',
+            'int' => 5,
+            'float' => 3.65,
+            'bool' => true,
+        ], $newTable->getAllTableMetadata());
     }
 
     private function addManyRows(DataTable $table, $numRows)
@@ -903,7 +937,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     public function testUnrelatedDataTableNotDestructed()
     {
-        $mockedDataTable = $this->getMock('\Piwik\DataTable', array('__destruct'));
+        $mockedDataTable = $this->createPartialMock('\Piwik\DataTable', array('__destruct'));
         $mockedDataTable->expects($this->never())->method('__destruct');
 
         $rowBeingDestructed = new Row();
@@ -947,7 +981,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubDataTableIsDestructed()
     {
-        $mockedDataTable = $this->getMock('\Piwik\DataTable', array('__destruct'));
+        $mockedDataTable = $this->getMockBuilder('\Piwik\DataTable')
+            ->onlyMethods(['__destruct'])
+            ->getMock();
         $mockedDataTable->expects($this->once())->method('__destruct');
 
         $rowBeingDestructed = new Row();

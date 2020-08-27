@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -133,7 +133,7 @@ class ErrorHandler
     public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
         // if the error has been suppressed by the @ we don't handle the error
-        if (error_reporting() == 0) {
+        if (!(error_reporting() & $errno)) {
             return;
         }
 
@@ -161,8 +161,12 @@ class ErrorHandler
             case E_DEPRECATED:
             case E_USER_DEPRECATED:
             default:
+                $context = array('trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 15));
                 try {
-                    StaticContainer::get(LoggerInterface::class)->warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
+                    StaticContainer::get(LoggerInterface::class)->warning(
+                        self::createLogMessage($errno, $errstr, $errfile, $errline),
+                        $context
+                    );
                 } catch (\Exception $ex) {
                     // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
                 }

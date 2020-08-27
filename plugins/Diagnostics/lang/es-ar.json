@@ -1,0 +1,20 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Archivo de configuración",
+        "MysqlTemporaryTablesWarning": "El permiso \"CREATE TEMPORARY TABLES\" de MySQL es requerido para que Matomo funcione correctamente.",
+        "MysqlTransactionLevel": "Cambiar el nivel de transacción de aislamiento no está soportado. El archivado aún funcionará pero podría ser más lento y es recomendado cambiar, por ejemplo, \"binlog_format\" a \"row\", de ser posible.",
+        "MysqlMaxPacketSize": "Tamaño máximo del paquete",
+        "MysqlMaxPacketSizeWarning": "Se recomienda configurar el tamaño de \"max_allowed_packet\" en tu base de datos MySQL en al menos %1$s. La configuración actual es de %2$s.",
+        "ConfigFileIntroduction": "Acá podés ver la configuración de Matomo. Si estás ejecutando Matomo en un entorno de carga balanceada, la página podría ser diferente dependiendo desde qué servidor se página esta página. Las filas con diferente fondo de color son valores de configuración cambiadas que están especificadas, por ejemplo, en el archivo %1$s.",
+        "HideUnchanged": "Sí sólo querés ver valores cambiados, podés %1$socultar todos los valores sin cambios%2$s.",
+        "Sections": "Secciones",
+        "DatabaseReaderConnection": "Conexión de lector de base de datos",
+        "CronArchivingLastRunCheck": "Último archivado exitoso",
+        "CronArchivingHasNotRun": "El archivado todavía no se ejecutó exitosamente.",
+        "CronArchivingHasNotRunInAWhile": "El último archivado exitoso se ejecutó el %1$s, lo cual ya tiene %2$s.",
+        "CronArchivingRunDetails": "Por favor, revisá que hayás configurado un crontab llamando al comando de consola %1$s, y que configuraste un %2$s para recibir errores por correo electrónico si el archivado falla. También podés intentar ejecutar el comando de consola para archivar tus informes manualmente: %3$s. %4$sAprendé más.%5$s",
+        "CronArchivingRanSuccessfullyXAgo": "El proceso de archivado se completó exitosamente hace %1$s.",
+        "BrowserTriggeredArchivingEnabled": "Para un rendimiento óptimo y un Matomo rápido, es altamente recomendable establecer un crontab para archivar automáticamente tus informes, y deshabilitar el accionar del navegador web en la configuración de Matomo. %1$sAprendé más%2$s.",
+        "NoDataForReportArchivingNotRun": "El archivado de tus informes no fue ejecutado recientemente. %1$sAprendé más sobre cómo generar tus informes%2$s."
+    }
+}

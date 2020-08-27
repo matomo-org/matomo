@@ -11,10 +11,11 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>36</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/dir2/sub/0/file.php</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2F0%2Ffile.php</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fdir2%252Fsub%252F0%252Ffile.php</segment>
 	</row>
 </result>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -27,7 +27,7 @@ class EnvironmentValidationTest extends SystemTestCase
         );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -57,7 +57,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateAbsentConfigFile('config.ini.php');
 
         $output = $this->triggerPiwikFrom('tracker');
-        $this->assertContains('As Matomo is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
+        self::assertStringContainsString('As Matomo is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
     }
 
     public function test_NoLocalConfigFile_TriggersError_inConsole()
@@ -135,7 +135,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertInstallationProcessStarted($output)
     {
-        $this->assertContains('<title>Matomo '. Version::VERSION .' &rsaquo; Installation</title>', $output);
+        self::assertStringContainsString('<title>Matomo '. Version::VERSION .' &rsaquo; Installation</title>', $output);
     }
 
     private function simulateAbsentConfigFile($fileName)

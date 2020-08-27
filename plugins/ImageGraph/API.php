@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,12 +12,12 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Map;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
-use Piwik\Translate;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Matomo report.
@@ -28,7 +28,7 @@ use Piwik\Translate;
  * - $colors accepts a comma delimited list of colors that will overwrite the default Matomo colors <br/>
  * - you can also customize the width, height, font size, metric being plotted (in case the data contains multiple columns/metrics).
  *
- * See also <a href='http://matomo.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
+ * See also <a href='https://developer.matomo.org/api-reference/reporting-api-metadata#static-image-graphs'>How to embed static Image Graphs?</a> for more information.
  *
  * @method static \Piwik\Plugins\ImageGraph\API getInstance()
  */
@@ -139,7 +139,7 @@ class API extends \Piwik\Plugin\API
         $useUnicodeFont = array(
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
-        $languageLoaded = Translate::getLanguageLoaded();
+        $languageLoaded = StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
         $font = self::getFontPath(self::DEFAULT_FONT);
         if (in_array($languageLoaded, $useUnicodeFont)) {
             $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
@@ -546,7 +546,7 @@ class API extends \Piwik\Plugin\API
         $ordinateValue = @str_replace(',', '.', $ordinateValue);
 
         // convert hh:mm:ss formatted time values to number of seconds
-        if (preg_match('/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/', $ordinateValue, $matches)) {
+        if (preg_match('/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\.[0-9]{2})?)/', $ordinateValue, $matches)) {
             $hour = $matches[1];
             $min = $matches[2];
             $sec = $matches[3];

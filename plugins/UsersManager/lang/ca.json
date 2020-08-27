@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Afegeix un usuari nou",
-        "Alias": "Àlies",
         "AllWebsites": "Tots els llocs",
         "ApplyToAllWebsites": "Aplica a tots els llocs",
         "ClickHereToDeleteTheCookie": "Feu click aquí per eliminar la galeta i permetre al Matomo rastrejar les vostres visites.",

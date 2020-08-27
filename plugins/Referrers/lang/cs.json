@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Toto hlášení zobrazuje všechny odkazující stránky v jednom uceleném hlášení s výpisem všech webů, klíčových slov a kampaní použitých návštěvníky k nalezení vašeho webu.",
         "Campaigns": "Kampaně",
         "CampaignsDocumentation": "Návštěvníci, kteří přišli na váš web jako výsledek kampaně. %1$s Pro více informací si prohlédněte hlášení %2$s.",
-        "CampaignsReportDocumentation": "Toto hlášení zobrazuje, které kampaně přivedly návštěvníky na vaše stránky. %1$s Pro více informací o sledování kampaní si %2$spřečtěte dokumentaci kampaní na matomo.org%3$s.",
         "ColumnCampaign": "Kampaň",
         "ColumnSearchEngine": "Vyhledávač",
         "ColumnSocial": "Sociální síť",
@@ -43,6 +42,7 @@
         "WidgetExternalWebsites": "Odkazující weby",
         "WidgetSocials": "Seznam sociálních sítí",
         "WidgetTopKeywordsForPages": "Nejčastější klíčová slova pro URL stránky",
-        "XPercentOfVisits": "%s návštěv"
+        "XPercentOfVisits": "%s návštěv",
+        "Acquisition": "Akvizice"
     }
 }

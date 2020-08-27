@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -24,16 +24,11 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const CONVERSION_RATE_PRECISION = 1;
-
     /**
      * Number of "Your top converting keywords/etc are" to display in the per Goal overview page
      * @var int
      */
     const COUNT_TOP_ROWS_TO_DISPLAY = 3;
-
-    const ECOMMERCE_LOG_SHOW_ORDERS = 1;
-    const ECOMMERCE_LOG_SHOW_ABANDONED_CARTS = 2;
 
     protected $goalColumnNameToLabel = array(
         'avg_order_revenue' => 'General_AverageOrderValue',
@@ -57,10 +52,6 @@ class Controller extends \Piwik\Plugin\Controller
             } else {
                 $conversionRate = $conversionRate->getFirstRow()->getColumn($columnName);
             }
-        }
-
-        if (!is_numeric($conversionRate)) {
-            $conversionRate = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRate);
         }
 
         return $conversionRate;
@@ -382,6 +373,7 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'event', 'value' => Piwik::translate('Goals_SendEvent')),
             array('key' => 'file', 'value' => Piwik::translate('Goals_Download')),
             array('key' => 'external_website', 'value' => Piwik::translate('Goals_ClickOutlink')),
+            ['key' => 'visit_duration', 'value' => Piwik::translate('Goals_VisitDurationMatchAttr')],
         );
         $view->allowMultipleOptions = array(
             array('key' => '0', 'value' => Piwik::translate('Goals_DefaultGoalConvertedOncePerVisit')),
@@ -397,6 +389,9 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'exact', 'value' => Piwik::translate('Goals_IsExactly', '')),
             array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', ''))
         );
+        $view->numericComparisonTypeOptions = [
+            ['key' => 'greater_than', 'value' => Piwik::translate('General_OperationGreaterThan')],
+        ];
     }
 
     /**

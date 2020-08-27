@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,10 +12,13 @@ use Exception;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
+use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\SettingsPiwik;
 
 /**
@@ -40,12 +43,28 @@ class UsersManager extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Platform.initialized'                   => 'onPlatformInitialized',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-            'CronArchive.getTokenAuth'               => 'getCronArchiveTokenAuth'
         );
+    }
+
+    public static function isUsersAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_users_admin'];
+    }
+
+    public static function dieIfUsersAdminIsDisabled()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        if (!self::isUsersAdminEnabled()) {
+            throw new \Exception('Creating, updating, and deleting users has been disabled.');
+        }
     }
 
     public function addSystemSummaryItems(&$systemSummary)
     {
+        if (!self::isUsersAdminEnabled()) {
+            return;
+        }
+
         $userLogins = Request::processRequest('UsersManager.getUsersLogin', array('filter_limit' => '-1'));
 
         $numUsers = count($userLogins);
@@ -74,22 +93,17 @@ class UsersManager extends \Piwik\Plugin
     public function recordAdminUsersInCache(&$attributes, $idSite)
     {
         $model = new Model();
-        $adminLogins = $model->getUsersLoginWithSiteAccess($idSite, Admin::ID);
+        $logins = $model->getUsersLoginWithSiteAccess($idSite, Admin::ID);
         $writeLogins = $model->getUsersLoginWithSiteAccess($idSite, Write::ID);
+        $logins = array_merge($logins, $writeLogins);
+
+        $token_auths = $model->getAllHashedTokensForLogins($logins);
 
         $attributes['tracking_token_auth'] = array();
 
-        if (!empty($adminLogins)) {
-            $users = $model->getUsers($adminLogins);
-            foreach ($users as $user) {
-                $attributes['tracking_token_auth'][] = self::hashTrackingToken($user['token_auth'], $idSite);
-            }
-        }
-
-        if (!empty($writeLogins)) {
-            $users = $model->getUsers($writeLogins);
-            foreach ($users as $user) {
-                $attributes['tracking_token_auth'][] = self::hashTrackingToken($user['token_auth'], $idSite);
+        if (!empty($token_auths)) {
+            foreach ($token_auths as $token_auth) {
+                $attributes['tracking_token_auth'][] = self::hashTrackingToken($token_auth, $idSite);
             }
         }
     }
@@ -97,16 +111,6 @@ class UsersManager extends \Piwik\Plugin
     public static function hashTrackingToken($tokenAuth, $idSite)
     {
         return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
-    }
-
-    public function getCronArchiveTokenAuth(&$tokens)
-    {
-        $model      = new Model();
-        $superUsers = $model->getUsersHavingSuperUserAccess();
-
-        foreach($superUsers as $superUser) {
-            $tokens[] = $superUser['token_auth'];
-        }
     }
 
     /**
@@ -197,9 +201,26 @@ class UsersManager extends \Piwik\Plugin
 
     public static function getPasswordHash($password)
     {
+        if (SettingsPiwik::isUserCredentialsSanityCheckEnabled()) {
+            self::checkBasicPasswordStrength($password);
+        }
         // if change here, should also edit the installation process
         // to change how the root pwd is saved in the config file
         return md5($password);
+    }
+
+    public static function checkBasicPasswordStrength($password)
+    {
+        $ex = new \Exception('This password is too weak, please supply another value or reset it.');
+
+        $numDistinctCharacters = strlen(count_chars($password, 3));
+        if ($numDistinctCharacters < 2) {
+            throw $ex;
+        }
+
+        if (strlen($password) < 6) {
+            throw $ex;
+        }
     }
 
     /**
@@ -211,7 +232,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public static function checkPasswordHash($passwordHash, $exceptionMessage)
     {
-        if (strlen($passwordHash) != 32) {  // MD5 hash length
+        if (strlen($passwordHash) != 32 || !ctype_xdigit($passwordHash)) {  // MD5 hash length
             throw new Exception($exceptionMessage);
         }
     }
@@ -222,6 +243,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Done";
         $translationKeys[] = "General_Pagination";
+        $translationKeys[] = "General_PleaseTryAgain";
         $translationKeys[] = "UsersManager_DeleteConfirm";
         $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
@@ -297,6 +319,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_Add';
         $translationKeys[] = 'General_Note';
+        $translationKeys[] = 'General_Yes';
         $translationKeys[] = 'UsersManager_FilterByWebsite';
         $translationKeys[] = 'UsersManager_GiveAccessToAll';
         $translationKeys[] = 'UsersManager_OrManageIndividually';
@@ -307,5 +330,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AreYouSureAddCapability';
         $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
         $translationKeys[] = 'UsersManager_IncludedInUsersRole';
+        $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
+        $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
     }
 }

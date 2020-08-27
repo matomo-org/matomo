@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -83,7 +83,10 @@ class UpdaterTest extends IntegrationTestCase
         $result = Fixture::updateDatabase($force = true);
         if ($result === false) {
             throw new \Exception("Failed to force update (nothing to update).");
+        } else {
+            $this->assertTrue(true); // pass
         }
+        $this->assertTrue(true); // pass
     }
 
     public function testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry()

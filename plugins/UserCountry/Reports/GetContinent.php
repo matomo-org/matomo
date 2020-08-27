@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,7 +12,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserCountry\Columns\Continent;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\Widget\WidgetContainerConfig;
 use Piwik\Widget\WidgetsList;
 
 class GetContinent extends Base

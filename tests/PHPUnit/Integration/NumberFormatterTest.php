@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -16,21 +16,21 @@ use Piwik\Translation\Translator;
  * @group Core
  * @group NumberFormatter
  */
-class NumberFormatterTest extends \PHPUnit_Framework_TestCase
+class NumberFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Translator
      */
     private $translator;
 
-    public function setUp()
+    public function setUp(): void
     {
         \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
 
         $this->translator = StaticContainer::get('Piwik\Translation\Translator');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->translator->reset();
     }
@@ -70,7 +70,7 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
         $this->translator->setCurrentLanguage($language);
         $numberFormatter = new NumberFormatter($this->translator);
 
-        $this->assertEquals($expected, $numberFormatter->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits));
+        $this->assertSame($expected, $numberFormatter->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits));
     }
 
     public function getNumberFormattingTestData()
@@ -114,7 +114,8 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
             array('en', -5, 0, 3, '-5%'),
             array('en', 5.299, 0, 0, '5%'),
             array('en', 5.299, 3, 0, '5.299%'),
-            array('en', -50, 3, 3, '-50%'),
+            array('en', -50, 3, 3, '-50.000%'),
+            array('en', -50.1, 3, 3, '-50.100%'),
             array('en', 5000, 0, 0, '5,000%'),
             array('en', +5000, 0, 0, '5,000%'),
             array('en', 5000000, 0, 0, '5,000,000%'),
@@ -163,13 +164,13 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('5,000.1', $numberFormatter->formatNumber(5000.1, 1));
         $this->assertEquals('50.1%', $numberFormatter->formatPercent(50.1, 1));
         $this->assertEquals('+50%', $numberFormatter->formatPercentEvolution(50));
-        $this->assertEquals('$5,000.1', $numberFormatter->formatCurrency(5000.1, '$'));
+        $this->assertEquals('$5,000.10', $numberFormatter->formatCurrency(5000.1, '$'));
       
         $this->translator->setCurrentLanguage('de');
         $this->assertEquals('5.000,1', $numberFormatter->formatNumber(5000.1, 1));
         $this->assertEquals('50,1 %', $numberFormatter->formatPercent(50.1, 1));
         $this->assertEquals('+50 %', $numberFormatter->formatPercentEvolution(50));
-        $this->assertEquals('5.000,1 €', $numberFormatter->formatCurrency(5000.1, '€'));
+        $this->assertEquals('5.000,10 €', $numberFormatter->formatCurrency(5000.1, '€'));
 
         $this->translator->setCurrentLanguage('ar');
         $this->assertEquals('5٬000٫1٪؜', $numberFormatter->formatPercent(5000.1, 1));

@@ -1,7 +1,13 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "客户端时间",
+        "ColumnLocalHour": "当地时间-小时（访问开始）",
+        "ColumnLocalMinute": "当地时间-分钟（访问开始）",
         "ColumnServerTime": "服务器时间",
+        "ColumnServerHour": "服务器时间-小时",
+        "ColumnVisitStartServerHour": "服务器时间-小时（访问开始）",
+        "ColumnVisitStartServerMinute": "服务器时间-分钟（访问开始）",
+        "ColumnServerMinute": "服务器时间-分钟",
         "DayOfWeek": "星期几的",
         "LocalTime": "日报表",
         "NHour": "%s 点",

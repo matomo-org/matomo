@@ -1,16 +1,16 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Actions\tests\Unit;
 
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Action;
-use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
 
@@ -19,16 +19,16 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
  * @group ArchiverTest
  * @group Plugins
  */
-class ArchiverTests extends \PHPUnit_Framework_TestCase
+class ArchiverTests extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        Translate::loadAllTranslations();
+        Fixture::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::reset();
+        Fixture::resetTranslations();
     }
 
     public function getActionNameTestData()

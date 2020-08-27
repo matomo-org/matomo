@@ -36,6 +36,10 @@
         "ToggleActions": "Cambia la visibilità di tutte le azioni",
         "TopVisitedPages": "Le pagine più visitate",
         "VisitsLog": "Log Visite",
+        "QueryMaxExecutionTimeExceeded": "L'esecuzione della query ha richiesto troppo tempo.",
+        "QueryMaxExecutionTimeExceededReasonDateRange": "Ciò può accadere se l'intervallo di date selezionato è troppo ampio. Si prega di provare a selezionarne uno più ristretto.",
+        "QueryMaxExecutionTimeExceededReasonSegment": "Ciò può accadere se ilo segmento selezionato non corrisponde ad alcuna visita. Si prega di verificare il segmento selezionato.",
+        "QueryMaxExecutionTimeExceededReasonUnknown": "Prova di nuovo. Se questo accade ripetutamente, mettiti in contatto con l'amministratore o con l'assistenza.",
         "VisitorLog": "Log Visite",
         "VisitorLogDocumentation": "Questa tabella mostra le ultime visite nell'intervallo di date selezionato. Puoi vedere quando c'è stata l'ultima visita di un visitatore posizionando il mouse sopra la data di una visita. %1$sSe l'intervallo di date comprende oggi, è possibile vedere in tempo reale i tuoi visitatori!%2$s I dati visualizzati qui sono sempre aggiornati, indipendentemente da quanto spesso usi l'archiviazione automatica.",
         "VisitorLogNoDataMessagePurged": "Probabilmente i dati sono stati eliminati perché è abilitata la cancellazione regolare dei vecchi dati grezzi e la data di questo report è più vecchia di %s giorni. Un super user può modificare questa impostazione andando su Amministrazione => Privacy.",
@@ -50,6 +54,7 @@
         "RowActionTooltipTitle": "Apri Log Visite segmentato",
         "SegmentedVisitorLogTitle": "Log Visite che mostra dove %1$s è \"%2$s\"",
         "OnClickPause": "%s è avviato. Clicca per mettere in pausa.",
-        "OnClickStart": "%s è stato arrestato. Clicca per avviare."
+        "OnClickStart": "%s è stato arrestato. Clicca per avviare.",
+        "ClickToSeeAllContents": "Clicca per vedere ogni interazione\/impressione con il contenuto"
     }
 }

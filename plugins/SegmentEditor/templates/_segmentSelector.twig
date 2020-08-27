@@ -4,7 +4,7 @@
         <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
                 <input class="segmentFilter browser-default" type="text" tabindex="4" value="{{ 'General_Search'|translate }}"/>
-                <span/>
+                <span></span>
             </div>
             <ul class="submenu">
                 <li>{{ 'SegmentEditor_SelectSegmentOfVisits'|translate }}
@@ -41,27 +41,27 @@
                 <select class="available_segments_select browser-default"></select>
             </strong></span>
 
-                {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <span class="enable_all_users"><strong>
+                {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <div class="enable_all_users"><strong>
                         <select class="enable_all_users_select">
-                            <option selected="1" value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
-                            <option value="1">{{ 'SegmentEditor_VisibleToAllUsers'|translate }}</option>
+                            <option value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
+                            <option selected="1" value="1">{{ 'SegmentEditor_VisibleToAllUsers'|translate }}</option>
                         </select>
-                    </strong></span>
+                    </strong></div>
 
-                {{ 'SegmentEditor_SegmentIsDisplayedForWebsite'|translate }}<span class="visible_to_website"><strong>
+                {{ 'SegmentEditor_SegmentIsDisplayedForWebsite'|translate }}<div class="visible_to_website"><strong>
                         <select class="visible_to_website_select">
                             <option selected="" value="{{ idSite }}">{{ 'SegmentEditor_SegmentDisplayedThisWebsiteOnly'|translate }}</option>
                             {% if isAddingSegmentsForAllWebsitesEnabled %}<option value="0">{{ 'SegmentEditor_SegmentDisplayedAllWebsites'|translate }}</option>{% endif %}
                         </select>
-                    </strong></span>
-                {{ 'General_And'|translate }} <span class="auto_archive"><strong>
+                    </strong></div>
+                {{ 'General_And'|translate }} <div class="auto_archive"><strong>
                         <select class="auto_archive_select">
                             {% if createRealTimeSegmentsIsEnabled %}
                             <option selected="1" value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }} {{ 'General_DefaultAppended'|translate }}</option>
                             {% endif %}
                             <option {% if not createRealTimeSegmentsIsEnabled %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }} </option>
                         </select>
-                    </strong></span>
+                    </strong></div>
 
             </div>
             <h3 style="margin: 12px 6px;">{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
@@ -70,6 +70,7 @@
             <div piwik-rate-feature title="Segment Editor" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>
             <a class="btn-flat delete" href="#">{{ 'General_Delete'|translate }}</a>
             <a class="btn-flat close" href="#">{{ 'General_Close'|translate }}</a>
+            <a class="btn-flat testSegment">{{ 'SegmentEditor_Test'|translate }}</a>
             <button class="btn saveAndApply">{{ 'SegmentEditor_SaveAndApply'|translate }}</button>
         </div>
     </div>
@@ -91,18 +92,20 @@
     </h2>
     <p class="description">
         <span>
-            <input type="checkbox" id="hideSegmentMessage" name="hideSegmentMessage" />
-            <label for="hideSegmentMessage">{{ 'SegmentEditor_HideMessageInFuture'|translate }}</label>
+            <label>
+                <input type="checkbox" id="hideSegmentMessage" name="hideSegmentMessage" />
+                <span>{{ 'SegmentEditor_HideMessageInFuture'|translate }}</span>
+            </label>
         </span>
     </p>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 <div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
-    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
+    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}</h2>
     {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
     <p class="description">
-        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|raw }}
+        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}
         <br/>
         {{ 'SegmentEditor_DataAvailableAtLaterDate'|translate }}
         {% if isSuperUser %}

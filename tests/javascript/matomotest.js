@@ -1,13 +1,13 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 /*global Piwik getToken */
 
-Piwik.addPlugin('testPlugin', {
+Matomo.addPlugin('testPlugin', {
 	/*
 	 * called when tracker instantiated
 	 * - function or string to be eval()'d
@@ -42,7 +42,7 @@ Piwik.addPlugin('testPlugin', {
 				'_makeCrossDomainDeviceId: makeCrossDomainDeviceId,' +
 				'_isSameCrossDomainDevice: isSameCrossDomainDevice,' +
 				'_replaceHrefForCrossDomainLink: replaceHrefForCrossDomainLink,' +
-				'_isLinkToDifferentDomainButSamePiwikWebsite: isLinkToDifferentDomainButSamePiwikWebsite,' +
+				'_isLinkToDifferentDomainButSameMatomoWebsite: isLinkToDifferentDomainButSameMatomoWebsite,' +
 				'_arrayChunk : arrayChunk,' +
 				'_urlFixup : urlFixup,' +
 				'_domainFixup : domainFixup,' +
@@ -53,7 +53,9 @@ Piwik.addPlugin('testPlugin', {
 				'_resolveRelativeReference : resolveRelativeReference,' +
 				'_addEventListener : addEventListener,' +
 				'_prefixPropertyName : prefixPropertyName,' +
-				'_getPiwikUrlForOverlay : getPiwikUrlForOverlay, ' +
+				'_getMatomoUrlForOverlay : getMatomoUrlForOverlay, ' +
+				'_windowAlias : windowAlias, ' +
+				'_refreshConsentStatus : refreshConsentStatus, ' +
 				'_isInsideAnIframe : isInsideAnIframe' +
 			'}'
 		);

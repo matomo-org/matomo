@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -47,7 +47,13 @@
             }
         }
 
-        newMetric.value = decodeURIComponent(newMetric.value);
+        try {
+            // Decode again to deal with double-encoded segments in database
+            newMetric.value = decodeURIComponent(newMetric.value);
+        } catch (e) {
+            // Expected if the segment was not double-encoded
+        }
+
         return newMetric;
     };
 
@@ -143,7 +149,13 @@
             orCondition.isLoading = true;
 
             this.updateSegmentDefinition();
-
+            
+            var inputElement = $('.orCondId' + orCondition.id + " .metricValueBlock input");
+            inputElement.autocomplete({
+                source: [],
+                minLength: 0
+            });
+            
             var resolved = false;
 
             var promise = piwikApi.fetch({

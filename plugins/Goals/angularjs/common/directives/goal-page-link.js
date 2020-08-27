@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -27,6 +27,7 @@
                     var link =  element.find('a');
                     link.text(title);
                     link.attr('href', 'javascript:void(0)');
+                    link.attr('title', _pk_translate('Goals_ClickToViewThisGoal'));
                     link.bind('click', function () {
                         var $search = $location.search();
                         $search.category = 'Goals_Goals';

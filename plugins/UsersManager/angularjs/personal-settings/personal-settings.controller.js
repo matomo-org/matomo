@@ -1,20 +1,24 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
     angular.module('piwikApp').controller('PersonalSettingsController', PersonalSettingsController);
 
-    PersonalSettingsController.$inject = ['piwikApi', '$window', 'piwik'];
+    PersonalSettingsController.$inject = ['piwikApi', '$filter', '$window', 'piwik'];
 
-    function PersonalSettingsController(piwikApi, $window, piwik) {
+    function PersonalSettingsController(piwikApi, $filter, $window, piwik) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
+
+        var translate = $filter('translate');
 
         var self = this;
 
+        this.newsletterSignupButtonTitle = translate('General_Save');
         this.doesRequirePasswordConfirmation = false;
+        this.showNewsletterSignup = true;
 
         function updateSettings(postParams)
         {
@@ -30,7 +34,7 @@
                     id: 'PersonalSettingsSuccess', context: 'success'});
                 notification.scrollToNotification();
 
-                self.doesRequirePasswordConfirmation = !!self.password;
+                self.doesRequirePasswordConfirmation = false;
                 self.passwordCurrent = '';
                 self.loading = false;
             }, function (errorMessage) {
@@ -43,23 +47,31 @@
             this.doesRequirePasswordConfirmation = true;
         };
 
-        this.regenerateTokenAuth = function () {
-            var parameters = { userLogin: piwik.userLogin };
+        this.signupForNewsletter = function () {
+            var signupBtn = $('#newsletterSignupBtn');
+            signupBtn.html(translate('General_Loading'));
+            this.isProcessingNewsletterSignup = true;
 
-            self.loading = true;
+            piwikApi.withTokenInUrl();
+            piwikApi.fetch({module: 'API', method: 'UsersManager.newsletterSignup'}).then(function () {
+                self.isProcessingNewsletterSignup = false;
+                self.showNewsletterSignup = false;
 
-            piwikHelper.modalConfirm('#confirmTokenRegenerate', {yes: function () {
-                piwikApi.withTokenInUrl();
-                piwikApi.post({
-                    module: 'API',
-                    method: 'UsersManager.regenerateTokenAuth'
-                }, parameters).then(function (success) {
-                    $window.location.reload();
-                    self.loading = false;
-                }, function (errorMessage) {
-                    self.loading = false;
-                });
-            }});
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show(translate('UsersManager_NewsletterSignupSuccessMessage'), { id: 'newslettersignup', context: 'success'});
+                notification.scrollToNotification();
+
+            }, function () {
+                self.isProcessingNewsletterSignup = false;
+
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show(translate('UsersManager_NewsletterSignupFailureMessage'), { id: 'newslettersignup', context: 'error' });
+                notification.scrollToNotification();
+
+                self.newsletterSignupButtonTitle = translate('General_PleaseTryAgain');
+            });
         };
 
         this.cancelSave = function () {
@@ -69,13 +81,17 @@
         this.save = function () {
 
             if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
-                angular.element('#confirmChangesWithPassword').openModal({ dismissible: false, ready: function () {
+                angular.element('#confirmChangesWithPassword').modal({ dismissible: false, ready: function () {
                     $('.modal.open #currentPassword').focus();
-                }});
+                }}).modal('open');
                 return;
             }
 
-            angular.element('#confirmChangesWithPassword').closeModal();
+            var modal = M.Modal.getInstance(angular.element('#confirmChangesWithPassword'));
+
+            if (modal) {
+                modal.close();
+            }
 
             var postParams = {
                 email: this.email,
@@ -84,14 +100,6 @@
                 language: this.language,
                 timeformat: this.timeformat,
             };
-
-            if (this.password) {
-                postParams.password = this.password;
-            }
-
-            if (this.passwordBis) {
-                postParams.passwordBis = this.passwordBis;
-            }
 
             if (this.passwordCurrent) {
                 postParams.passwordConfirmation = this.passwordCurrent;

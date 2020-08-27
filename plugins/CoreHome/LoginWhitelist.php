@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreHome;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Network\IP as NetworkIp;
+use Matomo\Network\IP as NetworkIp;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\SettingsServer;

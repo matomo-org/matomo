@@ -1,9 +1,9 @@
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Visitor profile popup control.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -54,8 +54,11 @@
 
                 var url = window.location.href;
                 url = broadcast.updateParamValue('addSegmentAsNew=' + decodeURIComponent(self.param.segment), url);
-                url = broadcast.updateParamValue('segment=', url);
                 url = broadcast.updateParamValue('popover=', url);
+                // Show user the Visits Log so that they can easily refine their new segment if needed
+                url = broadcast.updateParamValue('category=General_Visitors', url);
+                url = broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
+                url = broadcast.updateParamValue('segment=' + self.param.segment, url);
 
                 window.open(url, "_blank");
             });

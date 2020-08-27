@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -21,6 +21,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         $order = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
+            'node_modules/',
             'libs/',
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
             'plugins/Morpheus/stylesheets/base.less',
@@ -68,6 +69,8 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         Piwik::postEvent('AssetManager.getStylesheetFiles', array(&$this->fileLocations));
 
         $this->addThemeFiles();
+
+        $this->mapBowerComponentFilesForBC($this->fileLocations);
     }
 
     protected function addThemeFiles()

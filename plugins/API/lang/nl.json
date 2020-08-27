@@ -9,7 +9,7 @@
         "ReportingApiReference": "Rapportage API verwijzing",
         "TopLinkTooltip": "Benader je Web Analyse data via een simpele API in json, xml, enz.",
         "UserAuthentication": "Gebruikers authenticatie",
-        "UsingTokenAuth": "Als je data wil %1$s opvragen via een script, een cronjob, enz. waarvoor authenticatie vereist is, %2$s moet u de parameter %3$s aan de API aanvraag URL's toevoegen",
+        "UsingTokenAuth": "Als je wilt gegevens %1$s opvragen via een script, een crontab, etc. %2$smoet de URL-parameter worden toegevoegd %3$s naar de API-calls van URL's die verificatie vereisen.",
         "Glossary": "Woordenlijst",
         "LearnAboutCommonlyUsedTerms2": "Leer over de standaard gebruikte termen om het meeste uit Matomo Analytics te halen.",
         "EvolutionMetricName": "%s Trends"

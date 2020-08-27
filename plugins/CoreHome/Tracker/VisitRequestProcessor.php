@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -17,6 +17,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Settings;
+use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit\VisitProperties;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tracker\VisitorRecognizer;
@@ -73,13 +74,21 @@ class VisitRequestProcessor extends RequestProcessor
      */
     private $visitStandardLength;
 
+    /**
+     * Forces all requests to result in new visits. For debugging only.
+     *
+     * @var int
+     */
+    private $trackerAlwaysNewVisitor;
+
     public function __construct(EventDispatcher $eventDispatcher, VisitorRecognizer $visitorRecognizer, Settings $userSettings,
-                                $visitStandardLength)
+                                $visitStandardLength, $trackerAlwaysNewVisitor)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->visitorRecognizer = $visitorRecognizer;
         $this->userSettings = $userSettings;
         $this->visitStandardLength = $visitStandardLength;
+        $this->trackerAlwaysNewVisitor = $trackerAlwaysNewVisitor;
     }
 
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
@@ -109,8 +118,10 @@ class VisitRequestProcessor extends RequestProcessor
         $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
         $request->setMetadata('CoreHome', 'isVisitorKnown', $isKnown);
 
-        $isNewVisit = $this->isVisitNew($visitProperties, $request);
+        $isNewVisit = $this->isVisitNew($visitProperties, $request, $this->visitorRecognizer->getLastKnownVisit());
         $request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
+
+        $request->setMetadata('CoreHome', 'lastKnownVisit', $this->visitorRecognizer->getLastKnownVisit());
 
         if (!$isNewVisit) { // only copy over known visitor's information, if this is for an ongoing visit
             $this->visitorRecognizer->updateVisitPropertiesFromLastVisitRow($visitProperties);
@@ -146,26 +157,44 @@ class VisitRequestProcessor extends RequestProcessor
      * @param Request $request
      * @return bool
      */
-    public function isVisitNew(VisitProperties $visitProperties, Request $request)
+    public function isVisitNew(VisitProperties $visitProperties, Request $request, $lastKnownVisit)
     {
         $isKnown = $request->getMetadata('CoreHome', 'isVisitorKnown');
         if (!$isKnown) {
             return true;
         }
 
-        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitProperties, $request);
+        $isNewVisitForced = $request->getParam('new_visit');
+        $isNewVisitForced = !empty($isNewVisitForced);
+        if($isNewVisitForced) {
+            Common::printDebug("-> New visit forced: &new_visit=1 in request");
+            return true;
+        }
+
+        if($this->trackerAlwaysNewVisitor) {
+            Common::printDebug("-> New visit forced: Debug.tracker_always_new_visitor = 1 in config.ini.php");
+            return true;
+        }
+
+        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitProperties, $request, $lastKnownVisit);
         if (!$isLastActionInTheSameVisit) {
             Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
 
             return true;
         }
 
-        $wasLastActionYesterday = $this->wasLastActionNotToday($visitProperties, $request);
+        $wasLastActionYesterday = $this->wasLastActionNotToday($visitProperties, $request, $lastKnownVisit);
         $forceNewVisitAtMidnight = (bool) Config::getInstance()->Tracker['create_new_visit_after_midnight'];
 
         if ($wasLastActionYesterday && $forceNewVisitAtMidnight) {
             Common::printDebug("Visitor detected, but last action was yesterday...");
 
+            return true;
+        }
+
+        if (!TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')
+            && !$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request)) {
+            Common::printDebug("Visitor detected, but last user_id does not match...");
             return true;
         }
 
@@ -176,9 +205,9 @@ class VisitRequestProcessor extends RequestProcessor
      * Returns true if the last action was done during the last 30 minutes
      * @return bool
      */
-    protected function isLastActionInTheSameVisit(VisitProperties $visitProperties, Request $request)
+    protected function isLastActionInTheSameVisit(VisitProperties $visitProperties, Request $request, $lastKnownVisit)
     {
-        $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
+        $lastActionTime = $this->getLastKnownActionTime($visitProperties, $lastKnownVisit);
 
         return isset($lastActionTime)
             && false !== $lastActionTime
@@ -190,9 +219,9 @@ class VisitRequestProcessor extends RequestProcessor
      * @param VisitProperties $visitor
      * @return bool
      */
-    private function wasLastActionNotToday(VisitProperties $visitProperties, Request $request)
+    private function wasLastActionNotToday(VisitProperties $visitProperties, Request $request, $lastKnownVisit)
     {
-        $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
+        $lastActionTime = $this->getLastKnownActionTime($visitProperties, $lastKnownVisit);
 
         if (empty($lastActionTime)) {
             return false;
@@ -225,5 +254,43 @@ class VisitRequestProcessor extends RequestProcessor
         }
 
         return null;
+    }
+
+    /**
+     * Returns the last action time for the last recorded visit of this visitor, or if the visitor is new,
+     * the current request's timestamp.
+     *
+     * @param VisitProperties $visitProperties
+     * @param $lastKnownVisit
+     * @return false|int|mixed
+     */
+    private function getLastKnownActionTime(VisitProperties $visitProperties, $lastKnownVisit)
+    {
+        if (isset($lastKnownVisit['visit_last_action_time'])) {
+            return strtotime($lastKnownVisit['visit_last_action_time']);
+        }
+
+        return $visitProperties->getProperty('visit_last_action_time');
+    }
+
+    /**
+     * Returns true if the last user_id did not change.
+     * @return bool
+     */
+    protected function lastUserIdWasSetAndDoesMatch(VisitProperties $visitProperties, Request $request)
+    {
+        $lastUserId = $visitProperties->getProperty('user_id');
+        
+        if(empty($lastUserId)) {
+            return true;
+        }
+        
+        $currentUserId = $request->getForcedUserId();
+        
+        if(empty($currentUserId)) {
+            return true;
+        }
+        
+        return $lastUserId === $currentUserId;
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -14,7 +14,7 @@ use Piwik\Filesystem;
 /**
  * @group Core
  */
-class FilesystemTest extends \PHPUnit_Framework_TestCase
+class FilesystemTest extends \PHPUnit\Framework\TestCase
 {
     public function test_getFileSize_ShouldRecognizeLowerUnits()
     {
@@ -44,5 +44,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     public function test_removeNonExistingFile_shouldNotThrowException()
     {
         Filesystem::remove('foo');
+        $this->assertTrue(true); // pass
     }
 }

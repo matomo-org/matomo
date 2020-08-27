@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -100,7 +100,7 @@ class   Config
     );
 
     /**
-     * The list of ViewDataTable properties that can be overriden by query parameters.
+     * The list of ViewDataTable properties that can be overridden by query parameters.
      */
     public $overridableProperties = array(
         'show_goals',
@@ -304,6 +304,12 @@ class   Config
     public $documentation = false;
 
     /**
+     * URL linking to an online guide for this report (or plugin).
+     * @var string
+     */
+    public $onlineGuideUrl = false;
+
+    /**
      * Array property containing custom data to be saved in JSON in the data-params HTML attribute
      * of a data table div. This data can be used by JavaScript DataTable classes.
      *
@@ -495,6 +501,12 @@ class   Config
     public $disable_all_rows_filter_limit = false;
 
     /**
+     * Sets a limit for the maximum number of rows that can be exported.
+     * @var int
+     */
+    public $max_export_filter_limit = -1;
+
+    /**
      * Message to show if not data is available for the report
      * Defaults to `CoreHome_ThereIsNoDataForThisReport` if not set
      *
@@ -525,6 +537,13 @@ class   Config
      * @var string
      */
     public $segmented_visitor_log_segment_suffix = '';
+
+    /**
+     * Disable comparison support for this specific usage of a ViewDataTable.
+     *
+     * @var bool
+     */
+    public $disable_comparison = false;
 
     /**
      * @ignore
@@ -608,6 +627,10 @@ class   Config
 
         if (isset($report['documentation'])) {
             $this->documentation = $report['documentation'];
+        }
+
+        if (isset($report['onlineGuideUrl'])) {
+            $this->onlineGuideUrl = $report['onlineGuideUrl'];
         }
     }
 
@@ -728,7 +751,7 @@ class   Config
      *
      * @param string $relatedReport The plugin and method of the report, eg, `'DevicesDetection.getBrowsers'`.
      * @param string $title The report's display name, eg, `'Browsers'`.
-     * @param array $queryParams Any extra query parameters to set in releated report's URL, eg,
+     * @param array $queryParams Any extra query parameters to set in related report's URL, eg,
      *                           `array('idGoal' => 'ecommerceOrder')`.
      */
     public function addRelatedReport($relatedReport, $title, $queryParams = array())
@@ -736,8 +759,8 @@ class   Config
         list($module, $action) = explode('.', $relatedReport);
 
         // don't add the related report if it references this report
-        if ($this->controllerName == $module
-            && $this->controllerAction == $action) {
+        if ($this->controllerName === $module
+            && $this->controllerAction === $action) {
             if (empty($queryParams)) {
                 return;
             }

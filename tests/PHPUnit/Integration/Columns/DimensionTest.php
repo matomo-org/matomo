@@ -1,25 +1,26 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Columns;
 
-    // there is a test that requires the class to be defined in a plugin
+// there is a test that requires the class to be defined in a plugin
 
 use Piwik\Columns\Dimension;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Plugin\Segment;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Manager;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 class CustomDimensionTest extends Dimension
 {
@@ -50,13 +51,13 @@ class CustomDimensionTest extends Dimension
         $this->columnType = $columnType;
     }
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setSegment('exitPageUrl');
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
         // custom type and sqlSegment
         $segment = new Segment();
@@ -65,7 +66,7 @@ class CustomDimensionTest extends Dimension
         $segment->setType(Segment::TYPE_METRIC);
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 }
 
@@ -80,11 +81,11 @@ class ColumnDimensionTest extends IntegrationTestCase
      */
     private $dimension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         Fixture::createWebsite('2014-04-05 01:02:03');
 
@@ -94,9 +95,9 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->dimension = new CustomDimensionTest();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 
@@ -277,14 +278,6 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertEquals("Test.DimensionTest", $this->dimension->getId());
     }
 
-    public function test_factory_ShouldCreateDimensionFromDimensionId()
-    {
-        Manager::getInstance()->loadPlugins(array('ExampleTracker'));
-
-        $dimension = Dimension::factory("ExampleTracker.ExampleDimension");
-        $this->assertInstanceOf('Piwik\Plugins\ExampleTracker\Columns\ExampleDimension', $dimension);
-    }
-
 
     /**
      * @dataProvider getFormatValueProvider
@@ -303,10 +296,10 @@ class ColumnDimensionTest extends IntegrationTestCase
         return array(
             array($type = Dimension::TYPE_NUMBER, $value = 5.354, $expected = 5),
             array($type = Dimension::TYPE_FLOAT, $value = 5.354, $expected = 5.35),
-            array($type = Dimension::TYPE_MONEY, $value = 5.392, $expected = '$ 5.39'),
+            array($type = Dimension::TYPE_MONEY, $value = 5.392, $expected = '$5.39'),
             array($type = Dimension::TYPE_PERCENT, $value = 0.343, $expected = '34.3%'),
             array($type = Dimension::TYPE_DURATION_S, $value = 121, $expected = '00:02:01'),
-            array($type = Dimension::TYPE_DURATION_MS, $value = 0.392, $expected = '0.39s'),
+            array($type = Dimension::TYPE_DURATION_MS, $value = 392, $expected = '0.39s'),
             array($type = Dimension::TYPE_BYTE, $value = 3912, $expected = '3.8 K'),
             array($type = Dimension::TYPE_BOOL, $value = 0, $expected = 'No'),
             array($type = Dimension::TYPE_BOOL, $value = 1, $expected = 'Yes'),

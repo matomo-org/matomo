@@ -1,12 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
+
+use Piwik\Container\StaticContainer;
 
 /**
  * Simple class to handle the cookies:
@@ -79,8 +81,9 @@ class Cookie
      *                                  use 0 (int zero) to expire cookie at end of browser session
      * @param string $path The path on the server in which the cookie will be available on.
      * @param bool|string $keyStore Will be used to store several bits of data (eg. one array per website)
+     * @param bool $validateSignature If true, the cookie signature will be validated (default).
      */
-    public function __construct($cookieName, $expire = null, $path = null, $keyStore = false)
+    public function __construct($cookieName, $expire = null, $path = null, $keyStore = false, $validateSignature = true)
     {
         $this->name = $cookieName;
         $this->path = $path;
@@ -94,7 +97,7 @@ class Cookie
 
         $this->keyStore = $keyStore;
         if ($this->isCookieFound()) {
-            $this->loadContentFromCookie();
+            $this->loadContentFromCookie($validateSignature);
         }
     }
 
@@ -131,8 +134,9 @@ class Cookie
      * @param string $Domain
      * @param bool $Secure
      * @param bool $HTTPOnly
+     * @param string $sameSite
      */
-    protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
+    protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false, $sameSite = false)
     {
         if (!empty($Domain)) {
             // Fix the domain to accept domains with and without 'www.'.
@@ -151,9 +155,10 @@ class Cookie
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
             . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', $Expires) . ' GMT')
             . (empty($Path) ? '' : '; path=' . $Path)
-            . (empty($Domain) ? '' : '; domain=' . $Domain)
+            . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
-            . (!$HTTPOnly ? '' : '; HttpOnly');
+            . (!$HTTPOnly ? '' : '; HttpOnly')
+            . (!$sameSite ? '' : '; SameSite=' . rawurlencode($sameSite));
 
         Common::sendHeader($header, false);
     }
@@ -179,9 +184,13 @@ class Cookie
      * Saves the cookie (set the Cookie header).
      * You have to call this method before sending any text to the browser or you would get the
      * "Header already sent" error.
+     * @param string $sameSite Value for SameSite cookie property
      */
-    public function save()
+    public function save($sameSite = null)
     {
+        if ($sameSite) {
+            $sameSite = self::getSameSiteValueForBrowser($sameSite);
+        }
         $cookieString = $this->generateContentString();
         if (strlen($cookieString) > self::MAX_COOKIE_SIZE) {
             // If the cookie was going to be too large, instead, delete existing cookie and start afresh
@@ -190,7 +199,28 @@ class Cookie
         }
 
         $this->setP3PHeader();
-        $this->setCookie($this->name, $cookieString, $this->expire, $this->path, $this->domain, $this->secure, $this->httponly);
+        $this->setCookie($this->name, $cookieString, $this->expire, $this->path, $this->domain, $this->secure, $this->httponly, $sameSite);
+    }
+
+    /**
+     * Extract signed content from string: content VALUE_SEPARATOR '_=' signature
+     *
+     * @param string $content
+     * @param bool $validate
+     * @return string|bool  Content or false if unsigned
+     */
+    private function extractSignedContent($content, $validate)
+    {
+        $signature = substr($content, -40);
+
+        if (substr($content, -43, 3) === self::VALUE_SEPARATOR . '_=' &&
+            (!$validate || $signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt()))
+        ) {
+            // strip trailing: VALUE_SEPARATOR '_=' signature"
+            return substr($content, 0, -43);
+        }
+
+        return false;
     }
 
     /**
@@ -199,9 +229,13 @@ class Cookie
      * Unserialize the array when necessary.
      * Decode the non numeric values that were base64 encoded.
      */
-    protected function loadContentFromCookie()
+    protected function loadContentFromCookie($validateSignature = true)
     {
-        $cookieStr = $_COOKIE[$this->name];
+        $cookieStr = $this->extractSignedContent($_COOKIE[$this->name], $validateSignature);
+
+        if ($cookieStr === false) {
+            $cookieStr = $_COOKIE[$this->name];
+        }
 
         if ($cookieStr === false) {
             return;
@@ -368,5 +402,41 @@ class Cookie
     public static function isCookieInRequest($name)
     {
         return isset($_COOKIE[$name]);
+    }
+
+    /**
+     * Find the most suitable value for a cookie SameSite attribute, given environmental restrictions which
+     * may make the most "correct" value impractical:
+     * - On Chrome, the "None" value means that the cookie will not be present on third-party sites (e.g. the site
+     * that is being tracked) when the site is loaded over HTTP.  This means that important cookies which should always
+     * be present (e.g. the opt-out cookie) won't be there at all. Using "Lax" means that at least they will be there
+     * for some requests which are deemed CSRF-safe, although other requests may have broken functionality.
+     * - On Safari, the "None" value is interpreted as "Strict".  In order to set a cookie which will be available
+     * in all third-party contexts, we have to omit the SameSite attribute altogether.
+     * @param string $default The desired SameSite value that we should use if it won't cause any problems.
+     * @return string SameSite attribute value that should be set on the cookie. Empty string indicates that no value
+     * should be set.
+     */
+    private static function getSameSiteValueForBrowser($default)
+    {
+        $sameSite = ucfirst(strtolower($default));
+
+        if ($sameSite === 'None') {
+            if ((!ProxyHttp::isHttps())) {
+                $sameSite = 'Lax'; // None can be only used when secure flag will be set
+            } else {
+                $userAgent = Http::getUserAgent();
+                $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
+                $deviceDetector = $ddFactory->makeInstance($userAgent);
+                $deviceDetector->parse();
+
+                $browserFamily = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($deviceDetector->getClient('short_name'));
+                if ($browserFamily === 'Safari') {
+                    $sameSite = '';
+                }
+            }
+        }
+
+        return $sameSite;
     }
 }

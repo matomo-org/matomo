@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot integration tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -52,6 +52,7 @@ describe("CampaignBuilder", function () {
     it('can reset form', async function () {
         await captureUrlBuilder('generate_url_reset', async function () {
             await page.click('.resetCampaignUrl');
+            await page.waitFor(500); // wait to re-render
         });
     });
 

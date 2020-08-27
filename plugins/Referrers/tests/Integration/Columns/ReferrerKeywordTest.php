@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -32,7 +32,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
     private $idSite2 = 2;
     private $idSite3 = 3;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -82,7 +82,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
             // campaigns, coming from different domain should have a keyword
             array('example.org',     $this->idSite2, $url . '?pk_campaign=test', $externalReferrer),
             // campaign keyword is specifically set
-            array('campaignkey1',     $this->idSite2, $url . '?pk_campaign=test&pk_keyword=campaignkey1', $externalReferrer),
+            array('campaignkey1',     $this->idSite2, $url . '?pk_campaign=test&mtm_keyword=campaignkey1', $externalReferrer),
             array('campaignkey2',     $this->idSite2, $url . '?pk_campaign=test&utm_term=campaignkey2', $externalReferrer),
 
             // search engine should have keyword the search term
@@ -110,7 +110,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
     {
         return [
             // direct entry => campaign
-            ['campaignkey1', $this->idSite2, 'http://piwik.xyz/abc?pk_campaign=testfoobar&pk_keyword=campaignkey1', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
+            ['campaignkey1', $this->idSite2, 'http://piwik.xyz/abc?pk_campaign=testfoobar&mtm_keyword=campaignkey1', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
 
             // direct entry => website
             ['piwik2', $this->idSite2, 'http://piwik.xyz/abc', 'http://google.com/search?q=piwik2', Common::REFERRER_TYPE_DIRECT_ENTRY],

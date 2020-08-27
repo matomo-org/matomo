@@ -40,8 +40,12 @@ return array(
 
         $writers = [];
         foreach ($writerNames as $writerName) {
-            if ($writerName === 'screen' && \Piwik\Common::isPhpCliMode()) {
-                continue; // screen writer is only valid for web requests
+            if ($writerName === 'screen'
+                && \Piwik\Common::isPhpCliMode()
+                && !defined('PIWIK_TEST_MODE')
+                && !\Piwik\SettingsServer::isTrackerApiRequest()
+            ) {
+                continue; // screen writer is only valid for web requests (except for tracker CLI requests)
             }
 
             if (isset($classes[$writerName])) {
@@ -94,16 +98,13 @@ return array(
         ->constructor(DI\get('log.file.filename'), DI\get('log.level.file'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
-    'log.lineMessageFormatter.file' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
-        ->constructorParameter('allowInlineLineBreaks', false),
-
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\object()
         ->constructor(DI\get('log.level.database'))
-        ->method('setFormatter', DI\get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+        ->method('setFormatter', DI\get('log.lineMessageFormatter')),
 
     'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => DI\object()
         ->constructor(DI\get('log.level.screen'))
-        ->method('setFormatter', DI\get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+        ->method('setFormatter', DI\get('log.lineMessageFormatter')),
 
     'log.level' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.log_level')) {
@@ -112,6 +113,7 @@ return array(
                 return Log::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
             }
         }
+
         return Logger::WARNING;
     }),
 
@@ -171,14 +173,27 @@ return array(
         return $logPath;
     }),
 
-    'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\object()
-        ->constructor(DI\get('log.format')),
+    'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+                                                                ->constructor(DI\get('log.short.format')),
+    'log.lineMessageFormatter' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+        ->constructor(DI\get('log.short.format')),
 
-    'log.format' => DI\factory(function (ContainerInterface $c) {
+    'log.lineMessageFormatter.file' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+        ->constructor(DI\get('log.trace.format'))
+        ->constructorParameter('allowInlineLineBreaks', false),
+
+    'log.short.format' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.string_message_format')) {
             return $c->get('ini.log.string_message_format');
         }
         return '%level% %tag%[%datetime%] %message%';
+    }),
+
+    'log.trace.format' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('ini.log.string_message_format_trace')) {
+            return $c->get('ini.log.string_message_format_trace');
+        }
+        return '%level% %tag%[%datetime%] %message% %trace%';
     }),
 
     'archiving.performance.handlers' => function (ContainerInterface $c) {

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -24,7 +24,7 @@ class SystemConfigSettingTest extends IntegrationTestCase
 {
     private $section = 'MySection';
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->setConfigValues(array());
         parent::tearDown();
@@ -39,24 +39,22 @@ class SystemConfigSettingTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function test_setSettingValue_shouldThrowException_IfAUserIsTryingToSetASettingWhichNeedsSuperUserPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         $this->setUser();
         $setting = $this->buildSetting('mysystem');
 
         $setting->setValue(2);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
-     */
     public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsSuperUserPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
         $this->setAnonymousUser();
         $setting = $this->buildSetting('mysystem');
 

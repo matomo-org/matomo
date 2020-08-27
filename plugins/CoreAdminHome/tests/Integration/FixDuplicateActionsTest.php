@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
@@ -29,7 +29,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
      */
     protected $applicationTester = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -54,7 +54,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
         $this->assertDuplicatesFixedInLogConversionTable();
         $this->assertDuplicatesFixedInLogConversionItemTable();
 
-        $this->assertContains("Found and deleted 7 duplicate action entries", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Found and deleted 7 duplicate action entries", $this->applicationTester->getDisplay());
 
         $expectedAffectedArchives = array(
             array('idsite' => '1', 'server_time' => '2012-01-01'),
@@ -64,7 +64,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
             array('idsite' => '2', 'server_time' => '2012-03-01'),
         );
         foreach ($expectedAffectedArchives as $archive) {
-            $this->assertContains("[ idSite = {$archive['idsite']}, date = {$archive['server_time']} ]", $this->applicationTester->getDisplay());
+            self::assertStringContainsString("[ idSite = {$archive['idsite']}, date = {$archive['server_time']} ]", $this->applicationTester->getDisplay());
         }
     }
 

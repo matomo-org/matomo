@@ -1,15 +1,18 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -33,7 +36,7 @@ class SegmentEditor extends \Piwik\Plugin
     const NO_DATA_UNPROCESSED_SEGMENT_ID = 'nodata_segment_not_processed';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -45,9 +48,31 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.onNoData' => 'onNoData',
-            'Archive.noArchivedData' => 'onNoArchiveData',
+            'Visualization.onNoData'                     => 'onNoData',
+            'Archive.noArchivedData'                     => 'onNoArchiveData',
+            'Db.getTablesInstalled'                      => 'getTablesInstalled',
+            'SitesManager.deleteSite.end'                => 'onDeleteSite'
         );
+    }
+
+    public function onDeleteSite($idSite)
+    {
+        $model = new Model();
+        foreach ($model->getAllSegmentsForAllUsers($idSite) as $segment) {
+            if (!empty($segment['enable_only_idsite'])) { // don't delete segments for all sites
+                $model->deleteSegment($segment['idsegment']);
+            }
+        }
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('segment');
     }
 
     public function addSystemSummaryItems(&$systemSummary)
@@ -90,6 +115,15 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
+        // when browser archiving is enabled, the archiving process can be triggered for an API request.
+        // for non-day periods, this means the Archive class will be used for smaller periods to build the
+        // non-day period (eg, requesting a week period can result in archiving of day periods). in this case
+        // Archive can report there is no data for a day, triggering this event, but there may be data for other
+        // days in the week. in this case, we don't want to throw an exception.
+        if (PluginsArchiver::isArchivingProcessActive()) {
+            return null;
+        }
+
         // don't do check unless this is the root API request and it is an HTTP API request
         if (!Request::isCurrentApiRequestTheRootApiRequest()
             || !Request::isRootRequestApiRequest()
@@ -167,12 +201,12 @@ class SegmentEditor extends \Piwik\Plugin
         if (empty($segment)) {
             return null;
         }
-        $segment = new Segment($segment, [$idSite]);
 
         // get period
         $date = Common::getRequestVar('date', false);
         $periodStr = Common::getRequestVar('period', false);
         $period = Period\Factory::build($periodStr, $date);
+        $segment = new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd());
 
         // check if archiving is enabled. if so, the segment should have been processed.
         $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);
@@ -257,6 +291,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_OperatorAND';
         $translationKeys[] = 'SegmentEditor_OperatorOR';
         $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
+        $translationKeys[] = 'SegmentEditor_DefaultAllVisits';
         $translationKeys[] = 'General_OperationEquals';
         $translationKeys[] = 'General_OperationNotEquals';
         $translationKeys[] = 'General_OperationAtMost';
@@ -269,5 +304,26 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'General_OperationDoesNotContain';
         $translationKeys[] = 'General_OperationStartsWith';
         $translationKeys[] = 'General_OperationEndsWith';
+        $translationKeys[] = 'General_Unknown';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsCompared';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsSelectedAndCannotBeCompared';
+        $translationKeys[] = 'SegmentEditor_CompareThisSegment';
+        $translationKeys[] = 'Live_VisitsLog';
+    }
+
+    public static function getAllSegmentsForSite($idSite)
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKey = CacheId::siteAware('SegmentEditor_getAll', [$idSite]);
+
+        $segments = $cache->fetch($cacheKey);
+        if (!is_array($segments)) {
+            $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
+            usort($segments, function ($lhs, $rhs) {
+                return strcmp($lhs['name'], $rhs['name']);
+            });
+            $cache->save($cacheKey, $segments);
+        }
+        return $segments;
     }
 }

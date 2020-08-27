@@ -65,7 +65,6 @@
         "SuperUserSetupSuccess": "Супер Користувач успішно створений!",
         "SystemCheck": "Перевірка системи",
         "SystemCheckAutoUpdateHelp": "Примітка: Поновлення в-одне-клацання Matomo-а вимагає доступу на запис в папку Matomo та дочірні папки\\\/файли.",
-        "SystemCheckCreateFunctionHelp": "Matomo використовує анонімні функції для зворотніх-викликів.",
         "SystemCheckDatabaseExtensions": "Розширення MySQL",
         "SystemCheckDatabaseHelp": "Matomo вимагає або mysqli розширення або обидва розшинення PDO та pdo_mysql.",
         "SystemCheckDebugBacktraceHelp": "View::factory неможе створити інтерфейс для модуля що робить виклик.",

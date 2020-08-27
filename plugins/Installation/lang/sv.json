@@ -31,6 +31,7 @@
         "JSTracking_Intro": "För att spåra din trafik med hjälp av Matomo behöver du lägga till extrakod på var och en av dina webbsidor.",
         "LargePiwikInstances": "Hjälp för stora Matomo-instanser",
         "Legend": "Legend",
+        "LoadDataInfileRecommended": "Om din Matomo-server spårar webbplatser med mycket trafik (omkring 100 000 sidor per månad eller mer), rekommenderar vi dig att åtgärda det här problemet.",
         "LoadDataInfileUnavailableHelp": "Användande av %1$s kommer at snabba upp Matomo's arkiveringsprocess markant. Försök att uppdatera PHP & MySQL samt kontrollera att databasanvändaren har behörigheten %2$s för att göra det tillgänglit för Matomo.",
         "NfsFilesystemWarning": "Din server använder NFS-filsystem.",
         "NfsFilesystemWarningSuffixAdmin": "Det betyder att Matomo kommer att vara extremt långsamt när det använder filbaserade sessioner.",
@@ -68,7 +69,6 @@
         "SuperUserSetupSuccess": "Administratör skapades utan problem!",
         "SystemCheck": "Systemkontroll",
         "SystemCheckAutoUpdateHelp": "Notering: Matomo Ett-Klicks-uppdatering kräver skriv-behörigheter till Matomo mappen och dess innehåll.",
-        "SystemCheckCreateFunctionHelp": "Matomo använder anonyma funktioner för återanropning.",
         "SystemCheckDatabaseExtensions": "MySQL-tillägg",
         "SystemCheckDatabaseHelp": "Matomo kräver antingen tillägget mysqli eller båda tilläggen PDO och pdo_mysql.",
         "SystemCheckDatabaseSSL": "Säker databasanslutning (SSL)",
@@ -94,6 +94,7 @@
         "SystemCheckJsonHelp": "php5-json tillägget krävs för att Matomo ska kunna läsa och skriva JSON data.",
         "SystemCheckMailHelp": "Feedback och bortglömda lösenord kommer inte att skickas utan mail().",
         "SystemCheckMbstring": "mbstring",
+        "SystemCheckMbstringHelp": "Tillägget mbstring krävs för att hantera tecken på mer än en byte i användargränssnittet och API-svaren. Kontrollera även att mbstring.func_overload är satt till noll i php.ini.",
         "SystemCheckMemoryLimit": "Minnesbegränsning",
         "SystemCheckMemoryLimitHelp": "På en högtrafikswebbplats, kan arkiveringsprocessen kräva mer minne än vad som för tillfället är tillåtet. Om det är nödvändigt ändra memory_limit direktivet i din php.ini fil.",
         "SystemCheckNoErrorsOrWarnings": "Inga fel eller varningar",
@@ -103,6 +104,7 @@
         "SystemCheckOtherExtensions": "Andra tillägg",
         "SystemCheckOtherFunctions": "Andra funktioner",
         "SystemCheckPageSpeedDisabled": "PageSpeed inaktiverat",
+        "SystemCheckPageSpeedWarning": "Vi rekommenderar att du stänger av modulen PageSpeed på din server %s: PageSpeed har visat sig orsaka flera problem tillsammans med Matomo, såsom icke-fungerande statistik för Sidor, Radutveckling samt andra problem som är svåra att felsöka. Stäng av mod_pagespeed på den här servern.",
         "SystemCheckPackHelp": "pack()-funktionen krävs för att spåra besökare i Matomo.",
         "SystemCheckParseIniFileHelp": "Denna inbyggda funktionen har inaktiverats på din värd. Matomo försöker emulera denna funktion men den kan stöta på ytterligare säkerhetsrestriktioner. Spårningens resultat kommer också att påverkas.",
         "SystemCheckPdoAndMysqliHelp": "På en Linux server kan du kompilera php med följande alternativ: %1$s I din php.ini, lägg till följande rader: %2$s",
@@ -146,7 +148,6 @@
         "WelcomeHelp": "<p>Matomo är ett open source webbanalysprogram som gör det enkelt att få den information du vill ha från dina besökare.<\/p><p>Denna process är uppdelad i %s enkla steg och tar ca 5 minuter.<\/p>",
         "WelcomeToCommunity": "Välkommen till Matomos gemenskap!",
         "CannotConnectToDb": "Kan inte ansluta till databasen",
-        "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din Matomo administratör om problemet kvarstår.",
-        "EmailPrivacyNotice": "Din e-postadress kommer endast användas för att skicka dig Matomos nyhetsbrev. Du kan när som helst avregistrera dig genom att klicka på länken avsluta prenumeration. Vi delar inte din e-postadress med någon annan eller använder din e-post för något annat ändamål än att skicka nyhetsbrevet till dig. Vänligen se vår %1$ssekretesspolicy%2$s för mer information."
+        "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din Matomo administratör om problemet kvarstår."
     }
 }

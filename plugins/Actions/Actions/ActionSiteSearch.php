@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -27,11 +27,6 @@ class ActionSiteSearch extends Action
 {
     private $searchCategory = false;
     private $searchCount = false;
-
-    const CVAR_KEY_SEARCH_CATEGORY = '_pk_scat';
-    const CVAR_KEY_SEARCH_COUNT = '_pk_scount';
-    const CVAR_INDEX_SEARCH_CATEGORY = '4';
-    const CVAR_INDEX_SEARCH_COUNT = '5';
 
     public function __construct(Request $request, $detect = true)
     {
@@ -74,11 +69,6 @@ class ActionSiteSearch extends Action
         return $this->getIdActionName();
     }
 
-    public function getCustomFloatValue()
-    {
-        return $this->request->getPageGenerationTime();
-    }
-
     protected function isSearchDetected()
     {
         $siteSearch = $this->detectSiteSearch($this->originalUrl);
@@ -101,29 +91,25 @@ class ActionSiteSearch extends Action
         return true;
     }
 
-    public function getCustomVariables()
+    public function getSearchCategory()
     {
-        $customVariables = parent::getCustomVariables();
-
-        // Enrich Site Search actions with Custom Variables, overwriting existing values
-        if (!empty($this->searchCategory)) {
-            if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY])) {
-                Common::printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_CATEGORY . " for this page view");
-            }
-            $customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY] = self::CVAR_KEY_SEARCH_CATEGORY;
-            $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_CATEGORY] = Request::truncateCustomVariable($this->searchCategory);
+        $searchCategory = trim($this->searchCategory);
+        if (!empty($searchCategory)) {
+            // Max length of DB field = 200
+            $searchCategory = substr($this->searchCategory, 0, 200);
         }
-        if ($this->searchCount !== false) {
-            if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_COUNT])) {
-                Common::printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_COUNT . " for this page view");
-            }
-            $customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_COUNT] = self::CVAR_KEY_SEARCH_COUNT;
-            $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_COUNT] = (int)$this->searchCount;
-        }
-        return $customVariables;
+        return $searchCategory;
     }
 
-    protected function detectSiteSearchFromUrl($website, $parsedUrl)
+    public function getSearchCount()
+    {
+        if ($this->searchCount !== false) {
+            $this->searchCount = (int)$this->searchCount;
+        }
+        return $this->searchCount;
+    }
+
+    public static function detectSiteSearchFromUrl($website, $parsedUrl, $pageEncoding = null)
     {
         $doRemoveSearchParametersFromUrl = true;
         $separator = '&';
@@ -154,7 +140,6 @@ class ActionSiteSearch extends Action
             $parameters[Common::mb_strtolower($k)] = $v;
         }
         // decode values if they were sent from a client using another charset
-        $pageEncoding = $this->request->getParam('cs');
         PageUrl::reencodeParameters($parameters, $pageEncoding);
 
         // Detect Site Search keyword
@@ -183,7 +168,7 @@ class ActionSiteSearch extends Action
         }
 
         if (isset($parameters['search_count'])
-            && $this->isValidSearchCount($parameters['search_count'])
+            && self::isValidSearchCount($parameters['search_count'])
         ) {
             $count = $parameters['search_count'];
         }
@@ -226,7 +211,7 @@ class ActionSiteSearch extends Action
         return array($url, $actionName, $categoryName, $count);
     }
 
-    protected function isValidSearchCount($count)
+    protected static function isValidSearchCount($count)
     {
         return is_numeric($count) && $count >= 0;
     }
@@ -263,7 +248,7 @@ class ActionSiteSearch extends Action
             // Detect Site Search from URL query parameters
             if (!empty($parsedUrl['query']) || !empty($parsedUrl['fragment'])) {
                 // array($url, $actionName, $categoryName, $count);
-                $searchInfo = $this->detectSiteSearchFromUrl($website, $parsedUrl);
+                $searchInfo = $this->detectSiteSearchFromUrl($website, $parsedUrl, $this->request->getParam('cs'));
                 if (!empty($searchInfo)) {
                     list ($url, $actionName, $categoryName, $count) = $searchInfo;
                 }
@@ -296,5 +281,4 @@ class ActionSiteSearch extends Action
             $count
         );
     }
-
 }

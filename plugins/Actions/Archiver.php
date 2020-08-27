@@ -1,19 +1,19 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Actions;
 
 use Piwik\Config;
+use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
-use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
@@ -25,6 +25,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const OUTLINKS_RECORD_NAME = 'Actions_outlink';
     const PAGE_TITLES_RECORD_NAME = 'Actions_actions';
     const SITE_SEARCH_RECORD_NAME = 'Actions_sitesearch';
+    const SITE_SEARCH_CATEGORY_RECORD_NAME = 'Actions_SiteSearchCategories';
     const PAGE_URLS_RECORD_NAME = 'Actions_actions_url';
 
     const METRIC_PAGEVIEWS_RECORD_NAME = 'Actions_nb_pageviews';
@@ -61,6 +62,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->archiveDayPageActions($rankingQueryLimit);
         $this->archiveDaySiteSearchActions($rankingQueryLimit);
+        $this->archiveDaySearchCategoryActions();
         $this->archiveDayEntryActions($rankingQueryLimit);
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);
@@ -103,8 +105,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function updateQuerySelectFromForSiteSearch(&$select, &$from)
     {
         $selectFlagNoResultKeywords = ",
-                CASE WHEN (MAX(log_link_visit_action.custom_var_v" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . ") = 0
-                    AND log_link_visit_action.custom_var_k" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . " = '" . ActionSiteSearch::CVAR_KEY_SEARCH_COUNT . "')
+                CASE WHEN (MAX(log_link_visit_action.search_count) = 0)
                 THEN 1 ELSE 0 END
                     AS `" . PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
@@ -165,6 +166,25 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
+    protected function archiveDaySearchCategoryActions()
+    {
+        $where = "%s.search_cat != '' AND %s.search_cat IS NOT NULL";
+        $dimensions = array('search_cat');
+        $query = $this->getLogAggregator()->queryActionsByDimension(
+            $dimensions, 
+            $where
+        );
+
+        $dataArray = new DataArray();
+        while ($row = $query->fetch()) {
+            $dataArray->sumMetricsActions($row['search_cat'], $row);
+        }
+
+        $dataTable = $dataArray->asDataTable();
+        $report = $dataTable->getSerialized();
+        $this->getProcessor()->insertBlobRecord(self::SITE_SEARCH_CATEGORY_RECORD_NAME, $report);
+    }
+
     protected function archiveDayActions($rankingQueryLimit, array $actionTypes, $includePageNotDefined)
     {
         $metricsConfig = Metrics::getActionMetrics();
@@ -200,7 +220,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
             $rankingQuery->addColumn('url_prefix');
 
@@ -281,7 +300,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
             $rankingQuery->addColumn(array(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS,
@@ -330,7 +348,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
@@ -374,7 +391,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
@@ -429,7 +445,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $prefix = $this->getProcessor()->getParams()->getSite()->getMainUrl();
         $prefix = rtrim($prefix, '/') . '/';
-        $this->setFolderPathMetadata($dataTable, $isUrl = true, $prefix);
+        ArchivingHelper::setFolderPathMetadata($dataTable, $isUrl = true, $prefix);
 
         $this->insertTable($dataTable, self::PAGE_URLS_RECORD_NAME);
 
@@ -484,7 +500,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertPageTitlesReports()
     {
         $dataTable = $this->getDataTable(Action::TYPE_PAGE_TITLE);
-        $this->setFolderPathMetadata($dataTable, $isUrl = false);
+        ArchivingHelper::setFolderPathMetadata($dataTable, $isUrl = false);
         $this->insertTable($dataTable, self::PAGE_TITLES_RECORD_NAME);
     }
 
@@ -533,6 +549,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::DOWNLOADS_RECORD_NAME,
             self::OUTLINKS_RECORD_NAME,
             self::SITE_SEARCH_RECORD_NAME,
+            self::SITE_SEARCH_CATEGORY_RECORD_NAME,
         );
         $aggregation = null;
         $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
@@ -548,24 +565,5 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         // Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
         $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $nameToCount[self::SITE_SEARCH_RECORD_NAME]['level0']);
-    }
-
-    private function setFolderPathMetadata(DataTable $dataTable, $isUrl, $prefix = '')
-    {
-        $configGeneral = Config::getInstance()->General;
-        $separator = $isUrl ? '/' : $configGeneral['action_title_category_delimiter'];
-        $metadataName = $isUrl ? 'folder_url_start' : 'page_title_path';
-
-        foreach ($dataTable->getRows() as $row) {
-            $subtable = $row->getSubtable();
-            if (!$subtable) {
-                continue;
-            }
-
-            $metadataValue = $prefix . $row->getColumn('label');
-            $row->setMetadata($metadataName, $metadataValue);
-
-            $this->setFolderPathMetadata($subtable, $isUrl, $metadataValue . $separator);
-        }
     }
 }

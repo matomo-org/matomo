@@ -10,6 +10,7 @@
         "MetricDataByYear": "Tabel Metrik berdasarkan Tahun",
         "MetricTables": "Tabel Metrik",
         "OtherTables": "Tabel Lain",
+        "PluginDescription": "Menyediakan laporan rincian penggunaan basis data MySQL. Tersedia untuk Pengguna Super dibawah diagnostik.",
         "ReportDataByYear": "Tabel Laporan berdasarkan Tahun",
         "ReportTables": "Tabel Laporan",
         "RowCount": "Jumlah Baris",

@@ -5,16 +5,14 @@
   "author": "Matomo Team",
   "license": "GPL-3.0+",
   "dependencies": {
-    "canvas-prebuilt": "^1.6.11",
     "chai": "^4.1.2",
     "chai-files": "^1.4.0",
     "chai-image-assert": "^1.2.0",
     "fs-extra": "^7.0.1",
     "mocha": "^5.2.0",
-    "puppeteer": "^1.15.0-next.1556321762762",
+    "puppeteer": "^2.1.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "resemblejs": "^2.10.3",
     "url-parse": "^1.4.3"
   }
 }

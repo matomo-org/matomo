@@ -9,8 +9,9 @@
         "ReportingApiReference": "报告API参考",
         "TopLinkTooltip": "通过一个简单的 API，让您可以以 xml, json及其它格式取得网站分析的数据。",
         "UserAuthentication": "身份验证",
-        "UsingTokenAuth": "如果您想在代码、定时任务中 %1$s 请求数据，%2$s 要在 API 调用需要认证的网址时增加参数 %3$s。",
+        "UsingTokenAuth": "如果要在脚本，crontab等%2$s中请求数据%1$s，则需要将URL参数%3$s添加到需要身份验证的API调用URL中。",
         "Glossary": "词汇表",
-        "LearnAboutCommonlyUsedTerms2": "了解常用术语以便更好的利用Matomo数据分析。"
+        "LearnAboutCommonlyUsedTerms2": "了解常用术语以便更好的利用Matomo数据分析。",
+        "EvolutionMetricName": "%s演变"
     }
 }

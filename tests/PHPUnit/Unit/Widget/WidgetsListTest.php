@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -17,14 +17,14 @@ use Piwik\Widget\WidgetsList;
  * @group WidgetsList
  * @group WidgetsListTest
  */
-class WidgetsListTest extends \PHPUnit_Framework_TestCase
+class WidgetsListTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var WidgetsList
      */
     private $list;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = new WidgetsList();

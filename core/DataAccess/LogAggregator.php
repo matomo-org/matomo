@@ -1,21 +1,25 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Metrics;
-use Piwik\Period;
+use Piwik\Plugin\LogTablesProvider;
+use Piwik\Segment;
 use Piwik\Tracker\GoalManager;
 use Psr\Log\LoggerInterface;
 
@@ -127,6 +131,8 @@ class LogAggregator
 
     const FIELDS_SEPARATOR = ", \n\t\t\t";
 
+    const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
+
     /** @var \Piwik\Date */
     protected $dateStart;
 
@@ -149,6 +155,20 @@ class LogAggregator
      */
     private $logger;
 
+    /**
+     * @var bool
+     */
+    private $isRootArchiveRequest;
+
+    /**
+     * @var bool
+     */
+    private $allowUsageSegmentCache = false;
+
+    /**
+     * @var Parameters
+     */
+    private $params;
 
     /**
      * Constructor.
@@ -161,7 +181,19 @@ class LogAggregator
         $this->dateEnd = $params->getDateTimeEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
+        $this->isRootArchiveRequest = $params->isRootArchiveRequest();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->params = $params;
+    }
+
+    public function setSites($sites)
+    {
+        $this->sites = array_map('intval', $sites);
+    }
+
+    public function getSites()
+    {
+        return $this->sites;
     }
 
     public function getSegment()
@@ -174,10 +206,196 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigiin;
     }
 
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    public function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();
-        $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        $tableName = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+
+        $lengthPrefix = Common::mb_strlen(Common::prefixTable(''));
+        $maxLength = Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH - $lengthPrefix;
+
+        return Common::mb_substr($tableName, 0, $maxLength);
+    }
+
+    public function cleanup()
+    {
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+            $segmentTable = $this->getSegmentTmpTableName();
+            $segmentTable = Common::prefixTable($segmentTable);
+
+            if ($this->doesSegmentTableExist($segmentTable)) {
+                // safety in case an older MySQL version is used that does not drop table at the end of the connection
+                // automatically. also helps us release disk space/memory earlier when multiple segments are archived
+                $this->getDb()->query('DROP TEMPORARY TABLE IF EXISTS ' . $segmentTable);
+            }
+
+            $logTablesProvider = $this->getLogTableProvider();
+            if ($logTablesProvider->getLogTable($segmentTable)) {
+                $logTablesProvider->setTempTable(null); // no longer available
+            }
+        }
+    }
+
+    private function doesSegmentTableExist($segmentTablePrefixed)
+    {
+        try {
+            // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
+            $this->getDb()->fetchOne('SELECT 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
+            $tableExists = true;
+        } catch (\Exception $e) {
+            $tableExists = false;
+        }
+
+        return $tableExists;
+    }
+
+    private function isSegmentCacheEnabled()
+    {
+        if (!$this->allowUsageSegmentCache) {
+            return false;
+        }
+
+        $config = Config::getInstance();
+        $general = $config->General;
+        return !empty($general['enable_segments_cache']);
+    }
+
+    public function allowUsageSegmentCache()
+    {
+        $this->allowUsageSegmentCache = true;
+    }
+
+    private function getLogTableProvider()
+    {
+        return StaticContainer::get(LogTablesProvider::class);
+    }
+
+    private function createTemporaryTable($unprefixedSegmentTableName, $segmentSelectSql, $segmentSelectBind)
+    {
+        $table = Common::prefixTable($unprefixedSegmentTableName);
+
+        if ($this->doesSegmentTableExist($table)) {
+            return; // no need to create the table, it was already created... better to have a select vs unneeded create table
+        }
+	    
+        $engine = '';
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            $engine = 'ENGINE=MEMORY';
+        }
+        $tempTableIdVisitColumn = 'idvisit  BIGINT(10) UNSIGNED NOT NULL';
+        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (' . $tempTableIdVisitColumn . ') ' . $engine;
+        // we do not insert the data right away using create temporary table ... select ...
+        // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
+
+        $readerDb = Db::getReader();
+        try {
+            $readerDb->query($createTableSql);
+        } catch (\Exception $e) {
+            if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
+                return;
+            } elseif ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_REQUIRES_PRIMARY_KEY)
+                || $readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_UNABLE_CREATE_TABLE_WITHOUT_PRIMARY_KEY
+                || stripos($e->getMessage(), 'requires a primary key') !== false
+                || stripos($e->getMessage(), 'table without a primary key') !== false)
+            ) {
+                $createTableSql = str_replace($tempTableIdVisitColumn, $tempTableIdVisitColumn . ', PRIMARY KEY (`idvisit`)', $createTableSql);
+
+                try {
+                    $readerDb->query($createTableSql);
+                } catch (\Exception $e) {
+                    if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
+                        return;
+                    } else {
+                        throw $e;
+                    }
+                }
+            } else {
+                throw $e;
+            }
+        }
+
+        $transactionLevel = new Db\TransactionLevel($readerDb);
+        $canSetTransactionLevel = $transactionLevel->canLikelySetTransactionLevel();
+
+	    if ($canSetTransactionLevel) {
+	        // i know this could be shortened to one if or one line but I want to make sure this line where we
+            // set uncommitted is easily noticeable in the code as it could be missed quite easily otherwise
+            // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
+            // eg the visits table
+	        if (!$transactionLevel->setUncommitted()) {
+	        	$canSetTransactionLevel = false;
+	        }
+	    }
+
+        if (!$canSetTransactionLevel) {
+            // transaction level doesn't work... we're instead executing the select individually and then insert the data
+            // this uses more memory but at least is not locking
+            $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
+            if (!empty($all)) {
+                // we're not using batchinsert since this would not support the reader DB.
+                $readerDb->query('INSERT INTO ' . $table . ' VALUES ('.implode('),(', array_column($all, 'idvisit')).')');
+            }
+            return;
+        }
+
+        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $readerDb->query($insertIntoStatement, $segmentSelectBind);
+
+        $transactionLevel->restorePreviousStatus();
+    }
+
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    {
+        $segment = $this->segment;
+        $bind = $this->getGeneralQueryBindParams();
+
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+            // here we create the TMP table and apply the segment including the datetime and the requested idsite
+            // at the end we generated query will no longer need to apply the datetime/idsite and segment
+            $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
+
+            $segmentTable = $this->getSegmentTmpTableName();
+
+            $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
+            $segmentBind = $this->getGeneralQueryBindParams();
+
+            $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+            $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
+            $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
+            $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
+            $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
+
+            $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
+
+            if (!is_array($from)) {
+                $from = array($segmentTable, $from);
+            } else {
+                array_unshift($from, $segmentTable);
+            }
+
+            $logTablesProvider = $this->getLogTableProvider();
+            $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
+
+            foreach ($logTablesProvider->getAllLogTables() as $logTable) {
+                if ($logTable->getDateTimeColumn()) {
+                    $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
+                    if (strpos($where, $whereTest) === 0) {
+                        // we don't need to apply the where statement again as it would have been applied already
+                        // in the temporary table... instead it should join the tables through the idvisit index
+                        $where = ltrim(str_replace($whereTest, '', $where));
+                        if (stripos($where, 'and ') === 0) {
+                            $where = substr($where, strlen('and '));
+                        }
+                        $bind = array();
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
 
         $select = 'SELECT';
         if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
@@ -185,9 +403,11 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
-	// Log on DEBUG level all SQL archiving queries
-        $this->logger->debug($query['sql']);
-
+        if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
+        }
+ 
         return $query;
     }
 
@@ -277,18 +497,18 @@ class LogAggregator
      *
      * The following columns are in each row of the result set:
      *
-     * - **{@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}**: The total number of unique visitors in this group
+     * - **{@link \Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}**: The total number of unique visitors in this group
      *                                                      of aggregated visits.
-     * - **{@link Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits aggregated.
-     * - **{@link Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions performed in this group of
+     * - **{@link \Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits aggregated.
+     * - **{@link \Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions performed in this group of
      *                                                aggregated visits.
-     * - **{@link Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions perfomred in one visit for this group of
+     * - **{@link \Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions performed in one visit for this group of
      *                                                 visits.
-     * - **{@link Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}**: The total amount of time spent on the site for this
+     * - **{@link \Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}**: The total amount of time spent on the site for this
      *                                                      group of visits.
-     * - **{@link Piwik\Metrics::INDEX_BOUNCE_COUNT}**: The total number of bounced visits in this group of
+     * - **{@link \Piwik\Metrics::INDEX_BOUNCE_COUNT}**: The total number of bounced visits in this group of
      *                                                  visits.
-     * - **{@link Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}**: The total number of visits for which at least one
+     * - **{@link \Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}**: The total number of visits for which at least one
      *                                                         conversion occurred, for this group of visits.
      *
      * Additional data can be selected by setting the `$additionalSelects` parameter.
@@ -308,23 +528,26 @@ class LogAggregator
      * @param bool|array $metrics The set of metrics to calculate and return. If false, the query will select
      *                            all of them. The following values can be used:
      *
-     *                            - {@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}
-     *                            - {@link Piwik\Metrics::INDEX_NB_VISITS}
-     *                            - {@link Piwik\Metrics::INDEX_NB_ACTIONS}
-     *                            - {@link Piwik\Metrics::INDEX_MAX_ACTIONS}
-     *                            - {@link Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}
-     *                            - {@link Piwik\Metrics::INDEX_BOUNCE_COUNT}
-     *                            - {@link Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_VISITS}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_ACTIONS}
+     *                            - {@link \Piwik\Metrics::INDEX_MAX_ACTIONS}
+     *                            - {@link \Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}
+     *                            - {@link \Piwik\Metrics::INDEX_BOUNCE_COUNT}
+     *                            - {@link \Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
-     *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
+     *                                   If set, the return value is the array returned by {@link \Piwik\RankingQuery::execute()}.
+     * @param bool|string $orderBy       Order By clause to add (e.g. user_id ASC)
+     * @param int $timeLimitInMs         Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimitInMs > 0
+     *
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
-     *               {@link Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
+     *               {@link \Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
-                                           $metrics = false, $rankingQuery = false)
+                                           $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimitInMs = -1)
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -333,16 +556,22 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
+        $orderBys = $orderBy ? [$orderBy] : [];
 
         if ($rankingQuery) {
-            $orderBy = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
+            $orderBys[] = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
         }
 
-        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->generateQuery($select, $from, $where, $groupBy, implode(', ', $orderBys));
 
         if ($rankingQuery) {
             unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);
+
+            // INDEX_NB_UNIQ_FINGERPRINTS is only processed if specifically asked for
+            if (!$this->isMetricRequested(Metrics::INDEX_NB_UNIQ_FINGERPRINTS, $metrics)) {
+                unset($availableMetrics[Metrics::INDEX_NB_UNIQ_FINGERPRINTS]);
+            }
+
             $sumColumns = array_keys($availableMetrics);
 
             if ($metrics) {
@@ -354,8 +583,10 @@ class LogAggregator
                 $rankingQuery->addColumn(Metrics::INDEX_MAX_ACTIONS, 'max');
             }
 
-            return $rankingQuery->execute($query['sql'], $query['bind']);
+            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
         }
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
@@ -680,13 +911,23 @@ class LogAggregator
      *
      *                                           If a string is used for this parameter, the table alias is not
      *                                           suffixed (since there is only one column).
+     * @param string $secondaryOrderBy      A secondary order by clause for the ranking query
+     * @param int $timeLimitInMs                Adds a MAX_EXECUTION_TIME hint to the query if $timeLimitInMs > 0
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)
      *               to see what aggregate data is calculated by the query.
      * @api
      */
-    public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
-    {
+    public function queryActionsByDimension(
+        $dimensions,
+        $where = '',
+        $additionalSelects = array(),
+        $metrics = false,
+        $rankingQuery = null,
+        $joinLogActionOnColumn = false,
+        $secondaryOrderBy = null,
+        $timeLimitInMs = -1
+    ) {
         $tableName = self::LOG_ACTIONS_TABLE;
         $availableMetrics = $this->getActionsMetricFields();
 
@@ -694,7 +935,6 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::ACTION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
 
         if ($joinLogActionOnColumn !== false) {
             $multiJoin = is_array($joinLogActionOnColumn);
@@ -720,8 +960,12 @@ class LogAggregator
             }
         }
 
+        $orderBy = false;
         if ($rankingQuery) {
             $orderBy = '`' . Metrics::INDEX_NB_ACTIONS . '` DESC';
+            if ($secondaryOrderBy) {
+                $orderBy .= ', ' . $secondaryOrderBy;
+            }
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
@@ -734,8 +978,10 @@ class LogAggregator
 
             $rankingQuery->addColumn($sumColumns, 'sum');
 
-            return $rankingQuery->execute($query['sql'], $query['bind']);
+            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
         }
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
@@ -896,6 +1142,11 @@ class LogAggregator
         $selects = array();
         $extraCondition = '';
 
+        $tableColumn = $column;
+        if (strpos($tableColumn, $table) === false) {
+            $tableColumn = "$table.$column";
+        }
+
         if ($restrictToReturningVisitors) {
             // extra condition for the SQL SELECT that makes sure only returning visits are counted
             // when creating the 'days since last visit' report
@@ -912,13 +1163,13 @@ class LogAggregator
 
                 $selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
 
-                $selects[] = "sum(case when $table.$column between $lowerBound and $upperBound $extraCondition" .
+                $selects[] = "sum(case when $tableColumn between $lowerBound and $upperBound $extraCondition" .
                              " then 1 else 0 end) as `$selectAs`";
             } else {
                 $lowerBound = $gap[0];
 
                 $selectAs  = $selectColumnPrefix . ($lowerBound + 1) . urlencode('+');
-                $selects[] = "sum(case when $table.$column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
+                $selects[] = "sum(case when $tableColumn > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
             }
         }
 
@@ -956,6 +1207,9 @@ class LogAggregator
 
     public function getDb()
     {
-        return Db::get();
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $archivingLock = $archivingStatus->getCurrentArchivingLock();
+        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
     }
 }

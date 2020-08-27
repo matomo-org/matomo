@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,7 +13,7 @@ use Piwik\Translation\Loader\DevelopmentLoader;
 /**
  * @group Translation
  */
-class DevelopmentLoaderTest extends \PHPUnit_Framework_TestCase
+class DevelopmentLoaderTest extends \PHPUnit\Framework\TestCase
 {
     private $translations = array(
         'General' => array(

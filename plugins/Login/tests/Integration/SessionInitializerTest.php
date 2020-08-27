@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -22,7 +22,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SessionInitializerTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -36,6 +36,7 @@ class SessionInitializerTest extends IntegrationTestCase
         $this->assertAuthCookieIsAbsent();
 
         $sessionInitializer = new TestSessionInitializer();
+        $this->assertEmpty($sessionInitializer->cookie);
         $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS), true);
 
         $this->assertAuthCookieIsCreated($sessionInitializer->cookie);
@@ -64,18 +65,17 @@ class SessionInitializerTest extends IntegrationTestCase
 
     private function assertAuthCookieIsAbsent()
     {
-        $this->assertArrayNotHasKey('piwik_auth', $_COOKIE);
+        $this->assertArrayNotHasKey('matomo_auth', $_COOKIE);
     }
 
     private function assertAuthCookieIsCreated(Cookie $cookie)
     {
-        $this->assertContains('login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==',
-            $cookie->generateContentString());
+        $this->assertSame('', $cookie->generateContentString());
     }
 
     private function createAuthCookie()
     {
-        $_COOKIE['piwik_auth'] = 'login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==';
+        $_COOKIE['matomo_auth'] = 'login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==';
     }
 
     private function assertAuthCookieIsDeleted(Cookie $cookie)

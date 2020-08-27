@@ -19,16 +19,9 @@
         "ViewUserGuides": "Tìm hiểu cách định cấu hình Matomo và cách phân tích hiệu quả dữ liệu của bạn với %1$shướng dẫn%2$s của chúng tôi",
         "CommunityHelp": "Trợ giúp cộng đồng",
         "ProfessionalHelp": "Trợ giúp chuyên nghiệp",
-        "ProfessionalServicesIntro": "Mạng lưới tư vấn chuyên nghiệp trên toàn thế giới của chúng tôi hỗ trợ khách hàng lưu trữ Matomo trên cơ sở hạ tầng của riêng họ.",
         "ProfessionalServicesOfferIntro": "Những dịch vụ bạn có thể được hưởng lợi từ?",
-        "ProfessionalServicesReviewPiwikSetup": "Đánh giá về thiết lập Matomo của bạn",
-        "ProfessionalServicesOptimizationMaintenance": "Dịch vụ bảo trì và tối ưu hóa Matomo",
-        "ProfessionalServicesPhoneEmailSupport": "Hỗ trợ qua điện thoại và email",
-        "ProfessionalServicesTraining": "Đào tạo người dùng, kỹ thuật và nhà phát triển",
-        "ProfessionalServicesPremiumFeatures": "Tính năng cao cấp",
-        "ProfessionalServicesCustomDevelopment": "Dịch vụ phát triển tùy chỉnh",
-        "ProfessionalServicesAnalystConsulting": "Dịch vụ tư vấn phân tích",
         "ContactUs": "Liên hệ chúng tôi",
-        "VisitTheForums": "Truy cập %1$sdiễn đàn%2$s và nhận trợ giúp từ cộng đồng người dùng Matomo"
+        "VisitTheForums": "Truy cập %1$sdiễn đàn%2$s và nhận trợ giúp từ cộng đồng người dùng Matomo",
+        "Forums": "Các diễn đàn"
     }
 }

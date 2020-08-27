@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -21,7 +21,8 @@
                 'reportTitle': '@',
                 'requestParams': '@',
                 'reportFormats': '@',
-                'apiMethod': '@'
+                'apiMethod': '@',
+                'maxFilterLimit': '@',
             },
             link: function(scope, element, attr) {
 
@@ -94,6 +95,27 @@
                     exportUrlParams.period = period;
                     exportUrlParams.date = param_date;
 
+                    if (dataTable.param.compareDates
+                        && dataTable.param.compareDates.length
+                    ) {
+                        exportUrlParams.compareDates = dataTable.param.compareDates;
+                        exportUrlParams.compare = '1';
+                    }
+
+                    if (dataTable.param.comparePeriods
+                        && dataTable.param.comparePeriods.length
+                    ) {
+                        exportUrlParams.comparePeriods = dataTable.param.comparePeriods;
+                        exportUrlParams.compare = '1';
+                    }
+
+                    if (dataTable.param.compareSegments
+                        && dataTable.param.compareSegments.length
+                    ) {
+                        exportUrlParams.compareSegments = dataTable.param.compareSegments;
+                        exportUrlParams.compare = '1';
+                    }
+
                     if (typeof dataTable.param.filter_pattern != "undefined") {
                         exportUrlParams.filter_pattern = dataTable.param.filter_pattern;
                     }
@@ -164,6 +186,7 @@
                     }
 
                     exportUrlParams.token_auth = piwik.token_auth;
+                    exportUrlParams.force_api_session = 1;
                     exportUrlParams.filter_limit = limit;
 
                     var currentUrl = $location.absUrl();
@@ -183,8 +206,12 @@
                     var formats   = JSON.parse(scope.reportFormats);
 
                     scope.reportType          = 'default';
-                    scope.reportLimit         = dataTable.param.filter_limit > 0 ? dataTable.param.filter_limit : 100;
-                    scope.reportLimitAll      = dataTable.param.filter_limit == -1 ? 'yes' : 'no';
+                    var reportLimit = dataTable.param.filter_limit;
+                    if (scope.maxFilterLimit > 0) {
+                        reportLimit = Math.min(reportLimit, scope.maxFilterLimit);
+                    }
+                    scope.reportLimit         = reportLimit > 0 ? reportLimit : 100;
+                    scope.reportLimitAll      = reportLimit == -1 ? 'yes' : 'no';
                     scope.optionFlat          = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === "1";
                     scope.optionExpanded      = 1;
                     scope.optionFormatMetrics = 0;
@@ -212,6 +239,14 @@
                         }
                     }, true);
 
+                    if (scope.maxFilterLimit > 0) {
+                        scope.$watch('reportLimit', function (newVal, oldVal) {
+                            if (parseInt(newVal, 10) > parseInt(scope.maxFilterLimit, 10)) {
+                                scope.reportLimit = oldVal;
+                            }
+                        }, true);
+                    }
+
                     var elem = $document.find('#reportExport').eq(0);
 
                     if (!elem.length) {
@@ -235,7 +270,12 @@
                         }
 
                         $timeout(function(){
-                            popover.dialog({position: ['center', 'center']});
+                            popover.dialog();
+                            $('.exportFullUrl, .btn', popover).tooltip({
+                                track: true,
+                                show: false,
+                                hide: false
+                            });
                         }, 100);
                     });
                 });

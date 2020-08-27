@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -67,7 +68,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         // request visits summary
         $request = new Request(
-            'method=VisitsSummary.get&format=php'
+            'method=VisitsSummary.get&format=json'
             . '&idSite=' . $this->idSite
             . '&period=' . $period
             . '&date=' . $date
@@ -76,7 +77,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&filter_limit=-1'
         );
         $config = array();
-        $config['visitsSummary'] = Common::safe_unserialize($request->process());
+        $config['visitsSummary'] = json_decode($request->process(), true);
         $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
             $this->idSite, $period, $date, $token_auth, false, $segment);
         $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
@@ -223,7 +224,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->config = array(
             'metrics'            => array(),
-            'svgBasePath'        => $view->piwikUrl . 'plugins/UserCountryMap/svg/',
+            'svgBasePath'        => 'plugins/UserCountryMap/svg/',
             'liveRefreshAfterMs' => $liveRefreshAfterMs,
             '_'                  => $locale,
             'reqParams'          => $reqParams,
@@ -273,7 +274,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function getMetrics($idSite, $period, $date, $token_auth)
     {
         $request = new Request(
-            'method=API.getMetadata&format=PHP'
+            'method=API.getMetadata&format=json'
             . '&apiModule=UserCountry&apiAction=getCountry'
             . '&idSite=' . $idSite
             . '&period=' . $period
@@ -281,15 +282,12 @@ class Controller extends \Piwik\Plugin\Controller
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $metaData = Common::safe_unserialize($request->process());
+        $metaData = json_decode($request->process(), true);
 
         $metrics = array();
         if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {
             foreach ($metaData[0]['metrics'] as $id => $val) {
-                // todo: should use SettingsPiwik::isUniqueVisitorsEnabled ?
-                if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
-                    $metrics[] = array($id, $val);
-                }
+                $metrics[] = array($id, $val);
             }
         }
         if (!empty($metaData[0]['processedMetrics']) && is_array($metaData[0]['processedMetrics'])) {

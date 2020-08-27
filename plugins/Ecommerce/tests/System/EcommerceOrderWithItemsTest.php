@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Ecommerce\tests\System;
@@ -21,11 +21,6 @@ use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
 class EcommerceOrderWithItemsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
-
-    public function testImagesIncludedInTests()
-    {
-        $this->alertWhenImagesExcludedFromTests();
-    }
 
     /**
      * @dataProvider getApiForTesting
@@ -268,6 +263,47 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                                             'columns' => 'avg_order_revenue'),
                                          'testSuffix' => '_AvgOrderRevenue')),
 
+                // product category segment
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productCategorySegment',
+                    'segment' => 'productCategory==Tools',
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productNameSegment',
+                    'segment' => 'productName=@' . urlencode(urlencode('bought day after')),
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productSkuSegment',
+                    'segment' => 'productSku==' . urlencode(urlencode('SKU VERY nice indeed')),
+                ]],
+
+                // deleted sku will be deleted
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productSkuSegmentDeleted',
+                    'segment' => 'productSku==' . urlencode(urlencode('SKU WILL BE DELETED')),
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productPrice',
+                    'segment' => 'productPrice>500',
+                ]],
            ),
             self::getApiForTestingScheduledReports($dateTime, 'week')
         );

@@ -66,6 +66,7 @@
         "TagManagerTeaserEmailSuperUserBody": "Olá,%1$sO Gestor de tags do Matomo já está disponível na aplicação e, como tal, gostaria de poder usufruir desta nova funcionalidade. Dado que possui perfil de Super Utilizador, seria possível ativar a funcionalidade através da página Gestor de tags no menu de topo?%2$sO URL é %3$s.%4$sObrigado",
         "WhatIsTagManager": "O que é um Gestor de tags?",
         "WhatIsTagManagerDetails1": "Tal como um Sistema de Gestão de Conteúdos (CMS) disponibiliza a flexibilidade necessária para que possa publicar conteúdo no seu site sem precisar de conhecimentos técnicos de HTML\/CSS, um Sistema de Gestão de tags (TMS) é a sua melhor aposta para simplificar o processo de incorporação de tags de acompanhamento de aplicação (também conhecidas por excertos ou pixeis) de terceiros ou próprias, no seu site.",
+        "WhatIsTagManagerDetails2": "Suponhamos que quer ver os resultados das suas conversões\/objetivos, subscrições a newsletters, widgets sociais, popups de saída e campanhas de remarketing; o que antes era um processo altamente técnico e moroso é agora facilmente realizado no TMS, precisando somente de uns quantos cliques para ser implementado.",
         "TagManagerLearnMoreInUserGuide": "Saiba mais no Guia de Utilizador de Gestor de tags",
         "WhyUsingATagManager": "Porquê optar por um Gestor de tags?",
         "WhyUsingATagManagerDetails1": "Um Gestor de tags facilita a sua vida! Com ele, já não precisa de aguardar que um programador modifique quaisquer excertos de terceiros ou próprios no seu site, o Gestor de tags confere-lhe a oportunidade isenta de stress de ser você mesmo a fazer estas alterações e as publicar de forma autónoma no seu site.",
@@ -82,6 +83,7 @@
         "Version": "Versão",
         "ViewAllMarketplacePlugins": "Ver todas as extensões da loja",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "A extensão %1$s não pôde ser carregada dado que tem dependências em falta: %2$s",
-        "Websites": "Sites"
+        "Websites": "Sites",
+        "UpdateSelected": "Atualizar selecionados"
     }
 }

@@ -1,0 +1,13 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Nepavyksta rasti apache_get_modules funkcijos, numanoma, kad tai ne Apache saityno serveris.",
+        "CannotUnzipGeoIPFile": "Nepavyko išpakuoti GeoIP failo ties %1$s: %2$s",
+        "DownloadingDb": "Atsiunčiama %s",
+        "FoundApacheModules": "Matomo rado šiuos Apache modulius",
+        "GeoIPDatabases": "GeoIP duomenų bazės",
+        "GeoIPNoServerVars": "Matomo nepavyko rasti jokių GeoIP %s kintamųjų.",
+        "GeoIPServerVarsFound": "Matomo aptinka šiuos GeoIP %s kintamuosius",
+        "HowToInstallApacheModule": "Kaip man įdiegti Apache skirtą GeoIP modulį?",
+        "UnsupportedArchiveType": "Susidurta su nepalaikomu archyvo tipu %1$s."
+    }
+}

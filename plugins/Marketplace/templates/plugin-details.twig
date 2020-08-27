@@ -175,7 +175,7 @@
                                 <br />
                             {% endif %}
                         </div>
-                        
+
                         {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;"><br />{{ plugin.specialOffer }}</p>{% endif %}
 
                         <p><br /></p>
@@ -213,9 +213,8 @@
                                     </dd>
                                 {% endif %}
                                 <dt>{{ 'Marketplace_Authors'|translate }}</dt>
-                                <dd>{% for author in plugin.authors if author.name %}
-
-                                        {% spaceless %}
+                                <dd>{% for author in plugin.authors|filter(author => author.name) %}
+                                        {% apply spaceless %}
                                             {% if author.homepage %}
                                                 <a target="_blank" rel="noreferrer noopener" href="{{ author.homepage }}">{{ author.name }}</a>
                                             {% elseif author.email %}
@@ -227,8 +226,7 @@
                                             {% if loop.index < plugin.authors|length %}
                                                 ,
                                             {% endif %}
-                                        {% endspaceless %}
-
+                                        {% endapply %}
                                     {% endfor %}
                                 </dd>
                             {% endif %}
@@ -285,8 +283,10 @@
                     }
                     {% endif %}
 
+                    $('#pluginDetailsTabs select').material_select();
+
                     $('#pluginDetailsTabs .tabs').tabs();
-                    $('#pluginDetailsTabs .tabs').tabs('select_tab', active >= 0 ? active : 0);
+                    $('#pluginDetailsTabs .tabs').tabs('select', '#tabs-' + (active >= 0 ? active : 0));
 
                     $('.pluginDetails a').each(function (index, a) {
                         var link = $(a).attr('href');

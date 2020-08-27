@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,16 +10,15 @@ namespace Piwik\Plugins\API\tests\System;
 
 use Piwik\API\Request;
 use Piwik\Application\Environment;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
-use Piwik\DataTable\Manager;
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
-use Piwik\Plugins\CustomVariables\Model;
-use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIPAndEcommerce;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Cache;
@@ -50,15 +49,16 @@ class AutoSuggestAPITest extends SystemTestCase
 
     protected static $processed = 0;
     protected static $skipped = array();
+    private static $hasArchivedData = false;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         API::setSingletonInstance(CachedAPI::getInstance());
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 
@@ -71,7 +71,6 @@ class AutoSuggestAPITest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
 
         $this->runApiTests($api, $params);
@@ -103,6 +102,42 @@ class AutoSuggestAPITest extends SystemTestCase
     }
 
     /**
+     * @dataProvider getApiForTestingBrowserArchivingDisabled
+     */
+    public function testApiBrowserArchivingDisabled($api, $params)
+    {
+        if (!self::$hasArchivedData) {
+            self::$hasArchivedData = true;
+            // need to make sure data is archived before disabling the archiving
+            Request::processRequest('API.get', array(
+                'date' => '2018-01-10', 'period' => 'year', 'idSite' => $params['idSite'],
+                'trigger' => 'archivephp'
+            ));
+        }
+
+        Cache::clearCacheGeneral();
+        // disable browser archiving so the APIs are used
+        Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 0);
+
+        $this->runApiTests($api, $params);
+
+        Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 1);
+    }
+
+    public function getApiForTestingBrowserArchivingDisabled()
+    {
+        $idSite = self::$fixture->idSite;
+        $segments = self::getSegmentsMetadata($onlyWithSuggestedValuesApi = true);
+
+        $apiForTesting = array();
+        foreach ($segments as $segment) {
+            $apiForTesting[] = $this->getApiForTestingForSegment($idSite, $segment);
+        }
+
+        return $apiForTesting;
+    }
+
+    /**
      * @param $idSite
      * @param $segment
      * @return array
@@ -126,9 +161,9 @@ class AutoSuggestAPITest extends SystemTestCase
             'method=API.getSuggestedValuesForSegment'
             . '&segmentName=' . $params['segmentToComplete']
             . '&idSite=' . $params['idSite']
-            . '&format=php&serialize=0'
+            . '&format=json'
         );
-        $response = $request->process();
+        $response = json_decode($request->process(), true);
         $this->assertApiResponseHasNoError($response);
         $topSegmentValue = @$response[0];
 
@@ -136,6 +171,32 @@ class AutoSuggestAPITest extends SystemTestCase
             if (is_numeric($topSegmentValue) || is_float($topSegmentValue) || preg_match('/^\d*?,\d*$/', $topSegmentValue)) {
                 $topSegmentValue = Common::forceDotAsSeparatorForDecimalPoint($topSegmentValue);
             }
+
+            // use some specific test values for segments where auto suggest returns list of values that might not occur
+            switch ($params['segmentToComplete']) {
+                case 'countryName':
+                    $topSegmentValue = 'France';
+                    break;
+                case 'browserName':
+                    $topSegmentValue = 'Chrome';
+                    break;
+                case 'operatingSystemName':
+                    $topSegmentValue = 'Android';
+                    break;
+                case 'visitEndServerDate':
+                    $topSegmentValue = '2018-01-03';
+                    break;
+                case 'visitEndServerDayOfMonth':
+                    $topSegmentValue = '03';
+                    break;
+                case 'visitEndServerYear':
+                    $topSegmentValue = '2018';
+                    break;
+                case 'visitLocalMinute':
+                    $topSegmentValue = '34';
+                    break;
+            }
+
             // Now build the segment request
             $segmentValue = rawurlencode(html_entity_decode($topSegmentValue, ENT_COMPAT | ENT_HTML401, 'UTF-8'));
             $params['segment'] = $params['segmentToComplete'] . '==' . $segmentValue;
@@ -170,7 +231,7 @@ class AutoSuggestAPITest extends SystemTestCase
     public function testCheckOtherTestsWereComplete()
     {
         // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots and bandwidth)
-        $maximumSegmentsToSkip = 17;
+        $maximumSegmentsToSkip = 24;
         $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped), 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
@@ -180,9 +241,8 @@ class AutoSuggestAPITest extends SystemTestCase
         $this->assertGreaterThan($minimumSegmentsToTest, self::$processed, $message);
     }
 
-    public static function getSegmentsMetadata()
+    public static function getSegmentsMetadata($onlyWithSuggestedValuesApi = false)
     {
-        // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
         PiwikCache::getTransientCache()->flushAll();
 
@@ -199,19 +259,19 @@ class AutoSuggestAPITest extends SystemTestCase
                 if ($dimension instanceof CustomVariableName
                     || $dimension instanceof CustomVariableValue
                 ) {
-                    continue; // added manually below
+                    continue; // ignore custom variables dimensions as they are tested in the plugin
                 }
 
                 foreach ($dimension->getSegments() as $segment) {
+                    if ($segment->isInternal()) {
+                        continue;
+                    }
+                    if ($onlyWithSuggestedValuesApi && !$segment->getSuggestedValuesApi()) {
+                        continue;
+                    }
                     $segments[] = $segment->getSegment();
                 }
             }
-
-            // add CustomVariables manually since the data provider may not have access to the DB
-            for ($i = 1; $i != Model::DEFAULT_CUSTOM_VAR_COUNT + 1; ++$i) {
-                $segments = array_merge($segments, self::getCustomVariableSegments($i));
-            }
-            $segments = array_merge($segments, self::getCustomVariableSegments());
         } catch (\Exception $ex) {
             $exception = $ex;
 
@@ -225,24 +285,6 @@ class AutoSuggestAPITest extends SystemTestCase
         }
 
         return $segments;
-    }
-
-    private static function getCustomVariableSegments($columnIndex = null)
-    {
-        $result = array(
-            'customVariableName',
-            'customVariableValue',
-            'customVariablePageName',
-            'customVariablePageValue',
-        );
-
-        if ($columnIndex !== null) {
-            foreach ($result as &$name) {
-                $name = $name . $columnIndex;
-            }
-        }
-
-        return $result;
     }
 
     public static function getPathToTestDirectory()

@@ -1,0 +1,30 @@
+<div ng-if="$ctrl.comparisonsService.isComparing()">
+    <h3>{{ 'General_Comparisons'|translate }}</h3>
+
+    <div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getSegmentComparisons() track by $index">
+        <div class="comparison-type">{{ 'General_Segment'|translate }}</div>
+
+        <div class="title" title="{{ comparison.title }}&lt;br/&gt;{{ comparison.params.segment|urldecode }}">
+            <a href="{{ $ctrl.getUrlToSegment(comparison.params.segment) }}" target="_blank">
+            {{ comparison.title }}
+        </a>
+        </div>
+
+        <div class="comparison-period"
+             ng-repeat="periodComparison in $ctrl.comparisonsService.getPeriodComparisons() track by $index"
+             title="{{ $ctrl.getComparisonTooltip(comparison, periodComparison) }}"
+        >
+            <span class="comparison-dot" ng-style="{'background-color': $ctrl.comparisonsService.getSeriesColor(comparison, periodComparison)}"></span>
+            <span class="comparison-period-label">{{ periodComparison.title }} ({{ $ctrl.getComparisonPeriodType(periodComparison) }})</span>
+        </div>
+
+        <a class="remove-button" ng-click="$ctrl.comparisonsService.removeSegmentComparison($index)" ng-if="$ctrl.comparisonsService.getSegmentComparisons().length > 1">
+            <span class="icon icon-close" title="{{ 'General_ClickToRemoveComp'|translate }}"></span>
+        </a>
+    </div>
+
+    <div class="loadingPiwik" style="display:none;">
+        <img src="plugins/Morpheus/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />
+        {{ 'General_LoadingData'|translate }}
+    </div>
+</div>

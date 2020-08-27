@@ -42,8 +42,8 @@
         "RecoveryCodesExplanation": "Pode utilizar os códigos de recuperação para aceder à sua conta sempre que não for possível receber os códigos de autenticação de dois fatores; por exemplo, quando não tiver consigo o seu dispositivo móvel.",
         "RecoveryCodesSecurity": "Por favor, trate os seus códigos de recuperação com o mesmo nível de segurança que aplica à sua palavra-passe!",
         "RecoveryCodesAllUsed": "Foram utilizados todos os códigos de recuperação. É altamente recomendável que gere novos códigos de recuperação.",
-        "RecoveryCodesRegenerated": "Os códigos de recuperação foram gerados novamente. Certifique-se que transfere ou imprime os novos códigos gerados.",
+        "RecoveryCodesRegenerated": "Os códigos de recuperação foram regenerados. Certifique-se que transfere ou imprime os novos códigos gerados.",
         "GenerateNewRecoveryCodes": "Gerar novos códigos de recuperação",
-        "GenerateNewRecoveryCodesInfo": "Ao gerar novos códigos de recuperação, os seus códigos anteriores ficam sem efeito. Certifique-se que transfere ou imprime os seus códigos novos."
+        "GenerateNewRecoveryCodesInfo": "Ao gerar novos códigos de recuperação, os seus códigos antigos ficam sem efeito. Certifique-se que transfere ou imprime os seus códigos novos."
     }
 }

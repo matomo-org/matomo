@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Ce User-Agent est détecté comme %1$s. Les visites avec ce user agent ne seront pas traquées par défaut dans Matomo.",
         "BrowserEngine": "Moteur de rendu HTML",
         "BrowserEngineDocumentation": "Ce rapport affiche les navigateurs de vos visiteurs divisés par moteurs. %s L'information la plus importante pour des développeurs web est quelle sorte de moteur de rendu utilisent les visiteurs. Les labels contiennent le nom du moteur suivi par le navigateur le plus commun utilisant ce moteur entre parenthèses.",
         "BrowserEngines": "Moteurs de rendu HTML",
@@ -19,6 +20,8 @@
         "dataTableLabelModels": "Modèle",
         "dataTableLabelSystemVersion": "Version du système d'exploitation",
         "dataTableLabelTypes": "Type",
+        "ClientType": "Type de client",
+        "ClientTypes": "Types de client",
         "Device": "Périphérique",
         "DeviceBrand": "Marque du périphérique",
         "DeviceBrands": "Marques de périphérique",
@@ -37,6 +40,7 @@
         "PluginDescription": "Fournit des informations détaillés à propos des périphériques de l'utilisateur telles que la Marque (fabriquant), le Modèle (version pérhip.), type de périph. (tv, consoles, téléphone intelligent, ordinateur, etc) et plus.",
         "SmartDisplay": "Affichage intelligent",
         "Smartphone": "Téléphone intelligent (smartphone)",
+        "SmartSpeaker": "Haut-parleur intelligent",
         "PortableMediaPlayer": "Lecteur de medias portable",
         "Devices": "Périphériques",
         "GenericDevice": "Générique %s",
@@ -45,6 +49,8 @@
         "Phablet": "Phablette",
         "TV": "TV",
         "UserAgent": "Agent Utilisateur (User-Agent)",
+        "FeedReader": "Lecteur de flux",
+        "MobileApp": "Application mobile",
         "XVisitsFromDevices": "%1$svisites de %2$spériphériques",
         "WidgetBrowsers": "Navigateurs du visiteur",
         "WidgetBrowsersDocumentation": "Ce rapport contient des informations à propos de quel type de navigateur vos visiteurs utilisent. Chaque version du navigateur est listée séparément."

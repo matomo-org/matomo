@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -41,6 +41,9 @@ use Exception;
  */
 class RankingQuery
 {
+    // a special label used to mark the 'Others' row in a ranking query result set. this is mapped to the
+    // datatable summary row during archiving.
+    const LABEL_SUMMARY_ROW = '__mtm_ranking_query_others__';
 
     /**
      * Contains the labels of the inner query.
@@ -84,7 +87,7 @@ class RankingQuery
      * The value to use in the label of the 'Others' row.
      * @var string
      */
-    private $othersLabelValue = 'Others';
+    private $othersLabelValue = self::LABEL_SUMMARY_ROW;
 
     /**
      * Constructor.
@@ -181,7 +184,7 @@ class RankingQuery
     }
 
     /**
-     * This method can be used to parition the result based on the possible values of one
+     * This method can be used to partition the result based on the possible values of one
      * table column. This means the query will split the result set into other sets of rows
      * for each possible value you provide (where the rows of each set have a column value
      * that equals a possible value). Each of these new sets of rows will be individually
@@ -194,7 +197,7 @@ class RankingQuery
      * where `log_action.type = TYPE_OUTLINK`, for rows where `log_action.type = TYPE_ACTION_URL` and for
      * rows `log_action.type = TYPE_DOWNLOAD`.
      *
-     * @param $partitionColumn string The column name to partion by.
+     * @param $partitionColumn string The column name to partition by.
      * @param $possibleValues Array of possible column values.
      * @throws Exception if method is used more than once.
      */
@@ -217,13 +220,16 @@ class RankingQuery
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
      * @param $bind array         Bindings for the inner query.
+     * @param int $timeLimitInMs  Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimitInMs > 0
      * @return array              The format depends on which methods have been used
      *                            to configure the ranking query.
      */
-    public function execute($innerQuery, $bind = array())
+    public function execute($innerQuery, $bind = array(), $timeLimitInMs = 0)
     {
         $query = $this->generateRankingQuery($innerQuery);
-        $data  = Db::fetchAll($query, $bind);
+        $query = DbHelper::addMaxExecutionTimeHintToQuery($query, $timeLimitInMs);
+
+        $data  = Db::getReader()->fetchAll($query, $bind);
 
         if ($this->columnToMarkExcludedRows !== false) {
             // split the result into the regular result and the rows with special treatment

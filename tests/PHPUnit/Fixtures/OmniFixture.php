@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Plugins\UsersManager\Model;
 use ReflectionClass;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
@@ -23,9 +24,11 @@ use Piwik\Tests\Framework\Fixture;
 class OmniFixture extends Fixture
 {
     const DEFAULT_SEGMENT = "browserCode==FF";
+    const OMNIFIXTURE_SUPERUSER_TOKEN = '9ad1de7f8b329ab919d854c556f860c1';
 
     public $month = '2012-01';
     public $idSite = 'all';
+
     public $dateTime = '2012-02-01';
 
     /**
@@ -77,6 +80,7 @@ class OmniFixture extends Fixture
                 && $className != "Piwik\\Tests\\Fixtures\\SqlDump"
                 && $className != "Piwik\\Tests\\Fixtures\\UpdaterTestFixture"
                 && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
+                && $className != "Piwik\\Tests\\Fixtures\\VisitsInDifferentTimezones"
             ) {
 
                 $klassReflect = new ReflectionClass($className);
@@ -122,7 +126,20 @@ class OmniFixture extends Fixture
         return $result;
     }
 
-    public function setUp()
+    public static function getTokenAuth()
+    {
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUser(self::ADMIN_USER_LOGIN);
+
+        if (!empty($user)) {
+            if ($model->getUserByTokenAuth(self::OMNIFIXTURE_SUPERUSER_TOKEN)) {
+                return self::OMNIFIXTURE_SUPERUSER_TOKEN;
+            }
+        }
+        return parent::getTokenAuth();
+    }
+
+    public function setUp(): void
     {
         $firstFixture = array_shift($this->fixtures);
         $this->setUpFixture($firstFixture);
@@ -135,12 +152,19 @@ class OmniFixture extends Fixture
             $this->setUpFixture($fixture);
         }
 
-        Db::query(sprintf('UPDATE %s SET token_auth = "9ad1de7f8b329ab919d854c556f860c1" WHERE login = "superUserLogin"', Common::prefixTable('user')));
+        $model = new Model();
+
+        if (!$model->getUserByTokenAuth(self::OMNIFIXTURE_SUPERUSER_TOKEN)) {
+            $model->addTokenAuth(self::ADMIN_USER_LOGIN, self::OMNIFIXTURE_SUPERUSER_TOKEN, 'omnifixture token', Date::now()->getDatetime());
+        }
+        if (!$model->getUserByTokenAuth(self::ADMIN_USER_TOKEN)) {
+            $model->addTokenAuth(self::ADMIN_USER_LOGIN, self::ADMIN_USER_TOKEN, 'omnifixture token default', Date::now()->getDatetime());
+        }
 
         Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach ($this->fixtures as $fixture) {
             echo "Tearing down " . get_class($fixture) . "...\n";

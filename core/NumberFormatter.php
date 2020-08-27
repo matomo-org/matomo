@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -39,6 +39,22 @@ class NumberFormatter
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
+    }
+
+    /**
+     * Parses the given pattern and returns patterns for positive and negative numbers
+     *
+     * @param string $pattern
+     * @return array
+     */
+    protected function parsePattern($pattern)
+    {
+        $patterns = explode(';', $pattern);
+        if (!isset($patterns[1])) {
+            // No explicit negative pattern was provided, construct it.
+            $patterns[1] = '-' . $patterns[0];
+        }
+        return $patterns;
     }
 
     /**
@@ -105,7 +121,7 @@ class NumberFormatter
      */
     public function formatPercentEvolution($value)
     {
-        $isPositiveEvolution = !empty($value) && ($value > 0 || $value[0] == '+');
+        $isPositiveEvolution = !empty($value) && ($value > 0 || substr($value, 0, 1) === '+');
 
         $formatted = self::formatPercent($value);
 
@@ -166,22 +182,6 @@ class NumberFormatter
     }
 
     /**
-     * Parses the given pattern and returns patterns for positive and negative numbers
-     *
-     * @param string $pattern
-     * @return array
-     */
-    protected function parsePattern($pattern)
-    {
-        $patterns = explode(';', $pattern);
-        if (!isset($patterns[1])) {
-            // No explicit negative pattern was provided, construct it.
-            $patterns[1] = '-' . $patterns[0];
-        }
-        return $patterns;
-    }
-
-    /**
      * Formats the given number with the given pattern
      *
      * @param string $pattern
@@ -236,7 +236,7 @@ class NumberFormatter
             // Reconstruct the major digits.
             $majorDigits = implode(',', $groups);
         }
-        if ($minimumFractionDigits < $maximumFractionDigits) {
+        if ($minimumFractionDigits <= $maximumFractionDigits) {
             // Strip any trailing zeroes.
             $minorDigits = rtrim($minorDigits, '0');
             if (strlen($minorDigits) < $minimumFractionDigits) {
@@ -296,6 +296,12 @@ class NumberFormatter
      */
     public static function getInstance()
     {
-        return StaticContainer::get('Piwik\NumberFormatter');
+        return StaticContainer::get(NumberFormatter::class);
+    }
+
+    public function clearCache()
+    {
+        $this->patterns = [];
+        $this->symbols = [];
     }
 }

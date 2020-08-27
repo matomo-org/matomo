@@ -3,7 +3,7 @@
         "AllReferrersReportDocumentation": "This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.",
         "Campaigns": "Campaigns",
         "CampaignsDocumentation": "Visitors that came to your website as the result of a campaign. %1$s See the %2$s report for more details.",
-        "CampaignsReportDocumentation": "This report shows which campaigns led visitors to your website. %1$s For more information about tracking campaigns, read the %2$scampaigns documentation on matomo.org%3$s",
+        "CampaignsReportDocumentation": "This report shows which campaigns led visitors to your website.",
         "ColumnCampaign": "Campaign",
         "CampaignPageUrlHelp": "The URL of the page that this campaign goes to, for example 'http://example.org/offer.html'.",
         "CampaignNameHelp": "Choose a name that describes what the campaign is created for and that distinguishes your campaign from your other campaigns. For example 'Email-SummerDeals' or 'PaidAds-SummerDeals'.",
@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "distinct search engines",
         "DistinctSocialNetworks": "distinct social networks",
         "DistinctWebsites": "distinct websites",
+        "DistinctWebsiteUrls": "distinct website URLs",
         "EvolutionDocumentation": "This is an overview of the referrers that led visitors to your website.",
         "EvolutionDocumentationMoreInfo": "For more information about the different channel types, see the documentation of the %s table.",
         "Keywords": "Keywords",
@@ -68,6 +69,12 @@
         "WidgetSocials": "List of social networks",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL",
         "XPercentOfVisits": "%s of visits",
-        "Acquisition": "Acquisition"
+        "Acquisition": "Acquisition",
+        "VisitorsFromSearchEngines": "Visitors from Search Engines",
+        "PercentOfX": "Percent of %s",
+        "VisitorsFromSocialNetworks": "Visitors from Social Networks",
+        "VisitorsFromDirectEntry": "Visitors from Direct Entry",
+        "VisitorsFromWebsites": "Visitors from Websites",
+        "VisitorsFromCampaigns": "Visitors from Campaigns"
     }
 }

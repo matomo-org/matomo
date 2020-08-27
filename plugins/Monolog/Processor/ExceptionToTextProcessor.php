@@ -1,14 +1,15 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\Processor;
 
 use Piwik\ErrorHandler;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Log;
 
 /**
@@ -24,6 +25,10 @@ class ExceptionToTextProcessor
 
         /** @var \Exception $exception */
         $exception = $record['context']['exception'];
+
+        if ($exception instanceof InvalidRequestParameterException) {
+            return $record;
+        }
 
         $exceptionStr = sprintf(
             "%s(%d): %s\n%s",
@@ -80,6 +85,10 @@ class ExceptionToTextProcessor
 
     public static function getWholeBacktrace(\Exception $exception, $shouldPrintBacktrace = true)
     {
+        if (!$shouldPrintBacktrace) {
+            return $exception->getMessage();
+        }
+
         $message = "";
 
         $e = $exception;

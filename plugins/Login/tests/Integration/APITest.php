@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -24,19 +24,18 @@ class APITest extends IntegrationTestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->api = API::getInstance();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasSuperUserAccess
-     */
     public function test_unblockBruteForceIPs_requiresSuperUser()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
         FakeAccess::clearAccess(false, array(1,2,3));
         $this->api->unblockBruteForceIPs();
     }

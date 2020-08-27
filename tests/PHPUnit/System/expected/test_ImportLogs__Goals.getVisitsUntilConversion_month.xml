@@ -2,11 +2,11 @@
 <result>
 	<row>
 		<label>1 visit</label>
-		<nb_conversions>40</nb_conversions>
+		<nb_conversions>38</nb_conversions>
 	</row>
 	<row>
 		<label>2 visits</label>
-		<nb_conversions>0</nb_conversions>
+		<nb_conversions>1</nb_conversions>
 	</row>
 	<row>
 		<label>3 visits</label>

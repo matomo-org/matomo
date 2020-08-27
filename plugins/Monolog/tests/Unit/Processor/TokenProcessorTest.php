@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -14,7 +14,7 @@ use Piwik\Plugins\Monolog\Processor\TokenProcessor;
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\TokenProcessor
  */
-class TokenProcessorTest extends \PHPUnit_Framework_TestCase
+class TokenProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

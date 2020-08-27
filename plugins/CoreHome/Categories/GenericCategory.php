@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,6 @@ use Piwik\Category\Category;
 
 class GenericCategory extends Category
 {
-    protected $id = 'General_Generic';
-    protected $order = 70;
+    protected $id = 'General_KpiMetric';
+    protected $order = 1;
 }

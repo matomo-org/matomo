@@ -25,8 +25,9 @@
                 {% endif %}
             </a>
         </div>
-        <ol class="visitorLog visitor-profile-actions">
+        <ol class="visitorLog visitor-profile-actions actionList">
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
+                                                       'actionGroups': visitInfo.getColumn('actionGroups'),
                                                        'visitInfo': visitInfo} %}
         </ol>
     </div>

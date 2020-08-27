@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Piwik\Config;
 use Piwik\Tracker\Db;
 use Piwik\Tracker\Db\DbException;
 
@@ -43,9 +44,9 @@ class Mysql extends Db
      */
     public function __construct($dbInfo, $driverName = 'mysql')
     {
-        if (isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/') {
+        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['unix_socket'];
-        } elseif (!empty($dbInfo['port']) && $dbInfo['port'][0] == '/') {
+        } elseif (!empty($dbInfo['port']) && substr($dbInfo['port'], 0, 1) == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['port'];
         } else {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
@@ -106,8 +107,6 @@ class Mysql extends Db
         // See #6296 why this is important in tracker
         $this->mysqlOptions[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
         $this->mysqlOptions[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-        
-
 
         $this->connection = @new PDO($this->dsn, $this->username, $this->password, $this->mysqlOptions);
 
@@ -260,10 +259,7 @@ class Mysql extends Db
      */
     public function isErrNo($e, $errno)
     {
-        if (preg_match('/([0-9]{4})/', $e->getMessage(), $match)) {
-            return $match[1] == $errno;
-        }
-        return false;
+        return \Piwik\Db\Adapter\Pdo\Mysql::isPdoErrorNumber($e, $errno);
     }
 
     /**

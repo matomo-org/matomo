@@ -99,6 +99,44 @@
 	</row>
 	<row>
 		<category>Visitors</category>
+		<subcategory>Overview</subcategory>
+		<name>Performance overview</name>
+		<module>PagePerformance</module>
+		<action>get</action>
+		<onlineGuideUrl>https://matomo.org/docs/page-performance/</onlineGuideUrl>
+		<metrics>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+		</metrics>
+		<metricsDocumentation>
+			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
+			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
+			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
+			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
+			<avg_time_on_load>Average time (in seconds) how long it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.</avg_time_on_load>
+			<avg_page_load_time>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>PagePerformance_get</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
 		<subcategory>Locations</subcategory>
 		<name>Country</name>
 		<module>UserCountry</module>
@@ -554,7 +592,6 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
 		<relatedReports>
 			<row>
@@ -563,6 +600,13 @@
 				<action>getBrowserVersions</action>
 			</row>
 		</relatedReports>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowsers</uniqueId>
@@ -904,6 +948,7 @@
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
 		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/custom-variables/</onlineGuideUrl>
 		<dimensions>
 			<CustomVariables_CustomVariableName>Custom Variable name</CustomVariables_CustomVariableName>
 			<CustomVariables_CustomVariableValue>Custom Variable value</CustomVariables_CustomVariableValue>
@@ -1216,7 +1261,8 @@
 		<module>Actions</module>
 		<action>getSiteSearchKeywords</action>
 		<dimension>Keyword</dimension>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -1241,6 +1287,7 @@
 		<action>getPageUrlsFollowingSiteSearch</action>
 		<dimension>Destination Page</dimension>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 			<nb_hits>Pageviews</nb_hits>
@@ -1268,6 +1315,7 @@
 		<action>getSiteSearchNoResultKeywords</action>
 		<dimension>Keyword with No Search Result</dimension>
 		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 		</metrics>
@@ -1290,6 +1338,7 @@
 		<action>getPageTitlesFollowingSiteSearch</action>
 		<dimension>Destination Page</dimension>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 			<nb_hits>Pageviews</nb_hits>
@@ -1317,6 +1366,7 @@
 		<action>getSiteSearchCategories</action>
 		<dimension>Search Category</dimension>
 		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -1337,7 +1387,7 @@
 		<name>Outlinks</name>
 		<module>Actions</module>
 		<action>getOutlinks</action>
-		<dimension>Clicked URL</dimension>
+		<dimension>Clicked Outlink</dimension>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_visits>Unique Clicks</nb_visits>
@@ -1380,6 +1430,7 @@
 		<module>Events</module>
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventCategory>Event Category</Events_EventCategory>
 			<Events_EventAction>Event Action</Events_EventAction>
@@ -1414,6 +1465,7 @@
 		<module>Events</module>
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventAction>Event Action</Events_EventAction>
 			<Events_EventName>Event Name</Events_EventName>
@@ -1448,6 +1500,7 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventName>Event Name</Events_EventName>
 			<Events_EventAction>Event Action</Events_EventAction>
@@ -1482,6 +1535,7 @@
 		<module>Contents</module>
 		<action>getContentNames</action>
 		<dimension>Content Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
 			<nb_interactions>Content Interactions</nb_interactions>
@@ -1506,6 +1560,7 @@
 		<module>Contents</module>
 		<action>getContentPieces</action>
 		<dimension>Content Piece</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
 			<nb_interactions>Content Interactions</nb_interactions>
@@ -1586,7 +1641,7 @@
 		<name>Visits by days since last visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
-		<dimension>Visits by days since last visit</dimension>
+		<dimension>Days since last visit</dimension>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -1610,15 +1665,49 @@
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+			<nb_visits_new>New Visits</nb_visits_new>
+			<nb_actions_new>Actions by New Visits</nb_actions_new>
+			<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
+			<nb_users_new>New Users</nb_users_new>
+			<max_actions_new>max_actions_new</max_actions_new>
 		</metrics>
 		<processedMetrics>
 			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
+			<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
+			<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
+			<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>
+	</row>
+	<row>
+		<category>Referrers</category>
+		<name>Referrers Overview</name>
+		<module>Referrers</module>
+		<action>get</action>
+		<metrics>
+			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
+		</metrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Referrers_get</uniqueId>
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -1875,7 +1964,8 @@
 		<module>Referrers</module>
 		<action>getCampaigns</action>
 		<dimension>Campaign</dimension>
-		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;campaigns documentation on matomo.org&lt;/a&gt;</documentation>
+		<documentation>This report shows which campaigns led visitors to your website.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-campaigns/</onlineGuideUrl>
 		<dimensions>
 			<Referrers_Campaign>Campaign</Referrers_Campaign>
 			<Referrers_Keyword>Keyword</Referrers_Keyword>
@@ -1921,6 +2011,7 @@
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Ecommerce Orders</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -1951,6 +2042,7 @@
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -1967,6 +2059,7 @@
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -1982,6 +2075,7 @@
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Abandoned Carts</nb_conversions>
 			<conversion_rate>Conversion Rate</conversion_rate>
@@ -2007,6 +2101,7 @@
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2023,6 +2118,7 @@
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2037,6 +2133,7 @@
 		<module>Goals</module>
 		<action>getItemsName</action>
 		<dimension>Product Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>
@@ -2059,6 +2156,7 @@
 		<module>Goals</module>
 		<action>getItemsSku</action>
 		<dimension>Product SKU</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>
@@ -2081,6 +2179,7 @@
 		<module>Goals</module>
 		<action>getItemsCategory</action>
 		<dimension>Product Category</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>
@@ -2101,6 +2200,7 @@
 		<name>Goals</name>
 		<module>Goals</module>
 		<action>get</action>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2122,6 +2222,7 @@
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2142,6 +2243,7 @@
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2164,6 +2266,7 @@
 		<parameters>
 			<idGoal>0</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2188,6 +2291,7 @@
 			<idGoal>0</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2204,6 +2308,7 @@
 			<idGoal>0</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2219,6 +2324,7 @@
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2243,6 +2349,7 @@
 			<idGoal>1</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2259,6 +2366,7 @@
 			<idGoal>1</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2274,6 +2382,7 @@
 		<parameters>
 			<idGoal>2</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2298,6 +2407,7 @@
 			<idGoal>2</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2314,6 +2424,7 @@
 			<idGoal>2</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2329,6 +2440,7 @@
 		<parameters>
 			<idGoal>3</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2353,6 +2465,7 @@
 			<idGoal>3</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2369,6 +2482,7 @@
 			<idGoal>3</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2517,6 +2631,21 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
+			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<revenue>Revenue</revenue>
@@ -2530,6 +2659,18 @@
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+			<nb_visits_new>New Visits</nb_visits_new>
+			<nb_actions_new>Actions by New Visits</nb_actions_new>
+			<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
+			<nb_users_new>New Users</nb_users_new>
+			<max_actions_new>max_actions_new</max_actions_new>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
@@ -2546,6 +2687,13 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
+			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
+			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
+			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
+			<avg_time_on_load>Average time (in seconds) how long it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.</avg_time_on_load>
+			<avg_page_load_time>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
@@ -2561,6 +2709,16 @@
 			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
+			<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
+			<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
+			<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>

@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "ממוצע מבוסס על %1$s מופע(ים) %2$s בין %3$s ו-%4$s",
-        "ColumnClickedURL": "כתובת שנלחצה",
         "ColumnClicks": "לחיצות",
         "ColumnClicksDocumentation": "מספר הפעמים שקישור זה נלחץ",
         "ColumnDownloadURL": "הורדת כתובת",
@@ -29,7 +28,6 @@
         "EntryPageTitlesReportDocumentation": "דו״ח זה מכיל מידע אודות הכותרות של עמודי כניסה שהיו בשימוש במהלך התקופה המוגדרת.",
         "ExitPageTitles": "כותרות עמוד יציאה",
         "ExitPageTitlesReportDocumentation": "דו״ח זה מכיל מידע אודות כותרות של עמודי יציאה שהתקיימו במהלך התקופה המוגדרת.",
-        "LearnMoreAboutSiteSearchLink": "למידה אודות מעקב אחר אופן השימוש של משתמשיך במנוע החיפוש של אתרך.",
         "OneSearch": "חיפוש 1",
         "OutlinkDocumentation": "קישור יוצא הוא קישור שמוביל את המשתמש מחוץ לאתרך (לדומיין אחר).",
         "OutlinksReportDocumentation": "דו״ח זה מציג רשימה היררכית של כתובות שנלחצו על ידי משתמשי אתרך.",

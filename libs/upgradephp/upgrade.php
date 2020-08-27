@@ -20,13 +20,13 @@
  * script execution on setups where the native functions already exist. It
  * is meant as quick drop-in solution. It spares you from rewriting code or
  * using cumbersome workarounds instead of the more powerful v5 functions.
- * 
+ *
  * It cannot mirror PHP5s extended OO-semantics and functionality into PHP4
  * however. A few features are added here that weren't part of PHP yet. And
  * some other function collections are separated out into the ext/ directory.
  * It doesn't produce many custom error messages (YAGNI), and instead leaves
  * reporting to invoked functions or for native PHP execution.
- * 
+ *
  * And further this is PUBLIC DOMAIN (no copyright, no license, no warranty)
  * so therefore compatible to ALL open source licenses. You could rip this
  * paragraph out to republish this instead only under more restrictive terms
@@ -177,7 +177,7 @@ if(function_exists('parse_ini_file')) {
 			if (!preg_match('/^[a-zA-Z0-9[]/', $line)) {continue;}
 
 			// Sections
-			if ($line{0} == '[') {
+			if ($line[0] == '[') {
 				$tmp = explode(']', $line);
 				$sections[] = trim(substr($tmp[0], 1));
 				$i++;
@@ -191,15 +191,15 @@ if(function_exists('parse_ini_file')) {
 			if (strstr($value, ";")) {
 				$tmp = explode(';', $value);
 				if (count($tmp) == 2) {
-					if ((($value{0} != '"') && ($value{0} != "'")) ||
+					if ((($value[0] != '"') && ($value[0] != "'")) ||
 							preg_match('/^".*"\s*;/', $value) || preg_match('/^".*;[^"]*$/', $value) ||
 							preg_match("/^'.*'\s*;/", $value) || preg_match("/^'.*;[^']*$/", $value) ){
 						$value = $tmp[0];
 					}
 				} else {
-					if ($value{0} == '"') {
+					if ($value[0] == '"') {
 						$value = preg_replace('/^"(.*)".*/', '$1', $value);
-					} elseif ($value{0} == "'") {
+					} elseif ($value[0] == "'") {
 						$value = preg_replace("/^'(.*)'.*/", '$1', $value);
 					} else {
 						$value = $tmp[0];
@@ -271,7 +271,7 @@ if(function_exists('glob')) {
 						&& fnmatch($filePattern, $file)
 						&& (!($flags & GLOB_ONLYDIR) || is_dir("$path/$file"))) {
 					$matches[] = "$path/$file" . ($flags & GLOB_MARK ? '/' : '');
-				}	
+				}
 			}
 			closedir($handle);
 			if(!($flags & GLOB_NOSORT)) {
@@ -362,7 +362,7 @@ function _safe_serialize( $value )
 		{
 			$out .= _safe_serialize($k) . _safe_serialize($v);
 		}
-		
+
 		return 'a:'.count($value).':{'.$out.'}';
 	}
 
@@ -681,9 +681,22 @@ if (!function_exists('utf8_decode')) {
  * @param string $charset
  */
 if(!function_exists('mb_strtolower')) {
-	function mb_strtolower($input, $charset) {
-		return strtolower($input);
-	}
+    function mb_strtolower($input, $charset = '') {
+        return strtolower($input);
+    }
+}
+
+/**
+ * Use strlen if mb_strlen doesn't exist (i.e., php not compiled with --enable-mbstring)
+ * This is not a functional replacement for mb_strlen.
+ *
+ * @param string $input
+ * @param string $charset
+ */
+if(!function_exists('mb_strlen')) {
+    function mb_strlen($input, $charset = '') {
+        return strlen($input);
+    }
 }
 
 /**

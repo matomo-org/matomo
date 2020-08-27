@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,10 +15,10 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
@@ -56,7 +56,6 @@ use Piwik\Validators\WhitelistedValue;
 class API extends \Piwik\Plugin\API
 {
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
-    const NEW_VISIT_SEGMENT = 'visitorType==new';
 
     /**
      * Return a single goal.
@@ -127,9 +126,10 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param string $name
-     * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'event_action', 'event_category' or 'event_name'
-     * @param string $pattern eg. purchase-confirmation.htm
-     * @param string $patternType 'regex', 'contains', 'exact'
+     * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions', 'visit_total_pageviews',
+     *                               'event_action', 'event_category' or 'event_name'
+     * @param string $pattern eg. purchase-confirmation.htm or numeric value if used with a numeric match attribute
+     * @param string $patternType 'regex', 'contains', 'exact', or 'greater_than' for numeric match attributes
      * @param bool $caseSensitive
      * @param bool|float $revenue If set, default revenue to assign to conversions
      * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
@@ -142,10 +142,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $patternType = Common::unsanitizeInputValue($patternType);
+
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
-        $pattern     = $this->checkPattern($pattern);
-        $patternType = $this->checkPatternType($patternType);
+        $pattern     = $this->checkPattern($pattern, $matchAttribute);
+        $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $description = $this->checkDescription($description);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -198,10 +200,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $patternType = Common::unsanitizeInputValue($patternType);
+
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
-        $patternType = $this->checkPatternType($patternType);
-        $pattern     = $this->checkPattern($pattern);
+        $patternType = $this->checkPatternType($patternType, $matchAttribute);
+        $pattern     = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -260,7 +264,7 @@ class API extends \Piwik\Plugin\API
         return urldecode($description);
     }
 
-    private function checkPatternType($patternType)
+    private function checkPatternType($patternType, $matchAttribute)
     {
         if (empty($patternType)) {
             return '';
@@ -268,14 +272,26 @@ class API extends \Piwik\Plugin\API
 
         $patternType = strtolower($patternType);
 
-        $validator = new WhitelistedValue(['exact', 'contains', 'regex']);
+        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)) {
+            $validValues = ['greater_than'];
+        } else {
+            $validValues = ['exact', 'contains', 'regex'];
+        }
+
+        $validator = new WhitelistedValue($validValues);
         $validator->validate($patternType);
 
         return $patternType;
     }
 
-    private function checkPattern($pattern)
+    private function checkPattern($pattern, $matchAttribute)
     {
+        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
+            && !is_numeric($pattern)
+        ) {
+            throw new \Exception("Invalid pattern for match attribute '$matchAttribute'. (got '$pattern', expected numeric value).");
+        }
+
         return urldecode($pattern);
     }
 
@@ -315,11 +331,29 @@ class API extends \Piwik\Plugin\API
         $archive   = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($recordNameFinal);
 
-        $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment);
+        // Before Matomo 4.0.0 ecommerce views were tracked in custom variables
+        // So if Matomo was installed before try to fetch the views from custom variables and enrich the report
+        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b2', '<')) {
+            $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment);
+        }
 
-        // First rename the avg_price_viewed column
-        $renameColumn = array(self::AVG_PRICE_VIEWED => 'avg_price');
-        $dataTable->filter('ReplaceColumnNames', array($renameColumn));
+        // use average ecommerce view price if no cart price is available
+        $dataTable->filter(function(DataTable $table){
+            foreach ($table->getRowsWithoutSummaryRow() as $row) {
+                if (!$row->getColumn('avg_price') && !$row->getColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE)) {
+                    $row->renameColumn(self::AVG_PRICE_VIEWED, 'avg_price');
+                }
+                $row->deleteColumn(self::AVG_PRICE_VIEWED);
+            }
+        });
+
+        $reportToNotDefinedString = array(
+            'Goals_ItemsSku'      => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductSKU')), // Note: this should never happen
+            'Goals_ItemsName'     => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductName')),
+            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory'))
+        );
+        $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
+        $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
@@ -343,7 +377,7 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $rowNotDefined = $dataTable->getRowFromLabel(\Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED);
+        $rowNotDefined = $dataTable->getRowFromLabel('Value not defined');
         if ($rowNotDefined) {
             $rowNotDefined->setColumn('label', $notDefinedStringPretty);
         }
@@ -351,6 +385,11 @@ class API extends \Piwik\Plugin\API
 
     protected function enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $segment, $idSubtable)
     {
+        if (!Manager::getInstance()->isPluginActivated('CustomVariables') || in_array('nb_visits', $dataTable->getColumns())) {
+            // skip if CustomVariables plugin is not available or table already contains visits
+            return;
+        }
+
         $ecommerceViews = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment, $_leavePriceViewedColumn = true);
 
         // For Product names and SKU reports, and for Category report
@@ -423,7 +462,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $showAllGoalSpecificMetrics whether to show all goal specific metrics when no goal is set
      * @return DataTable
      */
-    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false)
+    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false, $compare = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -432,7 +471,7 @@ class API extends \Piwik\Plugin\API
 
         $segments = array(
             '' => false,
-            '_new_visit' => self::NEW_VISIT_SEGMENT,
+            '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
             '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
         );
 
@@ -449,7 +488,7 @@ class API extends \Piwik\Plugin\API
                 'columns' => $columns,
                 'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
                 'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
-            ));
+            ), $default = []);
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
                                     array($appendToMetricName));
@@ -460,6 +499,19 @@ class API extends \Piwik\Plugin\API
                 $merger = new MergeDataTables();
                 $merger->mergeDataTables($table, $tableSegmented);
             }
+        }
+
+        // if we are comparing, this will be queried with format_metrics=0, but we will eventually need to format the metrics.
+        // unfortunately, we can't do that since the processed metric information is in the GetMetrics report. in this case,
+        // we queue the filter so it will eventually be formatted.
+        if (!empty($compare)) {
+            $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
+            $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
+                $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
+
+                $formatter = new Metrics\Formatter();
+                $formatter->formatMetrics($t, $getMetricsReport, $metricsToFormat = null, $formatAll = true);
+            });
         }
 
         return $table;
@@ -719,6 +771,10 @@ class API extends \Piwik\Plugin\API
      */
     protected function enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment)
     {
+        if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            return;
+        }
+
         // Enrich the datatable with Product/Categories views, and conversion rates
         $customVariables = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false,
             $_leavePiwikCoreVariables = true);
@@ -727,12 +783,6 @@ class API extends \Piwik\Plugin\API
             'Goals_ItemsName'     => '_pkn',
             'Goals_ItemsCategory' => '_pkc',
         );
-        $reportToNotDefinedString = array(
-            'Goals_ItemsSku'      => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductSKU')), // Note: this should never happen
-            'Goals_ItemsName'     => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductName')),
-            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory'))
-        );
-        $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
         $customVarNameToLookFor = $mapping[$recordName];
 
         // Handle case where date=last30&period=day
@@ -755,7 +805,6 @@ class API extends \Piwik\Plugin\API
                     }
                     $dataTable->addTable($dataTableForDate, $key);
                 }
-                $this->renameNotDefinedRow($dataTableForDate, $notDefinedStringPretty);
             }
         } elseif ($customVariables instanceof DataTable) {
             $row = $customVariables->getRowFromLabel($customVarNameToLookFor);
@@ -763,7 +812,6 @@ class API extends \Piwik\Plugin\API
                 $idSubtable = $row->getIdSubDataTable();
                 $this->enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $segment, $idSubtable);
             }
-            $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
         }
     }
 

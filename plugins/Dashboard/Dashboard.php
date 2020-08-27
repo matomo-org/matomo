@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -32,8 +32,19 @@ class Dashboard extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Widget.addWidgetConfigs'                => 'addWidgetConfigs',
             'Category.addSubcategories'              => 'addSubcategories',
-            'Widgetize.shouldEmbedIframeEmpty'       => 'shouldEmbedIframeEmpty'
+            'Widgetize.shouldEmbedIframeEmpty'       => 'shouldEmbedIframeEmpty',
+            'Db.getTablesInstalled'                  => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('user_dashboard');
     }
 
     public function shouldEmbedIframeEmpty(&$shouldEmbedEmpty, $controllerName, $actionName)
@@ -150,15 +161,17 @@ class Dashboard extends \Piwik\Plugin
         $defaultLayout = $this->getLayoutForUser('', 1);
 
         if (empty($defaultLayout)) {
+            $pluginManager = Plugin\Manager::getInstance();
+
             $advertisingWidget = '';
             $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
-            if ($advertising->areAdsForProfessionalServicesEnabled() && Plugin\Manager::getInstance()->isPluginActivated('ProfessionalServices')) {
+            if ($advertising->areAdsForProfessionalServicesEnabled() && $pluginManager->isPluginActivated('ProfessionalServices')) {
                 $advertisingWidget = '{"uniqueId":"widgetProfessionalServicespromoServices","parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
             }
-            if (Piwik::hasUserSuperUserAccess()) {
-                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetDonateForm","parameters":{"module":"CoreHome","action":"getDonateForm"}}';
-            } else {
-                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
+            $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
+            $insightsWidget = '';
+            if ($pluginManager->isPluginActivated('Insights')) {
+                $insightsWidget = '{"uniqueId":"widgetInsightsgetOverallMoversAndShakers","parameters":{"module":"Insights","action":"getOverallMoversAndShakers"}},';
             }
             $defaultLayout = '[
                 [
@@ -168,6 +181,7 @@ class Dashboard extends \Piwik\Plugin
                 [
                     {"uniqueId":"widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution","parameters":{"forceView":"1","viewDataTable":"graphEvolution","module":"VisitsSummary","action":"getEvolutionGraph"}},
                     ' . $advertisingWidget . '
+                    ' . $insightsWidget . '
                     {"uniqueId":"widgetVisitsSummarygetforceView1viewDataTablesparklines","parameters":{"forceView":"1","viewDataTable":"sparklines","module":"VisitsSummary","action":"get"}}
                 ],
                 [
@@ -276,7 +290,6 @@ class Dashboard extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/Dashboard/angularjs/common/services/dashboards-model.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/widgetMenu.js";
-        $jsFiles[] = "libs/javascript/json2.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboardObject.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboardWidget.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboard.js";
@@ -317,6 +330,7 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_Dashboard';
         $translationKeys[] = 'Dashboard_RemoveDefaultDashboardNotPossible';
         $translationKeys[] = 'General_Close';
+        $translationKeys[] = 'General_HelpResources';
         $translationKeys[] = 'General_Refresh';
     }
 }

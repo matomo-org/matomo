@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -36,26 +36,6 @@ class Xml extends Renderer
     }
 
     /**
-     * Converts the given data table to an array
-     *
-     * @param DataTable|DataTable/Map $table  data table to convert
-     * @return array
-     */
-    protected function getArrayFromDataTable($table)
-    {
-        if (is_array($table)) {
-            return $table;
-        }
-
-        $renderer = new Php();
-        $renderer->setRenderSubTables($this->isRenderSubtables());
-        $renderer->setSerialize(false);
-        $renderer->setTable($table);
-        $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
-        return $renderer->flatRender();
-    }
-
-    /**
      * Computes the output for the given data table
      *
      * @param DataTable|DataTable/Map $table
@@ -66,7 +46,7 @@ class Xml extends Renderer
      */
     protected function renderTable($table, $returnOnlyDataTableXml = false, $prefixLines = '')
     {
-        $array = $this->getArrayFromDataTable($table);
+        $array = $this->convertDataTableToArray($table);
         if ($table instanceof Map) {
             $out = $this->renderDataTableMap($table, $array, $prefixLines);
 
@@ -188,11 +168,11 @@ class Xml extends Renderer
                 } else {
                     $result .= $prefixLines . $prefix . "\n";
                     if ($value instanceof Map) {
-                        $result .= $this->renderDataTableMap($value, $this->getArrayFromDataTable($value), $prefixLines);
+                        $result .= $this->renderDataTableMap($value, $this->convertDataTableToArray($value), $prefixLines);
                     } elseif ($value instanceof Simple) {
-                        $result .= $this->renderDataTableSimple($this->getArrayFromDataTable($value), $prefixLines);
+                        $result .= $this->renderDataTableSimple($this->convertDataTableToArray($value), $prefixLines);
                     } else {
-                        $result .= $this->renderDataTable($this->getArrayFromDataTable($value), $prefixLines);
+                        $result .= $this->renderDataTable($this->convertDataTableToArray($value), $prefixLines);
                     }
                     $result .= $prefixLines . $suffix . "\n";
                 }
@@ -233,9 +213,16 @@ class Xml extends Renderer
             foreach ($array as $valueAttribute => $value) {
                 if (empty($value)) {
                     $xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";
-                } elseif ($value instanceof Map) {
-                    $out = $this->renderTable($value, true);
+                } elseif ($value instanceof DataTable\DataTableInterface) {
                     //TODO somehow this code is not tested, cover this case
+                    $out = $this->renderTable($value, true);
+                    $xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n$out</result>\n";
+                } else if (is_array($value)) {
+                    if (!is_array(reset($value))) {
+                        $out = $this->renderDataTableSimple($value);
+                    } else {
+                        $out = $this->renderDataTable($value);
+                    }
                     $xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n$out</result>\n";
                 } else {
                     $xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">" . self::formatValueXml($value) . "</result>\n";
@@ -265,7 +252,11 @@ class Xml extends Renderer
                     $xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";
                 } else {
                     if (is_array($dataTableSimple)) {
-                        $dataTableSimple = "\n" . $this->renderDataTableSimple($dataTableSimple, $prefixLines . "\t") . $prefixLines . "\t";
+                        if (!is_array(reset($dataTableSimple))) {
+                            $dataTableSimple = "\n" . $this->renderDataTableSimple($dataTableSimple, $prefixLines . "\t") . $prefixLines . "\t";
+                        } else {
+                            $dataTableSimple = "\n" . $this->renderDataTable($dataTableSimple, $prefixLines . "\t") . $prefixLines . "\t";
+                        }
                     }
                     $xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">" . $dataTableSimple . "</result>\n";
                 }
@@ -369,7 +360,15 @@ class Xml extends Renderer
                 $out .= "\n";
                 foreach ($row as $name => $value) {
                     // handle the recursive dataTable case by XML outputting the recursive table
-                    if (is_array($value)) {
+                    if ($value instanceof DataTable) {
+                        $value = $this->convertDataTableToArray($value);
+                        if ($value instanceof Simple) {
+                            $value = "\n" . $this->renderDataTableSimple($value, $prefixLine . "\t\t");
+                        } else {
+                            $value = "\n" . $this->renderDataTable($value, $prefixLine . "\t\t");
+                        }
+                        $value .= $prefixLine . "\t\t";
+                    } else if (is_array($value)) {
                         if (is_array(reset($value))) {
                             $value = "\n" . $this->renderDataTable($value, $prefixLine . "\t\t");
                         } else {
@@ -414,8 +413,16 @@ class Xml extends Renderer
         foreach ($array as $keyName => $value) {
             $xmlValue = self::formatValueXml($value);
             list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($keyName, $columnsHaveInvalidChars);
-            if (strlen($xmlValue) == 0) {
+            if (is_string($xmlValue) && strlen($xmlValue) == 0) {
                 $out .= $prefixLine . "\t<$tagStart />\n";
+            } else if ($value instanceof DataTable || is_array($value)) {
+                $arrayValue = $this->convertDataTableToArray($value);
+                if (!is_array(reset($arrayValue))) {
+                    $xmlTable = $this->renderDataTableSimple($arrayValue, $prefixLine . "\t");
+                } else {
+                    $xmlTable = $this->renderDataTable($arrayValue, $prefixLine . "\t");
+                }
+                $out .= $prefixLine . "\t<$tagStart>\n" . $xmlTable . $prefixLine . "\t</$tagEnd>\n";
             } else {
                 $out .= $prefixLine . "\t<$tagStart>" . $xmlValue . "</$tagEnd>\n";
             }

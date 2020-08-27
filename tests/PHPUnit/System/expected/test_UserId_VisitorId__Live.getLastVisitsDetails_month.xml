@@ -13,7 +13,7 @@
 				<serverTimePretty>Mar 6, 2010 11:22:33</serverTimePretty>
 				<pageId>1</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -41,7 +41,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index2.htm</subtitle>
 				<icon />
@@ -58,7 +58,7 @@
 				<serverTimePretty>Mar 6, 2010 11:28:33</serverTimePretty>
 				<pageId>3</pageId>
 				<bandwidth />
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index3.htm</subtitle>
 				<icon />
@@ -86,7 +86,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>no User Id set but it should appear in email@example.com!</title>
 				<subtitle>http://example.org/no-user-id-set-but-should-appear-in-user-id-visit</subtitle>
 				<icon />
@@ -105,7 +105,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -122,7 +122,7 @@
 				<serverTimePretty>Mar 6, 2010 13:28:33</serverTimePretty>
 				<pageId>6</pageId>
 				<bandwidth />
-				<interactionPosition>3</interactionPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -148,7 +148,7 @@
 				<serverTimePretty>Mar 6, 2010 13:34:33</serverTimePretty>
 				<pageId>7</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>a new user id was set -&gt; new visit</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -174,7 +174,7 @@
 				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>10</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>pageview - should not be tracked by our user id but in a new visit</title>
 				<subtitle>http://example.org/home</subtitle>
 				<icon />
@@ -202,7 +202,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>same user id was set -&gt; this is the same unique user</title>
 				<subtitle>http://example.org/home</subtitle>
 				<icon />
@@ -221,7 +221,7 @@
 				<bandwidth />
 				<timeSpent>721</timeSpent>
 				<timeSpentPretty>12 min 1s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<title>second pageview - by this user id</title>
 				<subtitle>http://example.org/home</subtitle>
 				<icon />
@@ -233,6 +233,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId />
 				<serverTimePretty>Mar 6, 2010 16:34:33</serverTimePretty>
@@ -248,6 +249,7 @@
 				<revenue>10000000000</revenue>
 				<items>1</items>
 				<serverTimePretty>Mar 6, 2010 16:40:33</serverTimePretty>
+				
 				<itemDetails>
 					<row>
 						<itemSKU>sku-007-PRISM</itemSKU>
@@ -263,7 +265,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 10000000000 revenue - 1 items: My secret spy tech)</subtitle>
+				<subtitle>$10,000,000,000 revenue - 1 items: My secret spy tech)</subtitle>
 				<timestamp>1267893633</timestamp>
 			</row>
 		</actionDetails>
@@ -284,7 +286,7 @@
 				<serverTimePretty>Mar 14, 2010 11:22:33</serverTimePretty>
 				<pageId>11</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Page view by email@example.com</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -310,7 +312,7 @@
 				<serverTimePretty>Mar 14, 2010 11:46:33</serverTimePretty>
 				<pageId>12</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<pageviewPosition>1</pageviewPosition>
 				<title>A page view by new-user-id@one-weeklater</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />

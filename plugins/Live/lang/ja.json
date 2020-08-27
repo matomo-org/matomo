@@ -36,15 +36,25 @@
         "ToggleActions": "すべてのアクションの表示を切り替える",
         "TopVisitedPages": "上位のページ",
         "VisitsLog": "訪問履歴",
-        "VisitorLog": "訪問履歴",
+        "QueryMaxExecutionTimeExceeded": "クエリの実行に時間がかかりすぎました。",
+        "QueryMaxExecutionTimeExceededReasonDateRange": "これは、選択した日付範囲が大きすぎる場合に発生する可能性があります。より小さな日付範囲を選択してみてください。",
+        "QueryMaxExecutionTimeExceededReasonSegment": "これは、選択したセグメントがどのビジットとも一致しない場合に発生する可能性があります。選択したセグメントを確認してください。",
+        "QueryMaxExecutionTimeExceededReasonUnknown": "もう一度やり直してください。繰り返し発生する場合は、管理者またはサポートに連絡してください。",
+        "VisitorLog": "ビジットログ",
         "VisitorLogDocumentation": "この表は選択した日付期間内で最新のビジットについて表示しています。ビジットの日付の上にマウスを移動して、そのビジターの最後のビジットが何日前か見ることが出来ます。%1$s 期間内に本日が含まれていれば、ビジターをリアルタイムで見られます！ %2$s ここに表示されるのは、アーカイブのための cron ジョブ設定の頻度に関わらず、常にライブのデータです。",
+        "VisitorLogNoDataMessagePurged": "古いデータの定期的な削除が有効になっており、このレポートの日付が %s 日以上経過しているため、データが削除された可能性があります。 スーパーユーザーは、管理 => プライバシーに移動してこの設定を変更できます。",
         "VisitorProfile": "ビジタープロフィール",
-        "VisitorsInRealTime": "リアルタイムのビジット",
+        "VisitorsInRealTime": "リアルタイムビジット",
         "VisitorsLastVisit": "このビジターの最新のビジットは %s 日前です。",
         "VisitsFrom": "から %1$s%2$s が %3$s を訪問",
         "VisitSummary": "ウェブサイト%3$sに合計%1$s%2$sを費やし、%6$s 回の訪問%7$sで %4$sページ%5$sを閲覧しました。",
         "VisitSummaryWithActionDetails": "ウェブサイト%3$sに合計 %1$s%2$s を費やし、%7$s 回の訪問%8$sで %4$s 回のアクション%5$s (%6$s) を実行しました。",
+        "RowActionTooltipDefault": "この行でセグメント化された訪問履歴を表示する",
+        "RowActionTooltipWithDimension": "この %s でセグメント化された訪問履歴を表示する",
+        "RowActionTooltipTitle": "セグメント化された訪問履歴を開く",
+        "SegmentedVisitorLogTitle": "%1$s が「 %2$s 」である訪問を示す訪問履歴",
         "OnClickPause": "%s が開始されました。クリックして一時停止します。",
-        "OnClickStart": "%s は停止しています。クリックして開始します。"
+        "OnClickStart": "%s は停止しています。クリックして開始します。",
+        "ClickToSeeAllContents": "各コンテンツのインタラクション\/インプレッションを見るためにクリック"
     }
 }

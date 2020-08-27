@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
@@ -27,13 +27,14 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class VisitTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         // setup the access layer
         FakeAccess::$superUser = true;
 
+        Fixture::createSuperUser(true);
         Manager::getInstance()->loadTrackerPlugins();
         $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
         $pluginNames[] = 'SitesManager';
@@ -241,8 +242,6 @@ class VisitTest extends IntegrationTestCase
      */
     public function testIsVisitorUserAgentExcluded($excludedUserAgent, $tests)
     {
-        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
-
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null,
@@ -276,7 +275,6 @@ class VisitTest extends IntegrationTestCase
             'http://valid.domain/page' => false,
             'https://valid.domain/page' => false,
         );
-        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
 
@@ -429,7 +427,7 @@ class VisitTest extends IntegrationTestCase
             $timezone = 'UTC+5');
 
         $expectedRemembered = array(
-            substr($oneHourAfterMidnight, 0, 10) => array($idsite)
+            substr($oneHourAfterMidnight, 0, 10) => array($idsite),
         );
 
         // if website timezone was von considered both would be today (expected = array())
@@ -452,7 +450,22 @@ class VisitTest extends IntegrationTestCase
         $archive = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
 
-        $this->assertSame($expectedRemeberedArchivedReports, $remembered);
+        $this->assertSameReportsInvalidated($expectedRemeberedArchivedReports, $remembered);
+    }
+
+    private function assertSameReportsInvalidated($expected, $actual)
+    {
+        $keys1 = array_keys($expected);
+        $keys2 = array_keys($actual);
+        sort($keys1);
+        sort($keys2);
+
+        $this->assertSame($keys1, $keys2);
+        foreach ($expected as $index => $values) {
+            sort($values);
+            sort($actual[$index]);
+            $this->assertSame($values, $actual[$index]);
+        }
     }
 
     private function prepareVisitWithRequest($requestParams, $requestDate)

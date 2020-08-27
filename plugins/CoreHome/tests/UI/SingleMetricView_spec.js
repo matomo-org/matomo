@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Dashboard screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -21,10 +21,10 @@ describe('SingleMetricView', function () {
         await page.click('.dashboard-manager a.title');
 
         await (await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)')).hover(); // have to mouse move twice... otherwise Live! will just be highlighted
-        await (await page.jQuery('.widgetpreview-categorylist > li:contains(Generic)')).hover();
+        await (await page.jQuery('.widgetpreview-categorylist > li:contains(KPI Metric)')).hover();
 
-        await (await page.jQuery('.widgetpreview-widgetlist li:contains(Metric)')).hover();
-        await (await page.jQuery('.widgetpreview-widgetlist li:contains(Metric)')).click();
+        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).hover();
+        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).click();
 
         var elem = await page.waitForSelector('#widgetCoreVisualizationssingleMetricViewcolumn');
         await page.waitForNetworkIdle();
@@ -48,11 +48,11 @@ describe('SingleMetricView', function () {
     });
 
     it('should handle individual goal metrics properly', async function () {
-        await page.webpage.evaluate(function(){
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').last().trigger('mouseenter');
         });
-        await page.waitFor(100);
-        await page.webpage.evaluate(function(){
+        await page.waitFor(250);
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(_x)').click()
         });
         await page.waitForNetworkIdle();
@@ -64,11 +64,11 @@ describe('SingleMetricView', function () {
 
     it('should handle range periods correctly', async function () {
         await page.goto(rangeUrl);
-        await page.webpage.evaluate(function(){
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
         });
-        await page.waitFor(100);
-        await page.webpage.evaluate(function(){
+        await page.waitFor(250);
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker-popover label:contains(Revenue)').click()
         });
         await page.waitForNetworkIdle();

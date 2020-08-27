@@ -1,12 +1,12 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests;
+namespace Piwik\Plugins\PrivacyManager\tests\Unit;
 
 
 use Piwik\Plugins\PrivacyManager\Config;
@@ -16,16 +16,16 @@ use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
  * Class DoNotTrackHeaderCheckerTest
  * @group DoNotTrackHeaderCheckerTest
  */
-class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
+class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->cleanupServerGlobals();
 
         $this->setUserAgentToChrome();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cleanupServerGlobals();
     }

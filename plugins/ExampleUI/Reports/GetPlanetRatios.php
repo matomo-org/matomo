@@ -1,14 +1,13 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ExampleUI\Reports;
 
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
@@ -33,7 +32,7 @@ class GetPlanetRatios extends Base
 
     public function getDefaultTypeViewDataTable()
     {
-        return PIE::ID;
+        return Pie::ID;
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
@@ -56,7 +55,7 @@ class GetPlanetRatios extends Base
     {
         $view->config->addTranslation('value', 'times the diameter of Earth');
 
-        if ($view->isViewDataTableId(PIE::ID)) {
+        if ($view->isViewDataTableId(Pie::ID)) {
 
             $view->config->columns_to_display = array('value');
             $view->config->selectable_columns = array('value');

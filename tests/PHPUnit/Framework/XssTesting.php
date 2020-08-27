@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -138,8 +138,6 @@ JS;
             'angular-(useragent)',
             'twig-(annotation)',
             'angular-(Annotation note 3)',
-            'twig-(useralias)',
-            'angular-(useralias)',
             'twig-(scheduledreport)',
             'twig-(dimensionname)',
             'twig-(category)',
@@ -170,7 +168,7 @@ JS;
         $actualEntries = array_values($actualEntries);
 
         try {
-            \PHPUnit_Framework_Assert::assertEquals($expectedEntries, $actualEntries);
+            \PHPUnit\Framework\Assert::assertEquals($expectedEntries, $actualEntries);
         } catch (\Exception $ex) {
             print "XssTesting::sanityCheck() failed, got: " . var_export($actualEntries, true)
                 . "\nexpected: " . var_export($expectedEntries, true);

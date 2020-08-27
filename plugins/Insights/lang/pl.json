@@ -25,6 +25,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s zmienił się z %2$s do %3$s w porównaniu do %4$s. Bazując na tym spodziewana jest zmiana każdego rzędu %5$s na poziomie %%.",
         "TitleRowChangeDetails": "'%1$s' zmieniło się z %2$s (%3$s) do %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' zmniejszyło się o %2$s i zniknęło w %3$s w porównaniu do %4$s.",
+        "TitleRowMoverAndShaker": "Ten wiersz miał ponad przeciętny wpływ.",
         "TitleRowNewDetails": "\"%1$s\" wzrosło o %2$s i jest nowe w porównaniu z %3$s.",
         "WeekComparedToPreviousWeek": "poprzedni tydzień",
         "WidgetCategory": "Insights",

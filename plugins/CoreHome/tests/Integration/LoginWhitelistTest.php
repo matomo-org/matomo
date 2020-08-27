@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -42,7 +42,7 @@ class LoginWhitelistTest extends IntegrationTestCase
 
     private $cliMode;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class LoginWhitelistTest extends IntegrationTestCase
         $this->whitelist = new CustomLoginWhitelist();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Common::$isCliMode = $this->cliMode;
         parent::tearDown();

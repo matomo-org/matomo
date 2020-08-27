@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,11 +10,10 @@ namespace Piwik\Plugins\Monolog\tests\System;
 
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Plugins\Monolog\Handler\EchoHandler;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use PiwikTracker;
+use MatomoTracker;
 
 /**
  * @group Monolog
@@ -25,7 +24,7 @@ class TrackerLoggingTest extends SystemTestCase
 {
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -71,15 +70,11 @@ class TrackerLoggingTest extends SystemTestCase
         return $t;
     }
 
-    private function assertTrackerResponseContainsLogOutput(PiwikTracker $t)
+    private function assertTrackerResponseContainsLogOutput(MatomoTracker $t)
     {
         $response = $t->doTrackPageView('incredible title!');
 
-        $this->assertStringStartsWith("DEBUG: Debug enabled - Input parameters: 
-DEBUG: array (
-DEBUG:   'idsite' => '1',
-DEBUG:   'rec' => '1',
-DEBUG:   'apiv' => '1',", $response);
+        $this->assertRegExp('/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] ' . preg_quote("piwik.DEBUG: Debug enabled - Input parameters: array (   'idsite' => '1',   'rec' => '1',   'apiv' => '1',") . "/", $response);
     }
 
     private function setTrackerConfig($trackerConfig)
@@ -96,11 +91,10 @@ DEBUG:   'apiv' => '1',", $response);
             'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
             Config::class => \DI\decorate(function (Config $config) {
                 $config->tests['enable_logging'] = 1;
+                $config->log['log_writers'] = ['screen'];
                 return $config;
             }),
-            'log.handlers' => [
-                \DI\get(EchoHandler::class),
-            ],
+            'Tests.log.allowAllHandlers' => true,
         );
     }
 

@@ -13,8 +13,8 @@
 <table style="width:100%; background-color: &#x23;3450A3; color: &#x23;fff; padding:10px 0; margin: 0 0 25px 0; height:64px;">
     <tr>
         <td>
-            <a style="color:#212121;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, 'Helvetica Neue', sans-serif;; font-size:16px;padding:0 15px;color: &#x23;fff;height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="http://example.com/piwik/tests/PHPUnit/proxy/">
-                                    <img src="http://example.com/piwik/tests/PHPUnit/proxy//plugins/Morpheus/images/logo-email.png" height="20px" width="auto" alt="Matomo,&#x20;free&#x2F;libre&#x20;analytics&#x20;platform" />
+            <a style="color:#212121;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, 'Helvetica Neue', sans-serif;; font-size:16px;padding:0 15px;padding-bottom: 8px;color: &#x23;fff;height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="http://example.com/piwik/tests/PHPUnit/proxy/">
+                                    <img src="http://example.com/piwik/tests/PHPUnit/proxy//plugins/Morpheus/images/logo-email.png" height="30px" width="auto" alt="Matomo,&#x20;free&#x2F;libre&#x20;analytics&#x20;platform" />
                             </a>
         </td>
         <td align="right">
@@ -51,6 +51,11 @@
                             <li style="font-size:15px;line-height:24px;">
                     <a href="#VisitsSummary_get" style="text-decoration:none; color: #0d0d0d;">
                         Visits Summary
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
+                    <a href="#PagePerformance_get" style="text-decoration:none; color: #0d0d0d;">
+                        Performance overview
                     </a>
                 </li>
                             <li style="font-size:15px;line-height:24px;">
@@ -289,6 +294,11 @@
                     </a>
                 </li>
                             <li style="font-size:15px;line-height:24px;">
+                    <a href="#Referrers_get" style="text-decoration:none; color: #0d0d0d;">
+                        Referrers Overview
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
                     <a href="#Referrers_getReferrerType" style="text-decoration:none; color: #0d0d0d;">
                         Channel Type
                     </a>
@@ -423,7 +433,7 @@
                                                                                                 43
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 0
@@ -432,7 +442,7 @@
                                                                                                 0
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -449,7 +459,7 @@
                                                                                                 3
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 0
@@ -458,7 +468,7 @@
                                                                                                 0
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -547,6 +557,85 @@
           Back to top &#8593;
     </a></p>
 
+<h2 id="PagePerformance_get" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    Performance overview
+</h2>
+
+    
+    
+            <table style="border-collapse:collapse; border:1px solid rgb(231,231,231); padding:5px;">
+            <thead style="background-color: #f2f2f2;">
+                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                    &nbsp;Name&nbsp;&nbsp;
+                </th>
+                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Value&nbsp;&nbsp;
+                </th>
+                        </thead>
+            <tbody>
+                                                    
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. network time                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00.02
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. server time                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00.27
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. transfer time                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00.37
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. DOM processing time                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:01.17
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. DOM completion time                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00.28
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. on load time                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00.31
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. page load time                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:02.42
+                                                                                    </td>
+                                    </tr>
+                        </tbody>
+        </table>
+        <p style="width: 100%; text-align:center;">
+      <a style="color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;; text-decoration:none; font-size: 9pt;" href="#reportTop">
+          Back to top &#8593;
+    </a></p>
+
 <h2 id="UserCountry_getCountry" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
     Country
 </h2>
@@ -600,7 +689,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -625,7 +714,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -686,7 +775,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -709,7 +798,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -772,7 +861,7 @@
                                                                                                 27%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -919,7 +1008,7 @@
                                                                                                 27%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -1066,7 +1155,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -1091,7 +1180,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -1152,7 +1241,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -1175,7 +1264,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -1238,7 +1327,7 @@
                                                                                                 27%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -1447,7 +1536,7 @@
                     &nbsp;Bounce Rate&nbsp;&nbsp;
                 </th>
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
-                    &nbsp;Conversion Rate&nbsp;&nbsp;
+                    &nbsp;Revenue&nbsp;&nbsp;
                 </th>
                         </thead>
             <tbody>
@@ -1473,7 +1562,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -1498,7 +1587,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -1523,7 +1612,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -2004,32 +2093,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
-                                                                                    </td>
-                                    </tr>
-                            
-                                                                    <tr style="background-color: #f2f2f2;">
-                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                                                        <img height="16px" src='http://example.com/piwik/tests/PHPUnit/proxy/plugins/Morpheus/icons/dist/plugins/director.png'>
-                                        &nbsp;
-                                                                                                            Director                                                                                                                        </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
-                                                                                    </td>
-                                    </tr>
-                            
-                                                                    <tr style=";">
-                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                                                        <img height="16px" src='http://example.com/piwik/tests/PHPUnit/proxy/plugins/Morpheus/icons/dist/plugins/gears.png'>
-                                        &nbsp;
-                                                                                                            Gears                                                                                                                        </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
                                                                                     </td>
                                     </tr>
                             
@@ -2745,7 +2808,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2768,7 +2831,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2791,7 +2854,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2814,7 +2877,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2837,7 +2900,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2860,7 +2923,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2883,7 +2946,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2906,7 +2969,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2929,7 +2992,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2952,7 +3015,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2975,7 +3038,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -2998,7 +3061,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3021,7 +3084,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3044,7 +3107,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3067,7 +3130,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3090,7 +3153,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3113,7 +3176,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3136,7 +3199,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3159,7 +3222,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3182,7 +3245,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3205,7 +3268,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3228,7 +3291,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3251,7 +3314,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -3274,7 +3337,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -3575,14 +3638,6 @@
                                                                                                 0
                                                                                     </td>
                                     </tr>
-                            
-                                                                    <tr style=";">
-                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                                                                                        Avg. generation time                                                                                                                        </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.3s
-                                                                                    </td>
-                                    </tr>
                         </tbody>
         </table>
         <p style="width: 100%; text-align:center;">
@@ -3663,9 +3718,6 @@
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
                     &nbsp;Exit rate&nbsp;&nbsp;
                 </th>
-                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
-                    &nbsp;Avg. generation time&nbsp;&nbsp;
-                </th>
                         </thead>
             <tbody>
                                                     
@@ -3689,9 +3741,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 11%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.3s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -3713,9 +3762,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 0%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.22s
                                                                                     </td>
                                     </tr>
                             
@@ -3739,9 +3785,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.31s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -3763,9 +3806,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.15s
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -3795,9 +3835,6 @@
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
                     &nbsp;Bounce Rate&nbsp;&nbsp;
                 </th>
-                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
-                    &nbsp;Avg. generation time&nbsp;&nbsp;
-                </th>
                         </thead>
             <tbody>
                                                     
@@ -3815,9 +3852,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 11%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.3s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -3833,9 +3867,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.15s
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -3865,9 +3896,6 @@
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
                     &nbsp;Bounce Rate&nbsp;&nbsp;
                 </th>
-                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
-                    &nbsp;Avg. generation time&nbsp;&nbsp;
-                </th>
                         </thead>
             <tbody>
                                                     
@@ -3883,9 +3911,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 0%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.32s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -3899,9 +3924,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.14s
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -3931,9 +3953,6 @@
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
                     &nbsp;Exit rate&nbsp;&nbsp;
                 </th>
-                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
-                    &nbsp;Avg. generation time&nbsp;&nbsp;
-                </th>
                         </thead>
             <tbody>
                                                     
@@ -3951,9 +3970,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 11%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.3s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -3970,9 +3986,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.31s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style=";">
@@ -3988,9 +4001,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.15s
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -4020,9 +4030,6 @@
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
                     &nbsp;Exit rate&nbsp;&nbsp;
                 </th>
-                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
-                    &nbsp;Avg. generation time&nbsp;&nbsp;
-                </th>
                         </thead>
             <tbody>
                                                     
@@ -4038,9 +4045,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.45s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -4054,9 +4058,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.14s
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -4092,9 +4093,6 @@
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
                     &nbsp;Exit rate&nbsp;&nbsp;
                 </th>
-                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
-                    &nbsp;Avg. generation time&nbsp;&nbsp;
-                </th>
                         </thead>
             <tbody>
                                                     
@@ -4116,9 +4114,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.45s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -4138,9 +4133,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 0%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.32s
                                                                                     </td>
                                     </tr>
                             
@@ -4162,9 +4154,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 0%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.17s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style="background-color: #f2f2f2;">
@@ -4185,9 +4174,6 @@
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 100%
                                                                                     </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.14s
-                                                                                    </td>
                                     </tr>
                             
                                                                     <tr style=";">
@@ -4207,9 +4193,6 @@
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                 0%
-                                                                                    </td>
-                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0.22s
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -4521,10 +4504,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         1 visit                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                3
+                                                                                                2
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                27%
+                                                                                                18%
                                                                                     </td>
                                     </tr>
                             
@@ -4532,10 +4515,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         2 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                8
+                                                                                                2
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                73%
+                                                                                                18%
                                                                                     </td>
                                     </tr>
                             
@@ -4543,10 +4526,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         3 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                1
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                9%
                                                                                     </td>
                                     </tr>
                             
@@ -4554,10 +4537,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         4 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                1
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                9%
                                                                                     </td>
                                     </tr>
                             
@@ -4565,10 +4548,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         5 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                1
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                9%
                                                                                     </td>
                                     </tr>
                             
@@ -4576,10 +4559,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         6 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                1
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                9%
                                                                                     </td>
                                     </tr>
                             
@@ -4587,10 +4570,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         7 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                1
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                9%
                                                                                     </td>
                                     </tr>
                             
@@ -4598,10 +4581,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         8 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                1
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                9%
                                                                                     </td>
                                     </tr>
                             
@@ -4609,10 +4592,10 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         9-14 visits                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                1
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0%
+                                                                                                9%
                                                                                     </td>
                                     </tr>
                             
@@ -4686,7 +4669,7 @@
             <table style="border-collapse:collapse; border:1px solid rgb(231,231,231); padding:5px;">
             <thead style="background-color: #f2f2f2;">
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                    &nbsp;Visits by days since last visit&nbsp;&nbsp;
+                    &nbsp;Days since last visit&nbsp;&nbsp;
                 </th>
                             <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
                     &nbsp;Visits&nbsp;&nbsp;
@@ -4714,7 +4697,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         1 day                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                0
+                                                                                                8
                                                                                     </td>
                                     </tr>
                             
@@ -4722,7 +4705,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         2 days                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                1
+                                                                                                0
                                                                                     </td>
                                     </tr>
                             
@@ -4730,7 +4713,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         3 days                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                1
+                                                                                                0
                                                                                     </td>
                                     </tr>
                             
@@ -4738,7 +4721,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         4 days                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                1
+                                                                                                0
                                                                                     </td>
                                     </tr>
                             
@@ -4746,7 +4729,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         5 days                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                1
+                                                                                                0
                                                                                     </td>
                                     </tr>
                             
@@ -4754,7 +4737,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         6 days                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                1
+                                                                                                0
                                                                                     </td>
                                     </tr>
                             
@@ -4762,7 +4745,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         7 days                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                1
+                                                                                                0
                                                                                     </td>
                                     </tr>
                             
@@ -4770,7 +4753,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         8-14 days                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                2
+                                                                                                0
                                                                                     </td>
                                     </tr>
                             
@@ -4837,6 +4820,70 @@
                         </thead>
             <tbody>
                                                     
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Unique new visitors                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                2
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        New Users                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        New Visits                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                2
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Actions by New Visits                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                2
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Max_actions_new                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                1
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Bounce Rate for New Visits                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                100%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. Actions per New Visit                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                1
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Avg. Duration of a New Visit (in sec)                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00
+                                                                                    </td>
+                                    </tr>
+                            
                                                                     <tr style=";">
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         Unique returning visitors                                                                                                                        </td>
@@ -4907,6 +4954,149 @@
           Back to top &#8593;
     </a></p>
 
+<h2 id="Referrers_get" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    Referrers Overview
+</h2>
+
+    
+    
+            <table style="border-collapse:collapse; border:1px solid rgb(231,231,231); padding:5px;">
+            <thead style="background-color: #f2f2f2;">
+                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                    &nbsp;Name&nbsp;&nbsp;
+                </th>
+                            <th style="border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Value&nbsp;&nbsp;
+                </th>
+                        </thead>
+            <tbody>
+                                                    
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Visitors from Search Engines                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Visitors from Social Networks                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Visitors from Direct Entry                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                1
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Visitors from Websites                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                6
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Visitors from Campaigns                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                4
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Distinct search engines                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Distinct social networks                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Distinct keywords                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Distinct websites                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                1
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Distinct campaigns                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                1
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Percent of Visitors from Direct Entry                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                9%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Percent of Visitors from Search Engines                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Percent of Visitors from Campaigns                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                36%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Percent of Visitors from Social Networks                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";">
+                                                                <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        Percent of Visitors from Websites                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                55%
+                                                                                    </td>
+                                    </tr>
+                        </tbody>
+        </table>
+        <p style="width: 100%; text-align:center;">
+      <a style="color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;; text-decoration:none; font-size: 9pt;" href="#reportTop">
+          Back to top &#8593;
+    </a></p>
+
 <h2 id="Referrers_getReferrerType" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
     Channel Type
 </h2>
@@ -4958,7 +5148,7 @@
                                                                                                 33%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -4981,7 +5171,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -5004,7 +5194,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -5163,7 +5353,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -5188,7 +5378,7 @@
                                                                                                 100%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -5255,7 +5445,7 @@
                                                                                                 0%
                                                                                     </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                         </tbody>
@@ -5302,7 +5492,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         Revenue                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -5369,7 +5559,7 @@
                                                                 <td style="padding:17px 15px;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
                                                                                                                                                                         Revenue                                                                                                                        </td>
                                             <td style="padding:17px 15px; text-align:right;;border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
-                                                                                                $ 0
+                                                                                                $0
                                                                                     </td>
                                     </tr>
                             
@@ -5427,7 +5617,7 @@
 
     <p style='font-size:15px;line-height:24px;margin:0 0 16px;color:&#x23;212121;font-family:-apple-system,&#x20;BlinkMacSystemFont,&#x20;&#x27;Segoe&#x20;UI&#x27;,&#x20;Roboto,&#x20;Oxygen-Sans,&#x20;Cantarell,&#x20;&#x27;Helvetica&#x20;Neue&#x27;,&#x20;sans-serif;text-align:center;font-size:13px; color:#666;padding-top:30px;margin-bottom:0;'>
         Powered by
-        <a style="color:#439fe0;" href="https://matomo.org/" title="Matomo Analytics">Matomo Analytics</a>
+        <a style="color:#439fe0;" rel="noreferrer" href="https://matomo.org/" title="Matomo Analytics">Matomo Analytics</a>
         <br />
         The leading open analytics platform that respects your privacy.
     </p>

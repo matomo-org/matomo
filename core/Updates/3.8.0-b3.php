@@ -16,7 +16,6 @@ use Piwik\Plugin;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Piwik\Plugins\UsersManager\Model;
 
 class Updates_3_8_0_b3 extends PiwikUpdates
 {

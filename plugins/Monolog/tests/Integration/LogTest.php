@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ class LogTest extends IntegrationTestCase
     public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -44,7 +44,7 @@ class LogTest extends IntegrationTestCase
         Log::$debugBacktraceForTests = "dummy backtrace";
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Log::unsetInstance();
 
@@ -257,6 +257,7 @@ class LogTest extends IntegrationTestCase
             'ini.log.log_writers' => array($backend),
             'ini.log.log_level' => $level,
             'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
+            'ini.log.string_message_format_trace' => self::STRING_MESSAGE_FORMAT,
             'ini.log.logger_file_path' => self::getLogFileLocation(),
             'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,

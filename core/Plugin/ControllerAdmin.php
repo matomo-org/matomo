@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -53,6 +53,10 @@ abstract class ControllerAdmin extends Controller
         }
 
         if (!Piwik::isUserHasSomeAdminAccess()) {
+            return;
+        }
+
+        if (Development::isEnabled()) {
             return;
         }
 
@@ -123,13 +127,14 @@ abstract class ControllerAdmin extends Controller
      * using the supplied view.
      *
      * @param View $view
-     * @api
+     * @param string $viewType If 'admin', the admin variables are set as well as basic ones.
      */
-    protected function setBasicVariablesView($view)
+    protected function setBasicVariablesViewAs($view, $viewType = 'admin')
     {
         $this->setBasicVariablesNoneAdminView($view);
-
-        self::setBasicVariablesAdminView($view);
+        if ($viewType === 'admin') {
+            self::setBasicVariablesAdminView($view);
+        }
     }
 
     private static function notifyIfURLIsNotSecure()
@@ -202,12 +207,12 @@ abstract class ControllerAdmin extends Controller
     }
 
     /**
-     * PHP Version required by the next major Piwik version
+     * PHP Version required by the next major Matomo version
      * @return string
      */
     private static function getNextRequiredMinimumPHP()
     {
-        return '7.1';
+        return '7.2';
     }
 
     private static function isUsingPhpVersionCompatibleWithNextPiwik()
@@ -217,8 +222,6 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
     {
-        return; // no major version coming
-
         if (self::isUsingPhpVersionCompatibleWithNextPiwik()) {
             return;
         }

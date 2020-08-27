@@ -128,7 +128,7 @@ class HTML_QuickForm2_Element_Date extends HTML_QuickForm2_Container_Group
         $separator =  '';
 
         for ($i = 0, $length = strlen($this->data['format']); $i < $length; $i++) {
-            $sign = $this->data['format']{$i};
+            $sign = $this->data['format'][$i];
             if ($backslash) {
                 $backslash  = false;
                 $separator .= $sign;
@@ -171,14 +171,18 @@ class HTML_QuickForm2_Element_Date extends HTML_QuickForm2_Container_Group
                             $this->data['maxYear'],
                             $this->data['minYear'] > $this->data['maxYear']? -1: 1
                         );
-                        array_walk($options, create_function('&$v,$k','$v = substr($v,-2);'));
+                        array_walk($options, function (&$v, $k) {
+                            $v = substr($v, -2);
+                        });
                         break;
                     case 'h':
                         $options = $this->createOptionList(1, 12);
                         break;
                     case 'g':
                         $options = $this->createOptionList(1, 12);
-                        array_walk($options, create_function('&$v,$k', '$v = intval($v);'));
+                        array_walk($options, function (&$v, $k) {
+                            $v = intval($v);
+                        });
                         break;
                     case 'H':
                         $options = $this->createOptionList(0, 23);

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link     http://piwik.org
+ * @link     https://matomo.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Dashboard;
@@ -116,7 +116,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeAdminAccess();
 
         // get users only returns users of sites the current user has at least admin access to
-        $users = Request::processRequest('UsersManager.getUsers');
+        $users = Request::processRequest('UsersManager.getUsers', ['filter_limit' => -1]);
         $userFound = false;
         foreach ($users as $user) {
             if ($user['login'] === $copyToUser) {

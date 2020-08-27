@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -42,6 +42,7 @@ class SegmentExpression
 
     // Special case, since we look up Page URLs/Page titles in a sub SQL query
     const MATCH_ACTIONS_CONTAINS = 'IN';
+    const MATCH_ACTIONS_NOT_CONTAINS = 'NOTIN';
 
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
@@ -73,6 +74,15 @@ class SegmentExpression
     protected $valuesBind = array();
     protected $tree = array();
     protected $parsedSubExpressions = array();
+
+    public function getSubExpressionCount()
+    {
+        $cleaned = array_filter($this->parsedSubExpressions, function ($part) {
+            $isExpressionColumnPresent = !empty($part[1][0]);
+            return $isExpressionColumnPresent;
+        });
+        return count($cleaned);
+    }
 
     /**
      * Given the array of parsed filters containing, for each filter,
@@ -280,6 +290,14 @@ class SegmentExpression
                 $sqlMatch = '%s IN (' . $value['SQL'] . ')';
                 $value    = $value['bind'];
                 break;
+            case self::MATCH_ACTIONS_NOT_CONTAINS:
+                // this match type is not accessible from the outside
+                // (it won't be matched in self::parseSubExpressions())
+                // it can be used internally to inject sub-expressions into the query.
+                // see Segment::getCleanedExpression()
+                $sqlMatch = '%s NOT IN (' . $value['sql'] . ')';
+                $value    = $value['bind'];
+                break;
             default:
                 throw new Exception("Filter contains the match type '" . $matchType . "' which is not supported");
                 break;
@@ -289,7 +307,7 @@ class SegmentExpression
         $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
         $sqlMatch = str_replace('%s', $field, $sqlMatch);
 
-        if ($matchType === self::MATCH_ACTIONS_CONTAINS
+        if ($matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
             || is_null($value)
         ) {
             $sqlExpression = "( $sqlMatch )";
@@ -315,8 +333,11 @@ class SegmentExpression
      */
     public static function parseColumnsFromSqlExpr($field)
     {
-        preg_match_all('/\b`?([a-zA-Z0-9_]+`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
+        preg_match_all('/[^@a-zA-Z0-9_]?`?([@a-zA-Z_][@a-zA-Z0-9_]*`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
         $result = isset($matches[1]) ? $matches[1] : [];
+        $result = array_filter($result, function ($value) { // remove uses of session vars
+            return strpos($value, '@') === false;
+        });
         $result = array_map(function ($item) {
             return str_replace('`', '', $item);
         }, $result);

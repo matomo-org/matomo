@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -96,7 +96,19 @@ class ScheduledReports extends \Piwik\Plugin
             'SegmentEditor.update'                      => 'segmentUpdated',
             'Translate.getClientSideTranslationKeys'    => 'getClientSideTranslationKeys',
             'Request.getRenamedModuleAndAction'         => 'renameDeprecatedModuleAndAction',
+            'Db.getTablesInstalled'                     => 'getTablesInstalled'
         );
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('report');
+        $allTablesInstalled[] = Common::prefixTable('report_subscriptions');
     }
 
     public function renameDeprecatedModuleAndAction(&$module, &$action)
@@ -342,6 +354,7 @@ class ScheduledReports extends \Piwik\Plugin
                 $emails[] = $user['email'];
             }
         }
+        $emails = array_unique($emails);
 
         if (! $force) {
             $this->markReportAsSent($report, $period);
@@ -355,9 +368,6 @@ class ScheduledReports extends \Piwik\Plugin
 
         $textContent = $mail->getBodyText();
         $htmlContent = $mail->getBodyHtml();
-        if ($htmlContent instanceof \Zend_Mime_Part) {
-            $htmlContent = $htmlContent->getRawContent();
-        }
 
         foreach ($emails as $email) {
             if (empty($email)) {
@@ -390,7 +400,7 @@ class ScheduledReports extends \Piwik\Plugin
                         ". Error was '" . $e->getMessage() . "'");
                 }
             }
-            $mail->clearRecipients();
+            $mail->clearAllRecipients();
         }
     }
 
@@ -571,7 +581,7 @@ class ScheduledReports extends \Piwik\Plugin
                 throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
             }
         }
-        $additionalEmails = array_values(array_filter($additionalEmails));
+        $additionalEmails = array_values(array_unique(array_filter($additionalEmails)));
         return $additionalEmails;
     }
 

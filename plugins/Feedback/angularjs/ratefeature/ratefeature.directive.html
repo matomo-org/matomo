@@ -33,6 +33,8 @@
     <div class="ui-confirm ratefeatureDialog" piwik-dialog="rateFeature.ratingDone" yes="">
         <h2>{{ 'Feedback_ThankYou'|translate:rateFeature.title }}</h2>
 
+        <div ng-if="rateFeature.like" ng-include src="'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'"></div>
+
         <input type="button" value="{{ 'General_Ok'|translate }}" role="yes"/>
     </div>
 

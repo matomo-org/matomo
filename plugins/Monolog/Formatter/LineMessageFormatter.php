@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -61,14 +61,37 @@ class LineMessageFormatter implements FormatterInterface
 
     private function formatMessage($class, $message, $date, $record)
     {
+        $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
         $message = str_replace(
-            array('%tag%', '%message%', '%datetime%', '%level%'),
-            array($class, $message, $date, $record['level_name']),
+            array('%tag%', '%message%', '%datetime%', '%level%', '%trace%'),
+            array($class, $message, $date, $record['level_name'], $trace),
             $this->logMessageFormat
         );
 
-        $message .= "\n";
+        $message = trim($message) . "\n";
         return $message;
+    }
+
+    private static function formatTrace(array $trace, $numLevels = 10)
+    {
+        $strTrace = '';
+        for ($i = 0; $i < $numLevels; $i++) {
+            if (!isset($trace[$i])) {
+                continue;
+            }
+
+            $level = $trace[$i];
+            $levelTrace = '';
+            if (isset($level['file'], $level['line'])) {
+                $levelTrace = '#' . $i . (str_replace(PIWIK_DOCUMENT_ROOT, '', $level['file'])) . '(' . $level['line'] . ')';
+            } elseif (isset($level['class'], $level['type'], $level['function'])) {
+                $levelTrace = '[internal function]: ' . $level['class'] . $level['type'] . $level['function'] . '()';
+            }
+            if ($levelTrace) {
+                $strTrace .= $levelTrace . ",";
+            }
+        }
+        return trim($strTrace, ",");
     }
 
     public function formatBatch(array $records)

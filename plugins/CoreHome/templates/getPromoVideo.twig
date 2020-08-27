@@ -1,15 +1,12 @@
 <div id="piwik-promo">
-    <div id="piwik-promo-video">
-        <div id="piwik-promo-thumbnail">
-            <img src="plugins/Morpheus/images/video_play.png"/>
+    <a id="piwik-promo-videos-link" href="{{ promoVideoUrl|e('html_attr') }}" rel="noreferrer noopener" target="_blank">
+        <div id="piwik-promo-video">
+            <div id="piwik-promo-thumbnail">
+                <img src="plugins/CoreHome/images/promo_video_splash.jpg"/>
+            </div>
         </div>
 
-        <div id="piwik-promo-embed" style="display:none;">
-        </div>
-    </div>
-
-    <a id="piwik-promo-videos-link" href="https://matomo.org/blog/2012/12/piwik-how-to-videos/" rel="noreferrer noopener" target="_blank">
-        {{ 'CoreHome_ViewAllPiwikVideoTutorials'|translate }}
+        <span>{{ 'CoreHome_ViewAllPiwikVideoTutorials'|translate }}</span>
     </a>
 
     <div id="piwik-promo-share">
@@ -35,18 +32,3 @@
 
     <div id="piwik-widget-footer" style="color:#666;">{{ 'CoreHome_CloseWidgetDirections'|translate }}</div>
 </div>
-
-<script type="application/javascript">
-    $(function () {
-        $('#piwik-promo-thumbnail').click(function () {
-            var promoEmbed = $('#piwik-promo-embed'),
-                    widgetWidth = $(this).closest('.widgetContent').width(),
-                    height = (266 * widgetWidth) / 421,
-                    embedHtml = '<iframe width="100%" height="' + height + '" src="https://www.youtube-nocookie.com/embed/OslfF_EH81g?autoplay=1&vq=hd720&wmode=transparent" frameborder="0" wmode="Opaque"></iframe>';
-
-            $(this).hide();
-            promoEmbed.height(height).html(embedHtml);
-            promoEmbed.show();
-        });
-    });
-</script>

@@ -5,9 +5,6 @@
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>34</sum_time_spent>
-		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
-		<min_time_generation>0.058</min_time_generation>
-		<max_time_generation>0.292</max_time_generation>
 		<sum_bandwidth>172</sum_bandwidth>
 		<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
 		<min_bandwidth>86</min_bandwidth>
@@ -24,17 +21,13 @@
 		<avg_time_on_page>9</avg_time_on_page>
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>50%</exit_rate>
-		<avg_time_generation>0.177</avg_time_generation>
-		<segment>exitPageTitle==Liberate+Web+Analytics+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==Liberate%2BWeb%2BAnalytics%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> 301/URL = http://example.hello.com/Topic/hw43061</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -51,17 +44,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==301%2FURL+%3D+http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</segment>
+		<segment>exitPageTitle==301%252FURL%2B%253D%2Bhttp%25253A%25252F%25252Fexample.hello.com%25252FTopic%25252Fhw43061</segment>
 	</row>
 	<row>
 		<label> 404/URL = http://hello.example.com/hello/world/6,681965</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
-		<min_time_generation>0.359</min_time_generation>
-		<max_time_generation>0.359</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -78,17 +67,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.359</avg_time_generation>
-		<segment>exitPageTitle==404%2FURL+%3D+http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</segment>
+		<segment>exitPageTitle==404%252FURL%2B%253D%2Bhttp%25253A%25252F%25252Fhello.example.com%25252Fhello%25252Fworld%25252F6%25252C681965</segment>
 	</row>
 	<row>
 		<label> Log Analytics - Analytics - Piwik</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.145</min_time_generation>
-		<max_time_generation>0.145</max_time_generation>
 		<sum_bandwidth>86</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -105,17 +90,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.145</avg_time_generation>
-		<segment>exitPageTitle==Log+Analytics+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==Log%2BAnalytics%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> 302/URL = http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>240</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>355</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>355</min_bandwidth>
@@ -132,17 +113,13 @@
 		<avg_time_on_page>240</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==302%2FURL+%3D+http%3A%2F%2Fpiwik.net%2FCitrix%2FXenApp%2FWan%2Fauth%2Flogin.jsp</segment>
+		<segment>exitPageTitle==302%252FURL%2B%253D%2Bhttp%25253A%25252F%25252Fpiwik.net%25252FCitrix%25252FXenApp%25252FWan%25252Fauth%25252Flogin.jsp</segment>
 	</row>
 	<row>
 		<label> 307/URL = http://piwik.net/temp-redirect</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -154,17 +131,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==307%2FURL+%3D+http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+		<segment>exitPageTitle==307%252FURL%2B%253D%2Bhttp%25253A%25252F%25252Fpiwik.net%25252Ftemp-redirect</segment>
 	</row>
 	<row>
 		<label> 404/URL = http://piwik.net/this/is/not/the/page/i/am/looking/for/</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -181,17 +154,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==404%2FURL+%3D+http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
+		<segment>exitPageTitle==404%252FURL%2B%253D%2Bhttp%25253A%25252F%25252Fpiwik.net%25252Fthis%25252Fis%25252Fnot%25252Fthe%25252Fpage%25252Fi%25252Fam%25252Flooking%25252Ffor%25252F</segment>
 	</row>
 	<row>
 		<label> 500/URL = http://piwik.net/to-an-error</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -208,17 +177,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==500%2FURL+%3D+http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+		<segment>exitPageTitle==500%252FURL%2B%253D%2Bhttp%25253A%25252F%25252Fpiwik.net%25252Fto-an-error</segment>
 	</row>
 	<row>
 		<label> Contact the Piwik team - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -230,17 +195,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==Contact+the+Piwik+team+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==Contact%2Bthe%2BPiwik%2Bteam%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.413</min_time_generation>
-		<max_time_generation>0.413</max_time_generation>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -257,17 +218,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.413</avg_time_generation>
-		<segment>exitPageTitle==demo.piwik.org%2FPiwik+Forums+-+Piwik+%E2%80%BA+Web+Analytics+Reports</segment>
+		<segment>exitPageTitle==demo.piwik.org%252FPiwik%2BForums%2B-%2BPiwik%2B%25E2%2580%25BA%2BWeb%2BAnalytics%2BReports</segment>
 	</row>
 	<row>
 		<label> Download - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>7</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.113</min_time_generation>
-		<max_time_generation>0.113</max_time_generation>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -279,17 +236,13 @@
 		<avg_time_on_page>7</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.113</avg_time_generation>
-		<segment>exitPageTitle==Download+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==Download%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Hello Installing Piwik - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.134</min_time_generation>
-		<max_time_generation>0.134</max_time_generation>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -306,17 +259,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.134</avg_time_generation>
-		<segment>exitPageTitle==Hello+Installing+Piwik+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==Hello%2BInstalling%2BPiwik%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> incredible title!</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -333,17 +282,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==incredible+title%21</segment>
+		<segment>exitPageTitle==incredible%2Btitle%2521</segment>
 	</row>
 	<row>
 		<label> Integrate Piwik into your Rails Application - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.391</min_time_generation>
-		<max_time_generation>0.391</max_time_generation>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -360,17 +305,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.391</avg_time_generation>
-		<segment>exitPageTitle==Integrate+Piwik+into+your+Rails+Application+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==Integrate%2BPiwik%2Binto%2Byour%2BRails%2BApplication%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.119</min_time_generation>
-		<max_time_generation>0.119</max_time_generation>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -387,17 +328,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.119</avg_time_generation>
-		<segment>exitPageTitle==Piwik+2.1+%E2%80%94+Massive+Performance+and+Reliability+Improvements+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==Piwik%2B2.1%2B%25E2%2580%2594%2BMassive%2BPerformance%2Band%2BReliability%2BImprovements%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Piwik Forums</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -414,17 +351,13 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==Piwik+Forums</segment>
+		<segment>exitPageTitle==Piwik%2BForums</segment>
 	</row>
 	<row>
 		<label> What is Piwik? - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -436,7 +369,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>exitPageTitle==What+is+Piwik%3F+-+Analytics+-+Piwik</segment>
+		<segment>exitPageTitle==What%2Bis%2BPiwik%253F%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 </result>

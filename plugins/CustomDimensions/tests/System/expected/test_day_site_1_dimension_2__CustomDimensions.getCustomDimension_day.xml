@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>en_US</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>3</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>722</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		
+		
+		<avg_time_on_site>722</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
+		<nb_actions_per_visit>3</nb_actions_per_visit>
+		<segment>dimension2==en_US</segment>
+	</row>
+	<row>
+		<label>dim 2</label>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>0</revenue>
+		<nb_visits>0</nb_visits>
+		
+		<avg_time_on_site>0</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
+		<nb_actions_per_visit>0</nb_actions_per_visit>
+		<segment>dimension2==dim+2</segment>
+	</row>
+</result>

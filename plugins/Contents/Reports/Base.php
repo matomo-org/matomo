@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -22,6 +22,7 @@ abstract class Base extends Report
     {
         $this->categoryId = 'General_Actions';
         $this->subcategoryId = 'Contents_Contents';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/content-tracking/';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,7 +15,7 @@ use Piwik\Validators\UrlLike;
  * @group UrlLike
  * @group UrlLikeTest
  */
-class UrlLikeTest extends \PHPUnit_Framework_TestCase
+class UrlLikeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getValidUrls
@@ -52,11 +52,12 @@ class UrlLikeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getFailedUrls
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage ValidatorErrorNotUrlLike
      */
     public function test_validate_failValueIsNotUrlLike($url)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('ValidatorErrorNotUrlLike');
+
         $this->validate($url);
     }
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -34,6 +34,8 @@ class Pie extends JqplotGraph
     {
         parent::beforeRender();
 
+        $this->checkRequestIsNotForMultiplePeriods();
+
         $this->config->show_all_ticks = true;
         $this->config->datatable_js_type = 'JqplotPieGraphDataTable';
     }
@@ -53,6 +55,6 @@ class Pie extends JqplotGraph
 
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('pie', $properties);
+        return JqplotDataGenerator::factory('pie', $properties, $this);
     }
 }

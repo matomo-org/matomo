@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -16,7 +16,7 @@ use Piwik\Version;
 
 class DbHelperTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -93,14 +93,14 @@ class DbHelperTest extends IntegrationTestCase
     {
         $dbs = Db::fetchAll("SHOW DATABASES");
         $dbs = array_column($dbs, 'Database');
-        $this->assertContains($this->cleanName($dbName), $dbs);
+        self::assertTrue(in_array($this->cleanName($dbName), $dbs));
     }
 
     private function assertDbNotExists($dbName)
     {
         $dbs = Db::fetchAll("SHOW DATABASES");
         $dbs = array_column($dbs, 'Database');
-        $this->assertNotContains($this->cleanName($dbName), $dbs);
+        self::assertTrue(!in_array($this->cleanName($dbName), $dbs));
     }
 
     private function cleanName($dbName)

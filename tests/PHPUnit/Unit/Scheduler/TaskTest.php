@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -14,7 +14,7 @@ use Piwik\Scheduler\Task;
 /**
  * @group Scheduler
  */
-class TaskTest extends \PHPUnit_Framework_TestCase
+class TaskTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetClassName()
     {

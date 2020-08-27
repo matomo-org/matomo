@@ -2,14 +2,14 @@
 <result>
 	<row>
 		<label>1 visit</label>
-		<nb_visits>44</nb_visits>
-		<nb_visits_percentage>100%</nb_visits_percentage>
+		<nb_visits>42</nb_visits>
+		<nb_visits_percentage>98%</nb_visits_percentage>
 		<segment>visitCount==1</segment>
 	</row>
 	<row>
 		<label>2 visits</label>
-		<nb_visits>0</nb_visits>
-		<nb_visits_percentage>0%</nb_visits_percentage>
+		<nb_visits>1</nb_visits>
+		<nb_visits_percentage>2%</nb_visits_percentage>
 		<segment>visitCount==2</segment>
 	</row>
 	<row>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -20,18 +20,16 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class RowEvolutionTest extends IntegrationTestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Reports like VisitsSummary.get which do not have a dimension are not supported by row evolution
-     */
     public function test_getRowEvolution_shouldTriggerAnException_IfReportHasNoDimension()
     {
+        $this->expectException(\Exception::class);
+        $this->expectDeprecationMessage("Reports like VisitsSummary.get which do not have a dimension are not supported by row evolution");
         $rowEvolution = new RowEvolution();
         $rowEvolution->getRowEvolution(1, 'day', 'last7', 'VisitsSummary', 'get');
     }
@@ -42,5 +40,4 @@ class RowEvolutionTest extends IntegrationTestCase
         $table = $rowEvolution->getRowEvolution(1, 'day', 'last7', 'Actions', 'getPageUrls');
         $this->assertNotEmpty($table);
     }
-
 }

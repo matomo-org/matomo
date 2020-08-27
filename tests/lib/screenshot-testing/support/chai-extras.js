@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * chai assertion extensions
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -148,7 +148,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
                 chai.assert(percentDifference <= comparisonThreshold, `images differ by ${(percentDifference * 100).toFixed(2)}%, `
                     + `which is greater than threshold ${(comparisonThreshold * 100).toFixed(2)}% (command output: ${allOutput.replace(/\s+$/g, '')})`);
-                return;
+                return true;
             }
 
             // allow a 10 pixel difference only

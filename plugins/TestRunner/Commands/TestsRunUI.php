@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\TestRunner\Commands;
@@ -58,8 +58,7 @@ class TestsRunUI extends ConsoleCommand
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
         $debug = $input->getOption('debug');
-        // @todo remove piwik-domain fallback in Matomo 4
-        $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
+        $matomoDomain = $input->getOption('matomo-domain');
         $enableLogging = $input->getOption('enable-logging');
         $timeout = $input->getOption('timeout');
 
@@ -133,7 +132,8 @@ class TestsRunUI extends ConsoleCommand
 
         $specs = implode(" ", $specs);
 
-        $cmd = "node " . $phantomJsOptions . " '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        $screenshotTestingDir = PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/";
+        $cmd = "cd '$screenshotTestingDir' && NODE_PATH='$screenshotTestingDir/node_modules' node " . $phantomJsOptions . " run-tests.js $options $specs";
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');

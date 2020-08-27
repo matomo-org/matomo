@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -29,7 +29,7 @@ class APITest extends IntegrationTestCase
      */
     private $api;
     
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -51,34 +51,64 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_setLocationProviderInvalid()
     {
+        $this->expectException(\Exception::class);
+
         $locationProvider = 'invalidProvider';
         $this->api->setLocationProvider($locationProvider);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_setLocationProviderNoSuperUser()
     {
+        $this->expectException(\Exception::class);
+
         Access::getInstance()->setSuperUserAccess(false);
 
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $locationProvider = GeoIp2\Php::ID;
+        $this->api->setLocationProvider($locationProvider);
+    }
+
+    public function test_setLocationProviderDisabledInConfig()
+    {
+        $this->expectException(\Exception::class);
+
+        Config::getInstance()->General['enable_geolocation_admin'] = 0;
+
+        $locationProvider = GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
     }
 
     /**
-     * @expectedException \Exception
+     * @dataProvider getTestDataForGetLocationFromIP
      */
-    public function test_setLocationProviderDisabledInConfig()
+    public function test_getLocationFromIP($ipAddress, $expected, $ipAddressHeader = null)
     {
-        Config::getInstance()->General['enable_geolocation_admin'] = 0;
+        if (!empty($ipAddressHeader)) {
+            $_SERVER['REMOTE_ADDR'] = $ipAddressHeader;
+        }
 
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
-        $this->api->setLocationProvider($locationProvider);
+        $location = $this->api->getLocationFromIP($ipAddress);
+        $this->assertEquals($expected, $location);
+    }
+
+    public function getTestDataForGetLocationFromIP()
+    {
+        return [
+            ['113.62.1.1', [
+                'country_code' => 'us',
+                'continent_code' => 'amn',
+                'continent_name' => 'Intl_Continent_amn',
+                'country_name' => 'General_Unknown',
+                'ip' => '113.62.1.1',
+            ]],
+            [null, [
+                'country_code' => 'us',
+                'continent_code' => 'amn',
+                'continent_name' => 'Intl_Continent_amn',
+                'country_name' => 'General_Unknown',
+                'ip' => '151.100.101.92',
+            ], '151.100.101.92'],
+        ];
     }
 }

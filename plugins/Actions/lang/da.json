@@ -1,12 +1,11 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Gennemsnit baseret på %1$s hits %2$s mellem %3$s og %4$s",
-        "ColumnClickedURL": "Klikkede URL",
-        "ColumnClickedURLs": "Klikkede URL’er",
         "ColumnActionURL": "Handlings-URL",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Antal gange linket blev klikket på.",
         "ColumnDownloadURL": "Hentet URL",
+        "ColumnDownloadURLs": "Hent URLer",
         "ColumnEntryPageTitle": "Indgangssidetitel",
         "ColumnEntryPageURL": "Indgangsside-URL",
         "ColumnEntryPageURLs": "Indgangsside-URL’er",
@@ -31,12 +30,14 @@
         "ColumnUniqueOutlinks": "Unikke udgående links",
         "ColumnIdPageview": "Sidevisning ID",
         "ColumnInteractionPosition": "Position for Interaktion",
+        "ActionsInVisit": "Handlinger i Besøg",
         "DownloadsReportDocumentation": "Rapporten viser, hvilke filer dine besøgende har hentet. %s Hvad Matomo tæller som en filhentning, er klikket på et link. Hvorvidt overførelsen er afsluttet eller ej ved Matomo ikke.",
+        "EntryPagesReportDocumentation": "Rapporten indeholder oplysninger om indgangssider, der blev anvendt i den angivne periode. En indgangsside er den første side, en bruger får vist under sit besøg. %s Indgangssiden vises med en mappestruktur.",
         "EntryPageTitles": "Indgangssidetitler",
         "EntryPageTitlesReportDocumentation": "Rapporten indeholder oplysninger om titlerne på indgangssider, der blev brugt i den angivne periode.",
+        "ExitPagesReportDocumentation": "Rapporten indeholder oplysninger om de udgangssider, der blev brugt i den angivne periode. En udgangsside er den sidste side, en bruger får vist under sit besøg. %s udgangs-URLer vises med en mappestruktur.",
         "ExitPageTitles": "Udgangssidetitler",
         "ExitPageTitlesReportDocumentation": "Rapporten indeholder oplysninger om titlerne på udgangssider, der blev brugt i den angivne periode.",
-        "LearnMoreAboutSiteSearchLink": "Lær mere om sporing af hvordan besøgende bruger din søgemaskine.",
         "OneSearch": "1 søgning",
         "OutlinkDocumentation": "Et udgående link er et link, der fører den besøgende væk fra hjemmesiden (til et andet domæne)",
         "OutlinksReportDocumentation": "Rapporten viser en hierarkisk liste over udgående netadresser, der blev klikket på af de besøgende",
@@ -50,7 +51,10 @@
         "SiteSearchCategories2": "For eksempel har E-handel hjemmesider typisk en \"Kategori\" vælger, så besøgende kan begrænse deres søgninger til alle produkter i en bestemt kategori.",
         "SiteSearchFollowingPagesDoc": "Når besøgende søger på hjemmesiden, er de på udkig efter en bestemt side, indhold, produkt eller service. Rapporten viser de sider, der blev klikket mest på efter en intern søgning. Med andre ord, listen over sider mest søgt af besøgende allerede på hjemmesiden.",
         "SiteSearchIntro": "Sporing af søgninger, som de besøgende foretager på hjemmesiden er en meget effektiv måde at lære mere om, hvad din målgruppe er på udkig efter, det kan hjælpe med til at finde idéer til nyt indhold, nye E-handel produkter, som potentielle kunder kan søge efter, og generelt forbedre de besøgendes oplever på hjemmesiden.",
+        "SiteSearchCategory": "Kategori (Sitesøgning)",
+        "SiteSearchCategories": "Kategorier (Sitesøgning)",
         "SiteSearchKeyword": "Søgeord (intern søgning)",
+        "SiteSearchKeywords": "Nøgleord (Sitesøgning)",
         "SiteSearchKeywordsDocumentation": "Rapporten viser de søgeord, de besøgende søgte efter på den interne søgemaskine.",
         "SiteSearchKeywordsNoResultDocumentation": "Rapporten viser de søgeord, der ikke returnerede noget søgeresultat: måske søgemaskinen algoritme kan forbedres, eller måske de besøgende er på udkig efter indhold, der (endnu) ikke er på din hjemmeside?",
         "SubmenuPagesEntry": "Indgangssider",
@@ -68,6 +72,7 @@
         "WidgetSearchKeywords": "Websted søgeord",
         "WidgetSearchNoResultKeywords": "Søgeord uden nogen resultater",
         "ActionType": "Handlingstype",
+        "ActionTypes": "Handlingstyper",
         "Behaviour": "Adfærd"
     }
 }

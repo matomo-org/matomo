@@ -1,8 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Promedio basado en %1$s acceso(s) %2$s entre %3$s y %4$s",
-        "ColumnClickedURL": "URL Clicada",
-        "ColumnClickedURLs": "Direcciones web cliqueadas",
+        "ColumnClickedURL": "Enlace externo cliqueado",
+        "ColumnClickedURLs": "Enlaces externos cliqueados",
         "ColumnActionURL": "URL de Acción",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "Número de veces que este enlace ha sido clicado.",
@@ -33,14 +33,13 @@
         "ColumnIdPageview": "ID de paginas vistas",
         "ColumnInteractionPosition": "Posición de interacción",
         "ActionsInVisit": "Acciones en visita",
-        "DownloadsReportDocumentation": "En este reporte, usted puede ver que archivos han descargado sus visitantes. %s Lo que Matomo cuenta como descarga es el clic en un enlace de descarga. Matomo no puede saber si la descarga ha sido completada.",
+        "DownloadsReportDocumentation": "En este informe, podés ver qué archivos descargaron tus visitantes. %s Lo que Matomo cuenta como descarga es el clic en un enlace de descarga. Matomo no puede saber si la descarga fue completada.",
         "EntryPagesReportDocumentation": "Este informe contiene información sobre las páginas de entrada que fueron usada durante el período especificado. Una página de entrada es la primera página que un usuario ve durante su visita. %s Las direcciones web de entrada se muestran como una estructura de carpeta.",
         "EntryPageTitles": "Títulos de páginas de entrada",
         "EntryPageTitlesReportDocumentation": "Este reporte contiene información sobre los títulos de las páginas de entrada que han sido utilizadas durante el período específico.",
         "ExitPagesReportDocumentation": "Este informe contiene información sobre las páginas de salida que ocurrieron durante el período especificado. Una página de salida es la última página que un usuario ve durante su visita. %s Las direcciones web de salida se muestran como una estructura de carpeta.",
         "ExitPageTitles": "Títulos de páginas de salida",
         "ExitPageTitlesReportDocumentation": "Este reporte contiene información sobre los títulos de las páginas de salida que ocurrieron durante el período específico.",
-        "LearnMoreAboutSiteSearchLink": "Aprende más sobre cómo realizar un seguimiento al uso que tus visitantes dan a tu motor de búsqueda.",
         "OneSearch": "1 búsqueda",
         "OutlinkDocumentation": "Un enlace externo es un enlace que lleva a su visitante fuera de su página web (a otro dominio).",
         "OutlinksReportDocumentation": "Este reporte muestra una lista de los enlaces externos que han sido clicados por sus visitantes, organizada por jerarquía.",
@@ -75,6 +74,7 @@
         "WidgetSearchKeywords": "Palabras clave de las búsquedas internas",
         "WidgetSearchNoResultKeywords": "Palabras clave sin resultados",
         "ActionType": "Tipo de Acción",
-        "ActionTypes": "Tipos de acción"
+        "ActionTypes": "Tipos de acción",
+        "Behaviour": "Comportamiento"
     }
 }

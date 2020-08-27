@@ -15,6 +15,7 @@
         "TopLinkTooltip": "Transmiteti-ne parerea Dvs sau cereti Support Profesional.",
         "ViewAnswersToFAQ": "Vedeti raspunsurile la %1$sIntrebari Frecvente(FAQ)%2$s",
         "ViewUserGuides": "Invata cum sa configurezi Matomo si cum sa analizezi datele eficient cu %1$sghidurile de utilizare%2$s",
-        "VisitTheForums": "Vizitati %1$s Forumurile%2$s si primiti ajutor de la comunitatea de utilizatori Matomo."
+        "VisitTheForums": "Vizitati %1$s Forumurile%2$s si primiti ajutor de la comunitatea de utilizatori Matomo.",
+        "Forums": "Forumuri"
     }
 }

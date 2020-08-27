@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -19,6 +19,7 @@ abstract class SiteSearchBase extends Base
     {
         parent::init();
         $this->categoryId = 'General_Actions';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/site-search/';
     }
 
     public function isEnabled()

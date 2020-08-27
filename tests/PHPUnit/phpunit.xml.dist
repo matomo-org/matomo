@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/8.5/phpunit.xsd"
          backupGlobals="true"
          backupStaticAttributes="false"
          bootstrap="bootstrap.php"
@@ -10,7 +10,6 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          forceCoversAnnotation="false"
-         mapTestClassNameToCoveredClassName="false"
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
@@ -49,6 +48,15 @@
         <directory>../../plugins/*/Test/Integration</directory>
         <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
         <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+    </testsuite>
+    <testsuite name="IntegrationTestsCore">
+        <directory>./Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+    </testsuite>
+    <testsuite name="IntegrationTestsPlugins">
+        <directory>../../plugins/*/tests/Integration</directory>
+        <directory>../../plugins/*/Test/Integration</directory>
     </testsuite>
     <testsuite name="UnitTests">
         <directory>./Unit</directory>

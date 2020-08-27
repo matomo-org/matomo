@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -25,6 +25,8 @@ class Handler extends Tracker\Handler
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->setResponse(new Response());
     }
 
@@ -58,6 +60,13 @@ class Handler extends Tracker\Handler
                 $invalidRequests[] = $index;
             } catch (InvalidRequestParameterException $ex) {
                 $invalidRequests[] = $index;
+            } catch (Exception $e) {
+                if (stripos($e->getMessage(), 'Lock wait timeout exceeded')
+                    || Tracker::getDatabase()->isErrNo($e, 1205)) {
+                    continue;
+                } else {
+                    throw $e;
+                }
             }
         }
 

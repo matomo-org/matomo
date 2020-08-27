@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -192,6 +192,22 @@
                 });
                 
             }});
+        };
+
+        this.isMatchAttributeNumeric = function () {
+            return ['visit_duration'].indexOf(this.goal.matchAttribute) > -1;
+        };
+
+        this.initPatternType = function () {
+            if (this.isMatchAttributeNumeric()) {
+                this.goal.patternType = 'greater_than';
+            } else {
+                this.goal.patternType = 'contains';
+            }
+        };
+
+        this.getPatternFieldLabel = function () {
+            return this.goal.matchAttribute === 'visit_duration' ? _pk_translate('Goals_TimeInMinutes') : _pk_translate('Goals_Pattern');
         };
 
         this.showListOfReports(false);

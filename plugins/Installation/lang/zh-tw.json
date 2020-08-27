@@ -31,6 +31,7 @@
         "JSTracking_Intro": "要使用 Matomo 追蹤你的網頁流量，你必須確定程式碼已加入你的網頁中。",
         "LargePiwikInstances": "給予高流量網站的協助",
         "Legend": "說明",
+        "LoadDataInfileRecommended": "如果你的 Matomo 追蹤高流量網站（例如每個月 > 100,000 網頁瀏覽數），我們建議你解決這個問題。",
         "LoadDataInfileUnavailableHelp": "使用 %1$s 將大幅提升 Matomo 彙整速度。想這麼做請試著更新你的 PHP 和 MySQL 軟體，並確保資料庫使用者有 %2$s 權限。",
         "NfsFilesystemWarning": "你的伺服器使用 NFS 檔案系統。",
         "NfsFilesystemWarningSuffixAdmin": "這代表 Matomo 在執行到基於檔案的處理時將會非常慢。",
@@ -68,7 +69,6 @@
         "SuperUserSetupSuccess": "已成功新增超級使用者！",
         "SystemCheck": "系統檢查",
         "SystemCheckAutoUpdateHelp": "注意：Matomo 的一鍵更新功能必須要有 Matomo 資料夾及內容的寫入權限。",
-        "SystemCheckCreateFunctionHelp": "Matomo 的回傳使用匿名功能。",
         "SystemCheckDatabaseExtensions": "MySQL 擴充功能",
         "SystemCheckDatabaseHelp": "Matomo 需要 mysqli 或包含 PDO 及 pdo_mysql 的擴充功能。",
         "SystemCheckDatabaseSSL": "資料庫 SSL 連線",
@@ -94,6 +94,7 @@
         "SystemCheckJsonHelp": "Matomo 必須使用 php5-json 擴充功能來讀寫 JSON 檔案。",
         "SystemCheckMailHelp": "意見回饋及忘記密碼的訊息若沒有 mail() 將無法寄送。",
         "SystemCheckMbstring": "mbstring",
+        "SystemCheckMbstringHelp": "處理多字節的使用者介面或 API 回應資料必須使用 mbstring 擴充功能。並請檢查 php.ini 中的 mbstring.func_overload 已設定值為「0」。",
         "SystemCheckMemoryLimit": "記憶體限制",
         "SystemCheckMemoryLimitHelp": "在一個高流量的網站，資料彙整處理過程可能超過目前所允許使用的記憶體量。<br \/>如果必要，試著變更在你 php.ini 檔案裡的 memory_limit。",
         "SystemCheckNoErrorsOrWarnings": "沒有錯誤或警告",
@@ -103,6 +104,7 @@
         "SystemCheckOtherExtensions": "其他擴充功能",
         "SystemCheckOtherFunctions": "其他功能",
         "SystemCheckPageSpeedDisabled": "已停用 PageSpeed",
+        "SystemCheckPageSpeedWarning": "我們建議停用伺服器 %s 中的 PageSpeed 模組：已知 PageSpeed 將導致 Matomo 發生多種問題，如：網頁報告損壞、資料列發展趨勢損壞，和其他難以修復的問題。請將此伺服器中的 mod_pagespeed 停用。",
         "SystemCheckPackHelp": "Matomo 必須使用 pack() 功能才能追蹤訪客。",
         "SystemCheckParseIniFileHelp": "這個內建的功能已被你的主機商停用。Matomo 將嘗試模擬這個功能，但可能會遇到安全限制。追蹤性能也會受到影響。",
         "SystemCheckPdoAndMysqliHelp": "在 GNU\/Linux 伺服器上你可以使用以下選項編譯 PHP：在你的 php.ini 中 %1$s，加入以下幾行內容：%2$s",
@@ -146,7 +148,6 @@
         "WelcomeHelp": "<p>Matomo 是一個輕鬆取得訪客資訊的免費網頁分析軟體。<\/p><p>此安裝過程分為 %s 個簡單步驟，大約需要 5 分鐘的時間。<\/p>",
         "WelcomeToCommunity": "歡迎來到 Matomo 社區！",
         "CannotConnectToDb": "無法連接資料庫",
-        "CannotConnectToDbResolvingExplanation": "這可能是暫時性的問題，試試%1$s重新整理頁面%2$s。如果問題持續發生請聯絡你的 Matomo 管理員。",
-        "EmailPrivacyNotice": "你的 Email 將只會收到 Matomo 的電子報。你可以在任何時候點擊取消訂閱連結來取消訂閱。我們將不會和其他人透漏或將你的 Email 做其他用途。請參考我們的%1$s隱私權政策%2$s取得更多資訊。"
+        "CannotConnectToDbResolvingExplanation": "這可能是暫時性的問題，試試%1$s重新整理頁面%2$s。如果問題持續發生請聯絡你的 Matomo 管理員。"
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -16,14 +16,14 @@ use Piwik\Tracker\Request;
  * @group RequestsTest
  * @group Plugins
  */
-class RequestsTest extends \PHPUnit_Framework_TestCase
+class RequestsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Requests
      */
     private $requests;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->requests = new Requests();

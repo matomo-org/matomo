@@ -26,6 +26,7 @@ describe("CoreUpdaterDb", function () {
 
     function apiUpgradeTest(format) {
         it("should start the updater when an old version of Piwik is detected in the DB with format " + format, async function() {
+            await page.goto(""); // page.downloadUrl needs jQuery loaded, so load a page
             const url = '?module=API&method=API.getPiwikVersion&format=' + format;
             var pageContents = await page.downloadUrl(url);
 
@@ -33,7 +34,7 @@ describe("CoreUpdaterDb", function () {
         });
     }
 
-    var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
+    var formats = ['CSV', 'TSV', 'XML', 'JSON'];
     formats.forEach(apiUpgradeTest);
 
     it("should start the updater when an old version of Piwik is detected in the DB", async function() {

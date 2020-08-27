@@ -1,18 +1,20 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\SitesManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Session;
 use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
@@ -32,6 +34,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         return $this->renderTemplate('index');
     }
@@ -51,7 +54,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $globalSettings = array();
         $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
-        $globalSettings['siteSpecificUserAgentExcludeEnabled'] = API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
         $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
         $globalSettings['searchKeywordParametersGlobal'] = API::getInstance()->getSearchKeywordParametersGlobal();
         $globalSettings['searchCategoryParametersGlobal'] = API::getInstance()->getSearchCategoryParametersGlobal();
@@ -79,7 +81,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $currency = Common::getRequestVar('currency', false);
             $searchKeywordParameters = Common::getRequestVar('searchKeywordParameters', $default = "");
             $searchCategoryParameters = Common::getRequestVar('searchCategoryParameters', $default = "");
-            $enableSiteUserAgentExclude = Common::getRequestVar('enableSiteUserAgentExclude', $default = 0);
             $keepURLFragments = Common::getRequestVar('keepURLFragments', $default = 0);
 
             $api = API::getInstance();
@@ -89,7 +90,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $api->setGlobalExcludedIps($excludedIps);
             $api->setGlobalExcludedUserAgents($excludedUserAgents);
             $api->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
-            $api->setSiteSpecificUserAgentExcludeEnabled($enableSiteUserAgentExclude == 1);
             $api->setKeepURLFragmentsGlobal($keepURLFragments);
 
             $toReturn = $response->getResponse();
@@ -98,18 +98,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $toReturn;
-    }
-
-    /**
-     *  User will download a file called PiwikTracker.php that is the content of the actual script
-     */
-    function downloadPiwikTracker()
-    {
-        $path = PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/';
-        $filename = 'PiwikTracker.php';
-        Common::sendHeader('Content-type: text/php');
-        Common::sendHeader('Content-Disposition: attachment; filename="' . $filename . '"');
-        return file_get_contents($path . $filename);
     }
 
     public function ignoreNoDataMessage()
@@ -137,15 +125,47 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::checkUserHasViewAccess($this->idSite);
         }
 
-        return $this->renderTemplate('siteWithoutData', array(
-            'siteName'     => $this->site->getName(),
-            'idSite' => $this->idSite,
-            'trackingHelp' => $this->renderTemplate('_displayJavascriptCode', array(
-                'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
-                'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),
-                'idSite'          => $this->idSite,
-                'piwikUrl'        => $piwikUrl,
-            )),
-        ));
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $this->idSite
+        ), $viewType = 'basic');
+
+        $googleAnalyticsImporterMessage = '';
+        if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
+            $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
+                . '<p>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalyticsDescription', ['<a href="https://plugins.matomo.org/GoogleAnalyticsImporter" rel="noopener noreferrer" target="_blank">', '</a>']) . '</p>'
+                . '<p></p>';
+
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
+        }
+
+        return $this->renderTemplateAs('siteWithoutData', array(
+            'siteName'      => $this->site->getName(),
+            'idSite'        => $this->idSite,
+            'jsTag'         => $jsTag,
+            'piwikUrl'      => $piwikUrl,
+            'emailBody'     => $emailContent,
+            'showMatomoLinks' => $showMatomoLinks,
+            'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
+        ), $viewType = 'basic');
     }
 }

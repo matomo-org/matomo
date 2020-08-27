@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -28,6 +28,7 @@ class CustomEventsTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        $params['xmlFieldsToRemove'] = array('idsubdatatable');
         $this->runApiTests($api, $params);
     }
 
@@ -43,7 +44,7 @@ class CustomEventsTest extends SystemTestCase
         );
     }
 
-    protected function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

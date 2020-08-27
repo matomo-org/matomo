@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -65,6 +65,7 @@
                 'reports': [],
                 'evolutionPeriodFor': 'prev',
                 'evolutionPeriodN': ReportPlugin.defaultEvolutionPeriodN,
+                'periodParam': ReportPlugin.defaultPeriod,
             };
 
             if (idReport > 0) {
@@ -139,6 +140,7 @@
             apiParameters.idSegment = this.report.idsegment;
             apiParameters.reportType = this.report.type;
             apiParameters.reportFormat = this.report['format' + this.report.type];
+            apiParameters.periodParam = this.report.periodParam;
             apiParameters.evolutionPeriodFor = this.report.evolutionPeriodFor;
             if (apiParameters.evolutionPeriodFor !== 'each') {
                 apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
@@ -231,6 +233,10 @@
         };
 
         this.getFrequencyPeriodSingle = function () {
+            if (!this.report || !this.report.period) {
+                return '';
+            }
+
             var translation = ReportPlugin.periodTranslations[this.report.period];
             if (!translation) {
                 translation = ReportPlugin.periodTranslations.day;
@@ -238,6 +244,10 @@
             return translation.single;
         };
         this.getFrequencyPeriodPlural = function () {
+            if (!this.report || !this.report.period) {
+                return '';
+            }
+
             var translation = ReportPlugin.periodTranslations[this.report.period];
             if (!translation) {
                 translation = ReportPlugin.periodTranslations.day;

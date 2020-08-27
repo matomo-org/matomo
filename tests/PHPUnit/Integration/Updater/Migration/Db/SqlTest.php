@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -33,6 +33,20 @@ class SqlTest extends IntegrationTestCase
         $sql = $this->sql($this->testQuery . ';');
 
         $this->assertSame($this->testQuery . ';', '' . $sql);
+    }
+
+    public function test_toString_shouldNotAppendSemicolonIfNoQueryGiven()
+    {
+        $sql = $this->sql('');
+
+        $this->assertSame('', '' . $sql);
+    }
+
+    public function test_exec_shouldNotFailWhenNoQueryGiven()
+    {
+        $sql = $this->sql('');
+
+        $this->assertNull($sql->exec());
     }
 
     public function test_constructor_shouldConvertErrorCodeToArray_IfNeeded()

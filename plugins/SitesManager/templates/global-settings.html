@@ -48,12 +48,6 @@
          inline-help="#excludedUserAgentsGlobalHelp">
     </div>
 
-    <div piwik-field uicontrol="checkbox" name="siteSpecificUserAgentExcludeEnabled"
-         ng-model="globalSettings.siteSpecificUserAgentExcludeEnabled"
-         data-title="{{ 'SitesManager_EnableSiteSpecificUserAgentExclude'|translate }}"
-         inline-help="{{ 'SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate:'<a href=\'#excludedUserAgentsGlobal\'>':'</a>' }}">
-    </div>
-
     <div piwik-field uicontrol="checkbox" name="keepURLFragmentsGlobal"
          ng-model="globalSettings.keepURLFragmentsGlobal"
          data-title="{{ 'SitesManager_KeepURLFragmentsLong'|translate }}"
@@ -74,12 +68,7 @@
          inline-help="{{ 'SitesManager_SearchKeywordParametersDesc' | translate }}">
     </div>
 
-    <div ng-hide="customVariablesActivated" class="alert alert-info">
-        Note: you could also track your Internal Search Engine Categories, but the plugin Custom Variables is required. Please enable the plugin CustomVariables (or ask your Piwik admin).
-    </div>
-
     <div piwik-field uicontrol="text" name="searchCategoryParametersGlobal" var-type="array"
-         ng-show="customVariablesActivated"
          ng-model="globalSettings.searchCategoryParametersGlobal"
          data-title="{{ 'SitesManager_SearchCategoryLabel'|translate }}"
          inline-help="{{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryDesc'|translate }} {{ 'SitesManager_SearchCategoryParametersDesc'|translate }}">

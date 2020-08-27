@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,12 +11,13 @@ namespace Piwik\Tests\Unit;
 use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Period;
+use Piwik\Segment;
 
 /**
  * @group DataCollectionTest
  * @group Archive
  */
-class DataCollectionTest extends \PHPUnit_Framework_TestCase
+class DataCollectionTest extends \PHPUnit\Framework\TestCase
 {
     private $site1 = 1;
     private $site2 = 2;
@@ -44,7 +45,7 @@ class DataCollectionTest extends \PHPUnit_Framework_TestCase
             $siteIds = array($siteIds[0]);
         }
 
-        return new DataCollection($dataNames, $dataType, $siteIds, $periods, $defaultRow);
+        return new DataCollection($dataNames, $dataType, $siteIds, $periods, new Segment('', []), $defaultRow);
     }
 
     public function test_getIndexedArray_numeric_noResultIndices_noData()

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,7 @@ use Piwik\DataTable\Row;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -39,22 +40,22 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * @deprecated used to be a widgetized URL. There to not break widget URLs
      */
+    public function index()
+    {
+        $_GET['containerId'] = 'VisitOverviewWithGraph';
+
+        return FrontController::getInstance()->fetchDispatch('CoreHome', 'renderWidgetContainer');
+    }
+
+    /**
+     * @deprecated used to be a widgetized URL. There to not break widget URLs
+     */
     public function getSparklines()
     {
         $_GET['forceView'] = '1';
         $_GET['viewDataTable'] = Sparklines::ID;
 
         return FrontController::getInstance()->fetchDispatch('VisitsSummary', 'get');
-    }
-
-    /**
-     * @deprecated used to be a widgetized URL. There to not break widget URLs
-     */
-    public function index()
-    {
-        $_GET['containerId'] = 'VisitOverviewWithGraph';
-
-        return FrontController::getInstance()->fetchDispatch('CoreHome', 'renderWidgetContainer');
     }
 
     public function getEvolutionGraph()
@@ -102,6 +103,12 @@ class Controller extends \Piwik\Plugin\Controller
             'nb_uniq_outlinks',
             'avg_time_generation'
         );
+
+        $currentPeriod = Common::getRequestVar('period', false);
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod)) {
+            $selectableColumns = array_diff($selectableColumns, ['nb_uniq_visitors', 'nb_users']);
+        }
 
         $displaySiteSearch = Site::isSiteSearchEnabledFor($this->idSite);
 

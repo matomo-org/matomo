@@ -2,12 +2,29 @@
 <result>
 	<row>
 		<label>ImageAd</label>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
-		<nb_visits>4</nb_visits>
-		<nb_impressions>4</nb_impressions>
+		<nb_uniq_visitors>8</nb_uniq_visitors>
+		<nb_visits>8</nb_visits>
+		<nb_impressions>8</nb_impressions>
 		<nb_interactions>2</nb_interactions>
-		<interaction_rate>50%</interaction_rate>
-		<contentTarget>http://www.example.com</contentTarget>
+		<interaction_rate>25%</interaction_rate>
 		<segment>contentName==ImageAd</segment>
+	</row>
+	<row>
+		<label>Text Ad</label>
+		<nb_uniq_visitors>6</nb_uniq_visitors>
+		<nb_visits>6</nb_visits>
+		<nb_impressions>6</nb_impressions>
+		<nb_interactions>4</nb_interactions>
+		<interaction_rate>66.67%</interaction_rate>
+		<segment>contentName==Text+Ad</segment>
+	</row>
+	<row>
+		<label>Video Ad</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>4</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentName==Video+Ad</segment>
 	</row>
 </result>

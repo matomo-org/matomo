@@ -41,6 +41,7 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "Gebruikers-agent",
+        "MobileApp": "Mobiele app",
         "XVisitsFromDevices": "%1$s bezoeken van %2$s apparaten",
         "WidgetBrowsers": "Browser bezoeker",
         "WidgetBrowsersDocumentation": "Dit rapport bevat informatie over het type browsers dat door door uw bezoekers werd gebruikt. Elke browserversie wordt apart vermeld."

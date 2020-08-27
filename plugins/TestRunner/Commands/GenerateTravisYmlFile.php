@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -43,6 +43,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
              ->addOption('force-php-tests', null, InputOption::VALUE_NONE, "Forces the presence of the PHP tests jobs for plugin builds.")
              ->addOption('force-ui-tests', null, InputOption::VALUE_NONE, "Forces the presence of the UI tests jobs for plugin builds.")
              ->addOption('dist-trusty', null, InputOption::VALUE_NONE, "If supplied, the .travis.yml file will use travis' trusty distribution.")
+             ->addOption('distribution', null, InputOption::VALUE_REQUIRED, "If supplied, the .travis.yml file will use the given travis' distribution. Possible values are trusty, xenial or bionic")
              ->addOption('sudo-false', null, InputOption::VALUE_NONE, "If supplied, the .travis.yml file will use travis' container environment.");
     }
 

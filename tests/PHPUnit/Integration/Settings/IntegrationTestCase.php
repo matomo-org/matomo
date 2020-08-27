@@ -1,13 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings;
 
+use PHPUnit\Framework\Constraint\IsType;
 use Piwik\Db;
 use Piwik\Settings\Setting;
 use Piwik\Settings\Storage;
@@ -26,7 +27,7 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
      */
     protected $settings;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Db::destroyDatabaseObject();
@@ -39,7 +40,10 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
         $this->assertEquals($expectedValue, $value);
 
         if (!is_null($expectedType)) {
-            $this->assertInternalType($expectedType, $value);
+            static::assertThat(
+                $value,
+                new IsType($expectedType)
+            );
         }
     }
 

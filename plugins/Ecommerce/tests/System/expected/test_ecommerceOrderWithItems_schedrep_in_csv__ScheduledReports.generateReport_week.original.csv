@@ -1,24 +1,28 @@
 All Websites dashboard
 label,nb_visits,nb_actions,nb_pageviews,revenue,nb_conversions,orders,ecommerce_revenue,visits_evolution,actions_evolution,pageviews_evolution,revenue_evolution,nb_conversions_evolution,orders_evolution,ecommerce_revenue_evolution
-Piwik test,5,16,16,$ 13361.11,5,4,$ 13351.11,100%,100%,100%,100%,100%,100%,100%
-Piwik test,2,1,1,$ 250,1,0,$ 0,100%,100%,100%,100%,100%,0,0
+Piwik test,5,16,16,"$13,361.11",5,4,"$13,351.11",100%,100%,100%,100%,100%,100%,100%
+Piwik test,2,1,1,$250,1,0,$0,100%,100%,100%,100%,100%,0,0
 
 Visits Summary
 nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
 1,5,16,6,3.2,00:22:49,20%
 
+Performance overview
+avg_time_network,avg_time_server,avg_time_transfer,avg_time_dom_processing,avg_time_dom_completion,avg_time_on_load,avg_page_load_time
+00:00:00,00:00:00,00:00:00,00:00:00,00:00:00,00:00:00,00:00:00
+
 Country
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Poland,4,12,$ 13351.11,3,00:25:32,25%
-France,1,4,$ 10,4,00:12:01,0%
+Poland,4,12,"$13,351.11",3,00:25:32,25%
+France,1,4,$10,4,00:12:01,0%
 
 Continent
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Europe,5,16,$ 13361.11,3.2,00:22:49,20%
+Europe,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Region
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
+Unknown,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Browser language
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -27,7 +31,7 @@ French,1,4,100%,4,00:12:01,0%
 
 City
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
+Unknown,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Language code
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -36,15 +40,15 @@ French (fr),1,4,100%,4,00:12:01,0%
 
 Device type
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Desktop,5,16,$ 13361.11,3.2,00:22:49,20%
+Desktop,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Device model
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Generic Desktop,5,16,$ 13361.11,3.2,00:22:49,20%
+Generic Desktop,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Device brand
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
+Unknown,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Screen Resolution
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -55,8 +59,8 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Windows XP,5,16,80%,3.2,00:22:49,20%
 
 Browsers
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Firefox,5,16,80%,3.2,00:22:49,20%
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Firefox,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -79,8 +83,6 @@ label,nb_visits,nb_visits_percentage
 Cookie,5,100%
 Flash,5,100%
 Java,5,100%
-Director,0,0%
-Gears,0,0%
 Pdf,0,0%
 Quicktime,0,0%
 Realplayer,0,0%
@@ -116,30 +118,30 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 
 Visits per server time
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-00,1,4,$ 10,4,00:12:01,0%
-01,1,6,$ 0,6,01:06:01,0%
-02,1,3,$ 3111.11,3,00:18:01,0%
-03,0,0,$ 0,0,00:00:00,0%
-04,0,0,$ 0,0,00:00:00,0%
-05,0,0,$ 0,0,00:00:00,0%
-06,1,0,$ 10240,0,00:06:03,100%
-07,1,3,$ 0,3,00:12:01,0%
-08,0,0,$ 0,0,00:00:00,0%
-09,0,0,$ 0,0,00:00:00,0%
-10,0,0,$ 0,0,00:00:00,0%
-11,0,0,$ 0,0,00:00:00,0%
-12,0,0,$ 0,0,00:00:00,0%
-13,0,0,$ 0,0,00:00:00,0%
-14,0,0,$ 0,0,00:00:00,0%
-15,0,0,$ 0,0,00:00:00,0%
-16,0,0,$ 0,0,00:00:00,0%
-17,0,0,$ 0,0,00:00:00,0%
-18,0,0,$ 0,0,00:00:00,0%
-19,0,0,$ 0,0,00:00:00,0%
-20,0,0,$ 0,0,00:00:00,0%
-21,0,0,$ 0,0,00:00:00,0%
-22,0,0,$ 0,0,00:00:00,0%
-23,0,0,$ 0,0,00:00:00,0%
+00,1,4,$10,4,00:12:01,0%
+01,1,6,$0,6,01:06:01,0%
+02,1,3,"$3,111.11",3,00:18:01,0%
+03,0,0,$0,0,00:00:00,0%
+04,0,0,$0,0,00:00:00,0%
+05,0,0,$0,0,00:00:00,0%
+06,1,0,"$10,240",0,00:06:03,100%
+07,1,3,$0,3,00:12:01,0%
+08,0,0,$0,0,00:00:00,0%
+09,0,0,$0,0,00:00:00,0%
+10,0,0,$0,0,00:00:00,0%
+11,0,0,$0,0,00:00:00,0%
+12,0,0,$0,0,00:00:00,0%
+13,0,0,$0,0,00:00:00,0%
+14,0,0,$0,0,00:00:00,0%
+15,0,0,$0,0,00:00:00,0%
+16,0,0,$0,0,00:00:00,0%
+17,0,0,$0,0,00:00:00,0%
+18,0,0,$0,0,00:00:00,0%
+19,0,0,$0,0,00:00:00,0%
+20,0,0,$0,0,00:00:00,0%
+21,0,0,$0,0,00:00:00,0%
+22,0,0,$0,0,00:00:00,0%
+23,0,0,$0,0,00:00:00,0%
 
 Visits by Day of Week
 label,nb_visits,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_actions
@@ -156,9 +158,9 @@ No data available
 
 Custom Variables
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-ValueIsZero - 0,5,16,$ 13361.11,3.2,00:22:49,20%
-VisitorType - NewLoggedOut,5,16,$ 13361.11,3.2,00:22:49,20%
-VisitorName - Great name!,4,12,$ 13351.11,3,00:25:32,25%
+ValueIsZero - 0,5,16,"$13,361.11",3.2,00:22:49,20%
+VisitorType - NewLoggedOut,5,16,"$13,361.11",3.2,00:22:49,20%
+VisitorName - Great name!,4,12,"$13,351.11",3,00:25:32,25%
 
 Actions - Main metrics
 nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords
@@ -266,11 +268,11 @@ label,nb_visits
 
 Visits by Visit Number
 label,nb_visits,nb_visits_percentage
-1 visit,3,60%
-2 visits,2,40%
-3 visits,0,0%
-4 visits,0,0%
-5 visits,0,0%
+1 visit,1,20%
+2 visits,1,20%
+3 visits,1,20%
+4 visits,1,20%
+5 visits,1,20%
 6 visits,0,0%
 7 visits,0,0%
 8 visits,0,0%
@@ -284,7 +286,7 @@ label,nb_visits,nb_visits_percentage
 Visits by days since last visit
 label,nb_visits
 New visits,1
-0 days,1
+0 days,2
 1 day,0
 2 days,0
 3 days,0
@@ -300,12 +302,16 @@ New visits,1
 365+ days,0
 
 Returning Visits
-nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
-1,0,4,12,6,25%,3,00:25:32
+nb_uniq_visitors_new,nb_users_new,nb_visits_new,nb_actions_new,max_actions_new,bounce_rate_new,nb_actions_per_visit_new,avg_time_on_site_new,nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
+1,0,1,4,4,0%,4,00:12:01,1,0,4,12,6,25%,3,00:25:32
+
+Referrers Overview
+Referrers_visitorsFromSearchEngines,Referrers_visitorsFromSocialNetworks,Referrers_visitorsFromDirectEntry,Referrers_visitorsFromWebsites,Referrers_visitorsFromCampaigns,Referrers_distinctSearchEngines,Referrers_distinctSocialNetworks,Referrers_distinctKeywords,Referrers_distinctWebsites,Referrers_distinctCampaigns,Referrers_visitorsFromDirectEntry_percent,Referrers_visitorsFromSearchEngines_percent,Referrers_visitorsFromCampaigns_percent,Referrers_visitorsFromSocialNetworks_percent,Referrers_visitorsFromWebsites_percent
+0,0,5,0,0,0,0,0,0,0,100%,0%,0%,0%,0%
 
 Channel Type
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Direct Entry,5,16,$ 13361.11,3.2,00:22:49,20%
+Direct Entry,5,16,"$13,361.11",3.2,00:22:49,20%
 
 All Channels
 No data available
@@ -327,15 +333,15 @@ No data available
 
 Ecommerce Orders
 nb_conversions,nb_visits_converted,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue,conversion_rate
-4,2,$ 13351.11,$ 2700,$ 531,$ 120.11,$ 686,12,$ 3337.78,40%
+4,2,"$13,351.11","$2,700",$531,$120.11,$686,12,"$3,337.78",40%
 
 Ecommerce Orders - Visits to Conversion
 label,nb_conversions
-1 visit,2
+1 visit,0
 2 visits,2
 3 visits,0
 4 visits,0
-5 visits,0
+5 visits,2
 6 visits,0
 7 visits,0
 8 visits,0
@@ -347,8 +353,8 @@ label,nb_conversions
 
 Ecommerce Orders - Days to Conversion
 label,nb_conversions
-0 days,4
-1 day,0
+0 days,2
+1 day,2
 2 days,0
 3 days,0
 4 days,0
@@ -364,14 +370,14 @@ label,nb_conversions
 
 Abandoned Carts
 nb_conversions,revenue,items,avg_order_revenue,conversion_rate
-3,$ 7530.33,12,$ 2510.11,60%
+3,"$7,530.33",12,"$2,510.11",60%
 
 Abandoned Carts - Visits to Conversion
 label,nb_conversions
-1 visit,1
-2 visits,2
-3 visits,0
-4 visits,0
+1 visit,0
+2 visits,1
+3 visits,1
+4 visits,1
 5 visits,0
 6 visits,0
 7 visits,0
@@ -384,8 +390,8 @@ label,nb_conversions
 
 Abandoned Carts - Days to Conversion
 label,nb_conversions
-0 days,3
-1 day,0
+0 days,2
+1 day,1
 2 days,0
 3 days,0
 4 days,0
@@ -401,73 +407,73 @@ label,nb_conversions
 
 Product Name
 label,revenue,quantity,orders,avg_price,avg_quantity,conversion_rate,nb_visits
-Canon SLR,$ 1500,1,1,$ 1500,1,0%,0
-PRODUCT name,$ 1011.22,3,2,$ 255.61,1.5,100%,2
-PRODUCT name BIS,$ 600,6,1,$ 100,6,0%,0
-TRIPOD - bought day after,$ 200,2,1,$ 100,2,0%,0
-PRODUCT TWO LEFT in cart,$ 0,0,0,$ 0,0,0%,3
-PRODUCT THREE LEFT in cart,$ 0,0,0,$ 1332,0,0%,3
+Canon SLR,"$1,500",1,1,"$1,500",1,0%,0
+PRODUCT name,"$1,011.22",3,2,$255.61,1.5,100%,2
+PRODUCT name BIS,$600,6,1,$100,6,0%,0
+TRIPOD - bought day after,$200,2,1,$100,2,0%,0
+PRODUCT TWO LEFT in cart,$0,0,0,$0,0,0%,3
+PRODUCT THREE LEFT in cart,$0,0,0,"$1,332",0,0%,3
 
 Product SKU
 label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate
-SKU2,$ 1500,1,1,1,$ 1500,1,100%
-SKU VERY nice indeed,$ 1011.22,3,2,4,$ 255.61,1.5,50%
-ANOTHER SKU HERE,$ 600,6,1,0,$ 100,6,0%
-TRIPOD SKU,$ 200,2,1,0,$ 100,2,0%
-SKU IN ABANDONED CART TWO,$ 0,0,0,3,$ 0,0,0%
+SKU2,"$1,500",1,1,1,"$1,500",1,100%
+SKU VERY nice indeed,"$1,011.22",3,2,4,$255.61,1.5,50%
+ANOTHER SKU HERE,$600,6,1,0,$100,6,0%
+TRIPOD SKU,$200,2,1,0,$100,2,0%
+SKU IN ABANDONED CART TWO,$0,0,0,3,$0,0,0%
 
 Product Category
 label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate
-Electronics & Cameras,$ 2500,3,2,3,$ 1000,1.5,66.67%
-Multiple Category 1,$ 1000,2,1,1,$ 500,2,100%
-Multiple Category 2,$ 1000,2,1,1,$ 500,2,100%
-Multiple Category 4,$ 1000,2,1,1,$ 500,2,100%
-Multiple Category 5,$ 1000,2,1,1,$ 500,2,100%
-Product Category not defined,$ 611.22,7,2,4,$ 55.61,3.5,50%
-Tools,$ 200,2,1,0,$ 100,2,0%
-Category TWO LEFT in cart,$ 0,0,0,3,$ 0,0,0%
-second category,$ 0,0,0,3,$ 0,0,0%
+Electronics & Cameras,"$2,500",3,2,3,"$1,000",1.5,66.67%
+Multiple Category 1,"$1,000",2,1,1,$500,2,100%
+Multiple Category 2,"$1,000",2,1,1,$500,2,100%
+Multiple Category 4,"$1,000",2,1,1,$500,2,100%
+Multiple Category 5,"$1,000",2,1,1,$500,2,100%
+Product Category not defined,$611.22,7,2,4,$55.61,3.5,50%
+Tools,$200,2,1,0,$100,2,0%
+Category TWO LEFT in cart,$0,0,0,3,$0,0,0%
+second category,$0,0,0,3,$0,0,0%
 
 Goals
 nb_conversions,nb_visits_converted,revenue,conversion_rate
-5,4,$ 13361.11,80%
+5,4,"$13,361.11",80%
 
 Visits to Conversion
 label,nb_conversions,revenue
-1 visit,1,$ 0
-2 visits,0,$ 0
-3 visits,0,$ 0
-4 visits,0,$ 0
-5 visits,0,$ 0
-6 visits,0,$ 0
-7 visits,0,$ 0
-8 visits,0,$ 0
-9-14 visits,0,$ 0
-15-25 visits,0,$ 0
-26-50 visits,0,$ 0
-51-100 visits,0,$ 0
-101+ visits,0,$ 0
+1 visit,1,$0
+2 visits,0,$0
+3 visits,0,$0
+4 visits,0,$0
+5 visits,0,$0
+6 visits,0,$0
+7 visits,0,$0
+8 visits,0,$0
+9-14 visits,0,$0
+15-25 visits,0,$0
+26-50 visits,0,$0
+51-100 visits,0,$0
+101+ visits,0,$0
 
 Days to Conversion
 label,nb_conversions,revenue
-0 days,1,$ 0
-1 day,0,$ 0
-2 days,0,$ 0
-3 days,0,$ 0
-4 days,0,$ 0
-5 days,0,$ 0
-6 days,0,$ 0
-7 days,0,$ 0
-8-14 days,0,$ 0
-15-30 days,0,$ 0
-31-60 days,0,$ 0
-61-120 days,0,$ 0
-121-364 days,0,$ 0
-365+ days,0,$ 0
+0 days,1,$0
+1 day,0,$0
+2 days,0,$0
+3 days,0,$0
+4 days,0,$0
+5 days,0,$0
+6 days,0,$0
+7 days,0,$0
+8-14 days,0,$0
+15-30 days,0,$0
+31-60 days,0,$0
+61-120 days,0,$0
+121-364 days,0,$0
+365+ days,0,$0
 
 Goals Overview
 nb_conversions,nb_visits_converted,revenue,conversion_rate
-4,2,$ 13351.11,40%
+4,2,"$13,351.11",40%
 
 Goals Overview - Visits to Conversion
 label,nb_conversions
@@ -504,7 +510,7 @@ label,nb_conversions
 
 Goal title match  triggered ONCE
 nb_conversions,nb_visits_converted,revenue,conversion_rate
-1,1,$ 10,20%
+1,1,$10,20%
 
 title match  triggered ONCE - Visits to Conversion
 label,nb_conversions

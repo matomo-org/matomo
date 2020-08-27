@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -24,7 +24,7 @@ class ApiGetReportMetadataTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -34,7 +34,7 @@ class ApiGetReportMetadataTest extends SystemTestCase
         Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -75,9 +75,13 @@ class ApiGetReportMetadataTest extends SystemTestCase
             array('Actions.getPageTitles', array('idSite'     => $idSite, 'date' => $dateTime,
                                                  'testSuffix' => '_pageTitleZeroString')),
 
-            // test php renderer w/ array data
-            array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,
-                                                            'format' => 'php', 'testSuffix' => '_phpRenderer')),
+            // Test w/ no format, should default to format=json
+            ['Actions.getPageTitles', [
+                'idSite'     => $idSite,
+                'date' => $dateTime,
+                'testSuffix' => '_defaultFormatValue',
+                'format' => 'asldjkf',
+            ]],
         );
     }
 

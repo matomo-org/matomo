@@ -32,9 +32,9 @@ class TwoFactorAuth extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'API.UsersManager.deleteUser.end' => 'deleteRecoveryCodes',
-            'API.UsersManager.getTokenAuth.end' => 'onApiGetTokenAuth',
+            'API.UsersManager.createAppSpecificTokenAuth.end' => 'onCreateAppSpecificTokenAuth',
             'Request.dispatch.end' => array('function' => 'onRequestDispatchEnd', 'after' => true),
-            'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings',
+            'Template.userSecurity.afterPassword' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
         );
     }
@@ -48,7 +48,7 @@ class TwoFactorAuth extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
         $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
-        $jsFiles[] = "libs/bower_components/qrcode.js/qrcode.js";
+        $jsFiles[] = "node_modules/qrcodejs2/qrcode.min.js";
     }
 
     public function deleteRecoveryCodes($returnedValue, $params)
@@ -107,9 +107,9 @@ class TwoFactorAuth extends \Piwik\Plugin
         return !empty($user);
     }
 
-    public function onApiGetTokenAuth($returnedValue, $params)
+    public function onCreateAppSpecificTokenAuth($returnedValue, $params)
     {
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             return;
         }
 
@@ -180,14 +180,11 @@ class TwoFactorAuth extends \Piwik\Plugin
             return false;
         }
 
-        if (Piwik::getModule() === 'Widgetize') {
-            // we cannot use $module as it would be different when dispatching other requests within the widgetized request
-            $auth = StaticContainer::get('Piwik\Auth');
-            if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
-                // when authenticated by token only, we do not require 2fa
-                // needed eg for rendering exported widgets authenticated by token
-                return false;
-            }
+        $auth = StaticContainer::get('Piwik\Auth');
+        if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
+            // when authenticated by token only, we do not require 2fa
+            // needed eg for rendering exported widgets authenticated by token
+            return false;
         }
 
         $requiresAuth = true;

@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot integration tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,19 +13,25 @@ describe("TwoFactorAuth", function () {
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
-        userSettings = '?module=UsersManager&action=userSettings&' + generalParams,
+        userSettings = '?module=UsersManager&action=userSecurity&' + generalParams,
         logoutUrl = '?module=Login&action=logout&period=day&date=yesterday';
 
 
     async function selectModalButton(button)
     {
-        await page.click('.modal.open .modal-footer a:contains('+button+')');
+        await (await page.jQuery('.modal.open .modal-footer a:contains('+button+')')).click();
+        await page.waitForNetworkIdle();
     }
 
     async function loginUser(username, doAuth)
     {
         // make sure to log out previous session
         await page.goto(logoutUrl);
+
+        var cookies = await page.cookies();
+        cookies.forEach(cookie => {
+            page.deleteCookie(cookie);
+        });
 
         if (typeof doAuth === 'undefined') {
             doAuth = true;
@@ -70,15 +76,17 @@ describe("TwoFactorAuth", function () {
 
     async function confirmPassword()
     {
+        await page.waitFor('.confirmPasswordForm');
         await page.evaluate(function(){
             $('.confirmPasswordForm #login_form_password').val('123abcDk3_l3');
             $('.confirmPasswordForm #login_form_submit').click();
         });
-        await page.waitFor(750);
+        await page.waitForNetworkIdle();
+        await page.waitFor(100);
     }
 
     it('a user with 2fa can open the widgetized view by token without needing to verify', async function () {
-        await page.goto('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&date=2018-03-04&token_auth=c4ca4238a0b923820dcc509a6f75849b&' + generalParams);
+        await page.goto('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&date=2018-03-04&token_auth=a4ca4238a0b923820dcc509a6f75849b&' + generalParams);
         expect(await page.screenshotSelector('.widget')).to.matchImage('widgetized_no_verify');
     });
 
@@ -86,14 +94,15 @@ describe("TwoFactorAuth", function () {
         await loginUser('with2FA', false);
         expect(await page.screenshotSelector('.loginSection')).to.matchImage('logme_not_verified');
     });
-return;
+
     it('when logging in and providing wrong code an error is shown', async function () {
         await page.type('.loginTwoFaForm #login_form_authcode', '555555');
         await page.evaluate(function(){
             $('.loginTwoFaForm #login_form_submit').click();
         });
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.loginSection')).to.matchImage('logme_not_verified_wrong_code');
+        const element = await page.$('.loginSection');
+        expect(await element.screenshot()).to.matchImage('logme_not_verified_wrong_code');
     });
 
     it('when logging in through logme and verifying screen it works to access ui', async function () {
@@ -101,14 +110,19 @@ return;
         await page.evaluate(function(){
             $('.loginTwoFaForm #login_form_submit').click();
         });
-        await page.waitFor(1500);
-        expect(await page.screenshotSelector('#content')).to.matchImage('logme_verified');
+        await page.waitForNetworkIdle();
+        await page.waitFor('.widget');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.pageWrap')).to.matchImage('logme_verified');
     });
 
     it('should show user settings when two-fa enabled', async function () {
         await loginUser('with2FA');
         await page.goto(userSettings);
-        expect(await page.screenshotSelector('.userSettings2FA')).to.matchImage('usersettings_twofa_enabled');
+        await page.waitFor('.userSettings2FA', { visible: true });
+        await page.waitFor(500); // animation
+        const elem = await page.$('.userSettings2FA');
+        expect(await elem.screenshot()).to.matchImage('usersettings_twofa_enabled');
     });
 
     it('should be possible to show recovery codes step1 authentication', async function () {
@@ -135,17 +149,21 @@ return;
         await page.click('.disable2FaLink');
 
         const modal = await page.$('.modal.open');
+        await page.waitFor(250); // animation
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
     it('should be possible to disable two factor step 2 confirmed', async function () {
         await selectModalButton('Yes');
+        await page.waitFor(150);
         expect(await page.screenshotSelector('.loginSection')).to.matchImage('usersettings_twofa_disable_step2');
     });
 
     it('should be possible to disable two factor step 3 verified', async function () {
         await confirmPassword();
-        expect(await page.screenshotSelector('.userSettings2FA')).to.matchImage('usersettings_twofa_disable_step3');
+        await page.waitFor('.userSettings2FA');
+        const elem = await page.$('.userSettings2FA');
+        expect(await elem.screenshot()).to.matchImage('usersettings_twofa_disable_step3');
     });
 
     it('should show setup screen - step 1', async function () {
@@ -157,21 +175,15 @@ return;
     });
 
     it('should move to second step in setup - step 2', async function () {
-        console.log('start');
         await page.evaluate(function(){
             $('.setupTwoFactorAuthentication .backupRecoveryCode:first').click();
         });
-        console.log(0);
         await page.waitForNetworkIdle();
-        console.log(1);
         await page.click('.setupTwoFactorAuthentication .goToStep2');
-        console.log(2);
         await page.waitForNetworkIdle();
-        console.log(3);
         await page.evaluate(function () {
             $('#qrcode').hide();
         });
-        console.log(4);
         expect(await page.screenshotSelector('#content')).to.matchImage('twofa_setup_step2');
     });
 
@@ -190,6 +202,9 @@ return;
         await page.evaluate(function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
+        await page.waitForNetworkIdle();
+        await page.waitFor('#content', { visible: true });
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#content')).to.matchImage('twofa_setup_step4');
     });
 
@@ -200,13 +215,17 @@ return;
     });
 
     it('should force user to setup 2fa when not set up yet but enforced step 2', async function () {
-        await page.click('.setupTwoFactorAuthentication .backupRecoveryCode:first');
+        await (await page.jQuery('.setupTwoFactorAuthentication .backupRecoveryCode:first')).click();
         await page.click('.setupTwoFactorAuthentication .goToStep2');
+        await page.mouse.move(-10, -10);
+        await page.waitFor(100);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step2');
     });
 
     it('should force user to setup 2fa when not set up yet but enforced step 3', async function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
+        await page.mouse.move(-10, -10);
+        await page.waitFor(100);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step3');
     });
 
@@ -220,6 +239,7 @@ return;
         await page.evaluate(function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step4');
     });
 

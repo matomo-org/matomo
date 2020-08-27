@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -69,7 +69,6 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'period' => 1,
             'ts_archived' => '2015-02-15 08:12:13'
         ),
-
 
         // valid temporary
         array( // only valid
@@ -215,11 +214,21 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-08',
             'date2' => '2015-02-14',
             'period' => 2,
+            'ts_archived' => '2015-02-15 14:00:00'
+        ),
+        array(
+            'idarchive' => 18,
+            'idsite' => 2,
+            'name' => 'doneDUMMYHASHSTR',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-08',
+            'date2' => '2015-02-14',
+            'period' => 2,
             'ts_archived' => '2015-02-16 00:00:00'
         ),
 
         array(
-            'idarchive' => 18,
+            'idarchive' => 19,
             'idsite' => 3,
             'name' => 'done',
             'value' => ArchiveWriter::DONE_OK,
@@ -230,7 +239,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ),
 
         array(
-            'idarchive' => 19,
+            'idarchive' => 20,
             'idsite' => 1,
             'name' => 'doneDUMMYHASHSTR',
             'value' => ArchiveWriter::DONE_OK_TEMPORARY,
@@ -239,54 +248,50 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'period' => 1,
             'ts_archived' => '2015-02-28 16:12:12' // must be late so it doesn't screw up the purgeOutdatedArchives test
         ),
+
+        // newer done_ok
+        array(
+            'idarchive' => 21,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-10',
+            'date2' => '2015-02-10',
+            'period' => 1,
+            'ts_archived' => '2015-02-09 14:13:14'
+        ),
+
+        // old done partial (should be purged)
+        array(
+            'idarchive' => 22,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_PARTIAL,
+            'date1' => '2015-02-10',
+            'date2' => '2015-02-10',
+            'period' => 1,
+            'ts_archived' => '2015-02-11 10:13:14'
+        ),
+
+        // new done partial (should not be purged)
+        array(
+            'idarchive' => 23,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_PARTIAL,
+            'date1' => '2015-02-10',
+            'date2' => '2015-02-10',
+            'period' => 1,
+            'ts_archived' => '2015-02-11 16:13:14'
+        ),
     );
 
 
     private static $segmentArchiveData = array(
         array(
-            'idarchive' => 20,
-            'idsite' => 1,
-            'name' => 'doneabcd1234abcd5678',
-            'value' => ArchiveWriter::DONE_OK,
-            'date1' => '2015-02-03',
-            'date2' => '2015-02-03',
-            'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
-        ),
-        array(
-            'idarchive' => 21,
-            'idsite' => 1,
-            'name' => 'doneabcd1234abcd5678.MyPlugin',
-            'value' => ArchiveWriter::DONE_OK,
-            'date1' => '2015-02-03',
-            'date2' => '2015-02-03',
-            'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
-        ),
-        array(
-            'idarchive' => 22,
-            'idsite' => 2,
-            'name' => 'doneabcd1234abcd5678',
-            'value' => ArchiveWriter::DONE_OK,
-            'date1' => '2015-02-03',
-            'date2' => '2015-02-03',
-            'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
-        ),
-        array(
-            'idarchive' => 23,
-            'idsite' => 2,
-            'name' => 'doneabcd1234abcd5678.MyPlugin',
-            'value' => ArchiveWriter::DONE_OK,
-            'date1' => '2015-02-03',
-            'date2' => '2015-02-03',
-            'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
-        ),
-        array(
             'idarchive' => 24,
             'idsite' => 1,
-            'name' => 'done9876fedc5432abcd',
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -295,8 +300,8 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ),
         array(
             'idarchive' => 25,
-            'idsite' => 2,
-            'name' => 'donehash1',
+            'idsite' => 1,
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850.MyPlugin',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -306,7 +311,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 26,
             'idsite' => 2,
-            'name' => 'donehash2',
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -316,7 +321,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 27,
             'idsite' => 2,
-            'name' => 'donehash2.MyPlugin',
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850.MyPlugin',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -325,8 +330,8 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ),
         array(
             'idarchive' => 28,
-            'idsite' => 2,
-            'name' => 'donehash3',
+            'idsite' => 1,
+            'name' => 'done1e39a89fcc269acc36bd4d7c742763ed',   // Raw segment = 9876fedc5432abcd
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -334,9 +339,49 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'ts_archived' => '2015-02-03 12:12:12'
         ),
         array(
-            'idarchive' => 29   ,
+            'idarchive' => 29,
             'idsite' => 2,
-            'name' => 'donehash3',
+            'name' => 'done00c6ee2e21a7548de6260cf72c4f4b5b',   // Raw segment = hash1
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 30,
+            'idsite' => 2,
+            'name' => 'done58833651db311ba4bc11cb26b1900b0f',   // Raw segment = hash2
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 31,
+            'idsite' => 2,
+            'name' => 'done58833651db311ba4bc11cb26b1900b0f.MyPlugin',  // Raw segment = hash2
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 32,
+            'idsite' => 2,
+            'name' => 'done1a4ead8b39d17dfe89418452c9bba770',   // Raw segment = hash3
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-03',
+            'date2' => '2015-02-03',
+            'period' => 1,
+            'ts_archived' => '2015-02-03 12:12:12'
+        ),
+        array(
+            'idarchive' => 33,
+            'idsite' => 2,
+            'name' => 'done1a4ead8b39d17dfe89418452c9bba770',   // Raw segment = hash3
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -344,6 +389,30 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'ts_archived' => '2015-02-27 12:12:12'
         ),
     );
+
+    public static $dummyArchiveDataNoInvalidated = [
+        // two archives w/ DONE_OK for a new site (no invalidated archives for site)
+        [
+            'idarchive' => 34,
+            'idsite' => 4,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-11',
+            'date2' => '2015-02-11',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 10:12:12'
+        ],
+        [
+            'idarchive' => 35,
+            'idsite' => 4,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-11',
+            'date2' => '2015-02-11',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 12:12:12'
+        ],
+    ];
 
     /**
      * @var Date
@@ -355,7 +424,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
      */
     public $february;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -377,6 +446,8 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         $dummyArchiveData = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveData);
         $this->insertArchiveRows($archiveDate, $dummyArchiveData);
 
+        $dummySiteNoInvalidated = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveDataNoInvalidated);
+        $this->insertArchiveRows($archiveDate, $dummySiteNoInvalidated);
     }
 
     private function insertArchiveRows(Date $archiveDate, array $dummyArchiveData)
@@ -507,6 +578,15 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
         // check archive 15 is not purged since it doesn't have newer DONE_OK/DONE_TEMPORARY archive
         $expectedExistingArchives = array(15);
+        $this->assertArchivesExist($expectedExistingArchives, $date);
+    }
+
+    public function assertPartialArchivesPurged(Date $date)
+    {
+        $expectedPurgedArchives = [22];
+        $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
+
+        $expectedExistingArchives = [23];
         $this->assertArchivesExist($expectedExistingArchives, $date);
     }
 }

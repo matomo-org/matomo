@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ class APITest extends IntegrationTestCase
 
     private $hasSuperUserAccess = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ class APITest extends IntegrationTestCase
         $this->makeSureTestRunsInContextOfAnonymousUser();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Access::getInstance()->hasSuperUserAccess($this->hasSuperUserAccess);
         parent::tearDown();
@@ -74,7 +74,7 @@ class APITest extends IntegrationTestCase
     private function assertResponseIsPermissionError($response)
     {
         $this->assertSame('error', $response['result']);
-        $this->assertStringStartsWith('General_ExceptionPrivilegeAccessWebsite', $response['message']);
+        $this->assertStringStartsWith('General_YouMustBeLoggedIn', $response['message']);
     }
 
     private function assertResponseIsSuccess($response)

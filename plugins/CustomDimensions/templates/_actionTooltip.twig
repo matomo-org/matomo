@@ -1,0 +1,11 @@
+{% if action.customDimensions is defined %}
+    {% for dimension,value in action.customDimensions|filter(value => value|length > 0) %}
+        {% if loop.index == 1 %}
+
+            {{ 'CustomDimensions_CustomDimensions'|translate }}:
+        {%- endif %}
+
+        {# line break above is important #}
+        - {{ dimension|raw }} = {{ value|raw }}
+    {%- endfor -%}
+{%- endif -%}

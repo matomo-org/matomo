@@ -1,14 +1,16 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Plugins\RssWidget;
+
 use Piwik\Cache;
+use Matomo\Cache\Lazy;
 use Piwik\Http;
 
 /**
@@ -21,7 +23,7 @@ class RssRenderer
     protected $showDescription = false;
     protected $showContent = false;
     /**
-     * @var Cache\Lazy
+     * @var Lazy
      */
     private $cache;
 
@@ -55,8 +57,12 @@ class RssRenderer
 
         if (!$output) {
             try {
-                $content = Http::fetchRemoteFile($this->url);
-                $rss = simplexml_load_string($content);
+                $content = Http::fetchRemoteFile($this->url, null, 0, 15);
+
+                $rss = @simplexml_load_string($content);
+                if ($rss === false) {
+                    throw new \Exception("Failed to parse XML.");
+                }
             } catch (\Exception $e) {
                 throw new \Exception("Error while importing feed: {$e->getMessage()}\n");
             }

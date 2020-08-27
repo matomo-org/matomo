@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -37,7 +37,7 @@ class SettingsProviderTest extends IntegrationTestCase
 
     private $examplePlugin = 'ExampleSettingsPlugin';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,7 +50,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->settings = new SettingsProvider($this->pluginManager);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($_GET['idSite']);

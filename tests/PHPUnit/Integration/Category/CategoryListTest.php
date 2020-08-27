@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ class CategoryListTest extends IntegrationTestCase
 
         $this->assertSame(array(
             'General_Actions',
-            'General_Generic',
+            'General_KpiMetric',
             'General_Visitors',
             'Dashboard_Dashboard',
             'General_MultiSitesSummary',
@@ -45,8 +45,9 @@ class CategoryListTest extends IntegrationTestCase
             'Events_Events',
             'UserCountry_VisitLocation',
             'Live!',
+            'Marketplace_Marketplace',
+            'ExampleUI_UiFramework',
             'CustomVariables_CustomVariables',
-            'ExampleUI_UiFramework'
         ), array_keys($list->getCategories()));
     }
 

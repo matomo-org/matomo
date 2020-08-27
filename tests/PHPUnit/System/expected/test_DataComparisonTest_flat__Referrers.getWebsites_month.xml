@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>piwik.org/contribute%</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>http://piwik.org/contribute%</url>
+		<Referrers_Website>piwik.org</Referrers_Website>
+		<Referrers_WebsitePage>contribute%</Referrers_WebsitePage>
+		<comparisons>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
+				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_change>+0%</nb_visits_change>
+				<nb_visits_change_from>+0%</nb_visits_change_from>
+				<nb_actions_change>+0%</nb_actions_change>
+				<nb_actions_change_from>+0%</nb_actions_change_from>
+				<max_actions_change>+0%</max_actions_change>
+				<max_actions_change_from>+0%</max_actions_change_from>
+				<sum_visit_length_change>+0%</sum_visit_length_change>
+				<sum_visit_length_change_from>+0%</sum_visit_length_change_from>
+				<bounce_count_change>+0%</bounce_count_change>
+				<bounce_count_change_from>+0%</bounce_count_change_from>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
+				<nb_visits_converted_change_from>+0%</nb_visits_converted_change_from>
+				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
+				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
+				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
+				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_change>+0%</nb_visits_change>
+				<nb_visits_change_from>+0%</nb_visits_change_from>
+				<nb_actions_change>+0%</nb_actions_change>
+				<nb_actions_change_from>+0%</nb_actions_change_from>
+				<max_actions_change>+0%</max_actions_change>
+				<max_actions_change_from>+0%</max_actions_change_from>
+				<sum_visit_length_change>+0%</sum_visit_length_change>
+				<sum_visit_length_change_from>+0%</sum_visit_length_change_from>
+				<bounce_count_change>+0%</bounce_count_change>
+				<bounce_count_change_from>+0%</bounce_count_change_from>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
+				<nb_visits_converted_change_from>+0%</nb_visits_converted_change_from>
+				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
+				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
+				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
+				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
+				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+		</comparisons>
+	</row>
+	<row>
+		<label>sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</url>
+		<Referrers_Website>sn110w.snt110.mail.live.com</Referrers_Website>
+		<Referrers_WebsitePage>mail/InboxLight.aspx?n=184083971</Referrers_WebsitePage>
+		<comparisons>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
+				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_change>+0%</nb_visits_change>
+				<nb_visits_change_from>+0%</nb_visits_change_from>
+				<nb_actions_change>+0%</nb_actions_change>
+				<nb_actions_change_from>+0%</nb_actions_change_from>
+				<max_actions_change>+0%</max_actions_change>
+				<max_actions_change_from>+0%</max_actions_change_from>
+				<sum_visit_length_change>+0%</sum_visit_length_change>
+				<sum_visit_length_change_from>+0%</sum_visit_length_change_from>
+				<bounce_count_change>+0%</bounce_count_change>
+				<bounce_count_change_from>+0%</bounce_count_change_from>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
+				<nb_visits_converted_change_from>+0%</nb_visits_converted_change_from>
+				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
+				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
+				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
+				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_change>+0%</nb_visits_change>
+				<nb_visits_change_from>+0%</nb_visits_change_from>
+				<nb_actions_change>+0%</nb_actions_change>
+				<nb_actions_change_from>+0%</nb_actions_change_from>
+				<max_actions_change>+0%</max_actions_change>
+				<max_actions_change_from>+0%</max_actions_change_from>
+				<sum_visit_length_change>+0%</sum_visit_length_change>
+				<sum_visit_length_change_from>+0%</sum_visit_length_change_from>
+				<bounce_count_change>+0%</bounce_count_change>
+				<bounce_count_change_from>+0%</bounce_count_change_from>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
+				<nb_visits_converted_change_from>+0%</nb_visits_converted_change_from>
+				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
+				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
+				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
+				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
+				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+			</row>
+		</comparisons>
+	</row>
+</result>

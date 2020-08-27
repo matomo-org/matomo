@@ -1,21 +1,20 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\DataAccess;
 
 use Exception;
-use Piwik\Archive;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-use Piwik\Period;
 
 /**
  * This class is used to create a new Archive.
@@ -37,11 +36,16 @@ class ArchiveWriter
      * @var int
      */
     const DONE_ERROR = 2;
+
     /**
      * Flag indicates the archive is over a period that is not finished, eg. the current day, current week, etc.
      * Archives flagged will be regularly purged from the DB.
      *
+     * This flag is deprecated, new archives should not be written as temporary.
+     *
      * @var int
+     * @deprecated it should not be used anymore as temporary archives have been removed. It still exists though for
+     *             historical reasons.
      */
     const DONE_OK_TEMPORARY = 3;
 
@@ -52,6 +56,13 @@ class ArchiveWriter
      */
     const DONE_INVALIDATED = 4;
 
+    /**
+     * Flag indicating that the archive is
+     *
+     * @var int
+     */
+    const DONE_PARTIAL = 5;
+
     protected $fields = array('idarchive',
         'idsite',
         'date1',
@@ -61,16 +72,39 @@ class ArchiveWriter
         'name',
         'value');
 
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
+    private $recordsToWriteSpool = array(
+        'numeric' => array(),
+        'blob' => array()
+    );
+
+    const MAX_SPOOL_SIZE = 50;
+
+    /**
+     * @var ArchiveProcessor\Parameters
+     */
+    private $parameters;
+
+    /**
+     * @var string
+     */
+    private $earliestNow;
+
+    /**
+     * ArchiveWriter constructor.
+     * @param ArchiveProcessor\Parameters $params
+     * @param bool $isArchiveTemporary Deprecated. Has no effect.
+     * @throws Exception
+     */
+    public function __construct(ArchiveProcessor\Parameters $params)
     {
         $this->idArchive = false;
         $this->idSite    = $params->getSite()->getId();
         $this->segment   = $params->getSegment();
         $this->period    = $params->getPeriod();
+        $this->parameters = $params;
 
         $idSites = array($this->idSite);
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
-        $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();
     }
@@ -86,11 +120,10 @@ class ArchiveWriter
     public function insertBlobRecord($name, $values)
     {
         if (is_array($values)) {
-            $clean = array();
 
             if (isset($values[0])) {
                 // we always store the root table in a single blob for fast access
-                $clean[] = array($name, $this->compress($values[0]));
+                $this->insertRecord($name, $this->compress($values[0]));
                 unset($values[0]);
             }
 
@@ -99,16 +132,13 @@ class ArchiveWriter
                 $chunk  = new Chunk();
                 $chunks = $chunk->moveArchiveBlobsIntoChunks($name, $values);
                 foreach ($chunks as $index => $subtables) {
-                    $clean[] = array($index, $this->compress(serialize($subtables)));
+                    $this->insertRecord($index, $this->compress(serialize($subtables)));
                 }
             }
-
-            $this->insertBulkRecords($clean);
-            return;
+        } else {
+            $values = $this->compress($values);
+            $this->insertRecord($name, $values);
         }
-
-        $values = $this->compress($values);
-        $this->insertRecord($name, $values);
     }
 
     public function getIdArchive()
@@ -122,18 +152,27 @@ class ArchiveWriter
 
     public function initNewArchive()
     {
-        $this->allocateNewArchiveId();
+        $idArchive = $this->allocateNewArchiveId();
         $this->logArchiveStatusAsIncomplete();
+        return $idArchive;
     }
 
     public function finalizeArchive()
     {
+        $this->flushSpools();
+
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
-        $this->getModel()->deletePreviousArchiveStatus($numericTable, $idArchive, $this->doneFlag);
+        $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
+        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
 
-        $this->logArchiveStatusAsFinal();
+        if (!$this->parameters->isPartialArchive()
+            // sanity check, just in case nothing was inserted (the archive status should always be inserted)
+            && !empty($this->earliestNow)
+        ) {
+            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $this->idArchive);
+        }
     }
 
     protected function compress($data)
@@ -163,29 +202,9 @@ class ArchiveWriter
         $this->insertRecord($this->doneFlag, self::DONE_ERROR);
     }
 
-    protected function logArchiveStatusAsFinal()
+    private function batchInsertSpool($valueType)
     {
-        $status = self::DONE_OK;
-
-        if ($this->isArchiveTemporary) {
-            $status = self::DONE_OK_TEMPORARY;
-        }
-
-        $this->insertRecord($this->doneFlag, $status);
-    }
-
-    protected function insertBulkRecords($records)
-    {
-        // Using standard plain INSERT if there is only one record to insert
-        if ($DEBUG_DO_NOT_USE_BULK_INSERT = false
-            || count($records) == 1
-        ) {
-            foreach ($records as $record) {
-                $this->insertRecord($record[0], $record[1]);
-            }
-
-            return true;
-        }
+        $records = $this->recordsToWriteSpool[$valueType];
 
         $bindSql = $this->getInsertRecordBind();
         $values  = array();
@@ -212,7 +231,12 @@ class ArchiveWriter
         $tableName = $this->getTableNameToInsert($valueSeen);
         $fields    = $this->getInsertFields();
 
-        BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
+        // For numeric records it's faster to do the insert directly; for blobs the data infile is better
+        if ($valueType === 'numeric') {
+            BatchInsert::tableInsertBatchSql($tableName, $fields, $values);
+        } else {
+            BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
+        }
 
         return true;
     }
@@ -231,28 +255,59 @@ class ArchiveWriter
             return false;
         }
 
-        $tableName = $this->getTableNameToInsert($value);
-        $fields    = $this->getInsertFields();
-        $record    = $this->getInsertRecordBind();
+        $valueType = $this->isRecordNumeric($value) ? 'numeric' : 'blob';
+        $this->recordsToWriteSpool[$valueType][] = array(
+            0 => $name,
+            1 => $value
+        );
 
-        $this->getModel()->insertRecord($tableName, $fields, $record, $name, $value);
+        if (count($this->recordsToWriteSpool[$valueType]) >= self::MAX_SPOOL_SIZE) {
+            $this->flushSpool($valueType);
+        }
 
         return true;
     }
 
+    public function flushSpools()
+    {
+        $this->flushSpool('numeric');
+        $this->flushSpool('blob');
+    }
+
+    private function flushSpool($valueType)
+    {
+        $numRecords = count($this->recordsToWriteSpool[$valueType]);
+
+        if ($numRecords > 1) {
+            $this->batchInsertSpool($valueType);
+        } elseif ($numRecords === 1) {
+            list($name, $value) = $this->recordsToWriteSpool[$valueType][0];
+            $tableName = $this->getTableNameToInsert($value);
+            $fields    = $this->getInsertFields();
+            $record    = $this->getInsertRecordBind();
+
+            $this->getModel()->insertRecord($tableName, $fields, $record, $name, $value);
+        }
+        $this->recordsToWriteSpool[$valueType] = array();
+    }
+
     protected function getInsertRecordBind()
     {
+        $now = Date::now()->getDatetime();
+        if (empty($this->earliestNow)) {
+            $this->earliestNow = $now;
+        }
         return array($this->getIdArchive(),
             $this->idSite,
             $this->dateStart->toString('Y-m-d'),
             $this->period->getDateEnd()->toString('Y-m-d'),
             $this->period->getId(),
-            date("Y-m-d H:i:s"));
+            $now);
     }
 
     protected function getTableNameToInsert($value)
     {
-        if (is_numeric($value)) {
+        if ($this->isRecordNumeric($value)) {
             return $this->getTableNumeric();
         }
 
@@ -272,5 +327,10 @@ class ArchiveWriter
     protected function isRecordZero($value)
     {
         return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
+    }
+
+    private function isRecordNumeric($value)
+    {
+        return is_numeric($value);
     }
 }

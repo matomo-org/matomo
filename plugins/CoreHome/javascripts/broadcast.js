@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -53,7 +53,7 @@ var broadcast = {
     /**
      * Initializes broadcast object
      *
-     * @deprecated in 3.2.2, will be removed in Piwik 4
+     * @deprecated in 3.2.2, will be removed in Matomo 5
      *
      * @return {void}
      */
@@ -81,7 +81,7 @@ var broadcast = {
      *
      * * Note: the method is manipulated in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
      *
-     * @deprecated since 3.2.2, will be removed in Piwik 4
+     * @deprecated since 3.2.2, will be removed in Matomo 5
      *
      * @param {string}  hash to load page with
      * @return {void}
@@ -199,7 +199,7 @@ var broadcast = {
      *
      * NOTE: this method will only make ajax call and replacing main content.
      *
-     * @deprecated in 3.2.2, will be removed in Piwik 4.
+     * @deprecated in 3.2.2, will be removed in Matomo 5.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
      * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
@@ -242,9 +242,10 @@ var broadcast = {
         }
 
         if (disableHistory) {
-            var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
+            var $window = piwikHelper.getAngularDependency('$window');
+            var newLocation = $window.location.href.split('#')[0] + '#?' + currentHashStr;
             // window.location.replace changes the current url without pushing it on the browser's history stack
-            window.location.replace(newLocation);
+            $window.location.replace(newLocation);
         }
         else {
             // Let history know about this new Hash and load it.
@@ -306,11 +307,14 @@ var broadcast = {
      * @param {string} str  url with parameters to be updated
      * @param {boolean} [showAjaxLoading] whether to show the ajax loading gif or not.
      * @param {string} strHash additional parameters that should be updated on the hash
+     * @param {array} paramsToRemove Optional parameters to remove from the URL.
      * @return {void}
      */
-    propagateNewPage: function (str, showAjaxLoading, strHash) {
+    propagateNewPage: function (str, showAjaxLoading, strHash, paramsToRemove) {
         // abort all existing ajax requests
         globalAjaxQueue.abort();
+
+        paramsToRemove = paramsToRemove || [];
 
         if (typeof showAjaxLoading === 'undefined' || showAjaxLoading) {
             piwikHelper.showAjaxLoading();
@@ -318,8 +322,10 @@ var broadcast = {
 
         var params_vals = str.split("&");
 
+        var $window = piwikHelper.getAngularDependency('$window');
+
         // available in global scope
-        var currentSearchStr = window.location.search;
+        var currentSearchStr = $window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
         
         if (!currentSearchStr) {
@@ -328,19 +334,41 @@ var broadcast = {
 
         var oldUrl = currentSearchStr + currentHashStr;
 
-        for (var i = 0; i < params_vals.length; i++) {
+        // remove all array query params that are currently set. if we don't do this the array parameters we add
+        // just get added to the existing parameters.
+        params_vals.forEach(function (param) {
+            if (/\[]=/.test(decodeURIComponent(param))) {
+                var paramName = decodeURIComponent(param).split('[]=')[0];
+                removeParam(paramName);
+            }
+        });
 
-            if(params_vals[i].length == 0) {
-                continue; // updating with empty string would destroy some values
+        // remove parameters if needed
+        paramsToRemove.forEach(function (paramName) {
+            removeParam(paramName);
+        });
+
+        // update/add parameters based on whether the parameter is an array param or not
+        params_vals.forEach(function (param) {
+            if(!param.length) {
+                return; // updating with empty string would destroy some values
             }
 
-            // update both the current search query and hash string
-            currentSearchStr = broadcast.updateParamValue(params_vals[i], currentSearchStr);
+            if (/\[]=/.test(decodeURIComponent(param))) { // array param value
+                currentSearchStr = broadcast.addArrayParamValue(param, currentSearchStr);
 
-            if (currentHashStr.length != 0) {
-                currentHashStr = broadcast.updateParamValue(params_vals[i], currentHashStr);
+                if (currentHashStr.length !== 0) {
+                    currentHashStr = broadcast.addArrayParamValue(param, currentHashStr);
+                }
+            } else {
+                // update both the current search query and hash string
+                currentSearchStr = broadcast.updateParamValue(param, currentSearchStr);
+
+                if (currentHashStr.length !== 0) {
+                    currentHashStr = broadcast.updateParamValue(param, currentHashStr);
+                }
             }
-        }
+        });
 
         var updatedUrl = new RegExp('&updated=([0-9]+)');
         var updatedCounter = updatedUrl.exec(currentSearchStr);
@@ -367,16 +395,22 @@ var broadcast = {
                 if (event) {
                     event.preventDefault();
                 }
-            })
+            });
         }
 
         if (oldUrl == newUrl) {
-            window.location.reload();
+            $window.location.reload();
         } else {
             this.forceReload = true;
-            window.location.href = newUrl;
+            $window.location.href = newUrl;
         }
         return false;
+
+        function removeParam(paramName) {
+            var paramRegex = new RegExp(paramName + '(\\[]|%5B%5D)?=[^&?#]*&?', 'gi');
+            currentSearchStr = currentSearchStr.replace(paramRegex, '');
+            currentHashStr = currentHashStr.replace(paramRegex, '');
+        }
     },
 
     /*************************************************
@@ -403,7 +437,7 @@ var broadcast = {
         var p_v = newParamValue.split("=");
 
         var paramName = p_v[0];
-        var valFromUrl = broadcast.getParamValue(paramName, urlStr);
+        var valFromUrl = broadcast.getParamValue(paramName, urlStr) || broadcast.getParamValue(encodeURIComponent(paramName), urlStr);
         // if set 'idGoal=' then we remove the parameter from the URL automatically (rather than passing an empty value)
         var paramValue = p_v[1];
         if (paramValue == '') {
@@ -413,13 +447,13 @@ var broadcast = {
             return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
         };
 
-        if (valFromUrl != '') {
+        if (valFromUrl != '' || urlStr.indexOf(paramName + '=') !== -1) {
             // replacing current param=value to newParamValue;
             valFromUrl = getQuotedRegex(valFromUrl);
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
                 // if new value is empty remove leading &, as well
-                regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
+                regToBeReplace = new RegExp('[\&]?(' + paramName + '|' + encodeURIComponent(paramName) + ')=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
         } else if (newParamValue != '') {
@@ -427,6 +461,21 @@ var broadcast = {
         }
 
         return urlStr;
+    },
+
+    /**
+     * Adds a query param value. Use it to add an array parameter value where you don't want to remove an existing value first.
+     *
+     * @param newParamValue
+     * @param urlStr
+     */
+    addArrayParamValue: function (newParamValue, urlStr) {
+        if (urlStr.indexOf('?') === -1) {
+            urlStr += '?';
+        } else {
+            urlStr += '&';
+        }
+        return urlStr + newParamValue;
     },
 
     /**
@@ -446,7 +495,6 @@ var broadcast = {
      *                       handler.
      */
     propagateNewPopoverParameter: function (handlerName, value) {
-
         var $location = angular.element(document).injector().get('$location');
 
         var popover = '';
@@ -467,7 +515,11 @@ var broadcast = {
             }
         }
 
-        $location.search('popover', popover);
+        var $window = piwikHelper.getAngularDependency('$window');
+        var urlStr = $window.location.hash;
+        urlStr = broadcast.updateParamValue('popover=' + encodeURIComponent(popover), urlStr);
+        urlStr = urlStr.replace(/^[#?]+/, '');
+        $location.search(urlStr);
 
         setTimeout(function () {
             angular.element(document).injector().get('$rootScope').$apply();
@@ -726,20 +778,37 @@ var broadcast = {
         var startStr = url.indexOf(lookFor);
 
         if (startStr >= 0) {
-            var endStr = url.indexOf("&", startStr);
-            if (endStr == -1) {
+            return getSingleValue(startStr, url);
+        } else {
+            url = decodeURIComponent(url);
+
+            // try looking for multi value param
+            lookFor = param + '[]=';
+            startStr = url.indexOf(lookFor);
+            if (startStr >= 0) {
+                var result = [getSingleValue(startStr)];
+                while ((startStr = url.indexOf(lookFor, startStr + 1)) !== -1) {
+                    result.push(getSingleValue(startStr));
+                }
+                return result;
+            } else {
+                return '';
+            }
+        }
+
+        function getSingleValue(startPos) {
+            var endStr = url.indexOf("&", startPos);
+            if (endStr === -1) {
                 endStr = url.length;
             }
-            var value = url.substring(startStr + param.length + 1, endStr);
+            var value = url.substring(startPos + lookFor.length, endStr);
 
             // we sanitize values to add a protection layer against XSS
-            // &segment= value is not sanitized, since segments are designed to accept any user input
-            if(param != 'segment') {
+            // parameters 'segment', 'popover' and 'compareSegments' are not sanitized, since segments are designed to accept any user input
+            if(param != 'segment' && param != 'popover' && param != 'compareSegments') {
                 value = value.replace(/[^_%~\*\+\-\<\>!@\$\.()=,;0-9a-zA-Z]/gi, '');
             }
             return value;
-        } else {
-            return '';
         }
     },
 
@@ -763,7 +832,7 @@ var broadcast = {
             var urlParts = url.split('#');
             searchString = urlParts[0];
         } else {
-            searchString = location.search;
+            searchString = window.location.search;
         }
         return searchString;
     }

@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Aggregate rows are shown %s Hide them",
         "DataTableIncludeAggregateRows": "Aggregate rows are hidden %s Show them",
         "DataTableHowToSearch": "Press enter or click the search icon to search",
+        "DataTableShowDimensions": "Dimensions are combined %s Show dimensions separately",
+        "DataTableCombineDimensions": "Dimensions are shown separately %s Show dimensions combined",
         "Default": "default",
         "DonateCall1": "Matomo will always cost you nothing to use, but that doesn't mean it costs us nothing to make.",
         "DonateCall2": "Matomo needs your continued support to grow and thrive.",
@@ -100,10 +102,14 @@
         "RowLimit": "Row limit",
         "CustomLimit": "Custom limit",
         "ExportFormat": "Export format",
+        "ExportTooltip": "Note: The generated export URL will only work in the current browser session. If you want to use it somewhere else you need to use an app specific token. You can configure these tokens in Admin -> Security -> Token Auths.",
         "ExpandSubtables": "Expand subtables",
         "StandardReport": "Standard report",
         "FlattenReport": "Flatten report",
         "ReportWithMetadata": "Report with metadata",
-        "SeeAvailableVersions": "See Available Versions"
+        "ReadMoreOnlineGuide": "Read more about this topic in the online guide.",
+        "SeeAvailableVersions": "See Available Versions",
+        "QuickLinks": "Quick Links",
+        "Profilable": "Profilable"
     }
 }

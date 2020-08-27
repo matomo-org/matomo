@@ -8,7 +8,6 @@
         "ReportingApiReference": "Referanse for rapporterings-API",
         "TopLinkTooltip": "Få tilgang til dine analysedata programmatisk gjennom en enkel API i json, xml, etc.",
         "UserAuthentication": "Brukerautentisering",
-        "UsingTokenAuth": "Hvis du vil %1$s spørre etter data i et script, en crontab, etc. %2$s må du legge til parameteret %3$s til API-spørringer som krever autentisering.",
         "Glossary": "Ordliste"
     }
 }

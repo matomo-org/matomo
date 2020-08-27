@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<name>KPI Metric</name>
+		<category>
+			<id>General_KpiMetric</id>
+			<name>KPI Metric</name>
+			<order>1</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreVisualizations</module>
+		<action>singleMetricView</action>
+		<order>99</order>
+		<parameters>
+			<module>CoreVisualizations</module>
+			<action>singleMetricView</action>
+			<column />
+		</parameters>
+		<uniqueId>widgetCoreVisualizationssingleMetricViewcolumn</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Real Time Visitor Count</name>
 		<category>
 			<id>General_Visitors</id>
@@ -117,6 +137,33 @@
 				<isReport>1</isReport>
 			</row>
 		</widgets>
+	</row>
+	<row>
+		<name>Evolution of page performance metrics</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory>
+			<id>General_Overview</id>
+			<name>Overview</name>
+			<order>2</order>
+		</subcategory>
+		<module>PagePerformance</module>
+		<action>getEvolutionGraph</action>
+		<order>20</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>graphStackedBarEvolution</viewDataTable>
+			<module>PagePerformance</module>
+			<action>getEvolutionGraph</action>
+		</parameters>
+		<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>graphStackedBarEvolution</viewDataTable>
+		<isReport>1</isReport>
 	</row>
 	<row>
 		<name>Visits Over Time</name>
@@ -2124,6 +2171,36 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Sales by User location: Browsers</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+		</subcategory>
+		<module>DevicesDetection</module>
+		<action>getBrowsers</action>
+		<order>208</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>DevicesDetection</module>
+			<action>getBrowsers</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Sales by User location: Device model</name>
 		<category>
 			<id>Goals_Ecommerce</id>
@@ -3064,26 +3141,6 @@
 		</widgets>
 	</row>
 	<row>
-		<name>Metric</name>
-		<category>
-			<id>General_Generic</id>
-			<name>Generic</name>
-			<order>70</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>CoreVisualizations</module>
-		<action>singleMetricView</action>
-		<order>99</order>
-		<parameters>
-			<module>CoreVisualizations</module>
-			<action>singleMetricView</action>
-			<column />
-		</parameters>
-		<uniqueId>widgetCoreVisualizationssingleMetricViewcolumn</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
 		<name>Pie graph</name>
 		<category>
 			<id>ExampleUI_UiFramework</id>
@@ -3374,6 +3431,25 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
+		<name>Quick Links</name>
+		<category>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreHome</module>
+		<action>quickLinks</action>
+		<order>16</order>
+		<parameters>
+			<module>CoreHome</module>
+			<action>quickLinks</action>
+		</parameters>
+		<uniqueId>widgetCoreHomequickLinks</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Example Widget Name</name>
 		<category>
 			<id>About Matomo</id>
@@ -3450,44 +3526,6 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Latest Marketplace Updates</name>
-		<category>
-			<id>About Matomo</id>
-			<name>About Matomo</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Marketplace</module>
-		<action>getNewPlugins</action>
-		<order>19</order>
-		<parameters>
-			<module>Marketplace</module>
-			<action>getNewPlugins</action>
-		</parameters>
-		<uniqueId>widgetMarketplacegetNewPlugins</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Premium Features</name>
-		<category>
-			<id>About Matomo</id>
-			<name>About Matomo</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Marketplace</module>
-		<action>getPremiumFeatures</action>
-		<order>20</order>
-		<parameters>
-			<module>Marketplace</module>
-			<action>getPremiumFeatures</action>
-		</parameters>
-		<uniqueId>widgetMarketplacegetPremiumFeatures</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
 		<name>Premium Features &amp; Services for Matomo</name>
 		<category>
 			<id>About Matomo</id>
@@ -3561,6 +3599,67 @@
 			<action>getRank</action>
 		</parameters>
 		<uniqueId>widgetSEOgetRank</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Become a Matomo Expert</name>
+		<category>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>Tour</module>
+		<action>getEngagement</action>
+		<order>99</order>
+		<parameters>
+			<module>Tour</module>
+			<action>getEngagement</action>
+		</parameters>
+		<uniqueId>widgetTourgetEngagement</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Latest Marketplace Updates</name>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+		</category>
+		<subcategory />
+		<module>Marketplace</module>
+		<action>getNewPlugins</action>
+		<order>19</order>
+		<parameters>
+			<module>Marketplace</module>
+			<action>getNewPlugins</action>
+		</parameters>
+		<uniqueId>widgetMarketplacegetNewPlugins</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Premium Features</name>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+		</category>
+		<subcategory>
+			<id>Marketplace_PaidPlugins</id>
+			<name>Premium Features</name>
+			<order>10</order>
+		</subcategory>
+		<module>Marketplace</module>
+		<action>getPremiumFeatures</action>
+		<order>20</order>
+		<parameters>
+			<module>Marketplace</module>
+			<action>getPremiumFeatures</action>
+		</parameters>
+		<uniqueId>widgetMarketplacegetPremiumFeatures</uniqueId>
 		<isWide>0</isWide>
 	</row>
 </result>

@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Pie graph screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ describe("PieGraph", function () {
 
     it("should change displayed metric when another metric picked", async function () {
         await page.waitForSelector('.jqplot-seriespicker-popover input');
-        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):eq(0)');
         await element.click();
 
         await page.waitForNetworkIdle();

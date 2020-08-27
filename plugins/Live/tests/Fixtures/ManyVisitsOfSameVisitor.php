@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Live\tests\Fixtures;
@@ -19,7 +19,7 @@ class ManyVisitsOfSameVisitor extends Fixture
     public $idSite = 1;
     public $idSite2 = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::siteCreated($this->idSite)) {
             self::createWebsite($this->dateTime);
@@ -32,7 +32,7 @@ class ManyVisitsOfSameVisitor extends Fixture
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -55,14 +55,28 @@ class ManyVisitsOfSameVisitor extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
         $t->enableBulkTracking();
 
-        for ($numVisits = 0; $numVisits <= 30; $numVisits++) {
+        // -2 because we want to make sure to have 3 visits for the first day
+        for ($numVisits = -2; $numVisits <= 30; $numVisits++) {
             $t->setForceNewVisit();
             $t->setUrl('http://example.org/my/dir/page' . ($numVisits % 4));
 
-            $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
-            $t->setForceVisitDateTime($visitDateTime);
+            if ($numVisits > 0) {
+                $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
+                $t->setForceVisitDateTime($visitDateTime);
+            } else {
+                $visitDateTime = Date::factory($this->dateTime)->subHour(-$numVisits/10)->getDatetime();
+                $t->setForceVisitDateTime($visitDateTime);
+            }
 
             self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
+
+            if ($numVisits === -2) {
+                for ($k = 0; $k < 10; $k++) {
+                    // we generate many actions to make sure in the test when we segment by page title that it not just
+                    // returns one visit but multiple visits to ensure the group by is correct
+                    self::assertTrue($t->doTrackPageView('incredible title 1'));
+                }
+            }
         }
 
         self::checkBulkTrackingResponse($t->doBulkTrack());

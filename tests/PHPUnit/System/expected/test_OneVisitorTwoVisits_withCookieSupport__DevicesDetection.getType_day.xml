@@ -9,6 +9,7 @@
 		<max_actions>8</max_actions>
 		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -75,6 +76,12 @@
 		<logo>plugins/Morpheus/icons/dist/devices/smartphone.png</logo>
 	</row>
 	<row>
+		<label>Smart speaker</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==smart+speaker</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/smart_speaker.png</logo>
+	</row>
+	<row>
 		<label>Tablet</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==tablet</segment>
@@ -85,5 +92,11 @@
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==tv</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/tv.png</logo>
+	</row>
+	<row>
+		<label>Wearable</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==wearable</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/wearable.png</logo>
 	</row>
 </result>

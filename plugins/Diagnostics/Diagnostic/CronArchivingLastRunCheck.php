@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -58,7 +58,8 @@ class CronArchivingLastRunCheck implements Diagnostic
         $lastRunTime = (int)Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS);
         if (empty($lastRunTime)) {
             $comment = $this->translator->translate('Diagnostics_CronArchivingHasNotRun')
-                . '<br/><br/>' . $this->translator->translate('Diagnostics_CronArchivingRunDetails', [$coreArchiveShort, $mailto, $commandToRerun]);;
+                . '<br/><br/>' . $this->translator->translate('Diagnostics_CronArchivingRunDetails',
+                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="https://matomo.org/docs/setup-auto-archiving/" target="_blank" rel="noreferrer noopener">', '</a>']);
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment)];
         }
 
@@ -92,7 +93,7 @@ class CronArchivingLastRunCheck implements Diagnostic
     private function getArchivingCommand()
     {
         $domain = Config::getHostname();
-        return PIWIK_INCLUDE_PATH . ' --matomo-domain=' . $domain . ' core:archive';
+        return PIWIK_INCLUDE_PATH . '/console --matomo-domain=' . $domain . ' core:archive';
     }
 
     public static function getTimeSinceLastSuccessfulRun($lastRunTime = null)

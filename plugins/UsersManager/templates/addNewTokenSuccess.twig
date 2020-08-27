@@ -1,0 +1,18 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+
+    <div piwik-content-block content-title="{{ 'UsersManager_TokenSuccessfullyGenerated'|translate|e('html_attr') }}">
+        <p>
+            {{ 'UsersManager_PleaseStoreToken'|translate }}
+            <br>{{ 'UsersManager_DoNotStoreToken'|translate }}
+        </p>
+        <pre piwik-select-on-focus style="font-size: 40px;" class="generatedTokenAuth"><code>{{ generatedToken }}</code></pre>
+
+        <a href="{{ linkTo({'module': 'UsersManager', 'action': 'userSecurity'}) }}" class="btn" style="height:auto"
+        >{{ 'UsersManager_ConfirmTokenCopied'|translate }} {{ 'UsersManager_GoBackSecurityPage'|translate }}</a>
+    </div>
+
+{% endblock %}

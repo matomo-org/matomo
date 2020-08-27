@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Login;
@@ -98,7 +98,7 @@ class PasswordResetter
     /**
      * The from email to use in the confirm password reset email.
      *
-     * Deafults to the `[General] login_password_recovery_email_address` INI config option.
+     * Defaults to the `[General] login_password_recovery_email_address` INI config option.
      *
      * @var
      */
@@ -191,20 +191,7 @@ class PasswordResetter
         }
     }
 
-    /**
-     * Confirms a password reset. This should be called after {@link initiatePasswordResetProcess()}
-     * is called.
-     *
-     * This method will get the new password associated with a reset token and set it
-     * as the specified user's password.
-     *
-     * @param string $login The login of the user whose password is being reset.
-     * @param string $resetToken The generated string token contained in the reset password
-     *                           email.
-     * @throws Exception If there is no user with login '$login', if $resetToken is not a
-     *                   valid token or if the token has expired.
-     */
-    public function confirmNewPassword($login, $resetToken)
+    public function checkValidConfirmPasswordToken($login, $resetToken)
     {
         // get password reset info & user info
         $user = self::getUserInformation($login);
@@ -224,13 +211,35 @@ class PasswordResetter
 
         // check that the stored password hash is valid (sanity check)
         $resetPassword = $resetInfo['hash'];
+
         $this->checkPasswordHash($resetPassword);
 
-        // reset password of user
-        $usersManager = $this->usersManagerApi;
-        Access::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
+        return $resetPassword;
+    }
+
+    /**
+     * Confirms a password reset. This should be called after {@link initiatePasswordResetProcess()}
+     * is called.
+     *
+     * This method will get the new password associated with a reset token and set it
+     * as the specified user's password.
+     *
+     * @param string $login The login of the user whose password is being reset.
+     * @param string $passwordHash The generated string token contained in the reset password
+     *                           email.
+     * @throws Exception If there is no user with login '$login', if $resetToken is not a
+     *                   valid token or if the token has expired.
+     */
+    public function setHashedPasswordForLogin($login, $passwordHash)
+    {
+        Access::doAsSuperUser(function () use ($login, $passwordHash) {
             $userUpdater = new UserUpdater();
-            $userUpdater->updateUserWithoutCurrentPassword($user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
+            $userUpdater->updateUserWithoutCurrentPassword(
+                $login,
+                $passwordHash,
+                $email = false,
+                $isPasswordHashed = true
+            );
         });
     }
 
@@ -286,6 +295,12 @@ class PasswordResetter
             $user['password']
         );
         return $token;
+    }
+
+    public function doesResetPasswordHashMatchesPassword($passwordPlain, $passwordHash)
+    {
+        $passwordPlain = UsersManager::getPasswordHash($passwordPlain);
+        return $this->passwordHelper->verify($passwordPlain, $passwordHash);
     }
 
     /**
@@ -446,7 +461,7 @@ class PasswordResetter
 
         $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
         $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         @$mail->send();
     }
@@ -457,13 +472,37 @@ class PasswordResetter
      * @param string $login The user login for whom a password change was requested.
      * @param string $newPassword The new password to set.
      * @param string $keySuffix The suffix used in generating a token.
+     *
+     * @throws Exception if a password reset was already requested within one hour
      */
     private function savePasswordResetInfo($login, $newPassword, $keySuffix)
     {
-        $optionName = $this->getPasswordResetInfoOptionName($login);
+        $optionName = self::getPasswordResetInfoOptionName($login);
+
+        $existingResetInfo = Option::get($optionName);
+
+        $time = time();
+        $count = 0;
+
+        if ($existingResetInfo) {
+            $existingResetInfo = json_decode($existingResetInfo, true);
+
+            if (isset($existingResetInfo['timestamp']) && $existingResetInfo['timestamp'] > time()-3600) {
+                $time = $existingResetInfo['timestamp'];
+                $count = !empty($existingResetInfo['requests']) ? $existingResetInfo['requests'] : $count;
+
+                if(isset($existingResetInfo['requests']) && $existingResetInfo['requests'] > 2) {
+                    throw new Exception(Piwik::translate('Login_PasswordResetAlreadySent'));
+                }
+            }
+        }
+
+
         $optionData = [
             'hash' => $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword)),
             'keySuffix' => $keySuffix,
+            'timestamp' => $time,
+            'requests' => $count+1
         ];
         $optionData = json_encode($optionData);
 

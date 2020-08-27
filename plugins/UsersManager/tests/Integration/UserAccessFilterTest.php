@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -56,7 +56,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         'login8' => array('view' => array(4,7),     'admin' => array(2,5)), // access to a couple of sites with admin and view
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -73,7 +73,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_filterUser_WithSuperUserAccess_ShouldAlwaysReturnTrue()
     {
-        $this->configureAcccessForLogin('login1');
+        $this->configureAccessForLogin('login1');
         foreach ($this->getAllLogins() as $login) {
             $this->assertSame(array('login' => $login), $this->filter->filterUser(array('login' => $login)));
         }
@@ -82,7 +82,7 @@ class UserAccessFilterTest extends IntegrationTestCase
     public function test_filterUser_WithViewUserAccess_ShouldOnlyReturnUserForOwnLogin()
     {
         $identity = 'login4';
-        $this->configureAcccessForLogin($identity);
+        $this->configureAccessForLogin($identity);
         $this->assertSame(array('login' => $identity), $this->filter->filterUser(array('login' => $identity)));
         foreach ($this->getAllLogins() as $login) {
             if ($login !== $identity) {
@@ -96,7 +96,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterUser_WithAdminAccess_ShouldOnlyReturnUserForOwnLogin($expectedAllowed, $loginToSee)
     {
-        $this->configureAcccessForLogin('login2');
+        $this->configureAccessForLogin('login2');
         if ($expectedAllowed) {
             $this->assertSame(array('login' => $loginToSee), $this->filter->filterUser(array('login' => $loginToSee)));
         } else {
@@ -109,7 +109,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithAdminAccess_IsAllowedToSeeAnyUserHavingAccessToSameAdminSites($expectedAllowed, $loginToSee)
     {
-        $this->configureAcccessForLogin('login2');
+        $this->configureAccessForLogin('login2');
         $this->assertSame($expectedAllowed, $this->filter->isNonSuperUserAllowedToSeeThisLogin($loginToSee));
     }
 
@@ -129,7 +129,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithAdminAccess_IsAllowedToSeeAnyUserHavingAccessToSameAdminSites_UserHasAccessToOnlyOneAdminSite()
     {
-        $this->configureAcccessForLogin('login5');
+        $this->configureAccessForLogin('login5');
 
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login2'));
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login5'));
@@ -144,7 +144,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithOnlyViewAccess_IsAllowedToSeeOnlyOwnUser()
     {
-        $this->configureAcccessForLogin('login7');
+        $this->configureAccessForLogin('login7');
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login7')); // a view user is allowed to see itself
 
         $this->assertFalse($this->filter->isNonSuperUserAllowedToSeeThisLogin('login1')); // a user having view access only is not allowed to see any other user
@@ -158,7 +158,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     public function test_isNonSuperUserAllowedToSeeThisLogin_WithNoAccess_IsStillAllowedToSeeAnyUser()
     {
-        $this->configureAcccessForLogin('login3');
+        $this->configureAccessForLogin('login3');
         $this->assertTrue($this->filter->isNonSuperUserAllowedToSeeThisLogin('login3')); // a view user is allowed to see itself
 
         $this->assertFalse($this->filter->isNonSuperUserAllowedToSeeThisLogin('login1'));
@@ -175,7 +175,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterLogins($expectedLogins, $loginIdentity, $logins)
     {
-        $this->configureAcccessForLogin($loginIdentity);
+        $this->configureAccessForLogin($loginIdentity);
         $this->assertSame($expectedLogins, $this->filter->filterLogins($logins)); // a view user is allowed to see itself
     }
 
@@ -184,13 +184,13 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterUsers($expectedLogins, $loginIdentity, $logins)
     {
-        $this->configureAcccessForLogin($loginIdentity);
+        $this->configureAccessForLogin($loginIdentity);
 
         $users = array();
         $expectedUsers = array();
 
         foreach ($logins as $login) {
-            $user = array('login' => $login, 'alias' => 'test', 'password' => md5('pass'));
+            $user = array('login' => $login, 'password' => md5('pass'));
 
             $users[] = $user;
             if (in_array($login, $expectedLogins)) {
@@ -206,7 +206,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     public function test_filterLoginIndexedArray($expectedLogins, $loginIdentity, $logins)
     {
-        $this->configureAcccessForLogin($loginIdentity);
+        $this->configureAccessForLogin($loginIdentity);
 
         $testArray = array();
         $expectedTestArray = array();
@@ -283,16 +283,16 @@ class UserAccessFilterTest extends IntegrationTestCase
 
     private function createManyUsers()
     {
-        $this->model->addUser('login1', md5('pass'), 'email1@example.com', 'alias1', md5('token1'), '2008-01-01 00:00:00');
-        $this->model->addUser('login2', md5('pass'), 'email2@example.com', 'alias2', md5('token2'), '2008-01-01 00:00:00');
+        $this->model->addUser('login1', md5('pass'), 'email1@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login2', md5('pass'), 'email2@example.com', '2008-01-01 00:00:00');
         // login3 won't have access to any site
-        $this->model->addUser('login3', md5('pass'), 'email3@example.com', 'alias3', md5('token3'), '2008-01-01 00:00:00');
-        $this->model->addUser('login4', md5('pass'), 'email4@example.com', 'alias4', md5('token4'), '2008-01-01 00:00:00');
-        $this->model->addUser('login5', md5('pass'), 'email5@example.com', 'alias5', md5('token5'), '2008-01-01 00:00:00');
-        $this->model->addUser('login6', md5('pass'), 'email6@example.com', 'alias6', md5('token6'), '2008-01-01 00:00:00');
-        $this->model->addUser('login7', md5('pass'), 'email7@example.com', 'alias7', md5('token7'), '2008-01-01 00:00:00');
-        $this->model->addUser('login8', md5('pass'), 'email8@example.com', 'alias8', md5('token8'), '2008-01-01 00:00:00');
-        $this->model->addUser('anonymous', '',       'ano@example.com',   'anonymous', 'anonymous', '2008-01-01 00:00:00');
+        $this->model->addUser('login3', md5('pass'), 'email3@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login4', md5('pass'), 'email4@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login5', md5('pass'), 'email5@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login6', md5('pass'), 'email6@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login7', md5('pass'), 'email7@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('login8', md5('pass'), 'email8@example.com', '2008-01-01 00:00:00');
+        $this->model->addUser('anonymous', '', 'ano@example.com', '2008-01-01 00:00:00');
 
         $this->model->setSuperUserAccess('login1', true); // we treat this one as our superuser
 
@@ -303,7 +303,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         }
     }
 
-    private function configureAcccessForLogin($login)
+    private function configureAccessForLogin($login)
     {
         $hasSuperUser = false;
         $idSitesAdmin = array();

@@ -1,13 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Access;
+use Piwik\Date;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -29,7 +30,12 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function schedule()
     {
+        $this->daily("cleanupExpiredTokens");
         $this->daily("setUserDefaultReportPreference");
+    }
+
+    public function cleanupExpiredTokens() {
+        $this->usersModel->deleteExpiredTokens(Date::now()->getDatetime());
     }
 
     public function setUserDefaultReportPreference()

@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,9 +11,9 @@ var hasBlockedContent = false;
 (function () {
     angular.module('piwikApp.service').factory('piwikApi', piwikApiService);
 
-    piwikApiService.$inject = ['$http', '$q', '$rootScope', 'piwik', '$window'];
+    piwikApiService.$inject = ['$http', '$q', '$rootScope', 'piwik', '$window', 'piwikUrl'];
 
-    function piwikApiService ($http, $q, $rootScope, piwik, $window) {
+    function piwikApiService ($http, $q, $rootScope, piwik, $window, piwikUrl) {
 
         var url = 'index.php';
         var format = 'json';
@@ -33,7 +33,15 @@ var hasBlockedContent = false;
                 params = piwik.broadcast.getValuesFromUrl(params);
             }
 
+            var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
+
             for (var key in params) {
+                if (arrayParams.indexOf(key) !== -1
+                    && !params[key]
+                ) {
+                    continue;
+                }
+
                 getParams[key] = params[key];
             }
         }
@@ -41,6 +49,7 @@ var hasBlockedContent = false;
         function withTokenInUrl()
         {
             postParams['token_auth'] = piwik.token_auth;
+            postParams['force_api_session'] = '1';
         }
 
         function isRequestToApiMethod() {
@@ -95,9 +104,7 @@ var hasBlockedContent = false;
 
                 if (!angular.isDefined(response) || response === null) {
                     return $q.reject(null);
-
                 } else if (isErrorResponse(response)) {
-
                     createResponseErrorNotification(response, options);
 
                     return $q.reject(response.message || null);
@@ -126,15 +133,14 @@ var hasBlockedContent = false;
             };
 
             var requestFormat = format;
-            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json2') {
+            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json') {
                 requestFormat = getParams.format;
             }
 
             var ajaxCall = {
                 method: 'POST',
-                url: url,
+                url: url + '?' + $.param(mixinDefaultGetParams(getParams)),
                 responseType: requestFormat,
-                params: mixinDefaultGetParams(getParams),
                 data: $.param(getPostParams(postParams)),
                 timeout: requestPromise,
                 headers: headers
@@ -186,6 +192,7 @@ var hasBlockedContent = false;
         function getPostParams (params) {
             if (isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
                 params.token_auth = piwik.token_auth;
+                params.force_api_session = '1';
             }
 
             return params;
@@ -199,15 +206,16 @@ var hasBlockedContent = false;
          * @private
          */
         function mixinDefaultGetParams (getParamsToMixin) {
-            var segment = piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1]);
-
             // we have to decode the value manually because broadcast will not decode anything itself. if we don't,
             // angular will encode it again before sending the value in an HTTP request.
-            segment = decodeURIComponent(segment);
+            var segment = piwikUrl.getSearchParam('segment');
+            if (segment) {
+                segment = decodeURIComponent(segment);
+            }
 
             var defaultParams = {
-                idSite:  piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'),
-                period:  piwik.period || piwik.broadcast.getValueFromUrl('period'),
+                idSite:  piwik.idSite || piwikUrl.getSearchParam('idSite'),
+                period:  piwik.period || piwikUrl.getSearchParam('period'),
                 segment: segment
             };
 
@@ -254,7 +262,7 @@ var hasBlockedContent = false;
             getParams.module = getParams.module || 'API';
 
             if (!getParams.format) {
-                getParams.format = 'JSON2';
+                getParams.format = 'JSON';
             }
 
             addParams(getParams);
@@ -270,6 +278,7 @@ var hasBlockedContent = false;
             if (_postParams_) {
                 if (postParams && postParams.token_auth && !_postParams_.token_auth) {
                     _postParams_.token_auth = postParams.token_auth;
+                    _postParams_.force_api_session = '1';
                 }
                 postParams = _postParams_;
             }
@@ -331,9 +340,6 @@ var hasBlockedContent = false;
             post: post,
             fetch: fetch,
             addPostParams: addPostParams,
-            /**
-             * @deprecated
-             */
             abort: abort,
             abortAll: abortAll,
             mixinDefaultGetParams: mixinDefaultGetParams

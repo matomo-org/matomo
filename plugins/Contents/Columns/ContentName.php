@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -24,6 +24,7 @@ class ContentName extends ActionDimension
     protected $nameSingular = 'Contents_ContentName';
     protected $namePlural = 'Contents_ContentNames';
     protected $acceptValues = 'The name of a content block, for instance "Ad Sale"';
+    protected $suggestedValuesApi = 'Contents.getContentNames';
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';

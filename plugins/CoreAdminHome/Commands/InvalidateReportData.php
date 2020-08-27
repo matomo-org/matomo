@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -53,6 +53,7 @@ class InvalidateReportData extends ConsoleCommand
             . ' also invalidate all days within 2015-09-13,2015-09-19, even those outside the date range.');
         $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For tests. Runs the command w/o actually '
             . 'invalidating anything.');
+        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'To invalidate data for a specific plugin only.');
         $this->setHelp('Invalidate archived report data by date range, site and period. Invalidated archive data will '
             . 'be re-archived during the next core:archive run. If your log data has changed for some reason, this '
             . 'command can be used to make sure reports are generated using the new, changed log data.');
@@ -64,6 +65,7 @@ class InvalidateReportData extends ConsoleCommand
 
         $cascade = $input->getOption('cascade');
         $dryRun = $input->getOption('dry-run');
+        $plugin = $input->getOption('plugin');
 
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
@@ -71,6 +73,9 @@ class InvalidateReportData extends ConsoleCommand
         $segments = $this->getSegmentsToInvalidateFor($input, $sites);
 
         foreach ($periodTypes as $periodType) {
+            if ($periodType === 'range') {
+                continue; // special handling for range below
+            }
             foreach ($dateRanges as $dateRange) {
                 foreach ($segments as $segment) {
                     $segmentStr = $segment ? $segment->getString() : '';
@@ -80,15 +85,45 @@ class InvalidateReportData extends ConsoleCommand
                     $dates = $this->getPeriodDates($periodType, $dateRange);
 
                     if ($dryRun) {
-                        $output->writeln("[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
+                        $message = "[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
                             . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], segment = [ "
-                            . "$segmentStr ], cascade = [ " . (int)$cascade . " ]");
+                            . "$segmentStr ], cascade = [ " . (int)$cascade . " ]";
+                        if (!empty($plugin)) {
+                            $message .= ", plugin = [ $plugin ]";
+                        }
+                        $output->writeln($message);
                     } else {
-                        $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade);
+                        $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
+                            false, $plugin);
 
                         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
                             $output->writeln($invalidationResult->makeOutputLogs());
                         }
+                    }
+                }
+            }
+        }
+
+        $periods = trim($input->getOption('periods'));
+        $isUsingAllOption = $periods === self::ALL_OPTION_VALUE;
+        if ($isUsingAllOption || in_array('range', $periodTypes)) {
+            $rangeDates = array();
+            foreach ($dateRanges as $dateRange) {
+                if ($isUsingAllOption
+                    && !Period::isMultiplePeriod($dateRange, 'day')) {
+                    continue; // not a range, nothing to do... only when "all" option is used
+                }
+
+                $rangeDates[] = $this->getPeriodDates('range', $dateRange);
+            }
+            if (!empty($rangeDates)) {
+                foreach ($segments as $segment) {
+                    $segmentStr = $segment ? $segment->getString() : '';
+                    if ($dryRun) {
+                        $dateRangeStr = implode(';', $dateRanges);
+                        $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
+                    } else {
+                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
                     }
                 }
             }
@@ -123,7 +158,6 @@ class InvalidateReportData extends ConsoleCommand
 
         if ($periods == self::ALL_OPTION_VALUE) {
             $result = array_keys(Piwik::$idPeriods);
-            unset($result[4]); // remove 'range' period
             return $result;
         }
 
@@ -131,11 +165,6 @@ class InvalidateReportData extends ConsoleCommand
         $periods = array_map('trim', $periods);
 
         foreach ($periods as $periodIdentifier) {
-            if ($periodIdentifier == 'range') {
-                throw new \InvalidArgumentException(
-                    "Invalid period type: invalidating range periods is not currently supported.");
-            }
-
             if (!isset(Piwik::$idPeriods[$periodIdentifier])) {
                 throw new \InvalidArgumentException("Invalid period type '$periodIdentifier' supplied in --periods.");
             }
@@ -165,13 +194,17 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         try {
+
             $period = PeriodFactory::build($periodType, $dateRange);
         } catch (\Exception $ex) {
             throw new \InvalidArgumentException("Invalid date or date range specifier '$dateRange'", $code = 0, $ex);
         }
 
         $result = array();
-        if ($period instanceof Range) {
+        if ($periodType === 'range') {
+            $result[] = $period->getDateStart();
+            $result[] = $period->getDateEnd();
+        } elseif ($period instanceof Range) {
             foreach ($period->getSubperiods() as $subperiod) {
                 $result[] = $subperiod->getDateStart();
             }

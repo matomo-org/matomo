@@ -15,6 +15,7 @@ use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -43,13 +44,14 @@ class TwoFactorAuthTest extends IntegrationTestCase
     private $userPassword = '123abcDk3_l3';
     private $user2faSecret = '123456';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         foreach ([$this->userWith2Fa, $this->userWithout2Fa] as $user) {
             API::getInstance()->addUser($user, $this->userPassword, $user . '@matomo.org');
-            API::getInstance()->setSuperUserAccess($user, 1);
+            $userUpdater = new UserUpdater();
+            $userUpdater->setSuperUserAccessWithoutCurrentPassword($user, 1);
         }
 
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);
@@ -62,60 +64,66 @@ class TwoFactorAuthTest extends IntegrationTestCase
         unset($_GET['authCode']);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['authCode']);
     }
 
-    public function test_onApiGetTokenAuth_canAuthenticateWhenUserNotUsesTwoFA()
+    public function test_onCreateAppSpecificTokenAuth_canAuthenticateWhenUserNotUsesTwoFA()
     {
-        $token = Request::processRequest('UsersManager.getTokenAuth', array(
+        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWithout2Fa,
-            'md5Password' => md5($this->userPassword)
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test'
         ));
         $this->assertEquals(32, strlen($token));
     }
 
-    public function test_onApiGetTokenAuth_returnsRandomTokenWhenNotAuthenticatedEvenWhen2FAenabled()
+    public function test_onCreateAppSpecificTokenAuth_failsWhenNotAuthenticatedEvenWhen2FAenabled()
     {
-        $token = Request::processRequest('UsersManager.getTokenAuth', array(
-            'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5('invalidPAssword')
-        ));
-        $this->assertEquals(32, strlen($token));
-    }
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage TwoFactorAuth_MissingAuthCodeAPI
-     */
-    public function test_onApiGetTokenAuth_throwsErrorWhenMissingTokenWhenUsing2FaAndAuthenticatedCorrectly()
-    {
-        Request::processRequest('UsersManager.getTokenAuth', array(
+        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5($this->userPassword)
+            'passwordConfirmation' => 'invalidPAssword',
+            'description' => 'twofa test'
         ));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage TwoFactorAuth_InvalidAuthCode
-     */
-    public function test_onApiGetTokenAuth_throwsErrorWhenInvalidTokenWhenUsing2FaAndAuthenticatedCorrectly()
+    public function test_onCreateAppSpecificTokenAuth_throwsErrorWhenMissingTokenWhenUsing2FaAndAuthenticatedCorrectly()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('TwoFactorAuth_MissingAuthCodeAPI');
+
+        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+
+            'userLogin' => $this->userWith2Fa,
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test'
+        ));
+    }
+
+    public function test_onCreateAppSpecificTokenAuth_throwsErrorWhenInvalidTokenWhenUsing2FaAndAuthenticatedCorrectly()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('TwoFactorAuth_InvalidAuthCode');
+
         $_GET['authCode'] = '111222';
-        Request::processRequest('UsersManager.getTokenAuth', array(
+        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5($this->userPassword)
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test'
         ));
     }
 
-    public function test_onApiGetTokenAuth_returnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthentication()
+    public function test_onCreateAppSpecificTokenAuth_returnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthentication()
     {
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
-        $token = Request::processRequest('UsersManager.getTokenAuth', array(
+        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5($this->userPassword)
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test'
         ));
         $this->assertEquals(32, strlen($token));
     }

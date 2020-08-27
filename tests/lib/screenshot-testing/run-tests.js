@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * UI test runner script
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,13 +15,12 @@ const setUpGlobals = require('./support/globals.js');
 const Mocha = require('mocha');
 const chai = require('chai');
 const chaiFiles = require('chai-files');
-const resemble = require('resemblejs');
 require('./support/fs-extras');
 
 main();
 
 async function main() {
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--ignore-certificate-errors'] });
     const webpage = await browser.newPage();
     await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
 
@@ -45,42 +44,12 @@ async function main() {
         reporter: config.reporter,
         bail: false,
         useColors: true,
-        timeout: options.timeout || 240000
+        timeout: options.timeout || 240000,
     });
 
     const imageAssert = require('./support/chai-extras');
     chai.use(imageAssert());
     chai.use(chaiFiles);
-
-    // TODO: outputSettings is deprecated, should use in chai
-    resemble.outputSettings({
-        errorColor: {
-            red: 255,
-            green: 0,
-            blue: 0,
-            alpha: 125
-        },
-        errorType: 'movement',
-        transparency: 0.3,
-        largeImageThreshold: 20000,
-    });
-
-    // TODO: implement load timeout? not sure if it's needed.
-    /* TODO: timeout should be global mocha timeout
-    timeout = setTimeout(function () {
-        var timeoutDetails = "";
-        timeoutDetails += "Page is loading: " + self._isLoading + "\n";
-        timeoutDetails += "Initializing: " + self._isInitializing + "\n";
-        timeoutDetails += "Navigation requested: " + self._isNavigationRequested + "\n";
-        timeoutDetails += "Pending AJAX request count: " + self._getAjaxRequestCount() + "\n";
-        timeoutDetails += "Loading images count: " + self._getImageLoadingCount() + "\n";
-        timeoutDetails += "Remaining resources: " + JSON.stringify(self._resourcesRequested) + "\n";
-
-        self.abort();
-
-        callback(new Error("Screenshot load timeout. Details:\n" + timeoutDetails));
-    }, 240 * 1000);
-    */
 
     // run script
     if (options['help']) {

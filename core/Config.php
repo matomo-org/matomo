@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -106,7 +106,7 @@ class Config
      */
     public static function getGlobalConfigPath()
     {
-        return PIWIK_USER_PATH . self::DEFAULT_GLOBAL_CONFIG_PATH;
+        return PIWIK_DOCUMENT_ROOT . self::DEFAULT_GLOBAL_CONFIG_PATH;
     }
 
     /**
@@ -136,6 +136,10 @@ class Config
      */
     public static function getLocalConfigPath()
     {
+        if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
+            return call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
+        }
+        
         $path = self::getByDomainConfigPath();
         if ($path) {
             return $path;
@@ -287,26 +291,6 @@ class Config
     }
 
     /**
-     * Clear in-memory configuration so it can be reloaded
-     * @deprecated since v2.12.0
-     */
-    public function clear()
-    {
-        $this->reload();
-    }
-
-    /**
-     * Read configuration from files into memory
-     *
-     * @throws Exception if local config file is not readable; exits for other errors
-     * @deprecated since v2.12.0
-     */
-    public function init()
-    {
-        $this->reload();
-    }
-
-    /**
      * Reloads config data from disk.
      *
      * @throws \Exception if the global config file is not found and this is a tracker request, or
@@ -317,9 +301,6 @@ class Config
         $this->settings->reload($pathGlobal, $pathLocal, $pathCommon);
     }
 
-    /**
-     * @deprecated
-     */
     public function existsLocalConfig()
     {
         return is_readable($this->getLocalPath());
@@ -403,16 +384,9 @@ class Config
     /**
      * Write user configuration file
      *
-     * @param array $configLocal
-     * @param array $configGlobal
-     * @param array $configCommon
-     * @param array $configCache
-     * @param string $pathLocal
-     * @param bool $clear
-     *
      * @throws \Exception if config file not writable
      */
-    protected function writeConfig($clear = true)
+    protected function writeConfig()
     {
         $output = $this->dumpConfig();
         if ($output !== null
@@ -431,16 +405,14 @@ class Config
                 throw $this->getConfigNotWritableException();
             }
 
+            $this->settings->getIniFileChain()->deleteConfigCache();
+
             /**
              * Triggered when a INI config file is changed on disk.
              *
              * @param string $localPath Absolute path to the changed file on the server.
              */
             Piwik::postEvent('Core.configFileChanged', [$localPath]);
-        }
-
-        if ($clear) {
-            $this->reload();
         }
     }
 

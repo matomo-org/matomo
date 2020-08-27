@@ -5,9 +5,24 @@
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>34</sum_time_spent>
-		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
-		<min_time_generation>0.058</min_time_generation>
-		<max_time_generation>0.292</max_time_generation>
+		<nb_hits_with_time_network>2</nb_hits_with_time_network>
+		<min_time_network>0.067</min_time_network>
+		<max_time_network>0.067</max_time_network>
+		<nb_hits_with_time_server>2</nb_hits_with_time_server>
+		<min_time_server>0.116</min_time_server>
+		<max_time_server>0.116</max_time_server>
+		<nb_hits_with_time_transfer>2</nb_hits_with_time_transfer>
+		<min_time_transfer>0.521</min_time_transfer>
+		<max_time_transfer>0.521</max_time_transfer>
+		<nb_hits_with_time_dom_processing>2</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.654</min_time_dom_processing>
+		<max_time_dom_processing>0.654</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>2</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.7</min_time_dom_completion>
+		<max_time_dom_completion>0.7</max_time_dom_completion>
+		<nb_hits_with_time_on_load>2</nb_hits_with_time_on_load>
+		<min_time_on_load>0.135</min_time_on_load>
+		<max_time_on_load>0.135</max_time_on_load>
 		<sum_bandwidth>172</sum_bandwidth>
 		<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
 		<min_bandwidth>86</min_bandwidth>
@@ -21,20 +36,41 @@
 		<sum_daily_entry_nb_uniq_visitors>4</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0.034</avg_time_network>
+		<avg_time_server>0.058</avg_time_server>
+		<avg_time_transfer>0.261</avg_time_transfer>
+		<avg_time_dom_processing>0.327</avg_time_dom_processing>
+		<avg_time_dom_completion>0.35</avg_time_dom_completion>
+		<avg_time_on_load>0.068</avg_time_on_load>
+		<avg_page_load_time>1.098</avg_page_load_time>
 		<avg_time_on_page>9</avg_time_on_page>
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>50%</exit_rate>
-		<avg_time_generation>0.177</avg_time_generation>
-		<segment>pageTitle==Liberate+Web+Analytics+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Liberate%2BWeb%2BAnalytics%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Log Analytics - Analytics - Piwik</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.145</min_time_generation>
-		<max_time_generation>0.145</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0.0000</min_time_network>
+		<max_time_network>0.0000</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.3550</min_time_server>
+		<max_time_server>0.3550</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.0990</min_time_transfer>
+		<max_time_transfer>0.0990</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.3410</min_time_dom_processing>
+		<max_time_dom_processing>0.3410</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.2000</min_time_dom_completion>
+		<max_time_dom_completion>0.2000</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0.1100</min_time_on_load>
+		<max_time_on_load>0.1100</max_time_on_load>
 		<sum_bandwidth>86</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -48,40 +84,82 @@
 		<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0.355</avg_time_server>
+		<avg_time_transfer>0.099</avg_time_transfer>
+		<avg_time_dom_processing>0.341</avg_time_dom_processing>
+		<avg_time_dom_completion>0.2</avg_time_dom_completion>
+		<avg_time_on_load>0.11</avg_time_on_load>
+		<avg_page_load_time>1.105</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.145</avg_time_generation>
-		<segment>pageTitle==Log+Analytics+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Log%2BAnalytics%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Another Product page with no category</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
 		<max_bandwidth>43</max_bandwidth>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>pageTitle==Another+Product+page+with+no+category</segment>
+		<segment>pageTitle==Another%2BProduct%2Bpage%2Bwith%2Bno%2Bcategory</segment>
 	</row>
 	<row>
 		<label> Changelog Archive - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>79</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -93,20 +171,41 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>79</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>pageTitle==Changelog+Archive+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Changelog%2BArchive%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Contact the Piwik team - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -115,20 +214,41 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>pageTitle==Contact+the+Piwik+team+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Contact%2Bthe%2BPiwik%2Bteam%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.413</min_time_generation>
-		<max_time_generation>0.413</max_time_generation>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -142,20 +262,41 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.413</avg_time_generation>
-		<segment>pageTitle==demo.piwik.org%2FPiwik+Forums+-+Piwik+%E2%80%BA+Web+Analytics+Reports</segment>
+		<segment>pageTitle==demo.piwik.org%252FPiwik%2BForums%2B-%2BPiwik%2B%25E2%2580%25BA%2BWeb%2BAnalytics%2BReports</segment>
 	</row>
 	<row>
 		<label> Download - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>7</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.113</min_time_generation>
-		<max_time_generation>0.113</max_time_generation>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -164,20 +305,41 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>7</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.113</avg_time_generation>
-		<segment>pageTitle==Download+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Download%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Hello Installing Piwik - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.134</min_time_generation>
-		<max_time_generation>0.134</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0.0130</min_time_network>
+		<max_time_network>0.0130</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.1210</min_time_server>
+		<max_time_server>0.1210</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.2440</min_time_transfer>
+		<max_time_transfer>0.2440</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.3450</min_time_dom_processing>
+		<max_time_dom_processing>0.3450</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.0900</min_time_dom_completion>
+		<max_time_dom_completion>0.0900</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0.0000</min_time_on_load>
+		<max_time_on_load>0.0000</max_time_on_load>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -191,20 +353,41 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0.013</avg_time_network>
+		<avg_time_server>0.121</avg_time_server>
+		<avg_time_transfer>0.244</avg_time_transfer>
+		<avg_time_dom_processing>0.345</avg_time_dom_processing>
+		<avg_time_dom_completion>0.09</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0.813</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.134</avg_time_generation>
-		<segment>pageTitle==Hello+Installing+Piwik+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Hello%2BInstalling%2BPiwik%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> incredible title!</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -218,20 +401,41 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>pageTitle==incredible+title%21</segment>
+		<segment>pageTitle==incredible%2Btitle%2521</segment>
 	</row>
 	<row>
 		<label> Integrate Piwik into your Rails Application - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.391</min_time_generation>
-		<max_time_generation>0.391</max_time_generation>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -245,20 +449,41 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.391</avg_time_generation>
-		<segment>pageTitle==Integrate+Piwik+into+your+Rails+Application+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Integrate%2BPiwik%2Binto%2Byour%2BRails%2BApplication%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Looking at Electronics &amp; Cameras page with a page level custom variable</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>86</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -272,20 +497,41 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>pageTitle==Looking+at+Electronics+%26amp%3B+Cameras+page+with+a+page+level+custom+variable</segment>
+		<segment>pageTitle==Looking%2Bat%2BElectronics%2B%2526amp%253B%2BCameras%2Bpage%2Bwith%2Ba%2Bpage%2Blevel%2Bcustom%2Bvariable</segment>
 	</row>
 	<row>
 		<label> Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.119</min_time_generation>
-		<max_time_generation>0.119</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0.0100</min_time_network>
+		<max_time_network>0.0100</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.0960</min_time_server>
+		<max_time_server>0.0960</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.2320</min_time_transfer>
+		<max_time_transfer>0.2320</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.3120</min_time_dom_processing>
+		<max_time_dom_processing>0.3120</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.2550</min_time_dom_completion>
+		<max_time_dom_completion>0.2550</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0.0000</min_time_on_load>
+		<max_time_on_load>0.0000</max_time_on_load>
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -299,20 +545,41 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0.01</avg_time_network>
+		<avg_time_server>0.096</avg_time_server>
+		<avg_time_transfer>0.232</avg_time_transfer>
+		<avg_time_dom_processing>0.312</avg_time_dom_processing>
+		<avg_time_dom_completion>0.255</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0.905</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.119</avg_time_generation>
-		<segment>pageTitle==Piwik+2.1+%E2%80%94+Massive+Performance+and+Reliability+Improvements+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==Piwik%2B2.1%2B%25E2%2580%2594%2BMassive%2BPerformance%2Band%2BReliability%2BImprovements%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 	<row>
 		<label> Piwik Forums</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -326,20 +593,41 @@
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>pageTitle==Piwik+Forums</segment>
+		<segment>pageTitle==Piwik%2BForums</segment>
 	</row>
 	<row>
 		<label> What is Piwik? - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation />
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -348,10 +636,16 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>43</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0</avg_time_server>
+		<avg_time_transfer>0</avg_time_transfer>
+		<avg_time_dom_processing>0</avg_time_dom_processing>
+		<avg_time_dom_completion>0</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
-		<segment>pageTitle==What+is+Piwik%3F+-+Analytics+-+Piwik</segment>
+		<segment>pageTitle==What%2Bis%2BPiwik%253F%2B-%2BAnalytics%2B-%2BPiwik</segment>
 	</row>
 </result>

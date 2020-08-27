@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Updates;
@@ -115,7 +115,7 @@ class Updates_2_1_1_b11 extends Updates
                                    SET idarchive = CASE idarchive ";
             $updateSqlSuffix = " END, name = CASE name ";
             foreach ($returningMetrics as $metric) {
-                $newMetricName = substr($metric, 0, strlen($metric) - strlen(VisitFrequencyApi::COLUMN_SUFFIX));
+                $newMetricName = substr($metric, 0, strlen($metric) - strlen(VisitFrequencyApi::RETURNING_COLUMN_SUFFIX));
                 $updateSqlSuffix .= "WHEN '$metric' THEN '" . $newMetricName . "' ";
             }
             $updateSqlSuffix .= " END WHERE idarchive IN (%s)

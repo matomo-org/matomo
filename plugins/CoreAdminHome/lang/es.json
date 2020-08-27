@@ -4,6 +4,7 @@
         "Administration": "Administración",
         "ArchivingSettings": "Configuración de archivado",
         "BrandingSettings": "Configuración del Branding",
+        "ErrorEmailFromAddressNotValid": "El SMTP de la dirección no es valido",
         "ReleaseChannel": "Canal de lanzamiento",
         "ClickHereToOptIn": "Haga clic aquí para optar.",
         "ClickHereToOptOut": "Haga clic aquí para no ser seguido.",
@@ -53,7 +54,6 @@
         "JSTracking_EndNote": "Nota: Puedes generar un código de seguimiento personalizado en la sección %1$sCódigo de seguimiento%2$s",
         "JSTrackingIntro1": "Puedes rastrear visitantes hacia su sitio web de muchas maneras. La forma recomendada de hacerlo es con JavaScript. Para usar este método solo debe asegurarse de que cada página de su sitio de internet tenga cierto código JavaScript, el cual puede generar aquí.",
         "JSTrackingIntro2": "Una vez que tenga el código de seguimiento JavaScript para su sitio web, cópielo y péguelo en todas las páginas que desee rastrear con Matomo.",
-        "JSTrackingIntro3b": "En la mayoría de sitios web, blogs, CMS, etc. puedes usar algún plugin predefinido que te ayude con los detalles técnicos. (Ver nuestra %1$slista de plugins usados para integrar Matomo%2$s.) Si no hubiera ningún plugin para tal efecto, siempre puedes editar las plantillas de tu sitio web y añadir este código antes de la etiqueta &lt;\/head&gt; que, normalmente, suele estar definida en el 'header.php', en el 'header.tpl' o una plantilla similar.",
         "JSTrackingIntro4": "Si no desea utilizar JavaScript para rastrear visitantes, %1$sgenere un enlace de imagen de rastreo%2$s.",
         "JSTrackingIntro5": "Si desea hacer más que rastrear vistas de páginas, revise la %1$sDocumentación de Javascript de Matomo%2$s acerca de las funciones disponibles. Estas puede rastrear objetivos, variables personalizadas, órdenes de comercio electrónico, carritos abandonados y más.",
         "LogoNotWriteableInstruction": "Para utilizar su logo personalizado en lugar del logo estándar de Matomo puede conceder permisos de escritura a este directorio: %1$s Matomo necesita el permiso de escritura para sus logos guardados en los archivos %2$s.",
@@ -100,7 +100,7 @@
         "ValidPiwikHostname": "Hostname válido Matomo",
         "WithOptionalRevenue": "con una facturación opcional",
         "YouAreOptedOut": "Actualmente está siendo excluido.",
-        "YouAreNotOptedOut": "No está siendo rastreado.",
+        "YouAreNotOptedOut": "Está siendo rastreado",
         "YouMayOptOut": "Puede escojer no tener un único número de identificación de la cookie de análisis de internet asignado a su ordenador para prevenir la agregación y el análisis de datos recogidos en este sitio de internet.",
         "YouMayOptOutBis": "Para escoger esto, por favor haga clic debajo para recibir una cookie opt-out (para no ser seguido).",
         "OptingYouOut": "Opción a salir, por favor espere...",
@@ -131,6 +131,7 @@
         "ConfirmDeleteThisTrackingFailure": "¿Está seguro que desea eliminar esta falla de seguimiento?",
         "TrackingFailuresEmailSubject": "Fallas de seguimiento en su Matomo Analytics",
         "TrackingFailuresEmail1": "Esto es solo para hacerle saber que %s se han producido diferentes tipos de fallas de seguimiento en los últimos días.",
-        "TrackingFailuresEmail2": "Para ver todas las peticiones de fallas de seguimiento haga %1$s clic aquí%2$s."
+        "TrackingFailuresEmail2": "Para ver todas las peticiones de fallas de seguimiento haga %1$s clic aquí%2$s.",
+        "ImportFromGoogleAnalytics": "Importar de Google Analytics"
     }
 }

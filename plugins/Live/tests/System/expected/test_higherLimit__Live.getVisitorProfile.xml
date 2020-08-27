@@ -2,16 +2,17 @@
 <result>
 	
 	<hasMoreVisits>0</hasMoreVisits>
-	<totalVisits>31</totalVisits>
-	<totalVisitDuration>0</totalVisitDuration>
-	<totalActions>31</totalActions>
+	<totalVisits>33</totalVisits>
+	<totalVisitDuration>1</totalVisitDuration>
+	<totalActions>43</totalActions>
 	<totalOutlinks>0</totalOutlinks>
 	<totalDownloads>0</totalDownloads>
 	<totalSearches>0</totalSearches>
-	<totalPageViews>31</totalPageViews>
-	<totalUniquePageViews>4</totalUniquePageViews>
-	<totalRevisitedPages>4</totalRevisitedPages>
+	<totalPageViews>43</totalPageViews>
+	<totalUniquePageViews>6</totalUniquePageViews>
+	<totalRevisitedPages>5</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<totalPageViewsWithLoadTime>0</totalPageViewsWithLoadTime>
 	<searches>
 	</searches>
 	<totalGoalConversions>0</totalGoalConversions>
@@ -22,7 +23,7 @@
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
-			<idVisit>32</idVisit>
+			<idVisit>34</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
 			<fingerprint>5041e282fc23fef1</fingerprint>
@@ -31,12 +32,12 @@
 					<type>action</type>
 					<url>http://example.org/my/dir/page2</url>
 					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>8</pageIdAction>
+					<pageIdAction>12</pageIdAction>
 					
 					
-					<pageId>32</pageId>
+					<pageId>44</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -60,15 +61,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>33</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>30</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2592720</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -122,9 +125,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -141,6 +143,258 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>33</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<fingerprint>5041e282fc23fef1</fingerprint>
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>10</pageIdAction>
+					
+					
+					<pageId>43</pageId>
+					<bandwidth />
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<siteName>Piwik test</siteName>
+			
+			
+			
+			
+			
+			
+			<userId />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>32</visitCount>
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>29</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2506320</secondsSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<interactions>1</interactions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel>Unknown</deviceModel>
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
+			<resolution>1024x768</resolution>
+			<plugins>cookie, flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			<customVariables>
+			</customVariables>
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>32</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<fingerprint>5041e282fc23fef1</fingerprint>
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>9</pageIdAction>
+					
+					
+					<pageId>42</pageId>
+					<bandwidth />
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<siteName>Piwik test</siteName>
+			
+			
+			
+			
+			
+			
+			<userId />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>31</visitCount>
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>28</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2419920</secondsSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<interactions>1</interactions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel>Unknown</deviceModel>
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
+			<resolution>1024x768</resolution>
+			<plugins>cookie, flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -151,16 +405,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page1</url>
-					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>6</pageIdAction>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>13</pageIdAction>
 					
 					
-					<pageId>31</pageId>
+					<pageId>41</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 2</title>
-					<subtitle>http://example.org/my/dir/page1</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -182,15 +436,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>30</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>27</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2333520</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -244,9 +500,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -263,6 +518,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -273,16 +530,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page0</url>
-					<pageTitle>incredible title 1</pageTitle>
-					<pageIdAction>4</pageIdAction>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>12</pageIdAction>
 					
 					
-					<pageId>30</pageId>
+					<pageId>40</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 1</title>
-					<subtitle>http://example.org/my/dir/page0</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -304,15 +561,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>29</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>26</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2247120</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -366,9 +625,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -385,6 +643,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -395,16 +655,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page3</url>
-					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>9</pageIdAction>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>10</pageIdAction>
 					
 					
-					<pageId>29</pageId>
+					<pageId>39</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 0</title>
-					<subtitle>http://example.org/my/dir/page3</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -426,15 +686,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>28</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>25</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2160720</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -488,9 +750,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -507,6 +768,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -517,16 +780,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page2</url>
-					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>8</pageIdAction>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>9</pageIdAction>
 					
 					
-					<pageId>28</pageId>
+					<pageId>38</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 2</title>
-					<subtitle>http://example.org/my/dir/page2</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -548,15 +811,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>27</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>24</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>2074320</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -610,9 +875,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -629,6 +893,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -639,16 +905,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page1</url>
-					<pageTitle>incredible title 1</pageTitle>
-					<pageIdAction>6</pageIdAction>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>13</pageIdAction>
 					
 					
-					<pageId>27</pageId>
+					<pageId>37</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 1</title>
-					<subtitle>http://example.org/my/dir/page1</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -670,15 +936,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>26</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>23</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1987920</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -732,9 +1000,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -751,6 +1018,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -761,16 +1030,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page0</url>
-					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>4</pageIdAction>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>12</pageIdAction>
 					
 					
-					<pageId>26</pageId>
+					<pageId>36</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 0</title>
-					<subtitle>http://example.org/my/dir/page0</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -792,15 +1061,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>25</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>22</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1901520</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -854,9 +1125,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -873,6 +1143,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -883,16 +1155,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page3</url>
-					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>9</pageIdAction>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>10</pageIdAction>
 					
 					
-					<pageId>25</pageId>
+					<pageId>35</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 2</title>
-					<subtitle>http://example.org/my/dir/page3</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -914,15 +1186,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>24</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>21</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1815120</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -976,9 +1250,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -995,6 +1268,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1005,16 +1280,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page2</url>
-					<pageTitle>incredible title 1</pageTitle>
-					<pageIdAction>8</pageIdAction>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>9</pageIdAction>
 					
 					
-					<pageId>24</pageId>
+					<pageId>34</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 1</title>
-					<subtitle>http://example.org/my/dir/page2</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -1036,15 +1311,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>23</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>20</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1728720</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1098,9 +1375,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -1117,6 +1393,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1127,16 +1405,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page1</url>
-					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>6</pageIdAction>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>13</pageIdAction>
 					
 					
-					<pageId>23</pageId>
+					<pageId>33</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 0</title>
-					<subtitle>http://example.org/my/dir/page1</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -1158,15 +1436,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>22</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>19</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1642320</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1220,9 +1500,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -1239,6 +1518,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1249,16 +1530,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page0</url>
-					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>4</pageIdAction>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>12</pageIdAction>
 					
 					
-					<pageId>22</pageId>
+					<pageId>32</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 2</title>
-					<subtitle>http://example.org/my/dir/page0</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -1280,15 +1561,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>21</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>18</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1555920</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1342,9 +1625,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -1361,6 +1643,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1371,16 +1655,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page3</url>
-					<pageTitle>incredible title 1</pageTitle>
-					<pageIdAction>9</pageIdAction>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>10</pageIdAction>
 					
 					
-					<pageId>21</pageId>
+					<pageId>31</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 1</title>
-					<subtitle>http://example.org/my/dir/page3</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -1402,15 +1686,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>20</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>17</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1469520</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1464,9 +1750,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -1483,6 +1768,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1493,16 +1780,16 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page2</url>
-					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>8</pageIdAction>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>9</pageIdAction>
 					
 					
-					<pageId>20</pageId>
+					<pageId>30</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 0</title>
-					<subtitle>http://example.org/my/dir/page2</subtitle>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
 					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
@@ -1524,15 +1811,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>19</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>16</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1383120</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1586,9 +1875,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -1605,6 +1893,8 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1615,258 +1905,14 @@
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page1</url>
-					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>6</pageIdAction>
-					
-					
-					<pageId>19</pageId>
-					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 2</title>
-					<subtitle>http://example.org/my/dir/page1</subtitle>
-					<icon />
-					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-					
-					<bandwidth_pretty>0 M</bandwidth_pretty>
-				</row>
-			</actionDetails>
-			<goalConversions>0</goalConversions>
-			<siteCurrency>USD</siteCurrency>
-			<siteCurrencySymbol>$</siteCurrencySymbol>
-			
-			
-			
-			
-			<siteName>Piwik test</siteName>
-			
-			
-			
-			
-			
-			
-			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
-			<visitConverted>0</visitConverted>
-			<visitConvertedIcon />
-			<visitCount>1</visitCount>
-			<visitEcommerceStatus>none</visitEcommerceStatus>
-			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
-			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-			<visitDuration>0</visitDuration>
-			<visitDurationPretty>0s</visitDurationPretty>
-			<searches>0</searches>
-			<actions>1</actions>
-			<interactions>1</interactions>
-			<referrerType>direct</referrerType>
-			<referrerTypeName>Direct Entry</referrerTypeName>
-			<referrerName />
-			<referrerKeyword />
-			<referrerKeywordPosition />
-			<referrerUrl />
-			<referrerSearchEngineUrl />
-			<referrerSearchEngineIcon />
-			<referrerSocialNetworkUrl />
-			<referrerSocialNetworkIcon />
-			<languageCode />
-			<language>Unknown</language>
-			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
-			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
-			<operatingSystem>Unknown</operatingSystem>
-			<operatingSystemName>Unknown</operatingSystemName>
-			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
-			<operatingSystemCode>UNK</operatingSystemCode>
-			<operatingSystemVersion>UNK</operatingSystemVersion>
-			<browserFamily />
-			<browserFamilyDescription>Unknown</browserFamilyDescription>
-			<browser>Unknown</browser>
-			<browserName>Unknown</browserName>
-			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-			<browserCode>UNK</browserCode>
-			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-			<events>0</events>
-			<continent>Unknown</continent>
-			<continentCode>unk</continentCode>
-			<country>Unknown</country>
-			<countryCode>xx</countryCode>
-			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
-			<region />
-			<regionCode />
-			<city />
-			<location>Unknown</location>
-			<latitude />
-			<longitude />
-			<visitLocalTime>12:34:06</visitLocalTime>
-			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
-			<resolution>1024x768</resolution>
-			<plugins>cookie, flash, java</plugins>
-			<pluginsIcons>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-					<pluginName>cookie</pluginName>
-				</row>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-					<pluginName>flash</pluginName>
-				</row>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-					<pluginName>java</pluginName>
-				</row>
-			</pluginsIcons>
-		</row>
-		<row>
-			<idSite>1</idSite>
-			<idVisit>18</idVisit>
-			<visitIp>156.5.3.2</visitIp>
-			
-			<fingerprint>5041e282fc23fef1</fingerprint>
-			<actionDetails>
-				<row>
-					<type>action</type>
-					<url>http://example.org/my/dir/page0</url>
-					<pageTitle>incredible title 1</pageTitle>
-					<pageIdAction>4</pageIdAction>
-					
-					
-					<pageId>18</pageId>
-					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<title>incredible title 1</title>
-					<subtitle>http://example.org/my/dir/page0</subtitle>
-					<icon />
-					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-					
-					<bandwidth_pretty>0 M</bandwidth_pretty>
-				</row>
-			</actionDetails>
-			<goalConversions>0</goalConversions>
-			<siteCurrency>USD</siteCurrency>
-			<siteCurrencySymbol>$</siteCurrencySymbol>
-			
-			
-			
-			
-			<siteName>Piwik test</siteName>
-			
-			
-			
-			
-			
-			
-			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
-			<visitConverted>0</visitConverted>
-			<visitConvertedIcon />
-			<visitCount>1</visitCount>
-			<visitEcommerceStatus>none</visitEcommerceStatus>
-			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
-			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-			<visitDuration>0</visitDuration>
-			<visitDurationPretty>0s</visitDurationPretty>
-			<searches>0</searches>
-			<actions>1</actions>
-			<interactions>1</interactions>
-			<referrerType>direct</referrerType>
-			<referrerTypeName>Direct Entry</referrerTypeName>
-			<referrerName />
-			<referrerKeyword />
-			<referrerKeywordPosition />
-			<referrerUrl />
-			<referrerSearchEngineUrl />
-			<referrerSearchEngineIcon />
-			<referrerSocialNetworkUrl />
-			<referrerSocialNetworkIcon />
-			<languageCode />
-			<language>Unknown</language>
-			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
-			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
-			<operatingSystem>Unknown</operatingSystem>
-			<operatingSystemName>Unknown</operatingSystemName>
-			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
-			<operatingSystemCode>UNK</operatingSystemCode>
-			<operatingSystemVersion>UNK</operatingSystemVersion>
-			<browserFamily />
-			<browserFamilyDescription>Unknown</browserFamilyDescription>
-			<browser>Unknown</browser>
-			<browserName>Unknown</browserName>
-			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-			<browserCode>UNK</browserCode>
-			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-			<events>0</events>
-			<continent>Unknown</continent>
-			<continentCode>unk</continentCode>
-			<country>Unknown</country>
-			<countryCode>xx</countryCode>
-			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
-			<region />
-			<regionCode />
-			<city />
-			<location>Unknown</location>
-			<latitude />
-			<longitude />
-			<visitLocalTime>12:34:06</visitLocalTime>
-			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
-			<resolution>1024x768</resolution>
-			<plugins>cookie, flash, java</plugins>
-			<pluginsIcons>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-					<pluginName>cookie</pluginName>
-				</row>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-					<pluginName>flash</pluginName>
-				</row>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-					<pluginName>java</pluginName>
-				</row>
-			</pluginsIcons>
-		</row>
-		<row>
-			<idSite>1</idSite>
-			<idVisit>17</idVisit>
-			<visitIp>156.5.3.2</visitIp>
-			
-			<fingerprint>5041e282fc23fef1</fingerprint>
-			<actionDetails>
-				<row>
-					<type>action</type>
 					<url>http://example.org/my/dir/page3</url>
 					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>9</pageIdAction>
+					<pageIdAction>13</pageIdAction>
 					
 					
-					<pageId>17</pageId>
+					<pageId>29</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
@@ -1890,15 +1936,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>18</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>15</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1296720</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -1952,9 +2000,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -1971,10 +2018,12 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
-			<idVisit>16</idVisit>
+			<idVisit>18</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
 			<fingerprint>5041e282fc23fef1</fingerprint>
@@ -1983,12 +2032,12 @@
 					<type>action</type>
 					<url>http://example.org/my/dir/page2</url>
 					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>8</pageIdAction>
+					<pageIdAction>12</pageIdAction>
 					
 					
-					<pageId>16</pageId>
+					<pageId>28</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
@@ -2012,15 +2061,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>17</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>14</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1210320</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -2074,9 +2125,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -2093,10 +2143,12 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
-			<idVisit>15</idVisit>
+			<idVisit>17</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
 			<fingerprint>5041e282fc23fef1</fingerprint>
@@ -2105,12 +2157,12 @@
 					<type>action</type>
 					<url>http://example.org/my/dir/page1</url>
 					<pageTitle>incredible title 1</pageTitle>
-					<pageIdAction>6</pageIdAction>
+					<pageIdAction>10</pageIdAction>
 					
 					
-					<pageId>15</pageId>
+					<pageId>27</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
@@ -2134,15 +2186,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>16</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>13</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1123920</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -2196,9 +2250,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -2215,10 +2268,12 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
-			<idVisit>14</idVisit>
+			<idVisit>16</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
 			<fingerprint>5041e282fc23fef1</fingerprint>
@@ -2227,12 +2282,12 @@
 					<type>action</type>
 					<url>http://example.org/my/dir/page0</url>
 					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>4</pageIdAction>
+					<pageIdAction>9</pageIdAction>
 					
 					
-					<pageId>14</pageId>
+					<pageId>26</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
@@ -2256,15 +2311,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>15</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>12</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>1037520</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -2318,9 +2375,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -2337,10 +2393,12 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
-			<idVisit>13</idVisit>
+			<idVisit>15</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
 			<fingerprint>5041e282fc23fef1</fingerprint>
@@ -2349,12 +2407,12 @@
 					<type>action</type>
 					<url>http://example.org/my/dir/page3</url>
 					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>9</pageIdAction>
+					<pageIdAction>13</pageIdAction>
 					
 					
-					<pageId>13</pageId>
+					<pageId>25</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
@@ -2378,15 +2436,17 @@
 			
 			
 			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>14</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceFirstVisit>11</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>951120</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -2440,9 +2500,8 @@
 			<longitude />
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
+			<daysSinceLastVisit>1</daysSinceLastVisit>
+			<secondsSinceLastVisit>86400</secondsSinceLastVisit>
 			<resolution>1024x768</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -2459,11 +2518,13 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+			</customVariables>
 		</row>
 	</lastVisits>
 	
 	
-	<totalVisitDurationPretty>0s</totalVisitDurationPretty>
+	<totalVisitDurationPretty>1s</totalVisitDurationPretty>
 	<userId>0</userId>
 	<firstVisit>
 		
@@ -2484,6 +2545,10 @@
 	<visitsAggregated>20</visitsAggregated>
 	<visitedPages>
 		<row>
+			<url>http://example.org/my/dir/page-2</url>
+			<count>11</count>
+		</row>
+		<row>
 			<url>http://example.org/my/dir/page0</url>
 			<count>8</count>
 		</row>
@@ -2499,16 +2564,20 @@
 			<url>http://example.org/my/dir/page3</url>
 			<count>7</count>
 		</row>
+		<row>
+			<url>http://example.org/my/dir/page-1</url>
+			<count>1</count>
+		</row>
 	</visitedPages>
 	<devices>
 		<row>
 			<type>Unknown</type>
-			<count>30</count>
+			<count>32</count>
 			<icon>plugins/Morpheus/icons/dist/devices/unknown.png</icon>
 			<devices>
 				<row>
 					<name>Unknown</name>
-					<count>30</count>
+					<count>32</count>
 				</row>
 			</devices>
 		</row>
@@ -2532,7 +2601,7 @@
 		</row>
 		<row>
 			<continent>unk</continent>
-			<nb_visits>30</nb_visits>
+			<nb_visits>32</nb_visits>
 			<prettyName>Unknown</prettyName>
 		</row>
 	</continents>
@@ -2545,7 +2614,7 @@
 		</row>
 		<row>
 			<country>xx</country>
-			<nb_visits>30</nb_visits>
+			<nb_visits>32</nb_visits>
 			<flag>plugins/Morpheus/icons/dist/flags/xx.png</flag>
 			<prettyName>Unknown</prettyName>
 		</row>

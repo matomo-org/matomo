@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "నొక్కిన URL",
         "ColumnClicks": "నొక్కులు",
         "ColumnClicksDocumentation": "ఎన్నిసార్లు ఈ లింక్ క్లిక్ చేయబడింది",
         "ColumnDownloadURL": "దింపుకోలు URL",

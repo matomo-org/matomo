@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -30,7 +30,7 @@ class DuplicateActionsTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -84,4 +84,3 @@ class DuplicateActionsTest extends SystemTestCase
 }
 
 DuplicateActionsTest::$fixture = new OneVisitorTwoVisits();
-DuplicateActionsTest::$fixture->excludeMozilla = true;

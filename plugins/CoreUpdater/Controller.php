@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
@@ -69,8 +70,8 @@ class Controller extends \Piwik\Plugin\Controller
         $files = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
-            'libs/jquery/themes/base/jquery-ui.min.css',
-            'libs/bower_components/materialize/dist/css/materialize.min.css',
+            "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
+            'node_modules/materialize-css/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Morpheus/stylesheets/simple_structure.css',
@@ -92,17 +93,18 @@ class Controller extends \Piwik\Plugin\Controller
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
     
         $files = array(
-            'libs/bower_components/jquery/dist/jquery.min.js',
-            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
-            'libs/bower_components/materialize/dist/js/materialize.min.js',
+            "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/jquery-ui-dist/jquery-ui.min.js",
+            'node_modules/materialize-css/dist/js/materialize.min.js',
+            "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Morpheus/javascripts/piwikHelper.js',
             'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
-            'libs/bower_components/angular/angular.min.js',
-            'libs/bower_components/angular-sanitize/angular-sanitize.js',
-            'libs/bower_components/angular-animate/angular-animate.js',
-            'libs/bower_components/angular-cookies/angular-cookies.js',
-            'libs/bower_components/ngDialog/js/ngDialog.min.js',
+            'node_modules/angular/angular.min.js',
+            'node_modules/angular-sanitize/angular-sanitize.min.js',
+            'node_modules/angular-animate/angular-animate.min.js',
+            'node_modules/angular-cookies/angular-cookies.min.js',
+            'node_modules/ng-dialog/js/ngDialog.min.js',
             'plugins/CoreHome/angularjs/common/services/service.module.js',
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
@@ -170,6 +172,25 @@ class Controller extends \Piwik\Plugin\Controller
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
         return $view->render();
+    }
+
+    public function oneClickUpdatePartTwo()
+    {
+        Json::sendHeaderJSON();
+
+        $messages = [];
+
+        try {
+            Piwik::checkUserHasSuperUserAccess();
+            $messages = $this->updater->oneClickUpdatePartTwo();
+        } catch (UpdaterException $e) {
+            $messages = $e->getUpdateLogMessages();
+            $messages[] = $e->getMessage();
+        } catch (Exception $e) {
+            $messages[] = $e->getMessage();
+        }
+
+        echo json_encode($messages);
     }
 
     public function oneClickResults()

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugin;
@@ -53,7 +53,7 @@ class ComponentFactory
 
         $components = $plugin->findMultipleComponents($subnamespace, $componentTypeClass);
         foreach ($components as $class) {
-            if ($class == $desiredComponentClass) {
+            if ($class === $desiredComponentClass) {
                 return new $class();
             }
         }

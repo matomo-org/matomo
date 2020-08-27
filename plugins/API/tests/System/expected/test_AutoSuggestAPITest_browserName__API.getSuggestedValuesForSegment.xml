@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	<row>115 Browser</row>
+	<row>2345 Browser</row>
 	<row>360 Phone Browser</row>
 	<row>360 Browser</row>
 	<row>Avant Browser</row>
@@ -7,30 +9,43 @@
 	<row>ANT Fresco</row>
 	<row>ANTGalio</row>
 	<row>Aloha Browser</row>
+	<row>Aloha Browser Lite</row>
 	<row>Amaya</row>
 	<row>Amigo</row>
 	<row>Android Browser</row>
+	<row>AOL Desktop</row>
 	<row>AOL Shield</row>
 	<row>Arora</row>
+	<row>Arctic Fox</row>
 	<row>Amiga Voyager</row>
 	<row>Amiga Aweb</row>
+	<row>Atom</row>
 	<row>Atomic Web Browser</row>
 	<row>Avast Secure Browser</row>
+	<row>AVG Secure Browser</row>
 	<row>Beaker Browser</row>
+	<row>Beamrise</row>
 	<row>BlackBerry Browser</row>
 	<row>Baidu Browser</row>
 	<row>Baidu Spark</row>
+	<row>Basilisk</row>
 	<row>Beonex</row>
+	<row>BlackHawk</row>
 	<row>Bunjalloo</row>
 	<row>B-Line</row>
+	<row>Blue Browser</row>
 	<row>Brave</row>
 	<row>BriskBard</row>
 	<row>BrowseX</row>
 	<row>Camino</row>
+	<row>CCleaner</row>
+	<row>Centaury</row>
 	<row>Coc Coc</row>
+	<row>Colibri</row>
 	<row>Comodo Dragon</row>
 	<row>Coast</row>
 	<row>Charon</row>
+	<row>CM Browser</row>
 	<row>Chrome Frame</row>
 	<row>Headless Chrome</row>
 	<row>Chrome</row>
@@ -39,39 +54,59 @@
 	<row>Chrome Mobile</row>
 	<row>CoolNovo</row>
 	<row>CometBird</row>
+	<row>COS Browser</row>
 	<row>ChromePlus</row>
 	<row>Chromium</row>
 	<row>Cyberfox</row>
 	<row>Cheshire</row>
+	<row>Crusta</row>
 	<row>Cunaguaro</row>
+	<row>Chrome Webview</row>
 	<row>dbrowser</row>
 	<row>Deepnet Explorer</row>
+	<row>Delta Browser</row>
 	<row>Dolphin</row>
 	<row>Dorado</row>
 	<row>Dooble</row>
 	<row>Dillo</row>
+	<row>DuckDuckGo Privacy Browser</row>
+	<row>Ecosia</row>
 	<row>Epic</row>
 	<row>Elinks</row>
 	<row>Element Browser</row>
+	<row>Elements Browser</row>
+	<row>eZ Browser</row>
+	<row>EUI Browser</row>
 	<row>GNOME Web</row>
 	<row>Espial TV Browser</row>
+	<row>Falkon</row>
+	<row>Faux Browser</row>
+	<row>Firefox Mobile iOS</row>
 	<row>Firebird</row>
 	<row>Fluid</row>
 	<row>Fennec</row>
 	<row>Firefox</row>
 	<row>Firefox Focus</row>
+	<row>Firefox Reality</row>
+	<row>Firefox Rocket</row>
 	<row>Flock</row>
 	<row>Firefox Mobile</row>
 	<row>Fireweb</row>
 	<row>Fireweb Navigator</row>
+	<row>FreeU</row>
 	<row>Galeon</row>
+	<row>Glass Browser</row>
 	<row>Google Earth</row>
+	<row>Hawk Turbo Browser</row>
+	<row>hola! Browser</row>
 	<row>HotJava</row>
-	<row>Iceape</row>
+	<row>Huawei Browser</row>
 	<row>IBrowse</row>
 	<row>iCab</row>
 	<row>iCab Mobile</row>
 	<row>Iridium</row>
+	<row>Iron Mobile</row>
+	<row>IceCat</row>
 	<row>IceDragon</row>
 	<row>Isivioo</row>
 	<row>Iceweasel</row>
@@ -80,50 +115,77 @@
 	<row>Iron</row>
 	<row>Jasmine</row>
 	<row>Jig Browser</row>
+	<row>Jig Browser Plus</row>
+	<row>Jio Browser</row>
+	<row>K.Browser</row>
 	<row>Kindle Browser</row>
 	<row>K-meleon</row>
 	<row>Konqueror</row>
 	<row>Kapiko</row>
+	<row>Kinza</row>
+	<row>Kiwi</row>
 	<row>Kylo</row>
 	<row>Kazehakase</row>
-	<row>Liebao</row>
+	<row>Cheetah Browser</row>
+	<row>LieBaoFast</row>
 	<row>LG Browser</row>
+	<row>Light</row>
 	<row>Links</row>
+	<row>Lovense Browser</row>
 	<row>LuaKit</row>
+	<row>Lulumi</row>
 	<row>Lunascape</row>
+	<row>Lunascape Lite</row>
 	<row>Lynx</row>
+	<row>mCent</row>
 	<row>MicroB</row>
 	<row>NCSA Mosaic</row>
+	<row>Meizu Browser</row>
 	<row>Mercury</row>
 	<row>Mobile Safari</row>
 	<row>Midori</row>
+	<row>Mobicip</row>
 	<row>MIUI Browser</row>
 	<row>Mobile Silk</row>
+	<row>Minimo</row>
+	<row>Mint Browser</row>
 	<row>Maxthon</row>
+	<row>Mypal</row>
 	<row>Nokia Browser</row>
 	<row>Nokia OSS Browser</row>
 	<row>Nokia Ovi Browser</row>
+	<row>Nox Browser</row>
 	<row>NetSurf</row>
 	<row>NetFront</row>
 	<row>NetFront Life</row>
 	<row>NetPositive</row>
 	<row>Netscape</row>
 	<row>NTENT Browser</row>
+	<row>Oculus Browser</row>
+	<row>Opera Mini iOS</row>
 	<row>Obigo</row>
 	<row>Odyssey Web Browser</row>
 	<row>Off By One</row>
+	<row>OhHai Browser</row>
 	<row>ONE Browser</row>
+	<row>Opera GX</row>
+	<row>Opera Neon</row>
+	<row>Opera Devices</row>
 	<row>Opera Mini</row>
 	<row>Opera Mobile</row>
 	<row>Opera</row>
 	<row>Opera Next</row>
 	<row>Opera Touch</row>
+	<row>Ordissimo</row>
 	<row>Oregano</row>
+	<row>Origin In-Game Overlay</row>
+	<row>Origyn Web Browser</row>
 	<row>Openwave Mobile Browser</row>
 	<row>OmniWeb</row>
 	<row>Otter Browser</row>
 	<row>Palm Blazer</row>
 	<row>Pale Moon</row>
+	<row>Polypane</row>
 	<row>Oppo Browser</row>
 	<row>Palm Pre</row>
 	<row>Puffin</row>
@@ -133,10 +195,14 @@
 	<row>Polaris</row>
 	<row>Polarity</row>
 	<row>Microsoft Edge</row>
+	<row>QQ Browser Mini</row>
 	<row>QQ Browser</row>
 	<row>Qutebrowser</row>
+	<row>Quark</row>
 	<row>QupZilla</row>
 	<row>Qwant Mobile</row>
+	<row>QtWebEngine</row>
+	<row>Realme Browser</row>
 	<row>Rekonq</row>
 	<row>RockMelt</row>
 	<row>Samsung Browser</row>
@@ -144,28 +210,58 @@
 	<row>SEMC-Browser</row>
 	<row>Sogou Explorer</row>
 	<row>Safari</row>
+	<row>Safe Exam Browser</row>
+	<row>SalamWeb</row>
 	<row>Shiira</row>
+	<row>SimpleBrowser</row>
+	<row>Sizzy</row>
 	<row>Skyfire</row>
 	<row>Seraphic Sraf</row>
 	<row>Sleipnir</row>
-	<row>SeaMonkey</row>
 	<row>Snowshoe</row>
+	<row>Sogou Mobile Browser</row>
+	<row>Splash</row>
+	<row>Sputnik Browser</row>
 	<row>Sunrise</row>
 	<row>SuperBird</row>
+	<row>Super Fast Browser</row>
+	<row>surf</row>
+	<row>START Internet Browser</row>
+	<row>Steam In-Game Overlay</row>
 	<row>Streamy</row>
 	<row>Swiftfox</row>
+	<row>Seznam Browser</row>
+	<row>t-online.de Browser</row>
+	<row>Tao Browser</row>
 	<row>TenFourFox</row>
 	<row>Tenta Browser</row>
 	<row>Tizen Browser</row>
+	<row>Tungsten</row>
+	<row>ToGate</row>
 	<row>TweakStyle</row>
+	<row>TV Bro</row>
+	<row>UBrowser</row>
 	<row>UC Browser</row>
+	<row>UC Browser Mini</row>
+	<row>UC Browser Turbo</row>
+	<row>Uzbl</row>
 	<row>Vivaldi</row>
+	<row>vivo Browser</row>
 	<row>Vision Mobile Browser</row>
+	<row>VMware AirWatch</row>
+	<row>Wear Internet Browser</row>
+	<row>Web Explorer</row>
 	<row>WebPositive</row>
 	<row>Waterfox</row>
+	<row>Whale Browser</row>
 	<row>wOSBrowser</row>
 	<row>WeTab Browser</row>
+	<row>Yahoo! Japan Browser</row>
 	<row>Yandex Browser</row>
+	<row>Yandex Browser Lite</row>
+	<row>Yaani Browser</row>
 	<row>Xiino</row>
+	<row>Xvast</row>
+	<row>Zvu</row>
 	<row>Unknown</row>
 </result>

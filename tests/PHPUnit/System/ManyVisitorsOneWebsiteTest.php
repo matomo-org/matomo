@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -146,6 +146,23 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'periods'                => 'month',
             'testSuffix'             => '_Live.getLastVisitsDetails_offsetAndLimit_2',
             'otherRequestParameters' => array('filter_offset' => '4', 'filter_limit' => 3)
+        ));
+
+        // #13785
+        // check that not contains / not equals action segments filter away all visits having any matching action
+        $apiToTest[] = array('Live.getLastVisitsDetails', array(
+            'idSite'                 => $idSite,
+            'date'                   => $dateString,
+            'periods'                => 'month',
+            'testSuffix'             => '_pageurlNotContainsSegment',
+            'segment'                => 'pageUrl!@quest'
+        ));
+        $apiToTest[] = array('Live.getLastVisitsDetails', array(
+            'idSite'                 => $idSite,
+            'date'                   => $dateString,
+            'periods'                => 'month',
+            'testSuffix'             => '_siteSearchCategoryNotEqualsSegment',
+            'segment'                => 'siteSearchCategory!=CAT'
         ));
 
         // #8324

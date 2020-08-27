@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -174,7 +174,10 @@ class Update extends ConsoleCommand
         $output->writeln(array("    *** ".Piwik::translate('CoreUpdater_DryRun')." ***", ""));
 
         foreach ($migrationQueries as $query) {
-            $output->writeln("    " . $query->__toString());
+            $result = $query->__toString();
+            if (!empty($result)) {
+                $output->writeln("    " . $result);
+            }
         }
 
         $output->writeln(array("", "    *** " . Piwik::translate('CoreUpdater_DryRunEnd') . " ***", ""));

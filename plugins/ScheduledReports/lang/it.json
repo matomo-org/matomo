@@ -55,6 +55,9 @@
         "NoTokenProvided": "Nell'URL non è stato fornito alcun token",
         "NoSubscriptionFound": "Non è stata trovata alcuna iscrizione. Forse è già stata cancellata o il report rimosso.",
         "EvolutionGraphsShowForEachInPeriod": "I grafici dell'evoluzione mostrano l'evoluzione per %1$sciascun giorno%2$s negli ultimi %3$s",
-        "EvolutionGraphsShowForPreviousN": "I grafici dell'evoluzione mostrano l'evoluzione sui precedenti N %s"
+        "EvolutionGraphsShowForPreviousN": "I grafici dell'evoluzione mostrano l'evoluzione sui precedenti N %s",
+        "ReportPeriod": "Periodo Report",
+        "ReportPeriodHelp": "Il periodo dei dati coperti da questo report. Come impostazione predefinita esso è il medesimo della pianificazione delle email, così che, se il report viene inviato settimanalmente, esso contiene le informazioni riguardanti l'ultima settimana.",
+        "ReportPeriodHelp2": "Tuttavia è possibile modificare ciò, se si desidera visualizzare informazioni diverse e mantenere ancora la pianificazione delle email. Ad esempio, se la pianificazione delle email è settimanale e il periodo dei report è giornaliero, riceverai le informazioni per l'ultimo giorno, ogni settimana."
     }
 }

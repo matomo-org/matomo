@@ -1,19 +1,20 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -75,6 +76,9 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $template = '@Live/_actionEcommerce.twig';
                 break;
             case 'goal':
+                if (empty($action['goalName'])) {
+                    return; // goal deleted
+                }
                 $template = '@Live/_actionGoal.twig';
                 break;
             case 'action':
@@ -92,6 +96,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $sitesModel = new \Piwik\Plugins\SitesManager\Model();
 
         $view                 = new View($template);
+        $view->sendHeadersWhenRendering = false;
         $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
         $view->additionalUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
         $view->action         = $action;
@@ -103,6 +108,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderActionTooltip($action, $visitInfo)
     {
         $view            = new View('@Live/_actionTooltip');
+        $view->sendHeadersWhenRendering = false;
         $view->action    = $action;
         $view->visitInfo = $visitInfo;
         return [[ 0, $view->render() ]];
@@ -111,6 +117,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderVisitorDetails($visitorDetails)
     {
         $view            = new View('@Live/_visitorDetails.twig');
+        $view->sendHeadersWhenRendering = false;
         $view->visitInfo = $visitorDetails;
         return [[ 0, $view->render() ]];
     }
@@ -118,6 +125,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderIcons($visitorDetails)
     {
         $view          = new View('@Live/_visitorLogIcons.twig');
+        $view->sendHeadersWhenRendering = false;
         $view->visitor = $visitorDetails;
         return $view->render();
     }
@@ -155,7 +163,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     function getIdSite()
     {
-        return $this->details['idsite'];
+        return isset($this->details['idsite']) ? $this->details['idsite'] : Common::getRequestVar('idSite');
     }
 
     function getFingerprint()

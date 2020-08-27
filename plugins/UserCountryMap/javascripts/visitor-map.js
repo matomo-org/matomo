@@ -1,10 +1,10 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Visitors Map with zoom in continents / countries. Cities + Region view.
  * Using Kartograph.js http://kartograph.org/
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -69,7 +69,6 @@
                 citySelectedLabelColor = colors['city-selected-label-color'],
                 regionLayerStrokeColor = colors['region-layer-stroke-color'],
                 hasUserZoomed = false;
-                ;
 
             /*
              * our own custom selector to only select stuff of this widget
@@ -81,7 +80,6 @@
             var mapContainer = $$('.UserCountryMap_map').get(0),
                 map = self.map = $K.map(mapContainer),
                 main = $$('.UserCountryMap_container'),
-                worldTotalVisits = 0,
                 width = main.width(),
                 _ = config._;
 
@@ -124,7 +122,7 @@
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
                     dataType: dataType,
-                    data: { token_auth: token_auth },
+                    data: { token_auth: token_auth, force_api_session: '1' },
                     type: 'POST'
                 });
             }
@@ -197,7 +195,7 @@
                 if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
                     var total;
                     if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric];
-                    else if (id == 'world') total = _worldTotal;
+                    else if (id == 'world') total = self.config.visitsSummary[metric];
                     else {
                         total = 0;
                         $.each(UserCountryMap.countriesByIso, function (iso, country) {
@@ -376,8 +374,8 @@
                 infobtn.off('mouseenter').on('mouseenter',function (e) {
                     $(infobtn.data('tooltip-target')).show();
                 }).off('mouseleave').on('mouseleave', function (e) {
-                        $(infobtn.data('tooltip-target')).hide();
-                    });
+                    $(infobtn.data('tooltip-target')).hide();
+                });
                 $('.UserCountryMap-tooltip').hide();
             }
 
@@ -701,6 +699,11 @@
             }
 
             function displayUnlocatableCount(unlocated, total, regionOrCity) {
+
+                if (0 == unlocated) {
+                    return;
+                }
+
                 $('.unlocated-stats').html(
                     $('.unlocated-stats').data('tpl')
                         .replace('%s', unlocated)
@@ -770,7 +773,20 @@
                             }
 
                             $.each(data.reportData, function (i, row) {
-                                regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
+
+                                var region = data.reportMetadata[i].region;
+
+                                if (!regionExistsInMap(region)) {
+                                    var q = {
+                                        'p': region
+                                    };
+
+                                    if (map.getLayer('regions').getPaths(q).length) {
+                                        region = map.getLayer('regions').getPaths(q)[0].data.fips.substr(2);
+                                    }
+                                }
+
+                                regionDict[region] = $.extend(row, data.reportMetadata[i], {
                                     curMetric: quantify(row, metric)
                                 });
                             });
@@ -1225,9 +1241,7 @@
                         });
                         countryData.push(country);
                         countriesByIso[country.iso] = country;
-                        worldTotalVisits += country['nb_visits'];
                     });
-                    _worldTotal = worldTotalVisits;
                     // sort countries by name
                     countryData.sort(function (a, b) { return a.name > b.name ? 1 : -1; });
 

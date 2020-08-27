@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -26,7 +26,6 @@ var Piwik_Popover = (function () {
             title: title,
             modal: true,
             width: '1050px',
-            position: ['center', 'center'],
             resizable: false,
             autoOpen: true,
             open: function (event, ui) {
@@ -35,6 +34,8 @@ var Piwik_Popover = (function () {
                 }
 
                 $('.ui-widget-overlay').on('click.popover', function () {
+                    // if clicking outside of the dialog, close entire stack
+                    broadcast.resetPopoverStack();
                     container.dialog('close');
                 });
 
@@ -47,11 +48,6 @@ var Piwik_Popover = (function () {
                 }, 0);
             },
             close: function (event, ui) {
-                // if clicking outside of the dialog, close entire stack
-                if (!event.currentTarget && !$(event.currentTarget).is('button')) {
-                    broadcast.resetPopoverStack();
-                }
-
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
                 container[0].innerHTML = '';
                 container.dialog('destroy').remove();
@@ -70,7 +66,7 @@ var Piwik_Popover = (function () {
 
                 // if we were not called by Piwik_Popover.close(), then the user clicked the close button or clicked
                 // the overlay, in which case we want to handle the popover URL as well as the actual modal.
-                if (!isProgrammaticClose) {
+                if (!isProgrammaticClose || isEscapeKey(event)) {
                     broadcast.propagateNewPopoverParameter(false);
                 }
             }
@@ -88,7 +84,7 @@ var Piwik_Popover = (function () {
 
     var centerPopover = function () {
         if (container !== false) {
-            container.dialog({position: ['center', 'center']});
+            container.dialog("option", "position", {my: 'center', at: 'center', of: '.ui-widget-overlay', collision: 'fit'});
         }
     };
 
@@ -189,7 +185,8 @@ var Piwik_Popover = (function () {
             
             container.children().each(function (i, childNode) {
                 piwikHelper.compileAngularComponents(childNode);
-            })
+            });
+
             centerPopover();
         },
 
@@ -266,6 +263,7 @@ var Piwik_Popover = (function () {
             // make sure the minimum top position of the popover is 15px
             var ensureMinimumTop = function () {
                 var popoverContainer = $('#Piwik_Popover').parent();
+                popoverContainer.css('top', (window.scrollY + 15) + 'px');
                 if (popoverContainer.position().top < 106) {
                     popoverContainer.css('top', '15px');
                 }
@@ -296,6 +294,10 @@ var Piwik_Popover = (function () {
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send();
+        },
+
+        isOpen: function() {
+            return isOpen;
         }
     };
 })();

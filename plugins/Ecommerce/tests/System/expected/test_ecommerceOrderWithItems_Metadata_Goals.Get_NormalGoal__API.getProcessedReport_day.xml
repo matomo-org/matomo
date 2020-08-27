@@ -10,6 +10,7 @@
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -34,7 +35,7 @@
 	<reportData>
 		<nb_conversions>1</nb_conversions>
 		<nb_visits_converted>1</nb_visits_converted>
-		<revenue>$ 10</revenue>
+		<revenue>$10</revenue>
 		<conversion_rate>33.33%</conversion_rate>
 	</reportData>
 	<reportMetadata />

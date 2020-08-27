@@ -1,8 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "基於 %1$s 次點擊%2$s介於 %3$s 到 %4$s",
-        "ColumnClickedURL": "點擊的網址",
-        "ColumnClickedURLs": "點擊的網址",
+        "ColumnClickedURL": "點擊的離開連結",
+        "ColumnClickedURLs": "點擊的離開連結",
         "ColumnActionURL": "活動網址",
         "ColumnClicks": "點擊數",
         "ColumnClicksDocumentation": "此連結被點擊的次數。",
@@ -40,7 +40,6 @@
         "ExitPagesReportDocumentation": "這份報表包含指定期間內之離開網頁的相關資訊。所謂的離開網頁，是訪客離開網頁前最後瀏覽的頁面。%s 離開網頁的網址以資料夾結構顯示。",
         "ExitPageTitles": "離站網頁標題",
         "ExitPageTitlesReportDocumentation": "此報表包含關於指定期間內離站網頁之標題等資訊",
-        "LearnMoreAboutSiteSearchLink": "查看更多關於訪客如何使用你的站內搜尋引擎。",
         "OneSearch": "1 搜尋數",
         "OutlinkDocumentation": "離開連結是將訪客帶出網站的連結（到其他域名）。",
         "OutlinksReportDocumentation": "這份報表以分層列表顯示訪客所點擊的離開連結網址。",
@@ -58,6 +57,8 @@
         "SiteSearchCategories": "分類（站內搜尋）",
         "SiteSearchKeyword": "關鍵字（站內搜尋）",
         "SiteSearchKeywords": "關鍵字（站內搜尋）",
+        "SiteSearchKeywordCount": "關鍵字數量（站內搜尋）",
+        "SiteSearchKeywordCounts": "關鍵字數量（站內搜尋）",
         "SiteSearchKeywordsDocumentation": "這份報表列出訪客在站內搜尋時所使用的搜尋關鍵字。",
         "SiteSearchKeywordsNoResultDocumentation": "這份報表列出沒有任何搜尋結果的關鍵字：或許搜尋演算法可以改進，或是訪客要尋找的東西還不存在於你的網站？",
         "SubmenuPagesEntry": "到達網頁",

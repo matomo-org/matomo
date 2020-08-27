@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Updater\Migration\Plugin;
@@ -34,7 +34,7 @@ class Activate extends Migration
 
     public function __toString()
     {
-        $domain = Config::getLocalConfigPath() == Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
+        $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
         $domainArg = !empty($domain) ? "--matomo-domain=\"$domain\" " : '';
 
         return sprintf('./console %splugin:activate "%s"', $domainArg, $this->pluginName);

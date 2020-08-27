@@ -9,7 +9,7 @@
         "ReportingApiReference": "Reporting-API-Referenz",
         "TopLinkTooltip": "Greife auf die Webanalytikdaten über eine einfache API mit json, xml, usw. zu.",
         "UserAuthentication": "Benutzerauthentifizierung",
-        "UsingTokenAuth": "Wenn Sie %1$s Daten mit einem Script, einem Crontab, etc. abrufen wollen, %2$s müssen Sie den Parameter %3$s an die URLs anhängen, deren API-Aufrufe eine Authentifizierung benötigen.",
+        "UsingTokenAuth": "Wenn Sie %1$sDaten mit einem Script, einem Crontab usw. abfragen%2$s möchten, müssen Sie den URL Parameter %3$sden API Aufrufen hinzufügen, welche Authentifizierung erfordern.",
         "Glossary": "Glossar",
         "LearnAboutCommonlyUsedTerms2": "Lernen Sie mehr über die häufig verwendeten Begriffe, um das Beste aus Ihren Matomo Analysen zu machen.",
         "EvolutionMetricName": "%s Entwicklung"

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -40,7 +40,7 @@ class ArchiveWithNoVisitsTest_MockArchiver extends Archiver
 
 class ArchiveWithNoVisitsTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -59,7 +59,7 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         $this->assertEmpty(ArchiveWithNoVisitsTest_MockArchiver::$methodsCalled);
     }
 
-    public function test_getIdSitesToArchiveWhenNoVisits_CanBeUsedToTriggerArchiving_EvenIfSiteHasNoVisits()
+    public function test_getIdSitesToArchiveWhenNoVisits_DoesNotTriggerArchiving_IfSiteHasNoVisits()
     {
         // add our mock archiver instance
         // TODO: should use a dummy plugin that is activated for this test explicitly, but that can be tricky, especially in the future
@@ -90,7 +90,7 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         $this->assertEquals($expectedMethodCalls, ArchiveWithNoVisitsTest_MockArchiver::$methodsCalled);
     }
 
-    public function test_PluginArchiver_CanBeUsedToTriggerArchiving_EvenIfSiteHasNoVisits()
+    public function test_PluginArchiver_DoesNotTriggerArchiving_EvenIfSiteHasNoVisits()
     {
         PluginsArchiver::$archivers['VisitsSummary'] = 'Piwik\Tests\Integration\ArchiveWithNoVisitsTest_MockArchiver';
 
@@ -99,16 +99,7 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         // initiate archiving and make sure methods are called
         VisitsSummaryAPI::getInstance()->get($idSite = 1, 'week', '2012-01-01');
 
-        $expectedMethodCalls = array(
-            'aggregateDayReport',
-            'aggregateDayReport',
-            'aggregateDayReport',
-            'aggregateDayReport',
-            'aggregateDayReport',
-            'aggregateDayReport',
-            'aggregateDayReport',
-            'aggregateMultipleReports',
-        );
+        $expectedMethodCalls = array();
         $this->assertEquals($expectedMethodCalls, ArchiveWithNoVisitsTest_MockArchiver::$methodsCalled);
     }
 

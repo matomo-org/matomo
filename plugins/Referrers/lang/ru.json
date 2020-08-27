@@ -3,7 +3,7 @@
         "AllReferrersReportDocumentation": "Этот отчёт показывает все источники в одном сводном отчёте, перечисляя все веб-сайты, поисковые запросы и кампании, которыми пользовались посетители, чтобы найти ваш сайт.",
         "Campaigns": "Кампании",
         "CampaignsDocumentation": "Посетитель перешел на ваш сайт с рекламной кампании. %1$s Детальная информация в отчёте %2$s",
-        "CampaignsReportDocumentation": "Этот отчёт показывает, какие рекламные кампании привели посетителей на ваш сайт. %1$s Для большей информации об отслеживании кампаний читайте %2$sДокументацию по кампаниям на сайте matomo.org%3$s",
+        "CampaignsReportDocumentation": "Этот отчет показывает, какие кампании привели посетителей на ваш сайт.",
         "ColumnCampaign": "Кампания",
         "CampaignPageUrlHelp": "URL-адрес страницы, на которую идет эта кампания, например «http:\/\/example.org\/offer.html».",
         "CampaignNameHelp": "Выберите имя, которое описывает, для чего создана кампания, и которое отличает вашу кампанию от других ваших кампаний. Например, «Email-SummerDeals» или «PaidAds-SummerDeals».",
@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "различные поисковые системы",
         "DistinctSocialNetworks": "различные социальные сети",
         "DistinctWebsites": "различные сайты",
+        "DistinctWebsiteUrls": "отдельные URL сайта",
         "EvolutionDocumentation": "Это обзор источников, с которых посетители приходят на ваш сайт.",
         "EvolutionDocumentationMoreInfo": "Для получения дополнительной информации о различных типах каналов см. документацию %s таблицы.",
         "Keywords": "Ключевые слова",
@@ -68,6 +69,12 @@
         "WidgetSocials": "Список социальных сетей",
         "WidgetTopKeywordsForPages": "Топ ключевых слов для страницы URL",
         "XPercentOfVisits": "%s посещений",
-        "Acquisition": "Источники"
+        "Acquisition": "Источники",
+        "VisitorsFromSearchEngines": "Посетители из поисковых систем",
+        "PercentOfX": "Процент от %s",
+        "VisitorsFromSocialNetworks": "Посетители из социальных сетей",
+        "VisitorsFromDirectEntry": "Посетители из прямого входа",
+        "VisitorsFromWebsites": "Посетители с веб-сайтов",
+        "VisitorsFromCampaigns": "Посетители из кампаний"
     }
 }

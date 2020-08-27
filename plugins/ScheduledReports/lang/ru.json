@@ -7,7 +7,7 @@
         "AlsoSendReportToTheseEmails": "Также отправлять отчёт на следующие адреса email (по одному email в каждой строке):",
         "AreYouSureDeleteReport": "Вы уверены, что хотите удалить отчет и его расписание?",
         "CancelAndReturnToReports": "Отменить и %1$sвернуться к списку отчетов%2$s",
-        "CreateAndScheduleReport": "Создать и настроить расписание отчетов",
+        "CreateAndScheduleReport": "Создать и запланировать отчёт",
         "CreateReport": "Создать отчёт",
         "CustomVisitorSegment": "Настроенный сегмент посетителей:",
         "DescriptionOnFirstPage": "Описание отчета будет отображено на первой страние отчета.",

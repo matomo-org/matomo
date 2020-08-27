@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -18,9 +18,9 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class RequestTest extends IntegrationTestCase
 {
-    /** @var \Piwik\Auth|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Piwik\Auth|\PHPUnit\Framework\MockObject\MockObject */
     private $auth;
-    /** @var \Piwik\Access|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Piwik\Access|\PHPUnit\Framework\MockObject\MockObject */
     private $access;
 
     private $userAuthToken = 'token';

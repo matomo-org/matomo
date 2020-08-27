@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -38,8 +38,8 @@
             piwik.period = period;
 
             var dateRange = piwikPeriods.parse(period, date).getDateRange();
-            piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
-            piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+            piwik.startDateString = piwikPeriods.format(dateRange[0]);
+            piwik.endDateString = piwikPeriods.format(dateRange[1]);
 
             updateDateInTitle(date, period);
 

@@ -3,7 +3,7 @@
         "AllReferrersReportDocumentation": "Bu raporda tüm yönlendirenler, web siteleri, aranan anahtar sözcükler ve ziyaretçilerin web sitenize gelmesi için kullanılan kampanyaların listesi toplu olarak görüntülenir.",
         "Campaigns": "Kampanyalar",
         "CampaignsDocumentation": "Bir kampanya sonucunda sitenize gelen ziyaretçiler. %1$sAyrıntılı bilgi almak için %2$s raporuna bakın.",
-        "CampaignsReportDocumentation": "Bu rapor ziyaretçilerin hangi kampanyalar kanalıyla sitenize geldiğini görüntüler. %1$s İzleme kampanyaları hakkında ayrıntılı bilgi almak için %2$smatomo.org sitesindeki kampanyalar belgelerine bakın%3$s",
+        "CampaignsReportDocumentation": "Bu rapor, ziyaretçilerin web sitenize eriştiği kampanya bilgilerini içerir.",
         "ColumnCampaign": "Kampanya",
         "CampaignPageUrlHelp": "Bu kampanyanın gideceği sayfanın adresi. Örnek: 'http:\/\/websitem.org\/kampanya.html'.",
         "CampaignNameHelp": "Kampanyanın amacını belirtecek ve diğerlerinden ayrılmasını sağlayacak bir ad seçin. Örnek: 'E-posta-YazFırsatları' ya da 'ÜcretliReklamlar-YazFırsatları'.",
@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "ayrı arama motoru",
         "DistinctSocialNetworks": "ayrı sosyal ağlar",
         "DistinctWebsites": "ayrı web siteleri",
+        "DistinctWebsiteUrls": "ayrı web sitesi adresleri",
         "EvolutionDocumentation": "Web sitenize ziyaretçi yönlendirenlerin özeti.",
         "EvolutionDocumentationMoreInfo": "Farklı kanal türleri hakkında ayrıntılı bilgi almak için %s tablosunun belgelerine bakın.",
         "Keywords": "Anahtar Sözcükler",
@@ -68,6 +69,12 @@
         "WidgetSocials": "Tüm sosyal ağlar",
         "WidgetTopKeywordsForPages": "Sayfa Adresi için Çok Kullanılan Anahtar Sözcükler",
         "XPercentOfVisits": "ziyaretlerde %s",
-        "Acquisition": "Veri Toplama"
+        "Acquisition": "Veri Toplama",
+        "VisitorsFromSearchEngines": "Arama Motorlarından Gelen Ziyaretçiler",
+        "PercentOfX": "%s yüzdesi",
+        "VisitorsFromSocialNetworks": "Sosyal Ağlardan Gelen Ziyaretçiler",
+        "VisitorsFromDirectEntry": "Doğrudan Giriş Yapan Ziyaretçiler",
+        "VisitorsFromWebsites": "Web Sitelerinden Gelen Ziyaretçiler",
+        "VisitorsFromCampaigns": "Kampanyalardan Gelen Ziyaretçiler"
     }
 }

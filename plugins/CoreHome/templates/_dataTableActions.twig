@@ -4,14 +4,14 @@
 
         <a class='dropdown-button dropdownConfigureIcon dataTableAction'
            href='javascript:;'
-           data-activates='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
+           data-target='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
 
         {% set activeFooterIcon = '' %}
         {% set numIcons = 0 %}
         {% set visualizationIcons %}
             <ul id='dropdownVisualizations{{ randomIdForDropdown }}' class='dropdown-content dataTableFooterIcons'>
                 {% for footerIconGroup in footerIcons %}
-                    {% for footerIcon in footerIconGroup.buttons if footerIcon.icon %}
+                    {% for footerIcon in footerIconGroup.buttons|filter(footerIcon => footerIcon.icon) %}
                         <li>
                             {% set numIcons = numIcons + 1 %}
                             {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
@@ -37,7 +37,7 @@
             <a class="dropdown-button dataTableAction activatePeriodsSelection"
                href="javascript:;"
                title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
-               data-activates="dropdownPeriods{{ randomIdForDropdown }}">
+               data-target="dropdownPeriods{{ randomIdForDropdown }}">
                 <span class="icon-calendar"></span>
             </a>
             <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
@@ -54,7 +54,7 @@
         {% if activeFooterIcon and numIcons > 1 %}
             <a class="dropdown-button dataTableAction activateVisualizationSelection"
                href="javascript:;"
-               data-activates="dropdownVisualizations{{ randomIdForDropdown }}">
+               data-target="dropdownVisualizations{{ randomIdForDropdown }}">
                 {% if activeFooterIcon starts with 'icon-' %}
                     <span title="{{ 'CoreHome_ChangeVisualization'|translate|e('html_attr') }}" class="{{ activeFooterIcon }}"></span>
                 {% else %}
@@ -67,7 +67,7 @@
         {% if properties.show_export %}
             {% set requestParams = properties.request_parameters_to_modify|json_encode %}
 
-            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","PHP":"PHP","HTML":"HTML"} %}
+            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","HTML":"HTML"} %}
             {% if properties.show_export_as_rss_feed %}
                 {% set formats = formats|merge({"RSS": "RSS"}) %}
             {% endif %}
@@ -76,6 +76,7 @@
                report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
                api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
                href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
+               max-filter-limit="{{ properties.max_export_filter_limit|e('html_attr') }}"
                ><span class="icon-export"></span></a>
         {% endif %}
 
@@ -101,7 +102,7 @@
                 <input id="widgetSearch_{{ properties.report_id }}"
                        title="{{ 'CoreHome_DataTableHowToSearch'|translate|e('html_attr') }}"
                        type="text"
-                       class="dataTableSearchInput browser-default" />
+                       class="dataTableSearchInput" />
             </a>
         {% endif %}
 
@@ -121,14 +122,19 @@
 
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
             {% if properties.show_flatten_table %}
+                <li>
+                    <div class="configItem dataTableFlatten"></div>
+                </li>
                 {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
+                    {% if hasMultipleDimensions|default %}
+                        <li>
+                            <div class="configItem dataTableShowDimensions"></div>
+                        </li>
+                    {% endif %}
                     <li>
                         <div class="configItem dataTableIncludeAggregateRows"></div>
                     </li>
                 {% endif %}
-                <li>
-                    <div class="configItem dataTableFlatten"></div>
-                </li>
             {% endif %}
             {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
                 <li>
@@ -140,7 +146,7 @@
                     <div class="configItem dataTableExcludeLowPopulation"></div>
                 </li>
             {% endif %}
-            {% if properties.show_pivot_by_subtable|default is not empty %}
+            {% if properties.show_pivot_by_subtable|default is not empty and not isComparing|default(false) %}
                 <li>
                     <div class="configItem dataTablePivotBySubtable"></div>
                 </li>

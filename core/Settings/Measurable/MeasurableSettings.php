@@ -1,17 +1,15 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Settings\Measurable;
 
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Settings\Settings;
-use Piwik\Settings\Storage;
 use Piwik\Site;
 use Exception;
 

@@ -20,7 +20,7 @@ use Piwik\Tracker\Request;
  */
 class ActionSiteSearchTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -32,8 +32,8 @@ class ActionSiteSearchTest extends IntegrationTestCase
      */
     public function testSiteSearchDetection($website, $url, $expectedResult)
     {
-        $action = new ActionSiteSearchPublic(new Request(['idsite' => 1]));
-        $this->assertEquals($expectedResult, $action->detectSiteSearchFromUrl($website, parse_url($url)));
+        $action = new ActionSiteSearch(new Request(['idsite' => 1]));
+        $this->assertEquals($expectedResult, ActionSiteSearch::detectSiteSearchFromUrl($website, parse_url($url)));
     }
 
     public function getSiteSearchData()
@@ -64,11 +64,3 @@ class ActionSiteSearchTest extends IntegrationTestCase
         ];
     }
 }
-
-class ActionSiteSearchPublic extends ActionSiteSearch
-{
-    public function detectSiteSearchFromUrl($website, $parsedUrl) {
-        return parent::detectSiteSearchFromUrl($website, $parsedUrl);
-    }
-}
-

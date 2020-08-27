@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,11 @@ use Piwik\DataTable\DataTableInterface;
 
 class Original extends ApiRenderer
 {
+    public static function sendPlainTextHeader()
+    {
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+    }
+
     public function renderSuccess($message)
     {
         return true;
@@ -29,10 +34,16 @@ class Original extends ApiRenderer
     public function renderException($message, $exception)
     {
         if ($this->shouldSerialize()) {
-            return serialize([
+            $data = [
                 'result' => 'error',
                 'message' => $message,
-            ]);
+            ];
+
+            if ($this->shouldSendBacktrace()) {
+                $data['backtrace'] = $exception->getTraceAsString();
+            }
+
+            return serialize($data);
         }
 
         throw $exception;
@@ -66,7 +77,7 @@ class Original extends ApiRenderer
     public function sendHeader()
     {
         if ($this->shouldSerialize()) {
-            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+            self::sendPlainTextHeader();
         }
     }
 
@@ -91,6 +102,17 @@ class Original extends ApiRenderer
                     $allMetadata = $table->getAllTableMetadata();
                     unset($allMetadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]);
                     $table->setAllTableMetadata($allMetadata);
+
+                    if ($this->hideIdSubDataTable) {
+                        foreach ($table->getRows() as $row) {
+                            $row->removeSubtable();
+                        }
+                    }
+
+                    // Force string value for segment metadata field (ensures consistency between PDO and mysqli)
+                    if (isset($allMetadata['segment']) && $allMetadata['segment'] === false) {
+                        $table->setMetadata('segment', '');
+                    }
                 });
             }
 

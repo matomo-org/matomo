@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,14 +15,14 @@ use ReflectionProperty;
 /**
  * @group CliMulti
  */
-class ProcessTest extends \PHPUnit_Framework_TestCase
+class ProcessTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Process
      */
     private $process;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -30,7 +30,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->process = new Process('testPid');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if(is_object($this->process)){
             $this->process->finishProcess();
@@ -38,12 +38,11 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         File::reset();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The given pid has an invalid format
-     */
     public function test_construct_shouldFailInCasePidIsInvalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The given pid has an invalid format');
+
         new Process('../../htaccess');
     }
 

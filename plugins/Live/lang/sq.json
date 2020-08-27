@@ -24,6 +24,7 @@
         "PageRefreshed": "Sa herë rresht është parë \/ rifreskuar kjo faqe.",
         "PluginDescription": "Furnizon Regjistër Vizitorësh live dhe ju lejon të shihni vizitorët drejtpërsëdrejti, te widget-i real-time i pultit . Shtojca ju lejon gjithashtu të shihni profil Vizitori për cilindo përdorues.",
         "PreviousVisitor": "Vizitori i mëparshëm",
+        "RealTimeVisitors": "Vizita në Kohë Reale",
         "RealTimeVisitorCount": "Numërim Vizitorësh i Atypëratyshëm",
         "Referrer_URL": "URL Sjellësi",
         "ShowMap": "shfaq hartën",
@@ -35,10 +36,15 @@
         "ToggleActions": "Aktivizo\/çaktivizo dukshmërinë e krejt veprimeve",
         "TopVisitedPages": "Faqet kryesuese të vizituara",
         "VisitsLog": "Regjistër Vizitash",
+        "QueryMaxExecutionTimeExceeded": "Ekzekutimi i kërkesës zgjati shumë.",
+        "QueryMaxExecutionTimeExceededReasonDateRange": "Kjo mund të ndodhë nëse intervali i përzgjedhur i datave është shumë i madh. Ju lutemi, provoni të përzgjidhni një interval më të vogël të dhënash.",
+        "QueryMaxExecutionTimeExceededReasonSegment": "Kjo mund të ndodhë nëse me intervalin e përzgjedhur s’ka përputhje ndonjë vizitë. Ju lutemi, provoni të kontrolloni intervalin tuaj të përzgjedhur.",
+        "QueryMaxExecutionTimeExceededReasonUnknown": "Ju lutemi, riprovoni. Nëse ndodh në mënyrë të përsëritur, ju lutemi, lidhuni me përgjegjësin ose me ata të asistencës.",
         "VisitorLog": "Regjistër Vizitash",
         "VisitorLogDocumentation": "Kjo tabelë tregon vizitat e fundit brenda intervalit kohor të përzgjedhur. Se kur u bë vizita e fundit nga një vizitor, mund ta shihni duke kaluar kursorin përsipër datës së një vizite. %1$s Nëse intervali kohor e përfshin ditën e sotme, mund t’i shihni vizitorët aty për aty! %2$s Të dhënat e shfaqura këtu janë përherë më të rejat, pavarësisht nëse e përdorni apo jo, dhe se sa shpesh, funksionin cron për arkivim.",
         "VisitorLogNoDataMessagePurged": "Ka mundësi që të dhënat të jenë spastruar ngaqë fshirja e rregullt është aktive dhe data për këtë raport është më e vjetër se %s ditë. Këtë rregullim mund ta ndryshojë një superpërdorues, duke shkuar te Administrim => Privatësi.",
         "VisitorProfile": "Profil vizitori",
+        "VisitorsInRealTime": "Vizita në Kohë Reale",
         "VisitorsLastVisit": "Vizita e fundit e këtij vizitori ndodhi %s ditë më parë.",
         "VisitsFrom": "%1$s%2$s vizita%3$s nga",
         "VisitSummary": "Shpenzoi gjithsej %1$s%2$s në sajtin%3$s, dhe pa %4$s faqe%5$s gjatë %6$s vizitash%7$s.",
@@ -48,6 +54,7 @@
         "RowActionTooltipTitle": "Hap Regjistër Vizitash të segmentuar",
         "SegmentedVisitorLogTitle": "Regjistri i Vizitave po shfaq vizita ku %1$s është \"%2$s\"",
         "OnClickPause": "%s është nisur. Klikoni që të ndalet.",
-        "OnClickStart": "%s është ndalur. Klikoni që të niset."
+        "OnClickStart": "%s është ndalur. Klikoni që të niset.",
+        "ClickToSeeAllContents": "Klikoni që të shihni çdo ndërveprim\/përshtypje lënde"
     }
 }

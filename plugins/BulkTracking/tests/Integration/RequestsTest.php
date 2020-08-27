@@ -1,15 +1,17 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -29,7 +31,7 @@ class RequestsTest extends IntegrationTestCase
      */
     private $requests;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +40,7 @@ class RequestsTest extends IntegrationTestCase
         $this->requests = new Requests();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // clean up your test here if needed
 
@@ -65,33 +67,30 @@ class RequestsTest extends IntegrationTestCase
         TrackerConfig::setConfigValue('bulk_requests_require_authentication', $oldConfig);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth must be specified when using Bulk Tracking Import
-     */
     public function test_authenticateRequests_shouldThrowAnException_IfTokenAuthIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
+
         $requests = array($this->buildDummyRequest());
         $this->requests->authenticateRequests($requests);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth must be specified when using Bulk Tracking Import
-     */
     public function test_authenticateRequests_shouldThrowAnException_IfAnyTokenAuthIsEmpty()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
+
         $requests = array($this->buildDummyRequest($this->getSuperUserToken()), $this->buildDummyRequest());
         $this->requests->authenticateRequests($requests);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth specified does not have Admin permission for idsite=1
-     */
     public function test_authenticateRequests_shouldThrowAnException_IfTokenIsNotValid()
     {
-        $dummyToken = API::getInstance()->createTokenAuth('test');
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth specified does not have Admin permission for idsite=1');
+
+        $dummyToken = StaticContainer::get(Model::class)->generateRandomTokenAuth();
         $superUserToken = $this->getSuperUserToken();
 
         $requests = array($this->buildDummyRequest($superUserToken), $this->buildDummyRequest($dummyToken));

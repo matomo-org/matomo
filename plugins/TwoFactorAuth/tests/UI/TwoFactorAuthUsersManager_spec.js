@@ -1,15 +1,13 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Screenshot integration tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("TwoFactorAuthUsersManager", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorUsersManagerFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
@@ -37,19 +35,21 @@ describe("TwoFactorAuthUsersManager", function () {
         await page.evaluate(function () {
             $('.userEditForm .menuUserTwoFa a').click();
         });
+        await page.waitFor(250);
+        await page.waitFor('.twofa-reset > p', { visible: true });
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa');
     });
 
     it('should ask for confirmation before resetting 2fa', async function () {
         await page.click('.userEditForm .twofa-reset .resetTwoFa .btn');
-        await page.waitFor(500);
-        const modal = await page.$('.modal.open');
+        const modal = await page.waitFor('.modal.open', { visible: true });
+        await page.waitFor(1000); // animation
         expect(await modal.screenshot()).to.matchImage('edit_with_2fa_reset_confirm');
     });
 
     it('should be possible to confirm the reset', async function () {
         await page.click('.twofa-confirm-modal .modal-close:not(.modal-no)');
-        await page.waitFor(250); // wait for modal to close
+        await page.waitFor(500); // wait for modal to close
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa_reset_confirmed');
     });
 

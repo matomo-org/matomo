@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -81,6 +81,10 @@ class RequestCommand extends ConsoleCommand
         if (!empty($process)) {
             $process->finishProcess();
         }
+
+        while (ob_get_level()) {
+           echo ob_get_clean();
+        }
     }
 
     private function isTestModeEnabled()
@@ -95,14 +99,13 @@ class RequestCommand extends ConsoleCommand
     {
         $_GET = array();
 
-        // @todo remove piwik-domain fallback in Matomo 4
-        $hostname = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
+        $hostname = $input->getOption('matomo-domain');
         Url::setHost($hostname);
 
         $query = $input->getArgument('url-query');
         $query = UrlHelper::getArrayFromQueryString($query); // NOTE: this method can create the StaticContainer now
         foreach ($query as $name => $value) {
-            $_GET[$name] = $value;
+            $_GET[$name] = urldecode($value);
         }
     }
 

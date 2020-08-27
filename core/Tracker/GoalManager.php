@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -16,6 +16,7 @@ use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker;
@@ -57,6 +58,10 @@ class GoalManager
     const INTERNAL_ITEM_CATEGORY5 = 6;
     const INTERNAL_ITEM_PRICE = 7;
     const INTERNAL_ITEM_QUANTITY = 8;
+
+    public static $NUMERIC_MATCH_ATTRIBUTES = [
+        'visit_duration',
+    ];
 
     /**
      * TODO: should remove this, but it is used by getGoalColumn which is used by dimensions. should replace w/ value object.
@@ -119,10 +124,12 @@ class GoalManager
      *
      * @param int $idSite
      * @param Action $action
+     * @param VisitProperties $visitor
+     * @param Request $request
      * @throws Exception
      * @return array[] Goals matched
      */
-    public function detectGoalsMatchingUrl($idSite, $action)
+    public function detectGoalsMatchingUrl($idSite, $action, VisitProperties $visitor, Request $request)
     {
         if (!Common::isGoalPluginEnabled()) {
             return array();
@@ -132,7 +139,7 @@ class GoalManager
 
         $convertedGoals = array();
         foreach ($goals as $goal) {
-            $convertedUrl = $this->detectGoalMatch($goal, $action);
+            $convertedUrl = $this->detectGoalMatch($goal, $action, $visitor, $request);
             if (!is_null($convertedUrl)) {
                 $convertedGoals[] = array('url' => $convertedUrl) + $goal;
             }
@@ -146,13 +153,20 @@ class GoalManager
      *
      * @param array $goal
      * @param Action $action
-     * @return if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
+     * @param VisitProperties $visitor
+     * @param Request $request
+     * @return bool|null if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
      */
-    public function detectGoalMatch($goal, Action $action)
+    public function detectGoalMatch($goal, Action $action, VisitProperties $visitor, Request $request)
     {
         $actionType = $action->getActionType();
 
         $attribute = $goal['match_attribute'];
+
+        // handle numeric match attributes specifically
+        if (in_array($attribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
+            return $this->detectNumericGoalMatch($goal, $action, $visitor, $request);
+        }
 
         // if the attribute to match is not the type of the current action
         if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
@@ -163,7 +177,6 @@ class GoalManager
         ) {
             return null;
         }
-
 
         switch ($attribute) {
             case 'title':
@@ -195,6 +208,42 @@ class GoalManager
         return $action->getActionUrl();
     }
 
+    private function detectNumericGoalMatch($goal, Action $action, VisitProperties $visitProperties, Request $request)
+    {
+        switch ($goal['match_attribute']) {
+            case 'visit_duration':
+                $firstActionTime = $visitProperties->getProperty('visit_first_action_time');
+                if (empty($firstActionTime)) {
+                    return null;
+                }
+
+                $visitDurationInSecs = $request->getCurrentTimestamp() - ((int) $firstActionTime);
+                $valueToMatchAgainst = $visitDurationInSecs / 60;
+                break;
+            default:
+                return null;
+        }
+
+        $pattern = (float) $goal['pattern'];
+
+        Common::printDebug("Matching {$goal['match_attribute']} (current value = $valueToMatchAgainst, idGoal = {$goal['idgoal']}) {$goal['pattern_type']} $pattern.");
+
+        switch ($goal['pattern_type']) {
+            case 'greater_than':
+                $matches = $valueToMatchAgainst > $pattern;
+                break;
+            default:
+                return null;
+        }
+
+        if ($matches) {
+            Common::printDebug("Conversion detected for idGoal = , idGoal = {$goal['idgoal']}.");
+            return $action->getActionUrl();
+        } else {
+            return null;
+        }
+    }
+
     public function detectGoalId($idSite, Request $request)
     {
         if (!Common::isGoalPluginEnabled()) {
@@ -206,7 +255,7 @@ class GoalManager
         $goals = $this->getGoalDefinitions($idSite);
 
         if (!isset($goals[$idGoal])) {
-            return null;
+            throw new InvalidRequestParameterException('idGoal ' . $idGoal . ' does not exist');
         }
 
         $goal = $goals[$idGoal];
@@ -227,28 +276,31 @@ class GoalManager
     public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
         $visitorInformation = $visitProperties->getProperties();
-        $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables') ?: array();
 
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
 
         $goal = $this->getGoalFromVisitor($visitProperties, $request, $action);
 
-        // Copy Custom Variables from Visit row to the Goal conversion
-        // Otherwise, set the Custom Variables found in the cookie sent with this request
-        $goal += $visitCustomVariables;
-        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            // @todo move this to CustomVariables plugin if possible
+            // Copy Custom Variables from Visit row to the Goal conversion
+            // Otherwise, set the Custom Variables found in the cookie sent with this request
+            $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables') ?: array();
+            $goal                 += $visitCustomVariables;
+            $maxCustomVariables   = CustomVariables::getNumUsableCustomVariables();
 
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            if (isset($visitorInformation['custom_var_k' . $i])
-                && strlen($visitorInformation['custom_var_k' . $i])
-            ) {
-                $goal['custom_var_k' . $i] = $visitorInformation['custom_var_k' . $i];
-            }
-            if (isset($visitorInformation['custom_var_v' . $i])
-                && strlen($visitorInformation['custom_var_v' . $i])
-            ) {
-                $goal['custom_var_v' . $i] = $visitorInformation['custom_var_v' . $i];
+            for ($i = 1; $i <= $maxCustomVariables; $i++) {
+                if (isset($visitorInformation['custom_var_k' . $i])
+                    && strlen($visitorInformation['custom_var_k' . $i])
+                ) {
+                    $goal['custom_var_k' . $i] = $visitorInformation['custom_var_k' . $i];
+                }
+                if (isset($visitorInformation['custom_var_v' . $i])
+                    && strlen($visitorInformation['custom_var_v' . $i])
+                ) {
+                    $goal['custom_var_v' . $i] = $visitorInformation['custom_var_v' . $i];
+                }
             }
         }
 
@@ -829,10 +881,22 @@ class GoalManager
 
     private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
     {
+        $lastVisitTime = $visitProperties->getProperty('visit_last_action_time');
+        if (!$lastVisitTime) {
+            $lastVisitTime = $request->getCurrentTimestamp(); // fallback in case visit_last_action_time is not set
+        }
+
+        if (!empty($lastVisitTime) && is_numeric($lastVisitTime)) {
+            // visit last action time might be 2020-05-05 00:00:00
+            // we want it to prevent this being converted to a timestamp of 2020
+            // resulting in some day in 1970
+            $lastVisitTime = Date::getDatetimeFromTimestamp($lastVisitTime);
+        }
+
         $goal = array(
             'idvisit'     => $visitProperties->getProperty('idvisit'),
             'idvisitor'   => $visitProperties->getProperty('idvisitor'),
-            'server_time' => Date::getDatetimeFromTimestamp($visitProperties->getProperty('visit_last_action_time')),
+            'server_time' => $lastVisitTime,
         );
 
         $visitDimensions = VisitDimension::getAllDimensions();

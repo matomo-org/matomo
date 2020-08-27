@@ -852,6 +852,38 @@
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
+			<row>
+				<name>Evolution of page performance metrics</name>
+				<module>PagePerformance</module>
+				<action>getEvolutionGraph</action>
+				<order>20</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>graphStackedBarEvolution</viewDataTable>
+					<module>PagePerformance</module>
+					<action>getEvolutionGraph</action>
+				</parameters>
+				<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphStackedBarEvolution</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name />
+				<module>PagePerformance</module>
+				<action>get</action>
+				<order>21</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>sparklines</viewDataTable>
+					<module>PagePerformance</module>
+					<action>get</action>
+				</parameters>
+				<uniqueId>widgetPagePerformancegetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>sparklines</viewDataTable>
+				<isReport>1</isReport>
+			</row>
 		</widgets>
 	</row>
 	<row>
@@ -1167,36 +1199,6 @@
 		</widgets>
 	</row>
 	<row>
-		<uniqueId>General_Visitors.CustomVariables_CustomVariables</uniqueId>
-		<category>
-			<id>General_Visitors</id>
-			<name>Visitors</name>
-			<order>5</order>
-			<icon>icon-reporting-visitors</icon>
-		</category>
-		<subcategory>
-			<id>CustomVariables_CustomVariables</id>
-			<name>Custom Variables</name>
-			<order>45</order>
-		</subcategory>
-		<widgets>
-			<row>
-				<name>Custom Variables</name>
-				<module>CustomVariables</module>
-				<action>getCustomVariables</action>
-				<order>110</order>
-				<parameters>
-					<module>CustomVariables</module>
-					<action>getCustomVariables</action>
-				</parameters>
-				<uniqueId>widgetCustomVariablesgetCustomVariables</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>table</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-		</widgets>
-	</row>
-	<row>
 		<uniqueId>General_Visitors.UserId_UserReportTitle</uniqueId>
 		<category>
 			<id>General_Visitors</id>
@@ -1220,6 +1222,36 @@
 					<action>getUsers</action>
 				</parameters>
 				<uniqueId>widgetUserIdgetUsers</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>General_Visitors.CustomVariables_CustomVariables</uniqueId>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory>
+			<id>CustomVariables_CustomVariables</id>
+			<name>Custom Variables</name>
+			<order>45</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Custom Variables</name>
+				<module>CustomVariables</module>
+				<action>getCustomVariables</action>
+				<order>110</order>
+				<parameters>
+					<module>CustomVariables</module>
+					<action>getCustomVariables</action>
+				</parameters>
+				<uniqueId>widgetCustomVariablesgetCustomVariables</uniqueId>
 				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
@@ -1855,6 +1887,35 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Visits per server time</name>
 						<category>
 							<id>Goals by User attribute</id>
@@ -2462,6 +2523,35 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Visits per server time</name>
 						<category>
 							<id>Goals by User attribute</id>
@@ -3064,6 +3154,35 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -3726,6 +3845,35 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -4520,6 +4668,36 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Visits per server time</name>
 						<category>
 							<id>Sales by User attribute</id>
@@ -4790,6 +4968,63 @@
 						<isReport>1</isReport>
 					</row>
 				</widgets>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>Marketplace_Marketplace.Marketplace_Browse</uniqueId>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+		</category>
+		<subcategory>
+			<id>Marketplace_Browse</id>
+			<name>Browse</name>
+			<order>5</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Marketplace</name>
+				<module>Marketplace</module>
+				<action>overview</action>
+				<order>19</order>
+				<parameters>
+					<module>Marketplace</module>
+					<action>overview</action>
+					<embed>1</embed>
+				</parameters>
+				<uniqueId>widgetMarketplaceoverviewembed1</uniqueId>
+				<isWide>0</isWide>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>Marketplace_Marketplace.Marketplace_PaidPlugins</uniqueId>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+		</category>
+		<subcategory>
+			<id>Marketplace_PaidPlugins</id>
+			<name>Premium Features</name>
+			<order>10</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Premium Features</name>
+				<module>Marketplace</module>
+				<action>getPremiumFeatures</action>
+				<order>20</order>
+				<parameters>
+					<module>Marketplace</module>
+					<action>getPremiumFeatures</action>
+				</parameters>
+				<uniqueId>widgetMarketplacegetPremiumFeatures</uniqueId>
+				<isWide>0</isWide>
 			</row>
 		</widgets>
 	</row>

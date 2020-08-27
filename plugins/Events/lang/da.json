@@ -4,6 +4,7 @@
         "AvgEventValue": "Gennemsnitlig værdi for hændelsen er: %s",
         "AvgValue": "Gennemsnitsværdi",
         "AvgValueDocumentation": "Gennemsnittet af alle værdier for denne hændelse",
+        "Category": "Kategori",
         "Event": "Hændelse",
         "EventAction": "Hændelsesaktion",
         "EventActions": "Hændelsesforløb",

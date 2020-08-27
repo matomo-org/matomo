@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -17,9 +17,9 @@ use Piwik\DataTable\Simple;
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
+class DataTable_Renderer_CSVTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Manager::getInstance()->deleteAll();

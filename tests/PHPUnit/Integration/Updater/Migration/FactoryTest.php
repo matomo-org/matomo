@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,6 +12,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Db\Factory as DbFactory;
 use Piwik\Updater\Migration\Plugin\Factory as PluginFactory;
+use Piwik\Updater\Migration\Config\Factory as ConfigFactory;
 
 /**
  * @group Core
@@ -25,11 +26,11 @@ class FactoryTest extends IntegrationTestCase
      */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->factory = new Migration\Factory(new DbFactory(), new PluginFactory());
+        $this->factory = new Migration\Factory(new DbFactory(), new PluginFactory(), new ConfigFactory());
     }
 
     public function test_db_holdsDatabaseFactory()
@@ -40,6 +41,11 @@ class FactoryTest extends IntegrationTestCase
     public function test_plugin_holdsPluginFactory()
     {
         $this->assertTrue($this->factory->plugin instanceof PluginFactory);
+    }
+
+    public function test_plugin_holdsConfigFactory()
+    {
+        $this->assertTrue($this->factory->config instanceof ConfigFactory);
     }
 
 }

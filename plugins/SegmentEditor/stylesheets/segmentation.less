@@ -116,16 +116,19 @@ div.scrollable {
     margin: -1px 0 0 0;
 }
 
-.segment-element .edit_segment_name {
+.segment-element input.edit_segment_name[type=text]:not(.browser-default) {
     width: 200px;
 }
-
 
 .segment-element .segment-top {
     font-size: 11px;
     color: #505050;
     text-align: right;
     padding: 3px 7px 0 0;
+
+    > * {
+        vertical-align: top;
+    }
 }
 
 .segment-element .segment-top a {
@@ -206,9 +209,16 @@ div.scrollable {
     cursor: pointer;
 }
 
-.segmentationContainer .submenu ul li:hover {
+.segmentationContainer .submenu ul li:hover,
+.segmentationContainer .submenu ul li:focus,
+.segmentationContainer .submenu ul li:focus-within {
     color: #255792;
     background: @color-silver-l95;
+    outline: none;
+
+    > * {
+        outline: none;
+    }
 }
 
 .segmentationContainer ul.submenu {
@@ -217,19 +227,46 @@ div.scrollable {
     margin-bottom: 5px;
 }
 
-.segmentationContainer ul.submenu > li span.editSegment {
-    display: block;
-    float: right;
-    text-align: center;
-    margin-right: 4px;
-    font-weight: normal;
-    background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
-    width: 16px;
-    height: 16px;
-    .opacity(0.5);
+.segmentationContainer ul.submenu > li {
+    span.editSegment, span.compareSegment {
+        display: block;
+        float: right;
+        text-align: center;
+        margin-right: 4px;
+        font-weight: normal;
+        width: 16px;
+        height: 16px;
+        .opacity(0.5);
 
-    &:hover {
-        .opacity(1);
+        &:hover {
+            .opacity(1);
+        }
+    }
+
+    span.editSegment {
+        background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
+    }
+
+    span.compareSegment {
+        background: url(plugins/Morpheus/images/compare.svg) no-repeat;
+        background-size: cover;
+
+        &.allVisitsCompareSegment {
+            margin-right: 24px;
+        }
+    }
+    
+    li.segmentSelected, li.comparedSegment {
+        span.compareSegment {
+            pointer-events: none;
+            opacity: 0.2;
+        }
+    }
+}
+
+html.comparisonsDisabled .segmentationContainer ul.submenu {
+    span.compareSegment {
+        display: none;
     }
 }
 
@@ -294,6 +331,8 @@ div.scrollable {
 .segmentList {
     max-height: 300px;
     margin-top: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .segmentListContainer {
@@ -384,7 +423,11 @@ a.metric_category {
     margin: 8px;
 }
 
-.segmentSelected, .segmentSelected:hover, .segmentEditorPanel .segmentationContainer .submenu li .segmentSelected {
+.segmentSelected,
+.segmentSelected:hover,
+.segmentEditorPanel .segmentationContainer .submenu li .segmentSelected,
+.segmentEditorPanel .segmentationContainer .submenu li:focus,
+.segmentEditorPanel .segmentationContainer .submenu li:focus-within {
     font-weight: bold;
 }
 
@@ -396,6 +439,7 @@ a.metric_category {
 
 .ui-autocomplete.ui-menu.ui-widget {
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);
+    padding: 6px !important;
 }
 
 @media all and (max-width: 749px) {
@@ -510,4 +554,17 @@ a.metric_category {
 
 .segment-element .segment-footer a {
     color: @theme-color-link !important;
+}
+
+.enable_all_users, .visible_to_website, .auto_archive {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.auto_archive {
+    max-width: 190px;
+    a.dropList {
+        display: inline-block;
+        width: calc(100% - 15px);
+    }
 }

@@ -21,7 +21,7 @@ describe("Transitions", function () {
         }, field);
         await page.waitFor(500);
         await page.webpage.evaluate((field, title) => {
-            $(field + ' .dropdown-content.active li:contains("' + title + '"):first').click()
+            $(field + ' .dropdown-content li:contains("' + title + '"):first').click()
         }, field, title);
     }
 
@@ -33,6 +33,7 @@ describe("Transitions", function () {
         await (await page.jQuery('a.actionTransitions:visible')).click();
 
         await page.waitForNetworkIdle();
+        await page.waitFor('.ui-dialog', { visible: true });
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_titles');
     });

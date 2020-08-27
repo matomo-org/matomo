@@ -1,0 +1,30 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Hindi mahanap ang apache_get_modules function sa pag-aakala na hindi Apache webserver.",
+        "CannotFindGeoIPServerVar": "Ang %s variable ay hindi naka-set. Ang iyong server ay maaaring hindi naka-configure nang tama.",
+        "CannotListContent": "Hindi ma-ilista ang nilalaman para sa %1$s: %2$s.",
+        "DownloadingDb": "Downloading %s",
+        "DownloadNewDatabasesEvery": "I-update ang mga bawat database",
+        "FoundApacheModules": "Matomo nahanap ang mga sumusunod na Apache modules.",
+        "GeoIPImplHasAccessTo": "Ang pagpapatupad ng GeoIP na ito ay may access sa mga sumusunod na uri ng database",
+        "GeoIPDatabases": "GeoIP ng mga Database",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Tandaan: IP anonymization ay walang epekto sa mga lokasyon na inulat ng provider na ito. Bago ito gamitin na may IP anonymization siguraduhin na ito ay hindi lumalabag sa mga batas ng privacy na maaring sumailalim sa.",
+        "GeoIPLocationProviderNotRecommended": "Gumagana ang Geolocation ngunit hindi ka gumagamit ng isa sa mga inirerekomendang provider.",
+        "GeoIPNoServerVars": "Hindi mahanap ng Matomo ang kahit na anong %s variable ng GeoIP.",
+        "GeoIPServerVarsFound": "Nakita ng Matomo ang mga sumusunod na %s variable ng GeoIP",
+        "HowToSetupGeoIPIntro": "Ikaw ay may hindi wastong Geolocation setup. Ang feature na ito ay malaking tulong at kung wala nito hindi mo makikita ang tumpak na at kumpletong impormasyon ng lokasyon para sa iyong mga bisita. Narito kung paano mo agad masisimulan ang paggamit nito:",
+        "HowToInstallApacheModule": "Paano ko ii-install ang GeoIP module para sa Apache?",
+        "HowToInstallNginxModule": "Paano ko ii-install ang GeoIP module para sa Nginx?",
+        "HttpServerModule": "HTTP Module Server",
+        "InvalidGeoIPUpdatePeriod": "Di-wastong panahon para sa GeoIP update: %1$s. Ang wastong value ay %2$s.",
+        "ISPDatabase": "ISP Database",
+        "LocationDatabase": "Lokasyon ng database",
+        "LocationDatabaseHint": "Ang database ng lokasyon ay alinman sa isang bansa rehiyon o database ng lungsod.",
+        "UnsupportedArchiveType": "Nakatagpo ng hindi suportadong klase ng archive %1$s",
+        "UpdaterHasNotBeenRun": "Ang updater ay hindi pa napapatatakbo.",
+        "UpdaterIsNotScheduledToRun": "Ito ay hindi nakaiskedyul na tumakbo sa hinaharap.",
+        "UpdaterScheduledForNextRun": "Ito ay naka-iskedyul na tumakbo sa loob ng susunod na cron core: i-archive ang execution ng command.",
+        "UpdaterWasLastRun": "Ang updater ay huling na i-run ng %s.",
+        "UpdaterWillRunNext": "Ito ang susunod na naka-schedule upang tumakbo ng %s."
+    }
+}

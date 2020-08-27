@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugin;
@@ -11,7 +11,6 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 
@@ -162,6 +161,11 @@ class ArchivedMetric extends Metric
         return $value;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function getTranslatedName()
     {
         if (!empty($this->translatedName)) {
@@ -193,6 +197,10 @@ class ArchivedMetric extends Metric
         }
 
         $column = $this->dbTable . '.'  . $this->dimension->getColumnName();
+
+        if ($this->dimension->getSqlSegment()) {
+            $column = str_replace($this->dimension->getDbTableName(), $this->dbTable, $this->dimension->getSqlSegment());
+        }
 
         if (!empty($this->aggregation)) {
             return sprintf($this->aggregation, $column);

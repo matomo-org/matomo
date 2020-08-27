@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -27,10 +27,16 @@ class Glossary
         $reports = array();
         foreach ($metadata as $report) {
             if (isset($report['documentation'])) {
-                $reports[] = array(
+                $docReport = array(
                     'name' => sprintf("%s (%s)", $report['name'], $report['category']),
                     'documentation' => $report['documentation']
                 );
+
+                if (isset($report['onlineGuideUrl'])) {
+                    $docReport['onlineGuideUrl'] = $report['onlineGuideUrl'];
+                }
+
+                $reports[] = $docReport;
             }
         }
 

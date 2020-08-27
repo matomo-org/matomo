@@ -1,20 +1,22 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
@@ -57,7 +59,11 @@ class Rules
 
     public static function shouldProcessReportsAllPlugins(array $idSites, Segment $segment, $periodLabel)
     {
-        if ($segment->isEmpty() && $periodLabel != 'range') {
+        if (self::isForceArchivingSinglePlugin()) {
+            return false;
+        }
+
+        if ($segment->isEmpty() && ($periodLabel != 'range' || SettingsServer::isArchivePhpTriggered())) {
             return true;
         }
 
@@ -112,7 +118,7 @@ class Rules
         return $doneFlags;
     }
 
-    public static function getMinTimeProcessedForTemporaryArchive(
+    public static function getMinTimeProcessedForInProgressArchive(
         Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
@@ -226,9 +232,21 @@ class Rules
         return !$isArchivingEnabled;
     }
 
-    public static function isRequestAuthorizedToArchive()
+    public static function isRequestAuthorizedToArchive(Parameters $params = null)
     {
-        return Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+        $isRequestAuthorizedToArchive = Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+
+        if (!empty($params)) {
+            /**
+             * @ignore
+             *
+             * @params bool &$isRequestAuthorizedToArchive
+             * @params Parameters $params
+             */
+            Piwik::postEvent('Archiving.isRequestAuthorizedToArchive', [&$isRequestAuthorizedToArchive, $params]);
+        }
+
+        return $isRequestAuthorizedToArchive;
     }
 
     public static function isBrowserTriggerEnabled()
@@ -291,17 +309,29 @@ class Rules
     /**
      * Returns done flag values allowed to be selected
      *
-     * @return string
+     * @return string[]
      */
-    public static function getSelectableDoneFlagValues()
+    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null, $checkAuthorizedToArchive = true)
     {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
-        if (!Rules::isRequestAuthorizedToArchive()) {
-            //If request is not authorized to archive then fetch also invalidated archives
-            $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
+        if ($includeInvalidated) {
+            if (!$checkAuthorizedToArchive || !Rules::isRequestAuthorizedToArchive($params)) {
+                //If request is not authorized to archive then fetch also invalidated archives
+                $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
+                $possibleValues[] = ArchiveWriter::DONE_PARTIAL;
+            }
         }
 
         return $possibleValues;
+    }
+
+    public static function isForceArchivingSinglePlugin()
+    {
+        if (!SettingsServer::isArchivePhpTriggered()) {
+            return false;
+        }
+
+        return !empty($_GET['pluginOnly']) || !empty($_POST['pluginOnly']);
     }
 }

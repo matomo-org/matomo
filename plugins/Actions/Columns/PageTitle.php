@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -22,6 +22,7 @@ class PageTitle extends ActionDimension
     protected $nameSingular = 'Goals_PageTitle';
     protected $namePlural = 'Actions_WidgetPageTitles';
     protected $category = 'General_Actions';
+    protected $suggestedValuesApi = 'Actions.getPageTitles';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()

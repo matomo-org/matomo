@@ -1,13 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API;
@@ -56,7 +57,7 @@ class ManyVisitsWithGeoIP extends Fixture
     protected $idGoal;
     protected $idGoal2;
 
-    public function setUp()
+    public function setUp(): void
     {
         // set option, so tracked data for the past won't get converted
         Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, 1);
@@ -78,7 +79,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $this->setLocationProvider('GeoIP2-City.mmdb');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->unsetLocationProvider();
     }
@@ -98,10 +99,11 @@ class ManyVisitsWithGeoIP extends Fixture
         }
     }
 
+    protected $calledCounter = 0;
+
     private function trackVisits($visitorCount, $setIp = false, $useLocal = true, $doBulk = false)
     {
-        static $calledCounter = 0;
-        $calledCounter++;
+        $this->calledCounter++;
 
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
@@ -119,7 +121,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
 
         for ($i = 0; $i != $visitorCount; ++$i) {
-            $this->trackVisit($t, $calledCounter, $i, $doBulk, array('setIp' => $setIp));
+            $this->trackVisit($t, $this->calledCounter, $i, $doBulk, array('setIp' => $setIp));
         }
 
         if ($doBulk) {
@@ -129,13 +131,13 @@ class ManyVisitsWithGeoIP extends Fixture
 
     /**
      * Insert a new visit into the database.
-     * @param \PiwikTracker $t          The tracker to record the visits on
+     * @param \MatomoTracker $t          The tracker to record the visits on
      * @param int $fixtureCounter       Number of times this fixture has been run 
      * @param int $visitorCounter       Visitor counter within this execution of the fixture
      * @param boolean $doBulk           Should this visit be left for bulk insert later, or processed now?
      * @param array $params             Other params as required to set up the visit
      */
-    protected function trackVisit(\PiwikTracker $t, $fixtureCounter, $visitorCounter, $doBulk, array $params)
+    protected function trackVisit(\MatomoTracker $t, $fixtureCounter, $visitorCounter, $doBulk, array $params)
     {
         $setIp = isset($params['setIp']) && $params['setIp'];
 
@@ -178,12 +180,6 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setUrl("http://piwik.net/space/quest/iv");
 
         // Manually record some data
-        $t->setDebugStringAppend(
-            '&_idts='. $date->subDay(100)->getTimestampUTC(). // first visit timestamp
-            '&_ects='. $date->subDay(50)->getTimestampUTC(). // Timestamp ecommerce
-            '&_viewts='. $date->subDay(10)->getTimestampUTC(). // Last visit timestamp
-            '&_idvc=5' // Visit count
-        );
         $r = $t->doTrackPageView("Space Quest XII");
 
         if (!$doBulk) {
@@ -199,7 +195,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $date = $date->addHour(0.1);
         $t->setForceVisitDateTime($date->getDatetime());
         if( ($visitorCounter % 2) == 0) {
-            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT');
+            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter*6);
         }
 
         if (!$doBulk) {

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,22 +12,26 @@ namespace Piwik\Plugin;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\API\Request as ApiRequest;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\SettingsPiwik;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\API\Request as ApiRequest;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -188,7 +192,9 @@ class Visualization extends ViewDataTable
             $this->applyFilters();
             $this->addVisualizationInfoFromMetricMetadata();
             $this->afterAllFiltersAreApplied();
+
             $this->beforeRender();
+            $this->fireBeforeRenderHook();
 
             $this->logMessageIfRequestPropertiesHaveChanged($requestPropertiesAfterLoadDataTable);
         } catch (NoAccessException $e) {
@@ -243,6 +249,17 @@ class Visualization extends ViewDataTable
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
+        $view->isComparing = $this->isComparing();
+
+        if (!$this->supportsComparison()
+            && DataComparisonFilter::isCompareParamsPresent()
+            && empty($view->dataTableHasNoData)
+        ) {
+            if (empty($view->properties['show_footer_message'])) {
+                $view->properties['show_footer_message'] = '';
+            }
+            $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
+        }
 
         if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
             /**
@@ -254,12 +271,41 @@ class Visualization extends ViewDataTable
         return $view->render();
     }
 
+    protected function checkRequestIsNotForMultiplePeriods()
+    {
+        $date = $this->requestConfig->getRequestParam('date');
+        $period = $this->requestConfig->getRequestParam('period');
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new BadRequestException("The '" . static::ID . "' visualization does not support multiple periods.");
+        }
+    }
+
+    protected function checkRequestIsOnlyForMultiplePeriods()
+    {
+        try {
+            $this->checkRequestIsNotForMultiplePeriods();
+        } catch (BadRequestException $ex) {
+            return; // ignore
+        }
+
+        throw new BadRequestException("The '" . static::ID . "' visualization does not support single periods.");
+    }
+
     private function hasAnyData(DataTable\DataTableInterface $dataTable)
     {
         $hasData = false;
         $dataTable->filter(function (DataTable $table) use (&$hasData) {
-            if ($table->getRowsCount() > 0) {
-                $hasData = true;
+            if ($hasData || $table->getRowsCount() == 0) {
+                return;
+            }
+
+            foreach ($table->getRows() as $row) {
+                foreach ($row->getColumns() as $column => $value) {
+                    if ($value != 0 && $value !== '0%') {
+                        $hasData = true;
+                        return;
+                    }
+                }
             }
         });
         return $hasData;
@@ -286,8 +332,15 @@ class Visualization extends ViewDataTable
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
+        $proxyRequestParams = $request;
+        if ($this->isComparing()) {
+            $proxyRequestParams = array_merge($proxyRequestParams, [
+                'disable_root_datatable_post_processor' => 1,
+            ]);
+        }
+
         $class     = ApiRequest::getClassNameAPI($module);
-        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+        $dataTable = Proxy::getInstance()->call($class, $method, $proxyRequestParams);
 
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
@@ -381,14 +434,23 @@ class Visualization extends ViewDataTable
         $hasNbVisits       = in_array('nb_visits', $columns);
         $hasNbUniqVisitors = in_array('nb_uniq_visitors', $columns);
 
+        // if any comparison period doesn't support unique visitors, we can't display it for the main table
+        if ($this->isComparing()) {
+            $request = $this->getRequestArray();
+            if (!empty($request['comparePeriods'])) {
+                foreach ($request['comparePeriods'] as $comparePeriod) {
+                    if (!SettingsPiwik::isUniqueVisitorsEnabled($comparePeriod)) {
+                        $hasNbUniqVisitors = false;
+                        break;
+                    }
+                }
+            }
+        }
+
         // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
         // dataset. otherwise, default to all columns in dataset.
         if (empty($this->config->columns_to_display)) {
             $this->config->setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors);
-        }
-
-        if (!empty($this->dataTable)) {
-            $this->removeEmptyColumnsFromDisplay();
         }
 
         if (empty($this->requestConfig->filter_sort_column)) {
@@ -461,7 +523,6 @@ class Visualization extends ViewDataTable
         $postProcessor->setCallbackAfterGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self) {
 
             $self->setDataTable($dataTable);
-
             $self->afterGenericFiltersAreAppliedToLoadedDataTable();
 
             // queue other filters so they can be applied later if queued filters are disabled
@@ -469,6 +530,9 @@ class Visualization extends ViewDataTable
                 $dataTable->queueFilter($filter[0], $filter[1]);
             }
 
+            if (!empty($this->dataTable)) {
+                $self->removeEmptyColumnsFromDisplay();
+            }
         });
 
         $this->dataTable = $postProcessor->process($this->dataTable);
@@ -644,6 +708,10 @@ class Visualization extends ViewDataTable
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }
 
+        if (isset($javascriptVariablesToSet['compareSegments'])) {
+            $javascriptVariablesToSet['compareSegments'] = Common::unsanitizeInputValues($javascriptVariablesToSet['compareSegments']);
+        }
+
         return $javascriptVariablesToSet;
     }
 
@@ -699,6 +767,17 @@ class Visualization extends ViewDataTable
     public function beforeRender()
     {
         // eg $this->config->showFooterColumns = true;
+    }
+
+    private function fireBeforeRenderHook()
+    {
+        /**
+         * Posted immediately before rendering the view. Plugins can use this event to perform last minute
+         * configuration of the view based on it's data or the report being viewed.
+         *
+         * @param Visualization $view The instance to configure.
+         */
+        Piwik::postEvent('Visualization.beforeRender', [$this]);
     }
 
     private function makeDataTablePostProcessor()
@@ -766,8 +845,7 @@ class Visualization extends ViewDataTable
      */
     public function buildApiRequestArray()
     {
-        $requestArray = $this->request->getRequestArray();
-        $request = ApiRequest::getRequestArrayFromString($requestArray);
+        $request = $this->getRequestArray();
 
         if (false === $this->config->enable_sort) {
             $request['filter_sort_column'] = '';
@@ -780,6 +858,10 @@ class Visualization extends ViewDataTable
 
         if (!$this->requestConfig->disable_queued_filters && array_key_exists('disable_queued_filters', $request)) {
             unset($request['disable_queued_filters']);
+        }
+
+        if ($this->isComparing()) {
+            $request['compare'] = '1';
         }
 
         return $request;

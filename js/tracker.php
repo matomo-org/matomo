@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\ProxyHttp;
@@ -22,9 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'
  *
  * @see core/Piwik.php
  */
-define('PIWIK_INCLUDE_PATH', '..');
 define('PIWIK_DOCUMENT_ROOT', '..');
-define('PIWIK_USER_PATH', '..');
+
+if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
+    require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
+}
+
+if (!defined('PIWIK_INCLUDE_PATH')) {
+    define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
+}
+
+if (!defined('PIWIK_USER_PATH')) {
+    define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
+}
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
@@ -56,6 +66,19 @@ $environment = new \Piwik\Application\Environment(null, array(
     'Piwik\Application\Kernel\EnvironmentValidator' => $validator
 ));
 $environment->init();
+
+if (!\Piwik\Tracker\IgnoreCookie::isIgnoreCookieFound()) {
+    
+    $request = new \Piwik\Tracker\Request(array());
+    
+    if ($request->shouldUseThirdPartyCookie()) {
+        $visitorId = $request->getVisitorIdForThirdPartyCookie();
+        if (!$visitorId) {
+            $visitorId = \Piwik\Common::hex2bin(\Piwik\Tracker\Visit::generateUniqueVisitorId());
+        }
+        $request->setThirdPartyCookie($visitorId);
+    }
+}
 
 ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture, $byteStart, $byteEnd);
 

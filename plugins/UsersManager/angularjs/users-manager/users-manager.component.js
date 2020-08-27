@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -26,7 +26,10 @@
 
     function UsersManagerController($element, piwik, piwikApi, $q, $timeout) {
         var vm = this;
-        vm.isEditing = false;
+
+        var search = String(window.location.search);
+        vm.isEditing = !!piwik.helper.getArrayFromQueryString(search).showadduser;
+
         vm.isCurrentUserSuperUser = true;
 
         // search state
@@ -182,7 +185,7 @@
         }
 
         function showAddExistingUserModal() {
-            $element.find('.add-existing-user-modal').openModal({ dismissible: false });
+            $element.find('.add-existing-user-modal').modal({ dismissible: false }).modal('open');
         }
 
         function addExistingUser() {

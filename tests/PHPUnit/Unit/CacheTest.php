@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,13 +13,13 @@ use Piwik\Cache;
 /**
  * @group Cache
  */
-class CacheTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends \PHPUnit\Framework\TestCase
 {
     public function test_getLazyCache_shouldCreateAnInstanceOfLazy()
     {
         $cache = Cache::getLazyCache();
 
-        $this->assertTrue($cache instanceof Cache\Lazy);
+        $this->assertTrue($cache instanceof \Matomo\Cache\Lazy);
     }
 
     public function test_getLazyCache_shouldAlwaysReturnTheSameInstance()
@@ -34,7 +34,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getEagerCache();
 
-        $this->assertTrue($cache instanceof Cache\Eager);
+        $this->assertTrue($cache instanceof \Matomo\Cache\Eager);
     }
 
     public function test_getEagerCache_shouldAlwaysReturnTheSameInstance()
@@ -49,7 +49,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getTransientCache();
 
-        $this->assertTrue($cache instanceof Cache\Transient);
+        $this->assertTrue($cache instanceof \Matomo\Cache\Transient);
     }
 
     public function test_getTransientCache_shouldAlwaysReturnTheSameInstance()

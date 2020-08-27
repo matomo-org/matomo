@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -51,32 +52,24 @@ class Controller extends \Piwik\Plugin\Controller
             . $this->translator->translate('General_BrokenDownReportDocumentation') . '<br />'
             . $this->translator->translate('VisitFrequency_ReturningVisitDocumentation');
 
-        // Note: if you edit this array, maybe edit the code below as well
-        $selectableColumns = array(
-            // columns from VisitFrequency.get
-            'nb_visits_returning',
-            'nb_actions_returning',
-            'nb_actions_per_visit_returning',
-            'bounce_rate_returning',
-            'avg_time_on_site_returning',
-            // columns from VisitsSummary.get
-            'nb_visits',
-            'nb_actions',
-            'nb_actions_per_visit',
-            'bounce_rate',
-            'avg_time_on_site'
-        );
-
         $period = Common::getRequestVar('period', false);
 
-        if ($period == 'day') {
-            // add number of unique (returning) visitors for period=day
-            $selectableColumns = array_merge(
-                array($selectableColumns[0]),
-                array('nb_uniq_visitors_returning'),
-                array_slice($selectableColumns, 1, -4),
-                array('nb_uniq_visitors'),
-                array_slice($selectableColumns, -4));
+        $columnNames = array('nb_visits');
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+            $columnNames[] = 'nb_uniq_visitors';
+        }
+        $columnNames[] = 'nb_actions';
+        $columnNames[] = 'nb_actions_per_visit';
+        $columnNames[] = 'bounce_rate';
+        $columnNames[] = 'avg_time_on_site';
+
+        $suffixes = array('_returning', '_new', '');
+
+        $selectableColumns = array();
+        foreach ($suffixes as $suffix) {
+            foreach ($columnNames as $column) {
+                $selectableColumns[] = $column . $suffix;
+            }
         }
 
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,

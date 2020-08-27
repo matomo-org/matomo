@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -22,13 +22,13 @@ class TwoSitesVisitsInPast extends Fixture
     public $idSite = 1;
     public $idSite2 = 2;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -40,6 +40,22 @@ class TwoSitesVisitsInPast extends Fixture
         }
 
         if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
+
+        if (!self::siteCreated($idSite = 3)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
+
+        if (!self::siteCreated($idSite = 4)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
+
+        if (!self::siteCreated($idSite = 5)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
+
+        if (!self::siteCreated($idSite = 6)) {
             self::createWebsite($this->dateTimeCreationWebsite2);
         }
     }

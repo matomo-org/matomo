@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -145,7 +145,7 @@ class Factory
                 $type = $defaultType ?: self::DEFAULT_VIEW;
             }
         } else {
-            $type = $defaultViewType;
+            $type = $defaultType ?: $defaultViewType;
         }
 
         $params['viewDataTable'] = $type;

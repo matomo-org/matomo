@@ -1,20 +1,21 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 
 class CacheId
 {
     public static function languageAware($cacheId)
     {
-        return $cacheId . '-' . Translate::getLanguageLoaded();
+        return $cacheId . '-' . StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
     }
 
     public static function pluginAware($cacheId)

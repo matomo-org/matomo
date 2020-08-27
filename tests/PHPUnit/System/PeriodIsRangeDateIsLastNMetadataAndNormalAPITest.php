@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -21,10 +21,17 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
 {
     public static $fixture = null;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$fixture->dateTime = Date::factory('yesterday')->getDateTime();
         parent::setUpBeforeClass();
+    }
+
+    protected function setUp(): void
+    {
+        // test results change based on time of day for some reason
+        Date::$now = strtotime(date('Y-m-d') . ' 20:00:00');
+        parent::setUp();
     }
 
     /**
@@ -77,7 +84,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                                                     'testSuffix' => $testSuffix,
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24 * 2,
-                                                        'visitorId' => $visitorId, // testing getLastVisitsForVisitor requires a visitor ID
+                                                        'visitorId' => $visitorId,
                                                         'hideColumns' => 'serverDate,lastActionTimestamp,lastActionDateTime,serverTimestamp,'.
                                                                          'firstActionTimestamp,serverTimePretty,serverDatePretty,'.
                                                                          'serverDatePrettyFirstAction,serverTimePrettyFirstAction'

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -80,6 +80,11 @@ class Environment
         $this->definitions = $definitions;
     }
 
+    public function getEnvironmentName()
+    {
+        return $this->environment;
+    }
+
     /**
      * Initializes the kernel globals and DI container.
      */
@@ -88,6 +93,7 @@ class Environment
         $this->invokeBeforeContainerCreatedHook();
 
         $this->container = $this->createContainer();
+        $this->container->set(self::class, $this);
 
         StaticContainer::push($this->container);
 

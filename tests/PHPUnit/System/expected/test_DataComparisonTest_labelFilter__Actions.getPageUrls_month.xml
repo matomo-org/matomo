@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>blog</label>
+		<nb_visits>11</nb_visits>
+		<nb_hits>11</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<sum_bandwidth>39314</sum_bandwidth>
+		<nb_hits_with_bandwidth>11</nb_hits_with_bandwidth>
+		<min_bandwidth>21444</min_bandwidth>
+		<max_bandwidth>21444</max_bandwidth>
+		<entry_nb_visits>11</entry_nb_visits>
+		<entry_nb_actions>11</entry_nb_actions>
+		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_bounce_count>11</entry_bounce_count>
+		<exit_nb_visits>11</exit_nb_visits>
+		<avg_bandwidth>3574</avg_bandwidth>
+		<avg_time_server>0</avg_time_server>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
+		<comparisons>
+			<row>
+				<nb_visits>11</nb_visits>
+				<nb_hits>11</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_server>0</nb_hits_with_time_server>
+				<entry_nb_visits>11</entry_nb_visits>
+				<entry_nb_actions>11</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>11</entry_bounce_count>
+				<exit_nb_visits>11</exit_nb_visits>
+				<nb_hits_with_bandwidth>11</nb_hits_with_bandwidth>
+				<max_bandwidth>21444</max_bandwidth>
+				<min_bandwidth>21444</min_bandwidth>
+				<sum_bandwidth>39314</sum_bandwidth>
+				<avg_bandwidth>3574</avg_bandwidth>
+				<avg_time_server>0</avg_time_server>
+				<avg_page_load_time>0</avg_page_load_time>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>1</idsubdatatable>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
+			</row>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<sum_bandwidth>3574</sum_bandwidth>
+				<avg_bandwidth>3574</avg_bandwidth>
+				<avg_page_load_time>0</avg_page_load_time>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<nb_visits_change>-90.9%</nb_visits_change>
+				<nb_visits_change_from>+1,000%</nb_visits_change_from>
+				<nb_hits_change>-90.9%</nb_hits_change>
+				<nb_hits_change_from>+1,000%</nb_hits_change_from>
+				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_spent_change_from>+0%</sum_time_spent_change_from>
+				<entry_nb_visits_change>-90.9%</entry_nb_visits_change>
+				<entry_nb_visits_change_from>+1,000%</entry_nb_visits_change_from>
+				<entry_nb_actions_change>-90.9%</entry_nb_actions_change>
+				<entry_nb_actions_change_from>+1,000%</entry_nb_actions_change_from>
+				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
+				<entry_sum_visit_length_change_from>+0%</entry_sum_visit_length_change_from>
+				<entry_bounce_count_change>-90.9%</entry_bounce_count_change>
+				<entry_bounce_count_change_from>+1,000%</entry_bounce_count_change_from>
+				<exit_nb_visits_change>-90.9%</exit_nb_visits_change>
+				<exit_nb_visits_change_from>+1,000%</exit_nb_visits_change_from>
+				<nb_hits_with_bandwidth_change>-90.9%</nb_hits_with_bandwidth_change>
+				<nb_hits_with_bandwidth_change_from>+1,000%</nb_hits_with_bandwidth_change_from>
+				<max_bandwidth_change>-83.3%</max_bandwidth_change>
+				<max_bandwidth_change_from>+500%</max_bandwidth_change_from>
+				<min_bandwidth_change>-83.3%</min_bandwidth_change>
+				<min_bandwidth_change_from>+500%</min_bandwidth_change_from>
+				<sum_bandwidth_change>-90.9%</sum_bandwidth_change>
+				<sum_bandwidth_change_from>+1,000%</sum_bandwidth_change_from>
+				<avg_bandwidth_change>+0%</avg_bandwidth_change>
+				<avg_bandwidth_change_from>+0%</avg_bandwidth_change_from>
+				<avg_page_load_time_change>+0%</avg_page_load_time_change>
+				<avg_page_load_time_change_from>+0%</avg_page_load_time_change_from>
+				<avg_time_on_page_change>+0%</avg_time_on_page_change>
+				<avg_time_on_page_change_from>+0%</avg_time_on_page_change_from>
+				<bounce_rate_change>+0%</bounce_rate_change>
+				<bounce_rate_change_from>+0%</bounce_rate_change_from>
+				<exit_rate_change>+0%</exit_rate_change>
+				<exit_rate_change_from>+0%</exit_rate_change_from>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>1</idsubdatatable>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
+			</row>
+		</comparisons>
+	</row>
+	<row>
+		<label>faq</label>
+		<nb_visits>4</nb_visits>
+		<nb_hits>4</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<sum_bandwidth>14296</sum_bandwidth>
+		<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
+		<min_bandwidth>14296</min_bandwidth>
+		<max_bandwidth>14296</max_bandwidth>
+		<entry_nb_visits>4</entry_nb_visits>
+		<entry_nb_actions>4</entry_nb_actions>
+		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_bounce_count>4</entry_bounce_count>
+		<exit_nb_visits>4</exit_nb_visits>
+		<avg_bandwidth>3574</avg_bandwidth>
+		<avg_time_server>0</avg_time_server>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
+		<comparisons>
+			<row>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_server>0</nb_hits_with_time_server>
+				<entry_nb_visits>4</entry_nb_visits>
+				<entry_nb_actions>4</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>4</entry_bounce_count>
+				<exit_nb_visits>4</exit_nb_visits>
+				<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
+				<max_bandwidth>14296</max_bandwidth>
+				<min_bandwidth>14296</min_bandwidth>
+				<sum_bandwidth>14296</sum_bandwidth>
+				<avg_bandwidth>3574</avg_bandwidth>
+				<avg_time_server>0</avg_time_server>
+				<avg_page_load_time>0</avg_page_load_time>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>13</idsubdatatable>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
+			</row>
+			<row>
+				<nb_visits>0</nb_visits>
+				<nb_hits>0</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_time_server>0</sum_time_server>
+				<nb_hits_with_time_server>0</nb_hits_with_time_server>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth>0</min_bandwidth>
+				<max_bandwidth>0</max_bandwidth>
+				<entry_nb_visits>0</entry_nb_visits>
+				<entry_nb_actions>0</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<exit_nb_visits>0</exit_nb_visits>
+				<avg_bandwidth>0</avg_bandwidth>
+				<avg_time_server>0</avg_time_server>
+				<avg_page_load_time>0</avg_page_load_time>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<nb_visits_change>-100%</nb_visits_change>
+				<nb_visits_change_from>+100%</nb_visits_change_from>
+				<nb_hits_change>-100%</nb_hits_change>
+				<nb_hits_change_from>+100%</nb_hits_change_from>
+				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_spent_change_from>+0%</sum_time_spent_change_from>
+				<sum_time_server_change>+0%</sum_time_server_change>
+				<sum_time_server_change_from>+0%</sum_time_server_change_from>
+				<nb_hits_with_time_server_change>+0%</nb_hits_with_time_server_change>
+				<nb_hits_with_time_server_change_from>+0%</nb_hits_with_time_server_change_from>
+				<sum_bandwidth_change>-100%</sum_bandwidth_change>
+				<sum_bandwidth_change_from>+100%</sum_bandwidth_change_from>
+				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
+				<nb_hits_with_bandwidth_change_from>+100%</nb_hits_with_bandwidth_change_from>
+				<min_bandwidth_change>-100%</min_bandwidth_change>
+				<min_bandwidth_change_from>+100%</min_bandwidth_change_from>
+				<max_bandwidth_change>-100%</max_bandwidth_change>
+				<max_bandwidth_change_from>+100%</max_bandwidth_change_from>
+				<entry_nb_visits_change>-100%</entry_nb_visits_change>
+				<entry_nb_visits_change_from>+100%</entry_nb_visits_change_from>
+				<entry_nb_actions_change>-100%</entry_nb_actions_change>
+				<entry_nb_actions_change_from>+100%</entry_nb_actions_change_from>
+				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
+				<entry_sum_visit_length_change_from>+0%</entry_sum_visit_length_change_from>
+				<entry_bounce_count_change>-100%</entry_bounce_count_change>
+				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
+				<exit_nb_visits_change>-100%</exit_nb_visits_change>
+				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<avg_bandwidth_change>-100%</avg_bandwidth_change>
+				<avg_bandwidth_change_from>+100%</avg_bandwidth_change_from>
+				<avg_time_server_change>+0%</avg_time_server_change>
+				<avg_time_server_change_from>+0%</avg_time_server_change_from>
+				<avg_page_load_time_change>+0%</avg_page_load_time_change>
+				<avg_page_load_time_change_from>+0%</avg_page_load_time_change_from>
+				<avg_time_on_page_change>+0%</avg_time_on_page_change>
+				<avg_time_on_page_change_from>+0%</avg_time_on_page_change_from>
+				<bounce_rate_change>-100%</bounce_rate_change>
+				<bounce_rate_change_from>+100%</bounce_rate_change_from>
+				<exit_rate_change>-100%</exit_rate_change>
+				<exit_rate_change_from>+100%</exit_rate_change_from>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
+			</row>
+		</comparisons>
+	</row>
+</result>

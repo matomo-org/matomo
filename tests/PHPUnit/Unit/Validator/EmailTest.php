@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,7 +15,7 @@ use Piwik\Validators\Email;
  * @group Email
  * @group EmailTest
  */
-class EmailTest extends \PHPUnit_Framework_TestCase
+class EmailTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getValidEmails
@@ -37,11 +37,12 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getFailedEmails
-     * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage ValidatorErrorNotEmailLike
      */
     public function test_validate_failValueIsNotValidEmail($email)
     {
+        $this->expectException(\Piwik\Validators\Exception::class);
+        $this->expectExceptionMessage('ValidatorErrorNotEmailLike');
+
         $this->validate($email);
     }
 

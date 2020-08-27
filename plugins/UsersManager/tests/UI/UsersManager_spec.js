@@ -74,9 +74,9 @@ describe("UsersManager", function () {
     });
 
     it('should select rows when individual row select is clicked', async function () {
-        await (await page.jQuery('td.select-cell label:eq(0)')).click();
-        await (await page.jQuery('td.select-cell label:eq(3)')).click();
-        await (await page.jQuery('td.select-cell label:eq(8)')).click();
+        await (await page.jQuery('td.select-cell input:eq(0) + span', { waitFor: true })).click();
+        await (await page.jQuery('td.select-cell input:eq(3) + span', { waitFor: true })).click();
+        await (await page.jQuery('td.select-cell input:eq(8) + span', { waitFor: true })).click();
         await page.mouse.move(0, 0);
         await page.waitFor(500); // for checkbox animations
 
@@ -84,7 +84,7 @@ describe("UsersManager", function () {
     });
 
     it('should select all rows when all row select is clicked', async function () {
-        await page.click('th.select-cell label');
+        await page.click('th.select-cell input + span');
         await page.mouse.move(0, 0);
         await page.waitFor(500); // for checkbox animations
 
@@ -116,7 +116,7 @@ describe("UsersManager", function () {
         await page.click('.toggle-select-all-in-search'); // reselect all in search
 
         await page.click('.bulk-actions.btn');
-        await (await page.jQuery('#user-list-bulk-actions>li:first')).hover();
+        await (await page.jQuery('a[data-target=user-list-bulk-actions]')).hover();
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitFor(350); // wait for animation
 
@@ -131,7 +131,7 @@ describe("UsersManager", function () {
     });
 
     it('should remove access to the currently selected site when the bulk remove access option is clicked', async function () {
-        await page.click('th.select-cell label'); // select displayed rows
+        await page.click('th.select-cell input + span'); // select displayed rows
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions)')).click();
@@ -165,11 +165,14 @@ describe("UsersManager", function () {
         await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
+        await page.mouse.move(-10, -10);
+        await page.waitFor('.pagedUsersList:not(.loading)');
+
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_single');
     });
 
     it('should delete selected users when delete users bulk action is used', async function () {
-        await page.click('th.select-cell label'); // select displayed rows
+        await page.click('th.select-cell input + span'); // select displayed rows
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
@@ -177,6 +180,7 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
+        await page.waitFor('.pagedUsersList:not(.loading)');
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_bulk_access');
     });
@@ -206,7 +210,10 @@ describe("UsersManager", function () {
         await page.click('.userEditForm .menuPermissions');
         await page.mouse.move(0, 0);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_edit');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_edit',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should select all sites in search when in table link is clicked', async function () {
@@ -217,32 +224,45 @@ describe("UsersManager", function () {
         });
         await page.waitForNetworkIdle();
 
-        await page.click('.userPermissionsEdit th.select-cell label');
+        await page.click('.userPermissionsEdit th.select-cell input + span');
         await page.waitFor(500); // for angular to re-render
         await page.evaluate(() => $('.userPermissionsEdit tr.select-all-row a').click());
         await page.waitFor(500); // for angular to re-render
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_rows_in_search');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_all_rows_in_search',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should add access to all websites when bulk access is used on all websites in search', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first>a')).hover();
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
 
+        await page.waitFor(250); // animation
         await page.waitFor('.change-access-confirm-modal', { visible: true });
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+
+        const yes = await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible');
+        await yes.click();
+
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_sites_access');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_all_sites_access',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should go to the next results page when the next button is clicked', async function () {
         await page.click('.sites-for-permission-pagination a.next');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_next');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_next',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should remove access to a single site when noaccess is selected', async function () {
@@ -250,17 +270,20 @@ describe("UsersManager", function () {
         await page.waitFor('.change-access-confirm-modal', { visible: true });
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_single');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_remove_single',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should select multiple rows when individual row selects are clicked', async function () {
-        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(0)')).click();
-        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(3)')).click();
-        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(8)')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell input:eq(0) + span')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell input:eq(3) + span')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell input:eq(8) + span')).click();
         await page.mouse.move(-10, -10);
         await page.waitFor(1000); // for checkbox animations
 
@@ -272,55 +295,71 @@ describe("UsersManager", function () {
 
     it('should set access to selected sites when set bulk access is used', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-        await page.waitFor(250); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first:visible', { waitFor: true })).hover();
-        await page.waitFor(250); // animation
+        await page.waitFor(500); // animation
+        await page.evaluate(() => $('#user-permissions-edit-bulk-actions>li:first > a:visible').mouseenter());
+        await page.waitFor(500); // animation
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin):visible', { waitFor: true })).click();
 
         await page.waitFor('.change-access-confirm-modal');
 
-        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
+        await page.waitFor(100);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_bulk_access_set',
+            comparisonThreshold: 0.0007
+        });
     });
 
     it('should filter the permissions when the filters are used', async function () {
-        await page.type('div.site-filter>input', 'nova');
         await page.evaluate(function () {
-            $('.access-filter select').val('string:admin').change();
+            $('.userPermissionsEdit .access-filter select').val('string:admin').change();
         });
+        await page.waitForNetworkIdle();
+        await page.type('.userPermissionsEdit div.site-filter>input', 'hunter');
         await page.waitForNetworkIdle();
         await page.waitFor('#sitesForPermission tr', { visible: true });
         await page.waitFor(1000);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_filters');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_filters',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should select all displayed rows when the select all checkbox is clicked', async function () {
-        await page.click('.userPermissionsEdit th.select-cell label');
+        await page.click('.userPermissionsEdit th.select-cell input + span');
         await page.waitFor(250); // for checkbox animations
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_select_all');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_select_all',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should set access to all sites selected when set bulk access is used', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-        await page.waitFor(100); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first', { waitFor: true })).hover();
-        await page.waitFor(100); // animation
+        await page.waitFor(250); // animation
+        await page.evaluate(() => $('#user-permissions-edit-bulk-actions>li:first > a:visible').mouseenter());
+        await page.waitFor(250); // animation
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(View)', { waitFor: true })).click();
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForNetworkIdle();
 
         await page.evaluate(function () { // remove filter
             $('.access-filter select').val('string:some').change();
         });
         await page.waitForNetworkIdle();
+        await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set_all');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_bulk_access_set_all',
+            comparisonThreshold: 0.0015
+        });
     });
 
     it('should set access to single site when select in table is used', async function () {
@@ -330,10 +369,13 @@ describe("UsersManager", function () {
 
         await page.waitFor('.userPermissionsEdit .change-access-confirm-modal', { visible: true });
         await page.waitFor(100); // animation
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_single_site_access');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_single_site_access',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should set a capability to single site when capability checkbox is clicked', async function () {
@@ -343,12 +385,15 @@ describe("UsersManager", function () {
 
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.confirmCapabilityToggle .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.userPermissionsEdit .confirmCapabilityToggle .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.admin#content')).to.matchImage('permissions_capability_single_site');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_capability_single_site',
+            comparisonThreshold: 0.0005
+        });
     });
 
     it('should remove access to displayed rows when remove bulk access is clicked', async function () {
@@ -359,7 +404,7 @@ describe("UsersManager", function () {
         });
 
         await page.waitForNetworkIdle();
-        await page.click('label[for=perm_edit_select_all]');
+        await page.click('input#perm_edit_select_all + span');
 
         await page.waitFor('.userPermissionsEdit tr.select-all-row a');
         await page.click('.userPermissionsEdit tr.select-all-row a');
@@ -369,7 +414,7 @@ describe("UsersManager", function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await (await page.jQuery('.userPermissionsEdit a:contains(Remove Permissions)')).click();
 
-        await page.evaluate(() => $('.delete-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await (await page.jQuery('.delete-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
@@ -383,15 +428,30 @@ describe("UsersManager", function () {
     });
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
-        await page.click('.userEditForm #superuser_access+label');
+        await page.click('.userEditForm #superuser_access+span');
         await page.waitFor(500);
 
         const elem = await page.$('.superuser-confirm-modal');
         expect(await elem.screenshot()).to.matchImage('superuser_confirm');
     });
 
+    it('should fail to set superuser access if password is wrong', async function () {
+        await page.type('input#currentUserPasswordForSuperUser', 'wrongpassword');
+        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForNetworkIdle();
+
+        await page.waitFor('.notification-error', { visible: true });
+
+        const notificationHtml = await page.evaluate(() => $('.notification-error>div').html());
+        expect(notificationHtml).to.equal('The current password you entered is not correct.');
+    });
+
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
-        await page.evaluate(() => $('.superuser-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await page.click('.userEditForm #superuser_access+span');
+        await page.waitFor(500);
+
+        await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
+        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitFor(500);
 

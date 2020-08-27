@@ -1,17 +1,16 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Category;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Plugin;
 
 /**
- * Base type for category. lets you change the name for a categoryId and specifiy a different order
+ * Base type for category. lets you change the name for a categoryId and specify a different order
  * so the category appears eg at a different order in the reporting menu.
  *
  * This class is for now not exposed as public API until needed. Categories of plugins will be automatically

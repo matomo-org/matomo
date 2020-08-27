@@ -12,6 +12,7 @@
 	<totalUniquePageViews>1</totalUniquePageViews>
 	<totalRevisitedPages>0</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<totalPageViewsWithLoadTime>0</totalPageViewsWithLoadTime>
 	<searches>
 	</searches>
 	<totalGoalConversions>1</totalGoalConversions>
@@ -40,7 +41,7 @@
 					
 					<pageId>5</pageId>
 					<bandwidth />
-					<interactionPosition />
+					<pageviewPosition />
 					<icon>plugins/Morpheus/images/link.png</icon>
 					<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 					<title>Outlink</title>
@@ -68,11 +69,13 @@
 			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
-			<visitCount>1</visitCount>
+			<visitCount>2</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
@@ -127,16 +130,7 @@
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-				<row>
-					<customVariableName1>VisitorType</customVariableName1>
-					<customVariableValue1>LoggedOut</customVariableValue1>
-				</row>
-				<row>
-					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-				</row>
-			</customVariables>
+			<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 			<resolution>1111x222</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -153,6 +147,16 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -165,6 +169,7 @@
 					<type>goal</type>
 					<goalName>triggered js</goalName>
 					<goalId>1</goalId>
+					
 					<revenue>1000</revenue>
 					<goalPageId />
 					
@@ -172,7 +177,7 @@
 					<icon>plugins/Morpheus/images/goal.png</icon>
 					<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 					<title>Goal conversion</title>
-					<subtitle>triggered js ($ 1000 revenue)</subtitle>
+					<subtitle>triggered js ($1,000 revenue)</subtitle>
 					
 				</row>
 				<row>
@@ -184,7 +189,7 @@
 					
 					<pageId>4</pageId>
 					<bandwidth />
-					<interactionPosition>1</interactionPosition>
+					<pageviewPosition>1</pageviewPosition>
 					<title>Homepage</title>
 					<subtitle>http://example.org/homepage</subtitle>
 					<icon />
@@ -216,7 +221,9 @@
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
 			<visitDuration>361</visitDuration>
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<searches>0</searches>
@@ -271,16 +278,7 @@
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-				<row>
-					<customVariableName1>VisitorType</customVariableName1>
-					<customVariableValue1>LoggedOut</customVariableValue1>
-				</row>
-				<row>
-					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-				</row>
-			</customVariables>
+			<secondsSinceLastVisit>0</secondsSinceLastVisit>
 			<resolution>1111x222</resolution>
 			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
@@ -297,6 +295,16 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 		</row>
 	</lastVisits>
 	

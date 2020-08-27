@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/Referrers.php';
 /**
  * @group Plugin
  */
-class ReferrersTest extends \PHPUnit_Framework_TestCase
+class ReferrersTest extends \PHPUnit\Framework\TestCase
 {
     public function removeUrlProtocolTestData()
     {

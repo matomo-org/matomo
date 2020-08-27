@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,7 +15,7 @@ use Piwik\Url;
  * @backupGlobals enabled
  * @group Core
  */
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllMethods()
     {
@@ -64,7 +64,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCurrentHost($description, $test)
     {
-        $_SERVER['HTTP_HOST'] = $test[0];
+        Url::setHost($test[0]);
         $_SERVER['HTTP_X_FORWARDED_HOST'] = $test[1];
         Config::getInstance()->General['proxy_host_headers'] = array($test[2]);
         Config::getInstance()->General['proxy_ips'] = array($test[3]);
@@ -201,7 +201,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsLocalUrl($httphost, $scripturi, $requesturi, $testurl, $result)
     {
-        $_SERVER['HTTP_HOST'] = $httphost;
+        Url::setHost($httphost);
         $_SERVER['SCRIPT_URI'] = $scripturi;
         $_SERVER['REQUEST_URI'] = $requesturi;
         Config::getInstance()->General['enable_trusted_host_check'] = 1;

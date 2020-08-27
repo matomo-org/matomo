@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
 use Piwik\Exception\InvalidRequestParameterException;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
@@ -25,6 +25,11 @@ abstract class Base extends VisitDimension
     private $visitorGeolocator;
 
     protected function getUrlOverrideValueIfAllowed($urlParamToOverride, Request $request)
+    {
+        return self::getValueFromUrlParamsIfAllowed($urlParamToOverride, $request);
+    }
+
+    public static function getValueFromUrlParamsIfAllowed($urlParamToOverride, Request $request)
     {
         $value = Common::getRequestVar($urlParamToOverride, false, 'string', $request->getParams());
 

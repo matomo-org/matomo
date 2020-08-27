@@ -313,11 +313,38 @@ class Zend_Session extends Zend_Session_Abstract
         } else {
             if (!self::$_unitTestEnabled) {
                 session_regenerate_id(true);
+                self::rewriteSessionCookieWithSameSiteDirective();
             }
             self::$_regenerateIdState = 1;
         }
     }
 
+    /**
+     * Check if there is a Set-Cookie header present - if so, overwrite it with
+     * a similar header which also includes a SameSite directive. This workaround
+     * is needed because the SameSite property on the session cookie is not supported
+     * by PHP until 7.3.
+     */
+    private static function rewriteSessionCookieWithSameSiteDirective()
+    {
+        $headers = headers_list();
+        $cookieHeader = '';
+        foreach ($headers as $header) {
+            if (strpos($header, 'Set-Cookie: ' . \Piwik\Session::SESSION_NAME) === 0) {
+                $cookieHeader = $header;
+                break;
+            }
+        }
+
+        if (! $cookieHeader) {
+            return;
+        }
+
+        if (stripos($cookieHeader, 'SameSite') === false) {
+            $cookieHeader .= '; SameSite=' . \Piwik\Session::getSameSiteCookieValue();
+            header($cookieHeader);
+        }
+    }
 
     /**
      * rememberMe() - Write a persistent cookie that expires after a number of seconds in the future. If no number of
@@ -424,6 +451,13 @@ class Zend_Session extends Zend_Session_Abstract
             return; // already started
         }
 
+        if (session_status() === PHP_SESSION_ACTIVE) {
+	        parent::$_readable = true;
+	        parent::$_writable = true;
+	        self::$_sessionStarted = true;
+	        return;
+        }
+
         // make sure our default options (at the least) have been set
         if (!self::$_defaultOptionsSet) {
             self::setOptions(is_array($options) ? $options : array());
@@ -442,13 +476,6 @@ class Zend_Session extends Zend_Session_Abstract
             // require_once 'Zend/Session/Exception.php';
             throw new Zend_Session_Exception("Session must be started before any output has been sent to the browser;"
                . " output started in {$filename}/{$linenum}");
-        }
-
-        // See http://www.php.net/manual/en/ref.session.php for explanation
-        if (!self::$_unitTestEnabled && defined('SID')) {
-            /** @see Zend_Session_Exception */
-            // require_once 'Zend/Session/Exception.php';
-            throw new Zend_Session_Exception('session has already been started by session.auto-start or session_start()');
         }
 
         /**
@@ -472,14 +499,14 @@ class Zend_Session extends Zend_Session_Abstract
                 restore_error_handler();
             }
 
-            if (!$startedCleanly || Zend_Session_Exception::$sessionStartError != null) {
+            if (!$startedCleanly || !empty(Zend_Session_Exception::$sessionStartError)) {
                 if (self::$_throwStartupExceptions) {
                     set_error_handler(array('Zend_Session_Exception', 'handleSilentWriteClose'), $errorLevel);
                 }
                 session_write_close();
                 if (self::$_throwStartupExceptions) {
                     restore_error_handler();
-                    throw new Zend_Session_Exception(__CLASS__ . '::' . __FUNCTION__ . '() - ' . Zend_Session_Exception::$sessionStartError);
+                    throw new Zend_Session_Exception(__CLASS__ . '::' . __FUNCTION__ . '() - ' . Zend_Session_Exception::$sessionStartError . ' Warnings: ' . Zend_Session_Exception::$sessionStartWarning);
                 }
             }
         }
@@ -489,6 +516,8 @@ class Zend_Session extends Zend_Session_Abstract
         self::$_sessionStarted = true;
         if (self::$_regenerateIdState === -1) {
             self::regenerateId();
+        } else {
+            self::rewriteSessionCookieWithSameSiteDirective();
         }
 
         if (isset($_SESSION['data']) && is_string($_SESSION['data'])) {
@@ -756,14 +785,16 @@ class Zend_Session extends Zend_Session_Abstract
         if (isset($_COOKIE[session_name()])) {
             $cookie_params = session_get_cookie_params();
 
-            setcookie(
+            \Piwik\Session::writeCookie(
                 session_name(),
                 false,
                 315554400, // strtotime('1980-01-01'),
                 $cookie_params['path'],
                 $cookie_params['domain'],
-                $cookie_params['secure']
-                );
+                $cookie_params['secure'],
+                false,
+                \Piwik\Session::getSameSiteCookieValue()
+            );
         }
     }
 

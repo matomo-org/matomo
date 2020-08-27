@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -49,6 +49,7 @@
                 inlineHelp: '@',
                 disabled: '=',
                 uiControlAttributes: '=',
+                uiControlOptions: '=',
                 autocomplete: '@',
                 condition: '@',
                 varType: '@',
@@ -117,6 +118,7 @@
                 field.title = $scope.title;
                 field.uiControlAttributes = $scope.uiControlAttributes || {};
                 field.fullWidth = !!$scope.fullWidth;
+                field.uiControlOptions = $scope.uiControlOptions || {};
 
                 if (field.type === 'array' && angular.isString(field.value) && field.value) {
                     field.value = JSON.parse(field.value);

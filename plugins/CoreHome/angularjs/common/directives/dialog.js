@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -35,13 +35,25 @@
                                 scope.$eval(attrs.yes);
                                 setTimeout(function () { scope.$apply(); }, 0);
                             }
-                        }}, {
-                            complete: function () {
+                        }, no: function() {
+                                if (attrs.no) {
+                                    scope.$eval(attrs.no);
+                                    setTimeout(function () { scope.$apply(); }, 0);
+                                }
+                            }
+                        }, {
+                            onCloseEnd: function () {
                                 setTimeout(function () {
                                     scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
                                 }, 0);
                             }
                         });
+                    } else if (newValue === false && oldValue === true) {
+                        // The user closed the dialog, e.g. by pressing Esc or clicking away from it
+                        if (attrs.close) {
+                            scope.$eval(attrs.close);
+                            setTimeout(function () { scope.$apply(); }, 0);
+                        }
                     }
                 });
             }

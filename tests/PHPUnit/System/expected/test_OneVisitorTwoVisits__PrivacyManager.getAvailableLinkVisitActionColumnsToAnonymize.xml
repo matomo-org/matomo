@@ -101,6 +101,34 @@
 		<default_value />
 	</row>
 	<row>
+		<column_name>idaction_product_cat</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_product_cat2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_product_cat3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_product_cat4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_product_cat5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_product_name</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_product_sku</column_name>
+		<default_value />
+	</row>
+	<row>
 		<column_name>idaction_url</column_name>
 		<default_value />
 	</row>
@@ -113,7 +141,39 @@
 		<default_value />
 	</row>
 	<row>
-		<column_name>interaction_position</column_name>
+		<column_name>pageview_position</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>product_price</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>search_cat</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>search_count</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_dom_completion</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_dom_processing</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_network</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_on_load</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_server</column_name>
 		<default_value />
 	</row>
 	<row>
@@ -122,6 +182,10 @@
 	</row>
 	<row>
 		<column_name>time_spent_ref_action</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_transfer</column_name>
 		<default_value />
 	</row>
 </result>

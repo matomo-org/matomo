@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -17,9 +17,9 @@ use Piwik\DataTable\Simple;
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
+class DataTable_Renderer_JSONTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Manager::getInstance()->deleteAll();
@@ -398,4 +398,55 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
+    public function test_render_withRowsWithDataTableMetadata()
+    {
+        $dataTable = new DataTable();
+
+        $row = new DataTable\Row();
+        $row->addColumn('nb_visits', 5);
+        $row->addColumn('nb_random', 10);
+
+        $otherDataTable = new DataTable();
+        $otherDataTable->addRowsFromSimpleArray([
+            ['nb_visits' => 6, 'nb_random' => 7],
+            ['nb_visits' => 8, 'nb_random' => 9],
+        ]);
+        $row->setComparisons($otherDataTable);
+
+        $dataTable->addRow($row);
+
+        $render = new Json();
+        $render->setTable($dataTable);
+        $actual = $render->render();
+
+        $expected = '[{"nb_visits":5,"nb_random":10,"comparisons":[{"nb_visits":6,"nb_random":7},{"nb_visits":8,"nb_random":9}]}]';
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_render_withRowsWithDataTableMetadataInSimpleTable()
+    {
+        $dataTable = new Simple();
+
+        $row = new DataTable\Row();
+        $row->addColumn('nb_visits', 5);
+        $row->addColumn('nb_random', 10);
+
+        $otherDataTable = new DataTable();
+        $otherDataTable->addRowsFromSimpleArray([
+            ['nb_visits' => 6, 'nb_random' => 7],
+            ['nb_visits' => 8, 'nb_random' => 9],
+        ]);
+        $row->setComparisons($otherDataTable);
+
+        $dataTable->addRow($row);
+
+        $render = new Json();
+        $render->setTable($dataTable);
+        $actual = $render->render();
+
+        $expected = '{"nb_visits":5,"nb_random":10,"comparisons":[{"nb_visits":6,"nb_random":7},{"nb_visits":8,"nb_random":9}]}';
+
+        $this->assertEquals($expected, $actual);
+    }
 }

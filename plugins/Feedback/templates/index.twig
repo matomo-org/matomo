@@ -12,43 +12,58 @@
              content-title="{{ headline|e('html_attr') }}"
              feature="{{ 'General_Help'|translate|e('html_attr') }}">
             <p>{{ 'General_MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease'|translate(
-                "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>",
-                "</a>",
-                "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/get-involved/'>",
-                "</a>",
-                "<a href='#donate'>",
-                "</a>",
-                "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/team/'>",
-                "</a>"
+                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>",
+                    "</a>",
+                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/get-involved/'>",
+                    "</a>",
+                    "<a href='#donate'>",
+                    "</a>",
+                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/team/'>",
+                    "</a>"
                 )|raw }}
             </p>
         </div>
 
-        <div piwik-content-block content-title="{{ 'Feedback_CommunityHelp'|translate|e('html_attr') }}">
-            <p> &bull; {{ 'Feedback_ViewUserGuides'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/'>","</a>")|raw }}.</p>
-            <p> &bull; {{ 'Feedback_ViewAnswersToFAQ'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/faq/'>","</a>")|raw }}.</p>
-            <p> &bull; {{ 'Feedback_VisitTheForums'|translate("<a target='_blank' rel='noreferrer noopener' href='https://forum.matomo.org/'>","</a>")|raw }}.</p>
-            <p> &bull; {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }} <a href="{{ linkTo({'module':"API",'action':"glossary"}) }}">({{ 'API_Glossary'|translate }})</a></p>
-        </div>
+        <div piwik-content-block content-title="{{ "Feedback_HowCanWeHelp"|translate|e('html_attr') }}" class="feedback-help-resources">
+            <form target="_blank" method="GET" action="https://matomo.org/">
+                <div class="search-matomo-form z-depth-1">
+                    <div class="search-field">
+                        <span class="icon-search"></span>
+                        <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate|e('html_attr')}}" name="s"/>
+                    </div>
+                    <div class="search-button">
+                        <input type="submit" value="Search" class="btn hide-on-small-only"/>
+                    </div>
+                </div>
+            </form>
 
-        <div piwik-content-block content-title="{{ 'Feedback_ProfessionalHelp'|translate|e('html_attr') }}">
+            <h4>{{'Feedback_PopularHelpTopics'|translate}}</h4>
+            {% for helpTopic in popularHelpTopics %}
+                <p> &bull;  <a rel="noreferrer noopener" target="_blank" href="{{helpTopic.url|e('html_attr')}}">{{helpTopic.title|translate}}</a></p>
+            {% endfor %}
+
+            <h4>{{ 'Feedback_CommunityHelp'|translate }}</h4>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/">{{ 'Feedback_UserGuides'|translate }}</a> - {{ 'Feedback_ViewUserGuides'|translate("","") }}.</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/">{{ 'Feedback_FAQs'|translate }}</a> - {{ 'Feedback_ViewAnswersToFAQ'|translate("","") }}.</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://forum.matomo.org/">{{ 'Feedback_Forums'|translate }}</a> - {{ 'Feedback_VisitTheForums'|translate("","") }}.</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({'module':"API",'action':"glossary"}) }}">{{ 'API_Glossary'|translate }}</a> - {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }}</p>
+
+            <h4>{{ 'Feedback_ProfessionalHelp'|translate }}</h4>
             <p>{{ 'Feedback_ProfessionalServicesIntro'|translate }}</p>
 
             <p>{{ 'Feedback_ProfessionalServicesOfferIntro'|translate }}</p>
-            <p> &bull; {{ 'Feedback_ProfessionalServicesReviewPiwikSetup'|translate }}</p>
-            <p> &bull; {{ 'Feedback_ProfessionalServicesOptimizationMaintenance'|translate }}</p>
-            <p> &bull; {{ 'Feedback_ProfessionalServicesPhoneEmailSupport'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesDedicatedSupport'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesOnboarding'|translate }}</p>
             <p> &bull; {{ 'Feedback_ProfessionalServicesTraining'|translate }}</p>
-            <p> &bull; <a  rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/premium-plugins'>{{ 'Feedback_ProfessionalServicesPremiumFeatures'|translate }}</a></p>
-            <p> &bull; {{ 'Feedback_ProfessionalServicesCustomDevelopment'|translate }}</p>
-            <p> &bull; {{ 'Feedback_ProfessionalServicesAnalystConsulting'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesSupport'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesEmailAlerts'|translate }}</p>
 
-            <form target="_blank" action="https://matomo.org/support/">
+            <form target="_blank" action="https://matomo.org/support-plans/">
                 <input type="hidden" name="pk_campaign" value="App_Help">
-                <input type="hidden" name="pk_source" value="Piwik_App">
+                <input type="hidden" name="pk_source" value="Matomo_App">
                 <input type="hidden" name="pk_medium" value="App_ContactUs_button">
                 <br />
-                <input type="submit" class="btn" value="{{ 'Feedback_ContactUs'|translate }}">
+                <input type="submit" class="btn" value="{{ 'General_MoreDetails'|translate }}">
             </form>
         </div>
 
@@ -72,39 +87,43 @@
             "</a>",
             "<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#submitting-a-feature-request'>",
             "</a>",
-            "<a target='_blank' rel='noreferrer noopener' href='https://github.com/matomo-org/piwik/issues'>",
+            "<a target='_blank' rel='noreferrer noopener' href='https://github.com/matomo-org/matomo/issues'>",
             "</a>",
-            "<a target='_blank' rel='noreferrer noopener' href='https://github.com/matomo-org/piwik/issues/new'>",
+            "<a target='_blank' rel='noreferrer noopener' href='https://github.com/matomo-org/matomo/issues/new'>",
             "</a>"
             )|raw }}</p>
+        </div>
+
+        <div piwik-content-block content-title="{{'Feedback_ReviewMatomoTitle'|translate|e('html_attr') }}">
+            <div ng-include="'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'"></div>
         </div>
 
         <div class="footer">
             <ul class="social">
                 <li>
-                    <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.png"></a>
+                    <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.svg"></a>
                     <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/newsletter/">Newsletter</a>
                 </li>
                 <li>
-                    <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/Matomo.org"><img class="icon" src="plugins/Feedback/images/facebook.png"></a>
+                    <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/Matomo.org"><img class="icon" src="plugins/Morpheus/icons/dist/socials/facebook.com.png"></a>
                     <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/Matomo.org">Facebook</a>
                 </li>
                 <li>
-                    <a target="_blank" rel="noreferrer noopener" href="https://twitter.com/matomo_org"><img class="icon" src="plugins/Feedback/images/twitter.png"></a>
+                    <a target="_blank" rel="noreferrer noopener" href="https://twitter.com/matomo_org"><img class="icon" src="plugins/Morpheus/icons/dist/socials/twitter.com.png"></a>
                     <a target="_blank" rel="noreferrer noopener" href="https://twitter.com/matomo_org">Twitter</a>
                 </li>
                 <li>
-                    <a target="_blank" rel="noreferrer noopener" href="https://www.linkedin.com/groups/867857/"><img class="icon" src="plugins/Feedback/images/linkedin.png"></a>
+                    <a target="_blank" rel="noreferrer noopener" href="https://www.linkedin.com/groups/867857/"><img class="icon" src="plugins/Morpheus/icons/dist/socials/linkedin.com.png"></a>
                     <a target="_blank" rel="noreferrer noopener" href="https://www.linkedin.com/groups/867857/">Linkedin</a>
                 </li>
                 <li>
-                    <a target="_blank" rel="noreferrer noopener" href="https://github.com/matomo-org/piwik"><img class="icon" src="plugins/Feedback/images/github.png"></a>
-                    <a target="_blank" rel="noreferrer noopener" href="https://github.com/matomo-org/piwik">GitHub</a>
+                    <a target="_blank" rel="noreferrer noopener" href="https://github.com/matomo-org/matomo"><img class="icon" src="plugins/Morpheus/icons/dist/socials/github.com.png"></a>
+                    <a target="_blank" rel="noreferrer noopener" href="https://github.com/matomo-org/matomo">GitHub</a>
                 </li>
             </ul>
             <ul class="menu">
                 <li><a target="_blank" rel="noreferrer noopener" href="https://matomo.org/blog/">Blog</a></li>
-                <li><a target="_blank" rel="noreferrer noopener" href="https://matomo.org/about/sponsors/">Sponsors</a></li>
+                <li><a target="_blank" rel="noreferrer noopener" href="https://matomo.org/get-involved/">Get involved</a></li>
                 <li><a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org">Developers</a></li>
                 <li><a target="_blank" rel="noreferrer noopener" href="https://plugins.matomo.org">Marketplace</a></li>
                 <li><a target="_blank" rel="noreferrer noopener" href="https://matomo.org/thank-you-all/">Credits</a></li>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -29,13 +29,45 @@ class UserPreferencesTest extends IntegrationTestCase
      */
     private $userPreferences;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->userPreferences = new UserPreferences();
 
         $this->setSuperUser();
+
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = 'foo'; // avoids error user already exists when it doesn't
+        APIUsersManager::getInstance()->addUser($identity, '22111214k4,mdw<L', 'foo@example.com');
+        FakeAccess::$identity = $identity;
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage User does not exist
+     */
+    public function test_getDefaultReport_WhenLoginNotExists()
+    {
+        APIUsersManager::getInstance()->setUserPreference(
+            'foo',
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT,
+            '1'
+        );
+    }
+
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Not supported preference name
+     */
+    public function test_getDefaultReport_WhenWrongPreference()
+    {
+        APIUsersManager::getInstance()->setUserPreference(
+            Piwik::getCurrentUserLogin(),
+            'foo',
+            '1'
+        );
     }
 
     public function test_getDefaultReport_ShouldReturnFalseByDefault()

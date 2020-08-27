@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link     http://piwik.org
+ * @link     https://matomo.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreatePull extends TranslationBase
 {
-    const GIT_BASE_BRANCH = '3.x-dev';
+    const GIT_BASE_BRANCH = '4.x-dev';
 
     protected function configure()
     {
@@ -37,7 +37,7 @@ class CreatePull extends TranslationBase
 
         if (!empty($changes)) {
 
-            $output->writeln("You have uncommited changes. Creating pull request is only available with a clean working directory");
+            $output->writeln("You have uncommitted changes. Creating pull request is only available with a clean working directory");
             return;
         }
 

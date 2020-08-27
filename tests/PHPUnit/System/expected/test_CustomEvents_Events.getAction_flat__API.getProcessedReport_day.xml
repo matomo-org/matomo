@@ -9,6 +9,7 @@
 		<module>Events</module>
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventAction>Event Action</Events_EventAction>
 			<Events_EventName>Event Name</Events_EventName>

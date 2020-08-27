@@ -1,17 +1,16 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
-use Piwik\Tests\Framework\Mock\TestConfig;
 
 class DumpConfigTestMockIniFileChain extends Config\IniFileChain
 {
@@ -52,7 +51,7 @@ class DumpConfigTestMockConfig extends Config
 /**
  * @group Core
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends TestCase
 {
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {

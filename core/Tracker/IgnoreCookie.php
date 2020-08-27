@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Config;
 use Piwik\Cookie;
+use Piwik\ProxyHttp;
 
 /**
  * Tracking cookies.
@@ -27,7 +28,14 @@ class IgnoreCookie
         $cookie_name = @Config::getInstance()->Tracker['cookie_name'];
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
 
-        return new Cookie($cookie_name, null, $cookie_path);
+        $cookie = new Cookie($cookie_name, null, $cookie_path);
+        
+        $domain = @Config::getInstance()->Tracker['cookie_domain'];
+        if (!empty($domain)) {
+            $cookie->setDomain($domain);
+        }
+        
+        return $cookie;
     }
 
     public static function deleteThirdPartyCookieUIDIfExists()
@@ -47,8 +55,17 @@ class IgnoreCookie
     {
         $cookie_name = @Config::getInstance()->Tracker['ignore_visits_cookie_name'];
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
+        
+        $thiryYears = time() + (86400 * 365 * 30);
 
-        return new Cookie($cookie_name, null, $cookie_path);
+        $cookie = new Cookie($cookie_name, $thiryYears, $cookie_path, false, false);
+        
+        $domain = @Config::getInstance()->Tracker['cookie_domain'];
+        if (!empty($domain)) {
+            $cookie->setDomain($domain);
+        }
+        
+        return $cookie;
     }
 
     /**
@@ -61,7 +78,12 @@ class IgnoreCookie
             $ignoreCookie->delete();
         } else {
             $ignoreCookie->set('ignore', '*');
-            $ignoreCookie->save();
+            if (ProxyHttp::isHttps()) {
+                $ignoreCookie->setSecure(true);
+                $ignoreCookie->save('None');
+            } else {
+                $ignoreCookie->save('Lax');
+            }
         }
 
         self::deleteThirdPartyCookieUIDIfExists();

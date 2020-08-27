@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -33,16 +33,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get Matomo version
-     * @return string
-     * @deprecated
-     */
-    public function getPiwikVersion()
-    {
-        return $this->getMatomoVersion();
-    }
-
-    /**
      * Get Answer to Life
      * @return integer
      */
@@ -66,7 +56,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Sums two floats and returns the result.
-     * The paramaters are set automatically from the GET request
+     * The parameters are set automatically from the GET request
      * when the API function is called. You can also use default values
      * as shown in this example.
      *

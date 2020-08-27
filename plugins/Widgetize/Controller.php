@@ -1,16 +1,20 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Widgetize;
 
+use Piwik\Access;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Session\SessionInitializer;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -27,6 +31,13 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function iframe()
     {
+        $token_auth = Common::getRequestVar('token_auth', '', 'string');
+
+        if ($token_auth !== ''
+            && Access::getInstance()->isUserHasSomeWriteAccess()) {
+            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
+        }
+
         $this->init();
 
         $controllerName = Common::getRequestVar('moduleToWidgetize');
@@ -34,6 +45,18 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($controllerName == 'API') {
             throw new \Exception("Widgetizing API requests is not supported for security reasons. Please change query parameter 'moduleToWidgetize'.");
+        }
+
+        if ($controllerName == 'Widgetize') {
+            throw new \Exception("Please set 'moduleToWidgetize' to a valid value.");
+        }
+
+        if ($controllerName == 'CoreHome' && $actionName == 'index') {
+            $message = 'CoreHome cannot be widgetized. '  . 
+                'You can enable it to be embedded directly into an iframe (passing module=CoreHome instead of module=Widgetize) ' .
+                'instead by enabling the \'enable_framed_pages\' setting in your config. ' .
+                'See https://matomo.org/faq/how-to/faq_193/ for more info.';
+            throw new \Exception($message);
         }
 
         $shouldEmbedEmpty = false;
@@ -70,4 +93,5 @@ class Controller extends \Piwik\Plugin\Controller
 
         return $view->render();
     }
+
 }

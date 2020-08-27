@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -73,6 +73,12 @@ class Report
      * @var string
      */
     protected $documentation;
+
+    /**
+     * URL linking to an online guide for this report or plugin.
+     * @var string
+     */
+    protected $onlineGuideUrl;
 
     /**
      * The translation key of the category the report belongs to.
@@ -485,8 +491,18 @@ class Report
         $documentation = array();
 
         foreach ($this->metrics as $metric) {
-            if (!empty($translations[$metric])) {
+            if (is_string($metric) && !empty($translations[$metric])) {
                 $documentation[$metric] = $translations[$metric];
+            } elseif ($metric instanceof Metric) {
+                $name = $metric->getName();
+                $metricDocs = $metric->getDocumentation();
+                if (empty($metricDocs) && !empty($translations[$name])) {
+                    $metricDocs = $translations[$name];
+                }
+
+                if (!empty($metricDocs)) {
+                    $documentation[$name] = $metricDocs;
+                }
             }
         }
 
@@ -494,15 +510,15 @@ class Report
         foreach ($processedMetrics as $processedMetric) {
             if (is_string($processedMetric) && !empty($translations[$processedMetric])) {
                 $documentation[$processedMetric] = $translations[$processedMetric];
-            } elseif ($processedMetric instanceof ProcessedMetric) {
+            } elseif ($processedMetric instanceof Metric) {
                 $name = $processedMetric->getName();
                 $metricDocs = $processedMetric->getDocumentation();
-                if (empty($metricDocs)) {
-                    $metricDocs = @$translations[$name];
+                if (empty($metricDocs) && !empty($translations[$name])) {
+                    $metricDocs = $translations[$name];
                 }
 
                 if (!empty($metricDocs)) {
-                    $documentation[$processedMetric->getName()] = $metricDocs;
+                    $documentation[$name] = $metricDocs;
                 }
             }
         }
@@ -588,6 +604,10 @@ class Report
 
         if (!empty($this->documentation)) {
             $report['documentation'] = $this->documentation;
+        }
+
+        if (!empty($this->onlineGuideUrl)) {
+            $report['onlineGuideUrl'] = $this->onlineGuideUrl;
         }
 
         if (true === $this->isSubtableReport) {
@@ -952,7 +972,24 @@ class Report
 
         $result = array();
         foreach ($processedMetrics as $processedMetric) {
-            if ($processedMetric instanceof ProcessedMetric || $processedMetric instanceof ArchivedMetric) { // instanceof check for backwards compatibility
+            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+                $result[$processedMetric->getName()] = $processedMetric;
+            } elseif ($processedMetric instanceof ArchivedMetric
+                && $processedMetric->getType() !== Dimension::TYPE_NUMBER
+                && $processedMetric->getType() !== Dimension::TYPE_FLOAT
+                && $processedMetric->getType() !== Dimension::TYPE_BOOL
+                && $processedMetric->getType() !== Dimension::TYPE_ENUM
+            ) {
+                // we do not format regular numbers from regular archived metrics here because when they are rendered
+                // in a visualisation (eg HtmlTable) they would be formatted again in the regular number filter.
+                // These metrics aren't "processed metrics". Eventually could maybe format them when "&format_metrics=all"
+                // is used but may not be needed. It caused a problem when eg language==de. Then eg 555444 would be formatted
+                // to "555.444" (which is the German version of the English "555,444") in the data table post processor
+                // when formatting metrics. Then when rendering the visualisation it would check "is_numeric()" which is
+                // true for German formatting but false for English formatting. Meaning for English formatting the number
+                // would be correctly printed as is but for the German formatting it would format it again and it would think
+                // it would be assumed the dot is a decimal separator and therefore the number be formatted to "555,44" which
+                // is the English version of "555.44" (because we only show 2 fractions).
                 $result[$processedMetric->getName()] = $processedMetric;
             }
         }

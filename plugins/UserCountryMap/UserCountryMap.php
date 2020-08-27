@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -31,18 +31,24 @@ class UserCountryMap extends \Piwik\Plugin
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
         );
         return $hooks;
     }
 
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'General_Visitors.UserCountryMap_RealTimeMap';
+    }
+
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/bower_components/visibilityjs/lib/visibility.core.js";
+        $jsFiles[] = "node_modules/visibilityjs/lib/visibility.core.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/raphael.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/kartograph.min.js";
-        $jsFiles[] = "libs/bower_components/chroma-js/chroma.min.js";
+        $jsFiles[] = "node_modules/chroma-js/chroma.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/visitor-map.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/realtime-map.js";
     }

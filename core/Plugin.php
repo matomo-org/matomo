@@ -1,23 +1,19 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\MetadataLoader;
 
-/**
- * @see Piwik\Plugin\MetadataLoader
- */
-require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
-
+if (!class_exists('Piwik\Plugin')) {
+  
 /**
  * Base class of all Plugin Descriptor classes.
  *
@@ -111,7 +107,7 @@ class Plugin
      * perfect but efficient. If the cache is used we need to make sure to call setId() before usage as there
      * is maybe a different key set since last usage.
      *
-     * @var \Piwik\Cache\Eager
+     * @var \Matomo\Cache\Eager
      */
     private $cache;
 
@@ -188,7 +184,6 @@ class Plugin
      * - 'theme' => bool                // Whether this plugin is a theme (a theme is a plugin, but a plugin is not necessarily a theme)
      *
      * @return array
-     * @deprecated
      */
     public function getInformation()
     {
@@ -223,16 +218,6 @@ class Plugin
     public function registerEvents()
     {
         return array();
-    }
-
-    /**
-     * @ignore
-     * @deprecated since 2.15.0 use {@link registerEvents()} instead.
-     * @return array
-     */
-    public function getListHooksRegistered()
-    {
-        return $this->registerEvents();
     }
 
     /**
@@ -598,3 +583,5 @@ class Plugin
         return $dependency;
     }
 }
+}
+    

@@ -55,6 +55,9 @@
         "NoTokenProvided": "No se proporcionó ningún token en la URL",
         "NoSubscriptionFound": "No se ha encontrado ninguna suscripción. Tal vez el informe ya estaba cancelado o eliminado.",
         "EvolutionGraphsShowForEachInPeriod": "Gráficos de evolución muestran la evolución de %1$scada día%2$s en el último %3$s",
-        "EvolutionGraphsShowForPreviousN": "Los gráficos de evolución muestra la evolución sobre los anteriores N %s"
+        "EvolutionGraphsShowForPreviousN": "Los gráficos de evolución muestra la evolución sobre los anteriores N %s",
+        "ReportPeriod": "Período del informe",
+        "ReportPeriodHelp": "El periodo de datos cubierto por este informe. De forma predeterminada, es el mismo que el del programa de correo electrónico, por lo que si el informe se envía semanalmente, contendrá información sobre la última semana.",
+        "ReportPeriodHelp2": "Sin embargo, puede cambiar esto si desea ver información diferente y aún así conservar el programa de correo electrónico. Por ejemplo, si la programación del correo electrónico es semanal y el período de informe es \"día\", obtendrá información del último día, todas las semanas."
     }
 }

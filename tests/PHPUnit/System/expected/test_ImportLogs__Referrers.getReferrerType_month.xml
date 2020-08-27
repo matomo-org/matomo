@@ -2,24 +2,25 @@
 <result>
 	<row>
 		<label>Direct Entry</label>
-		<nb_visits>40</nb_visits>
+		<nb_visits>39</nb_visits>
 		<nb_actions>45</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>549</sum_visit_length>
-		<bounce_count>36</bounce_count>
+		<bounce_count>35</bounce_count>
+		<nb_visits_converted>35</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>36</nb_conversions>
-				<nb_visits_converted>36</nb_visits_converted>
-				<revenue>180</revenue>
+				<nb_conversions>35</nb_conversions>
+				<nb_visits_converted>35</nb_visits_converted>
+				<revenue>175</revenue>
 			</row>
 		</goals>
-		<nb_conversions>36</nb_conversions>
-		<revenue>180</revenue>
+		<nb_conversions>35</nb_conversions>
+		<revenue>175</revenue>
 		<sum_daily_nb_uniq_visitors>38</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==direct</segment>
+		<referrer_type>1</referrer_type>
 	</row>
 	<row>
 		<label>Websites</label>
@@ -28,6 +29,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>2</sum_visit_length>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -40,6 +42,7 @@
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>referrerType==website</segment>
+		<referrer_type>3</referrer_type>
 		<subtable>
 			<row>
 				<label>example.com</label>
@@ -48,6 +51,7 @@
 				<max_actions>3</max_actions>
 				<sum_visit_length>2</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -67,6 +71,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -86,6 +91,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -105,6 +111,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>

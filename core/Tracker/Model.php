@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,10 +10,13 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Tracker;
+use Psr\Log\LoggerInterface;
 
 class Model
 {
+    const CACHE_KEY_INDEX_IDSITE_IDVISITOR = 'log_visit_has_index_idsite_idvisitor';
 
     public function createAction($visitAction)
     {
@@ -68,15 +71,17 @@ class Model
             $sqlBind[]          = $value;
         }
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_conversion');
 
-        $sql   = "UPDATE $table SET $parts WHERE " . implode($updateWhereParts, ' AND ');
+        $sql   = "UPDATE $table SET $parts WHERE " . implode(' AND ', $updateWhereParts);
 
         try {
             $this->getDb()->query($sql, $sqlBind);
         } catch (Exception $e) {
-            Common::printDebug("There was an error while updating the Conversion: " . $e->getMessage());
+            StaticContainer::get(LoggerInterface::class)->error("There was an error while updating the Conversion: {exception}", [
+                'exception' => $e,
+            ]);
 
             return false;
         }
@@ -115,7 +120,7 @@ class Model
 
     public function createEcommerceItems($ecommerceItems)
     {
-        $sql = "INSERT INTO " . Common::prefixTable('log_conversion_item');
+        $sql = "INSERT IGNORE INTO " . Common::prefixTable('log_conversion_item');
         $i    = 0;
         $bind = array();
 
@@ -215,8 +220,7 @@ class Model
      */
     public function getIdsAction($actionsNameAndType)
     {
-        $sql = "SELECT MIN(idaction) as idaction, type, name FROM " . Common::prefixTable('log_action')
-             . " WHERE";
+        $sql = "SELECT `idaction`, `type`, `name` FROM " . Common::prefixTable('log_action') . " WHERE";
         $bind = array();
 
         $i = 0;
@@ -239,16 +243,39 @@ class Model
             $i++;
         }
 
-        $sql .= " GROUP BY type, hash, name";
-
         // Case URL & Title are empty
         if (empty($bind)) {
             return false;
         }
 
-        $actionIds = $this->getDb()->fetchAll($sql, $bind);
+        $rows = $this->getDb()->fetchAll($sql, $bind);
 
-        return $actionIds;
+        $actionsPerType = array();
+
+        foreach ($rows as $row) {
+            $name = $row['name'];
+            $type = $row['type'];
+
+            if (!isset($actionsPerType[$type])) {
+                $actionsPerType[$type] = array();
+            }
+
+            if (!isset($actionsPerType[$type][$name])) {
+                $actionsPerType[$type][$name] = $row;
+            } elseif ($row['idaction'] < $actionsPerType[$type][$name]['idaction']) {
+                // keep the lowest idaction for this type, name
+                $actionsPerType[$type][$name] = $row;
+            }
+        }
+
+        $actionsToReturn = array();
+        foreach ($actionsPerType as $type => $actionsPerName) {
+            foreach ($actionsPerName as $actionPerName) {
+                $actionsToReturn[] = $actionPerName;
+            }
+        }
+
+        return $actionsToReturn;
     }
 
     public function updateEcommerceItem($originalIdOrder, $newItem)
@@ -259,7 +286,7 @@ class Model
             $sqlBind[]     = $value;
         }
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_conversion_item');
 
         $sql = "UPDATE $table SET $parts WHERE idvisit = ? AND idorder = ? AND idaction_sku = ?";
@@ -291,7 +318,7 @@ class Model
     {
         list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ',$updateParts);
         $table = Common::prefixTable('log_visit');
 
         $sqlQuery = "UPDATE $table SET $parts WHERE idsite = ? AND idvisit = ?";
@@ -320,7 +347,7 @@ class Model
 
         list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_link_visit_action');
 
         $sqlQuery = "UPDATE $table SET $parts WHERE idlink_va = ?";
@@ -340,13 +367,11 @@ class Model
         return $wasInserted;
     }
 
-    public function findVisitor($idSite, $configId, $idVisitor, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
+    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
     {
-        $selectCustomVariables = '';
-
         $selectFields = implode(', ', $fieldsToRead);
 
-        $select = "SELECT $selectFields $selectCustomVariables ";
+        $select = "SELECT $selectFields ";
         $from   = "FROM " . Common::prefixTable('log_visit');
 
         // Two use cases:
@@ -372,10 +397,17 @@ class Model
         } elseif ($shouldMatchOneFieldOnly) {
             $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
         } else {
-            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+            if (!empty($idVisitor)) {
+                $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+            } else {
+                $visitRow = false;
+            }
 
             if (empty($visitRow)) {
-                $configIdWhere .= ' AND user_id IS NULL ';
+                if (!empty($userId)) {
+                    $configIdWhere .= ' AND ( user_id IS NULL OR user_id = ? )';
+                    $configIdbindSql[] = $userId;
+                }
                 $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
             }
         }
@@ -383,9 +415,25 @@ class Model
         return $visitRow;
     }
 
-    private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
+    public function hasVisit($idSite, $idVisit)
     {
         // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        $sql = 'SELECT idsite FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ? LIMIT 1';
+        $bindSql = array($idVisit);
+
+        $val = $this->getDb()->fetchOne($sql, $bindSql);
+        return $val == $idSite;
+    }
+
+    private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
+    {
+        $cache = Cache::getCacheGeneral();
+
+        // use INDEX index_idsite_idvisitor (idsite, idvisitor) if available
+        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR, $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR]) {
+            $from .= ' FORCE INDEX (index_idsite_idvisitor) ';
+        }
+
         $where .= ' AND idvisitor = ?';
         $bindSql[] = $idVisitor;
 

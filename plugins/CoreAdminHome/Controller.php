@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -62,6 +63,8 @@ class Controller extends ControllerAdmin
         $hasNewPlugins = $widgetsList->isDefined('Marketplace', 'getNewPlugins');
         $hasDiagnostics = $widgetsList->isDefined('Installation', 'getSystemCheck');
         $hasTrackingFailures = $widgetsList->isDefined('CoreAdminHome', 'getTrackingFailures');
+        $hasQuickLinks = $widgetsList->isDefined('CoreHome', 'quickLinks');
+        $hasSystemSummary = $widgetsList->isDefined('CoreHome', 'getSystemSummary');
 
         return $this->renderTemplate('home', array(
             'isInternetEnabled' => $isInternetEnabled,
@@ -73,6 +76,8 @@ class Controller extends ControllerAdmin
             'hasPiwikBlog' => $hasPiwikBlog,
             'hasDiagnostics' => $hasDiagnostics,
             'hasTrackingFailures' => $hasTrackingFailures,
+            'hasQuickLinks' => $hasQuickLinks,
+            'hasSystemSummary' => $hasSystemSummary,
         ));
     }
 
@@ -101,6 +106,7 @@ class Controller extends ControllerAdmin
         $view->branding              = array('use_custom_logo' => $logo->isEnabled());
         $view->fileUploadEnabled     = $logo->isFileUploadEnabled();
         $view->logosWriteable        = $logo->isCustomLogoWritable();
+        $view->customLogoEnabled     = $logo->isCustomLogoFeatureEnabled();
         $view->hasUserLogo           = CustomLogo::hasUserLogo();
         $view->pathUserLogo          = CustomLogo::getPathUserLogo();
         $view->hasUserFavicon        = CustomLogo::hasUserFavicon();
@@ -112,13 +118,15 @@ class Controller extends ControllerAdmin
             '' => '',
             'Plain' => 'Plain',
             'Login' => 'Login',
-            'Crammd5' => 'Crammd5',
+            'Cram-md5' => 'Cram-md5',
         );
         $view->mailEncryptions = array(
             '' => '',
             'ssl' => 'SSL',
             'tls' => 'TLS'
         );
+        $mail = new Mail();
+        $view->mailHost = $mail->getMailHost();
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
@@ -134,7 +142,7 @@ class Controller extends ControllerAdmin
             return '';
         }
 
-        $response = new ResponseBuilder('json2');
+        $response = new ResponseBuilder('json');
         try {
             $this->checkTokenInUrl();
 
@@ -155,6 +163,22 @@ class Controller extends ControllerAdmin
             $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
 
             Config::getInstance()->mail = $mail;
+
+            $general = Config::getInstance()->General;
+            $fromName = Common::getRequestVar('mailFromName', '');
+            $general['noreply_email_name'] = Common::unsanitizeInputValue($fromName);
+
+            $mailFrom = Common::getRequestVar('mailFromAddress', '');
+            if (empty($mailFrom)) {
+                $mailFrom = 'noreply@{DOMAIN}';
+            } else {
+                $mailFrom = Common::unsanitizeInputValue($mailFrom);
+            }
+            if (!Piwik::isValidEmailString($mailFrom) && !Common::stringEndsWith($mailFrom, '@{DOMAIN}')) {
+                throw new Exception(Piwik::translate('CoreAdminHome_ErrorEmailFromAddressNotValid'));
+            }
+            $general['noreply_email_address'] = $mailFrom;
+            Config::getInstance()->General = $general;
 
             Config::getInstance()->forceSave();
 
@@ -186,6 +210,7 @@ class Controller extends ControllerAdmin
         if ($view->idSite) {
             try {
                 $view->siteName = Site::getNameFor($view->idSite);
+                $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
             } catch (Exception $e) {
                 // ignore if site no longer exists
             }
@@ -193,7 +218,11 @@ class Controller extends ControllerAdmin
 
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = Site::getCurrencySymbolFor($view->idSite);
-        $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        $view->maxCustomVariables = 0;
+
+        if (Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        }
 
         $view->defaultSite = array('id' => $view->idSite, 'name' => $view->defaultReportSiteName);
 
@@ -228,6 +257,11 @@ class Controller extends ControllerAdmin
         $this->checkTokenInUrl();
 
         $logo = new CustomLogo();
+
+        if (! $logo->isCustomLogoFeatureEnabled()) {
+            return '0';
+        }
+
         $successLogo    = $logo->copyUploadedLogoToFilesystem();
         $successFavicon = $logo->copyUploadedFaviconToFilesystem();
 
@@ -264,7 +298,10 @@ class Controller extends ControllerAdmin
         $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-        $view->mail = Config::getInstance()->mail;
+        $mail = Config::getInstance()->mail;
+        $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
+        $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
+        $view->mail = $mail;
     }
 
 }

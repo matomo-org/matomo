@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -23,7 +23,7 @@ class Updates_2_15_0_b20 extends Updates
      * Perform the incremental version update.
      *
      * This method should perform all updating logic. If you define queries in an overridden `getMigrationQueries()`
-     * method, you must call {@link Updater::executeMigrationQueries()} here.
+     * method, you must call {@link Updater::executeMigrations()} here.
      *
      * See {@link Updates} for an example.
      *

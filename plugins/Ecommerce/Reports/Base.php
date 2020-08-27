@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -19,6 +19,7 @@ abstract class Base extends Report
     {
         $this->module   = 'Goals';
         $this->categoryId = 'Goals_Ecommerce';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/ecommerce-analytics/';
     }
 
     public function isEnabled()
@@ -56,7 +57,7 @@ abstract class Base extends Report
     {
         $idSite = $infos['idSite'];
 
-        if (empty($idSite)) {
+        if (empty($idSite) || !is_numeric($idSite)) {
             return false;
         }
 

@@ -14,6 +14,24 @@
     }
 }
 
+.trackingHelpHeader {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    width: 100%;
+    &.matchWidth {
+        max-width: 995px;
+    }
+    h3 {
+        margin-top: 0;
+    }
+    p {
+        margin-right: 20px !important;
+    }
+    .btn {
+        margin-left: auto;
+    }
+}
+
 .SitesManager {
 
     .sitesManagerList {
@@ -100,22 +118,8 @@ td.editable-site-field:hover {
 }
 
 .site-without-data {
-    h2 {
-        border-bottom: 1px solid @theme-color-background-tinyContrast;
-        margin: 25px 0;
-        padding: 0 0 5px 0;
-        font-size: 24px;
-    }
     h3 {
-        margin: 15px 0;
-        font-size: 18px;
-        line-height: 24px;
-        font-weight: normal;
-        color: black;
-    }
-
-    p + p {
-        margin-top: 10px;
+        font-weight: bold;
     }
 }
 

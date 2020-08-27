@@ -55,6 +55,21 @@
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
+		<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+		<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+		<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+		<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+		<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+		<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+		<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+		<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+		<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+		<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+		<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+		<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+		<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+		<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+		<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
 		<orders>Ecommerce Orders</orders>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
@@ -79,10 +94,24 @@
 		<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 		<nb_users_returning>Returning Users</nb_users_returning>
+		<nb_visits_new>New Visits</nb_visits_new>
+		<nb_actions_new>Actions by New Visits</nb_actions_new>
+		<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
+		<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
+		<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
+		<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
+		<nb_users_new>New Users</nb_users_new>
 		<nb_impressions>Impressions</nb_impressions>
 		<nb_interactions>Content Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>
 		<nb_visits_percentage>% Visits</nb_visits_percentage>
+		<avg_time_network>Avg. network time</avg_time_network>
+		<avg_time_server>Avg. server time</avg_time_server>
+		<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+		<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+		<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+		<avg_time_on_load>Avg. on load time</avg_time_on_load>
+		<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
 		<max_bandwidth>Max Bandwidth</max_bandwidth>
 		<min_bandwidth>Min Bandwidth</min_bandwidth>

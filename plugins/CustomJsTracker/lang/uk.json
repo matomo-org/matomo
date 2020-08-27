@@ -1,0 +1,8 @@
+{
+    "CustomJsTracker": {
+        "PluginDescription": "Дозволяє будь-якому плагіну розширювати Matomo JavaScript код відстеження (piwik.js) і додавати нові можливості функціонування та можливості вимірювання веб-сайту.",
+        "DiagnosticPiwikJsWritable": "Доступний для запису JavaScript трекер (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Відстеження файлів Matomo через JavaScript \"\/piwik.js\" не підлягає запису, це означає, що інші плагіни не можуть розширити трекер JavaScript. Надалі навіть деякі основні функції можуть не працювати, як очікується.",
+        "DiagnosticPiwikJsMakeWritable": "Ми рекомендуємо piwik.js зробити доступним для запису, виконавши команду: %s"
+    }
+}

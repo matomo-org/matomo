@@ -1,13 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Installation;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
@@ -60,11 +61,12 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 </Files>";
 
         $directoriesToProtect = array(
-            '/js'        => $allowAny . $noCachePreview,
-            '/libs'      => $denyAll . $allowStaticAssets,
-            '/vendor'    => $denyAll . $allowStaticAssets,
-            '/plugins'   => $denyAll . $allowStaticAssets,
-            '/misc/user' => $denyAll . $allowStaticAssets,
+            '/js'           => $allowAny . $noCachePreview,
+            '/libs'         => $denyAll . $allowStaticAssets,
+            '/vendor'       => $denyAll . $allowStaticAssets,
+            '/plugins'      => $denyAll . $allowStaticAssets,
+            '/misc/user'    => $denyAll . $allowStaticAssets,
+            '/node_modules' => $denyAll . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
@@ -72,13 +74,19 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 
         // deny access to these folders
         $directoriesToProtect = array(
-            '/config' => $denyAll,
-            '/core' => $denyAll,
-            '/lang' => $denyAll,
-            '/tmp' => $denyAll,
+            PIWIK_USER_PATH . '/config' => $denyAll,
+            PIWIK_INCLUDE_PATH. '/core' => $denyAll,
+            PIWIK_INCLUDE_PATH . '/lang' => $denyAll,
+            StaticContainer::get('path.tmp') => $denyAll,
         );
+	    
+        if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
+            $file = call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
+            $directoriesToProtect[dirname($file)] = $denyAll;
+        }
+
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
-            self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
+            self::createHtAccess($directoryToProtect, $overwrite = true, $content);
         }
     }
 
@@ -159,7 +167,14 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             '/libs',
             '/vendor',
             '/plugins',
+            '/node_modules',
         );
+
+        $additionForPlugins = '
+        <alwaysAllowedUrls>
+          <add url="/plugins/HeatmapSessionRecording/configs.php" />
+        </alwaysAllowedUrls>';
+
         foreach ($directoriesToProtect as $directoryToProtect) {
             @file_put_contents(PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
                 '<?xml version="1.0" encoding="UTF-8"?>
@@ -169,7 +184,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <requestFiltering>
         <denyUrlSequences>
           <add sequence=".php" />
-        </denyUrlSequences>
+        </denyUrlSequences>' . ($directoryToProtect === '/plugins' ? $additionForPlugins : '') . '
       </requestFiltering>
     </security>
   </system.webServer>
@@ -184,6 +199,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         @unlink($path . '/libs/web.config');
         @unlink($path . '/vendor/web.config');
         @unlink($path . '/plugins/web.config');
+        @unlink($path . '/node_modules/web.config');
     }
 
     /**
@@ -225,7 +241,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
     /**
      * @return string
      */
-    protected static function getDenyHtaccessContent()
+    public static function getDenyHtaccessContent()
     {
 # Source: https://github.com/phpbb/phpbb/pull/2386/files#diff-f72a38c4bec79cc6ded3f8e435d6bd55L11
 # With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
@@ -261,7 +277,7 @@ HTACCESS_DENY;
     /**
      * @return string
      */
-    protected static function getAllowHtaccessContent()
+    public static function getAllowHtaccessContent()
     {
         $allow = <<<HTACCESS_ALLOW
 <IfModule mod_version.c>
@@ -301,6 +317,7 @@ HTACCESS_ALLOW;
             '/vendor',
             '/plugins',
             '/misc/user',
+            '/node_modules',
             '/config',
             '/core',
             '/lang',

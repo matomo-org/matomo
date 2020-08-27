@@ -10,6 +10,7 @@
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Abandoned Carts</nb_conversions>
 			<conversion_rate>Conversion Rate</conversion_rate>
@@ -35,9 +36,9 @@
 	</columns>
 	<reportData>
 		<nb_conversions>2</nb_conversions>
-		<revenue>$ 5020.22</revenue>
+		<revenue>$5,020.22</revenue>
 		<items>8</items>
-		<avg_order_revenue>$ 2510.11</avg_order_revenue>
+		<avg_order_revenue>$2,510.11</avg_order_revenue>
 		<conversion_rate>66.67%</conversion_rate>
 	</reportData>
 	<reportMetadata />

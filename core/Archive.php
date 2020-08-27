@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,9 +12,9 @@ use Piwik\Archive\ArchiveQuery;
 use Piwik\Archive\ArchiveQueryFactory;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\Plugins\CoreAdminHome\API;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -163,14 +163,9 @@ class Archive implements ArchiveQuery
     private $params;
 
     /**
-     * @var \Piwik\Cache\Cache
+     * @var \Matomo\Cache\Cache
      */
     private static $cache;
-
-    /**
-     * @var ArchiveInvalidator
-     */
-    private $invalidator;
 
     /**
      * @param Parameters $params
@@ -183,8 +178,6 @@ class Archive implements ArchiveQuery
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
-
-        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
     }
 
     /**
@@ -269,7 +262,7 @@ class Archive implements ArchiveQuery
         // if only one metric is returned, just return it as a numeric value
         if (empty($resultIndices)
             && count($result) <= 1
-            && (!is_array($names) || count($names) == 1)
+            && (!is_array($names) || count($names) === 1)
         ) {
             $result = (float)reset($result); // convert to float in case $result is empty
         }
@@ -453,67 +446,6 @@ class Archive implements ArchiveQuery
         return $dataTable;
     }
 
-    private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
-    {
-        if (is_null(self::$cache)) {
-            self::$cache = Cache::getTransientCache();
-        }
-
-        $id = 'Archive.SiteIdsOfRememberedReportsInvalidated';
-
-        if (!self::$cache->contains($id)) {
-            self::$cache->save($id, array());
-        }
-
-        $siteIdsAlreadyHandled = self::$cache->fetch($id);
-        $siteIdsRequested      = $this->params->getIdSites();
-
-        foreach ($siteIdsRequested as $index => $siteIdRequested) {
-            $siteIdRequested = (int) $siteIdRequested;
-
-            if (in_array($siteIdRequested, $siteIdsAlreadyHandled)) {
-                unset($siteIdsRequested[$index]); // was already handled previously, do not do it again
-            } else {
-                $siteIdsAlreadyHandled[] = $siteIdRequested; // we will handle this id this time
-            }
-        }
-
-        self::$cache->save($id, $siteIdsAlreadyHandled);
-
-        return $siteIdsRequested;
-    }
-
-    private function invalidatedReportsIfNeeded()
-    {
-        $siteIdsRequested = $this->getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet();
-
-        if (empty($siteIdsRequested)) {
-            return; // all requested site ids were already handled
-        }
-
-        $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
-
-        foreach ($sitesPerDays as $date => $siteIds) {
-            if (empty($siteIds)) {
-                continue;
-            }
-
-            $siteIdsToActuallyInvalidate = array_intersect($siteIds, $siteIdsRequested);
-
-            if (empty($siteIdsToActuallyInvalidate)) {
-                continue; // all site ids that should be handled are already handled
-            }
-
-            try {
-                $this->invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, array(Date::factory($date)), false);
-            } catch (\Exception $e) {
-                Site::clearCache();
-                throw $e;
-            }
-        }
-
-        Site::clearCache();
-    }
 
     /**
      * Queries archive tables for data and returns the result.
@@ -530,7 +462,7 @@ class Archive implements ArchiveQuery
 
         // apply idSubtable
         if ($idSubtable !== null
-            && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
+            && $idSubtable !== self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             // this is also done in ArchiveSelector. It should be actually only done in ArchiveSelector but DataCollection
             // does require to have the subtableId appended. Needs to be changed in refactoring to have it only in one
@@ -544,7 +476,7 @@ class Archive implements ArchiveQuery
         }
 
         $result = new Archive\DataCollection(
-            $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
+            $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
@@ -558,7 +490,7 @@ class Archive implements ArchiveQuery
 
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
 
-        $isNumeric = $archiveDataType == 'numeric';
+        $isNumeric = $archiveDataType === 'numeric';
 
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
@@ -593,24 +525,25 @@ class Archive implements ArchiveQuery
         // then we have the archive IDs in $this->idarchives)
         $doneFlags     = array();
         $archiveGroups = array();
-        foreach ($plugins as $plugin) {
+        foreach (array_merge($plugins, ['all']) as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $this->params->getIdSites());
 
             $doneFlags[$doneFlag] = true;
             if (!isset($this->idarchives[$doneFlag])) {
                 $archiveGroup = $this->getArchiveGroupOfPlugin($plugin);
 
-                if ($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
+                if ($archiveGroup === self::ARCHIVE_ALL_PLUGINS_FLAG) {
                     $archiveGroup = reset($plugins);
                 }
                 $archiveGroups[] = $archiveGroup;
             }
 
-            $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
-            if ($globalDoneFlag !== $doneFlag) {
-                $doneFlags[$globalDoneFlag] = true;
-            }
+            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin($this->params->getSegment(), $plugin);
+            $doneFlags[$doneFlag] = true;
         }
+
+        $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
+        $doneFlags[$globalDoneFlag] = true;
 
         $archiveGroups = array_unique($archiveGroups);
 
@@ -638,8 +571,6 @@ class Archive implements ArchiveQuery
      */
     private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
-        $this->invalidatedReportsIfNeeded();
-
         $today = Date::today();
 
         foreach ($this->params->getPeriods() as $period) {
@@ -648,6 +579,15 @@ class Archive implements ArchiveQuery
 
             foreach ($this->params->getIdSites() as $idSite) {
                 $site = new Site($idSite);
+
+                if ($period->getLabel() === 'day'
+                    && !$this->params->getSegment()->isEmpty()
+                    && Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
+                    && $period->getDateStart()->toString() === Date::factory('now', $site->getTimezone())->toString()
+                ) {
+                    Log::debug("Skipping archive %s for %s as segment today is disabled", $period->getLabel(), $period->getPrettyString());
+                    continue;
+                }
 
                 // if the END of the period is BEFORE the website creation date
                 // we already know there are no stats for this period
@@ -693,6 +633,8 @@ class Archive implements ArchiveQuery
         foreach ($idarchivesByReport as $doneFlag => $idarchivesByDate) {
             foreach ($idarchivesByDate as $dateRange => $idarchives) {
                 foreach ($idarchives as $idarchive) {
+                    // idarchives selected can include all plugin archives, plugin specific archives and partial report
+                    // archives. only the latest data in all of these archives will be selected.
                     $this->idarchives[$doneFlag][$dateRange][] = $idarchive;
                 }
             }
@@ -822,7 +764,10 @@ class Archive implements ArchiveQuery
         } // Goal_* metrics are processed by the Goals plugin (HACK)
         elseif (strpos($report, 'Goal_') === 0) {
             $report = 'Goals_Metrics';
-        } elseif (strrpos($report, '_returning') === strlen($report) - strlen('_returning')) { // HACK
+        } elseif (
+            strrpos($report, '_returning') === strlen($report) - strlen('_returning') ||
+            strrpos($report, '_new') === strlen($report) - strlen('_new')
+        ) { // HACK
             $report = 'VisitFrequency_Metrics';
         }
 
@@ -843,22 +788,33 @@ class Archive implements ArchiveQuery
      */
     private function prepareArchive(array $archiveGroups, Site $site, Period $period)
     {
-        $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
-        $archiveLoader = new ArchiveProcessor\Loader($parameters);
+        $coreAdminHomeApi = API::getInstance();
+
+        $requestedReport = null;
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
+        }
 
         $periodString = $period->getRangeString();
+        $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();
 
         $idSites = array($site->getId());
-        
+
         // process for each plugin as well
         foreach ($archiveGroups as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
             $this->initializeArchiveIdCache($doneFlag);
 
-            $idArchive = $archiveLoader->prepareArchive($plugin);
+            $prepareResult = $coreAdminHomeApi->archiveReports(
+                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getString(),
+                $plugin, $requestedReport);
 
-            if ($idArchive) {
-                $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+            if (!empty($prepareResult)
+                && !empty($prepareResult['idarchives'])
+            ) {
+                foreach ($prepareResult['idarchives'] as $idArchive) {
+                    $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                }
             }
         }
     }

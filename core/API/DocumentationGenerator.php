@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -128,7 +128,7 @@ class DocumentationGenerator
 
     protected function addExamples($class, $methodName, $prefixUrls)
     {
-        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
+        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth() . "&force_api_session=1";
         $parametersToSet = array(
             'idSite' => Common::getRequestVar('idSite', 1, 'int'),
             'period' => Common::getRequestVar('period', 'day', 'string'),
@@ -212,8 +212,8 @@ class DocumentationGenerator
             'email'          => 'test@example.org',
 
             'languageCode'   => 'fr',
-            'url'            => 'http://forum.piwik.org/',
-            'pageUrl'        => 'http://forum.piwik.org/',
+            'url'            => 'https://divezone.net/',
+            'pageUrl'        => 'https://divezone.net/',
             'apiModule'      => 'UserCountry',
             'apiAction'      => 'getCountry',
             'lastMinutes'    => '30',
@@ -262,6 +262,7 @@ class DocumentationGenerator
         $aParameters['language'] = false;
         $aParameters['translateColumnNames'] = false;
         $aParameters['label'] = false;
+        $aParameters['labelSeries'] = false;
         $aParameters['flat'] = false;
         $aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_offset'] = false; 
@@ -275,6 +276,7 @@ class DocumentationGenerator
         $aParameters['filter_pattern_recursive'] = false; 
         $aParameters['filter_truncate'] = false;
         $aParameters['hideColumns'] = false;
+        $aParameters['hideColumnsRecursively'] = false;
         $aParameters['showColumns'] = false;
         $aParameters['filter_pattern_recursive'] = false;
         $aParameters['pivotBy'] = false;
@@ -285,6 +287,12 @@ class DocumentationGenerator
         $aParameters['expanded'] = false;
         $aParameters['idDimenson'] = false;
         $aParameters['format_metrics'] = false;
+        $aParameters['compare'] = false;
+        $aParameters['compareDates'] = false;
+        $aParameters['comparePeriods'] = false;
+        $aParameters['compareSegments'] = false;
+        $aParameters['comparisonIdSubtables'] = false;
+        $aParameters['invert_compare_change_compute'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {

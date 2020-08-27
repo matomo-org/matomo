@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Proxy;
 use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
+use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
 use Piwik\Url;
@@ -33,7 +34,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getCss()
     {
-        $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        try {
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        } catch (StylesheetLessCompileException $exception) {
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        }
         ProxyHttp::serverStaticFile($cssMergedFile->getAbsoluteLocation(), "text/css");
     }
 
@@ -67,39 +72,6 @@ class Controller extends \Piwik\Plugin\Controller
     private function serveJsFile($uiAsset)
     {
         ProxyHttp::serverStaticFile($uiAsset->getAbsoluteLocation(), self::JS_MIME_TYPE);
-    }
-
-    /**
-     * Output redirection page instead of linking directly to avoid
-     * exposing the referrer on the Piwik demo.
-     *
-     * @internal param string $url (via $_GET)
-     * @deprecated @since 3.6.0
-     */
-    public function redirect()
-    {
-        $url = Common::getRequestVar('url', '', 'string', $_GET);
-        if (!UrlHelper::isLookLikeUrl($url)) {
-            die('Please check the &url= parameter: it should to be a valid URL');
-        }
-        // validate referrer
-        $referrer = Url::getReferrer();
-        if (empty($referrer) || !Url::isLocalUrl($referrer)) {
-            die('Invalid Referrer detected - This means that your web browser is not sending the "Referrer URL" which is
-				required to proceed with the redirect. Verify your browser settings and add-ons, to check why your browser
-				 is not sending this referrer.
-
-				<br/><br/>You can access the page at: ' . $url);
-        }
-
-        // mask visits to *.piwik.org
-        if (!self::isPiwikUrl($url)) {
-            Piwik::checkUserHasSomeViewAccess();
-        }
-        Common::sendHeader('Content-Type: text/html; charset=utf-8');
-        echo '<html><head><meta http-equiv="refresh" content="0;url=' . $url . '" /></head></html>';
-
-        exit;
     }
 
     /**

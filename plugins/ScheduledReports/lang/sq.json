@@ -55,6 +55,9 @@
         "NoTokenProvided": "Te URL-ja s’u dha token",
         "NoSubscriptionFound": "S’u gjet pajtim. Ndoshta jeni shpajtuar tashmë nga raporti ose ai është hequr.",
         "EvolutionGraphsShowForEachInPeriod": "Grafikët e ecurisë shfaqin ecurinë për %1$sçdo ditë%2$s gjatë %3$s të fundit",
-        "EvolutionGraphsShowForPreviousN": "Grafikët e ecurisë shfaqin ecurinë përgjatë N %s të shkuara"
+        "EvolutionGraphsShowForPreviousN": "Grafikët e ecurisë shfaqin ecurinë përgjatë N %s të shkuara",
+        "ReportPeriod": "Periudhë Raportimi",
+        "ReportPeriodHelp": "Periudha e të dhënave e mbuluar nga ky raport. Si parazgjedhje, kjo është e njëjtë me planifikimin për email-et, pra nëse raporti dërgohet një herë në javë, do të përmbajë të dhëna që lidhen me javën e fundit.",
+        "ReportPeriodHelp2": "Sidoqoftë, këtë mund ta ndryshoni, nëse doni të shihni të dhëna të tjera, pa prekur planifikimin e email-eve. Për shembull, nëse planifikimi për email-et është një herë në javë, dhe periudha e raportit është 'ditë', do të merrni të dhëna për ditën e fundit, çdo javë."
     }
 }

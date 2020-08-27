@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -62,6 +62,9 @@ class Json extends Renderer
             $array = array('value' => $array);
         }
 
+        // convert datatable column/metadata values
+        $this->convertDataTableColumnMetadataValues($array);
+
         // decode all entities
         $callback = function (&$value, $key) {
             if (is_string($value)) {
@@ -106,15 +109,17 @@ class Json extends Renderer
         Common::sendHeader('Content-Type: application/json; charset=utf-8');
     }
 
-    private function convertDataTableToArray($table)
+    private function convertDataTableColumnMetadataValues(&$table)
     {
-        $renderer = new Php();
-        $renderer->setTable($table);
-        $renderer->setRenderSubTables($this->isRenderSubtables());
-        $renderer->setSerialize(false);
-        $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
-        $array = $renderer->flatRender();
+        if (empty($table)) {
+            return;
+        }
 
-        return $array;
+        array_walk_recursive($table, function (&$value, $key) {
+            if ($value instanceof DataTable) {
+                $value = $this->convertDataTableToArray($value);
+                $this->convertDataTableColumnMetadataValues($value);
+            }
+        });
     }
 }

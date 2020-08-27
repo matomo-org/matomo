@@ -1,18 +1,19 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
-use Piwik\Plugins\API\API;
+use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -65,14 +66,34 @@ class Segment
     protected $string = null;
 
     /**
+     * @var string
+     */
+    protected $originalString = null;
+
+    /**
      * @var array
      */
     protected $idSites = null;
 
     /**
+     * @var Date
+     */
+    protected $startDate = null;
+
+    /**
+     * @var Date
+     */
+    protected $endDate = null;
+
+    /**
      * @var LogQueryBuilder
      */
     private $segmentQueryBuilder;
+
+    /**
+     * @var bool
+     */
+    private $isSegmentEncoded;
 
     /**
      * Truncate the Segments to 8k
@@ -82,12 +103,20 @@ class Segment
     /**
      * Constructor.
      *
+     * When using segments that contain a != or !@ condition on a non visit dimension (e.g. action, conversion, ...) it
+     * is needed to use a subquery to get correct results. To avoid subqueries that fetch too many data it's required to
+     * set a startDate and/or an endDate in this case. That date will be used to limit the subquery (along with possibly
+     * given idSites). If no startDate and endDate is given for such a segment it will generate a query that directly
+     * joins the according tables, but trigger a php warning as results might be incorrect.
+     *
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
      * @param array $idSites The list of sites the segment will be used with. Some segments are
      *                       dependent on the site, such as goal segments.
+     * @param Date|null $startDate start date used to limit subqueries
+     * @param Date|null $endDate end date used to limit subqueries
      * @throws
      */
-    public function __construct($segmentCondition, $idSites)
+    public function __construct($segmentCondition, $idSites, Date $startDate = null, Date $endDate = null)
     {
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
@@ -98,12 +127,41 @@ class Segment
             throw new Exception("The Super User has disabled the Segmentation feature.");
         }
 
-        // First try with url decoded value. If that fails, try with raw value.
-        // If that also fails, it will throw the exception
+        $this->originalString = $segmentCondition;
+
+        if ($startDate instanceof Date) {
+            $this->startDate = $startDate;
+        }
+
+        if ($endDate instanceof Date) {
+            $this->endDate = $endDate;
+        }
+
+        // The segment expression can be urlencoded. Unfortunately, both the encoded and decoded versions
+        // can usually be parsed successfully. To pick the right one, we try both and pick the one w/ more
+        // successfully parsed subexpressions.
+        $subexpressionsDecoded = 0;
         try {
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
+            $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
         } catch (Exception $e) {
+            // ignore
+        }
+
+        $subexpressionsRaw = 0;
+        try {
             $this->initializeSegment($segmentCondition, $idSites);
+            $subexpressionsRaw = $this->segmentExpression->getSubExpressionCount();
+        } catch (Exception $e) {
+            // ignore
+        }
+
+        if ($subexpressionsRaw > $subexpressionsDecoded) {
+            $this->initializeSegment($segmentCondition, $idSites);
+            $this->isSegmentEncoded = false;
+        } else {
+            $this->initializeSegment(urldecode($segmentCondition), $idSites);
+            $this->isSegmentEncoded = true;
         }
     }
 
@@ -121,7 +179,13 @@ class Segment
     {
         // segment metadata
         if (empty($this->availableSegments)) {
-            $this->availableSegments = API::getInstance()->getSegmentsMetadata($this->idSites, $_hideImplementationData = false);
+            $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
+                'idSites' => $this->idSites,
+                '_hideImplementationData' => 0,
+                'filter_limit' => -1,
+                'filter_offset' => 0,
+                '_showAllSegments' => 1,
+            ), []);
         }
 
         return $this->availableSegments;
@@ -157,6 +221,12 @@ class Segment
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
 
         $this->string  = $string;
+
+        if (empty($idSites)) {
+            $idSites = [];
+        } else if (!is_array($idSites)) {
+            $idSites = [$idSites];
+        }
         $this->idSites = $idSites;
         $segment = new SegmentExpression($string);
         $this->segmentExpression = $segment;
@@ -171,8 +241,7 @@ class Segment
         $cleanedExpressions = array();
         foreach ($expressions as $expression) {
             $operand = $expression[SegmentExpression::INDEX_OPERAND];
-            $cleanedExpression = $this->getCleanedExpression($operand);
-            $expression[SegmentExpression::INDEX_OPERAND] = $cleanedExpression;
+            $expression[SegmentExpression::INDEX_OPERAND] = $this->getCleanedExpression($operand);
             $cleanedExpressions[] = $expression;
         }
 
@@ -188,7 +257,8 @@ class Segment
 
             $availableSegment = $this->getSegmentByName($name);
 
-            if (!empty($availableSegment['unionOfSegments'])) {
+            // We leave segments using !@ and != operands untouched for segments not on log_visit table as they will be build using a subquery
+            if (!$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name) && !empty($availableSegment['unionOfSegments'])) {
                 $count = 0;
                 foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
                     $count++;
@@ -212,6 +282,51 @@ class Segment
         }
 
         return $expressionsWithUnions;
+    }
+
+    private function isVisitSegment($name)
+    {
+        $availableSegment = $this->getSegmentByName($name);
+
+        if (!empty($availableSegment['unionOfSegments'])) {
+            foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
+                $unionSegment = $this->getSegmentByName($segmentNameOfUnion);
+                if (strpos($unionSegment['sqlSegment'], 'log_visit.') === 0) {
+                    return true;
+                }
+            }
+        } else if (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function doesSegmentNeedSubquery($operator, $segmentName)
+    {
+        $requiresSubQuery = in_array($operator, [
+                SegmentExpression::MATCH_DOES_NOT_CONTAIN,
+                SegmentExpression::MATCH_NOT_EQUAL
+            ]) && !$this->isVisitSegment($segmentName);
+
+        if ($requiresSubQuery && empty($this->startDate) && empty($this->endDate)) {
+            $e = new Exception();
+            Log::warning("Avoiding segment subquery due to missing start date and/or an end date. Please ensure a start date and/or end date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $e->getTraceAsString());
+            return false;
+        }
+
+        return $requiresSubQuery;
+    }
+
+    private function getInvertedOperatorForSubQuery($operator)
+    {
+        if ($operator === SegmentExpression::MATCH_DOES_NOT_CONTAIN) {
+            return SegmentExpression::MATCH_CONTAINS;
+        } else if ($operator === SegmentExpression::MATCH_NOT_EQUAL) {
+            return SegmentExpression::MATCH_EQUAL;
+        }
+
+        throw new Exception("Operator not support for subqueries");
     }
 
     /**
@@ -239,9 +354,6 @@ class Segment
         }
 
         $idSites = $this->idSites;
-        if (!is_array($idSites)) {
-            $idSites = array($this->idSites);
-        }
 
         return Rules::isRequestAuthorizedToArchive()
             || Rules::isBrowserArchivingAvailableForSegments()
@@ -258,6 +370,40 @@ class Segment
 
         $segment = $this->getSegmentByName($name);
         $sqlName = $segment['sqlSegment'];
+
+        // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
+        // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
+        if ($this->doesSegmentNeedSubquery($matchType, $name)) {
+            $operator = $this->getInvertedOperatorForSubQuery($matchType);
+            $stringSegment = $name . $operator . $value;
+            $segmentObj = new Segment($stringSegment, $this->idSites, $this->startDate, $this->endDate);
+
+            $select = 'log_visit.idvisit';
+            $from = 'log_visit';
+            $datetimeField = 'visit_last_action_time';
+            $where = [];
+            $bind = [];
+            if (!empty($this->idSites)) {
+                $where[] = "$from.idsite IN (" . Common::getSqlStringFieldsArray($this->idSites) . ")";
+                $bind  = $this->idSites;
+            }
+            if ($this->startDate instanceof Date) {
+                $where[] = "$from.$datetimeField >= ?";
+                $bind[] = $this->startDate->toString(Date::DATE_TIME_FORMAT);
+            }
+            if ($this->endDate instanceof Date) {
+                $where[] = "$from.$datetimeField <= ?";
+                $bind[] = $this->endDate->toString(Date::DATE_TIME_FORMAT);
+            }
+
+            $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+            $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
+            $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
+            $query = $segmentObj->getSelectQuery($select, $from, implode(' AND ', $where), $bind);
+            $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
+
+            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query];
+        }
 
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
@@ -321,18 +467,20 @@ class Segment
      *
      * @param string $select The select clause. Should NOT include the **SELECT** just the columns, eg,
      *                       `'t1.col1 as col1, t2.col2 as col2'`.
-     * @param array $from Array of table names (without prefix), eg, `array('log_visit', 'log_conversion')`.
+     * @param array|string $from Array of table names (without prefix), eg, `array('log_visit', 'log_conversion')`.
      * @param false|string $where (optional) Where clause, eg, `'t1.col1 = ? AND t2.col2 = ?'`.
      * @param array|string $bind (optional) Bind parameters, eg, `array($col1Value, $col2Value)`.
      * @param false|string $orderBy (optional) Order by clause, eg, `"t1.col1 ASC"`.
      * @param false|string $groupBy (optional) Group by clause, eg, `"t2.col2"`.
      * @param int $limit Limit number of result to $limit
      * @param int $offset Specified the offset of the first row to return
+     * @param bool $forceGroupBy Force the group by and not using a subquery. Note: This may make the query slower see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
+     *                           A $groupBy value needs to be set for this to work. 
      * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
      *              Use only when you're not aggregating or it will sample the data.
      * @return string The entire select query.
      */
-    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0)
+    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false)
     {
         $segmentExpression = $this->segmentExpression;
 
@@ -341,8 +489,23 @@ class Segment
             $limitAndOffset = (int) $offset . ', ' . (int) $limit;
         }
 
-        return $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
-            $groupBy, $orderBy, $limitAndOffset);
+        try {
+            if ($forceGroupBy && $groupBy) {
+                $this->segmentQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
+            }
+            $result = $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
+                $groupBy, $orderBy, $limitAndOffset);
+        } catch (Exception $e) {
+            if ($forceGroupBy && $groupBy) {
+                $this->segmentQueryBuilder->forceInnerGroupBySubselect('');
+            }
+            throw $e;
+        }
+
+        if ($forceGroupBy && $groupBy) {
+            $this->segmentQueryBuilder->forceInnerGroupBySubselect('');
+        }
+        return $result;
     }
 
     /**
@@ -404,5 +567,35 @@ class Segment
             || $segment === $segmentCondition
             || $segment === urlencode($segmentCondition)
             || $segment === urldecode($segmentCondition);
+    }
+
+    public function getStoredSegmentName($idSite)
+    {
+        $segment = $this->getString();
+        if (empty($segment)) {
+            return Piwik::translate('SegmentEditor_DefaultAllVisits');
+        }
+
+        $availableSegments = SegmentEditor::getAllSegmentsForSite($idSite);
+
+        $foundStoredSegment = null;
+        foreach ($availableSegments as $storedSegment) {
+            if ($storedSegment['definition'] == $segment
+                || $storedSegment['definition'] == urldecode($segment)
+                || $storedSegment['definition'] == urlencode($segment)
+
+                || $storedSegment['definition'] == $this->originalString
+                || $storedSegment['definition'] == urldecode($this->originalString)
+                || $storedSegment['definition'] == urlencode($this->originalString)
+            ) {
+                $foundStoredSegment = $storedSegment;
+            }
+        }
+
+        if (isset($foundStoredSegment)) {
+            return $foundStoredSegment['name'];
+        }
+
+        return $this->isSegmentEncoded ? urldecode($segment) : $segment;
     }
 }

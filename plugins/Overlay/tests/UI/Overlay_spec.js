@@ -152,8 +152,7 @@ describe("Overlay", function () {
         testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
         testEnvironment.save();
 
-        console.log(`[Note: token auth is ${testEnvironment.tokenAuth}]`);
-        await page.goto(baseUrl + '&token_auth=' + testEnvironment.tokenAuth + hash);
+        await page.goto(baseUrl + '&token_auth=a4ca4238a0b923820dcc509a6f75849f' + hash);
         await page.waitFor('.overlayMainMetrics,.overlayNoData');
 
         await removeOptOutIframe();

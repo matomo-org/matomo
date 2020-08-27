@@ -5,7 +5,7 @@
         "DBSize": "Tietokannan koko",
         "EstimatedSize": "Arvioitu koko",
         "IndexSize": "Indeksien koko",
-        "LearnMore": "Jos haluat tietää enemmän Matomon tietojen käsittelystä ja Matomon optimoinnista isoille verkkosivuille, lue lisää aiheesta osoitteesta %s.",
+        "LearnMore": "Jos haluat tietää enemmän Matomon tietojen käsittelystä ja Matomon optimoinnista isoille sivustoille, lue lisää aiheesta osoitteesta %s.",
         "MainDescription": "Matomo tallentaa kaikki tiedot MySQL-tietokantaan. Matomon taulut käyttävät tilaa %s.",
         "MetricDataByYear": "Metriikat vuosittain",
         "MetricTables": "Metriikkataulut",

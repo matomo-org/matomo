@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>2013</prettyDate>
+	<metadata>
+		<category>Visitors</category>
+		<subcategory>customdimension1</subcategory>
+		<name>MyName1</name>
+		<module>CustomDimensions</module>
+		<action>getCustomDimension</action>
+		<parameters>
+			<idDimension>1</idDimension>
+		</parameters>
+		<dimension>MyName1</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		</processedMetrics>
+		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=1&amp;period=year&amp;date=2013-01-23</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=1&amp;period=year&amp;date=2004-01-01,2013-12-31</imageGraphEvolutionUrl>
+		<uniqueId>CustomDimensions_getCustomDimension_idDimension--1</uniqueId>
+	</metadata>
+	<columns>
+		<label>MyName1</label>
+		<nb_visits>Visits</nb_visits>
+		<nb_actions>Actions</nb_actions>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+	</columns>
+	<reportData>
+		<row>
+			<label>value1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:01</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>value5 1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>3</nb_actions>
+			<nb_actions_per_visit>3</nb_actions_per_visit>
+			<avg_time_on_site>00:12:02</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
+		</row>
+		<row>
+			<label>Value not defined</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+	</reportData>
+	<reportMetadata>
+		<row>
+			<segment>dimension1==value1</segment>
+		</row>
+		<row>
+			<segment>dimension1==value5+1</segment>
+		</row>
+		<row>
+			<segment>dimension1==</segment>
+		</row>
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>3</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>723</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>3</nb_conversions>
+				
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>0</revenue>
+		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_actions_per_visit>1.7</nb_actions_per_visit>
+	</reportTotal>
+</result>

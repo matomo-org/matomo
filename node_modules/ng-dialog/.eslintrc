@@ -1,0 +1,27 @@
+// http://eslint.org/docs/rules
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "strict": 0,
+    "no-extra-strict": 0,
+    "quotes": [2, "single"],
+    "no-underscore-dangle": 0,
+    "no-unused-vars": 1,
+    "no-unused-expressions": 0,
+    "new-cap": 0,
+    "consistent-return": 0,
+    "no-use-before-define": 0,
+    "no-shadow-restricted-names": 0
+  },
+  "globals": {
+    "angular": true,
+    "define": true,
+    "expect": true,
+    "inject": true,
+    "jasmine": true
+  }
+}

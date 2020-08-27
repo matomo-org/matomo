@@ -38,11 +38,26 @@
             {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
         </div>
 
-        <div piwik-field uicontrol="select" name="report_period"
+        <div piwik-field uicontrol="select" name="report_schedule"
              options="{{ periods|json_encode }}"
              ng-model="manageScheduledReport.report.period"
+             ng-change="manageScheduledReport.report.periodParam = manageScheduledReport.report.period === 'never' ? null : manageScheduledReport.report.period"
              data-title="{{ 'ScheduledReports_EmailSchedule'|translate|e('html_attr') }}"
              inline-help="#emailScheduleInlineHelp">
+        </div>
+
+        <div id="emailReportPeriodInlineHelp" class="inline-help-node">
+            {{ 'ScheduledReports_ReportPeriodHelp'|translate }}
+            <br/><br/>
+            {{ 'ScheduledReports_ReportPeriodHelp2'|translate }}
+        </div>
+
+        <div piwik-field uicontrol="select" name="report_period"
+             options="{{ paramPeriods|json_encode }}"
+             ng-model="manageScheduledReport.report.periodParam"
+             title="{{ 'ScheduledReports_ReportPeriod'|translate|e('html_attr') }}"
+             inline-help="#emailReportPeriodInlineHelp"
+        >
         </div>
 
         <div piwik-field uicontrol="select" name="report_hour"
@@ -142,10 +157,10 @@
                     <ul class='listReports'>
                         {% for report in reports %}
                             <li>
-                                <input type='{{ reportInputType }}' id="{{ reportType }}{{ report.uniqueId }}" report-unique-id='{{ report.uniqueId }}'
-                                       name='{{ reportType }}Reports'/>
-                                <label for="{{ reportType }}{{ report.uniqueId }}">
-                                    {{ report.name|rawSafeDecoded }}
+                                <label>
+                                    <input type='{{ reportInputType }}' id="{{ reportType }}{{ report.uniqueId }}" report-unique-id='{{ report.uniqueId }}'
+                                           name='{{ reportType }}Reports'/>
+                                    <span>{{ report.name|rawSafeDecoded }}</span>
                                     {% if report.uniqueId=='MultiSites_getAll' %}
                                         <div class="entityInlineHelp">{{ 'ScheduledReports_ReportIncludeNWebsites'|translate(countWebsites)
                                             }}</div>

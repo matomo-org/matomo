@@ -1,7 +1,9 @@
 {
     "Ecommerce": {
+        "PluginDescription": "E-handel låter dig spåra när användare lägger till produkter i varukorgen, och när de genomför ett köp. Spårar även visningar av produkter och produktkategorier såväl som övergivna varukorgar.",
         "Sales": "Försäljning",
         "Order": "Order",
+        "OrderId": "Order ID",
         "Orders": "Ordrar",
         "SalesBy": "Försäljning genom %s",
         "SalesAdjective": "Försäljning %s",

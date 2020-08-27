@@ -1,4 +1,4 @@
-{{ postEvent("Template.beforeTopBar", userAlias, userLogin, topMenu) }}
+{{ postEvent("Template.beforeTopBar", userLogin, topMenu) }}
 <ul class="right hide-on-med-and-down">
     {% macro menuItemLabel(label, icon) %}
         {% if icon is defined and icon and icon starts with 'icon-' %}
@@ -30,17 +30,17 @@
         {% set topMenuAction = currentAction %}
     {% endif %}
 
-    {% spaceless %}
+    {% apply spaceless %}
         {% for label,menu in topMenu %}
             <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}">{{ _self.topMenuItem(label, menu._icon, menu) }}</li>
         {% endfor %}
-    {% endspaceless %}
+    {% endapply %}
 </ul>
-<ul class="side-nav hide-on-large-only" id="mobile-top-menu">
+<ul class="sidenav hide-on-large-only" id="mobile-top-menu">
     {% for label,menu in topMenu %}
         <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
             >{{ _self.topMenuItem(label, '', menu) }}</li>
     {% endfor %}
 </ul>
-<a href="javascript:;" data-activates="mobile-left-menu" class="activateLeftMenu hide-on-large-only button-collapse" style="display:none;"><span class="icon-menu-hamburger"></span></a>
-<a href="javascript:;" data-activates="mobile-top-menu" class="activateTopMenu hide-on-large-only button-collapse"><span class="icon-more-verti"></span></a>
+<a href="javascript:;" data-target="mobile-left-menu" class="activateLeftMenu hide-on-large-only button-collapse sidenav-trigger" style="display:none;"><span class="icon-menu-hamburger"></span></a>
+<a href="javascript:;" data-target="mobile-top-menu" class="activateTopMenu hide-on-large-only button-collapse sidenav-trigger"><span class="icon-more-verti"></span></a>

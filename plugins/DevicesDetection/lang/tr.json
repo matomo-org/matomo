@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Kullanıcı uygulaması %1$s olarak algılandı. Bu kullanıcı uygulaması ile yapılan ziyaretler Matomo tarafından varsayılan olarak izlenmeyecek.",
         "BrowserEngine": "Tarayıcı motoru",
         "BrowserEngineDocumentation": "Bu rapor ziyaretçilerin web tarayıcılarının tarayıcı motorlarına göre dağılımını görüntüler. %s Web tasarımcıları için en önemli bilgi ziyaretçilerin kullandığı görüntüleme motorudur. Etiketlerde motorların adı ve yanında köşeli parantez içinde bu motoru en çok kullanan tarayıcı görüntülenir.",
         "BrowserEngines": "Tarayıcı motorları",
@@ -37,6 +38,7 @@
         "PluginDescription": "Marka (Üretici), Model (aygıt sürümü), aygıt türü (tv, oyun konsolu, akıllı telefon, masaüstü gibi) özellikleri içeren kullanıcı aygıtları ile ilgili ek bilgileri kapsar.",
         "SmartDisplay": "Akıllı Görüntüleyici",
         "Smartphone": "Akıllı Telefon",
+        "SmartSpeaker": "Akıllı hoparlör",
         "PortableMediaPlayer": "Taşınabilir Ortam Oynatıcısı",
         "Devices": "Aygıtlar",
         "GenericDevice": "Genel %s",
@@ -45,7 +47,13 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "User-Agent",
+        "Library": "Kitaplık",
+        "FeedReader": "Akış Okuyucu",
+        "MobileApp": "Mobil Uygulama",
+        "Pim": "Kişisel Bilgi Yöneticisi",
+        "MediaPlayer": "Ortam Oynatıcı",
         "XVisitsFromDevices": "%2$s aygıttan %1$s ziyaret",
+        "Wearable": "Giyilebilir",
         "WidgetBrowsers": "Ziyaretçi Tarayıcısı",
         "WidgetBrowsersDocumentation": "Bu rapor ziyaretçilerinizin kullandığı tarayıcı türlerini kapsar. Tarayıcı sürümleri ayrı ayrı listelenmiştir."
     }

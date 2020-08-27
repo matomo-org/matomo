@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -47,6 +47,7 @@ class WebNotificationHandler extends AbstractProcessingHandler
         }
 
         $message = $record['level_name'] . ': ' . htmlentities($record['message'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
+        $message .= $this->getLiteDebuggingInfo();
 
         $notification = new Notification($message);
         $notification->context = $context;
@@ -57,5 +58,31 @@ class WebNotificationHandler extends AbstractProcessingHandler
             // Can happen if this handler is enabled in CLI
             // Silently ignore the error.
         }
+    }
+
+    private function getLiteDebuggingInfo()
+    {
+        $info = [
+            'Module' => Common::getRequestVar('module', false),
+            'Action' => Common::getRequestVar('action', false),
+            'Method' => Common::getRequestVar('method', false),
+            'Trigger' => Common::getRequestVar('trigger', false),
+            'In CLI mode' => Common::isPhpCliMode() ? 'true' : 'false',
+        ];
+
+        $parts = [];
+        foreach ($info as $title => $value) {
+            if (empty($value)) {
+                continue;
+            }
+
+            $parts[] = "$title: $value";
+        }
+
+        if (empty($parts)) {
+            return "";
+        }
+
+        return "\n(" . implode(', ', $parts) . ")";
     }
 }

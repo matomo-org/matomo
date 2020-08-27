@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Aggregierte Zeilen werden angezeigt %s Ausschließen",
         "DataTableIncludeAggregateRows": "Aggregierte Zeilen sind ausgeschlossen %s Wieder anzeigen",
         "DataTableHowToSearch": "Drücken Sie Enter oder klicken Sie auf das Such-Symbol um eine Suche zu starten.",
+        "DataTableShowDimensions": "Dimensionen wurden zusammengefasst %s Dimensionen separat anzeigen",
+        "DataTableCombineDimensions": "Dimensionen werden einzeln angezeigt %s Dimensionen zusammengefasst anzeigen",
         "Default": "Standard",
         "DonateCall1": "Die Nutzung von Matomo wird immer kostenlos bleiben, was aber nicht heißt, dass es uns nichts kostet, es zu erstellen.",
         "DonateCall2": "Matomo braucht Ihre dauerhafte Unterstützung um zu wachsen und zu gedeihen.",
@@ -100,10 +102,14 @@
         "RowLimit": "Zeilenlimit",
         "CustomLimit": "Eigenes Limit",
         "ExportFormat": "Exportformat",
+        "ExportTooltip": "Hinweis: Die generierte Export URL wird nur in der aktuellen Browser Session funktionieren. Wenn Sie sie andernorts verwenden wollen, müssen Sie einen appspezifischen Token verwenden. Sie können diese Token in Admin -> Security ->Token Auths konfigurieren.",
         "ExpandSubtables": "Erweitere Untertabellen",
         "StandardReport": "Standard Bericht",
         "FlattenReport": "Flacher Bericht",
         "ReportWithMetadata": "Bericht mit Metadaten",
-        "SeeAvailableVersions": "Zeige verfügbare Versionen"
+        "ReadMoreOnlineGuide": "Lesen Sie mehr zu diesem Thema in der Online-Anleitung.",
+        "SeeAvailableVersions": "Zeige verfügbare Versionen",
+        "QuickLinks": "Schnelllinks",
+        "Profilable": "Profilierbar"
     }
 }

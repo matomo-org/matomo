@@ -13,8 +13,6 @@
         "EcommerceHelp": "ang \"Goals\" na ulat ay magkakaroon ng bagong \"Ecommerce\" na seksyon.",
         "EnableEcommerce": "Pinagana ang E-commerce",
         "EnableSiteSearch": "Gumagana ang Site Search tracking",
-        "EnableSiteSpecificUserAgentExclude": "Paganahin ang partikular na pagbubukod sa ahente ng user ng website.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Kung kailangan mo upang ibukod ang iba't ibang mga user agent na gumagamit para sa iba't ibang mga website e-check ang box na ito i-click ang save at %1$sidagdag ang user agents sa itaas%2$s",
         "ExceptionDeleteSite": "Ito ay hindi pwedeng tanggalin sa website dahil ito ay ang tanging kaisa-isahang rehistradong wesbite. Mag-dagdag muna ng isang bagong website pagkatapos tanggalin na ang isang ito.",
         "ExceptionEmptyName": "Ang pangalan ng website ay hindi maaring walang laman.",
         "ExceptionInvalidCurrency": "Ang currency \"%1$s\" ay hindi tama. Mangyarin ilagay ang tamang currency symbol (hal. %2$s).",

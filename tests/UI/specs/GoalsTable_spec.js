@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * GoalsTable screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,8 +13,9 @@ describe("GoalsTable", function () {
 
     it("should load when the goals icon is clicked", async function () {
         await page.goto(url);
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=tableGoals]');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
@@ -24,7 +25,8 @@ describe("GoalsTable", function () {
         const allGoalsUrl = page.url().replace(/viewDataTable=[^&]*/, "viewDataTable=tableGoals") + "&idGoal=0";
         await page.goto(allGoalsUrl);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('goals_table_full');
+        const table = await page.$('table.dataTable');
+        expect(await table.screenshot()).to.matchImage('goals_table_full');
     });
 
     it("should show columns for a single goal when idGoal is 1", async function () {
@@ -49,8 +51,9 @@ describe("GoalsTable", function () {
     });
 
     it("should show abandoned carts data when the abandoned carts link is clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=ecommerceAbandonedCart]');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('goals_table_abandoned_carts');

@@ -14,11 +14,12 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/exit-page</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fexit-page</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fexit-page</segment>
 	</row>
 	<row>
 		<label>page</label>
@@ -31,6 +32,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
@@ -51,7 +53,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/page/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage%2Findex.htm%3Fwhatever%3D%EC%E5%F8%EA%EE%E2%FB%E5</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage%252Findex.htm%253Fwhatever%253D%2525EC%2525E5%2525F8%2525EA%2525EE%2525E2%2525FB%2525E5</segment>
 			</row>
 		</subtable>
 	</row>
