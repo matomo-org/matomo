@@ -61,6 +61,11 @@ class DiagnosticResult
      */
     public static function informationalResult($label, $comment = '')
     {
+        if ($comment === true) {
+            $comment = '1';
+        } elseif ($comment === false) {
+            $comment = '0';
+        }
         $result = new self($label);
         $result->addItem(new DiagnosticResultItem(self::STATUS_INFORMATIONAL, $comment));
         return $result;

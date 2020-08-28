@@ -162,7 +162,7 @@ class DiagnosticReport
         }
         $suhosin_installed = ( extension_loaded( 'suhosin' ) || ( defined( 'SUHOSIN_PATCH' ) && constant( 'SUHOSIN_PATCH' ) ) );
 
-        $results[] = DiagnosticResult::informationalResult('Suhosin Installed', (int) $suhosin_installed);
+        $results[] = DiagnosticResult::informationalResult('Suhosin Installed', $suhosin_installed);
 
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
             $results[] = DiagnosticResult::informationalResult('User Agent', $_SERVER['HTTP_USER_AGENT']);
@@ -217,13 +217,15 @@ class DiagnosticReport
             $results[] = DiagnosticResult::informationalResult('Had visits in last 3 days', $this->hadVisitsInLastDays(3));
             $results[] = DiagnosticResult::informationalResult('Had visits in last 5 days', $this->hadVisitsInLastDays(5));
 
-            $results[] = DiagnosticResult::informationalResult('Browser Archiving Enabled', (int) Rules::isBrowserTriggerEnabled());
-            $results[] = DiagnosticResult::informationalResult('Browser Segment Archiving Enabled', (int) Rules::isBrowserArchivingAvailableForSegments());
-            $results[] = DiagnosticResult::informationalResult('Development Mode Enabled', (int) Development::isEnabled());
-            $results[] = DiagnosticResult::informationalResult('Internet Enabled',(int) SettingsPiwik::isInternetEnabled());
-            $results[] = DiagnosticResult::informationalResult('Multi Server Environment',(int) SettingsPiwik::isMultiServerEnvironment());
+            $results[] = DiagnosticResult::informationalResult('Browser Archiving Enabled', Rules::isBrowserTriggerEnabled());
+            $results[] = DiagnosticResult::informationalResult('Browser Segment Archiving Enabled',  Rules::isBrowserArchivingAvailableForSegments());
+            $results[] = DiagnosticResult::informationalResult('Development Mode Enabled', Development::isEnabled());
+            $results[] = DiagnosticResult::informationalResult('Internet Enabled',SettingsPiwik::isInternetEnabled());
+            $results[] = DiagnosticResult::informationalResult('Multi Server Environment', SettingsPiwik::isMultiServerEnvironment());
             $results[] = DiagnosticResult::informationalResult('Archive Time Last Started', Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS));
             $results[] = DiagnosticResult::informationalResult('Archive Time Last Finished', Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS));
+            $results[] = DiagnosticResult::informationalResult('Custom User Path', PIWIK_USER_PATH != PIWIK_DOCUMENT_ROOT);
+            $results[] = DiagnosticResult::informationalResult('Custom Include Path', PIWIK_INCLUDE_PATH != PIWIK_DOCUMENT_ROOT);
         }
         return $results;
     }
@@ -253,9 +255,9 @@ class DiagnosticReport
         }
 
         if (!empty($row)) {
-            return Piwik::translate('General_Yes');
+            return '1';
         }
-        return Piwik::translate('General_No');
+        return '0';
     }
 
     private function computeErrorAndWarningCount()
