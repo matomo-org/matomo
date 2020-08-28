@@ -561,7 +561,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/Installation/javascripts/installation.js',
         );
 
-        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
+            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
             $files[] = 'tests/resources/screenshot-override/override.js';
         }
 

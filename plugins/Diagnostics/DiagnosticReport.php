@@ -174,7 +174,11 @@ class DiagnosticReport
             $results[] = DiagnosticResult::informationalResult('DB Prefix', $dbConfig['tables_prefix']);
             $results[] = DiagnosticResult::informationalResult('DB Charset', $dbConfig['charset']);
             $results[] = DiagnosticResult::informationalResult('DB Adapter', $dbConfig['adapter']);
-            $results[] = DiagnosticResult::informationalResult('MySQL Version', Db::get()->getServerVersion());
+            try {
+                $results[] = DiagnosticResult::informationalResult('MySQL Version', Db::get()->getServerVersion());
+            } catch (\Exception $e) {
+                $results[] = DiagnosticResult::informationalResult('MySQL Version', $e->getMessage());
+            }
             $results[] = DiagnosticResult::informationalResult('Num Tables', $this->getNumMatomoTables());
 
             $pluginsActivated = array();
