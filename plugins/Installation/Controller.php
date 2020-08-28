@@ -561,6 +561,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/Installation/javascripts/installation.js',
         );
 
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            $files[] = 'tests/resources/screenshot-override/override.js';
+        }
+
         return AssetManager::compileCustomJs($files);
     }
     

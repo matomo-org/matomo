@@ -18,8 +18,6 @@ $(document).ready(function () {
                 }, 100);
             });
         }
-    } else {
-        setTimeout(updateSystemCheck, 100);
     }
 
     $('.ui-inline-help:contains(UTC time is)').hide();
