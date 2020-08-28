@@ -176,6 +176,7 @@ class Twig
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
         $this->addFilter_number();
+        $this->addFilter_anonymiseSystemInfo();
         $this->addFilter_nonce();
         $this->addFilter_md5();
         $this->addFilter_onlyDomain();
@@ -430,6 +431,35 @@ class Twig
     {
         $formatter = new TwigFilter('number', function ($string, $minFractionDigits = 0, $maxFractionDigits = 0) {
             return piwik_format_number($string, $minFractionDigits, $maxFractionDigits);
+        });
+        $this->twig->addFilter($formatter);
+    }
+
+    protected function addFilter_anonymiseSystemInfo()
+    {
+        $formatter = new TwigFilter('anonymiseSystemInfo', function ($string) {
+            if ($string === false || $string === null) {
+                $string = '';
+            }
+            $string = str_replace(PIWIK_DOCUMENT_ROOT, '$DOC_ROOT', $string);
+            $string = str_replace(PIWIK_USER_PATH, '$USER_PATH', $string);
+            $string = str_replace(PIWIK_INCLUDE_PATH, '$INCLUDE_PATH', $string);
+
+            // replace anything token like
+            $string = preg_replace('/[[:xdigit:]]{31,80}/', 'TOKEN_REPLACED', $string);
+
+            // just in case it was somehow show in a text
+            if (SettingsPiwik::isMatomoInstalled()) {
+                $string = str_replace(SettingsPiwik::getPiwikUrl(), '$MATOMO_URL', $string);
+                $string = str_replace(SettingsPiwik::getSalt(), '$MATOMO_SALT', $string);
+
+                $config = Config::getInstance();
+                $db = $config->database;
+                $string = str_replace($db['password'], '$DB_PASSWORD', $string);
+                $string = str_replace($db['host'], '$DB_HOST', $string);
+                $string = str_replace($db['dbname'], '$DB_NAME', $string);
+            }
+            return $string;
         });
         $this->twig->addFilter($formatter);
     }

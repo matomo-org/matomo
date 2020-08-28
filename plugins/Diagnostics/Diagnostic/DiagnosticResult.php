@@ -18,6 +18,7 @@ class DiagnosticResult
     const STATUS_ERROR = 'error';
     const STATUS_WARNING = 'warning';
     const STATUS_OK = 'ok';
+    const STATUS_INFORMATIONAL = 'informational';
 
     /**
      * @var string
@@ -49,6 +50,19 @@ class DiagnosticResult
     {
         $result = new self($label);
         $result->addItem(new DiagnosticResultItem($status, $comment));
+        return $result;
+    }
+
+    /**
+     * @param string $label
+     * @param string $status
+     * @param string $comment
+     * @return DiagnosticResult
+     */
+    public static function informationalResult($label, $comment = '')
+    {
+        $result = new self($label);
+        $result->addItem(new DiagnosticResultItem(self::STATUS_INFORMATIONAL, $comment));
         return $result;
     }
 
