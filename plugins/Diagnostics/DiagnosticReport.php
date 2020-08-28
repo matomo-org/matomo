@@ -162,7 +162,7 @@ class DiagnosticReport
         }
         $suhosin_installed = ( extension_loaded( 'suhosin' ) || ( defined( 'SUHOSIN_PATCH' ) && constant( 'SUHOSIN_PATCH' ) ) );
 
-        $results[] = DiagnosticResult::informationalResult('Suhosin installed', (int) $suhosin_installed);
+        $results[] = DiagnosticResult::informationalResult('Suhosin Installed', (int) $suhosin_installed);
 
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
             $results[] = DiagnosticResult::informationalResult('User Agent', $_SERVER['HTTP_USER_AGENT']);
@@ -183,7 +183,11 @@ class DiagnosticReport
             $plugins = Manager::getInstance()->loadAllPluginsAndGetTheirInfo();
             foreach ($plugins as $pluginName => $plugin) {
                 $string = $pluginName;
-                if (!empty($plugin['info']['version']) && !empty($plugin['uninstallable'])) {
+                if (!empty($plugin['info']['version'])
+                    && !empty($plugin['uninstallable'])
+                    && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
+                    // we only want to show versions for plugins not shipped with core
+                    // in tests we don't show version numbers to not always needing to update the screenshot
                     $string .= ' ' . $plugin['info']['version'];
                 }
                 if (!empty($plugin['activated'])) {
@@ -212,8 +216,8 @@ class DiagnosticReport
             $results[] = DiagnosticResult::informationalResult('Browser Archiving Enabled', (int) Rules::isBrowserTriggerEnabled());
             $results[] = DiagnosticResult::informationalResult('Browser Segment Archiving Enabled', (int) Rules::isBrowserArchivingAvailableForSegments());
             $results[] = DiagnosticResult::informationalResult('Development Mode Enabled', (int) Development::isEnabled());
-            $results[] = DiagnosticResult::informationalResult('Archived TS Last Started', Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS));
-            $results[] = DiagnosticResult::informationalResult('Archived TS Last Finished', Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS));
+            $results[] = DiagnosticResult::informationalResult('Archive Time Last Started', Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS));
+            $results[] = DiagnosticResult::informationalResult('Archive Time Last Finished', Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS));
         }
         return $results;
     }

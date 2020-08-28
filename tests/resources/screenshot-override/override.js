@@ -18,4 +18,8 @@ $(document).ready(function () {
     } else if ($.Velocity) {
         $.Velocity.mock = true;
     }
+
+    $('.entityTable.system-check tr:contains(Time)').text('Not showing in tests');
+    $('.entityTable.system-check tr:contains(Version) td:nth-child(2)').text('Not showing in tests');
+    $('.entityTable.system-check tr:contains(User Agent) td:nth-child(2)').text('Not showing in tests');
 });
