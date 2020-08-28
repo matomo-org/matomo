@@ -47,7 +47,7 @@
 
 <h3>{{ 'Installation_InformationalResults'|translate }}</h3>
 
-<table class="entityTable system-check" id="systemCheckOptional" piwik-content-table>
+<table class="entityTable system-check" id="systemCheckInformational" piwik-content-table>
     {{ local.diagnosticTable(diagnosticReport.getInformationalResults()) }}
 </table>
 
@@ -72,7 +72,7 @@
                     {% elseif item.status == warning %}
                         {{ warningIcon }} {{ item.comment|raw }}
                     {% elseif item.status == informational %}
-                        {{ item.comment|raw }}
+                        {{ item.comment }}
                     {% else %}
                         {{ okIcon }} {{ item.comment|raw }}
                     {% endif %}

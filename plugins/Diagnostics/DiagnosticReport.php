@@ -216,6 +216,8 @@ class DiagnosticReport
             $results[] = DiagnosticResult::informationalResult('Browser Archiving Enabled', (int) Rules::isBrowserTriggerEnabled());
             $results[] = DiagnosticResult::informationalResult('Browser Segment Archiving Enabled', (int) Rules::isBrowserArchivingAvailableForSegments());
             $results[] = DiagnosticResult::informationalResult('Development Mode Enabled', (int) Development::isEnabled());
+            $results[] = DiagnosticResult::informationalResult('Internet Enabled',(int) SettingsPiwik::isInternetEnabled());
+            $results[] = DiagnosticResult::informationalResult('Multi Server Environment',(int) SettingsPiwik::isMultiServerEnvironment());
             $results[] = DiagnosticResult::informationalResult('Archive Time Last Started', Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS));
             $results[] = DiagnosticResult::informationalResult('Archive Time Last Finished', Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS));
         }

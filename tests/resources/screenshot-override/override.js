@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $('.entityTable.system-check tr:contains(Time) td:nth-child(2)').text('Not showing in tests');
+    $('.entityTable.system-check tr:contains(Version) td:nth-child(2)').text('Not showing in tests');
+    $('.entityTable.system-check tr:contains(User Agent) td:nth-child(2)').text('Not showing in tests');
+
     $('.ui-inline-help:contains(UTC time is)').hide();
 
     $('[notification-id=ControllerAdmin_HttpIsUsed]').hide();
@@ -18,8 +22,4 @@ $(document).ready(function () {
     } else if ($.Velocity) {
         $.Velocity.mock = true;
     }
-
-    $('.entityTable.system-check tr:contains(Time)').hide();
-    $('.entityTable.system-check tr:contains(Version)').hide();
-    $('.entityTable.system-check tr:contains(User Agent)').hide();
 });

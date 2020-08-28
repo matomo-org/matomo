@@ -438,8 +438,11 @@ class Twig
     protected function addFilter_anonymiseSystemInfo()
     {
         $formatter = new TwigFilter('anonymiseSystemInfo', function ($string) {
-            if ($string === false || $string === null) {
+            if ($string === null) {
                 $string = '';
+            }
+            if ($string === false || $string === true) {
+                $string = (int) $string;
             }
             $string = str_replace(PIWIK_DOCUMENT_ROOT, '$DOC_ROOT', $string);
             $string = str_replace(PIWIK_USER_PATH, '$USER_PATH', $string);
