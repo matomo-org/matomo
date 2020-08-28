@@ -7,15 +7,17 @@ $(document).ready(function () {
     }
     updateSystemCheck();
 
-    var $timeout = piwikHelper.getAngularDependency('$timeout');
-    if ($timeout){
-        $timeout(function () {
-            // because of angular rendering replacing the content potentially...
-            updateSystemCheck();
+    if (window.piwikHelper) {
+        var $timeout = piwikHelper.getAngularDependency('$timeout');
+        if ($timeout){
             $timeout(function () {
+                // because of angular rendering replacing the content potentially...
                 updateSystemCheck();
-            }, 100);
-        });
+                $timeout(function () {
+                    updateSystemCheck();
+                }, 100);
+            });
+        }
     } else {
         setTimeout(updateSystemCheck, 100);
     }
