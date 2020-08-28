@@ -2,7 +2,7 @@
 <p>{{ 'Installation_CopyBelowInfoForSupport'|translate }}
     <br/> <br/>
     <a href="javascript:void(0);"
-       onclick="var textarea = document.getElementById('matomo_system_check_info');textarea.select();document.execCommand('copy');"
+       onclick="var textarea = document.getElementById('matomo_system_check_info');textarea.select();document.execCommand('copy');jQuery(textarea).effect('highlight', {}, 600)"
        class='btn'>{{ 'Installation_CopySystemCheck'|translate }}</a>
 
 </p>
