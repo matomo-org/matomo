@@ -53,8 +53,9 @@ class Country extends Base
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
         $countryList = $regionDataProvider->getCountryList();
         array_walk($countryList, function(&$item, $key) {
-            $item = Piwik::translate('Intl_Country_'.strtoupper($key), [], 'en');
+            $item = Piwik::translate('Intl_Country_'.strtoupper($key));
         });
+        asort($countryList); // order by localized name
 
         $segment->setSqlFilterValue(function ($val) use ($countryList) {
             $result   = array_search($val, $countryList);
