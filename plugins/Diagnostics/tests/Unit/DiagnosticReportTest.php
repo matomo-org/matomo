@@ -17,7 +17,8 @@ class DiagnosticReportTest extends \PHPUnit\Framework\TestCase
     {
         $report = new DiagnosticReport(
             array(DiagnosticResult::singleResult('Error', DiagnosticResult::STATUS_ERROR, 'Comment')),
-            array(DiagnosticResult::singleResult('Warning', DiagnosticResult::STATUS_WARNING, 'Comment'))
+            array(DiagnosticResult::singleResult('Warning', DiagnosticResult::STATUS_WARNING, 'Comment')),
+            array(DiagnosticResult::informationalResult('Test', 'Comment'))
         );
 
         $this->assertEquals(1, $report->getErrorCount());
@@ -25,7 +26,7 @@ class DiagnosticReportTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $report->getWarningCount());
         $this->assertTrue($report->hasWarnings());
 
-        $report = new DiagnosticReport(array(), array());
+        $report = new DiagnosticReport(array(), array(), array());
 
         $this->assertEquals(0, $report->getErrorCount());
         $this->assertFalse($report->hasErrors());
@@ -37,7 +38,8 @@ class DiagnosticReportTest extends \PHPUnit\Framework\TestCase
     {
         $report = new DiagnosticReport(
             array(DiagnosticResult::singleResult('Error', DiagnosticResult::STATUS_ERROR, 'Comment')),
-            array(DiagnosticResult::singleResult('Warning', DiagnosticResult::STATUS_WARNING, 'Comment'))
+            array(DiagnosticResult::singleResult('Warning', DiagnosticResult::STATUS_WARNING, 'Comment')),
+            array(DiagnosticResult::informationalResult('Test', 'Comment'))
         );
 
         $this->assertCount(1, $report->getMandatoryDiagnosticResults());

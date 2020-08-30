@@ -8,9 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\CronArchive;
 use Piwik\Development;
-use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;

@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\CliMulti\CliPhp;
 use Piwik\Date;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
@@ -33,19 +34,21 @@ class PhpInformational implements Diagnostic
         if (defined('PHP_OS') && PHP_OS) {
             $results[] = DiagnosticResult::informationalResult('PHP_OS',  PHP_OS);
         }
-        if (defined('PHP_BINARY') && PHP_BINARY) {
+        if (SettingsPiwik::isMatomoInstalled() && defined('PHP_BINARY') && PHP_BINARY) {
             $results[] = DiagnosticResult::informationalResult('PHP_BINARY', PHP_BINARY);
         }
         $results[] = DiagnosticResult::informationalResult('PHP SAPI', php_sapi_name());
 
-        $cliPhp = new CliPhp();
-        $binary = $cliPhp->findPhpBinary();
-        if (!empty($binary)) {
-            $binary = basename($binary);
-            $rows[] = array(
-                'name'  => 'PHP Found Binary',
-                'value' => $binary,
-            );
+        if (SettingsPiwik::isMatomoInstalled()) {
+            $cliPhp = new CliPhp();
+            $binary = $cliPhp->findPhpBinary();
+            if (!empty($binary)) {
+                $binary = basename($binary);
+                $rows[] = array(
+                    'name' => 'PHP Found Binary',
+                    'value' => $binary,
+                );
+            }
         }
         $results[] = DiagnosticResult::informationalResult('PHP Timezone', date_default_timezone_get());
         $results[] = DiagnosticResult::informationalResult('PHP Time', time());
