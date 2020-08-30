@@ -44,6 +44,7 @@ class DiagnosticReportTest extends \PHPUnit\Framework\TestCase
 
         $this->assertCount(1, $report->getMandatoryDiagnosticResults());
         $this->assertCount(1, $report->getOptionalDiagnosticResults());
-        $this->assertCount(2, $report->getAllResults());
+        $this->assertCount(1, $report->getInformationalResults());
+        $this->assertCount(3, $report->getAllResults());
     }
 }
