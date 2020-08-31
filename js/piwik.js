@@ -500,6 +500,14 @@ if (typeof window.Matomo !== 'object') {
             isPageUnloading = true;
 
             executePluginMethod('unload');
+
+            now  = new Date();
+            var aliasTime = now.getTimeAlias();
+            if( (expireDateTime - aliasTime) > 3000) // fix bug #12108
+            {
+                expireDateTime = aliasTime + 3000;
+            }
+            
             /*
              * Delay/pause (blocks UI)
              */
