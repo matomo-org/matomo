@@ -16,3 +16,12 @@ if (!function_exists("\DI\object")) {
     }
 
 }
+
+if (!function_exists("\DI\link")) {
+
+    function link()
+    {
+        return call_user_func_array("\DI\get", func_get_args());
+    }
+
+}
