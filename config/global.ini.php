@@ -903,6 +903,17 @@ enable_spam_filter = 1
 ; requests may be discarded due to too low lock wait time.
 innodb_lock_wait_timeout = 0
 
+; Allows you to exclude specific requests from being tracked. The definition is similar to segments.
+; The following operands are supported: Equals: `==`, Not equals: `!=`, Contains: `=@`, Not Contains: `!@`, Starts with: `=^`, Ends with: `=$`.
+; The structure is as following: {tracking parameter}{operand}{value to match}.
+; For example "e_c==Media" means that all tracking requests will be excluded where the event category is Media.
+; Multiple exclusions can be configured separated by a comma. The request will be excluded if any expressions matches (not all of them). For example: "e_c==Media,action_name=@privacy".
+; This would also exclude any request from being tracked where the page title contains privacy.
+; All comparisons are performed case insensitve. The value to match on the right side should be URL encoded.
+; For example: "action_name=^foo%2Cbar" would exclude page titles that start with "foo,bar".
+; For a list of tracking parameters you can use on the left side view https://developer.matomo.org/api-reference/tracking-api
+exclude_requests = ""
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data

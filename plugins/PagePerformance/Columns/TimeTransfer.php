@@ -58,7 +58,8 @@ class TimeTransfer extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_transfer');
-        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTransferTime'));
+        $metric3->setType(self::TYPE_NUMBER);
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeTransfer'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -67,8 +68,8 @@ class TimeTransfer extends ActionDimension
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_time_transfer');
-        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTransferTime'));
-        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTransferTimeDocumentation'));
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTimeTransfer'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTimeTransferDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

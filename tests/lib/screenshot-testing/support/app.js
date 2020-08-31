@@ -298,7 +298,7 @@ Application.prototype.doRunTests = function (mocha) {
     this.runner = mocha.run(function (failures) {
         // remove symlinks
         if (!options['keep-symlinks']) {
-            var symlinks = ['libs', 'plugins', 'tests', 'misc', 'piwik.js', 'matomo.js'];
+            var symlinks = ['libs', 'plugins', 'tests', 'misc', 'node_modules', 'piwik.js', 'matomo.js'];
 
             symlinks.forEach(function (item) {
                 var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);

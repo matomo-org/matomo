@@ -40,6 +40,8 @@
         "SubmenuLocations": "Localizações",
         "TestIPLocatorFailed": "O Matomo tentou confirmar a localização de um endereço de IP conhecido (%1$s), mas o seu servidor não devolveu qualquer informação. Este fornecedor pode não estar configurado corretamente (por exemplo, a base de dados de geolocalização pode ter um nome incorreto ou estar num diretório errado).",
         "ToGeolocateOldVisits": "Para obter os dados de localização para as suas visitas antigas, utilize o script descrito %1$saqui%2$s.",
-        "WidgetLocation": "Localização do visitante"
+        "WidgetLocation": "Localização do visitante",
+        "GeoIpDbIpAccuracyNote": "Nota: as base de dados DBIP são gratuitas e podem ser transferidas automaticamente mas, os resultados de geolocalização (especialmente os resultados em cidades) não são tão precisos como os da MaxMind. No entanto, a MaxMind, requer que crie uma conta, mesmo para uma base de dados gratuita. Se quiser utilizar uma base de dados de geolocalização da MaxMind, pode iniciar o processo %1$saqui%2$s",
+        "MaxMindLinkExplanation": "Se está a utilizar as bases de dados de geolocalização da MaxMind e ainda não sabe como gerar a sua ligação de transferência, %1$sclique aqui para saber como%2$s."
     }
 }

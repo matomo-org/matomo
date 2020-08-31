@@ -11,21 +11,21 @@
     var configs = {};
 
     function init() {
-        if ('object' === typeof window && 'object' === typeof window.Piwik && 'object' === typeof window.Piwik.ExampleTracker) {
+        if ('object' === typeof window && 'object' === typeof window.Matomo && 'object' === typeof window.Matomo.ExampleTracker) {
             // do not initialize twice
             return;
         }
 
-        if ('object' === typeof window && !window.Piwik) {
-            // piwik is not defined yet
+        if ('object' === typeof window && !window.Matomo) {
+            // matomo is not defined yet
             return;
         }
 
-        Piwik.ExampleTracker = {
+        Matomo.ExampleTracker = {
             // empty
         };
 
-        Piwik.addPlugin('ExampleTracker', {
+        Matomo.addPlugin('ExampleTracker', {
             log: function (eventParams) {
                 if (!eventParams || !eventParams.tracker) {
                     return '';
@@ -36,15 +36,15 @@
         });
     }
 
-    if ('object' === typeof window.Piwik) {
+    if ('object' === typeof window.Matomo) {
         init();
     } else {
         // tracker is loaded separately for sure
-        if ('object' !== typeof window.piwikPluginAsyncInit) {
-            window.piwikPluginAsyncInit = [];
+        if ('object' !== typeof window.matomoPluginAsyncInit) {
+            window.matomoPluginAsyncInit = [];
         }
 
-        window.piwikPluginAsyncInit.push(init);
+        window.matomoPluginAsyncInit.push(init);
     }
 
 })();

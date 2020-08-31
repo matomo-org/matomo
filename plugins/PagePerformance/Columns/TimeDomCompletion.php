@@ -58,7 +58,8 @@ class TimeDomCompletion extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_dom_completion');
-        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithDomCompletionTime'));
+        $metric3->setType(self::TYPE_NUMBER);
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeDomCompletion'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -66,9 +67,9 @@ class TimeDomCompletion extends ActionDimension
         $metricsList->addMetric($metric4);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
-        $metric->setName('avg_page_time_dom_completion');
-        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageDomCompletionTime'));
-        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageDomCompletionTimeDocumentation'));
+        $metric->setName('avg_time_dom_completion');
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTimeDomCompletion'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTimeDomCompletionDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

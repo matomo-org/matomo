@@ -7,7 +7,7 @@
             <p>
                 {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
                     {%- if visitorData.firstVisit.referrerType == 'website' %}
-                        <a href="{{ visitorData.firstVisit.referrerUrl|safelink|e('html_attr') }}" target="_blank">
+                        <a href="{{ visitorData.firstVisit.referrerUrl|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">
                             {{ visitorData.firstVisit.referralSummary }}
                         </a>
                     {% else %}
@@ -25,7 +25,7 @@
                 <p>
                     {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
                         {%- if visitorData.lastVisit.referrerType == 'website' %}
-                            <a href="{{ visitorData.lastVisit.referrerUrl|safelink|e('html_attr') }}" target="_blank">
+                            <a href="{{ visitorData.lastVisit.referrerUrl|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">
                                 {{ visitorData.lastVisit.referralSummary }}
                             </a>
                         {% else %}

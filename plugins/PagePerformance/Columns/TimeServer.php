@@ -58,7 +58,8 @@ class TimeServer extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_server');
-        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithServerTime'));
+        $metric3->setType(self::TYPE_NUMBER);
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeServer'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -67,8 +68,8 @@ class TimeServer extends ActionDimension
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_time_server');
-        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageServerTime'));
-        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageServerTimeDocumentation'));
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTimeServer'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTimeServerDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

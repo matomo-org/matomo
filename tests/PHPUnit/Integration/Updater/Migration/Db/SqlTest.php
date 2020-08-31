@@ -35,6 +35,20 @@ class SqlTest extends IntegrationTestCase
         $this->assertSame($this->testQuery . ';', '' . $sql);
     }
 
+    public function test_toString_shouldNotAppendSemicolonIfNoQueryGiven()
+    {
+        $sql = $this->sql('');
+
+        $this->assertSame('', '' . $sql);
+    }
+
+    public function test_exec_shouldNotFailWhenNoQueryGiven()
+    {
+        $sql = $this->sql('');
+
+        $this->assertNull($sql->exec());
+    }
+
     public function test_constructor_shouldConvertErrorCodeToArray_IfNeeded()
     {
         $sql = $this->sql($this->testQuery, 1091);

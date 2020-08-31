@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "Aynı anda en fazla %s aralık karşılaştırılabilir.",
         "Custom": "Özel",
         "PreviousPeriod": "Önceki Dönem",
-        "PreviousYear": "Önceki Yıl"
+        "PreviousYear": "Önceki Yıl",
+        "ViewAccessRequired": "Kullanılan kimlik doğrulama kodunun (token_auth) erişim izinleri, API dışı bir istek adresinde kullanılmak için çok fazla. Lütfen yalnız görüntüleme erişimi olan bir kullanıcı için uygulamaya özel bir parola kullanın."
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo Mobil Hakkında",

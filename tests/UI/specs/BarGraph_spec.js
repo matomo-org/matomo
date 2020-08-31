@@ -10,8 +10,7 @@
 describe("BarGraph", function () {
     var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b", // md5('superUserLogin' . md5('superUserPass'))
         url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
-            + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&"
-            + "token_auth=" + tokenAuth;
+            + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&";
 
     before(function () {
         // use real auth + token auth to test that auth works when widgetizing reports in an iframe
@@ -19,8 +18,13 @@ describe("BarGraph", function () {
         testEnvironment.save();
     });
 
+    it("should fail when admin token is used", async function () {
+        await page.goto(url + 'token_auth=' + tokenAuth);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('load_fail_when_token_used');
+    });
+
     it("should load correctly", async function () {
-        await page.goto(url);
+        await page.goto(url + 'token_auth=a4ca4238a0b923820dcc509a6f75849f');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });
 

@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "%s é o número máximo de períodos que podem ser comparados em simultâneo.",
         "Custom": "Personalizada",
         "PreviousPeriod": "Período Anterior",
-        "PreviousYear": "Ano Anterior"
+        "PreviousYear": "Ano Anterior",
+        "ViewAccessRequired": "A token_auth utilizada tem demasiado acesso para ser utilizada num pedido a um endereço que não pertença à API. Por favor, utilize uma palavra-passe específica da aplicação para um utilizador que apenas tenha acesso de visualização."
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Mobile",

@@ -418,7 +418,7 @@ abstract class Dimension
             case Dimension::TYPE_BOOL:
                 return !empty($value) ? '1' : '0';
             case Dimension::TYPE_DURATION_MS:
-                return number_format($value / 1000, 2); // because we divide we need to group them and cannot do this in formatting step
+                return number_format($value / 1000, 2) * 1000; // because we divide we need to group them and cannot do this in formatting step
         }
         return $value;
     }
@@ -456,7 +456,11 @@ abstract class Dimension
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
             case Dimension::TYPE_DURATION_MS:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
+                $val = number_format($value / 1000, 2);
+                if ($val > 60) {
+                    $val = round($val);
+                }
+                return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);
             case Dimension::TYPE_BYTE:

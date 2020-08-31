@@ -17,10 +17,10 @@ describe("Comparison", function () {
         compareParams = comparePeriod + compareSegment,
         barGraphUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&"
-            + "token_auth=" + tokenAuth + compareParams,
+            + compareParams,
         pieGraphUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphPie&isFooterExpandedInDashboard=1&"
-            + "token_auth=" + tokenAuth + compareParams,
+            + compareParams,
         goalsTableUrl =  "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=tableGoals&filter_limit=5&isFooterExpandedInDashboard=1" + compareParams,
         htmlTableUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"

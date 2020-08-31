@@ -93,6 +93,7 @@
         "ViewVersionChangelog": "Ver o registo de alterações para esta versão:",
         "ReceiveEmailBecauseIsSuperUser": "Recebeu este e-mail porque é um super-utilizador do Matomo em: %s",
         "ConvertToUtf8mb4": "Converter a base de dados para o conjuntos de carateres UTF8mb4",
-        "TriggerDatabaseConversion": "Ativar a conversão da base de dados em segundo plano"
+        "TriggerDatabaseConversion": "Ativar a conversão da base de dados em segundo plano",
+        "Utf8mb4ConversionHelp": "A sua base de dados atualmente não está a utilizar o conjunto de carateres utf8mb4. Isto impede o armazenamento de carateres de 4 bytes, tais como emojis, carateres menos comuns de idiomas asiáticos, vários scripts históricos ou símbolos matemáticos. Estes atualmente são substituídos por %1$s.<br \/><br \/>A sua base de dados suporta o conjunto de carateres utf8mb4 e seria possível fazer esta conversão.<br \/><br \/>Se puder executar comandos na consola, recomendamos a utilização deste comando: %2$s<br \/><br \/>Alternativamente pode ativar a conversão aqui. A conversão será despoletada automaticamente como uma tarefa agendada em segundo plano.<br \/><br \/>Atenção: a conversão da base de dados pode demorar algumas horas, dependendo do tamanho da base de dados. Como o acompanhamento pode não funcionar durante este processo, não recomendamos a utilização da tarefa para a conversão para instâncias maiores.<br \/><br \/>Pode encontrar mais informação sobre este assunto nesta %3$sFAQ%4$s."
     }
 }

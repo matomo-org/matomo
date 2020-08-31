@@ -28,6 +28,8 @@
         "InstallingTheLatestVersion": "Installation de la dernière version",
         "LatestBetaRelease": "Dernière version beta",
         "LatestStableRelease": "Dernière version stable",
+        "LatestXStableRelease": "Dernière version stable %s",
+        "LatestXBetaRelease": "Dernière version beta %s",
         "LtsSupportVersion": "Version Long Term Support",
         "ListOfSqlQueriesFYI": "PVI : ce sont les requêtes SQL et les commandes console qui seront exécutées pour mettre à jour votre base de données vers Matomo %s",
         "TheseSqlQueriesWillBeExecuted": "Ces requêtes SQL seront exécutées :",
@@ -89,6 +91,9 @@
         "YouMustDownloadPackageOrFixPermissions": "Matomo ne peut pas écraser votre installation courante. Vous pouvez soit corriger les permissions du répertoire\/fichier, soit télécharger le package et installer la version %s manuellement:",
         "YourDatabaseIsOutOfDate": "Votre base de données est expirée et doit être mise à jour avant de pouvoir continuer.",
         "ViewVersionChangelog": "Voir les changements pour cette version :",
-        "ReceiveEmailBecauseIsSuperUser": "Vous recevez ce courriel car vous êtes un super utilisateur de l'installation Matomo à l'adresse : %s"
+        "ReceiveEmailBecauseIsSuperUser": "Vous recevez ce courriel car vous êtes un super utilisateur de l'installation Matomo à l'adresse : %s",
+        "ConvertToUtf8mb4": "Convertir la base de données avec le codage UTF8mb4",
+        "TriggerDatabaseConversion": "Déclencher en arrière-plan la conversion de la base de données",
+        "Utf8mb4ConversionHelp": "Actuellement, votre base de données n'utilise pas le codage utf8mb4. Ceci rend impossible le stockage des caractères sur 4 octets tel que les émojis, les caractères moins courants des langues asiatiques, divers scripts historiques ou des symboles mathématiques. Ils sont pour le moment remplacés par %1$s. <br \/><br \/>Votre base de données supporte le codage utf8mb4 et il est possible de la convertir.<br \/><br \/>Si vous pouvez lancer des commandes en console, nous recommandons d'utiliser cette commande : %2$s<br \/><br \/>Sinon vous pouvez lancer la conversion ici. Elle sera déclenchée automatiquement via une tâche programmée en arrière-plan.<br \/><br \/>Attention : la conversion d'une base de données peut prendre plusieurs heures selon la taille de la base. Comme le suivi peut ne pas fonctionner durant la conversion, nous ne recommandons pas d'utiliser ce déclencheur pour les grandes instances.<br \/><br \/>Vous pouvez trouver %3$splus d'information à ce sujet dans cette FAQ%4$s."
     }
 }

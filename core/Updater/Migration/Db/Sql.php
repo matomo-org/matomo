@@ -83,7 +83,7 @@ class Sql extends DbMigration
     {
         $sql = $this->sql;
 
-        if (!Common::stringEndsWith($sql, ';')) {
+        if (!empty($sql) && !Common::stringEndsWith($sql, ';')) {
             $sql .= ';';
         }
 
@@ -92,6 +92,8 @@ class Sql extends DbMigration
 
     public function exec()
     {
-        Db::exec($this->sql);
+        if (!empty($this->sql)) {
+            Db::exec($this->sql);
+        }
     }
 }

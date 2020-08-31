@@ -87,6 +87,171 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
+    private function setTrackerExcludedConfig($exclude)
+    {
+        $config  = Config::getInstance();
+        $tracker = $config->Tracker;
+        $tracker['exclude_requests'] = $exclude;
+        $config->Tracker = $tracker;
+    }
+
+    public function test_isRequestExcluded_nothingConfigured()
+    {
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
+        $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_notValidExpression()
+    {
+        $this->setTrackerExcludedConfig('foo=bar');
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_emptyRightValue()
+    {
+        $this->setTrackerExcludedConfig('foo==');
+
+        $request = $this->buildRequest(array('foo' => ''));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array());
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'b'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $this->setTrackerExcludedConfig('foo!=');
+
+        $request = $this->buildRequest(array('foo' => ''));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array());
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'b'));
+        $this->assertTrue($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_equals()
+    {
+        $this->setTrackerExcludedConfig('foo==bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_not_equals()
+    {
+        $this->setTrackerExcludedConfig('foo!=bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_contains()
+    {
+        $this->setTrackerExcludedConfig('foo=@bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'fffbar1'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_notContains()
+    {
+        $this->setTrackerExcludedConfig('foo!@bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'fffbar1'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'hello'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'ba'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_startsWith()
+    {
+        $this->setTrackerExcludedConfig('foo=^bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'fffbar1'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_endsWith()
+    {
+        $this->setTrackerExcludedConfig('foo=$bar');
+
+        $request = $this->buildRequest(array('foo' => 'bar'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'bar1'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo' => 'fffbar'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('foo1' => 'bar'));
+        $this->assertFalse($request->isRequestExcluded());
+    }
+
+    public function test_isRequestExcluded_multipleComparisons()
+    {
+        $this->setTrackerExcludedConfig('foo==test,bar==foo%2Cbar');
+
+        $request = $this->buildRequest(array('foo' => 'test'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('bar' => 'foo,bar'));
+        $this->assertTrue($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('bar' => 'foo%2Cbar'));
+        $this->assertFalse($request->isRequestExcluded());
+
+        $request = $this->buildRequest(array('bar' => 'foo'));
+        $this->assertFalse($request->isRequestExcluded());
+    }
+
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfNotAuthenticatedButTimestampIsRecent()
     {
         $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5)));

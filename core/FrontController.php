@@ -408,9 +408,14 @@ class FrontController extends Singleton
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
-        if (Common::getRequestVar('token_auth', false, 'string') !== false) {
+        if (Common::getRequestVar('token_auth', '', 'string') !== ''
+            && Request::shouldReloadAuthUsingTokenAuth(null)) {
             Request::reloadAuthUsingTokenAuth();
+            if (Request::isTokenAuthLimitedToViewAccess($module, $action)) {
+                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
+            }
         }
+
         SettingsServer::raiseMemoryLimitIfNecessary();
 
         \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();

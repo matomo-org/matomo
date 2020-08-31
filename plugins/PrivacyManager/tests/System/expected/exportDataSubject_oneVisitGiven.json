@@ -87,13 +87,13 @@
             "idvisitor": "5484eb1bcd82eefe",
             "pageview_position": "2",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "3 min 21s",
-            "time_dom_processing": "4 min 16s",
+            "time_dom_completion": "0.2s",
+            "time_dom_processing": "0.26s",
             "time_network": "0s",
-            "time_on_load": "1 min 45s",
-            "time_server": "6 min 5s",
+            "time_on_load": "0.11s",
+            "time_server": "0.37s",
             "time_spent_ref_action": "00:06:00",
-            "time_transfer": "1 min 6s"
+            "time_transfer": "0.07s"
         },
         {
             "custom_float": "0s",
@@ -108,13 +108,13 @@
             "idvisitor": "5484eb1bcd82eefe",
             "pageview_position": "3",
             "server_time": "2017-01-02 03:10:05",
-            "time_dom_completion": "2 min 2s",
-            "time_dom_processing": "6 min 45s",
+            "time_dom_completion": "0.12s",
+            "time_dom_processing": "0.41s",
             "time_network": "0s",
-            "time_on_load": "23s",
-            "time_server": "6 min 46s",
+            "time_on_load": "0.02s",
+            "time_server": "0.41s",
             "time_spent_ref_action": "00:00:00",
-            "time_transfer": "1 min 45s"
+            "time_transfer": "0.11s"
         },
         {
             "custom_float": "0s",

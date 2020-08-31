@@ -145,6 +145,16 @@ class ConsoleTest extends ConsoleCommandTestCase
 
     public function test_Console_handlesFatalErrorsCorrectly()
     {
+        $cliPhp = new CliPhp();
+        $php = $cliPhp->findPhpBinary();
+        $command = $php . " -i | grep 'memory_limit => -1'";
+
+        $output = shell_exec($command);
+
+        if ($output == "memory_limit => -1 => -1\n") {
+            $this->markTestSkipped("no memory limit in php-cli");
+        }
+
         $command = Fixture::getCliCommandBase();
         $command .= ' test-command-with-fatal-error';
         $command .= ' 2>&1';

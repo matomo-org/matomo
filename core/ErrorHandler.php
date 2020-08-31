@@ -133,7 +133,7 @@ class ErrorHandler
     public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
         // if the error has been suppressed by the @ we don't handle the error
-        if (error_reporting() == 0) {
+        if (!(error_reporting() & $errno)) {
             return;
         }
 

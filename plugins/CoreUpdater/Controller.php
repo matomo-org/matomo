@@ -176,6 +176,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickUpdatePartTwo()
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         Json::sendHeaderJSON();
 
         $messages = [];
@@ -195,6 +199,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickResults()
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         Filesystem::deleteAllCacheOnUpdate();
 
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
@@ -251,6 +259,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function runUpdaterAndExit($doDryRun = null)
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         $updater = new DbUpdater();
         $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
