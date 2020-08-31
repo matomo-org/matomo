@@ -503,8 +503,7 @@ if (typeof window.Matomo !== 'object') {
 
             now  = new Date();
             var aliasTime = now.getTimeAlias();
-            if( (expireDateTime - aliasTime) > 3000) // fix bug #12108
-            {
+            if ((expireDateTime - aliasTime) > 3000) {
                 expireDateTime = aliasTime + 3000;
             }
             
