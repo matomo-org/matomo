@@ -175,7 +175,7 @@ class ClientTest extends SystemTestCase
         $this->assertLessThan(30, count($plugins));
 
         foreach ($plugins as $plugin) {
-            self::assertStringContainsString($keywords, $plugin['keywords']);
+            self::assertContains($keywords, $plugin['keywords']);
         }
     }
 
