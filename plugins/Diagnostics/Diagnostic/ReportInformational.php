@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\CronArchive;
@@ -16,6 +17,7 @@ use Piwik\Development;
 use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 
 /**
@@ -27,6 +29,8 @@ class ReportInformational implements Diagnostic
      * @var Translator
      */
     private $translator;
+
+    private $idSiteCache;
 
     public function __construct(Translator $translator)
     {
@@ -68,8 +72,15 @@ class ReportInformational implements Diagnostic
 
     private function getImplodedIdSitesSecure()
     {
-        $rows = Db::fetchAll(sprintf('SELECT idsite FROM %s ', Common::prefixTable('site')));
-        $idSites = array_map('intval', array_column($rows, 'idsite'));
-        return implode(',', $idSites);
+        if (empty($this->idSiteCache)) {
+            $idSites = null;
+            Access::doAsSuperUser(function () use (&$idSites) {
+                $idSites = Site::getIdSitesFromIdSitesString('all');
+            });
+            $idSites = array_map('intval', $idSites);
+            $this->idSiteCache = implode(',', $idSites);
+        }
+
+        return $this->idSiteCache;
     }
 }
