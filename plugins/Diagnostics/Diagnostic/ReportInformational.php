@@ -28,8 +28,6 @@ class ReportInformational implements Diagnostic
      */
     private $translator;
 
-    private $idSitesCached;
-
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
@@ -70,17 +68,8 @@ class ReportInformational implements Diagnostic
 
     private function getImplodedIdSitesSecure()
     {
-        if (!isset($this->idSitesCached)) {
-            $rows = Db::fetchAll(sprintf('SELECT idsite FROM %s ', Common::prefixTable('site')));
-
-            $idSites = array();
-            foreach ($rows as $row) {
-                $idSites[] = (int) $row['idsite'];
-            }
-
-            $this->idSitesCached = implode(',', $idSites);
-        }
-
-        return $this->idSitesCached;
+        $rows = Db::fetchAll(sprintf('SELECT idsite FROM %s ', Common::prefixTable('site')));
+        $idSites = array_map('intval', array_column($rows, 'idsite'));
+        return implode(',', $idSites);
     }
 }
