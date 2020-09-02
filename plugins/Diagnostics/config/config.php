@@ -32,11 +32,20 @@ return array(
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),
     ),
+    'diagnostics.informational' => array(
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\MatomoInformational'),
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\PhpInformational'),
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DatabaseInformational'),
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\ConfigInformational'),
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\ServerInformational'),
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\ReportInformational'),
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\UserInformational'),
+    ),
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),
 
     'Piwik\Plugins\Diagnostics\DiagnosticService' => DI\object()
-        ->constructor(DI\get('diagnostics.required'), DI\get('diagnostics.optional'), DI\get('diagnostics.disabled')),
+        ->constructor(DI\get('diagnostics.required'), DI\get('diagnostics.optional'), DI\get('diagnostics.informational'), DI\get('diagnostics.disabled')),
 
     'Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck' => DI\object()
         ->constructorParameter('minimumMemoryLimit', DI\get('ini.General.minimum_memory_limit')),
