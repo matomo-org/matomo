@@ -54,7 +54,7 @@ class ReportInformational implements Diagnostic
         $time = Date::now()->subDay($numDays)->getDatetime();
 
         try {
-            $row = Db::fetchOne('SELECT count(idsite) from ' . $table . ' where visit_last_action_time > ? LIMIT 1', $time );
+            $row = Db::fetchOne('SELECT idsite from ' . $table . ' where visit_last_action_time > ? LIMIT 1', $time );
         } catch ( \Exception $e ) {
             $row = null;
         }
