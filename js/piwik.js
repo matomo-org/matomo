@@ -6779,8 +6779,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.forgetUserOptOut = function () {
                 // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
-                var setCookieConsent = false;
-                this.rememberConsentGiven(0, setCookieConsent);
+                this.setConsentGiven(false);
             };
 
             /**
