@@ -25,8 +25,10 @@ class DiagnosticServiceTest extends \PHPUnit\Framework\TestCase
             new DiagnosticWithWarning(),
             new DiagnosticWithSuccess(),
         );
+        $informationDiagnostics = array(
+        );
 
-        $service = new DiagnosticService($mandatoryDiagnostics, $optionalDiagnostics, array());
+        $service = new DiagnosticService($mandatoryDiagnostics, $optionalDiagnostics, $informationDiagnostics, array());
 
         $report = $service->runDiagnostics();
 
