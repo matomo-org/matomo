@@ -210,6 +210,50 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
+
+        // eg the case when not updating from most recent Matomo 3.X and when not using the UI updater
+        // afterwards the should receive a notification that the plugins are outdated
+        self::ensureCorePluginsThatWereMovedToMarketplaceCanBeUpdated();
+    }
+
+    public static function ensureCorePluginsThatWereMovedToMarketplaceCanBeUpdated()
+    {
+        $plugins = ['Provider', 'CustomVariables'];
+        $pluginManager = Manager::getInstance();
+        foreach ($plugins as $plugin) {
+            if ($pluginManager->isPluginThirdPartyAndBogus($plugin)) {
+                $pluginDir = Manager::getPluginDirectory($plugin);
+
+                if (is_dir($pluginDir) &&
+                    file_exists($pluginDir . '/' . $plugin . '.php')
+                    && !file_exists($pluginDir . '/plugin.json')
+                    && is_writable($pluginDir)) {
+                    file_put_contents($pluginDir . '/plugin.json', '{
+  "name": "'.$plugin.'",
+  "description": "'.$plugin.'",
+  "version": "3.14.1",
+  "theme": false,
+  "require": {
+    "piwik": ">=3.0.0,<4.0.0-b1"
+  },
+  "authors": [
+    {
+      "name": "Matomo",
+      "email": "hello@matomo.org",
+      "homepage": "https:\/\/matomo.org"
+    }
+  ],
+  "homepage": "https:\/\/matomo.org",
+  "license": "GPL v3+",
+  "keywords": ["'.$plugin.'"]
+}');
+                    // otherwise cached information might be used and it won't be loaded otherwise within same request
+                    $pluginObj = $pluginManager->loadPlugin($plugin);
+                    $pluginObj->reloadPluginInformation();
+                    $pluginManager->unloadPlugin($pluginObj); // prevent any events being posted to it somehow
+                }
+            }
+        }
     }
 
     protected function usesGeoIpLegacyLocationProvider()
