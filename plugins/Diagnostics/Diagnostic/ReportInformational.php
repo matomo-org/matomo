@@ -28,6 +28,8 @@ class ReportInformational implements Diagnostic
      */
     private $translator;
 
+    private $idSitesCached;
+
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
@@ -54,7 +56,8 @@ class ReportInformational implements Diagnostic
         $time = Date::now()->subDay($numDays)->getDatetime();
 
         try {
-            $row = Db::fetchOne('SELECT idsite from ' . $table . ' where visit_last_action_time > ? LIMIT 1', $time );
+            $idSites = $this->getImplodedIdSitesSecure();
+            $row = Db::fetchOne('SELECT idsite from ' . $table . ' where idsite in ('.$idSites.') and visit_last_action_time > ? LIMIT 1', $time );
         } catch ( \Exception $e ) {
             $row = null;
         }
@@ -65,4 +68,19 @@ class ReportInformational implements Diagnostic
         return '0';
     }
 
+    private function getImplodedIdSitesSecure()
+    {
+        if (!isset($this->idSitesCached)) {
+            $rows = Db::fetchAll(sprintf('SELECT idsite FROM %s ', Common::prefixTable('site')));
+
+            $idSites = array();
+            foreach ($rows as $row) {
+                $idSites[] = (int) $row['idsite'];
+            }
+
+            $this->idSitesCached = implode(',', $idSites);
+        }
+
+        return $this->idSitesCached;
+    }
 }
