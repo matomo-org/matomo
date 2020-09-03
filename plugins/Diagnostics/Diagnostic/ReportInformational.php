@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\CronArchive;
@@ -16,6 +17,7 @@ use Piwik\Development;
 use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 
 /**
@@ -27,6 +29,8 @@ class ReportInformational implements Diagnostic
      * @var Translator
      */
     private $translator;
+
+    private $idSiteCache;
 
     public function __construct(Translator $translator)
     {
@@ -54,7 +58,8 @@ class ReportInformational implements Diagnostic
         $time = Date::now()->subDay($numDays)->getDatetime();
 
         try {
-            $row = Db::fetchOne('SELECT idsite from ' . $table . ' where visit_last_action_time > ? LIMIT 1', $time );
+            $idSites = $this->getImplodedIdSitesSecure();
+            $row = Db::fetchOne('SELECT idsite from ' . $table . ' where idsite in ('.$idSites.') and visit_last_action_time > ? LIMIT 1', $time );
         } catch ( \Exception $e ) {
             $row = null;
         }
@@ -65,4 +70,17 @@ class ReportInformational implements Diagnostic
         return '0';
     }
 
+    private function getImplodedIdSitesSecure()
+    {
+        if (empty($this->idSiteCache)) {
+            $idSites = null;
+            Access::doAsSuperUser(function () use (&$idSites) {
+                $idSites = Site::getIdSitesFromIdSitesString('all');
+            });
+            $idSites = array_map('intval', $idSites);
+            $this->idSiteCache = implode(',', $idSites);
+        }
+
+        return $this->idSiteCache;
+    }
 }
