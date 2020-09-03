@@ -2,7 +2,7 @@
 
 return array(
 
-    'Matomo\Cache\Backend' => DI\create('Matomo\Cache\Backend\ArrayCache'),
+    'Matomo\Cache\Backend' => DI\autowire('Matomo\Cache\Backend\ArrayCache'),
 
     'Piwik\Translation\Loader\LoaderInterface' => DI\autowire('Piwik\Translation\Loader\LoaderCache')
         ->constructorParameter('loader', DI\get('Piwik\Translation\Loader\DevelopmentLoader')),
