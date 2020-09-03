@@ -1,6 +1,6 @@
 <?php
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;

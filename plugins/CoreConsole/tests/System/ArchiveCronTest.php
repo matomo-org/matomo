@@ -7,7 +7,7 @@
  */
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;

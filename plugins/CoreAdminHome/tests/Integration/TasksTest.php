@@ -239,9 +239,9 @@ class TasksTest extends IntegrationTestCase
     {
         return [
             'observers.global' => \DI\add([
-                ['Mail.send', function (Mail $mail) {
+                ['Mail.send', \DI\value(function (Mail $mail) {
                     $this->mail = $mail;
-                }],
+                })],
             ]),
         ];
     }

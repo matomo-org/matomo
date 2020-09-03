@@ -40,6 +40,11 @@ class TestingEnvironmentVariables
         return isset($this->behaviorOverrideProperties[$name]);
     }
 
+    public function getProperties()
+    {
+        return $this->behaviorOverrideProperties;
+    }
+
     /**
      * Overrides a config entry.
      *

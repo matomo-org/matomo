@@ -1017,11 +1017,11 @@ class APITest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess(),
             'usersmanager.user_preference_names' => \DI\add(['randomDoesNotExist', 'RandomNOTREQUESTED', 'preferenceName']),
             'observers.global' => \DI\add([
-                ['Access.Capability.addCapabilities', function (&$capabilities) {
+                ['Access.Capability.addCapabilities', \DI\value(function (&$capabilities) {
                     $capabilities[] = new TestCap1();
                     $capabilities[] = new TestCap2();
                     $capabilities[] = new TestCap3();
-                }],
+                })],
             ]),
         );
     }

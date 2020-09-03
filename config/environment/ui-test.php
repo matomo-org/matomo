@@ -21,7 +21,7 @@ return array(
 
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used
-        array('Request.dispatch.end', function (&$result) {
+        array('Request.dispatch.end', DI\value(function (&$result) {
             $request = $_GET + $_POST;
 
             $apiblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.api');
@@ -50,11 +50,11 @@ return array(
 
             // remove PIWIK_INCLUDE_PATH from result so tests don't change based on the machine used
             $result = str_replace(realpath(PIWIK_INCLUDE_PATH), '', $result);
-        }),
+        })),
 
-        array('Controller.RssWidget.rssPiwik.end', function (&$result, $parameters) {
+        array('Controller.RssWidget.rssPiwik.end', DI\value(function (&$result, $parameters) {
             $result = "";
-        }),
+        })),
 
         \Piwik\Tests\Framework\XssTesting::getJavaScriptAddEvent(),
     ]),

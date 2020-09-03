@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;

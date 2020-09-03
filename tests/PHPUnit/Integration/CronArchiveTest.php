@@ -455,7 +455,7 @@ LOG;
         Date::$now = strtotime('2020-02-03 04:05:06');
 
         return array(
-            'Piwik\CliMulti' => \DI\object('Piwik\Tests\Framework\Mock\FakeCliMulti')
+            'Piwik\CliMulti' => \DI\create('Piwik\Tests\Framework\Mock\FakeCliMulti')
         );
     }
 

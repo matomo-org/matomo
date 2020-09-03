@@ -43,6 +43,8 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 // Composer autoloader
 require_once PIWIK_VENDOR_PATH . '/autoload.php';
 
+require_once PIWIK_INCLUDE_PATH . '/DIObject.php';
+
 \Piwik\Plugin\Manager::initPluginDirectories();
 
 /**

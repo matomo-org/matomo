@@ -154,7 +154,7 @@ class SessionAuthTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            SessionAuth::class => \DI\object()
+            SessionAuth::class => \DI\autowire()
                 ->constructorParameter('shouldDestroySession', false),
         ];
     }

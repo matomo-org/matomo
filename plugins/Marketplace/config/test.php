@@ -1,6 +1,6 @@
 <?php
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;

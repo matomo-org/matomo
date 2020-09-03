@@ -195,17 +195,17 @@ class ImportLogsTest extends SystemTestCase
 
         $testingEnvironment = new TestingEnvironmentVariables();
         if ($testingEnvironment->_triggerTrackerFailure) {
-            $observers[] = array('Tracker.newHandler', function () {
+            $observers[] = array('Tracker.newHandler', \DI\value(function () {
                 @http_response_code(500);
 
                 throw new \Exception("injected exception");
-            });
+            }));
         }
 
         if ($testingEnvironment->_triggerInvalidRequests) {
             // we trigger an invalid request by checking for triggerInvalid=1 in a request, and if found replacing the
             // request w/ a request that has an nonexistent idsite
-            $observers[] = array('Tracker.initRequestSet', function (RequestSet $requestSet) {
+            $observers[] = array('Tracker.initRequestSet', \DI\value(function (RequestSet $requestSet) {
                 $requests = $requestSet->getRequests();
                 foreach ($requests as $index => $request) {
                     $url = $request->getParam('url');
@@ -217,7 +217,7 @@ class ImportLogsTest extends SystemTestCase
                     }
                 }
                 $requestSet->setRequests($requests);
-            });
+            }));
         }
 
         if (!empty($observers)) {
