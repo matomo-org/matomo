@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "超级用户已创建成功！",
         "SystemCheck": "系统检查",
         "SystemCheckAutoUpdateHelp": "注意: Matomo 的一键更新功能必须要有 Matomo 文件夹及内容的写入权限。",
-        "SystemCheckCreateFunctionHelp": "Matomo 使用匿名函数用作回调。",
         "SystemCheckDatabaseExtensions": "MySQL 扩展",
         "SystemCheckDatabaseHelp": "Matomo 正常工作要么需要 mysqli 扩展，要么需要 PDO 及 pdo_mysql 两个扩展。",
         "SystemCheckDatabaseSSL": "数据库SSL连接",
@@ -149,7 +148,6 @@
         "WelcomeHelp": "<p>Matomo是一款免费\/自由的网络分析软件，可以让您轻松地从访问者那里获得您想要的信息。<\/p><p>此过程分为%s简单步骤，大约需要5分钟。<\/p>",
         "WelcomeToCommunity": "欢迎来到 Matomo 社区！",
         "CannotConnectToDb": "无法连接数据库",
-        "CannotConnectToDbResolvingExplanation": "这可能是暂时的问题，试试%1$s刷新页面%2$s。如果问题仍然存在，请联系您的 Matomo 管理员。",
-        "EmailPrivacyNotice": "您的电子邮件地址仅用于向您发送Matomo新闻通讯。 您可以随时点击取消订阅链接取消订阅。 我们不会与其他任何人分享您的电子邮件，也不会将您的电子邮件用于向您发送Matomo简报以外的任何其他目的。 有关更多信息，请参阅我们的%1$sprivacy政策%2$s。"
+        "CannotConnectToDbResolvingExplanation": "这可能是暂时的问题，试试%1$s刷新页面%2$s。如果问题仍然存在，请联系您的 Matomo 管理员。"
     }
 }

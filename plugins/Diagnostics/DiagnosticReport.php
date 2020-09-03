@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -25,6 +25,11 @@ class DiagnosticReport
     private $optionalDiagnosticResults;
 
     /**
+     * @var DiagnosticResult[]
+     */
+    private $informationalResults;
+
+    /**
      * @var int
      */
     private $errorCount = 0;
@@ -37,11 +42,13 @@ class DiagnosticReport
     /**
      * @param DiagnosticResult[] $mandatoryDiagnosticResults
      * @param DiagnosticResult[] $optionalDiagnosticResults
+     * @param DiagnosticResult[] $informationalResults
      */
-    public function __construct(array $mandatoryDiagnosticResults, array $optionalDiagnosticResults)
+    public function __construct(array $mandatoryDiagnosticResults, array $optionalDiagnosticResults, array $informationalResults)
     {
         $this->mandatoryDiagnosticResults = $mandatoryDiagnosticResults;
         $this->optionalDiagnosticResults = $optionalDiagnosticResults;
+        $this->informationalResults = $informationalResults;
 
         $this->computeErrorAndWarningCount();
     }
@@ -83,7 +90,7 @@ class DiagnosticReport
      */
     public function getAllResults()
     {
-        return array_merge($this->mandatoryDiagnosticResults, $this->optionalDiagnosticResults);
+        return array_merge($this->mandatoryDiagnosticResults, $this->optionalDiagnosticResults, $this->informationalResults);
     }
 
     /**
@@ -100,6 +107,11 @@ class DiagnosticReport
     public function getOptionalDiagnosticResults()
     {
         return $this->optionalDiagnosticResults;
+    }
+
+    public function getInformationalResults()
+    {
+        return $this->informationalResults;
     }
 
     private function computeErrorAndWarningCount()

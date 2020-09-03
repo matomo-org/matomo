@@ -20,72 +20,46 @@
     },
     "config":{
         "platform": {
-            "php": "5.5.9"
+            "php": "7.2.5"
         },
-        "prepend-autoloader": false
+        "prepend-autoloader": false,
+        "sort-packages": true
     },
     "require": {
-        "php": ">=5.5.9",
-        "twig/twig": "~1.0",
-        "leafo/lessphp": "dev-php74-compat",
-        "symfony/console": "~2.6.0",
-        "mustangostang/spyc": "~0.6.0",
-        "piwik/device-detector": "~3.0",
-        "matomo/decompress": "~1.0",
-        "matomo/network": "~0",
-        "matomo/cache": "~1.0.0",
-        "matomo/ini": "^1.0.8",
-        "php-di/php-di": "^5.0.0",
-        "psr/log": "~1.0",
-        "monolog/monolog": "~1.11",
-        "symfony/monolog-bridge": "~2.6.0",
-        "symfony/event-dispatcher": "~2.6.0",
-        "pear/pear_exception": "~1.0.0",
-        "matomo/referrer-spam-blacklist": "~1.0",
-        "matomo/searchengine-and-social-list": "~3.0",
-        "tecnickcom/tcpdf": "~6.0",
-        "matomo/matomo-php-tracker": "^1.0.0",
+        "php": ">=7.2.5",
         "composer/semver": "~1.3.0",
-        "szymach/c-pchart": "^2.0",
-        "geoip2/geoip2": "^2.8",
         "davaxi/sparkline": "~1.2",
-        "matomo-org/jshrink": "1.3.1"
+        "geoip2/geoip2": "^2.8",
+        "leafo/lessphp": "dev-php74-compat",
+        "matomo-org/jshrink": "1.3.1",
+        "matomo/cache": "~2.0",
+        "matomo/decompress": "~2.0",
+        "matomo/ini": "~2.0",
+        "matomo/matomo-php-tracker": "dev-4.x-dev",
+        "matomo/network": "~2.0",
+        "matomo/referrer-spam-list": "~4.0.0",
+        "matomo/searchengine-and-social-list": "~3.0",
+        "monolog/monolog": "~1.11",
+        "mustangostang/spyc": "~0.6.0",
+        "pear/pear_exception": "~1.0.0",
+        "php-di/php-di": "^6.0.0",
+        "phpmailer/phpmailer": "^6.1",
+        "piwik/device-detector": "~3.0",
+        "psr/log": "~1.0",
+        "symfony/console": "~2.6.0",
+        "symfony/event-dispatcher": "~2.6.0",
+        "symfony/monolog-bridge": "~2.6.0",
+        "szymach/c-pchart": "^2.0",
+        "tecnickcom/tcpdf": "~6.0",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
-        "aws/aws-sdk-php": "2.7.1",
-        "phpunit/phpunit": "~4.8",
-        "facebook/xhprof": "dev-master",
-        "phpseclib/phpseclib": "~0.3.8",
+        "lox/xhprof": "dev-master",
+        "phpunit/phpunit": "~8.5",
         "symfony/var-dumper": "~2.6.0",
         "symfony/yaml": "~2.6.0"
     },
     "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "facebook/xhprof",
-                "type": "library",
-                "description": "XHProf: A Hierarchical Profiler for PHP",
-                "keywords": ["profiling", "performance"],
-                "homepage": "http://pecl.php.net/package/xhprof",
-                "license": "Apache-2.0",
-                "version": "master",
-                "require": {
-                    "php": ">=5.2.0"
-                },
-                "autoload": {
-                    "files": [
-                        "xhprof_lib/utils/xhprof_lib.php",
-                        "xhprof_lib/utils/xhprof_runs.php"
-                    ]
-                },
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/phacility/xhprof",
-                    "reference": "master"
-                }
-            }
-        },
         {
             "type": "package",
             "package": {

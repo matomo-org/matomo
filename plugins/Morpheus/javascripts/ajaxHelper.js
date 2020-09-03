@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -70,12 +70,6 @@ function ajaxHelper() {
      * @type {String}
      */
     this.format =         'json';
-
-    /**
-     * Should ajax request be asynchronous
-     * @type {Boolean}
-     */
-    this.async =          true;
 
     /**
      * A timeout for the request which will override any global timeout
@@ -372,17 +366,9 @@ function ajaxHelper() {
 
     /**
      * Send the request
-     *
-     * Note: Sending synchronous requests will be removed in Matomo 4
-     *
-     * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */
-    this.send = function (sync) {
-        if (sync === true) {
-            this.async = false;
-        }
-
+    this.send = function () {
         if ($(this.errorElement).length) {
             $(this.errorElement).hide();
         }
@@ -433,7 +419,7 @@ function ajaxHelper() {
         url += $.param(parameters);
         var ajaxCall = {
             type:     'POST',
-            async:    this.async !== false,
+            async:    true,
             url:      url,
             dataType: this.format || 'json',
             complete: this.completeCallback,
@@ -506,7 +492,8 @@ function ajaxHelper() {
     this._getDefaultPostParams = function () {
         if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
             return {
-                token_auth: piwik.token_auth
+                token_auth: piwik.token_auth,
+                force_api_session: '1'
             };
         }
 

@@ -155,7 +155,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Gevgelija, Macedonia</label>
+		<label>Gevgelija, North Macedonia</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -181,7 +181,7 @@
 		<segment>regionCode==18;countryCode==mk</segment>
 		<region>18</region>
 		<country>mk</country>
-		<country_name>Macedonia</country_name>
+		<country_name>North Macedonia</country_name>
 		<region_name>Gevgelija</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
 	</row>

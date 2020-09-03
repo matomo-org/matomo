@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,11 +9,14 @@
 namespace Piwik\Plugin;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
+use Piwik\Period;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
+use Piwik\Site;
 
 /**
  * Base class of all plugin menu providers. Plugins that define their own menu items can extend this class to easily
@@ -194,11 +197,40 @@ class Menu
         if (empty($websiteId)) {
             throw new \Exception("A website ID was not specified and a website to default to could not be found.");
         }
+        if (empty($defaultPeriod)) {
+            $defaultPeriod = $userPreferences->getDefaultPeriod(false);
+        }
         if (empty($defaultDate)) {
             $defaultDate = $userPreferences->getDefaultDate();
         }
-        if (empty($defaultPeriod)) {
-            $defaultPeriod = $userPreferences->getDefaultPeriod(false);
+
+        if ($defaultPeriod !== 'range' && !empty($defaultDate) && $defaultDate !== 'today') {
+            // not easy to make it work for range... is rarely the default anyway especially when just setting up
+            // Matomo as this logic is basically only applied on the first day a site is created
+            // no need to run logic when today is selected. It basically runs currently only when "yesterday" is selected
+            // as a default date but would also support future new default dates like past month etc.
+            try {
+                $siteCreationDate = Site::getCreationDateFor($websiteId);
+                $siteTimezone = Site::getTimezoneFor($websiteId);
+
+                if (!empty($siteCreationDate)) {
+                    if (is_numeric($defaultDate)) {
+                        $defaultDate = (int) $defaultDate; //prevent possible exception should defaultDate be a string timestamp
+                    }
+                    $siteCreationDate = Date::factory($siteCreationDate, $siteTimezone);
+                    $defaultDateObj = Date::factory($defaultDate, $siteTimezone);
+
+                    $period = Period\Factory::build($defaultPeriod, $defaultDateObj);
+                    $endDate = $period->getDateEnd();
+
+                    if ($endDate->isEarlier($siteCreationDate)) {
+                        // when selected date is before site creation date or it is the site creation day
+                        $defaultDate = $siteCreationDate->toString();
+                    }
+                }
+            } catch (\Exception $e) {
+                //ignore any error in case site was just deleted or the given date is not valid etc.
+            }
         }
         return array(
             'idSite' => $websiteId,

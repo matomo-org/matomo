@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -43,6 +43,11 @@ class Dependency
 
         foreach ($requires as $name => $requiredVersion) {
             $currentVersion  = $this->getCurrentVersion($name);
+
+            if (in_array(strtolower($name), ['piwik', 'matomo'])) {
+                $requiredVersion = $this->markPluginsWithoutUpperBoundMatomoRequirementAsIncompatible($requiredVersion);
+            }
+
             $missingVersions = $this->getMissingVersions($currentVersion, $requiredVersion);
 
             if (!empty($missingVersions)) {
@@ -95,6 +100,31 @@ class Dependency
         }
 
         return $missingVersions;
+    }
+
+    /**
+     * Upon Matomo 4 we require a lower and upper version bound for Matomo to be set in plugin.json
+     * If that is not the case we assume the plugin not to be compatible with Matomo 4
+     *
+     * @param string $requiredVersion
+     * @return string
+     */
+    private function markPluginsWithoutUpperBoundMatomoRequirementAsIncompatible($requiredVersion)
+    {
+        if (strpos($requiredVersion, ',') !== false) {
+            return $requiredVersion;
+        }
+
+        $minVersion = str_replace(array('>', '=', '<', '!', '~', '^'), '', $requiredVersion);
+        if (preg_match("/^\<=?\d/", $requiredVersion)) {
+            $upperLimit = '>=' . $minVersion[0] . '.0.0-b1,' . $requiredVersion;
+        } else if (!empty($minVersion) && is_numeric($minVersion[0])) {
+            $upperLimit = $requiredVersion . ',<' . ($minVersion[0] + 1) . '.0.0-b1';
+        } else {
+            $upperLimit = '>=4.0.0-b1,<5.0.0-b1';
+        }
+
+        return $upperLimit;
     }
 
     private function makeVersionBackwardsCompatibleIfNoComparisonDefined($version)

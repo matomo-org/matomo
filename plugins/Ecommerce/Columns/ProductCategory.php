@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,8 +9,10 @@
 namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 
 class ProductCategory extends Dimension
 {
@@ -20,7 +22,7 @@ class ProductCategory extends Dimension
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Goals_ProductCategory';
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $individualProductCategorySegments = $this->getProductCategorySegments(self::PRODUCT_CATEGORY_COUNT);
 
@@ -39,7 +41,7 @@ class ProductCategory extends Dimension
             $segment->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
             $segment->setSqlSegment('log_conversion_item.' . $productCategoryColumnName);
             $segment->setIsInternal(true);
-            $this->addSegment($segment);
+            $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
         }
 
         // add a union of these individual columns as productCategory
@@ -49,7 +51,7 @@ class ProductCategory extends Dimension
         $segment->setSegment('productCategory');
         $segment->setName($this->getName());
         $segment->setUnionOfSegments($individualProductCategorySegments);
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 
     private function getProductCategorySegments($categoryCount)

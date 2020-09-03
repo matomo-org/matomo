@@ -18,10 +18,6 @@
     path = plugins/TasksTimetable
     url = https://github.com/matomo-org/plugin-TasksTimetable.git
     branch = master
-[submodule "plugins/LoginHttpAuth"]
-    path = plugins/LoginHttpAuth
-    url = https://github.com/matomo-org/plugin-LoginHttpAuth.git
-    branch = master
 [submodule "plugins/QueuedTracking"]
     path = plugins/QueuedTracking
     url = https://github.com/matomo-org/plugin-QueuedTracking.git
@@ -37,10 +33,6 @@
 [submodule "plugins/AnonymousPiwikUsageMeasurement"]
 	path = plugins/AnonymousPiwikUsageMeasurement
 	url = https://github.com/matomo-org/plugin-AnonymousPiwikUsageMeasurement.git
-    branch = master
-[submodule "plugins/CustomDimensions"]
-	path = plugins/CustomDimensions
-	url = https://github.com/matomo-org/plugin-CustomDimensions.git
     branch = master
 [submodule "plugins/Bandwidth"]
 	path = plugins/Bandwidth
@@ -61,10 +53,16 @@
 [submodule "plugins/DeviceDetectorCache"]
 	path = plugins/DeviceDetectorCache
 	url = https://github.com/matomo-org/plugin-DeviceDetectorCache.git
+[submodule "plugins/Provider"]
+	path = plugins/Provider
+	url = https://github.com/matomo-org/plugin-Provider.git
+[submodule "plugins/CustomVariables"]
+	path = plugins/CustomVariables
+	url = https://github.com/matomo-org/plugin-CustomVariables.git
 
 
 # Add new Plugin submodule above this line ^^
-# 
+#
 # Note: when you add a submodule that SHOULD be left in the packaged release such as the few submodules below,
 #       then you MUST add these submodules names in the SUBMODULES_PACKAGED_WITH_CORE variable in:
 #       https://github.com/matomo-org/matomo-package/blob/master/scripts/build-package.sh

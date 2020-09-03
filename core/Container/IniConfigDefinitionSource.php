@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,7 @@
 
 namespace Piwik\Container;
 
-use DI\Definition\Exception\DefinitionException;
+use DI\Definition\Exception\InvalidDefinition;
 use DI\Definition\Source\DefinitionSource;
 use DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
@@ -56,14 +56,30 @@ class IniConfigDefinitionSource implements DefinitionSource
         $section = $this->getSection($sectionName);
 
         if ($configKey === null) {
-            return new ValueDefinition($name, $section);
+            $value = new ValueDefinition($section);
+            $value->setName($name);
+            return $value;
         }
 
         if (! array_key_exists($configKey, $section)) {
             return null;
         }
 
-        return new ValueDefinition($name, $section[$configKey]);
+        $value = new ValueDefinition($section[$configKey]);
+        $value->setName($name);
+        return $value;
+    }
+
+    public function getDefinitions(): array
+    {
+        $result = [];
+        foreach ($this->config as $section) {
+            $value = new ValueDefinition($this->getSection($section));
+            $value->setName($section);
+
+            $result[$section] = $value;
+        }
+        return $result;
     }
 
     private function parseEntryName($name)
@@ -84,7 +100,7 @@ class IniConfigDefinitionSource implements DefinitionSource
         $section = $this->config->getSection($sectionName);
 
         if (!is_array($section)) {
-            throw new DefinitionException(sprintf(
+            throw new InvalidDefinition(sprintf(
                 'IniFileChain did not return an array for the config section %s',
                 $section
             ));

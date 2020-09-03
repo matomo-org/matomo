@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -315,11 +315,12 @@ class DataTablePostProcessor
         // after queued filters are run so processed metrics can be removed, too)
         $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
+        $hideColumnsRecursively = Common::getRequestVar('hideColumnsRecursively', intval($this->report && $this->report->getModule() == 'Live'), 'int', $this->request);
         $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
         if (!empty($hideColumns)
             || !empty($showColumns)
         ) {
-            $dataTable->filter('ColumnDelete', array($hideColumns, $showColumns));
+            $dataTable->filter('ColumnDelete', array($hideColumns, $showColumns, $deleteIfZeroOnly = false, $hideColumnsRecursively));
         } else if ($showRawMetrics !== 1) {
             $this->removeTemporaryMetrics($dataTable);
         }

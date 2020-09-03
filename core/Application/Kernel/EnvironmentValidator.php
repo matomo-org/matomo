@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,8 +9,6 @@
 namespace Piwik\Application\Kernel;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\NotYetInstalledException;
 use Piwik\Filechecks;
 use Piwik\Piwik;
@@ -44,7 +42,7 @@ class EnvironmentValidator
     {
         $this->checkConfigFileExists($this->settingsProvider->getPathGlobal());
 
-        if(SettingsPiwik::isPiwikInstalled()) {
+        if(SettingsPiwik::isMatomoInstalled()) {
             $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller = false);
             return;
         }

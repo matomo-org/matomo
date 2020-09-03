@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -80,11 +80,11 @@
         }
 
         function confirmSuperUserChange() {
-            $element.find('.superuser-confirm-modal').openModal({ dismissible: false });
+            $element.find('.superuser-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 
         function confirmReset2FA() {
-            $element.find('.twofa-confirm-modal').openModal({ dismissible: false });
+            $element.find('.twofa-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 
         function confirmUserChange() {
@@ -92,15 +92,15 @@
             function onEnter(event){
                 var keycode = (event.keyCode ? event.keyCode : event.which);
                 if (keycode == '13'){
-                    $element.find('.change-password-modal').closeModal();
+                    $element.find('.change-password-modal').modal('close');
                     vm.updateUser();
                 }
             }
 
-            $element.find('.change-password-modal').openModal({ dismissible: false, ready: function () {
+            $element.find('.change-password-modal').modal({ dismissible: false, ready: function () {
                 $('.modal.open #currentUserPassword').focus();
                 $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
-            }});
+            }}).modal('open');
         }
 
         function toggleSuperuserAccess() {
@@ -166,7 +166,6 @@
                 userLogin: vm.user.login,
                 password: vm.user.password,
                 email: vm.user.email,
-                alias: vm.user.alias,
                 initialIdSite: vm.firstSiteAccess ? vm.firstSiteAccess.id : undefined
             }).catch(function (e) {
                 vm.isSavingUserInfo = false;
@@ -190,8 +189,7 @@
                 userLogin: vm.user.login,
                 password: (vm.isPasswordModified && vm.user.password) ? vm.user.password : undefined,
                 passwordConfirmation: vm.passwordConfirmation ? vm.passwordConfirmation : undefined,
-                email: vm.user.email,
-                alias: vm.user.alias
+                email: vm.user.email
             }).catch(function (e) {
                 vm.isSavingUserInfo = false;
                 vm.passwordConfirmation = false;

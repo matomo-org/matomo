@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
@@ -156,9 +155,9 @@ abstract class Controller
             // today is at midnight; we really want to get the time now, so that
             // * if the website is UTC+12 and it is 5PM now in UTC, the calendar will allow to select the UTC "tomorrow"
             // * if the website is UTC-12 and it is 5AM now in UTC, the calendar will allow to select the UTC "yesterday"
-            if ($date == 'today') {
+            if ($date === 'today') {
                 $date = 'now';
-            } elseif ($date == 'yesterday') {
+            } elseif ($date === 'yesterday') {
                 $date = 'yesterdaySameTime';
             }
             $timezoneToUse = $timezone;
@@ -302,7 +301,7 @@ abstract class Controller
         // alternatively we could check whether the templates extends either admin.twig or dashboard.twig and based on
         // that call the correct method. This will be needed once we unify Controller and ControllerAdmin see
         // https://github.com/piwik/piwik/issues/6151
-        if ($this instanceof ControllerAdmin && $viewType == 'admin') {
+        if ($this instanceof ControllerAdmin && $viewType === 'admin') {
             $this->setBasicVariablesViewAs($view, $viewType);
         } elseif (empty($this->site) || empty($this->idSite)) {
             $this->setBasicVariablesViewAs($view, $viewType);
@@ -422,7 +421,7 @@ abstract class Controller
         $columns = array_merge($columnsToDisplay ? $columnsToDisplay : array(), $selectableColumns);
         $translations = array_combine($columns, $columns);
         foreach ($meta as $reportMeta) {
-            if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters'])) {
+            if ($reportMeta['action'] === 'get' && !isset($reportMeta['parameters'])) {
                 foreach ($columns as $column) {
                     if (isset($reportMeta['metrics'][$column])) {
                         $translations[$column] = $reportMeta['metrics'][$column];
@@ -472,7 +471,7 @@ abstract class Controller
         } else {
             $period = $paramsToSet['period'];
         }
-        if ($period == 'range') {
+        if ($period === 'range') {
             return $paramsToSet;
         }
         if (!isset($paramsToSet['range'])) {
@@ -636,7 +635,7 @@ abstract class Controller
 
         $periodStr = Common::getRequestVar('period');
 
-        if ($periodStr != 'range') {
+        if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
             $validDate = $this->getValidDate($date, $minDate, $maxDate);
             $period    = Period\Factory::build($periodStr, $validDate);
@@ -657,7 +656,7 @@ abstract class Controller
         $dateEnd   = $period->getDateEnd();
         $dateEnd   = $this->getValidDate($dateEnd, $minDate, $maxDate);
 
-        if ($periodStr == 'range') {
+        if ($periodStr === 'range') {
             // make sure we actually display the correct calendar pretty date
             $newRawDate = $dateStart->toString() . ',' . $dateEnd->toString();
             $period = new Range($periodStr, $newRawDate, $siteTimezone);
@@ -734,17 +733,18 @@ abstract class Controller
 
         $this->addCustomLogoInfo($view);
 
-        $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
-        $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
-        $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
-        $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
+        $customLogo = new CustomLogo();
+        $view->logoHeader = $customLogo->getHeaderLogoUrl();
+        $view->logoLarge = $customLogo->getLogoUrl();
+        $view->logoSVG = $customLogo->getSVGLogoUrl();
+        $view->hasSVGLogo = $customLogo->hasSVGLogo();
         $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         $view->themeStyles = ThemeStyles::get();
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
             || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
-        $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') == 'Widgetize');
+        $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') === 'Widgetize');
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
         }
@@ -821,7 +821,12 @@ abstract class Controller
             // invalid host, so display warning to user
             $validHosts = Url::getTrustedHostsFromConfig();
             $validHost = $validHosts[0];
-            $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
+
+            if (!empty($_SERVER['SERVER_NAME'])) {
+                $invalidHost = Common::sanitizeInputValue(Url::getHostFromServerNameVar());
+            } else {
+                $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
+            }
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));
@@ -1035,6 +1040,7 @@ abstract class Controller
     {
         if (!empty($this->idSite)) {
             Access::getInstance()->checkUserHasViewAccess($this->idSite);
+            new Site($this->idSite);
         } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Matomo and have permission to access the specified website.");
@@ -1067,7 +1073,7 @@ abstract class Controller
 
     private function checkViewType($viewType)
     {
-        if ($viewType == 'admin' && !($this instanceof ControllerAdmin)) {
+        if ($viewType === 'admin' && !($this instanceof ControllerAdmin)) {
             throw new Exception("'admin' view type is only allowed with ControllerAdmin class.");
         }
     }

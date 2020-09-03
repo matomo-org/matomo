@@ -1,15 +1,15 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
-use PiwikTracker;
+use MatomoTracker;
 
 /**
  * Adds one site and tracks a couple visits with many pageviews. The
@@ -22,13 +22,13 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
 
     private $prefixCounter = 0;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -137,7 +137,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $prefix = $prefixes[$this->prefixCounter % 4];
         $this->prefixCounter = $this->prefixCounter + 1;
 
-        /** @var $visit PiwikTracker */
+        /** @var $visit MatomoTracker */
         $visit->setUrl($prefix . 'example.org/' . $path);
         $visit->setForceVisitDateTime(Date::factory($dateTime)->addHour($timeOffset)->getDatetime());
 

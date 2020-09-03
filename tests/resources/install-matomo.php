@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -86,24 +86,25 @@ function createSuperUser() {
 
     $login    = 'superUserLogin';
     $password = $passwordHelper->hash(UsersManager::getPasswordHash('superUserPass'));
-    $token    = UsersManagerAPI::getInstance()->createTokenAuth($login);
 
     $model = new \Piwik\Plugins\UsersManager\Model();
     $user  = $model->getUser($login);
 
-    if (!empty($user)) {
-        $token = $user['token_auth'];
-    }
     if (empty($user)) {
-        $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
+        // @todo remove once there is a first stable 4.0 release
+        if (version_compare(\Piwik\Version::VERSION, '4.0.0-b1', '<')) {
+            $model->addUser($login, $password, 'hello@example.org', $login, '01234567890123456789012345678912', Date::now()->getDatetime());
+        } else {
+            $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
+        }
     } else {
-        $model->updateUser($login, $password, 'hello@example.org', $login, $token);
+        $model->updateUser($login, $password, 'hello@example.org');
     }
 
     $setSuperUser = empty($user) || !empty($user['superuser_access']);
     $model->setSuperUserAccess($login, $setSuperUser);
 
-    return $model->getUserByTokenAuth($token);
+    return $model->getUser($login);
 }
 
 function createWebsite($dateTime)
@@ -149,6 +150,7 @@ function getTokenAuth()
 }
 
 $_SERVER['HTTP_HOST'] = $host;
+$_SERVER['SERVER_NAME'] = $host;
 $dbConfig['dbname'] = 'latest_stable';
 
 file_put_contents(PIWIK_INCLUDE_PATH . "/config/config.ini.php", '');

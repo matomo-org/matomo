@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,8 +11,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
-use Piwik\Config\Cache;
-use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\ProfessionalServices\Advertising;
@@ -293,26 +291,6 @@ class Config
     }
 
     /**
-     * Clear in-memory configuration so it can be reloaded
-     * @deprecated since v2.12.0
-     */
-    public function clear()
-    {
-        $this->reload();
-    }
-
-    /**
-     * Read configuration from files into memory
-     *
-     * @throws Exception if local config file is not readable; exits for other errors
-     * @deprecated since v2.12.0
-     */
-    public function init()
-    {
-        $this->reload();
-    }
-
-    /**
      * Reloads config data from disk.
      *
      * @throws \Exception if the global config file is not found and this is a tracker request, or
@@ -323,9 +301,6 @@ class Config
         $this->settings->reload($pathGlobal, $pathLocal, $pathCommon);
     }
 
-    /**
-     * @deprecated
-     */
     public function existsLocalConfig()
     {
         return is_readable($this->getLocalPath());

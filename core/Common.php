@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -132,7 +132,7 @@ class Common
             return self::$isCliMode;
         }
 
-        if(PHP_SAPI == 'cli'){
+        if(PHP_SAPI === 'cli'){
             return true;
         }
         
@@ -292,25 +292,21 @@ class Common
      */
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)
     {
-        if (PHP_MAJOR_VERSION >= 7) {
-            try {
-                return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
-            } catch (\Throwable $e) {
-                if ($rethrow) {
-                    throw $e;
-                }
-
-                $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-                $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
-                    'message' => $e->getMessage(),
-                    'backtrace' => $e->getTraceAsString(),
-                    'string' => $string,
-                ]);
-                return false;
+        try {
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+        } catch (\Throwable $e) {
+            if ($rethrow) {
+                throw $e;
             }
-        }
 
-        return @unserialize($string);
+            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+            $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
+                'message' => $e->getMessage(),
+                'backtrace' => $e->getTraceAsString(),
+                'string' => $string,
+            ]);
+            return false;
+        }
     }
 
     /*
@@ -355,7 +351,7 @@ class Common
             foreach (array_keys($value) as $key) {
                 $newKey = $key;
                 $newKey = self::sanitizeInputValues($newKey, $alreadyStripslashed);
-                if ($key != $newKey) {
+                if ($key !== $newKey) {
                     $value[$newKey] = $value[$key];
                     unset($value[$key]);
                 }
@@ -402,7 +398,7 @@ class Common
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         // note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
-        if ($value != '' && $tmp == '') {
+        if ($value !== '' && $tmp === '') {
             // convert and escape
             $value = utf8_encode($value);
             $tmp = htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
@@ -525,7 +521,7 @@ class Common
         // Normal case, there is a value available in REQUEST for the requested varName:
 
         // we deal w/ json differently
-        if ($varType == 'json') {
+        if ($varType === 'json') {
             $value = $requestArrayToUse[$varName];
             $value = json_decode($value, $assoc = true);
             return self::sanitizeInputValues($value, $alreadyStripslashed = true);
@@ -629,9 +625,7 @@ class Common
      */
     public static function generateUniqId()
     {
-        $rand = self::getRandomInt();
-
-        return md5(uniqid($rand, true));
+        return bin2hex(random_bytes(16));
     }
 
     /**
@@ -729,37 +723,9 @@ class Common
      */
     public static function convertUserIdToVisitorIdBin($userId)
     {
-        require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-        $userIdHashed = \PiwikTracker::getUserIdHashed($userId);
+        $userIdHashed = \MatomoTracker::getUserIdHashed($userId);
 
         return self::convertVisitorIdToBin($userIdHashed);
-    }
-
-    /**
-     * JSON encode wrapper
-     * - missing or broken in some php 5.x versions
-     *
-     * @param mixed $value
-     * @return string
-     * @deprecated
-     */
-    public static function json_encode($value)
-    {
-        return @json_encode($value);
-    }
-
-    /**
-     * JSON decode wrapper
-     * - missing or broken in some php 5.x versions
-     *
-     * @param string $json
-     * @param bool $assoc
-     * @return mixed
-     * @deprecated
-     */
-    public static function json_decode($json, $assoc = false)
-    {
-        return json_decode($json, $assoc);
     }
 
     /**
@@ -824,79 +790,6 @@ class Common
     /*
      * DataFiles
      */
-
-    /**
-     * Returns list of continent codes
-     *
-     * @see core/DataFiles/Countries.php
-     *
-     * @return array Array of 3 letter continent codes
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()
-     */
-    public static function getContinentsList()
-    {
-        /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
-        return $dataProvider->getContinentList();
-    }
-
-    /**
-     * Returns list of valid country codes
-     *
-     * @see core/DataFiles/Countries.php
-     *
-     * @param bool $includeInternalCodes
-     * @return array Array of (2 letter ISO codes => 3 letter continent code)
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()
-     */
-    public static function getCountriesList($includeInternalCodes = false)
-    {
-        /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
-        return $dataProvider->getCountryList($includeInternalCodes);
-    }
-
-    /**
-     * Returns the list of valid language codes.
-     *
-     * See [core/DataFiles/Languages.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/Languages.php).
-     *
-     * @return array Array of two letter ISO codes mapped with their associated language names (in English). E.g.
-     *               `array('en' => 'English', 'ja' => 'Japanese')`.
-     * @api
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageList()
-     */
-    public static function getLanguagesList()
-    {
-        /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
-        return $dataProvider->getLanguageList();
-    }
-
-    /**
-     * Returns a list of language to country mappings.
-     *
-     * See [core/DataFiles/LanguageToCountry.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/LanguageToCountry.php).
-     *
-     * @return array Array of two letter ISO language codes mapped with two letter ISO country codes:
-     *               `array('fr' => 'fr') // French => France`
-     * @api
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()
-     */
-    public static function getLanguageToCountryList()
-    {
-        /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
-        return $dataProvider->getLanguageToCountryList();
-    }
 
     /**
      * Returns list of provider names
@@ -976,7 +869,7 @@ class Common
      */
     public static function getCountry($lang, $enableLanguageToCountryGuess, $ip)
     {
-        if (empty($lang) || strlen($lang) < 2 || $lang == self::LANGUAGE_CODE_INVALID) {
+        if (empty($lang) || strlen($lang) < 2 || $lang === self::LANGUAGE_CODE_INVALID) {
             return self::LANGUAGE_CODE_INVALID;
         }
 
@@ -1027,7 +920,7 @@ class Common
      * Returns the language and region string, based only on the Browser 'accepted language' information.
      * * The language tag is defined by ISO 639-1
      *
-     * @param string $browserLanguage Browser's accepted langauge header
+     * @param string $browserLanguage Browser's accepted language header
      * @param array $validLanguages array of valid language codes
      * @return string  2 letter ISO 639 code  'es' (Spanish)
      */
@@ -1036,7 +929,7 @@ class Common
         $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
         $languageRegionCode = self::extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages);
 
-        if (strlen($languageRegionCode) == 2) {
+        if (strlen($languageRegionCode) === 2) {
             $languageCode = $languageRegionCode;
         } else {
             $languageCode = substr($languageRegionCode, 0, 2);
@@ -1052,7 +945,7 @@ class Common
      * * The language tag is defined by ISO 639-1
      * * The region tag is defined by ISO 3166-1
      *
-     * @param string $browserLanguage Browser's accepted langauge header
+     * @param string $browserLanguage Browser's accepted language header
      * @param array $validLanguages array of valid language codes. Note that if the array includes "fr" then it will consider all regional variants of this language valid, such as "fr-ca" etc.
      * @return string 2 letter ISO 639 code 'es' (Spanish) or if found, includes the region as well: 'es-ar'
      */
@@ -1070,7 +963,7 @@ class Common
             }
 
             // If a region tag is found eg. "fr-ca"
-            if (count($parts) == 3) {
+            if (count($parts) === 3) {
                 $regionIso3166 = $parts[2]; // eg. "-ca"
 
                 if (in_array($langIso639 . $regionIso3166, $validLanguages)) {
@@ -1103,7 +996,7 @@ class Common
 
         $countryList = $dataProvider->getCountryList();
 
-        if ($country == 'ti') {
+        if ($country === 'ti') {
             $country = 'cn';
         }
 
@@ -1163,7 +1056,7 @@ class Common
             $fields = array($fields);
         }
         $count = count($fields);
-        if ($count == 0) {
+        if ($count === 0) {
             return "''";
         }
         return '?' . str_repeat(',?', $count - 1);

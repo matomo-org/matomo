@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,15 +8,15 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Plugins;
 
-use Piwik\Cache\Backend\ArrayCache;
-use Piwik\Cache\Eager;
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Eager;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Marketplace\Consumer;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
-use Piwik\Translate;
 
 class CustomInvalidLicenses extends InvalidLicenses {
     private $isActivated = true;
@@ -47,18 +47,18 @@ class InvalidLicensesTest extends IntegrationTestCase
 
     private $cacheKey = 'Marketplace_ExpiredPlugins';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        Translate::loadEnglishTranslation();
+        Fixture::loadAllTranslations();
 
         $this->cache = new Eager(new ArrayCache(), 'test');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Translate::unloadEnglishTranslation();
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 

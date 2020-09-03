@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@ namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Json;
-use Piwik\Plugins\API\Renderer\Json2;
 
 /**
  * @group Plugin
@@ -18,14 +17,14 @@ use Piwik\Plugins\API\Renderer\Json2;
  * @group API_JsonRendererTest
  * @group JsonRenderer
  */
-class JsonRendererTest extends \PHPUnit_Framework_TestCase
+class JsonRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Json
      */
     private $jsonBuilder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->jsonBuilder = $this->makeBuilder(array());
         DataTable\Manager::getInstance()->deleteAll();
@@ -356,14 +355,14 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_oldJson_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
+    public function test_json_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
     {
         $input = array(
             "firstElement" => "isFirst",
             "secondElement" => "isSecond"
         );
 
-        $expected = '[{"firstElement":"isFirst","secondElement":"isSecond"}]';
+        $expected = '{"firstElement":"isFirst","secondElement":"isSecond"}';
 
         $oldJsonBuilder = new Json($input);
         $actual = $oldJsonBuilder->renderArray($input);
@@ -371,9 +370,17 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
+    public function test_render_withNestedEmptyArrayWorks()
+    {
+        $input = [[]];
+        $render = new Json($input);
+        $result = $render->renderArray($input);
+        $this->assertEquals('[[]]', $result);
+    }
+
     private function makeBuilder($request)
     {
-        return new Json2($request);
+        return new Json($request);
     }
 
     private function assertNoJsonError($response)

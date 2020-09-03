@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,11 +31,11 @@ class Cache
     private $logger;
 
     /**
-     * @var \Piwik\Cache\Lazy
+     * @var \Matomo\Cache\Lazy
      */
     private $cache;
 
-    public function __construct(LoggerInterface $logger, Config $config, \Piwik\Cache\Lazy $cache)
+    public function __construct(LoggerInterface $logger, Config $config, \Matomo\Cache\Lazy $cache)
     {
         $this->isEnabled = (bool)$config->General['enable_segments_subquery_cache'];
         $this->limitActionIds = $config->General['segments_subquery_cache_limit'];
@@ -70,7 +70,7 @@ class Cache
             );
         }
 
-        if(count($ids) == 0) {
+        if(count($ids) === 0) {
             return null;
         }
 

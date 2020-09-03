@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Dodaj novega uporabnika",
-        "Alias": "Psevdonim",
         "AllWebsites": "Vse spletne strani",
         "ApplyToAllWebsites": "Uveljavi za vse spletne strani",
         "DeleteConfirm": "Ste prepričani, da želite izbrisati uporabnika %s?",

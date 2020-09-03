@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -62,7 +62,7 @@ class ApiTest extends SystemTestCase
                 'idSite' => 1,
                 'date' => '2010-01-01',
                 'periods' => 'year',
-                'testSuffix' => 'phpSerialized',
+                'testSuffix' => 'phpSerialized' . (version_compare(PHP_VERSION, '7.4', '>=') ? '74' : ''),
                 'format' => 'original',
             ],
         ];
@@ -181,6 +181,10 @@ class ApiTest extends SystemTestCase
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
+
+        /** @var DataTable $referrers */
+        $referrers = Request::processRequest('Referrers.getCampaigns', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $this->assertEquals(substr($longReferrer, 0, 255), $referrers->getFirstRow()->getColumn('label'));
     }
 
     public function test_forceNewVisit_shouldNotForceNewVisitWhenReferrerNameIsLongerThanDbColumnLength()

@@ -15,10 +15,10 @@
 				
 				
 				<pageId>9</pageId>
+				<pageLoadTime>4.11s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>134</generationTimeMilliseconds>
-				<generationTime>0.13s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageLoadTimeMilliseconds>4113</pageLoadTimeMilliseconds>
+				<pageviewPosition>1</pageviewPosition>
 				<title>Checkout/Purchasing...</title>
 				<subtitle>http://example.org/store/purchase.htm</subtitle>
 				<icon />
@@ -65,7 +65,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>1</visitDuration>
 		<visitDurationPretty>1s</visitDurationPretty>
 		<searches>0</searches>
@@ -120,8 +122,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -138,6 +139,8 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -154,12 +157,12 @@
 				
 				
 				<pageId>1</pageId>
+				<pageLoadTime>2.28s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>234</generationTimeMilliseconds>
-				<generationTime>0.23s</generationTime>
-				<interactionPosition>1</interactionPosition>
+				<pageLoadTimeMilliseconds>2280</pageLoadTimeMilliseconds>
+				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm?parameter=Should display</subtitle>
 				<icon />
@@ -175,12 +178,12 @@
 				
 				
 				<pageId>2</pageId>
+				<pageLoadTime>2.45s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<generationTimeMilliseconds>224</generationTimeMilliseconds>
-				<generationTime>0.22s</generationTime>
-				<interactionPosition>2</interactionPosition>
+				<pageLoadTimeMilliseconds>2446</pageLoadTimeMilliseconds>
+				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view - should be registered as URL</title>
 				<subtitle>http://example.org/</subtitle>
 				<icon />
@@ -199,7 +202,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -218,7 +221,7 @@
 				<bandwidth />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
@@ -237,7 +240,7 @@
 				<bandwidth />
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -256,7 +259,7 @@
 				<bandwidth />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<interactionPosition>2</interactionPosition>
+				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
@@ -290,9 +293,9 @@
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
-				<generationTimeMilliseconds>812</generationTimeMilliseconds>
-				<generationTime>0.81s</generationTime>
-				<interactionPosition>3</interactionPosition>
+				<siteSearchCategory />
+				<siteSearchCount />
+				<pageviewPosition>3</pageviewPosition>
 				<icon>plugins/Morpheus/images/search.png</icon>
 				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
@@ -308,10 +311,10 @@
 				
 				
 				<pageId>8</pageId>
+				<pageLoadTime>2.06s</pageLoadTime>
 				<bandwidth />
-				<generationTimeMilliseconds>24</generationTimeMilliseconds>
-				<generationTime>0.02s</generationTime>
-				<interactionPosition>4</interactionPosition>
+				<pageLoadTimeMilliseconds>2059</pageLoadTimeMilliseconds>
+				<pageviewPosition>4</pageviewPosition>
 				<title>Looking at homepage after site search...</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
@@ -343,7 +346,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>1621</visitDuration>
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
@@ -398,8 +403,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -416,5 +420,7 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+		</customVariables>
 	</row>
 </result>

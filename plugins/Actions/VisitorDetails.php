@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -117,8 +117,13 @@ class VisitorDetails extends VisitorDetailsAbstract
         if ($action['type'] == Action::TYPE_SITE_SEARCH) {
             // Handle Site Search
             $action['siteSearchKeyword'] = $action['pageTitle'];
+            $action['siteSearchCategory'] = $action['search_cat'];
+            $action['siteSearchCount'] = $action['search_count'];
             unset($action['pageTitle']);
         }
+
+        unset($action['search_cat']);
+        unset($action['search_count']);
 
         // Generation time
         if ($this->shouldHandleAction($action) && empty($action['eventType']) && isset($action['custom_float']) && $action['custom_float'] > 0) {
@@ -131,9 +136,16 @@ class VisitorDetails extends VisitorDetailsAbstract
             unset($action['custom_float']);
         }
 
-        if (array_key_exists('interaction_position', $action)) {
-            $action['interactionPosition'] = $action['interaction_position'];
-            unset($action['interaction_position']);
+        if (!array_key_exists('pageLoadTime', $action) || $action['pageLoadTime'] <= 0) {
+            unset($action['pageLoadTime']);
+        } else {
+            $action['pageLoadTimeMilliseconds'] = $action['pageLoadTime'];
+            $action['pageLoadTime'] = $formatter->getPrettyTimeFromSeconds($action['pageLoadTime'] / 1000, true);
+        }
+
+        if (array_key_exists('pageview_position', $action)) {
+            $action['pageviewPosition'] = $action['pageview_position'];
+            unset($action['pageview_position']);
         }
 
         // Reconstruct url from prefix
@@ -207,6 +219,15 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['iconSVG'] = 'plugins/Morpheus/images/search.svg';
                 $action['title'] = Piwik::translate('Actions_SubmenuSitesearch');
                 $action['subtitle'] = $action['siteSearchKeyword'];
+
+                if (!empty($action['siteSearchCategory'])) {
+                    $action['subtitle'] .= ' - ' . Piwik::translate('Actions_ColumnSearchCategory') . ': ' . $action['siteSearchCategory'];
+                }
+
+                if (!empty($action['siteSearchCount'])) {
+                    $action['subtitle'] .= ' - ' . Piwik::translate('Actions_ColumnSearchResultsCount') . ': ' . $action['siteSearchCount'];
+                }
+
                 break;
             case Action::TYPE_PAGE_URL:
             case Action::TYPE_PAGE_TITLE:
@@ -262,7 +283,15 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float,
-					log_link_visit_action.interaction_position
+					( log_link_visit_action.time_network +
+					log_link_visit_action.time_server +
+					log_link_visit_action.time_transfer +
+					log_link_visit_action.time_dom_completion +
+					log_link_visit_action.time_dom_processing +
+					log_link_visit_action.time_on_load ) AS pageLoadTime,
+					log_link_visit_action.pageview_position,
+					log_link_visit_action.search_cat,
+					log_link_visit_action.search_count
 					" . $customActionDimensionFields . "
 				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
@@ -281,21 +310,24 @@ class VisitorDetails extends VisitorDetailsAbstract
     private $visitedPageUrls         = array();
     private $siteSearchKeywords      = array();
     private $pageGenerationTimeTotal = 0;
+    private $pageLoadTimeTotal = 0;
 
     public function initProfile($visits, &$profile)
     {
-        $this->visitedPageUrls               = array();
-        $this->siteSearchKeywords            = array();
-        $this->pageGenerationTimeTotal       = 0;
-        $profile['totalActions']             = 0;
-        $profile['totalOutlinks']            = 0;
-        $profile['totalDownloads']           = 0;
-        $profile['totalSearches']            = 0;
-        $profile['totalPageViews']           = 0;
-        $profile['totalUniquePageViews']     = 0;
-        $profile['totalRevisitedPages']      = 0;
-        $profile['totalPageViewsWithTiming'] = 0;
-        $profile['searches']                 = array();
+        $this->visitedPageUrls                 = array();
+        $this->siteSearchKeywords              = array();
+        $this->pageGenerationTimeTotal         = 0;
+        $this->pageLoadTimeTotal               = 0;
+        $profile['totalActions']               = 0;
+        $profile['totalOutlinks']              = 0;
+        $profile['totalDownloads']             = 0;
+        $profile['totalSearches']              = 0;
+        $profile['totalPageViews']             = 0;
+        $profile['totalUniquePageViews']       = 0;
+        $profile['totalRevisitedPages']        = 0;
+        $profile['totalPageViewsWithTiming']   = 0;
+        $profile['totalPageViewsWithLoadTime'] = 0;
+        $profile['searches']                   = array();
     }
 
     public function handleProfileVisit($visit, &$profile)
@@ -310,6 +342,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $this->handleIfSiteSearchAction($action, $profile);
         $this->handleIfPageViewAction($action, $profile);
         $this->handleIfPageGenerationTime($action, $profile);
+        $this->handleIfPageLoadTime($action, $profile);
     }
 
     public function finalizeProfile($visits, &$profile)
@@ -333,6 +366,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $this->handleSiteSearches($profile);
         $this->handleAveragePageGenerationTime($profile);
+        $this->handleAveragePageLoadTime($profile);
     }
 
     /**
@@ -419,6 +453,22 @@ class VisitorDetails extends VisitorDetailsAbstract
         if ($profile['totalPageViewsWithTiming']) {
             $profile['averagePageGenerationTime'] =
                 round($this->pageGenerationTimeTotal / (1000 * $profile['totalPageViewsWithTiming']), $precision = 3);
+        }
+    }
+
+    private function handleIfPageLoadTime($action, &$profile)
+    {
+        if (isset($action['pageLoadTimeMilliseconds'])) {
+            $this->pageLoadTimeTotal += $action['pageLoadTimeMilliseconds'];
+            ++$profile['totalPageViewsWithLoadTime'];
+        }
+    }
+
+    private function handleAveragePageLoadTime(&$profile)
+    {
+        if ($profile['totalPageViewsWithLoadTime']) {
+            $profile['averagePageLoadTime'] =
+                round($this->pageLoadTimeTotal / (1000 * $profile['totalPageViewsWithLoadTime']), $precision = 3);
         }
     }
 }

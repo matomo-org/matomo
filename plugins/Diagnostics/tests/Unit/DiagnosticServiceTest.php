@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,7 +14,7 @@ use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithError;
 use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithSuccess;
 use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithWarning;
 
-class DiagnosticServiceTest extends \PHPUnit_Framework_TestCase
+class DiagnosticServiceTest extends \PHPUnit\Framework\TestCase
 {
     public function test_runDiagnostics()
     {
@@ -25,8 +25,10 @@ class DiagnosticServiceTest extends \PHPUnit_Framework_TestCase
             new DiagnosticWithWarning(),
             new DiagnosticWithSuccess(),
         );
+        $informationDiagnostics = array(
+        );
 
-        $service = new DiagnosticService($mandatoryDiagnostics, $optionalDiagnostics, array());
+        $service = new DiagnosticService($mandatoryDiagnostics, $optionalDiagnostics, $informationDiagnostics, array());
 
         $report = $service->runDiagnostics();
 

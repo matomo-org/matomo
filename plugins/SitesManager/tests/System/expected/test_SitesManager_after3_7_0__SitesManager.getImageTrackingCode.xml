@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>&lt;!-- Matomo Image Tracker--&gt;
-&lt;img src=&quot;http://http://example.org/piwik/matomo.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0&quot; alt=&quot;&quot; /&gt;
+&lt;img referrerpolicy=&quot;no-referrer-when-downgrade&quot; src=&quot;http://http://example.org/piwik/matomo.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0&quot; alt=&quot;&quot; /&gt;
 &lt;!-- End Matomo --&gt;</result>

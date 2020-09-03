@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -80,7 +80,10 @@ class SegmentSelectorControl extends UIControl
         $this->isUserAnonymous = Piwik::isUserIsAnonymous();
         $this->segmentTranslations = $this->getTranslations();
         $this->segmentProcessedOnRequest = Rules::isBrowserArchivingAvailableForSegments();
-        $this->hideSegmentDefinitionChangeMessage = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), 'hideSegmentDefinitionChangeMessage');
+        $this->hideSegmentDefinitionChangeMessage = UsersManagerAPI::getInstance()->getUserPreference(
+            'hideSegmentDefinitionChangeMessage',
+            Piwik::getCurrentUserLogin()
+        );
     }
 
     public function getClientSideProperties()

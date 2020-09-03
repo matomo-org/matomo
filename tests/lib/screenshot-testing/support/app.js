@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * UI screenshot test runner Application class
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -43,6 +43,12 @@ var isCorePlugin = function (pathToPlugin) {
     return !fs.existsSync(gitDir);
 };
 
+var hasSpecialNeeds = function (pathToPlugin) {
+    // skip plugins that have special needs in core build
+    var travisDir = path.join(pathToPlugin, 'tests/travis');
+    return !!fs.existsSync(travisDir);
+};
+
 var Application = function () {
     this.runner = null;
 
@@ -69,10 +75,8 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --screenshot-repo:        Specifies the GitHub repository that contains the expected screenshots");
     console.log("                            to link to in the diffviewer. For use with travis build.");
     console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
-    console.log("  --first-half:             Only execute first half of all the test suites. Will be only applied if no")
-    console.log("                            specific plugin or test-files requested");
-    console.log("  --second-half:            Only execute second half of all the test suites. Will be only applied if no")
-    console.log("                            specific plugin or test-files requested");
+    console.log("  --num-test-groups:        Divide all test execution into this many overall groups. Use --test-group to pick which group to run in this execution.");
+    console.log("  --test-group:             The test group to run.");
 
     process.exit(0);
 };
@@ -123,9 +127,15 @@ Application.prototype.loadTestModules = function () {
     // load all UI tests we can find
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
 
-    if (options.core) {
+    if (options.core && !options['store-in-ui-tests-repo']) {
         plugins = plugins.filter(function (path) {
             return isCorePlugin(path);
+        });
+    }
+
+    if (!options.plugin) {
+        plugins = plugins.filter(function (path) {
+            return !hasSpecialNeeds(path);
         });
     }
 
@@ -155,19 +165,16 @@ Application.prototype.loadTestModules = function () {
 
     var specificTestsRequested = options.plugin || options.tests.length;
 
-    if ((options['run-first-half-only'] || options['run-second-half-only']) && !specificTestsRequested) {
-        // run only first 50% of the test suites or only run last 50% of the test suites.
+    if (options['num-test-groups'] && options['test-group'] && !specificTestsRequested) {
+        // run only N% of the test suites.
         // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
         // split tests into multiple jobs.
-        var numTestsFirstHalf = Math.round(mocha.suite.suites.length / 2);
-        numTestsFirstHalf -= 3;
+
+        var numberOfGroupsToSplitTestsInto = parseInt(options['num-test-groups']);
+        var testGroupToRun = parseInt(options['test-group']);
+
         mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
-            if (options['run-first-half-only'] && index < numTestsFirstHalf) {
-                return true;
-            } else if (options['run-second-half-only'] && index >= numTestsFirstHalf) {
-                return true;
-            }
-            return false;
+            return index % numberOfGroupsToSplitTestsInto === testGroupToRun;
         });
     }
 
@@ -236,10 +243,17 @@ Application.prototype.loadTestModules = function () {
             message += "\n" + indent + indent + "Url to reproduce: " + url + "\n";
 
             if (message.indexOf('Generated screenshot') === -1) {
-                if (!fs.existsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'))) {
-                    fsExtra.mkdirsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'));
+
+                var processedPath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots');
+
+                if (options.plugin) {
+                    processedPath = path.join(PIWIK_INCLUDE_PATH, 'plugins', options.plugin, 'tests/UI/processed-ui-screenshots');
                 }
-                const failurePath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots', test.title.replace(/(\s|[^a-zA-Z0-9_])+/g, '_') + '_failure.png');
+
+                if (!fs.existsSync(processedPath)) {
+                    fsExtra.mkdirsSync(processedPath);
+                }
+                const failurePath = path.join(processedPath, test.title.replace(/(\s|[^a-zA-Z0-9_])+/g, '_') + '_failure.png');
 
                 message += indent + indent + "Screenshot of failure: " + failurePath + "\n";
 
@@ -284,7 +298,7 @@ Application.prototype.doRunTests = function (mocha) {
     this.runner = mocha.run(function (failures) {
         // remove symlinks
         if (!options['keep-symlinks']) {
-            var symlinks = ['libs', 'plugins', 'tests', 'misc', 'piwik.js', 'matomo.js'];
+            var symlinks = ['libs', 'plugins', 'tests', 'misc', 'node_modules', 'piwik.js', 'matomo.js'];
 
             symlinks.forEach(function (item) {
                 var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);

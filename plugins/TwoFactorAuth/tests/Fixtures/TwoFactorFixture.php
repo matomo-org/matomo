@@ -42,7 +42,7 @@ class TwoFactorFixture extends Fixture
      */
     private $twoFa;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);
         $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
@@ -52,7 +52,7 @@ class TwoFactorFixture extends Fixture
         $this->trackFirstVisit();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -78,11 +78,11 @@ class TwoFactorFixture extends Fixture
         foreach ([$this->userWith2Fa, $this->userWithout2Fa, $this->userWith2FaDisable, $this->userNo2Fa] as $user) {
             \Piwik\Plugins\UsersManager\API::getInstance()->addUser($user, $this->userPassword, $user . '@matomo.org');
             // we cannot set superuser as logme won't work for super user
-            UsersAPI::getInstance()->setUserAccess($user, 'admin', [$this->idSite, $this->idSite2]);
+            UsersAPI::getInstance()->setUserAccess($user, 'view', [$this->idSite, $this->idSite2]);
 
             if ($this->userWith2Fa === $user) {
                 $userModel = new Model();
-                $userModel->updateUserTokenAuth($user, 'c4ca4238a0b923820dcc509a6f75849b');
+                $userModel->addTokenAuth($user, 'a4ca4238a0b923820dcc509a6f75849b', 'twofa test', Date::now()->getDatetime());
             }
         }
 

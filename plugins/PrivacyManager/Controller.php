@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -59,14 +59,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $settings['delete_reports_enable'] = Common::getRequestVar("enableDeleteReports", 0);
         $deleteReportsOlderThan = Common::getRequestVar("deleteReportsOlderThan", 3);
         $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 2 ? 2 : $deleteReportsOlderThan;
-        $settings['delete_reports_keep_basic_metrics']   = Common::getRequestVar("keepBasic", 0);
-        $settings['delete_reports_keep_day_reports']     = Common::getRequestVar("keepDay", 0);
-        $settings['delete_reports_keep_week_reports']    = Common::getRequestVar("keepWeek", 0);
-        $settings['delete_reports_keep_month_reports']   = Common::getRequestVar("keepMonth", 0);
-        $settings['delete_reports_keep_year_reports']    = Common::getRequestVar("keepYear", 0);
-        $settings['delete_reports_keep_range_reports']   = Common::getRequestVar("keepRange", 0);
-        $settings['delete_reports_keep_segment_reports'] = Common::getRequestVar("keepSegments", 0);
-        $settings['delete_logs_max_rows_per_query']      = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
+        $settings['delete_reports_keep_basic_metrics']             = Common::getRequestVar("keepBasic", 0);
+        $settings['delete_reports_keep_day_reports']               = Common::getRequestVar("keepDay", 0);
+        $settings['delete_reports_keep_week_reports']              = Common::getRequestVar("keepWeek", 0);
+        $settings['delete_reports_keep_month_reports']             = Common::getRequestVar("keepMonth", 0);
+        $settings['delete_reports_keep_year_reports']              = Common::getRequestVar("keepYear", 0);
+        $settings['delete_reports_keep_range_reports']             = Common::getRequestVar("keepRange", 0);
+        $settings['delete_reports_keep_segment_reports']           = Common::getRequestVar("keepSegments", 0);
+        $settings['delete_logs_max_rows_per_query']                = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
+        $settings['delete_logs_unused_actions_max_rows_per_query'] = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
 
         return $settings;
     }
@@ -90,12 +91,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $rawDataRetention = '';
 
-        if ($purgeDataSettings['delete_logs_older_than'] > 30) {
-            $months = floor($purgeDataSettings['delete_logs_older_than']/30);
+        if ($purgeDataSettings['delete_logs_older_than'] > 90) {
+            // only show months when it is more than 90 days...
+            $months = floor($purgeDataSettings['delete_logs_older_than']/30.4);
+            $daysLeft = round($purgeDataSettings['delete_logs_older_than'] - ($months * 30.4));
             $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
-        }
-        if ($purgeDataSettings['delete_logs_older_than'] % 30 > 0) {
-            $days = floor($purgeDataSettings['delete_logs_older_than']%30);
+
+            if ($daysLeft > 0) {
+                $rawDataRetention .= $daysLeft . ' ' . Piwik::translate($daysLeft > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
+            }
+
+        } elseif ($purgeDataSettings['delete_logs_older_than'] > 0) {
+            $days = $purgeDataSettings['delete_logs_older_than'];
             $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
         }
 

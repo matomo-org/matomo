@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,7 +30,7 @@ class ManagerTest extends IntegrationTestCase
      */
     private $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->manager = Plugin\Manager::getInstance();
@@ -91,7 +91,7 @@ class ManagerTest extends IntegrationTestCase
     public function test_ListenNotToControllerMethodEventsThatDoesNotExists()
     {
         foreach ($this->manager->getLoadedPlugins() as $plugin) {
-            $hooks = $plugin->getListHooksRegistered();
+            $hooks = $plugin->registerEvents();
             foreach ($hooks as $hook => $callback) {
                 if (0 === strpos($hook, 'Controller.')) {
                     list($controller, $module, $action) = explode('.', $hook);
@@ -147,8 +147,8 @@ class ManagerTest extends IntegrationTestCase
 
     private function assertOnlyTrackerPluginsAreLoaded($expectedPluginNamesLoaded)
     {
-        // should currently load between 10 and 30 plugins
-        $this->assertLessThan(30, count($this->manager->getLoadedPlugins()));
+        // should currently load between 10 and 35 plugins
+        $this->assertLessThan(35, count($this->manager->getLoadedPlugins()));
         $this->assertGreaterThan(10, count($this->manager->getLoadedPlugins()));
 
         // we need to make sure it actually only loaded the correct ones

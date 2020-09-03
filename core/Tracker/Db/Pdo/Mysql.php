@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,6 +12,7 @@ use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Piwik\Config;
 use Piwik\Tracker\Db;
 use Piwik\Tracker\Db\DbException;
 
@@ -106,8 +107,6 @@ class Mysql extends Db
         // See #6296 why this is important in tracker
         $this->mysqlOptions[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
         $this->mysqlOptions[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-        
-
 
         $this->connection = @new PDO($this->dsn, $this->username, $this->password, $this->mysqlOptions);
 

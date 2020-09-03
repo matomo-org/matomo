@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,21 +16,13 @@ namespace Piwik\Composer;
  */
 class ScriptHandler
 {
-    private static function isPhp7orLater()
-    {
-        return version_compare('7.0.0-dev', PHP_VERSION) < 1;
-    }
-
     public static function cleanXhprof()
     {
         if (! is_dir('vendor/facebook/xhprof/extension')) {
             return;
         }
 
-        if (!self::isPhp7orLater()) {
-            // doesn't work with PHP 7 at the moment
-            passthru('misc/composer/clean-xhprof.sh');
-        }
+        passthru('misc/composer/clean-xhprof.sh');
     }
 
     public static function buildXhprof()
@@ -39,9 +31,6 @@ class ScriptHandler
             return;
         }
 
-
-        if (!self::isPhp7orLater()) {
-            passthru('misc/composer/clean-xhprof.sh');
-        }
+        passthru('misc/composer/clean-xhprof.sh');
     }
 }

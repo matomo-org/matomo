@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,8 +8,6 @@
  */
 
 namespace Piwik\Archive;
-
-use Piwik\DataTable;
 
 /**
  * This class is used to split blobs of DataTables into chunks. Each blob used to be stored under one blob in the
@@ -24,7 +22,7 @@ class Chunk
     const NUM_TABLES_IN_CHUNK = 100;
 
     /**
-     * Get's the record name to use for a given tableId/subtableId.
+     * Gets the record name to use for a given tableId/subtableId.
      *
      * @param string $recordName eg 'Actions_ActionsUrl'
      * @param int    $tableId    eg '5' for tableId '5'
@@ -43,7 +41,7 @@ class Chunk
      * Moves the given blobs into chunks and assigns a proper record name containing the chunk number.
      *
      * @param string $recordName The original archive record name, eg 'Actions_ActionsUrl'
-     * @param array  $blobs  An array containg a mapping of tableIds to blobs. Eg array(0 => 'blob', 1 => 'subtableBlob', ...)
+     * @param array  $blobs  An array containing a mapping of tableIds to blobs. Eg array(0 => 'blob', 1 => 'subtableBlob', ...)
      * @return array        An array where each blob is moved into a chunk, indexed by recordNames.
      *                      eg array('Actions_ActionsUrl_chunk_0_99'    => array(0 => 'blob', 1 => 'subtableBlob', ...),
      *                               'Actions_ActionsUrl_chunk_100_199' => array(...))

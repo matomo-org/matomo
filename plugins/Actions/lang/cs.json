@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Průměr dle %1$s přístupů %2$s mezi %3$s a %4$s",
+        "ColumnClickedURL": "Kliknutý externí odkaz",
+        "ColumnClickedURLs": "Kliknuté externí odkazy",
         "ColumnActionURL": "URL akce",
         "ColumnClicks": "Prokliků",
         "ColumnClicksDocumentation": "Počet kliknutí na odkaz v závislosti na čase.",
@@ -30,6 +32,7 @@
         "ColumnUniqueOutlinks": "Jedinečné externí odkazy",
         "ColumnIdPageview": "ID zobrazení stránky",
         "ColumnInteractionPosition": "Pozice interakce",
+        "ColumnPageViewPosition": "Pozice zobrazení stránek",
         "ActionsInVisit": "Akce během návštěvy",
         "DownloadsReportDocumentation": "V tomto hlášení můžete vidět soubory, které byly staženy. %s Které Matomo počítá jako stažené jsou jen ty, na které bylo kliknuto. Bez ohledu na to, jestli bylo stažení dokončeno nebo přerušeno. To Matomo neumí zjistit.",
         "EntryPagesReportDocumentation": "Toto hlášení obsahuje informace o vstupních stránkách, které byly za dané časové období použity. Vstupní stránka je první stránka, kterou uživatel navštíví. %s URL jsou zobrazeny ve složkové struktuře.",
@@ -55,6 +58,8 @@
         "SiteSearchCategories": "Kategorie (Vyhledávání na webu)",
         "SiteSearchKeyword": "Klíčová slova (Vyhledávání)",
         "SiteSearchKeywords": "Klíčová slova (vyhledávání na webu)",
+        "SiteSearchKeywordCount": "Počet klíčových slov (Vyhledávání)",
+        "SiteSearchKeywordCounts": "Počty klíčových slov (Vyhledávání)",
         "SiteSearchKeywordsDocumentation": "Toto hlášení shrnuje klíčová slova, která byla použita návštěvníky při hledání pomocí interního vyhledávače.",
         "SiteSearchKeywordsNoResultDocumentation": "Toto hlášení shrnuje klíčová slova, pro která nebyl vrácen žádný výsledek. Možná by bylo možné vylepšit vyhledávací algoritmus, nebo návštěvníci hledají něco, co (zatím) není na vašich stránkách?",
         "SubmenuPagesEntry": "Vstupní stránky",

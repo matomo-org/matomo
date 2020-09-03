@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,6 +16,7 @@ use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker;
@@ -254,7 +255,7 @@ class GoalManager
         $goals = $this->getGoalDefinitions($idSite);
 
         if (!isset($goals[$idGoal])) {
-            return null;
+            throw new InvalidRequestParameterException('idGoal ' . $idGoal . ' does not exist');
         }
 
         $goal = $goals[$idGoal];
@@ -275,28 +276,31 @@ class GoalManager
     public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
         $visitorInformation = $visitProperties->getProperties();
-        $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables') ?: array();
 
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
 
         $goal = $this->getGoalFromVisitor($visitProperties, $request, $action);
 
-        // Copy Custom Variables from Visit row to the Goal conversion
-        // Otherwise, set the Custom Variables found in the cookie sent with this request
-        $goal += $visitCustomVariables;
-        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            // @todo move this to CustomVariables plugin if possible
+            // Copy Custom Variables from Visit row to the Goal conversion
+            // Otherwise, set the Custom Variables found in the cookie sent with this request
+            $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables') ?: array();
+            $goal                 += $visitCustomVariables;
+            $maxCustomVariables   = CustomVariables::getNumUsableCustomVariables();
 
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            if (isset($visitorInformation['custom_var_k' . $i])
-                && strlen($visitorInformation['custom_var_k' . $i])
-            ) {
-                $goal['custom_var_k' . $i] = $visitorInformation['custom_var_k' . $i];
-            }
-            if (isset($visitorInformation['custom_var_v' . $i])
-                && strlen($visitorInformation['custom_var_v' . $i])
-            ) {
-                $goal['custom_var_v' . $i] = $visitorInformation['custom_var_v' . $i];
+            for ($i = 1; $i <= $maxCustomVariables; $i++) {
+                if (isset($visitorInformation['custom_var_k' . $i])
+                    && strlen($visitorInformation['custom_var_k' . $i])
+                ) {
+                    $goal['custom_var_k' . $i] = $visitorInformation['custom_var_k' . $i];
+                }
+                if (isset($visitorInformation['custom_var_v' . $i])
+                    && strlen($visitorInformation['custom_var_v' . $i])
+                ) {
+                    $goal['custom_var_v' . $i] = $visitorInformation['custom_var_v' . $i];
+                }
             }
         }
 

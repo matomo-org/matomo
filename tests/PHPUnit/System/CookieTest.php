@@ -8,9 +8,11 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Access;
 use Piwik\Config;
 use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 class CookieTest extends SystemTestCase
@@ -23,14 +25,14 @@ class CookieTest extends SystemTestCase
 
     private $originalAssumeSecureValue;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->testVars = static::$fixture->getTestEnvironment();
         $this->originalAssumeSecureValue = Config::getInstance()->General['assume_secure_protocol'];
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         $this->testVars->overrideConfig('General', 'assume_secure_protocol', $this->originalAssumeSecureValue);
@@ -68,7 +70,7 @@ class CookieTest extends SystemTestCase
     {
         $headers = $this->setIgnoreCookie(self::USERAGENT_SAFARI);
         $cookie = $this->findIgnoreCookie($headers);
-        $this->assertNotContains($cookie, 'SameSite');
+        self::assertStringNotContainsString($cookie, 'SameSite');
     }
 
     private function setIgnoreCookie($userAgent)
@@ -83,7 +85,6 @@ class CookieTest extends SystemTestCase
             'period' => 'day',
             'date' => 'yesterday',
             'ignoreSalt' => md5(SettingsPiwik::getSalt()),
-            'token_auth' => $tokenAuth
         );
 
         $url = $matomoUrl . 'index.php?' . http_build_query($params);
@@ -103,6 +104,21 @@ class CookieTest extends SystemTestCase
 
     private function assertCookieSameSiteMatches($expectedSameSite, $cookieHeader)
     {
-        $this->assertContains('SameSite=' . $expectedSameSite, $cookieHeader);
+        self::assertStringContainsString('SameSite=' . $expectedSameSite, $cookieHeader);
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     * This configuration will override Fixture config.
+     *
+     * @return array
+     */
+    public static function provideContainerConfigBeforeClass()
+    {
+        $fakeAccess = new FakeAccess();
+        $fakeAccess->setSuperUserAccess(true);
+        return [
+            Access::class => $fakeAccess
+        ];
     }
 }

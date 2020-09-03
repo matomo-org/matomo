@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * PivotByDimension UI tests
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -52,6 +52,7 @@ describe("PivotByDimension", function () {
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-15, -15); // make sure nothing is highlighted
+        await page.waitFor(100);
 
         expect(await page.screenshotSelector('.dataTable,.expandDataTableFooterDrawer')).to.matchImage({
             imageName: 'pivoted_columns_report',

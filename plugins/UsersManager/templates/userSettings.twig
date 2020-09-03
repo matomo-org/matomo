@@ -4,12 +4,6 @@
 
 {% block content %}
 
-<div class="ui-confirm" id="confirmTokenRegenerate">
-    <h2>{{ 'UsersManager_TokenRegenerateConfirmSelf'|translate }}</h2>
-    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-</div>
-
 <div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
     <form id="userSettingsTable" piwik-form ng-controller="PersonalSettingsController as personalSettings">
 
@@ -74,31 +68,6 @@
              value="{{ defaultDate }}" options="{{ availableDefaultDates|json_encode }}">
         </div>
 
-        {% if isValidHost is defined and isValidHost and isUsersAdminEnabled %}
-
-            <div piwik-field uicontrol="password" name="password" autocomplete="off"
-                 ng-model="personalSettings.password"
-                 ng-change="personalSettings.requirePasswordConfirmation()"
-                 introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
-                 data-title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
-                 value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
-            </div>
-
-            <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
-                 ng-model="personalSettings.passwordBis"
-                 ng-change="personalSettings.requirePasswordConfirmation()"
-                 data-title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
-                 value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
-            </div>
-        {% endif %}
-
-        {% if isValidHost is not defined or not isValidHost %}
-            <div class="alert alert-danger">
-                {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
-                {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
-            </div>
-        {% endif %}
-
         <div piwik-save-button onconfirm="personalSettings.save()"
              saving="personalSettings.loading"></div>
 
@@ -123,38 +92,27 @@
 </div>
 
 {% if showNewsletterSignup %}
-<div ng-controller="PersonalSettingsController as personalSettings">
-    <div piwik-content-block id="newsletterSignup"
-         ng-show="personalSettings.showNewsletterSignup"
-         content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
+    <div ng-controller="PersonalSettingsController as personalSettings">
+        <div piwik-content-block id="newsletterSignup"
+             ng-show="personalSettings.showNewsletterSignup"
+             content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
 
-        <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox"
-             ng-model="personalSettings.newsletterSignupCheckbox"
-             full-width="true"
-             data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"
-             >
-        </div>
+            <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox" id="newsletterSignupCheckbox"
+                 ng-model="personalSettings.newsletterSignupCheckbox"
+                 full-width="true"
+                 data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"
+            >
+            </div>
 
-        <div piwik-save-button id="newsletterSignupBtn"
-             onconfirm="personalSettings.signupForNewsletter()"
-             data-disabled="!personalSettings.newsletterSignupCheckbox"
-             value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
-             saving="personalSettings.isProcessingNewsletterSignup">
+            <div piwik-save-button id="newsletterSignupBtn"
+                 onconfirm="personalSettings.signupForNewsletter()"
+                 data-disabled="!personalSettings.newsletterSignupCheckbox"
+                 value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
+                 saving="personalSettings.isProcessingNewsletterSignup">
+            </div>
         </div>
     </div>
-</div>
 {% endif %}
-
-<div piwik-content-block
-     content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
-    <pre piwik-select-on-focus id="token_auth_user" piwik-show-sensitive-data="{{ userTokenAuth }}"></pre>
-
-    <button class="btn btn-link"
-            ng-controller="PersonalSettingsController as personalSettings"
-            ng-click="personalSettings.regenerateTokenAuth()">{{ 'UsersManager_TokenRegenerateTitle'|translate }}</button>
-</div>
-
-{{ postEvent('Template.userSettings.afterTokenAuth') }}
 
 <div piwik-plugin-settings mode="user"></div>
 

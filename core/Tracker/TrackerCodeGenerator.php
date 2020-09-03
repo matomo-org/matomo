@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,8 +10,8 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\DbHelper;
-use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\SettingsPiwik;
@@ -89,41 +89,44 @@ class TrackerCodeGenerator
             $options .= '  _paq.push(["enableCrossDomainLinking"]);' . "\n";
         }
 
-        $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
+        if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
 
-        if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
-            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . "\n";
-            $index = 1;
-            foreach ($visitorCustomVariables as $visitorCustomVariable) {
-                if (empty($visitorCustomVariable)) {
-                    continue;
+            if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
+                $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . "\n";
+                $index   = 1;
+                foreach ($visitorCustomVariables as $visitorCustomVariable) {
+                    if (empty($visitorCustomVariable)) {
+                        continue;
+                    }
+
+                    $options .= sprintf(
+                        '  _paq.push(["setCustomVariable", %d, %s, %s, "visit"]);%s',
+                        $index++,
+                        json_encode($visitorCustomVariable[0]),
+                        json_encode($visitorCustomVariable[1]),
+                        "\n"
+                    );
                 }
-
-                $options .= sprintf(
-                    '  _paq.push(["setCustomVariable", %d, %s, %s, "visit"]);%s',
-                    $index++,
-                    json_encode($visitorCustomVariable[0]),
-                    json_encode($visitorCustomVariable[1]),
-                    "\n"
-                );
+            }
+            if ($pageCustomVariables && count($pageCustomVariables) > 0) {
+                $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . "\n";
+                $index   = 1;
+                foreach ($pageCustomVariables as $pageCustomVariable) {
+                    if (empty($pageCustomVariable)) {
+                        continue;
+                    }
+                    $options .= sprintf(
+                        '  _paq.push(["setCustomVariable", %d, %s, %s, "page"]);%s',
+                        $index++,
+                        json_encode($pageCustomVariable[0]),
+                        json_encode($pageCustomVariable[1]),
+                        "\n"
+                    );
+                }
             }
         }
-        if ($pageCustomVariables && count($pageCustomVariables) > 0) {
-            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . "\n";
-            $index = 1;
-            foreach ($pageCustomVariables as $pageCustomVariable) {
-                if (empty($pageCustomVariable)) {
-                    continue;
-                }
-                $options .= sprintf(
-                    '  _paq.push(["setCustomVariable", %d, %s, %s, "page"]);%s',
-                    $index++,
-                    json_encode($pageCustomVariable[0]),
-                    json_encode($pageCustomVariable[1]),
-                    "\n"
-                );
-            }
-        }
+
         if ($customCampaignNameQueryParam) {
             $options .= '  _paq.push(["setCampaignNameKey", '
                 . json_encode($customCampaignNameQueryParam) . ']);' . "\n";
@@ -176,13 +179,13 @@ class TrackerCodeGenerator
          *                                        the JavaScript tracker inside of anonymous function before
          *                                        adding setTrackerUrl into paq.
          *                         - **protocol**: Piwik url protocol.
-         *                         - **loadAsync**: boolean whether piwik.js should be loaded syncronous or asynchronous
+         *                         - **loadAsync**: boolean whether piwik.js should be loaded synchronous or asynchronous
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.
          * @param array $parameters The parameters supplied to `TrackerCodeGenerator::generate()`.
          */
-        Piwik::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
+        Piwik::postEvent('Tracker.getJavascriptCode', array(&$codeImpl, $parameters));
 
         $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
 

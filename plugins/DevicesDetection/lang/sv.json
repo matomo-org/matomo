@@ -38,6 +38,7 @@
         "PluginDescription": "Visar utökad information om användarenheter som t.ex. tillverkare, modell, typ av enhet mm.",
         "SmartDisplay": "Smart skärm",
         "Smartphone": "Smartphone",
+        "SmartSpeaker": "Smart högtalare",
         "PortableMediaPlayer": "Portabel mediaspelare",
         "Devices": "Enheter",
         "GenericDevice": "Generell %s",
@@ -46,6 +47,7 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "User-Agent",
+        "MobileApp": "Mobilapp",
         "XVisitsFromDevices": "%1$s besök från %2$s enheter",
         "WidgetBrowsers": "Webbläsare",
         "WidgetBrowsersDocumentation": "Denna rapport innehåller information om vilken typ av webbläsare dina besökare använde. Varje version av webbläsare är listad separat."

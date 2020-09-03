@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,9 +11,6 @@ namespace Piwik\Tracker;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Option;
-use Piwik\SettingsServer;
-use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
@@ -37,8 +34,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
     public function getConfigId(Request $request, $ipAddress)
     {
-        list($plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-            $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $request->getPlugins();
+        list($plugin_Flash, $plugin_Java, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
+            $plugin_WindowsMedia, $plugin_Silverlight, $plugin_Cookie) = $request->getPlugins();
 
         $userAgent = $request->getUserAgent();
 
@@ -105,12 +102,10 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             $browserVersion,
             $plugin_Flash,
             $plugin_Java,
-            $plugin_Director,
             $plugin_Quicktime,
             $plugin_RealPlayer,
             $plugin_PDF,
             $plugin_WindowsMedia,
-            $plugin_Gears,
             $plugin_Silverlight,
             $plugin_Cookie,
             $ipAddress,
@@ -119,7 +114,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
     }
 
     /**
-     * Returns a 64-bit hash that attemps to identify a user.
+     * Returns a 64-bit hash that attempts to identify a user.
      * Maintaining some privacy by default, eg. prevents the merging of several Piwik serve together for matching across instances..
      *
      * @param $os
@@ -127,12 +122,10 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      * @param $browserVersion
      * @param $plugin_Flash
      * @param $plugin_Java
-     * @param $plugin_Director
      * @param $plugin_Quicktime
      * @param $plugin_RealPlayer
      * @param $plugin_PDF
      * @param $plugin_WindowsMedia
-     * @param $plugin_Gears
      * @param $plugin_Silverlight
      * @param $plugin_Cookie
      * @param $ip
@@ -141,8 +134,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      * @return string
      */
     protected function getConfigHash(Request $request, $os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java,
-                                     $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-                                     $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip,
+                                     $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
+                                     $plugin_WindowsMedia, $plugin_Silverlight, $plugin_Cookie, $ip,
                                      $browserLang, $fingerprintHash)
     {
         // prevent the config hash from being the same, across different Piwik instances
@@ -152,8 +145,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
         $configString =
               $os
             . $browserName . $browserVersion
-            . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF
-            . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
+            . $plugin_Flash . $plugin_Java . '0' . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF
+            . $plugin_WindowsMedia . '0' . $plugin_Silverlight . $plugin_Cookie
             . $ip
             . $browserLang
             . $salt

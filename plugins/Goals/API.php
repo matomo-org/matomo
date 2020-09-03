@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,8 +15,10 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
@@ -54,8 +56,6 @@ use Piwik\Validators\WhitelistedValue;
 class API extends \Piwik\Plugin\API
 {
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
-    /** @deprecated Use VisitFrequency\API::NEW_VISITOR_SEGMENT */
-    const NEW_VISIT_SEGMENT = 'visitorType==new';
 
     /**
      * Return a single goal.
@@ -331,11 +331,29 @@ class API extends \Piwik\Plugin\API
         $archive   = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($recordNameFinal);
 
-        $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment);
+        // Before Matomo 4.0.0 ecommerce views were tracked in custom variables
+        // So if Matomo was installed before try to fetch the views from custom variables and enrich the report
+        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b2', '<')) {
+            $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment);
+        }
 
-        // First rename the avg_price_viewed column
-        $renameColumn = array(self::AVG_PRICE_VIEWED => 'avg_price');
-        $dataTable->filter('ReplaceColumnNames', array($renameColumn));
+        // use average ecommerce view price if no cart price is available
+        $dataTable->filter(function(DataTable $table){
+            foreach ($table->getRowsWithoutSummaryRow() as $row) {
+                if (!$row->getColumn('avg_price') && !$row->getColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE)) {
+                    $row->renameColumn(self::AVG_PRICE_VIEWED, 'avg_price');
+                }
+                $row->deleteColumn(self::AVG_PRICE_VIEWED);
+            }
+        });
+
+        $reportToNotDefinedString = array(
+            'Goals_ItemsSku'      => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductSKU')), // Note: this should never happen
+            'Goals_ItemsName'     => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductName')),
+            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory'))
+        );
+        $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
+        $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
@@ -359,7 +377,7 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $rowNotDefined = $dataTable->getRowFromLabel(\Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED);
+        $rowNotDefined = $dataTable->getRowFromLabel('Value not defined');
         if ($rowNotDefined) {
             $rowNotDefined->setColumn('label', $notDefinedStringPretty);
         }
@@ -367,6 +385,11 @@ class API extends \Piwik\Plugin\API
 
     protected function enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $segment, $idSubtable)
     {
+        if (!Manager::getInstance()->isPluginActivated('CustomVariables') || in_array('nb_visits', $dataTable->getColumns())) {
+            // skip if CustomVariables plugin is not available or table already contains visits
+            return;
+        }
+
         $ecommerceViews = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment, $_leavePriceViewedColumn = true);
 
         // For Product names and SKU reports, and for Category report
@@ -748,6 +771,10 @@ class API extends \Piwik\Plugin\API
      */
     protected function enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment)
     {
+        if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            return;
+        }
+
         // Enrich the datatable with Product/Categories views, and conversion rates
         $customVariables = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false,
             $_leavePiwikCoreVariables = true);
@@ -756,12 +783,6 @@ class API extends \Piwik\Plugin\API
             'Goals_ItemsName'     => '_pkn',
             'Goals_ItemsCategory' => '_pkc',
         );
-        $reportToNotDefinedString = array(
-            'Goals_ItemsSku'      => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductSKU')), // Note: this should never happen
-            'Goals_ItemsName'     => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductName')),
-            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory'))
-        );
-        $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
         $customVarNameToLookFor = $mapping[$recordName];
 
         // Handle case where date=last30&period=day
@@ -784,7 +805,6 @@ class API extends \Piwik\Plugin\API
                     }
                     $dataTable->addTable($dataTableForDate, $key);
                 }
-                $this->renameNotDefinedRow($dataTableForDate, $notDefinedStringPretty);
             }
         } elseif ($customVariables instanceof DataTable) {
             $row = $customVariables->getRowFromLabel($customVarNameToLookFor);
@@ -792,7 +812,6 @@ class API extends \Piwik\Plugin\API
                 $idSubtable = $row->getIdSubDataTable();
                 $this->enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $segment, $idSubtable);
             }
-            $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
         }
     }
 

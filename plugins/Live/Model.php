@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -359,11 +359,12 @@ class Model
         $now = $now ?: time();
 
         $bind   = $idSites;
-        $bind[] = Date::factory($now - $lastMinutes * 60)->toString('Y-m-d H:i:s');
+        $startDate = Date::factory($now - $lastMinutes * 60);
+        $bind[] = $startDate->toString('Y-m-d H:i:s');
 
         $where = $whereIdSites . "AND " . $where;
 
-        $segment = new Segment($segment, $idSite);
+        $segment = new Segment($segment, $idSite, $startDate, $endDate = null);
         $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
         $numVisitors = Db::getReader()->fetchOne($query['sql'], $query['bind']);
@@ -428,7 +429,7 @@ class Model
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
 
-        $segment = new Segment($segment, $idSite);
+        $segment = new Segment($segment, $idSite, $dateOneDayAgo, $dateOneDayInFuture);
         $queryInfo = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy);
 
         $sql = "SELECT sub.idvisitor, sub.visit_last_action_time FROM ({$queryInfo['sql']}) as sub
@@ -466,7 +467,7 @@ class Model
             $filterSortOrder = 'DESC';
         }
 
-        $segment = new Segment($segment, $idSite);
+        $segment = new Segment($segment, $idSite, $startDate, $endDate);
 
         // Subquery to use the indexes for ORDER BY
         $select = "log_visit.*";

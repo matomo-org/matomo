@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,6 +19,7 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Metrics\Formatter;
+use Piwik\Segment\SegmentsList;
 
 /**
  * @api
@@ -145,7 +146,7 @@ abstract class Dimension
      * Interesting when specifying a segment. Sometimes you want users to set segment values that differ from the way
      * they are actually stored. For instance if you want to allow to filter by any URL than you might have to resolve
      * this URL to an action id. Or a country name maybe has to be mapped to a 2 letter country code. You can do this by
-     * specifing either a callable such as `array('Classname', 'methodName')` or by passing a closure.
+     * specifying either a callable such as `array('Classname', 'methodName')` or by passing a closure.
      * There will be four values passed to the given closure or callable: `string $valueToMatch`, `string $segment`
      * (see {@link setSegment()}), `string $matchType` (eg SegmentExpression::MATCH_EQUAL or any other match constant
      * of this class) and `$segmentName`.
@@ -417,7 +418,7 @@ abstract class Dimension
             case Dimension::TYPE_BOOL:
                 return !empty($value) ? '1' : '0';
             case Dimension::TYPE_DURATION_MS:
-                return number_format($value / 1000, 2); // because we divide we need to group them and cannot do this in formatting step
+                return number_format($value / 1000, 2) * 1000; // because we divide we need to group them and cannot do this in formatting step
         }
         return $value;
     }
@@ -455,7 +456,11 @@ abstract class Dimension
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
             case Dimension::TYPE_DURATION_MS:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
+                $val = number_format($value / 1000, 2);
+                if ($val > 60) {
+                    $val = round($val);
+                }
+                return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);
             case Dimension::TYPE_BYTE:
@@ -475,16 +480,20 @@ abstract class Dimension
      * $segment->setSegment('exitPageUrl');
      * $segment->setName('Actions_ColumnExitPageURL');
      * $segment->setCategory('General_Visit');
-     * $this->addSegment($segment);
+     * $segmentsList->addSegment($segment);
      * ```
+     *
+     * @param SegmentsList            $segmentsList
+     * @param DimensionSegmentFactory $dimensionSegmentFactory
+     * @throws Exception
      */
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         if ($this->segmentName && $this->category
             && ($this->sqlSegment || ($this->columnName && $this->dbTableName))
             && $this->nameSingular) {
-            $segment = new Segment();
-            $this->addSegment($segment);
+            $segment = $dimensionSegmentFactory->createSegment(null);
+            $segmentsList->addSegment($segment);
         }
     }
 
@@ -533,131 +542,17 @@ abstract class Dimension
     }
 
     /**
-     * Adds a new segment. It automatically sets the SQL segment depending on the column name in case none is set
-     * already.
-     * @see \Piwik\Columns\Dimension::addSegment()
-     * @param Segment $segment
-     * @api
-     */
-    protected function addSegment(Segment $segment)
-    {
-        if (!$segment->getSegment() && $this->segmentName) {
-            $segment->setSegment($this->segmentName);
-        }
-
-        if (!$segment->getType()) {
-            $metricTypes = array(self::TYPE_NUMBER, self::TYPE_FLOAT, self::TYPE_MONEY, self::TYPE_DURATION_S, self::TYPE_DURATION_MS);
-            if (in_array($this->getType(), $metricTypes, $strict = true)) {
-                $segment->setType(Segment::TYPE_METRIC);
-            } else {
-                $segment->setType(Segment::TYPE_DIMENSION);
-            }
-        }
-
-        if (!$segment->getCategoryId() && $this->category) {
-            $segment->setCategory($this->category);
-        }
-
-        if (!$segment->getName() && $this->nameSingular) {
-            $segment->setName($this->nameSingular);
-        }
-
-        $sqlSegment = $segment->getSqlSegment();
-
-        if (empty($sqlSegment) && !$segment->getUnionOfSegments()) {
-            if (!empty($this->sqlSegment)) {
-                $segment->setSqlSegment($this->sqlSegment);
-            } elseif ($this->dbTableName && $this->columnName) {
-                $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
-            } else {
-                throw new Exception('Segment cannot be added because no sql segment is set');
-            }
-        }
-
-        if (!$this->suggestedValuesCallback) {
-            // we can generate effecient value callback for enums automatically
-            $enum = $this->getEnumColumnValues();
-            if (!empty($enum)) {
-                $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) use ($enum) {
-                    $values = array_values($enum);
-                    return array_slice($values, 0, $maxValuesToReturn);
-                };
-            }
-        }
-
-        if (!$this->acceptValues) {
-            // we can generate accept values for enums automatically
-            $enum = $this->getEnumColumnValues();
-            if (!empty($enum)) {
-                $enumValues = array_values($enum);
-                $enumValues = array_slice($enumValues, 0, 20);
-                $this->acceptValues = 'Eg. ' . implode(', ', $enumValues);
-            };
-        }
-
-        if ($this->acceptValues && !$segment->getAcceptValues()) {
-            $segment->setAcceptedValues($this->acceptValues);
-        }
-
-        if (!$this->sqlFilterValue && !$segment->getSqlFilter() && !$segment->getSqlFilterValue()) {
-            // no sql filter configured, we try to configure automatically for enums
-            $enum = $this->getEnumColumnValues();
-            if (!empty($enum)) {
-                $this->sqlFilterValue = function ($value, $sqlSegmentName) use ($enum) {
-                    if (isset($enum[$value])) {
-                        return $value;
-                    }
-
-                    $id = array_search($value, $enum);
-
-                    if ($id === false) {
-                        $id = array_search(strtolower(trim(urldecode($value))), $enum);
-
-                        if ($id === false) {
-                            throw new \Exception("Invalid '$sqlSegmentName' segment value $value");
-                        }
-                    }
-
-                    return $id;
-                };
-            };
-        }
-
-        if ($this->suggestedValuesCallback && !$segment->getSuggestedValuesCallback()) {
-            $segment->setSuggestedValuesCallback($this->suggestedValuesCallback);
-        }
-
-        if ($this->suggestedValuesApi) {
-            $segment->setSuggestedValuesApi($this->suggestedValuesApi);
-        }
-
-        if ($this->sqlFilterValue && !$segment->getSqlFilterValue()) {
-            $segment->setSqlFilterValue($this->sqlFilterValue);
-        }
-
-        if ($this->sqlFilter && !$segment->getSqlFilter()) {
-            $segment->setSqlFilter($this->sqlFilter);
-        }
-
-        if (!$this->allowAnonymous) {
-            $segment->setRequiresAtLeastViewAccess(true);
-        }
-
-        $this->segments[] = $segment;
-    }
-
-    /**
      * Get the list of configured segments.
+     *
      * @return Segment[]
+     * @throws Exception
      * @ignore
      */
     public function getSegments()
     {
-        if (empty($this->segments)) {
-            $this->configureSegments();
-        }
-
-        return $this->segments;
+        $list = new SegmentsList();
+        $this->configureSegments($list, new DimensionSegmentFactory($this));
+        return $list->getSegments();
     }
 
     /**
@@ -694,6 +589,51 @@ abstract class Dimension
         if ($this->dbTableName && $this->columnName) {
             return $this->dbTableName . '.' . $this->columnName;
         }
+    }
+
+    /**
+     * @return null|callable
+     * @ignore
+     */
+    public function getSuggestedValuesCallback()
+    {
+        return $this->suggestedValuesCallback;
+    }
+
+    /**
+     * @return null|string
+     * @ignore
+     */
+    public function getSuggestedValuesApi()
+    {
+        return $this->suggestedValuesApi;
+    }
+
+    /**
+     * @return null|string
+     * @ignore
+     */
+    public function getAcceptValues()
+    {
+        return $this->acceptValues;
+    }
+
+    /**
+     * @return \Closure|string|null
+     * @ignore
+     */
+    public function getSqlFilter()
+    {
+        return $this->sqlFilter;
+    }
+
+    /**
+     * @return array|string|null
+     * @ignore
+     */
+    public function getSqlFilterValue()
+    {
+        return $this->sqlFilterValue;
     }
 
     /**
@@ -823,22 +763,6 @@ abstract class Dimension
         }
 
         return $instances;
-    }
-
-    /**
-     * Creates a Dimension instance from a string ID (see {@link getId()}).
-     *
-     * @param string $dimensionId See {@link getId()}.
-     * @return Dimension|null The created instance or null if there is no Dimension for
-     *                        $dimensionId or if the plugin that contains the Dimension is
-     *                        not loaded.
-     * @api
-     * @deprecated Please use DimensionsProvider::factory instead
-     */
-    public static function factory($dimensionId)
-    {
-        list($module, $dimension) = explode('.', $dimensionId);
-        return ComponentFactory::factory($module, $dimension, __CLASS__);
     }
 
     /**

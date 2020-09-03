@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -260,6 +260,31 @@ abstract class Period
         $ts = $date->getStartOfDay()->getTimestamp();
         return $ts >= $this->getDateStart()->getStartOfDay()->getTimestamp()
             && $ts < $this->getDateEnd()->addDay(1)->getStartOfDay()->getTimestamp();
+    }
+
+    /**
+     * Returns whether the given period date range intersects with this one.
+     *
+     * @param Period $other
+     * @return bool
+     */
+    public function isPeriodIntersectingWith(Period $other)
+    {
+        return !($this->getDateEnd()->getTimestamp() < $other->getDateStart()->getTimestamp()
+            || $this->getDateStart()->getTimestamp() > $other->getDateEnd()->getTimestamp());
+    }
+
+    /**
+     * Returns the start day and day after the end day for this period in the given timezone.
+     *
+     * @param Date[] $timezone
+     */
+    public function getBoundsInTimezone(string $timezone)
+    {
+        $date1 = $this->getDateTimeStart()->setTimezone($timezone);
+        $date2 = $this->getDateTimeEnd()->setTimezone($timezone);
+
+        return [$date1, $date2];
     }
 
     /**

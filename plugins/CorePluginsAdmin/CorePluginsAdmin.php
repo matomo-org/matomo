@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -50,6 +50,7 @@ class CorePluginsAdmin extends Plugin
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/form-field/field-expandable-select.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/form-field/field-multituple.less";
     }
 
     public static function isPluginsAdminEnabled()
@@ -64,7 +65,7 @@ class CorePluginsAdmin extends Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js";
+        $jsFiles[] = "node_modules/jquery.dotdotdot/dist/jquery.dotdotdot.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
     }
 

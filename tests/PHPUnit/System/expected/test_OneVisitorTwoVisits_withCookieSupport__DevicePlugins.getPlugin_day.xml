@@ -19,18 +19,6 @@
 		<logo>plugins/Morpheus/icons/dist/plugins/java.png</logo>
 	</row>
 	<row>
-		<label>Director</label>
-		<nb_visits>0</nb_visits>
-		<nb_visits_percentage>0%</nb_visits_percentage>
-		<logo>plugins/Morpheus/icons/dist/plugins/director.png</logo>
-	</row>
-	<row>
-		<label>Gears</label>
-		<nb_visits>0</nb_visits>
-		<nb_visits_percentage>0%</nb_visits_percentage>
-		<logo>plugins/Morpheus/icons/dist/plugins/gears.png</logo>
-	</row>
-	<row>
 		<label>Pdf</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>

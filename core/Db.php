@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -491,19 +491,6 @@ class Db
     }
 
     /**
-     * Get columns information from table
-     *
-     * @param string|array $table The name of the table you want to get the columns definition for.
-     * @return \Zend_Db_Statement
-     * @deprecated since 2.11.0
-     */
-    public static function getColumnNamesFromTable($table)
-    {
-        $tableMetadataAccess = new TableMetadata();
-        return $tableMetadataAccess->getColumns($table);
-    }
-
-    /**
      * Locks the supplied table or tables.
      *
      * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
@@ -786,7 +773,7 @@ class Db
     {
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
-                Db::lockTables(Common::prefixTable('log_visit'));
+                Db::lockTables(Common::prefixTable('site_url'));
                 Db::unlockAllTables();
 
                 self::$lockPrivilegeGranted = true;

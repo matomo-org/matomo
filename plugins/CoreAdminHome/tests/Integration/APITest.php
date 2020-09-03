@@ -30,7 +30,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
      */
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
@@ -39,12 +39,11 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         }
     }
 
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage checkUserHasSomeAdminAccess
-     */
     public function test_getTrackingFailures_failsForViewUser()
     {
+        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
+
         $this->setUser();
         $this->api->getTrackingFailures();
     }
@@ -58,12 +57,11 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->assertSame(array(), $this->api->getTrackingFailures());
     }
 
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage checkUserHasSomeAdminAccess
-     */
     public function test_deleteAllTrackingFailures_failsForViewUser()
     {
+        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
+
         $this->setUser();
         $this->api->deleteAllTrackingFailures();
     }
@@ -76,22 +74,20 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteAllTrackingFailures();
     }
 
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage checkUserHasAdminAccess
-     */
     public function test_deleteTrackingFailure_failsForViewUser()
     {
+        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectExceptionMessage('checkUserHasAdminAccess');
+
         $this->setUser();
         $this->api->deleteTrackingFailure(1, 2);
     }
 
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage checkUserHasAdminAccess
-     */
     public function test_deleteTrackingFailure_failsForAdminUserIfNotAdminAccessToThatSite()
     {
+        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectExceptionMessage('checkUserHasAdminAccess');
+
         $this->setAdminUser();
         $this->api->deleteTrackingFailure(2, 2);
     }

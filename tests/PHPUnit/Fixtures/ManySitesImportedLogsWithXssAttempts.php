@@ -1,12 +1,13 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Cache;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
@@ -28,11 +29,12 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         $this->now = Date::factory('now');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
+        $this->addCustomDimensions();
+
         parent::setUp();
 
-        $this->addCustomDimensions();
         $this->trackVisitWithActionsXss();
 
         $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);
@@ -173,7 +175,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
             $t = self::getTracker($this->idSite, $dateTime, $defaultInit= true);
             $t->setUrl('http://example.org/' . urlencode($urlXss));
             $t->setUrlReferrer($referrerUrlXss);
-            $t->setCustomTrackingParameter('dimension1', $xssTesting->$type('customdimension'));
+            $t->setCustomDimension('1', $xssTesting->$type('customdimension'));
             $t->setCustomVariable(1, $xssTesting->$type('customvarname'), $xssTesting->$type('customvarval'));
             $t->setUserId($xssTesting->$type('userid'));
             $t->setBrowserLanguage($xssTesting->$type('lang'));

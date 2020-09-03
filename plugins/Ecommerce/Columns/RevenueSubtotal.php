@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,7 +16,6 @@ use Piwik\Tracker\Visitor;
 class RevenueSubtotal extends BaseConversion
 {
     protected $columnName = 'revenue_subtotal';
-    protected $columnType = 'float default NULL';
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'General_Subtotal';

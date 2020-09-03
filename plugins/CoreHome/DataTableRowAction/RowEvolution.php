@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,7 +24,7 @@ use Piwik\ViewDataTable\Factory;
 
 /**
  * ROW EVOLUTION
- * The class handles the popover that shows the evolution of a singe row in a data table
+ * The class handles the popover that shows the evolution of a single row in a data table
  */
 class RowEvolution
 {
@@ -120,7 +120,7 @@ class RowEvolution
     /**
      * Render the popover
      * @param \Piwik\Plugins\CoreHome\Controller $controller
-     * @param View (the popover_rowevolution template)
+     * @param \Piwik\View (the popover_rowevolution template)
      */
     public function renderPopover($controller, $view)
     {
@@ -284,8 +284,8 @@ class RowEvolution
             $fractionDigits = max($this->getFractionDigits($first), $this->getFractionDigits($last));
 
             $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
-                NumberFormatter::getInstance()->format($first, $fractionDigits, $fractionDigits) . $unit,
-                NumberFormatter::getInstance()->format($last, $fractionDigits, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->format($first, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->format($last, $fractionDigits) . $unit,
             ));
 
             if ($change !== false) {

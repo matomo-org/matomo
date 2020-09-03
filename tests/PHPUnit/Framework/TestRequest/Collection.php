@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -229,11 +229,10 @@ class Collection
                                                           'idSite'    => $parametersToSet['idSite'],
                                                           'period'    => $parametersToSet['period'],
                                                           'date'      => $parametersToSet['date'],
-                                                          'format'    => 'php',
-                                                          'serialize' => 0,
+                                                          'format'    => 'json',
                                                      ));
 
-                    $content = $request->process();
+                    $content = json_decode($request->process(), true);
                     SystemTestCase::assertApiResponseHasNoError($content);
 
                     // find first row w/ subtable
@@ -315,10 +314,6 @@ class Collection
             ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
                 || in_array($moduleName, $this->apiNotToCall) === true
                 || in_array($apiId, $this->apiNotToCall) === true
-                || $methodName == 'getLogoUrl'
-                || $methodName == 'getSVGLogoUrl'
-                || $methodName == 'hasSVGLogo'
-                || $methodName == 'getHeaderLogoUrl'
             )
         ) { // Excluded modules from test
             return true;

@@ -47,7 +47,13 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "User-Agent",
+        "Library": "Bibliothek",
+        "FeedReader": "Feed Leser",
+        "MobileApp": "Mobile App",
+        "Pim": "PIM",
+        "MediaPlayer": "Medienplayer",
         "XVisitsFromDevices": "%1$s Besuche von %2$s Geräten",
+        "Wearable": "Tragbare Geräte",
         "WidgetBrowsers": "Besucher-Browser",
         "WidgetBrowsersDocumentation": "Dieser Bericht enthält Informationen über die Browser Ihrer Besucher. Jede Version eines Browsers wird separat aufgelistet."
     }

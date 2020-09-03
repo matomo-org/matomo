@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -72,6 +72,7 @@ class PluginsArchiver
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
+
         $shouldAggregateFromRawData = $this->params->isSingleSiteDayArchive();
 
         /**
@@ -81,11 +82,6 @@ class PluginsArchiver
          *
          * @param bool $shouldAggregateFromRawData  Set to true, to aggregate from raw data, or false to aggregate multiple reports.
          * @param Parameters $params
-         * @ignore
-         * @deprecated
-         *
-         * In Matomo 4.0 we should maybe remove this event, and instead maybe always archive from raw data when it is daily archive,
-         * no matter if single site or not. We cannot do this in Matomo 3.X as some custom plugin archivers may not be able to handle multiple sites.
          */
         Piwik::postEvent('ArchiveProcessor.shouldAggregateFromRawData', array(&$shouldAggregateFromRawData, $this->params));
 
@@ -154,7 +150,6 @@ class PluginsArchiver
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
-
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
                 try {
@@ -271,13 +266,17 @@ class PluginsArchiver
         if (Rules::shouldProcessReportsAllPlugins(
             array($this->params->getSite()->getId()),
             $this->params->getSegment(),
-            $this->params->getPeriod()->getLabel())) {
+            $this->params->getPeriod()->getLabel())
+        ) {
             return true;
         }
 
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())) {
-            return true;
+        if ($this->params->getRequestedPlugin() &&
+            !\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())
+        ) {
+            return false;
         }
+
         return false;
     }
 

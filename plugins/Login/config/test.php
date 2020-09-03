@@ -1,19 +1,19 @@
 <?php
 return array(
-    'Piwik\Plugins\Login\SystemSettings' => DI\decorate(function ($settings, \Interop\Container\ContainerInterface $c) {
+    'Piwik\Plugins\Login\SystemSettings' => DI\decorate(function ($settings, \Psr\Container\ContainerInterface $c) {
         /** @var \Piwik\Plugins\Login\SystemSettings $settings */
 
         \Piwik\Access::doAsSuperUser(function () use ($settings, $c) {
             if ($c->get('test.vars.bruteForceBlockIps')) {
                 $settings->blacklistedBruteForceIps->setValue(array('10.2.3.4'));
-            } elseif (\Piwik\SettingsPiwik::isPiwikInstalled()) {
+            } elseif (\Piwik\SettingsPiwik::isMatomoInstalled()) {
                 $settings->blacklistedBruteForceIps->setValue(array());
             }
         });
 
         return $settings;
     }),
-    'Piwik\Plugins\Login\Security\BruteForceDetection' => DI\decorate(function ($detection, \Interop\Container\ContainerInterface $c) {
+    'Piwik\Plugins\Login\Security\BruteForceDetection' => DI\decorate(function ($detection, \Psr\Container\ContainerInterface $c) {
         /** @var \Piwik\Plugins\Login\Security\BruteForceDetection $detection */
 
         if ($c->get('test.vars.bruteForceBlockIps')) {
@@ -26,7 +26,7 @@ return array(
                 // we block this IP
                 $detection->addFailedAttempt(\Piwik\IP::getIpFromHeader());
             }
-        } elseif (\Piwik\SettingsPiwik::isPiwikInstalled()) {
+        } elseif (\Piwik\SettingsPiwik::isMatomoInstalled()) {
             // prevent tests from blocking other tests
             $detection->deleteAll();
         }

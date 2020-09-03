@@ -26,6 +26,7 @@
         "Tablet": "Planšetinis kompiuteris",
         "Phablet": "Planšetofonas",
         "TV": "Televizorius",
+        "MobileApp": "Mobilioji programa",
         "WidgetBrowsers": "Lankytojų naršyklės"
     }
 }

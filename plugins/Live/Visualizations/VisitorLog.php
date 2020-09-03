@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -202,11 +202,56 @@ class VisitorLog extends Visualization
                 }
             }
 
+            foreach ($actionGroups as $idPageView => $actionGroup) {
+                if (!empty($actionGroup['actionsOnPage'])) {
+                    usort($actionGroup['actionsOnPage'], function ($a, $b) {
+                        $fields = array('timestamp', 'title', 'url', 'type', 'pageIdAction', 'goalId', 'timeSpent');
+                        foreach ($fields as $field) {
+                            $sort = self::sortByActionsOnPageColumn($a, $b, $field);
+                            if ($sort !== 0) {
+                                return $sort;
+                            }
+                        }
+
+                        return 0;
+                    });
+                    $actionGroups[$idPageView]['actionsOnPage'] = $actionGroup['actionsOnPage'];
+                }
+            }
+
             // merge action groups that have the same page url/action and no pageviewactions
             $actionGroups = self::mergeRefreshes($actionGroups);
 
             $row->setColumn('actionGroups', $actionGroups);
         }
+    }
+
+    public static function sortByActionsOnPageColumn($a, $b, $field)
+    {
+        if (!isset($a[$field]) && !isset($b[$field])) {
+            return 0;
+        }
+        if (!isset($a[$field])) {
+            return -1;
+        }
+        if (!isset($b[$field])) {
+            return 1;
+        }
+        if ($field === 'serverTimePretty') {
+            $a[$field] = strtotime($a[$field]);
+            $b[$field] = strtotime($b[$field]);
+        }
+        if ($field === 'type') {
+            $a[$field] = (string) $a[$field];
+            $b[$field] = (string) $b[$field];
+        }
+        if ($a[$field] === $b[$field]) {
+            return 0;
+        }
+        if ($a[$field] < $b[$field]) {
+            return -1;
+        }
+        return 1;
     }
 
     private static function mergeRefreshes(array $actionGroups)

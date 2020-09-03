@@ -70,6 +70,7 @@
         "ColumnNbUsers": "Kasutajaid",
         "ColumnNbVisits": "Külastused",
         "ColumnPageviews": "Lehevaatamisi",
+        "ColumnPageviewsDocumentation": "Arv, mitu korda seda lehte külastati.",
         "ColumnPercentageVisits": "%% külastust",
         "ColumnRevenue": "Tulu",
         "ColumnSumVisitLength": "Külastajate poolt lehel viibitud aeg kokku (sek)",
@@ -88,6 +89,7 @@
         "ComputedMetricUniqueCount": "Unikaalne %s",
         "Continue": "Jätka",
         "ContinueToPiwik": "Jätka Matomou kasutamist",
+        "CreationDate": "Loomise kuupäev",
         "CreatedByUser": "loonud %s",
         "CurrentMonth": "Praegune kuu",
         "CurrentWeek": "Praegune nädal",
@@ -136,6 +138,8 @@
         "ExceptionNonceMismatch": "Antud vormi turvakoodi verifitseerimine ebaõnnestus.",
         "ExceptionUnableToStartSession": "Sessiooni käivitamine ebaõnnestus.",
         "ExceptionUndeletableFile": "%s kustutamine ebaõnnestus",
+        "ExceptionReportNotFound": "Taotletud aruannet pole olemas.",
+        "ExpandDataTableFooter": "Muuda visualiseeringut või seadista aruannet",
         "Export": "Ekspordi",
         "ExportAsImage": "Ekspordi pildina",
         "ExportThisReport": "Ekspordi andmed teistesse vormingutesse",
@@ -288,6 +292,7 @@
         "Search": "Otsi",
         "Clear": "Tühjenda",
         "SearchNoResults": "Tulemused puuduvad",
+        "Security": "Turvalisus",
         "SeeAll": "näita kõiki",
         "Segment": "Segment",
         "Settings": "Seaded",
@@ -364,10 +369,13 @@
         "YouAreCurrentlyUsing": "Kasutad hetkel Matomo versiooni %s.",
         "YouMustBeLoggedIn": "Antud funktsionaalsusele ligipääsuks pead olema sisselogitud.",
         "YourChangesHaveBeenSaved": "Sinu muudatused on salvestatud.",
+        "ThankYouForUsingMatomo": "Aitäh, Matomo kasutamise eest",
         "TheMatomoTeam": "Matomo meeskond",
         "PleaseTryAgain": "Palun proovi uuesti",
         "Comparisons": "Võrdlused",
-        "ClickToRemoveComp": "Kliki võrdluse eemaldamiseks."
+        "ClickToRemoveComp": "Kliki võrdluse eemaldamiseks.",
+        "PreviousPeriod": "Eelmine periood",
+        "PreviousYear": "Eelmine aasta"
     },
     "Mobile": {
         "AboutPiwikMobile": "Rohkem infot Matomo mobiilis kohta",
@@ -426,6 +434,7 @@
         "Reloading": "Värskendan...",
         "RequestTimedOutShort": "Võrgu aegumise tõrge",
         "RestrictedCompatibility": "Piiratud ühilduvus",
+        "SaveSuccessError": "Matomo veebiaadress või kasutajanimi ja salasõna on vale.",
         "SearchWebsite": "Otsi veebilehti",
         "ShowAll": "Kuva kõik",
         "ShowLess": "Näita vähem",
@@ -434,7 +443,9 @@
         "TryIt": "Proovi seda!",
         "VerifyAccount": "Konto kinnitamine",
         "ValidateSslCertificate": "Kinnita SSL sertifikaat",
-        "YouAreOffline": "Vabandust, aga sul pole hetkel võrguühendust"
+        "VerifyLoginData": "Veenduge, et teie kasutajanimi ja parool on õiged.",
+        "YouAreOffline": "Vabandust, aga sul pole hetkel võrguühendust",
+        "EnterAuthCodeExplanation": "Paistab et te kasutate kaheastmelist autentimist. Oma kontosse sisselogimiseks palun sisesta 6-kohaline kood."
     },
     "RowEvolution": {
         "AvailableMetrics": "Saadaolevad mõõdikud",

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -107,18 +107,6 @@ class Json extends Renderer
     public static function sendHeaderJSON()
     {
         Common::sendHeader('Content-Type: application/json; charset=utf-8');
-    }
-
-    private function convertDataTableToArray($table)
-    {
-        $renderer = new Php();
-        $renderer->setTable($table);
-        $renderer->setRenderSubTables($this->isRenderSubtables());
-        $renderer->setSerialize(false);
-        $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
-        $array = $renderer->flatRender();
-
-        return $array;
     }
 
     private function convertDataTableColumnMetadataValues(&$table)

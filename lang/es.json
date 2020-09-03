@@ -111,6 +111,7 @@
         "ConfigFileIsNotWritable": "El archivo de configuración de Matomo %1$s no tiene permisos de escritura, algunos de los cambios no se guardarán. %2$s Por favor, cambie los permisos del archivo de configuración para que sea modificable.",
         "Continue": "Continuar",
         "ContinueToPiwik": "Ir a Matomo",
+        "CreationDate": "Fecha de creación",
         "CreatedByUser": "Creado por %s",
         "CurrentMonth": "Mes actual",
         "CurrentWeek": "Semana actual",
@@ -388,6 +389,7 @@
         "Search": "Buscar",
         "Clear": "Quitar",
         "SearchNoResults": "Sin resultados",
+        "Security": "Seguridad",
         "SeeAll": "mostrar todo",
         "SeeTheOfficialDocumentationForMoreInformation": "Vea la %1$sdocumentación oficial%2$s para mayor información.",
         "SeeThisFaq": "Vea %1$sestas preguntas frecuentes%2$s.",
@@ -510,7 +512,8 @@
         "ClickToRemoveComp": "De clic para remover esta comparación.",
         "MaximumNumberOfSegmentsComparedIs": "El mayor numero de segmentos que pueden ser comparados simultaneamente es %s.",
         "CompareDatesParamMustMatchComparePeriods": "La longitud del parámetro de consulta %1$s debe ser igual a la longitud del parámetro de consulta %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "El mayor numero de periodos que pueden ser comparados simultaneamente es %s."
+        "MaximumNumberOfPeriodsComparedIs": "El mayor numero de periodos que pueden ser comparados simultaneamente es %s.",
+        "Custom": "Personalizado"
     },
     "Mobile": {
         "AboutPiwikMobile": "Acerca de Matomo Mobile",

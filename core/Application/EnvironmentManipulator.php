@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,7 +26,7 @@ interface EnvironmentManipulator
     public function makeGlobalSettingsProvider(GlobalSettingsProvider $original);
 
     /**
-     * Create a custom PluginList kernel object, overriding the default behavior.@deprecated
+     * Create a custom PluginList kernel object, overriding the default behavior.
      *
      * @param GlobalSettingsProvider $globalSettingsProvider
      * @return PluginList

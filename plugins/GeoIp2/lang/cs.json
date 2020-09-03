@@ -1,0 +1,30 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Nelze nalézt funkci apache_get_modules,př edpokládám jiný server než Apache.",
+        "CannotFindGeoIPServerVar": "Proměnná %s není nastavena. Váš webový server nemusí být správně nakonfigurován.",
+        "CannotListContent": "Nepodařilo se vypsat obsah pro %1$s: %2$s",
+        "DownloadingDb": "Stahování %s",
+        "DownloadNewDatabasesEvery": "Aktualizovat databáze každých",
+        "FoundApacheModules": "Matomo našel tyto Apache moduly",
+        "GeoIPImplHasAccessTo": "Tato implementace GeoIP má přístup kn následujícím typům databází.",
+        "GeoIPDatabases": "Databáze GeoIP",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Poznámka: Anonimizace IP adres nemá vliv na umístění hlášené tímto poskytovatelem. Před jeho používáním ověřte, že to neodporuje žádným zákonům.",
+        "GeoIPLocationProviderNotRecommended": "Geolokace funguje, ale nepoužíváte doporučeného poskytovatele umístění.",
+        "GeoIPNoServerVars": "Matomo nemůže najít žádné GeoIP %s proměnné",
+        "GeoIPServerVarsFound": "Matomo detekuje následující GeoIP %s proměnné",
+        "HowToSetupGeoIPIntro": "Vypadá to, že nemáte nastavenou přesnou geolokaci. Je to užitečná vlastnost a bez ní neuvidíte přesné a kompletní informace o umístění vašich návštěvníků. Zde je, jak s ní můžete rychle začít:",
+        "HowToInstallApacheModule": "Jak nainstalovat GeoIP modul na Apache?",
+        "HowToInstallNginxModule": "Jak nainstalovat GeoIP modul pro Nginx?",
+        "HttpServerModule": "Modul HTTP serveru",
+        "InvalidGeoIPUpdatePeriod": "Neplatná doba pro aktualizovač GeoIP databáze: %1$s. Platné hodnoty jsou %2$s.",
+        "ISPDatabase": "Databáze ISP",
+        "LocationDatabase": "Databáze umístění",
+        "LocationDatabaseHint": "Databáze umístění je databáze zemí, regionů, nebo měst.",
+        "UnsupportedArchiveType": "Nalezen nepodporovaný typ archivu %1$s.",
+        "UpdaterHasNotBeenRun": "Aktualizátor nebyl nikdy spuštěn.",
+        "UpdaterIsNotScheduledToRun": "Není plánováno, že v budoucnu poběží.",
+        "UpdaterScheduledForNextRun": "Je plánováno, že poběží při příštím provedení cron příkazu core:archive.",
+        "UpdaterWasLastRun": "Aktualizátor byl naposledy spuštěn v %s.",
+        "UpdaterWillRunNext": "Další spuštění je naplánováno na %s."
+    }
+}

@@ -86,4 +86,7 @@
 			<segment>visitDuration&gt;=1801</segment>
 		</row>
 	</row>
+	<row>
+		<value>yesterday</value>
+	</row>
 </result>

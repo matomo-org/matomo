@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,7 +22,6 @@ class TestingEnvironmentVariablesDefinitionSource implements DefinitionSource
     private $prefix;
 
     /**
-     * @param TestingEnvironmentVariables $vars
      * @param string $prefix
      */
     public function __construct($prefix = 'test.vars.')
@@ -42,7 +41,24 @@ class TestingEnvironmentVariablesDefinitionSource implements DefinitionSource
         $variableName = $this->parseVariableName($name);
 
         $vars = new TestingEnvironmentVariables();
-        return new ValueDefinition($name, $vars->$variableName);
+        $value = new ValueDefinition($vars->$variableName);
+        $value->setName($name);
+        return $value;
+    }
+
+    public function getDefinitions(): array
+    {
+        $vars = new TestingEnvironmentVariables();
+        $properties = $vars->getProperties();
+
+        $result = [];
+        foreach ($properties as $name => $property) {
+            $value = new ValueDefinition($property);
+            $value->setName($name);
+            $result[] = $value;
+        }
+
+        return $result;
     }
 
     private function parseVariableName($name)

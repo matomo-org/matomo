@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,7 @@
 
 namespace Piwik\Translation\Loader;
 
-use Piwik\Cache;
+use Matomo\Cache\Lazy;
 
 /**
  * Caches the translations loaded by another loader.
@@ -21,11 +21,11 @@ class LoaderCache implements LoaderInterface
     private $loader;
 
     /**
-     * @var Cache\Lazy
+     * @var Lazy
      */
     private $cache;
 
-    public function __construct(LoaderInterface $loader, Cache\Lazy $cache)
+    public function __construct(LoaderInterface $loader, Lazy $cache)
     {
         $this->loader = $loader;
         $this->cache = $cache;

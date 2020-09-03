@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -369,11 +369,9 @@ class Model
 
     public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
     {
-        $selectCustomVariables = '';
-
         $selectFields = implode(', ', $fieldsToRead);
 
-        $select = "SELECT $selectFields $selectCustomVariables ";
+        $select = "SELECT $selectFields ";
         $from   = "FROM " . Common::prefixTable('log_visit');
 
         // Two use cases:
@@ -415,6 +413,16 @@ class Model
         }
 
         return $visitRow;
+    }
+
+    public function hasVisit($idSite, $idVisit)
+    {
+        // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        $sql = 'SELECT idsite FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ? LIMIT 1';
+        $bindSql = array($idVisit);
+
+        $val = $this->getDb()->fetchOne($sql, $bindSql);
+        return $val == $idSite;
     }
 
     private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)

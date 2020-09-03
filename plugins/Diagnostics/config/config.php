@@ -27,20 +27,29 @@ return array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\NfsDiskCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingCheck'),
         DI\get(CronArchivingLastRunCheck::class),
-        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\LoadDataInfileCheck'),
-        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
-        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
-        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\DatabaseAbilitiesCheck'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),
+    ),
+    'diagnostics.informational' => array(
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\MatomoInformational'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\PhpInformational'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\DatabaseInformational'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ConfigInformational'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ServerInformational'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ReportInformational'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\UserInformational'),
     ),
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),
 
-    'Piwik\Plugins\Diagnostics\DiagnosticService' => DI\object()
-        ->constructor(DI\get('diagnostics.required'), DI\get('diagnostics.optional'), DI\get('diagnostics.disabled')),
+    'Piwik\Plugins\Diagnostics\DiagnosticService' => DI\autowire()
+        ->constructor(DI\get('diagnostics.required'), DI\get('diagnostics.optional'), DI\get('diagnostics.informational'), DI\get('diagnostics.disabled')),
 
-    'Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck' => DI\object()
+    'Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck' => DI\autowire()
         ->constructorParameter('minimumMemoryLimit', DI\get('ini.General.minimum_memory_limit')),
 
-    'Piwik\Plugins\Diagnostics\Diagnostic\WriteAccessCheck' => DI\object()
+    'Piwik\Plugins\Diagnostics\Diagnostic\WriteAccessCheck' => DI\autowire()
         ->constructorParameter('tmpPath', DI\get('path.tmp')),
 );

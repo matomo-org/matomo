@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,9 +9,9 @@
 namespace Piwik\Plugins\API;
 
 use Piwik\Category\CategoryList;
-use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 
 class SegmentMetadata
 {
@@ -21,48 +21,21 @@ class SegmentMetadata
      */
     private $categoryOrder = array();
 
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $isAuthenticatedWithViewAccess, $_showAllSegments = false)
+    public function getSegmentsMetadata($idSites, $_hideImplementationData, $isRegisteredUser, $_showAllSegments = false)
     {
-        $segments = array();
-
-        /**
-         * Triggered to add custom segment definitions.
-         *
-         * **Example**
-         *
-         *     public function addSegments(&$segments)
-         *     {
-         *         $segment = new Segment();
-         *         $segment->setSegment('my_segment_name');
-         *         $segment->setType(Segment::TYPE_DIMENSION);
-         *         $segment->setName('My Segment Name');
-         *         $segment->setSqlSegment('log_table.my_segment_name');
-         *         $segments[] = $segment;
-         *     }
-         *
-         * @param array &$segments An array containing a list of segment entries.
-         */
-        Piwik::postEvent('Segment.addSegments', array(&$segments));
-
-        foreach (Dimension::getAllDimensions() as $dimension) {
-            foreach ($dimension->getSegments() as $segment) {
-                if (!$_showAllSegments
-                    && $segment->isInternal()
-                ) {
-                    continue;
-                }
-
-                $segments[] = $segment;
-            }
-        }
-
         /** @var Segment[] $dimensionSegments */
-        $dimensionSegments = $segments;
+        $dimensionSegments = SegmentsList::get()->getSegments();
         $segments = array();
 
         foreach ($dimensionSegments as $segment) {
-            if ($segment->isRequiresAtLeastViewAccess()) {
-                $segment->setPermission($isAuthenticatedWithViewAccess);
+            if (!$_showAllSegments
+                && $segment->isInternal()
+            ) {
+                continue;
+            }
+
+            if ($segment->isRequiresRegisteredUser()) {
+                $segment->setPermission($isRegisteredUser);
             }
 
             $segments[] = $segment->toArray();
@@ -78,6 +51,7 @@ class SegmentMetadata
             if (!isset($this->categoryOrder[$segment['category']])) {
                 $category = $categoryList->getCategory($categoryId);
                 if (!empty($category)) {
+                    $segment['category'] = $category->getDisplayName();
                     $this->categoryOrder[$segment['category']] = $category->getOrder();
                 } else {
                     $this->categoryOrder[$segment['category']] = 999;

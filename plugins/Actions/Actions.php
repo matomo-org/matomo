@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -142,17 +142,6 @@ class Actions extends \Piwik\Plugin
         return true;
     }
 
-    public static function checkCustomVariablesPluginEnabled()
-    {
-        if (!self::isCustomVariablesPluginsEnabled()) {
-            throw new \Exception("To Track Site Search Categories, please ask the Piwik Administrator to enable the 'Custom Variables' plugin in Settings > Plugins.");
-        }
-    }
-
-    public static function isCustomVariablesPluginsEnabled()
-    {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
-    }
 
     public function configureViewDataTable(ViewDataTable $view)
     {

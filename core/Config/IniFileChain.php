@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,9 +8,9 @@
 namespace Piwik\Config;
 
 use Piwik\Common;
-use Piwik\Ini\IniReader;
-use Piwik\Ini\IniReadingException;
-use Piwik\Ini\IniWriter;
+use Matomo\Ini\IniReader;
+use Matomo\Ini\IniReadingException;
+use Matomo\Ini\IniWriter;
 use Piwik\Piwik;
 
 /**

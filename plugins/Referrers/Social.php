@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,6 +11,7 @@ use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Singleton;
 
 /**
@@ -51,7 +52,7 @@ class Social extends Singleton
             // Read first from the auto-updated list in database
             $list = Option::get(self::OPTION_STORAGE_NAME);
 
-            if ($list) {
+            if ($list && SettingsPiwik::isInternetEnabled()) {
                 $this->definitionList = Common::safe_unserialize(base64_decode($list));
             } else {
                 // Fallback to reading the bundled list
@@ -119,7 +120,7 @@ class Social extends Singleton
 
 
     /**
-     * Get's social network name from URL.
+     * Gets social network name from URL.
      *
      * @param string $url
      * @return string

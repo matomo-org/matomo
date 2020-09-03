@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,10 +13,11 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Network\IP;
+use Matomo\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
+use Piwik\Config;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -100,6 +101,14 @@ class VisitExcluded
          * These are of higher priority and should not be overwritten by plugins.
          */
 
+        // Checking if in config some requests are excluded
+        if (!$excluded) {
+            $excluded = $this->request->isRequestExcluded();
+            if ($excluded) {
+                Common::printDebug("Request is excluded.");
+            }
+        }
+
         // Checking if the Piwik ignore cookie is set
         if (!$excluded) {
             $excluded = $this->isIgnoreCookieFound();
@@ -125,11 +134,16 @@ class VisitExcluded
         }
 
         // Check if Referrer URL is a known spam
-        if (!$excluded) {
-            $excluded = $this->isReferrerSpamExcluded();
-            if ($excluded) {
-                Common::printDebug("Referrer URL is blacklisted as spam.");
+        $generalConfig = Config::getInstance()->Tracker;
+        if ($generalConfig['enable_spam_filter']) {
+            if (!$excluded) {
+                $excluded = $this->isReferrerSpamExcluded();
+                if ($excluded) {
+                    Common::printDebug("Referrer URL is listed as spam.");
+                }
             }
+        } else {
+            Common::printDebug("Spam list is disabled.");
         }
 
         // Check if request URL is excluded

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -184,7 +184,7 @@ class RankingQuery
     }
 
     /**
-     * This method can be used to parition the result based on the possible values of one
+     * This method can be used to partition the result based on the possible values of one
      * table column. This means the query will split the result set into other sets of rows
      * for each possible value you provide (where the rows of each set have a column value
      * that equals a possible value). Each of these new sets of rows will be individually
@@ -197,7 +197,7 @@ class RankingQuery
      * where `log_action.type = TYPE_OUTLINK`, for rows where `log_action.type = TYPE_ACTION_URL` and for
      * rows `log_action.type = TYPE_DOWNLOAD`.
      *
-     * @param $partitionColumn string The column name to partion by.
+     * @param $partitionColumn string The column name to partition by.
      * @param $possibleValues Array of possible column values.
      * @throws Exception if method is used more than once.
      */

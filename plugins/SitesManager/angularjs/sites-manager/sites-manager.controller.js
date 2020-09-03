@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -37,7 +37,6 @@
             initSelectLists();
             initUtcTime();
             initUserIP();
-            initCustomVariablesActivated();
             initIsTimezoneSupportEnabled();
             initGlobalParams();
 
@@ -152,18 +151,6 @@
 
                     $scope.timezones = scopeTimezones;
                 }
-            );
-        };
-
-        var initCustomVariablesActivated = function() {
-
-            coreAPI.isPluginActivated(
-
-                function (customVariablesActivated) {
-                    $scope.customVariablesActivated = customVariablesActivated;
-                },
-
-                {pluginName: 'CustomVariables'}
             );
         };
 

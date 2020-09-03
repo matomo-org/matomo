@@ -67,7 +67,6 @@
         "SuperUserSetupSuccess": "Superuser succesvol gecreëerd!",
         "SystemCheck": "Systeemcontrole",
         "SystemCheckAutoUpdateHelp": "Opmerking: Matomo One Click update vereist schrijfrechten naar de Matomo map en alle onderliggende bestanden en mappen.",
-        "SystemCheckCreateFunctionHelp": "Matomo gebruikt anonieme functies voor aanroepen.",
         "SystemCheckDatabaseExtensions": "MySQL-extensies",
         "SystemCheckDatabaseHelp": "Matomo vereist ofwel de mysqli extensie of de PDO en pdo_mysql extensies.",
         "SystemCheckDatabaseSSL": "Database SSL Connectie",

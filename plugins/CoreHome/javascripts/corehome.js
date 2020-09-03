@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -85,7 +85,7 @@ $( document ).ready(function() {
         $(window).scrollTo($('a[name="main"]'));
     });
 
-    $("nav .activateTopMenu").sideNav({
+    $("#mobile-top-menu").sideNav({
         closeOnClick: true,
         edge: 'right'
     });

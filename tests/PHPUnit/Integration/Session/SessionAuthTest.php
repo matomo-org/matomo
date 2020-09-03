@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,7 +29,7 @@ class SessionAuthTest extends IntegrationTestCase
      */
     private $testInstance;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -135,7 +135,7 @@ class SessionAuthTest extends IntegrationTestCase
     private function initializeSession($userLogin, $isRemembered = false)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin, $isRemembered);
+        $sessionFingerprint->initialize($userLogin, Fixture::getTokenAuth(), $isRemembered);
     }
 
     protected static function configureFixture($fixture)
@@ -154,7 +154,7 @@ class SessionAuthTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            SessionAuth::class => \DI\object()
+            SessionAuth::class => \DI\autowire()
                 ->constructorParameter('shouldDestroySession', false),
         ];
     }

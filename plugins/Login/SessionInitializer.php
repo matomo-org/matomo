@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,11 +21,6 @@ use Piwik\ProxyHttp;
 use Piwik\Session;
 
 /**
- * This SessionInitializer is no longer used, but is kept for backwards compatibility.
- * Session management no longer uses the piwik_auth cookie.
- *
- * @deprecated
- * @api
  */
 class SessionInitializer
 {
@@ -182,8 +177,6 @@ class SessionInitializer
     protected function processSuccessfulSession(AuthResult $authResult, $rememberMe)
     {
         $cookie = $this->getAuthCookie($rememberMe);
-        $cookie->set('login', $authResult->getIdentity());
-        $cookie->set('token_auth', $this->getHashTokenAuth($authResult->getIdentity(), $authResult->getTokenAuth()));
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();

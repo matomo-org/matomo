@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -133,7 +133,7 @@ class ErrorHandler
     public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
         // if the error has been suppressed by the @ we don't handle the error
-        if (error_reporting() == 0) {
+        if (!(error_reporting() & $errno)) {
             return;
         }
 

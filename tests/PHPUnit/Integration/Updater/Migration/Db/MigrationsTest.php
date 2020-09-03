@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -32,14 +32,14 @@ class MigrationsTest extends IntegrationTestCase
     private $testTable = 'tablename';
     private $testTablePrefixed = '';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         self::dropTestTableIfNeeded();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::dropTestTableIfNeeded();
 
@@ -52,7 +52,7 @@ class MigrationsTest extends IntegrationTestCase
         Db::exec("DROP TABLE IF EXISTS `$table`");
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -156,6 +156,7 @@ class MigrationsTest extends IntegrationTestCase
     public function test_changeColumnType()
     {
         $this->factory->changeColumnType($this->testTable, 'column2', 'SMALLINT(4) NOT NULL')->exec();
+        $this->assertTrue(true);
     }
 
     /**
@@ -208,6 +209,7 @@ class MigrationsTest extends IntegrationTestCase
             'column5' => 'VARCHAR(10) DEFAULT ""',
             'column11' => 'VARCHAR(255) DEFAULT "test"',
         ))->exec();
+        $this->assertTrue(true); // pass
     }
 
     /**
@@ -238,6 +240,17 @@ class MigrationsTest extends IntegrationTestCase
         $this->factory->dropTable($this->testTable)->exec();
 
         $this->assertTableIsNotInstalled();
+    }
+
+    public function test_dropColumns()
+    {
+        DbHelper::createTable('foobarbaz', 'barbaz VARCHAR(1), foobaz VARCHAR(1), foobaz2 VARCHAR(1)');
+        $this->factory->dropColumns('foobarbaz', array('column10', 'barbaz', 'column3', 'foobaz'))->exec();
+
+        $columns = DbHelper::getTableColumns(Common::prefixTable('foobarbaz'));
+        $columns = array_keys($columns);
+
+        $this->assertSame(array('foobaz2'), $columns);
     }
 
     private function fetchRow()

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -319,11 +319,11 @@ class WidgetConfig
      * If middleware parameters are specified, the corresponding action will be executed before showing the
      * actual widget in the UI. Only if this action (can be a controller method or API method) returns JSON `true`
      * the widget will be actually shown. It is similar to `isEnabled()` but the specified action is performed each
-     * time the widget is requested in the UI whereas `isEnabled` is only checked once on the inital page load when
-     * we load the inital list of widgets. So if your widget's visibility depends on archived data
+     * time the widget is requested in the UI whereas `isEnabled` is only checked once on the initial page load when
+     * we load the initial list of widgets. So if your widget's visibility depends on archived data
      * (aka idSite/period/date) you should specify middle parameters. This has mainly two reasons:
      *
-     * - This way the inital page load time is faster as we won't have to request archived data on the initial page
+     * - This way the initial page load time is faster as we won't have to request archived data on the initial page
      * load for widgets that are potentially never shown.
      * - We execute that action every time before showing it. As the initial list of widgets is loaded on page load
      * it is possible that some archives have no data yet, but at a later time there might be actually archived data.

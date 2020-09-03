@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -34,7 +34,7 @@ class LogTest extends IntegrationTestCase
     public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -44,7 +44,7 @@ class LogTest extends IntegrationTestCase
         Log::$debugBacktraceForTests = "dummy backtrace";
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Log::unsetInstance();
 

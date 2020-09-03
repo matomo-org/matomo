@@ -1,0 +1,24 @@
+sudo: false
+language: node_js
+node_js:
+    - 4
+addons:
+  sauce_connect:
+    username: "ngDialog"
+    access_key: "916ebec2-5857-4740-aa4f-047db7472e8c"
+before_script:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+    - npm install
+    - npm run webdriver-update
+    - npm run webdriver &
+    - npm install -g bower
+    - sleep 3
+script:
+    - npm run serve &
+    - sleep 3
+    - npm run protractor
+    - npm run protractor-a11y
+    - npm run protractor-console
+    - npm test
+

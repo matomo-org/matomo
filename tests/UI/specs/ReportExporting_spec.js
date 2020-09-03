@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Export link screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -19,10 +19,10 @@ describe("ReportExporting", function () {
                 await page.click('.activateExportSelection');
             }
 
-            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
+            await page.waitForSelector('[name="format"] input[value="'+format+'"]');
 
-            await page.click('[name="format"] input[value="' + format + '"] + label');
-            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.click('[name="format"] input[value="' + format + '"]');
+            await page.click('[name="filter_limit_all"] input[value="no"]');
             await page.evaluate(function () {
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
@@ -43,10 +43,10 @@ describe("ReportExporting", function () {
                 await page.click('.activateExportSelection');
             }
 
-            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
+            await page.waitForSelector('[name="format"] input[value="'+format+'"]');
 
-            await page.click('[name="format"] input[value="'+format+'"] + label');
-            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.click('[name="format"] input[value="'+format+'"]');
+            await page.click('[name="filter_limit_all"] input[value="no"]');
             await page.evaluate(function(){
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
@@ -77,10 +77,10 @@ describe("ReportExporting", function () {
                 await page.click('.ui-dialog .activateExportSelection');
             }
 
-            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
+            await page.waitForSelector('[name="format"] input[value="'+format+'"]');
 
-            await page.click('[name="format"] input[value="'+format+'"] + label');
-            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.click('[name="format"] input[value="'+format+'"]');
+            await page.click('[name="filter_limit_all"] input[value="no"]');
             await page.evaluate(function(){
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
@@ -94,7 +94,7 @@ describe("ReportExporting", function () {
         });
     }
 
-    var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
+    var formats = ['CSV', 'TSV', 'XML', 'JSON'];
     formats.forEach(normalReportTest);
     formats.forEach(evolutionReportTest);
     formats.forEach(rowEvolutionReportTest);

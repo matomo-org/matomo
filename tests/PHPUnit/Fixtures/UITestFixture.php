@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,6 +35,7 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
@@ -66,7 +67,7 @@ class UITestFixture extends SqlDump
         $this->xssTesting = new XssTesting();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -85,6 +86,8 @@ class UITestFixture extends SqlDump
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
+        self::createSuperUser(false);
+
         $this->addOverlayVisits();
         $this->addNewSitesForSiteSelector();
 
@@ -94,11 +97,11 @@ class UITestFixture extends SqlDump
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user
-        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com', $this->xssTesting->forTwig('useralias'));
+        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
 
         // another non super user
-        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com', $this->xssTesting->forAngular('useralias'));
+        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com');
         UsersManagerAPI::getInstance()->setUserAccess('anotheruser', 'view', array(1));
 
         // add xss scheduled report
@@ -124,6 +127,19 @@ class UITestFixture extends SqlDump
         );
 
         $this->addDangerousLinks();
+
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUser(self::VIEW_USER_LOGIN);
+
+        if (empty($user)) {
+            $model->addUser(self::VIEW_USER_LOGIN, self::VIEW_USER_PASSWORD, 'hello2@example.org', Date::now()->getDatetime());
+            $model->addUserAccess(self::VIEW_USER_LOGIN, 'view', array(1, 3));
+        } else {
+            $model->updateUser(self::VIEW_USER_LOGIN, self::VIEW_USER_PASSWORD, 'hello2@example.org');
+        }
+        if (!$model->getUserByTokenAuth(self::VIEW_USER_TOKEN)) {
+            $model->addTokenAuth(self::VIEW_USER_LOGIN,self::VIEW_USER_TOKEN, 'View user token', Date::now()->getDatetime());
+        }
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -136,6 +152,8 @@ class UITestFixture extends SqlDump
         );
 
         parent::performSetUp($setupEnvironmentOnly);
+
+        self::createSuperUser(false);
 
         $this->createSegments();
         $this->setupDashboards();
@@ -212,6 +230,25 @@ class UITestFixture extends SqlDump
             "95.81.66.139",
         );
 
+        $userAgents = [
+            'Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36',
+            'Mozilla/5.0 (Linux; U; Android 2.3.7; fr-fr; HTC Desire Build/GRI40; MildWild CM-8.0 JG Stable) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+            'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36',
+            'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; GTB6.3; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; OfficeLiveConnector.1.4; OfficeLivePatch.1.3)',
+            'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; MDDSJS; rv:11.0) like Gecko',
+            'Mozilla/5.0 (Linux; Android 4.1.1; SGPT13 Build/TJDS0170) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36',
+            'Mozilla/5.0 (Linux; U; Android 4.3; zh-cn; SM-N9006 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 MQQBrowser/5.0 Mobile Safari/537.36',
+            'Mozilla/5.0 (X11; U; Linux i686; ru; rv:1.9.0.14) Gecko/2009090216 Ubuntu/9.04 (jaunty) Firefox/3.0.14',
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1',
+            'Mozilla/5.0 (Linux; U; Android 4.4.2; en-us; SCH-I535 Build/KOT49H) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
+            'Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36',
+            'Mozilla/5.0 (Linux; Android 7.0; SM-A310F Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36 OPR/42.7.2246.114996',
+            'Opera/9.80 (J2ME/MIDP; Opera Mini/5.1.21214/28.2725; U; ru) Presto/2.8.119 Version/11.10',
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML, like Gecko) FxiOS/7.5b3349 Mobile/14F89 Safari/603.2.4',
+            'Mozilla/5.0 (Android 7.0; Mobile; rv:54.0) Gecko/54.0 Firefox/54.0',
+            'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36',
+        ];
+
         $date = Date::factory('yesterday');
         $t = self::getTracker($idSite = 3, $dateTime = $date->getDatetime(), $defaultInit = true);
         $t->enableBulkTracking();
@@ -219,6 +256,7 @@ class UITestFixture extends SqlDump
         foreach ($visitProfiles as $visitCount => $visit) {
             $t->setNewVisitorId();
             $t->setIp($ips[$visitCount]);
+            $t->setUserAgent($userAgents[$visitCount]);
 
             foreach ($visit as $idx => $action) {
                 $t->setForceVisitDateTime($date->addHour($visitCount)->addHour(0.01 * $idx)->getDatetime());
@@ -299,7 +337,7 @@ class UITestFixture extends SqlDump
 
         $oldGet = $_GET;
         $_GET['idSite'] = 1;
-        $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
+        $_GET['token_auth'] = \Piwik\Piwik::getCurrentUserTokenAuth();
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = Request::processRequest('API.getWidgetMetadata', array(
@@ -310,7 +348,7 @@ class UITestFixture extends SqlDump
             return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
         });
 
-        $widgetsPerDashboard = ceil((count($allWidgets)+1) / $dashboardCount);
+        $widgetsPerDashboard = ceil(count($allWidgets) / $dashboardCount);
 
         // group widgets so they will be spread out across 3 dashboards
         $groupedWidgets = array();
@@ -427,8 +465,9 @@ class UITestFixture extends SqlDump
         API::$_autoSuggestLookBack = floor(Date::today()->getTimestamp() - Date::factory('2012-01-01')->getTimestamp()) / (24 * 60 * 60);
 
         return [
+            'Tests.now' => \DI\decorate(function(){ return Option::get("Tests.forcedNowTimestamp"); }),
             'observers.global' => \DI\add([
-                ['Report.addReports', function (&$reports) {
+                ['Report.addReports', \DI\value(function (&$reports) {
                     $report = new XssReport();
                     $report->initForXss('forTwig');
                     $reports[] = $report;
@@ -436,11 +475,11 @@ class UITestFixture extends SqlDump
                     $report = new XssReport();
                     $report->initForXss('forAngular');
                     $reports[] = $report;
-                }],
-                ['Dimension.addDimensions', function (&$instances) {
+                })],
+                ['Dimension.addDimensions', \DI\value(function (&$instances) {
                     $instances[] = new XssDimension();
-                }],
-                ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
+                })],
+                ['API.Request.intercept', \DI\value(function (&$result, $finalParameters, $pluginName, $methodName) {
                     if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
@@ -459,7 +498,7 @@ class UITestFixture extends SqlDump
                         'nb_visits' => 15,
                     ]);
                     $result = $dataTable;
-                }],
+                })],
             ]),
             Proxy::class => \DI\get(CustomApiProxy::class),
             'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {

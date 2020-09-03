@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 
@@ -124,17 +123,17 @@ class Date
     public static function factory($dateString, $timezone = null)
     {
         if ($dateString instanceof self) {
-            $dateString = $dateString->toString();
+        	return new Date($dateString->timestamp, $dateString->timezone);
         }
-        if ($dateString == 'now') {
+        if ($dateString === 'now') {
             $date = self::now();
-        } elseif ($dateString == 'today') {
+        } elseif ($dateString === 'today') {
             $date = self::today();
-        } else if ($dateString == 'tomorrow') {
+        } else if ($dateString === 'tomorrow') {
             $date = self::tomorrow();
-        } elseif ($dateString == 'yesterday') {
+        } elseif ($dateString === 'yesterday') {
             $date = self::yesterday();
-        } elseif ($dateString == 'yesterdaySameTime') {
+        } elseif ($dateString === 'yesterdaySameTime') {
             $date = self::yesterdaySameTime();
         } elseif (!is_int($dateString)
             && (
@@ -180,13 +179,13 @@ class Date
      */
     public static function factoryInTimezone($dateString, $timezone)
     {
-        if ($dateString == 'now') {
+        if ($dateString === 'now') {
             return self::nowInTimezone($timezone);
-        } else if ($dateString == 'today') {
+        } else if ($dateString === 'today') {
             return self::todayInTimezone($timezone);
-        } else if ($dateString == 'yesterday') {
+        } else if ($dateString === 'yesterday') {
             return self::yesterdayInTimezone($timezone);
-        } else if ($dateString == 'yesterdaySameTime') {
+        } else if ($dateString === 'yesterdaySameTime') {
             return self::yesterdaySameTimeInTimezone($timezone);
         } else {
             throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
@@ -318,17 +317,17 @@ class Date
      */
     protected static function extractUtcOffset($timezone)
     {
-        if ($timezone == 'UTC') {
+        if ($timezone === 'UTC') {
             return 0;
         }
         $start = substr($timezone, 0, 4);
-        if ($start != 'UTC-'
-            && $start != 'UTC+'
+        if ($start !== 'UTC-'
+            && $start !== 'UTC+'
         ) {
             return false;
         }
         $offset = (float)substr($timezone, 4);
-        if ($start == 'UTC-') {
+        if ($start === 'UTC-') {
             $offset = -$offset;
         }
         return $offset;
@@ -443,9 +442,9 @@ class Date
      */
     public function isLeapYear()
     {
-        $currentYear = date('Y', $this->getTimestamp());
+        $isLeap = (bool)(date('L', $this->getTimestamp()));
 
-        return ($currentYear % 400) == 0 || (($currentYear % 4) == 0 && ($currentYear % 100) != 0);
+        return $isLeap;
     }
 
     /**
@@ -557,7 +556,7 @@ class Date
      */
     public static function today()
     {
-        return new Date(strtotime(date("Y-m-d 00:00:00")));
+        return new Date(strtotime(date("Y-m-d 00:00:00", self::getNowTimestamp())));
     }
 
     /**
@@ -567,7 +566,7 @@ class Date
      */
     public static function tomorrow()
     {
-        return new Date(strtotime('tomorrow'));
+        return new Date(strtotime('tomorrow', self::getNowTimestamp()));
     }
 
     /**
@@ -577,7 +576,7 @@ class Date
      */
     public static function yesterday()
     {
-        return new Date(strtotime("yesterday"));
+        return new Date(strtotime("yesterday", self::getNowTimestamp()));
     }
 
     /**
@@ -587,7 +586,7 @@ class Date
      */
     public static function yesterdaySameTime()
     {
-        return new Date(strtotime("yesterday " . date('H:i:s')));
+        return new Date(strtotime("yesterday " . date('H:i:s'), self::getNowTimestamp()));
     }
 
     /**

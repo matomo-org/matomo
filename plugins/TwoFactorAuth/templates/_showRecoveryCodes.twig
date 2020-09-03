@@ -22,7 +22,7 @@
     <div class="alert alert-warning">{{ 'TwoFactorAuth_RecoveryCodesSecurity'|translate }}</div>
 
     {% if codes|length > 0 %}
-        <ul piwik-select-on-focus class="twoFactorRecoveryCodes">{% for code in codes %}
+        <ul piwik-select-on-focus class="twoFactorRecoveryCodes browser-default">{% for code in codes %}
             <li>{{ code|upper|split('', 4)|join('-') }}</li>
         {% endfor %}
         </ul>

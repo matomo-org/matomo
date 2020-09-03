@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Super User creato con successo!",
         "SystemCheck": "Controllo del sistema",
         "SystemCheckAutoUpdateHelp": "Nota: L'aggiornamento One Click di Matomo richiede i permessi di scrittura per la cartella Matomo e per il suo contenuto.",
-        "SystemCheckCreateFunctionHelp": "Matomo usa funzioni anonime per i callbacks.",
         "SystemCheckDatabaseExtensions": "Estensioni MySQL",
         "SystemCheckDatabaseHelp": "Matomo necessita dell'estensione mysqli o in alternativa sia l'estensione PDO che l'estensione pdo_mysql",
         "SystemCheckDatabaseSSL": "Connessione SSL al Database",
@@ -150,6 +149,6 @@
         "WelcomeToCommunity": "Benevenuto nella comunità di Matomo!",
         "CannotConnectToDb": "Impossibile connettersi al database",
         "CannotConnectToDbResolvingExplanation": "Potrebbe trattarsi di un problema temporaneo, prova a %1$sricaricare la pagina%2$s. Se il problema persiste, contatta il tuo amministratore di Matomo.",
-        "EmailPrivacyNotice": "Il tuo indirizzo email verrà utilizzato solamente per inviarti la newsletter di Matomo. Puoi cancellare l'iscrizione in qualunque momento cliccando sul link di cancellazione. Non condivideremo con nessun altro la tua email, né la utilizzeremo per altro scopo che non sia inviarti la newsletter di Matomo. Consulta la nostra %1$sinformativa sulla privacy%2$s per avere altre informazioni."
+        "EmailPrivacyNotice": "Il tuo indirizzo email verrà utilizzato solo per inviarti la newsletter. Per questo dobbiamo condividere la tua email con un fornitore di terze parti. Questo provider è attualmente Mad Mimi, ma questo potrebbe cambiare in futuro. Non condivideremo la tua email con nessun altro né utilizzeremo la tua email per scopi diversi dall'invio della newsletter. È possibile disdire in qualsiasi momento. Si prega di consultare la nostra %1$spolitica sulla privacy%2$s per ulteriori informazioni."
     }
 }

@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "AddUser": "Új felhasználó hozzáadása",
-        "Alias": "Felhasználói név",
         "AllWebsites": "Összes weboldal",
         "ApplyToAllWebsites": "Alkalmazás minden weboldalra",
         "ClickHereToDeleteTheCookie": "Kattints ide a szűrés érdekében lementett süti törléséhez, hogy a továbbiakban a Matomo regisztrálja látogatásaid.",

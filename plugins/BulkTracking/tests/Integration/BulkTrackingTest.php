@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -74,12 +74,11 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertCount(2, $requests);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage token_auth must be specified when using Bulk Tracking Import
-     */
     public function test_initRequestSet_shouldTriggerException_InCaseNoValidTokenProvidedAndAuthenticationIsRequired()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
+
         $request = $this->getDummyRequest(false);
 
         $this->initRequestSet($request, true);

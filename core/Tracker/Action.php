@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,10 +12,8 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
-use Piwik\Tracker;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -184,11 +182,6 @@ abstract class Action
     public function getActionType()
     {
         return $this->actionType;
-    }
-
-    public function getCustomVariables()
-    {
-        return $this->request->getCustomVariables($scope = 'page');
     }
 
     // custom_float column

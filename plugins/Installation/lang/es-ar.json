@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "¡Súperusuario creado exitosamente!",
         "SystemCheck": "Comprobación del sistema",
         "SystemCheckAutoUpdateHelp": "Nota: las actualizaciones de Matomo de un sólo clic requieren de permisos de escritura a la carpeta de Matomo y sus contenidos.",
-        "SystemCheckCreateFunctionHelp": "Matomo usa funciones anónimas para devoluciones de llamadas.",
         "SystemCheckDatabaseExtensions": "Extensiones de MySQL",
         "SystemCheckDatabaseHelp": "Matomo requiere o bien la extensión mysqli, o tanto las extensiones PDO y pdo_mysql.",
         "SystemCheckDatabaseSSL": "Conexión SSL a la base de datos",
@@ -149,7 +148,6 @@
         "WelcomeHelp": "<p>Matomo es software libre de análisis de web que hace fácil obtener la información que querés de tus visitantes.<\/p> <p>Este proceso está dividido hasta en %s fáciles pasos y llevará unos 5 minutos.<\/p>",
         "WelcomeToCommunity": "¡Bienvenido a la comunidad Matomo!",
         "CannotConnectToDb": "No se puede conectar a la base de datos",
-        "CannotConnectToDbResolvingExplanation": "Esto podría ser un problema tempóral, intentá %1$srecargar la página%2$s. Si el problema persiste, por favor, contactá a tu administrador de Matomo.",
-        "EmailPrivacyNotice": "Tu dirección de correo electrónico sólo será usado para enviarte el boletín de noticias de Matomo. Podés desuscribirte cuando quieras haciendo clic en el enlace de desuscripción. No compartiremos tu correo electrónico con nadie más ni usaremos el mismo para ningún otro propósito que el que acabamos de mencionar. Por favor, consultá nuestra %1$spolítica de privacidad%2$s para más información."
+        "CannotConnectToDbResolvingExplanation": "Esto podría ser un problema tempóral, intentá %1$srecargar la página%2$s. Si el problema persiste, por favor, contactá a tu administrador de Matomo."
     }
 }

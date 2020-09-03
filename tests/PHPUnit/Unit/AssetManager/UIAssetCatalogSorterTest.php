@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,12 +8,12 @@
 
 namespace Piwik\Tests\Unit\AssetManager;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetCatalog;
 use Piwik\AssetManager\UIAssetCatalogSorter;
 
-class UIAssetCatalogSorterTest extends PHPUnit_Framework_TestCase
+class UIAssetCatalogSorterTest extends TestCase
 {
     /**
      * @group Core

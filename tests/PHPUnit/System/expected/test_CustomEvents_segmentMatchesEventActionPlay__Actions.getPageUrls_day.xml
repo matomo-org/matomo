@@ -6,9 +6,24 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
-		<min_time_generation>0.666</min_time_generation>
-		<max_time_generation>0.666</max_time_generation>
+		<nb_hits_with_time_network>2</nb_hits_with_time_network>
+		<min_time_network>0.0000</min_time_network>
+		<max_time_network>0.0000</max_time_network>
+		<nb_hits_with_time_server>2</nb_hits_with_time_server>
+		<min_time_server>0.4550</min_time_server>
+		<max_time_server>0.4550</max_time_server>
+		<nb_hits_with_time_transfer>2</nb_hits_with_time_transfer>
+		<min_time_transfer>0.1690</min_time_transfer>
+		<max_time_transfer>0.1690</max_time_transfer>
+		<nb_hits_with_time_dom_processing>2</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.0200</min_time_dom_processing>
+		<max_time_dom_processing>0.0200</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>2</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.0990</min_time_dom_completion>
+		<max_time_dom_completion>0.0990</max_time_dom_completion>
+		<nb_hits_with_time_on_load>2</nb_hits_with_time_on_load>
+		<min_time_on_load>0.1600</min_time_on_load>
+		<max_time_on_load>0.1600</max_time_on_load>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -21,10 +36,16 @@
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_network>0</avg_time_network>
+		<avg_time_server>0.455</avg_time_server>
+		<avg_time_transfer>0.169</avg_time_transfer>
+		<avg_time_dom_processing>0.02</avg_time_dom_processing>
+		<avg_time_dom_completion>0.099</avg_time_dom_completion>
+		<avg_time_on_load>0.16</avg_time_on_load>
+		<avg_page_load_time>0.903</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0.666</avg_time_generation>
 		<url>http://example.org/movies</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fmovies</segment>
 	</row>
@@ -34,9 +55,24 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>1499</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
-		<min_time_generation>0.333</min_time_generation>
-		<max_time_generation>0.333</max_time_generation>
+		<nb_hits_with_time_network>1</nb_hits_with_time_network>
+		<min_time_network>0.0050</min_time_network>
+		<max_time_network>0.0050</max_time_network>
+		<nb_hits_with_time_server>1</nb_hits_with_time_server>
+		<min_time_server>0.1110</min_time_server>
+		<max_time_server>0.1110</max_time_server>
+		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
+		<min_time_transfer>0.2450</min_time_transfer>
+		<max_time_transfer>0.2450</max_time_transfer>
+		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing>0.1450</min_time_dom_processing>
+		<max_time_dom_processing>0.1450</max_time_dom_processing>
+		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion>0.0660</min_time_dom_completion>
+		<max_time_dom_completion>0.0660</max_time_dom_completion>
+		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
+		<min_time_on_load>0.0000</min_time_on_load>
+		<max_time_on_load>0.0000</max_time_on_load>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -47,10 +83,16 @@
 		<entry_sum_visit_length>3601</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_network>0.005</avg_time_network>
+		<avg_time_server>0.111</avg_time_server>
+		<avg_time_transfer>0.245</avg_time_transfer>
+		<avg_time_dom_processing>0.145</avg_time_dom_processing>
+		<avg_time_dom_completion>0.066</avg_time_dom_completion>
+		<avg_time_on_load>0</avg_time_on_load>
+		<avg_page_load_time>0.572</avg_page_load_time>
 		<avg_time_on_page>1499</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0.333</avg_time_generation>
 		<url>http://example.org/webradio</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fwebradio</segment>
 	</row>

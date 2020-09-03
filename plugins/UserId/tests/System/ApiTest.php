@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UserId\tests\System;
 
+use Piwik\Config;
 use Piwik\Plugins\UserId\tests\Fixtures\TrackFewVisitsAndCreateUsers;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 

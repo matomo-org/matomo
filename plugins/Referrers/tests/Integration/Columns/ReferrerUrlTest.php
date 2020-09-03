@@ -30,7 +30,7 @@ class ReferrerUrlTest extends IntegrationTestCase
     private $referrerUrl;
     private $idSite1 = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -44,7 +44,7 @@ class ReferrerUrlTest extends IntegrationTestCase
         $this->referrerUrl = new ReferrerUrl();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // clean up your test here if needed
         Cache::clearCacheGeneral();

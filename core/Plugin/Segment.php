@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -58,12 +58,11 @@ class Segment
     private $suggestedValuesApi = '';
 
     /**
-     * If true, this segment will only be visible to the user if the user has view access
-     * to one of the requested sites (see API.getSegmentsMetadata).
+     * If true, this segment will only be visible to a registered user (see API.getSegmentsMetadata).
      *
      * @var bool
      */
-    private $requiresAtLeastViewAccess = false;
+    private $requiresRegisteredUser = false;
 
     /**
      * @ignore
@@ -133,7 +132,7 @@ class Segment
     /**
      * Sometimes you want users to set values that differ from the way they are actually stored. For instance if you
      * want to allow to filter by any URL than you might have to resolve this URL to an action id. Or a country name
-     * maybe has to be mapped to a 2 letter country code. You can do this by specifing either a callable such as
+     * maybe has to be mapped to a 2 letter country code. You can do this by specifying either a callable such as
      * `array('Classname', 'methodName')` or by passing a closure. There will be four values passed to the given closure
      * or callable: `string $valueToMatch`, `string $segment` (see {@link setSegment()}), `string $matchType`
      * (eg SegmentExpression::MATCH_EQUAL or any other match constant of this class) and `$segmentName`.
@@ -382,28 +381,27 @@ class Segment
     }
 
     /**
-     * Returns true if this segment should only be visible to the user if the user has view access
-     * to one of the requested sites (see API.getSegmentsMetadata), false if it should always be
-     * visible to the user (even the anonymous user).
+     * Returns true if this segment should only be visible to registered users (see API.getSegmentsMetadata),
+     * false if it should always be visible to any user (even the anonymous user).
      *
      * @return boolean
      * @ignore
      */
-    public function isRequiresAtLeastViewAccess()
+    public function isRequiresRegisteredUser()
     {
-        return $this->requiresAtLeastViewAccess;
+        return $this->requiresRegisteredUser;
     }
 
     /**
-     * Sets whether the segment should only be visible if the user requesting it has view access
-     * to one of the requested sites and if the user is not the anonymous user.
+     * Sets whether the segment should only be visible to registered users. If set to false it will be even visible to
+     * the anonymous user
      *
-     * @param boolean $requiresAtLeastViewAccess
+     * @param boolean $requiresRegisteredUser
      * @ignore
      */
-    public function setRequiresAtLeastViewAccess($requiresAtLeastViewAccess)
+    public function setRequiresRegisteredUser($requiresRegisteredUser)
     {
-        $this->requiresAtLeastViewAccess = $requiresAtLeastViewAccess;
+        $this->requiresRegisteredUser = $requiresRegisteredUser;
     }
 
     /**

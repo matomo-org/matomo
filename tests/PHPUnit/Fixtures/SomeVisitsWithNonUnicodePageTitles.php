@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -19,13 +19,13 @@ class SomeVisitsWithNonUnicodePageTitles extends Fixture
     public $idSite1 = 1;
     public $dateTime = '2010-01-03 11:22:33';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsites();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }

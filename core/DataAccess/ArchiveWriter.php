@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
 
@@ -43,7 +44,8 @@ class ArchiveWriter
      * This flag is deprecated, new archives should not be written as temporary.
      *
      * @var int
-     * @deprecated
+     * @deprecated it should not be used anymore as temporary archives have been removed. It still exists though for
+     *             historical reasons.
      */
     const DONE_OK_TEMPORARY = 3;
 
@@ -53,6 +55,13 @@ class ArchiveWriter
      * @var int
      */
     const DONE_INVALIDATED = 4;
+
+    /**
+     * Flag indicating that the archive is
+     *
+     * @var int
+     */
+    const DONE_PARTIAL = 5;
 
     protected $fields = array('idarchive',
         'idsite',
@@ -71,17 +80,28 @@ class ArchiveWriter
     const MAX_SPOOL_SIZE = 50;
 
     /**
+     * @var ArchiveProcessor\Parameters
+     */
+    private $parameters;
+
+    /**
+     * @var string
+     */
+    private $earliestNow;
+
+    /**
      * ArchiveWriter constructor.
      * @param ArchiveProcessor\Parameters $params
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
      * @throws Exception
      */
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary = false)
+    public function __construct(ArchiveProcessor\Parameters $params)
     {
         $this->idArchive = false;
         $this->idSite    = $params->getSite()->getId();
         $this->segment   = $params->getSegment();
         $this->period    = $params->getPeriod();
+        $this->parameters = $params;
 
         $idSites = array($this->idSite);
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
@@ -132,8 +152,9 @@ class ArchiveWriter
 
     public function initNewArchive()
     {
-        $this->allocateNewArchiveId();
+        $idArchive = $this->allocateNewArchiveId();
         $this->logArchiveStatusAsIncomplete();
+        return $idArchive;
     }
 
     public function finalizeArchive()
@@ -143,7 +164,15 @@ class ArchiveWriter
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
-        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, self::DONE_OK);
+        $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
+        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
+
+        if (!$this->parameters->isPartialArchive()
+            // sanity check, just in case nothing was inserted (the archive status should always be inserted)
+            && !empty($this->earliestNow)
+        ) {
+            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $this->idArchive);
+        }
     }
 
     protected function compress($data)
@@ -203,7 +232,7 @@ class ArchiveWriter
         $fields    = $this->getInsertFields();
 
         // For numeric records it's faster to do the insert directly; for blobs the data infile is better
-        if ($valueType == 'numeric') {
+        if ($valueType === 'numeric') {
             BatchInsert::tableInsertBatchSql($tableName, $fields, $values);
         } else {
             BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
@@ -251,7 +280,7 @@ class ArchiveWriter
 
         if ($numRecords > 1) {
             $this->batchInsertSpool($valueType);
-        } elseif ($numRecords == 1) {
+        } elseif ($numRecords === 1) {
             list($name, $value) = $this->recordsToWriteSpool[$valueType][0];
             $tableName = $this->getTableNameToInsert($value);
             $fields    = $this->getInsertFields();
@@ -264,12 +293,16 @@ class ArchiveWriter
 
     protected function getInsertRecordBind()
     {
+        $now = Date::now()->getDatetime();
+        if (empty($this->earliestNow)) {
+            $this->earliestNow = $now;
+        }
         return array($this->getIdArchive(),
             $this->idSite,
             $this->dateStart->toString('Y-m-d'),
             $this->period->getDateEnd()->toString('Y-m-d'),
             $this->period->getId(),
-            date("Y-m-d H:i:s"));
+            $now);
     }
 
     protected function getTableNameToInsert($value)

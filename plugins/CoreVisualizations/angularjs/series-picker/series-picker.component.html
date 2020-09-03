@@ -20,12 +20,14 @@
             class="pickColumn"
             ng-click="$ctrl.optionSelected(columnConfig.column, $ctrl.columnStates)"
         >
-            <input
-                class="select"
-                ng-checked="$ctrl.columnStates[columnConfig.column]"
-                ng-attr-type="{{ $ctrl.multiselect ? 'checkbox' : 'radio' }}"
-            />
-            <label>{{ columnConfig.translation }}</label>
+            <label>
+                <input
+                        class="select"
+                        ng-checked="$ctrl.columnStates[columnConfig.column]"
+                        ng-attr-type="{{ $ctrl.multiselect ? 'checkbox' : 'radio' }}"
+                />
+                <span>{{ columnConfig.translation }}</span>
+            </label>
         </p>
         <p
             ng-if="$ctrl.selectableRows.length"
@@ -38,12 +40,14 @@
             class="pickRow"
             ng-click="$ctrl.optionSelected(rowConfig.matcher, $ctrl.rowStates)"
         >
-            <input
-                class="select"
-                ng-checked="$ctrl.rowStates[rowConfig.matcher]"
-                ng-attr-type="{{ $ctrl.multiselect ? 'checkbox' : 'radio' }}"
-            />
-            <label>{{ rowConfig.label }}</label>
+            <label>
+                <input
+                    class="select"
+                    ng-checked="$ctrl.rowStates[rowConfig.matcher]"
+                    ng-attr-type="{{ $ctrl.multiselect ? 'checkbox' : 'radio' }}"
+                />
+                <span>{{ rowConfig.label }}</span>
+            </label>
         </p>
     </div>
 </div>

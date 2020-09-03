@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,7 @@ class FailUpdateHttpsFixture extends Fixture
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Plugins\CoreUpdater\Updater' => \DI\object('Piwik\Plugins\CoreUpdater\tests\Mock\UpdaterMock'),
+            'Piwik\Plugins\CoreUpdater\Updater' => \DI\autowire('Piwik\Plugins\CoreUpdater\tests\Mock\UpdaterMock'),
         );
     }
 }

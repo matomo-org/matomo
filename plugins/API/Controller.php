@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\API\Renderer\Original;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
@@ -26,7 +27,11 @@ class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {
-        $token = 'token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string');
+        $tokenAuth = Common::getRequestVar('token_auth', 'anonymous', 'string');
+        $format = Common::getRequestVar('format', false);
+        $serialize = Common::getRequestVar('serialize', false);
+
+        $token = 'token_auth=' . $tokenAuth;
 
         // when calling the API through http, we limit the number of returned results
         if (!isset($_GET['filter_limit'])) {
@@ -41,6 +46,12 @@ class Controller extends \Piwik\Plugin\Controller
         $response = $request->process();
 
         if (is_array($response)) {
+            if ($format == 'original'
+                && $serialize != 1
+            ) {
+                Original::sendPlainTextHeader();
+            }
+
             $response = var_export($response, true);
         }
 

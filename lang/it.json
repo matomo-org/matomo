@@ -112,6 +112,7 @@
         "Continue": "Continua",
         "ContinueToPiwik": "Vai a Matomo",
         "CurrentlyUsingUnsecureHttp": "Al momento stati utilizzando Matomo in un ambiente non sicuro HTTP. Ciò potrebbe rendere il tuo Matomo vulnerabile agli exploit della sicurezza. Potresti anche violare le leggi sulla privacy, poiché alcune funzionalità, inclusi i cookie di opt-out, non funzioneranno. Ti consigliamo di configurare Matomo per l'utilizzo del protocollo SSL (HTTPS) per una maggiore sicurezza.",
+        "CreationDate": "Data di creazione",
         "CreatedByUser": "creato da %s",
         "CurrentMonth": "Mese corrente",
         "CurrentWeek": "Settimana corrente",
@@ -132,7 +133,10 @@
         "DaysHours": "%1$s giorni %2$s ore",
         "DaysSinceFirstVisit": "Giorni trascorsi dalla prima visita",
         "DaysSinceLastEcommerceOrder": "Giorni dall'ultimo ordine Ecommerce",
+        "SecondsSinceLastEcommerceOrder": "Secondi trascorsi dall'ultimo ordine Ecommerce",
         "DaysSinceLastVisit": "Giorni trascorsi dall'ultima visita",
+        "SecondsSinceLastVisit": "Secondi trascorsi dall'ultima visita",
+        "SecondsSinceFirstVisit": "Secondi trascorsi dalla prima visita",
         "Default": "Default",
         "DefaultAppended": "(default)",
         "Delete": "Cancella",
@@ -389,6 +393,7 @@
         "Search": "Cerca",
         "Clear": "Pulisci",
         "SearchNoResults": "Nessun risultato",
+        "Security": "Sicurezza",
         "SeeAll": "vedi tutto",
         "SeeTheOfficialDocumentationForMoreInformation": "Vedi la %1$sdocumentazione ufficiale%2$s per ulteriori informazioni.",
         "SeeThisFaq": "Vedi %1$squesta faq%2$s.",
@@ -511,7 +516,10 @@
         "ClickToRemoveComp": "Clicca per eliminare la comparazione.",
         "MaximumNumberOfSegmentsComparedIs": "Il numero massimo di segmenti che possono essere comparati simultaneamente è %s.",
         "CompareDatesParamMustMatchComparePeriods": "La lunghezza del parametro di query %1$s deve corrispondere alla lunghezza del parametro di query %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "Il numero massimo di periodi che possono essere comparati simultaneamente è %s."
+        "MaximumNumberOfPeriodsComparedIs": "Il numero massimo di periodi che possono essere comparati simultaneamente è %s.",
+        "Custom": "Personalizzata",
+        "PreviousPeriod": "Periodo Precedente",
+        "PreviousYear": "Anno Precedente"
     },
     "Mobile": {
         "AboutPiwikMobile": "Informazioni su Matomo Mobile",

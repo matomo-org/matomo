@@ -1,14 +1,14 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * Test CSV export with Expanded rows, Translated labels, Different languages
@@ -25,7 +25,7 @@ class CsvExportTest extends SystemTestCase
         $idSite = self::$fixture->idSite;
         $dateTime = self::$fixture->dateTime;
 
-        $apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
+        $apiToCall = array('VisitsSummary.get', 'Contents.getContentNames');
 
         $enExtraParam = array('expanded' => 0, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
 
@@ -78,7 +78,4 @@ class CsvExportTest extends SystemTestCase
     }
 }
 
-CsvExportTest::$fixture = new TwoVisitsWithCustomVariables();
-CsvExportTest::$fixture->visitorId = null;
-CsvExportTest::$fixture->useEscapedQuotes = false;
-CsvExportTest::$fixture->doExtraQuoteTests = false;
+CsvExportTest::$fixture = new TwoVisitsWithContents();

@@ -1,0 +1,3 @@
+{
+  "reject": ["grunt-contrib-qunit"]
+}

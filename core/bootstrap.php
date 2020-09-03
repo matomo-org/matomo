@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -43,10 +43,12 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 // Composer autoloader
 require_once PIWIK_VENDOR_PATH . '/autoload.php';
 
+require_once PIWIK_INCLUDE_PATH . '/DIObject.php';
+
 \Piwik\Plugin\Manager::initPluginDirectories();
 
 /**
- * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling
+ * Eaccelerator does not support closures and is known to be not compatible with Piwik. Therefore we are disabling
  * it automatically. At this point it looks like Eaccelerator is no longer under development and the bug has not
  * been fixed within a year.
  *

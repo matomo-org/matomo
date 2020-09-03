@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,8 @@ use DI\Container;
 /**
  * This class provides a static access to the container.
  *
- * @deprecated This class is introduced only to keep BC with the current static architecture. It will be removed in 3.0.
+ * @internal
+ * This class is introduced only to keep BC with the current static architecture. It might be removed in a future version.
  *     - it is global state (that class makes the container a global variable)
  *     - using the container directly is the "service locator" anti-pattern (which is not dependency injection)
  */
@@ -73,7 +74,7 @@ class StaticContainer
      *
      * @param string $name Container entry name.
      * @return mixed
-     * @throws \DI\NotFoundException
+     * @throws \DI\NotFoundException|\DI\DependencyException
      */
     public static function get($name)
     {

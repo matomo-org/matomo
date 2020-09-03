@@ -5,7 +5,7 @@
         <div class="dataTableScroller">
         <table class="dataTable"
                title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
-            {% for dataTable in reports.getDataTables() if dataTable.getRowsCount > 0 %}
+            {% for dataTable in reports.getDataTables()|filter(dataTable => dataTable.getRowsCount > 0) %}
                 {% set metadata = dataTable.getAllTableMetadata %}
 
                 <thead>
@@ -17,7 +17,6 @@
                         {% include "@Insights/table_row.twig" %}
                     {% endfor %}
                 </tbody>
-
             {% endfor %}
         </table>
         </div>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration;
@@ -26,10 +26,6 @@ class ArchiveWebTest extends SystemTestCase
 {
     public function test_WebArchiving()
     {
-        if (self::isMysqli() && self::isTravisCI()) {
-            $this->markTestSkipped('Skipping on Mysqli as it randomly fails.');
-        }
-
         $host  = Fixture::getRootUrl();
         $token = Fixture::getTokenAuth();
 
@@ -74,17 +70,17 @@ class ArchiveWebTest extends SystemTestCase
             'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
             'observers.global' => [
-                ['API.Request.intercept', function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
+                ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
                     if ($pluginName == 'CoreAdminHome' && $methodName == 'runCronArchiving') {
                         $returnedValue = 'mock output';
                     }
-                }],
-                ['Console.doRun', function (&$exitCode, InputInterface $input, OutputInterface $output) {
+                })],
+                ['Console.doRun', \DI\value(function (&$exitCode, InputInterface $input, OutputInterface $output) {
                     if ($input->getFirstArgument() == 'core:archive') {
                         $output->writeln('mock output');
                         $exitCode = 0;
                     }
-                }],
+                })],
             ],
         );
     }

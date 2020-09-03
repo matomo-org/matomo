@@ -67,7 +67,7 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
-charset = utf8
+charset = utf8mb4
 enable_ssl = 0
 ssl_ca =
 ssl_cert =
@@ -85,18 +85,6 @@ remote_addr = "127.0.0.1"
 request_uri = "@REQUEST_URI@"
 port =
 enable_logging = 0
-
-; access key and secret as listed in AWS -> IAM -> Users
-aws_accesskey = ""
-aws_secret = ""
-; key pair name as listed in AWS -> EC2 -> Key Pairs. Key name should be different per user.
-aws_keyname = ""
-; PEM file can be downloaded after creating a new key pair in AWS -> EC2 -> Key Pairs
-aws_pem_file = "<path to pem file>"
-aws_securitygroups[] = "default"
-aws_region = "us-east-1"
-aws_ami = "ami-ac24bac4"
-aws_instance_type = "c3.large"
 
 [log]
 ; possible values for log: screen, database, file
@@ -227,7 +215,7 @@ segments_subquery_cache_ttl  = 3600
 maintenance_mode = 0
 
 ; Defines the release channel that shall be used. Currently available values are:
-; "latest_stable", "latest_beta", "latest_3x_stable", "latest_3x_beta"
+; "latest_stable", "latest_beta", "latest_4x_stable", "latest_4x_beta"
 release_channel = "latest_stable"
 
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
@@ -292,7 +280,7 @@ adding_segment_requires_access = "view"
 allow_adding_segments_for_all_websites = 1
 
 ; When archiving segments for the first time, this determines the oldest date that will be archived.
-; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
+; This option can be used to avoid archiving (for instance) the lastN years for every new segment.
 ; Valid option values include: "beginning_of_time" (start date of archiving will not be changed)
 ;                              "segment_last_edit_time" (start date of archiving will be the earliest last edit date found,
 ;                                                        if none is found, the created date is used)
@@ -332,8 +320,8 @@ default_day = yesterday
 default_period = day
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
-; This setting is overriden in the UI, under "General Settings".
-; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
+; This setting is overridden in the UI, under "General Settings".
+; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 900
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
@@ -350,7 +338,7 @@ time_before_year_archive_considered_outdated = -1
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
 time_before_range_archive_considered_outdated = -1
 
-; This setting is overriden in the UI, under "General Settings".
+; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
@@ -400,10 +388,6 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; Matomo uses PHP's dbtable for session.
-; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
-session_save_handler = dbtable
-
 ; If set to 1, Matomo will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Matomo
 ; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0
@@ -411,7 +395,7 @@ session_save_handler = dbtable
 force_ssl = 0
 
 ; (DEPRECATED) has no effect
-login_cookie_name = piwik_auth
+login_cookie_name = matomo_auth
 
 ; By default, the auth cookie is set only for the duration of session.
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
@@ -504,11 +488,10 @@ datatable_archiving_maximum_rows_subtable_referrers = 50
 ; maximum number of rows for the Users report
 datatable_archiving_maximum_rows_userid_users = 50000
 
-; maximum number of rows for the Custom Variables names report
-; Note: if the website is Ecommerce enabled, the two values below will be automatically set to 50000
-datatable_archiving_maximum_rows_custom_variables = 1000
-; maximum number of rows for the Custom Variables values reports
-datatable_archiving_maximum_rows_subtable_custom_variables = 1000
+; maximum number of rows for the Custom Dimensions report
+datatable_archiving_maximum_rows_custom_dimensions = 1000
+; maximum number of rows for the Custom Dimensions subtable reports
+datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
@@ -668,7 +651,12 @@ absolute_chroot_path =
 ; Defaults to ./tmp (the tmp/ folder inside the Matomo directory)
 tmp_path = "/tmp"
 
-; In some rare cases it may be useful to explicitely tell Matomo not to use LOAD DATA INFILE
+; The absolute path to a PHP binary file in case Matomo cannot detect your PHP binary. If async CLI archiving cannot be
+; used on your server this may make it work. Ensure the configured PHP binary is of type CLI and not for example cgi or
+; litespeed. To find out the type of interface for a PHP binary execute this command: php -r "echo php_sapi_name();"
+php_binary_path = ""
+
+; In some rare cases it may be useful to explicitly tell Matomo not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
 
@@ -753,9 +741,17 @@ custom_cacert_pem=
 ; Default is 1.
 enable_tracking_failures_notification = 1
 
+; Controls how many months in the past reports are re-archived for plugins that support
+; doing this (such as CustomReports). Set to 0 to disable the feature. Default is 6.
+rearchive_reports_in_past_last_n_months = last6
+
 [Tracker]
 
-enable_userid_overwrites_visitorid = 0
+; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
+; identify the same user as the same visitor across devices.
+; Disabling this feature can be useful for example when using the third party cookie, where all Matomo tracked sites
+; use the same "global" visitorId for a device and you want to see when the same user switches between devices.
+enable_userid_overwrites_visitorid = 1
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
@@ -838,18 +834,18 @@ enable_language_to_country_guess = 1
 scheduled_tasks_min_interval = 3600
 
 ; name of the cookie to ignore visits
-ignore_visits_cookie_name = piwik_ignore
+ignore_visits_cookie_name = matomo_ignore
 
 ; Comma separated list of variable names that will be read to define a Campaign name, for example CPC campaign
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referrer named 'Adwords-CPC'
+; Example: If a visitor first visits 'index.php?matomo_campaign=Adwords-CPC' then it will be counted as a campaign referrer named 'Adwords-CPC'
 ; Includes by default the GA style campaign parameters
-campaign_var_name = "pk_cpn,pk_campaign,piwik_campaign,utm_campaign,utm_source,utm_medium"
+campaign_var_name = "pk_cpn,pk_campaign,piwik_campaign,mtm_campaign,matomo_campaign,utm_campaign,utm_source,utm_medium"
 
 ; Comma separated list of variable names that will be read to track a Campaign Keyword
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' ;
+; Example: If a visitor first visits 'index.php?matomo_campaign=Adwords-CPC&matomo_kwd=My killer keyword' ;
 ; then it will be counted as a campaign referrer named 'Adwords-CPC' with the keyword 'My killer keyword'
 ; Includes by default the GA style campaign keyword parameter utm_term
-campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,utm_term"
+campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,mtm_kwd,mtm_keyword,matomo_kwd,utm_term"
 
 ; if set to 1, actions that contain different campaign information from the visitor's ongoing visit will
 ; be treated as the start of a new visit. This will include situations when campaign information was absent before,
@@ -896,6 +892,28 @@ tracking_requests_require_authentication_when_custom_timestamp_newer_than = 8640
 ; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
 enable_sql_profiler = 0
 
+; Enables using referrer spam blacklist.
+enable_spam_filter = 1
+
+; If a value greater than 0 is configured, Matomo will configure MySQL with the set lock wait timeout in seconds during a
+; tracking request. This can be useful if you have a high concurrency load on your server and want to reduce the time of
+; lock wait times. For example configuring a value of 3-10 seconds may give your Matomo a performance boost if you have
+; many concurrent tracking requests for the same visitor. When enabling this feature, make sure the MySQL
+; variable "innodb_rollback_on_timeout" is turned off. Only configure if really needed. The lower the value the more tracking
+; requests may be discarded due to too low lock wait time.
+innodb_lock_wait_timeout = 0
+
+; Allows you to exclude specific requests from being tracked. The definition is similar to segments.
+; The following operands are supported: Equals: `==`, Not equals: `!=`, Contains: `=@`, Not Contains: `!@`, Starts with: `=^`, Ends with: `=$`.
+; The structure is as following: {tracking parameter}{operand}{value to match}.
+; For example "e_c==Media" means that all tracking requests will be excluded where the event category is Media.
+; Multiple exclusions can be configured separated by a comma. The request will be excluded if any expressions matches (not all of them). For example: "e_c==Media,action_name=@privacy".
+; This would also exclude any request from being tracked where the page title contains privacy.
+; All comparisons are performed case insensitve. The value to match on the right side should be URL encoded.
+; For example: "action_name=^foo%2Cbar" would exclude page titles that start with "foo,bar".
+; For a list of tracking parameters you can use on the left side view https://developer.matomo.org/api-reference/tracking-api
+exclude_requests = ""
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
@@ -912,12 +930,17 @@ enable_sql_profiler = 0
 [Deletelogs]
 ; delete_logs_enable - enable (1) or disable (0) delete log feature. Make sure that all archives for the given period have been processed (setup a cronjob!),
 ; otherwise you may lose tracking data.
-; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes (in days, 1|7|30). Default: 7.
+; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes, for tables named log_* (in days, 1|7|30). Default: 7.
 ; delete_logs_older_than - delete data older than XX (days). Default: 180
+; delete_logs_unused_actions_schedule_lowest_interval - lowest possible interval between two table deletes, for table log_action (in days, 1|7|30). Default: 30.
+; delete_logs_max_rows_per_query and delete_logs_unused_actions_max_rows_per_query can be increased for large sites to speed up delete processes
+;
+; The higher value one assign to *_schedule_lowest_interval, the longer the data pruning/deletion will take. This is caused by the fact there is more data to evaluate and process every month, than every week.
 delete_logs_enable = 0
 delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
 delete_logs_max_rows_per_query = 100000
+delete_logs_unused_actions_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
 enable_database_size_estimate = 1
 delete_logs_unused_actions_schedule_lowest_interval = 30
@@ -994,7 +1017,6 @@ Plugins[] = CoreConsole
 Plugins[] = ScheduledReports
 Plugins[] = UserCountryMap
 Plugins[] = Live
-Plugins[] = CustomVariables
 Plugins[] = PrivacyManager
 Plugins[] = ImageGraph
 Plugins[] = Annotations
@@ -1013,8 +1035,10 @@ Plugins[] = Intl
 Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
-Plugins[] = CustomPiwikJs
+Plugins[] = CustomJsTracker
 Plugins[] = Tour
+Plugins[] = PagePerformance
+Plugins[] = CustomDimensions
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

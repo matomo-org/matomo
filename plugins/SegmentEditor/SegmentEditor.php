@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -36,7 +36,7 @@ class SegmentEditor extends \Piwik\Plugin
     const NO_DATA_UNPROCESSED_SEGMENT_ID = 'nodata_segment_not_processed';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -48,9 +48,31 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.onNoData' => 'onNoData',
-            'Archive.noArchivedData' => 'onNoArchiveData',
+            'Visualization.onNoData'                     => 'onNoData',
+            'Archive.noArchivedData'                     => 'onNoArchiveData',
+            'Db.getTablesInstalled'                      => 'getTablesInstalled',
+            'SitesManager.deleteSite.end'                => 'onDeleteSite'
         );
+    }
+
+    public function onDeleteSite($idSite)
+    {
+        $model = new Model();
+        foreach ($model->getAllSegmentsForAllUsers($idSite) as $segment) {
+            if (!empty($segment['enable_only_idsite'])) { // don't delete segments for all sites
+                $model->deleteSegment($segment['idsegment']);
+            }
+        }
+    }
+
+    /**
+     * Register the new tables, so Matomo knows about them.
+     *
+     * @param array $allTablesInstalled
+     */
+    public function getTablesInstalled(&$allTablesInstalled)
+    {
+        $allTablesInstalled[] = Common::prefixTable('segment');
     }
 
     public function addSystemSummaryItems(&$systemSummary)
@@ -179,12 +201,12 @@ class SegmentEditor extends \Piwik\Plugin
         if (empty($segment)) {
             return null;
         }
-        $segment = new Segment($segment, [$idSite]);
 
         // get period
         $date = Common::getRequestVar('date', false);
         $periodStr = Common::getRequestVar('period', false);
         $period = Period\Factory::build($periodStr, $date);
+        $segment = new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd());
 
         // check if archiving is enabled. if so, the segment should have been processed.
         $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);

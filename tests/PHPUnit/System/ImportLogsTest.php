@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\System;
@@ -27,7 +27,7 @@ class ImportLogsTest extends SystemTestCase
     /** @var ManySitesImportedLogs */
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -132,8 +132,8 @@ class ImportLogsTest extends SystemTestCase
         $this->assertEquals(1, count($whateverDotCom));
 
         // make sure invalid requests are reported correctly
-        $this->assertContains('The Matomo tracker identified 2 invalid requests on lines: 10, 11', $output);
-        $this->assertContains("The following lines were not tracked by Matomo, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
+        self::assertStringContainsString('The Matomo tracker identified 2 invalid requests on lines: 10, 11', $output);
+        self::assertStringContainsString("The following lines were not tracked by Matomo, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
     }
 
     public function test_LogImporter_RetriesWhenServerFails()
@@ -153,12 +153,12 @@ class ImportLogsTest extends SystemTestCase
         $output = implode("\n", $output);
 
         for ($i = 2; $i != 6; ++$i) {
-            $this->assertContains("Retrying request, attempt number $i", $output);
+            self::assertStringContainsString("Retrying request, attempt number $i", $output);
         }
 
-        $this->assertNotContains("Retrying request, attempt number 6", $output);
+        self::assertStringNotContainsString("Retrying request, attempt number 6", $output);
 
-        $this->assertContains("Max number of attempts reached, server is unreachable!", $output);
+        self::assertStringContainsString("Max number of attempts reached, server is unreachable!", $output);
     }
 
     private function simulateTrackerFailure()
@@ -195,17 +195,17 @@ class ImportLogsTest extends SystemTestCase
 
         $testingEnvironment = new TestingEnvironmentVariables();
         if ($testingEnvironment->_triggerTrackerFailure) {
-            $observers[] = array('Tracker.newHandler', function () {
+            $observers[] = array('Tracker.newHandler', \DI\value(function () {
                 @http_response_code(500);
 
                 throw new \Exception("injected exception");
-            });
+            }));
         }
 
         if ($testingEnvironment->_triggerInvalidRequests) {
             // we trigger an invalid request by checking for triggerInvalid=1 in a request, and if found replacing the
             // request w/ a request that has an nonexistent idsite
-            $observers[] = array('Tracker.initRequestSet', function (RequestSet $requestSet) {
+            $observers[] = array('Tracker.initRequestSet', \DI\value(function (RequestSet $requestSet) {
                 $requests = $requestSet->getRequests();
                 foreach ($requests as $index => $request) {
                     $url = $request->getParam('url');
@@ -217,7 +217,7 @@ class ImportLogsTest extends SystemTestCase
                     }
                 }
                 $requestSet->setRequests($requests);
-            });
+            }));
         }
 
         if (!empty($observers)) {

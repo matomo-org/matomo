@@ -19,7 +19,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
 
     private static $countryCodes = ['CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US'];
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::siteCreated($idSite = 1)) {
             self::createWebsite($this->dateTime);

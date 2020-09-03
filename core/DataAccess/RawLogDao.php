@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,6 +9,7 @@
 namespace Piwik\DataAccess;
 
 use Piwik\Common;
+use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
@@ -191,14 +192,17 @@ class RawLogDao
         // get current max ID in log tables w/ idaction references.
         $maxIds = $this->getMaxIdsInLogTables();
 
+        // get max rows to analyze
+        $max_rows_per_query = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
+
         $this->createTempTableForStoringUsedActions();
 
         // do large insert (inserting everything before maxIds) w/o locking tables...
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true);
+        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true, $max_rows_per_query);
 
         // ... then do small insert w/ locked tables to minimize the amount of time tables are locked.
         $this->lockLogTables();
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false);
+        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false, $max_rows_per_query);
 
         // delete before unlocking tables so there's no chance a new log row that references an
         // unused action will be inserted.
@@ -210,7 +214,8 @@ class RawLogDao
     }
     
     /**
-     * Returns the list of the website IDs that received some visits between the specified timestamp.
+     * Returns the list of the website IDs that received some visits between the specified timestamp. The
+     * start date and the end date is included in the time frame.
      *
      * @param string $fromDateTime
      * @param string $toDateTime
@@ -221,8 +226,8 @@ class RawLogDao
         $sites = Db::fetchOne("SELECT 1
                 FROM " . Common::prefixTable('log_visit') . "
                 WHERE idsite = ?
-                AND visit_last_action_time > ?
-                AND visit_last_action_time < ?
+                AND visit_last_action_time >= ?
+                AND visit_last_action_time <= ?
                 LIMIT 1", array($idSite, $fromDateTime, $toDateTime));
 
         return (bool) $sites;
@@ -446,5 +451,11 @@ class RawLogDao
         }
 
         return $columns;
+    }
+
+    public function getMinimumVisitTimeForSite($idSite)
+    {
+        $sql = "SELECT MIN(visit_last_action_time) FROM " . Common::prefixTable('log_visit') . ' WHERE idsite = ?';
+        return Db::fetchOne($sql, [$idSite]);
     }
 }

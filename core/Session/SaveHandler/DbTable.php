@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,10 @@
 
 namespace Piwik\Session\SaveHandler;
 
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Exception;
+use Piwik\SettingsPiwik;
 use Piwik\Updater\Migration;
 use Zend_Session;
 use Zend_Session_SaveHandler_Interface;
@@ -27,6 +27,7 @@ class DbTable implements Zend_Session_SaveHandler_Interface
     protected $maxLifetime;
 
     const TABLE_NAME = 'session';
+    const TOKEN_HASH_ALGO = 'sha512';
 
     /**
      * @param array $config
@@ -36,6 +37,13 @@ class DbTable implements Zend_Session_SaveHandler_Interface
         $this->config = $config;
         $this->maxLifetime = ini_get('session.gc_maxlifetime');
     }
+
+    private function hashSessionId($id)
+    {
+        $salt = SettingsPiwik::getSalt();
+        return hash(self::TOKEN_HASH_ALGO, $id . $salt);
+    }
+
 
     /**
      * Destructor
@@ -79,6 +87,7 @@ class DbTable implements Zend_Session_SaveHandler_Interface
      */
     public function read($id)
     {
+        $id = $this->hashSessionId($id);
         $sql = 'SELECT ' . $this->config['dataColumn'] . ' FROM ' . $this->config['name']
             . ' WHERE ' . $this->config['primary'] . ' = ?'
             . ' AND ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' >= ?';
@@ -131,6 +140,8 @@ class DbTable implements Zend_Session_SaveHandler_Interface
      */
     public function write($id, $data)
     {
+        $id = $this->hashSessionId($id);
+
         $sql = 'INSERT INTO ' . $this->config['name']
             . ' (' . $this->config['primary'] . ','
             . $this->config['modifiedColumn'] . ','
@@ -156,6 +167,8 @@ class DbTable implements Zend_Session_SaveHandler_Interface
      */
     public function destroy($id)
     {
+        $id = $this->hashSessionId($id);
+
         $sql = 'DELETE FROM ' . $this->config['name'] . ' WHERE ' . $this->config['primary'] . ' = ?';
 
         $this->query($sql, array($id));

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,7 +26,7 @@ class SettingsTest extends IntegrationTestCase
      */
     protected $ip = '123.30.30.30';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

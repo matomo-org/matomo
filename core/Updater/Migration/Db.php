@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -66,6 +66,16 @@ abstract class Db extends Migration
      * Table '%s.%s' doesn't exist
      */
     const ERROR_CODE_TABLE_NOT_EXISTS = 1146;
+
+    /**
+     * This table type requires a primary key SQL: CREATE TEMPORARY TABLE %s
+     */
+    const ERROR_CODE_REQUIRES_PRIMARY_KEY = 1173;
+
+    /**
+     * General error: 3750 Unable to create or change a table without a primary key, when the system variable 'sql_require_primary_key' is set.
+     */
+    const ERROR_CODE_UNABLE_CREATE_TABLE_WITHOUT_PRIMARY_KEY = 3750;
 
     /**
      * Query execution was interrupted, maximum statement execution time exceeded

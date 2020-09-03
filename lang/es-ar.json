@@ -112,6 +112,7 @@
         "Continue": "Continuar",
         "ContinueToPiwik": "Ir a Matomo",
         "CurrentlyUsingUnsecureHttp": "Actualmente estás usando Matomo sobre una conexión HTTP insegura. Esto puede volver vulnerable a tu Matomo en fallos de seguridad. También podrías estar en las fronteras de las leyes de privacidad, ya que algunas funciones, como las cookies de no seguimiento, no funcionarán. Te recomendamos configurar Matomo para que use SSL (HTTPS) y mejorar la seguridad.",
+        "CreationDate": "Fecha de creación",
         "CreatedByUser": "Creado por %s",
         "CurrentMonth": "Mes actual",
         "CurrentWeek": "Semana actual",
@@ -389,6 +390,7 @@
         "Search": "Buscar",
         "Clear": "Limpiar",
         "SearchNoResults": "Sin resultados",
+        "Security": "Seguridad",
         "SeeAll": "mostrar todo",
         "SeeTheOfficialDocumentationForMoreInformation": "Mirá la %1$sdocumentación oficial%2$s para más información.",
         "SeeThisFaq": "Mirá %1$sesta pregunta frecuente%2$s.",
@@ -511,7 +513,8 @@
         "ClickToRemoveComp": "Hacé clic para quitar esta comparación.",
         "MaximumNumberOfSegmentsComparedIs": "El número máximo de segmentos que pueden ser comparados simultáneamente es %s.",
         "CompareDatesParamMustMatchComparePeriods": "La longitud del parámetro de consulta de %1$s debe coincidir la longitud de parámetro de consulta de %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "El número máximo de períodos que pueden ser comparados simultáneamente es %s."
+        "MaximumNumberOfPeriodsComparedIs": "El número máximo de períodos que pueden ser comparados simultáneamente es %s.",
+        "Custom": "Personalizado"
     },
     "Mobile": {
         "AboutPiwikMobile": "Acerca de Matomo Mobile",

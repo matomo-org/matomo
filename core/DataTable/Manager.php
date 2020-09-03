@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,7 +14,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 
 /**
- * The DataTable_Manager registers all the instanciated DataTable and provides an
+ * The DataTable_Manager registers all the instantiated DataTable and provides an
  * easy way to access them. This is used to store all the DataTable during the archiving process.
  * At the end of archiving, the ArchiveProcessor will read the stored datatable and record them in the DB.
  */
@@ -52,7 +52,7 @@ class Manager extends \ArrayObject
 
     /**
      * Returns the DataTable associated to the ID $idTable.
-     * NB: The datatable has to have been instanciated before!
+     * NB: The datatable has to have been instantiated before!
      * This method will not fetch the DataTable from the DB.
      *
      * @param int $idTable

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -28,7 +28,7 @@ class WidgetTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +38,7 @@ class WidgetTest extends SystemTestCase
         $_GET['date']   = '2013-01-23';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $_GET = array();
         parent::tearDown();
@@ -273,14 +273,6 @@ class WidgetTest extends SystemTestCase
                         'module' => 'Live',
                         'action' => 'getLastVisitsDetails',
                         'small' => 1,
-                    ),
-            ),array (
-                'name' => 'Custom Variables',
-                'uniqueId' => 'widgetCustomVariablesgetCustomVariables',
-                'parameters' =>
-                    array (
-                        'module' => 'CustomVariables',
-                        'action' => 'getCustomVariables',
                     ),
             ),array (
                 'name' => 'Device type',

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -28,14 +28,20 @@ class DiagnosticService
     private $optionalDiagnostics;
 
     /**
+     * @var Diagnostic[]
+     */
+    private $informationDiagnostics;
+
+    /**
      * @param Diagnostic[] $mandatoryDiagnostics
      * @param Diagnostic[] $optionalDiagnostics
      * @param Diagnostic[] $disabledDiagnostics
      */
-    public function __construct(array $mandatoryDiagnostics, array $optionalDiagnostics, array $disabledDiagnostics)
+    public function __construct(array $mandatoryDiagnostics, array $optionalDiagnostics, array $informationDiagnostics, array $disabledDiagnostics)
     {
         $this->mandatoryDiagnostics = $this->removeDisabledDiagnostics($mandatoryDiagnostics, $disabledDiagnostics);
         $this->optionalDiagnostics = $this->removeDisabledDiagnostics($optionalDiagnostics, $disabledDiagnostics);
+        $this->informationDiagnostics = $this->removeDisabledDiagnostics($informationDiagnostics, $disabledDiagnostics);
     }
 
     /**
@@ -45,7 +51,8 @@ class DiagnosticService
     {
         return new DiagnosticReport(
             $this->run($this->mandatoryDiagnostics),
-            $this->run($this->optionalDiagnostics)
+            $this->run($this->optionalDiagnostics),
+            $this->run($this->informationDiagnostics)
         );
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,6 +14,11 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    public function extendVisitorDetails(&$visitor)
+    {
+        $visitor['myCustomVisitParam'] = isset($this->details['example_visit_dimension']) ? $this->details['example_visit_dimension'] : 'no-value';
+    }
+
     public function renderIcons($visitorDetails)
     {
         if (empty($visitorDetails['myCustomVisitParam'])) {

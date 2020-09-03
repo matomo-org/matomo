@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,7 +17,6 @@ use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\IP;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreHome\LoginWhitelist;
@@ -85,7 +84,7 @@ class Request
     private $request = null;
 
     /**
-     * Converts the supplied request string into an array of query paramater name/value
+     * Converts the supplied request string into an array of query parameter name/value
      * mappings. The current query parameters (everything in `$_GET` and `$_POST`) are
      * forwarded to request array before it is returned.
      *
@@ -267,7 +266,7 @@ class Request
 
             // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
             // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters
-            // which may only exist in $this->request, if the request was called programatically)
+            // which may only exist in $this->request, if the request was called programmatically)
             $toReturn = Context::executeWithQueryParameters($this->request, function () use ($response, $returnedValue, $module, $method) {
                 return $response->getResponse($returnedValue, $module, $method);
             });
@@ -449,7 +448,39 @@ class Request
         SettingsServer::raiseMemoryLimitIfNecessary();
     }
 
-    private static function shouldReloadAuthUsingTokenAuth($request)
+    /**
+     * Needs to be called AFTER the user has been authenticated using a token.
+     *
+     * @internal
+     * @ignore
+     * @param string $module
+     * @param string $action
+     * @return bool
+     * @throws Exception
+     */
+    public static function isTokenAuthLimitedToViewAccess($module, $action)
+    {
+        if (($module !== 'API' || ($action && $action !== 'index'))
+            && Piwik::isUserHasSomeWriteAccess()
+            && !Common::isPhpCliMode()) {
+            // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
+            // access. it's mostly there to get users to use auth tokens of view users when embedding reports
+            // token_auth is fine for API calls since they would be always authenticated later anyway
+            // token_auth is also fine in CLI mode as eg doAsSuperUser might be used etc
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @internal
+     * @ignore
+     * @param $request
+     * @return bool
+     * @throws Exception
+     */
+    public static function shouldReloadAuthUsingTokenAuth($request)
     {
         if (is_null($request)) {
             $request = self::getDefaultRequest();

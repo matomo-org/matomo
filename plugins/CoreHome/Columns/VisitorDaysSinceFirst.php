@@ -1,50 +1,37 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
+use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 
 class VisitorDaysSinceFirst extends VisitDimension
 {
-    protected $columnName = 'visitor_days_since_first';
-    protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
-    protected $segmentName = 'daysSinceFirstVisit';
-    protected $nameSingular = 'General_DaysSinceFirstVisit';
     protected $type = self::TYPE_NUMBER;
+    protected $sqlSegment = 'ROUND(log_visit.visitor_seconds_since_first / 86400)';
+    protected $nameSingular = 'General_DaysSinceFirstVisit';
+    protected $columnName = 'visitor_seconds_since_first';
+    protected $segmentName = 'daysSinceFirstVisit';
 
-    /**
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
-     * @return mixed
-     */
-    public function onNewVisit(Request $request, Visitor $visitor, $action)
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        // if the visitor is new, force days since first to 0, to ignore any potential bad values for _idts
-        if (!$visitor->isVisitorKnown()) {
-            return 0;
-        }
-
-        return $request->getDaysSinceFirstVisit();
-    }
-
-    /**
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
-     * @return mixed
-     */
-    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
-    {
-        return $visitor->getVisitorColumn($this->columnName);
+        $segment = new Segment();
+        $segment->setSegment('daysSinceFirstVisit');
+        $segment->setName('General_DaysSinceFirstVisit');
+        $segment->setCategory('General_Visitors');
+        $segment->setSqlSegment('log_visit.visitor_seconds_since_first');
+        $segment->setSqlFilterValue(function ($value) {
+            return (int)$value * 86400;
+        });
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 }

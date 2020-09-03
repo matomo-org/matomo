@@ -1,5 +1,4 @@
 {% extends inReportingMenu ? "empty.twig" : "admin.twig" %}
-{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
 
@@ -58,7 +57,7 @@
                 {# Hide filters and search for themes because we don't have many of them #}
                 {% if (pluginsToShow|length) > 20 or query %}
                     <div class="col s12 m12 l4 ">
-                        <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
+                        <form action="{{ linkTo({'sort': '', 'embed': '0'}) }}" method="post" class="plugin-search">
                             <div piwik-field uicontrol="text" name="query"
                                  data-title="{{ 'General_Search'|translate }} {{ numAvailablePlugins }} {{ 'General_Plugins'|translate|lcfirst }}..."
                                  value="{{ query }}"

@@ -35,9 +35,11 @@ describe("MultiSitesTest", function () {
     });
 
     after(async function() {
-        await createdSiteIds.forEach(async function(createdSiteId) {
-            await testEnvironment.callApi("SitesManager.deleteSite", {idSite: createdSiteId});
+        const promises = createdSiteIds.map(async function(createdSiteId) {
+            return testEnvironment.callApi("SitesManager.deleteSite", {idSite: createdSiteId});
         });
+
+        await Promise.all(promises);
     });
 
     it('should load the all websites dashboard correctly', async function() {

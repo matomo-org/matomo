@@ -16,7 +16,9 @@ use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\SystemSettings;
+use Piwik\SettingsServer;
 use Piwik\Url;
+use Piwik\View;
 
 /**
  * A LocationProvider that uses an GeoIP 2 module installed in an HTTP Server.
@@ -159,11 +161,11 @@ class ServerModule extends GeoIp2
 
         // if not available return message w/ extra info
         if (!function_exists('apache_get_modules')) {
-            return Piwik::translate('General_Note') . ':&nbsp;' . Piwik::translate('UserCountry_AssumingNonApache');
+            return Piwik::translate('General_Note') . ':&nbsp;' . Piwik::translate('GeoIp2_AssumingNonApache');
         }
 
         $message = "<strong>" . Piwik::translate('General_Note') . ':&nbsp;'
-            . Piwik::translate('UserCountry_FoundApacheModules')
+            . Piwik::translate('GeoIp2_FoundApacheModules')
             . "</strong>:<br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
         foreach (apache_get_modules() as $name) {
             $message .= "<li>$name</li>\n";
@@ -187,7 +189,7 @@ class ServerModule extends GeoIp2
             || array_key_exists($settings[self::CITY_NAME_KEY], $_SERVER);
 
         if (!$available) {
-            return Piwik::translate("UserCountry_CannotFindGeoIPServerVar", $settings[self::COUNTRY_CODE_KEY] . ' $_SERVER');
+            return Piwik::translate('GeoIp2_CannotFindGeoIPServerVar', $settings[self::COUNTRY_CODE_KEY] . ' $_SERVER');
         }
 
         return true;
@@ -209,24 +211,24 @@ class ServerModule extends GeoIp2
         if (function_exists('apache_note')) {
             $serverDesc = 'Apache';
         } else {
-            $serverDesc = Piwik::translate('UserCountry_HttpServerModule');
+            $serverDesc = Piwik::translate('GeoIp2_HttpServerModule');
         }
 
         $title = sprintf(self::TITLE, $serverDesc);
 
         $desc = Piwik::translate('GeoIp2_LocationProviderDesc_ServerModule', array('<strong>', '</strong>'))
             . '<br/><br/>'
-            . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn')
+            . Piwik::translate('GeoIp2_GeoIPLocationProviderDesc_ServerBasedAnonWarn')
             . '<br/><br/>'
             . Piwik::translate('GeoIp2_LocationProviderDesc_ServerModule2',
                 array('<strong>', '</strong>', '<strong>', '</strong>'));
 
         $installDocs =
             '<a rel="noreferrer"  target="_blank" href="https://maxmind.github.io/mod_maxminddb/">'
-            . Piwik::translate('UserCountry_HowToInstallApacheModule')
+            . Piwik::translate('GeoIp2_HowToInstallApacheModule')
             . '</a><br/>'
             . '<a rel="noreferrer"  target="_blank" href="https://github.com/leev/ngx_http_geoip2_module/blob/master/README.md#installing">'
-            . Piwik::translate('UserCountry_HowToInstallNginxModule')
+            . Piwik::translate('GeoIp2_HowToInstallNginxModule')
             . '</a>';
 
         $geoipServerVars = array();
@@ -237,9 +239,9 @@ class ServerModule extends GeoIp2
         }
 
         if (empty($geoipServerVars)) {
-            $extraMessage = '<strong>' . Piwik::translate('UserCountry_GeoIPNoServerVars', '$_SERVER') . '</strong>';
+            $extraMessage = '<strong>' . Piwik::translate('GeoIp2_GeoIPNoServerVars', '$_SERVER') . '</strong>';
         } else {
-            $extraMessage = '<strong>' . Piwik::translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
+            $extraMessage = '<strong>' . Piwik::translate('GeoIp2_GeoIPServerVarsFound', '$_SERVER')
                 . ":</strong><br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
             foreach ($geoipServerVars as $key) {
                 $extraMessage .= '<li>' . $key . "</li>\n";
@@ -250,7 +252,12 @@ class ServerModule extends GeoIp2
         $configUrl = Url::getCurrentQueryStringWithParametersModified(array(
             'module' => 'CoreAdminHome', 'action' => 'generalSettings'
         ));
-        $extraMessage .= '<br />'.Piwik::translate('GeoIp2_GeoIPVariablesConfigurationHere', ['<a href="'.$configUrl.'">', '</a>']);
+        if (!SettingsServer::isTrackerApiRequest()) {
+            // can't render in tracking mode as there is no theme
+            $view = new View('@GeoIp2/serverModule');
+            $view->configUrl = $configUrl;
+            $extraMessage .= $view->render();
+        }
 
         return array('id'            => self::ID,
             'title'         => $title,

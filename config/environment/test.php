@@ -1,6 +1,6 @@
 <?php
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\TestConfig;
@@ -29,7 +29,7 @@ return array(
         ];
     }),
 
-    'Piwik\Cache\Backend' => function () {
+    'Matomo\Cache\Backend' => function () {
         return \Piwik\Cache::buildBackend('file');
     },
     'cache.eager.cache_id' => 'eagercache-test-',
@@ -98,40 +98,40 @@ return array(
 
     'observers.global' => DI\add(array(
 
-        array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
+        array('AssetManager.getStylesheetFiles', DI\value(function (&$stylesheets) {
             $useOverrideCss = \Piwik\Container\StaticContainer::get('test.vars.useOverrideCss');
             if ($useOverrideCss) {
                 $stylesheets[] = 'tests/resources/screenshot-override/override.css';
             }
-        }),
+        })),
 
-        array('AssetManager.getJavaScriptFiles', function (&$jsFiles) {
+        array('AssetManager.getJavaScriptFiles', DI\value(function (&$jsFiles) {
             $useOverrideJs = \Piwik\Container\StaticContainer::get('test.vars.useOverrideJs');
             if ($useOverrideJs) {
                 $jsFiles[] = 'tests/resources/screenshot-override/override.js';
             }
-        }),
+        })),
 
-        array('Updater.checkForUpdates', function () {
+        array('Updater.checkForUpdates', \DI\value(function () {
             try {
                 @\Piwik\Filesystem::deleteAllCacheOnUpdate();
             } catch (Exception $ex) {
                 // pass
             }
-        }),
+        })),
 
-        array('Test.Mail.send', function (\Zend_Mail $mail) {
+        array('Test.Mail.send', \DI\value(function (\PHPMailer\PHPMailer\PHPMailer $mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
-            $outputContent = str_replace("=\n", "", $mail->getBodyHtml($textOnly = true) ?: $mail->getBodyText($textOnly = true));
+            $outputContent = str_replace("=\n", "", $mail->Body ?: $mail->AltBody);
             $outputContent = str_replace("=0A", "\n", $outputContent);
             $outputContent = str_replace("=3D", "=", $outputContent);
             $outputContents = array(
-                'from' => $mail->getFrom(),
-                'to' => $mail->getRecipients(),
-                'subject' => $mail->getSubject(),
+                'from' => $mail->From,
+                'to' => $mail->getAllRecipientAddresses(),
+                'subject' => $mail->Subject,
                 'contents' => $outputContent
             );
             file_put_contents($outputFile, json_encode($outputContents));
-        }),
+        })),
     )),
 );

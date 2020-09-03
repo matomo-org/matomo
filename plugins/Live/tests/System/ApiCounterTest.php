@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,14 +35,14 @@ class ApiCounterTest extends SystemTestCase
     private $api;
     private $idSite = 1;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$testNow = strtotime('2018-02-03 04:45:40');
 
         parent::setUpBeforeClass();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -51,12 +51,11 @@ class ApiCounterTest extends SystemTestCase
         $this->createSite();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasViewAccess Fake exception
-     */
     public function test_GetCounters_ShouldFail_IfUserHasNoPermission()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasViewAccess Fake exception');
+
         $this->setAnonymous();
         $this->api->getCounters($this->idSite, 5);
     }

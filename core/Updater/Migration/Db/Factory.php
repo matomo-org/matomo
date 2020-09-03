@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -173,6 +173,22 @@ class Factory
 
         return $this->container->make('Piwik\Updater\Migration\Db\DropColumn', array(
             'table' => $table, 'columnName' => $columnName
+        ));
+    }
+
+    /**
+     * Drops an existing database table column.
+     *
+     * @param string $table  Unprefixed database table name, eg 'log_visit'.
+     * @param array $columnName  An array of column names that should be dropped eg ['column1', 'column2'].
+     * @return DropColumns
+     */
+    public function dropColumns($table, $columnNames)
+    {
+        $table = $this->prefixTable($table);
+
+        return $this->container->make('Piwik\Updater\Migration\Db\DropColumns', array(
+            'tableName' => $table, 'columnNames' => $columnNames
         ));
     }
 

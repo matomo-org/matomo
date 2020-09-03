@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Super-utilizador criado com sucesso",
         "SystemCheck": "Verificação de sistema",
         "SystemCheckAutoUpdateHelp": "Nota: A atualização com um clique do Matomo necessita de permissões de escrita na pasta do Matomo e respetivos conteúdos.",
-        "SystemCheckCreateFunctionHelp": "O Matomo usa funções anónimas para invocações.",
         "SystemCheckDatabaseExtensions": "Extensões MySQL",
         "SystemCheckDatabaseHelp": "O Matomo necessita da extensão mysqli ou das extensões PDO e pdo_mysql.",
         "SystemCheckDatabaseSSL": "Ligação SSL à base de dados",
@@ -150,6 +149,6 @@
         "WelcomeToCommunity": "Bem-vindo à comunidade do Matomo!",
         "CannotConnectToDb": "Não foi possível ligar à base de dados",
         "CannotConnectToDbResolvingExplanation": "Isto pode ser um problema temporário; tente %1$satualizar a página%2$s. Se o problema persistir, por favor contacte o seu administrador do Matomo.",
-        "EmailPrivacyNotice": "O seu endereço de e-mail apenas será utilizado para enviar a newsletter do Matomo. Por cancelar a subscrição a qualquer momento, clicando na ligação de cancelamento da subscrição. Nós não iremos partilhar o seu e-mail com ninguém ou utilizar o seu e-mail para qualquer outro fim para além do envio da newsletter do Matomo. Por favor, consulte a nossa %1$spolítica de privacidade%2$s para mais informações."
+        "EmailPrivacyNotice": "O seu endereço de e-mail apenas será utilizado para lhe enviar a newsletter. Para o efeito, temos de partilhar o seu endereço de e-mail com um fornecedor. Atualmente este fornecedor é a Mad Mimi, mas isto pode ser alterado no futuro. Não iremos partilhar o seu e-mail com mais ninguém nem utilizar o seu endereço de e-mail para outro propósito para além de lhe enviar a newsletter. Pode anular a subscrição a qualquer momento. Por favor consulte a nossa %1$spolítica de privacidade%2$s para mais informação."
     }
 }

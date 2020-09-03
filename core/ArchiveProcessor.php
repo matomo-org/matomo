@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -247,11 +247,10 @@ class ArchiveProcessor
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
         foreach ($metrics as $column => $value) {
-            $value = Common::forceDotAsSeparatorForDecimalPoint($value);
-            $this->archiveWriter->insertRecord($column, $value);
+            $this->insertNumericRecord($column, $value);
         }
         // if asked for only one field to sum
-        if (count($metrics) == 1) {
+        if (count($metrics) === 1) {
             return reset($metrics);
         }
 
@@ -650,7 +649,7 @@ class ArchiveProcessor
             return;
         }
 
-        $newSegment = new Segment($newSegment, $idSites);
+        $newSegment = new Segment($newSegment, $idSites, $params->getDateStart(), $params->getDateEnd());
         if (ArchiveProcessor\Rules::isSegmentPreProcessed($idSites, $newSegment)) {
             // will be processed anyway
             return;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
 /**
  * @group LanguagesManager
  */
-class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
+class EncodedEntitiesTest extends \PHPUnit\Framework\TestCase
 {
     public function getFilterTestData()
     {

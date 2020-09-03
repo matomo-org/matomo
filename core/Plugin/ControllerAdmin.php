@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -132,7 +132,7 @@ abstract class ControllerAdmin extends Controller
     protected function setBasicVariablesViewAs($view, $viewType = 'admin')
     {
         $this->setBasicVariablesNoneAdminView($view);
-        if ($viewType == 'admin') {
+        if ($viewType === 'admin') {
             self::setBasicVariablesAdminView($view);
         }
     }

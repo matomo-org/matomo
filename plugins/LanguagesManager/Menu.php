@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureTopMenu(MenuTop $menu)
     {
-        if (Piwik::isUserIsAnonymous() || !SettingsPiwik::isPiwikInstalled()) {
+        if (Piwik::isUserIsAnonymous() || !SettingsPiwik::isMatomoInstalled()) {
             $langManager = new LanguagesManager();
             $menu->addHtml('LanguageSelector', $langManager->getLanguagesSelector(), true, $order = 30, false);
         }

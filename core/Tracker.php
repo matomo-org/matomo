@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -97,7 +97,7 @@ class Tracker
     public function isInstalled()
     {
         if (is_null($this->isInstalled)) {
-            $this->isInstalled = SettingsPiwik::isPiwikInstalled();
+            $this->isInstalled = SettingsPiwik::isMatomoInstalled();
         }
 
         return $this->isInstalled;
@@ -111,6 +111,8 @@ class Tracker
 
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
+            StaticContainer::get(LoggerInterface::class)->debug("Tracker encountered an exception: {ex}", [$e]);
+
             $handler->onException($this, $requestSet, $e);
         }
 
@@ -205,14 +207,6 @@ class Tracker
     public function hasLoggedRequests()
     {
         return 0 !== $this->countOfLoggedRequests;
-    }
-
-    /**
-     * @deprecated since 2.10.0 use {@link Date::getDatetimeFromTimestamp()} instead
-     */
-    public static function getDatetimeFromTimestamp($timestamp)
-    {
-        return Date::getDatetimeFromTimestamp($timestamp);
     }
 
     public function isDatabaseConnected()

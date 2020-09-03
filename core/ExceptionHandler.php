@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,8 +8,8 @@
  */
 namespace Piwik;
 
+use DI\DependencyException;
 use Exception;
-use Interop\Container\Exception\ContainerException;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
@@ -159,7 +159,7 @@ class ExceptionHandler
                 'exception' => $exception,
                 'ignoreInScreenWriter' => true,
             ]);
-        } catch (ContainerException $ex) {
+        } catch (DependencyException $ex) {
             // ignore (occurs if exception is thrown when resolving DI entries)
         } catch (ContainerDoesNotExistException $ex) {
             // ignore

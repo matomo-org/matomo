@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -176,7 +176,7 @@ class FrontController extends Singleton
              * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
-        } catch (\Twig_Error_Runtime $e) {
+        } catch (\Twig\Error\RuntimeError $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         } catch(StylesheetLessCompileException $e) {
@@ -199,7 +199,6 @@ class FrontController extends Singleton
      * @param string $actionName The controller action name, eg, `'realtimeMap'`.
      * @param array $parameters Array of parameters to pass to the controller action method.
      * @return string The `echo`'d data or the return value of the controller action.
-     * @deprecated
      */
     public function fetchDispatch($module = null, $actionName = null, $parameters = null)
     {
@@ -409,9 +408,14 @@ class FrontController extends Singleton
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
-        if (Common::getRequestVar('token_auth', false, 'string') !== false) {
+        if (Common::getRequestVar('token_auth', '', 'string') !== ''
+            && Request::shouldReloadAuthUsingTokenAuth(null)) {
             Request::reloadAuthUsingTokenAuth();
+            if (Request::isTokenAuthLimitedToViewAccess($module, $action)) {
+                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
+            }
         }
+
         SettingsServer::raiseMemoryLimitIfNecessary();
 
         \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
@@ -659,7 +663,7 @@ class FrontController extends Singleton
 
         // the session must be started before using the session authenticator,
         // so we do it here, if this is not an API request.
-        if (SettingsPiwik::isPiwikInstalled()
+        if (SettingsPiwik::isMatomoInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
             /**

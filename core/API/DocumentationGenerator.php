@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -128,7 +128,7 @@ class DocumentationGenerator
 
     protected function addExamples($class, $methodName, $prefixUrls)
     {
-        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
+        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth() . "&force_api_session=1";
         $parametersToSet = array(
             'idSite' => Common::getRequestVar('idSite', 1, 'int'),
             'period' => Common::getRequestVar('period', 'day', 'string'),
@@ -276,6 +276,7 @@ class DocumentationGenerator
         $aParameters['filter_pattern_recursive'] = false; 
         $aParameters['filter_truncate'] = false;
         $aParameters['hideColumns'] = false;
+        $aParameters['hideColumnsRecursively'] = false;
         $aParameters['showColumns'] = false;
         $aParameters['filter_pattern_recursive'] = false;
         $aParameters['pivotBy'] = false;

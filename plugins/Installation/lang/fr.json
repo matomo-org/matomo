@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Super utilisateur créé avec succès !",
         "SystemCheck": "Vérification du système",
         "SystemCheckAutoUpdateHelp": "Note : La mise à jour de Matomo en un clic requiert une permission en écriture sur le dossier de Matomo et son contenu.",
-        "SystemCheckCreateFunctionHelp": "Matomo utilise des fonctions anonymes pour les callbacks.",
         "SystemCheckDatabaseExtensions": "Extensions MySQL",
         "SystemCheckDatabaseHelp": "Matomo requiert ou l'extension mysqli ou les extensions pdo et pdo_mysql.",
         "SystemCheckDatabaseSSL": "Connexion SSL à la base de données",
@@ -150,6 +149,6 @@
         "WelcomeToCommunity": "Bienvenue dans la communauté Matomo !",
         "CannotConnectToDb": "Impossible de se connecter à la base de données",
         "CannotConnectToDbResolvingExplanation": "Cela peut être un problème temporaire, essayer de %1$srafraichir la page%2$s. Si le problème persiste veuillez contacter votre administrateur Matomo.",
-        "EmailPrivacyNotice": "Votre adresse courriel ne sera utilisée que pour vous envoyer l'infolettre Matomo. Vous pouvez vous désinscrire à tout moment en cliquant sur le lien de désinscription. Nous ne partagerons pas votre courriel avec qui que ce soit d'autre et n'utiliserons pas votre courriel pour tout motif autre que l'infolettre Matomo. Veuillez consulter notre %1$spolitique de respect de la vie privée%2$s pour plus d'information."
+        "EmailPrivacyNotice": "Votre adresse courriel sera utilisée uniquement pour vous envoyer l'infolettre. Pour cela nous devons partager votre courriel avec un fournisseur tiers. Ce fournisseur est actuellement Mad Mimi, mais cela peut changer plus tard. Nous ne partagerons votre courriel avec personne d'autre et nous n'utiliserons pas votre courriel pour un autre motif que l'envoi de l'infolettre. Vous pouvez vous désinscrire à tout moment. Veuillez consulter notre %1$spolitique de respect de la vie privée%2$s pour plus d'information."
     }
 }

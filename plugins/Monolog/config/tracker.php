@@ -1,6 +1,6 @@
 <?php
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 function isTrackerDebugEnabled(ContainerInterface $c)
 {

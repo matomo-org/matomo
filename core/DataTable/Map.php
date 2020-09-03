@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,6 +12,7 @@ use Closure;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
+use Piwik\DataTable\Renderer\Html;
 
 /**
  * Stores an array of {@link DataTable}s indexed by one type of {@link DataTable} metadata (such as site ID
@@ -221,7 +222,7 @@ class Map implements DataTableInterface
      */
     public function __toString()
     {
-        $renderer = new Console();
+        $renderer = new Html();
         $renderer->setTable($this);
         return (string)$renderer;
     }

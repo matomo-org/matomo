@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -44,7 +44,7 @@ class RawLogDaoTest extends SystemTestCase
 
     private $idSite = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -85,12 +85,11 @@ class RawLogDaoTest extends SystemTestCase
         $this->assertSame('idvisit', $this->dao->getIdFieldForLogTable('log_visit'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Unknown log table 'log_foobarbaz'
-     */
     public function test_getIdFieldForLogTable_whenUnknownTable()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unknown log table \'log_foobarbaz\'');
+
         $this->dao->getIdFieldForLogTable('log_foobarbaz');
     }
 
@@ -109,8 +108,8 @@ class RawLogDaoTest extends SystemTestCase
     public function getVisitsInTimeFrameData()
     {
         return array(
-            array($from = '2015-01-25 05:35:26', $to = '2015-01-25 05:35:27', $this->idSite, $hasVisits = false), // there is no second "between" the timeframe so cannot have visits
-            array($from = '2015-01-25 05:35:27', $to = '2015-01-25 05:35:28', $this->idSite, $hasVisits = false), // there is no second "between" the timeframe so cannot have visits
+            array($from = '2015-01-25 05:35:26', $to = '2015-01-25 05:35:27', $this->idSite, $hasVisits = true), // there are two seconds where the timeframe can have visits
+            array($from = '2015-01-25 05:35:27', $to = '2015-01-25 05:35:28', $this->idSite, $hasVisits = true),
             array($from = '2015-01-25 05:35:26', $to = '2015-01-25 05:35:28', $this->idSite, $hasVisits = true), // only one sec difference between from and to
             array($from = '2015-01-25 05:35:26', $to = '2015-01-26 05:35:27', $this->idSite, $hasVisits = true),
             array($from = '2015-01-24 05:35:26', $to = '2015-01-26 05:35:27', $this->idSite, $hasVisits = true),

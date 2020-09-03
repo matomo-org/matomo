@@ -112,6 +112,7 @@
         "Continue": "Lanjut",
         "ContinueToPiwik": "Lanjut ke Matomo",
         "CurrentlyUsingUnsecureHttp": "Saat ini anda sedang menggunakan Matomo dengan HTTP tidak aman. Hal ini dapat membuat Matomo anda rentan terhadap eksploit. Anda juga mungkin melanggar hukum privasi, sebagaimana beberapa fitur termasuk kukis keluar tidak akan bekerja. Kami menyarankan anda mengatur Matomo untuk menggunakan SSL (HTTPS) untuk keamanan tingkat lanjut.",
+        "CreationDate": "Tanggal pembuatan",
         "CreatedByUser": "dibuat oleh %s",
         "CurrentMonth": "Bulan Ini",
         "CurrentWeek": "Minggu Ini",
@@ -132,7 +133,10 @@
         "DaysHours": "%1$s hari %2$s jam",
         "DaysSinceFirstVisit": "Hari sejak kujungan pertama",
         "DaysSinceLastEcommerceOrder": "Hari sejak permintaan Niaga-E terakhir",
+        "SecondsSinceLastEcommerceOrder": "Detik sejak komersial elektronik terakhir",
         "DaysSinceLastVisit": "Hari sejak kunjungan terakhir",
+        "SecondsSinceLastVisit": "Detik sejak kunjungan terakhir",
+        "SecondsSinceFirstVisit": "Detik sejak kunjungan pertama",
         "Default": "Asali",
         "DefaultAppended": "(asali)",
         "Delete": "Hapus",
@@ -389,6 +393,7 @@
         "Search": "Cari",
         "Clear": "Bersihkan",
         "SearchNoResults": "Tidak ada hasil",
+        "Security": "Keamanan",
         "SeeAll": "lihat semua",
         "SeeTheOfficialDocumentationForMoreInformation": "Lihat %1$sdokumentasi resmi%2$s untuk informasi selengkapnya.",
         "SeeThisFaq": "Lihat %1$s faq ini %2$s.",
@@ -511,7 +516,10 @@
         "ClickToRemoveComp": "Klik untuk menghapus perbandingan.",
         "MaximumNumberOfSegmentsComparedIs": "Jumlah maksimum segmen yang dapat dibandingkan secara bersamaan adalah %s unit.",
         "CompareDatesParamMustMatchComparePeriods": "Panjang pemintaan %1$s harus sesuai dengan panjang parameter (%2$s).",
-        "MaximumNumberOfPeriodsComparedIs": "Jumlah periode maksimum yang dapat dibandingkan secara bersamaan adalah %s unit."
+        "MaximumNumberOfPeriodsComparedIs": "Jumlah periode maksimum yang dapat dibandingkan secara bersamaan adalah %s unit.",
+        "Custom": "Berdasarkan keinginan",
+        "PreviousPeriod": "Periode sebelumnya",
+        "PreviousYear": "Tahun sebelumnya"
     },
     "Mobile": {
         "AboutPiwikMobile": "Tentang Matomo Mobile",

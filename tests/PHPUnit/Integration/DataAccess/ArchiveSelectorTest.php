@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -40,13 +40,25 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
         $params = new Parameters(new Site(1), Factory::build('day', '2019-10-05'), new Segment($segment, [1]));
         $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDateProcessed, $includeInvalidated);
+
+        if ($result[4] !== false) {
+            Date::factory($result[4]);
+        }
+
+        unset($result[4]);
+
         $this->assertEquals($expected, $result);
     }
 
     private function insertArchiveData($archiveRows)
     {
-        $table = ArchiveTableCreator::getNumericTable(Date::factory('2019-10-01 12:13:14'));
         foreach ($archiveRows as $row) {
+            if (!empty($row['is_blob_data'])) {
+                $row['value'] = gzcompress($row['value']);
+            }
+
+            $d = Date::factory($row['date1']);
+            $table = !empty($row['is_blob_data']) ? ArchiveTableCreator::getBlobTable($d) : ArchiveTableCreator::getNumericTable($d);
             $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
             Db::query("INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]);
@@ -136,7 +148,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 0, 0, true],
+                [false, false, false, true],
             ],
 
             // archive is too old
@@ -172,7 +184,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true],
+                [false, false, false, false],
             ],
             [
                 [
@@ -183,7 +195,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true],
+                [false, false, false, false],
             ],
 
             // archive exists and is usable
@@ -194,7 +206,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [1, false, false, true],
+                [[1], 0, 0, true],
             ],
             [
                 [
@@ -205,7 +217,218 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [1, 5, 10, true],
+                [[1], 5, 10, true],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForGetArchiveData
+     */
+    public function test_getArchiveData_returnsCorrectData($archiveRows, $dataType, $idArchives, $recordNames, $idSubtable,
+                                                           $expectedData)
+    {
+        Fixture::createWebsite('2010-02-02 00:00:00');
+
+        $this->insertArchiveData($archiveRows);
+
+        $data = ArchiveSelector::getArchiveData($idArchives, $recordNames, $dataType, $idSubtable);
+
+        $this->assertEquals($expectedData, $data);
+    }
+
+    public function getTestDataForGetArchiveData()
+    {
+        // $blobArray1
+        $blobArray1 = [
+            1 => 'blobvalue1',
+            2 => 'blobvalue2',
+            3 => 'blobvalue3',
+        ];
+        $blobArray2 = [
+            1 => 'blobvalue4',
+            2 => 'blobvalue5',
+            3 => 'blobvalue6',
+        ];
+        $blobArray3 = [
+            1 => 'blobvalue7',
+            2 => 'blobvalue8',
+            4 => 'blobvalue9',
+        ];
+        $blobArray4 = [
+            1 => 'blobvalue10',
+            2 => 'blobvalue11',
+            3 => 'blobvalue12',
+        ];
+
+        return [
+            // numeric data
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 5, 'ts_archived' => '2020-06-13 09:04:56'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits_converted', 'value' => 10, 'ts_archived' => '2020-06-12 02:04:56'],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 15, 'ts_archived' => '2020-06-13 04:04:56'],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits_converted', 'value' => 20, 'ts_archived' => '2020-06-13 04:04:56'],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 30, 'ts_archived' => '2020-06-13 04:04:56'],
+                ],
+                'numeric',
+                [
+                    '2019-10-05,2019-10-05' => [1,2,3],
+                ],
+                ['nb_visits', 'nb_visits_converted'],
+                null,
+                array (
+                    array (
+                        'value' => '10',
+                        'name' => 'nb_visits_converted',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-12 02:04:56',
+                    ),
+                    array (
+                        'value' => '15',
+                        'name' => 'nb_visits',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => '20',
+                        'name' => 'nb_visits_converted',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => '30',
+                        'name' => 'nb_visits',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => '5',
+                        'name' => 'nb_visits',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 09:04:56',
+                    ),
+                ),
+            ],
+
+            // blob data
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob1', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob2', 'value' => 'klm', 'ts_archived' => '2020-06-12 02:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob1', 'value' => 'hij', 'ts_archived' => '2020-06-13 04:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob2', 'value' => 'ghi', 'ts_archived' => '2020-06-13 04:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob2', 'value' => 'abcd', 'ts_archived' => '2020-06-13 04:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob2', 'value' => 'abcd', 'ts_archived' => '2020-08-13 04:04:56', 'is_blob_data' => true],
+                ],
+                'blob',
+                [
+                    '2019-10-05,2019-10-05' => [1,2,3],
+                ],
+                ['blob1', 'blob2'],
+                null,
+                array (
+                    array (
+                        'value' => 'klm',
+                        'name' => 'blob2',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-12 02:04:56',
+                    ),
+                    array (
+                        'value' => 'hij',
+                        'name' => 'blob1',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => 'ghi',
+                        'name' => 'blob2',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => 'abcd',
+                        'name' => 'blob2',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => 'nop',
+                        'name' => 'blob1',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 09:04:56',
+                    ),
+                ),
+            ],
+
+            // blub data w/ subtable
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob1_chunk_0_99', 'value' => serialize($blobArray1), 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob2_chunk_0_99', 'value' => serialize($blobArray2), 'ts_archived' => '2020-06-12 02:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob1_chunk_0_99', 'value' => serialize($blobArray3), 'ts_archived' => '2020-06-13 04:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'blob2_chunk_0_99', 'value' => serialize($blobArray4), 'ts_archived' => '2020-06-13 04:04:56', 'is_blob_data' => true],
+                ],
+                'blob',
+                [
+                    '2019-10-05,2019-10-05' => [1,2,3],
+                ],
+                ['blob1', 'blob2'],
+                2,
+                array (
+                    array (
+                        'value' => 'blobvalue5',
+                        'name' => 'blob2_2',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-12 02:04:56',
+                    ),
+                    array (
+                        'value' => 'blobvalue8',
+                        'name' => 'blob1_2',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => 'blobvalue11',
+                        'name' => 'blob2_2',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 04:04:56',
+                    ),
+                    array (
+                        'value' => 'blobvalue2',
+                        'name' => 'blob1_2',
+                        'idsite' => '1',
+                        'date1' => '2019-10-05',
+                        'date2' => '2019-10-05',
+                        'ts_archived' => '2020-06-13 09:04:56',
+                    ),
+                ),
             ],
         ];
     }

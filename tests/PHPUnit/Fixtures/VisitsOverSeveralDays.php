@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -42,13 +42,13 @@ class VisitsOverSeveralDays extends Fixture
         'http://mixi.jp',
     );
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
@@ -73,10 +73,7 @@ class VisitsOverSeveralDays extends Fixture
         foreach ($dateTimes as $dateTime) {
             $days++;
 
-            // Fake the visit count cookie
-            $debugStringAppend = "&_idvc=$days";
-
-            $visitor = $this->makeTracker($this->idSite, $dateTime, $debugStringAppend);
+            $visitor = $this->makeTracker($this->idSite, $dateTime);
 
             // FIRST VISIT THIS DAY
             $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());

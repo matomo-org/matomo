@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,7 +14,8 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Network\IPUtils;
+use Piwik\Intl\Data\Provider\CurrencyDataProvider;
+use Matomo\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -181,7 +182,7 @@ class API extends \Piwik\Plugin\API
 
         $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/'.$matomoPhp.'?' . Url::getQueryStringFromParameters($urlParams);
         $html = "<!-- Matomo Image Tracker-->
-<img src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
+<img referrerpolicy=\"no-referrer-when-downgrade\" src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
         return htmlspecialchars($html, ENT_COMPAT, 'UTF-8');
     }
@@ -303,33 +304,6 @@ class API extends \Piwik\Plugin\API
             // can be called before Matomo tables are created so return empty
             return array();
         }
-    }
-
-    /**
-     * Returns the list of the website IDs that received some visits since the specified timestamp.
-     * Requires Super User access.
-     *
-     * @param bool|int $timestamp
-     * @return array The list of website IDs
-     * @deprecated since 2.15 This method will be removed in Matomo 3.0, there is no replacement.
-     */
-    public function getSitesIdWithVisits($timestamp = false)
-    {
-        Piwik::checkUserHasSuperUserAccess();
-
-        if (empty($timestamp)) $timestamp = time();
-
-        $time   = Date::factory((int)$timestamp)->getDatetime();
-        $now    = Date::now()->addHour(1)->getDatetime();
-
-        $result = $this->getModel()->getSitesWithVisits($time, $now);
-
-        $idSites = array();
-        foreach ($result as $idSite) {
-            $idSites[] = $idSite['idsite'];
-        }
-
-        return $idSites;
     }
 
     /**
@@ -1061,29 +1035,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns true if site-specific user agent exclusion has been enabled. If it hasn't,
-     * only the global user agent substrings (see @setGlobalExcludedUserAgents) will be used.
-     *
-     * @return bool
-     * @deprecated Will be removed in Matomo 4.0
-     */
-    public function isSiteSpecificUserAgentExcludeEnabled()
-    {
-        return true;
-    }
-
-    /**
-     * Sets whether it should be allowed to exclude different user agents for different
-     * websites.
-     *
-     * @param bool $enabled
-     * @deprecated Will be removed in Matomo 4.0
-     */
-    public function setSiteSpecificUserAgentExcludeEnabled($enabled)
-    {
-    }
-
-    /**
      * Returns true if the default behavior is to keep URL fragments when tracking,
      * false if otherwise.
      *
@@ -1371,10 +1322,12 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currency = Site::getCurrencyList();
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        $currency = $dataProvider->getCurrencyList();
 
         $return = array();
-        foreach (array_keys(Site::getCurrencyList()) as $currencyCode) {
+        foreach (array_keys($currency) as $currencyCode) {
             $return[$currencyCode] = Piwik::translate('Intl_Currency_' . $currencyCode) .
               ' (' . Piwik::translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
         }
@@ -1391,7 +1344,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencySymbols()
     {
-        $currencies = Site::getCurrencyList();
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        $currencies =  $dataProvider->getCurrencyList();
+
         return array_map(function ($a) {
             return $a[0];
         }, $currencies);

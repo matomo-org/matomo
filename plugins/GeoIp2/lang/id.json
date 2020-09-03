@@ -1,0 +1,26 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Tidak dapat menemukan fungsi apache_get_modules, sehingga diduga sebagai peladen non-Apache.",
+        "CannotFindGeoIPServerVar": "Variabel %s tidak diatur. Peladen Anda mungkin tidak diatur secara benar.",
+        "CannotListContent": "Tidak dapat menemukan isi untuk %1$s: %2$s",
+        "DownloadingDb": "Mengunduh %s",
+        "DownloadNewDatabasesEvery": "Perbarui basisdata setiap",
+        "FoundApacheModules": "Matomo menemukan modul Apache berikut",
+        "GeoIPImplHasAccessTo": "Penerapan GeoIP ini memiliki akses terhadap jenis-jenis basisdata berikut",
+        "GeoIPDatabases": "Basisdata GeoIP",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Catatan: anonimasi IP tidak berdampak dalam laporan berdasar penyedia ini. Sebelum menggunakan ini dengan anonimasi IP, pastikan bahwa Anda tidak melanggar peraturan privasi yang mungkin dikenakan kepada Anda.",
+        "GeoIPNoServerVars": "Matomo tidak dapat menemukan variabel GeoIP %s apapun.",
+        "GeoIPServerVarsFound": "Matomo mendeteksi variabel GeoIP berikut %s",
+        "HowToSetupGeoIPIntro": "Anda tidak tampak memiliki pemasangan Lokasi-geo yang teliti. Fitur ini sangat berguna dan tanpa ini Anda tidak akan melihat lokasi lengkap dan akurat untuk pengunjung Anda. Di sini bagaimana Anda dapat dengan mudah memulai ini:",
+        "HowToInstallApacheModule": "Bagaimana saya memasang modul GeoIP untuk Apache?",
+        "HowToInstallNginxModule": "Bagaimana saya memasang modul GeoIP untuk Nginx?",
+        "HttpServerModule": "Modul Peladen HTTP",
+        "InvalidGeoIPUpdatePeriod": "Periode tak sahih untuk pembaruan GeoIP: %1$s. Nilai sahih adalah %2$s.",
+        "ISPDatabase": "Basisdata Penyedia Layanan Internet",
+        "LocationDatabase": "Basisdata Lokasi",
+        "LocationDatabaseHint": "Sebuah basisdata lokasi merupakan salah satu basisdata suatu negara, wilayah, atau kota.",
+        "UnsupportedArchiveType": "Mengandung arsip tak didukung jenis %1$s.",
+        "UpdaterHasNotBeenRun": "Pembaruan belum pernah berjalan.",
+        "UpdaterWasLastRun": "Pembaruan terakhir berjalan dalam %s."
+    }
+}

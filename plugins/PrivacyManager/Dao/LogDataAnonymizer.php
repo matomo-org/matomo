@@ -11,7 +11,7 @@ namespace Piwik\Plugins\PrivacyManager\Dao;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Network\IP;
+use Matomo\Network\IP;
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;

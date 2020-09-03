@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -43,8 +43,7 @@ class TestsRun extends ConsoleCommand
         $options = $input->getOption('options');
         $groups  = $input->getOption('group');
         $magics  = $input->getArgument('variables');
-        // @todo remove piwik-domain fallback in Matomo 4
-        $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
+        $matomoDomain = $input->getOption('matomo-domain');
         $enableLogging = $input->getOption('enable-logging');
 
         $groups = $this->getGroupsFromString($groups);

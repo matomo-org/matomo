@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,6 +18,7 @@ class DiagnosticResult
     const STATUS_ERROR = 'error';
     const STATUS_WARNING = 'warning';
     const STATUS_OK = 'ok';
+    const STATUS_INFORMATIONAL = 'informational';
 
     /**
      * @var string
@@ -49,6 +50,24 @@ class DiagnosticResult
     {
         $result = new self($label);
         $result->addItem(new DiagnosticResultItem($status, $comment));
+        return $result;
+    }
+
+    /**
+     * @param string $label
+     * @param string $status
+     * @param string $comment
+     * @return DiagnosticResult
+     */
+    public static function informationalResult($label, $comment = '')
+    {
+        if ($comment === true) {
+            $comment = '1';
+        } elseif ($comment === false) {
+            $comment = '0';
+        }
+        $result = new self($label);
+        $result->addItem(new DiagnosticResultItem(self::STATUS_INFORMATIONAL, $comment));
         return $result;
     }
 

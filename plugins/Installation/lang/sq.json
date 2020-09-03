@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Superpërdoruesi u krijua me sukses!",
         "SystemCheck": "Kontroll sistemi",
         "SystemCheckAutoUpdateHelp": "Shënim: përditësimi me Një Klikim i Matomo-s lyp leje për shkrim te dosja Matomo dhe lënda e saj.",
-        "SystemCheckCreateFunctionHelp": "Matomo përdor funksione anonime për \\\"callbacks\\\".",
         "SystemCheckDatabaseExtensions": "Zgjerime MySQL",
         "SystemCheckDatabaseHelp": "Matomo lyp ose zgjerimin mysqli, ose që të dy zgjerimet PDO dhe pdo_mysql.",
         "SystemCheckDatabaseSSL": "Lidhje SSL Baze të Dhënash",
@@ -150,6 +149,6 @@
         "WelcomeToCommunity": "Mirë se vini te bashkësia Matomo!",
         "CannotConnectToDb": "S’lidhet dot me bazën e të dhënave",
         "CannotConnectToDbResolvingExplanation": "Ky mund të jetë problem i përkohshëm, provoni %1$stë rifreskoni faqen%2$s. Nëse problemi vazhdon, ju lutemi lidhuni me përgjegjësin e Matomo-s tuaj.",
-        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin e Matomo-s. Mund të shpajtoheni kur të doni, duke klikuar mbi lidhjen e shpajtimit. Nuk do t’i japim kujt email-in tuaj, apo ta përdorim email-in tuaj për qëllime të tjera veç dërgimit të buletinit Matomo. Ju lutemi, për më tepër hollësi, shihni %1$srregullat tona mbi privatësinë%2$s."
+        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin. Për këtë na duhet ta japim email-in tuaj te një furnizues palë e tretë. Aktualisht ky furnizues është Mad Mimi, por kjo mund të ndryshojë në të ardhmen. Email-in tuaj s’do t’ia japim kujt tjetër apo ta përdorim për çfarëdo qëllimi tjetër nga dërgimi për ju i buletinit. Mund të shpajtoheni kur të doni. Për më tepër të dhëna, ju lutemi, shihni %1$srregullat tona mbi privatësinë%2$s."
     }
 }

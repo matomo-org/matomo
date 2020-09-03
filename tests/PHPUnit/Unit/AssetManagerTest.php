@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,7 +14,7 @@ use Piwik\Config;
 /**
  * @group AssetManager
  */
-class AssetManagerTest extends \PHPUnit_Framework_TestCase
+class AssetManagerTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testIsMergedAssetsDisabled()

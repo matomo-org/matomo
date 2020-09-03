@@ -1,7 +1,7 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
@@ -34,7 +34,7 @@
                     id: 'PersonalSettingsSuccess', context: 'success'});
                 notification.scrollToNotification();
 
-                self.doesRequirePasswordConfirmation = !!self.password;
+                self.doesRequirePasswordConfirmation = false;
                 self.passwordCurrent = '';
                 self.loading = false;
             }, function (errorMessage) {
@@ -74,25 +74,6 @@
             });
         };
 
-        this.regenerateTokenAuth = function () {
-            var parameters = { userLogin: piwik.userLogin };
-
-            self.loading = true;
-
-            piwikHelper.modalConfirm('#confirmTokenRegenerate', {yes: function () {
-                piwikApi.withTokenInUrl();
-                piwikApi.post({
-                    module: 'API',
-                    method: 'UsersManager.regenerateTokenAuth'
-                }, parameters).then(function (success) {
-                    $window.location.reload();
-                    self.loading = false;
-                }, function (errorMessage) {
-                    self.loading = false;
-                });
-            }});
-        };
-
         this.cancelSave = function () {
             this.passwordCurrent = '';
         };
@@ -100,13 +81,17 @@
         this.save = function () {
 
             if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
-                angular.element('#confirmChangesWithPassword').openModal({ dismissible: false, ready: function () {
+                angular.element('#confirmChangesWithPassword').modal({ dismissible: false, ready: function () {
                     $('.modal.open #currentPassword').focus();
-                }});
+                }}).modal('open');
                 return;
             }
 
-            angular.element('#confirmChangesWithPassword').closeModal();
+            var modal = M.Modal.getInstance(angular.element('#confirmChangesWithPassword'));
+
+            if (modal) {
+                modal.close();
+            }
 
             var postParams = {
                 email: this.email,
@@ -115,14 +100,6 @@
                 language: this.language,
                 timeformat: this.timeformat,
             };
-
-            if (this.password) {
-                postParams.password = this.password;
-            }
-
-            if (this.passwordBis) {
-                postParams.passwordBis = this.passwordBis;
-            }
 
             if (this.passwordCurrent) {
                 postParams.passwordConfirmation = this.passwordCurrent;

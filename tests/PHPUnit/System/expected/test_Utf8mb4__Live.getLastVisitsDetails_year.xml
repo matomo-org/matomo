@@ -15,34 +15,34 @@
 				
 				<itemDetails>
 					<row>
-						<itemSKU>sku �</itemSKU>
-						<itemName>name �</itemName>
-						<itemCategory>category �</itemCategory>
+						<itemSKU>sku 🛸</itemSKU>
+						<itemName>name 🛩</itemName>
+						<itemCategory>category 🛤</itemCategory>
 						<price>95</price>
 						<quantity>1</quantity>
 						<categories>
-						<row>category �</row>
+						<row>category 🛤</row>
 						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$100 revenue - 1 items: name �)</subtitle>
+				<subtitle>$100 revenue - 1 items: name 🛩)</subtitle>
 				
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://example.org/foo/�.html</url>
-				<pageTitle>incredible �</pageTitle>
+				<url>http://example.org/foo/🙙.html</url>
+				<pageTitle>incredible 🚜</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				
 				<pageId>1</pageId>
 				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				<title>incredible �</title>
-				<subtitle>http://example.org/foo/�.html</subtitle>
+				<pageviewPosition>1</pageviewPosition>
+				<title>incredible 🚜</title>
+				<subtitle>http://example.org/foo/🙙.html</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
@@ -72,7 +72,9 @@
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>1</visitDuration>
 		<visitDurationPretty>1s</visitDurationPretty>
 		<searches>0</searches>
@@ -81,9 +83,9 @@
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
-		<referrerKeyword>�</referrerKeyword>
+		<referrerKeyword>😡</referrerKeyword>
 		<referrerKeywordPosition />
-		<referrerUrl>http://www.google.com/search?q=�</referrerUrl>
+		<referrerUrl>http://www.google.com/search?q=😡</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
@@ -127,8 +129,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -145,5 +146,7 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+		</customVariables>
 	</row>
 </result>

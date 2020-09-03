@@ -1,0 +1,30 @@
+{
+    "GeoIp2": {
+        "AssumingNonApache": "Nu pot găsifuncție apache_obtine_module , presupunând non-server de web Apache.",
+        "CannotFindGeoIPServerVar": "Variabila %s nu este setata. Server-ul dvs. ar putea să nu fie configurat corect.",
+        "CannotListContent": "Nu s-a putut lista continutul pentru: %1$s %2$s",
+        "DownloadingDb": "Se descarcă %s",
+        "DownloadNewDatabasesEvery": "Actializează baza de date fiecare",
+        "FoundApacheModules": "Matomo a găsit următoarele module Apache",
+        "GeoIPImplHasAccessTo": "Aceasta implementare GeoIP are acces la următoarele tipuri de baze de date",
+        "GeoIPDatabases": "Bazele de date GeoIP",
+        "GeoIPLocationProviderDesc_ServerBasedAnonWarn": "Notă: anonimizare IP nu are nici un efect asupra locațiilor raportate de acest furnizor. Înainte de al utiliza cu anonimizare, IP, asigurați-vă că aceasta nu încalcă legile privind confidențialitatea ar putea fi supuse.",
+        "GeoIPLocationProviderNotRecommended": "Geolocation funcționează, dar nu utilizați unul dintre furnizorii recomandati.",
+        "GeoIPNoServerVars": "Matomo nu poate găsi nici un GeoIP %s variabile.",
+        "GeoIPServerVarsFound": "Matomo detectează următoarele GeoIP %s variabile",
+        "HowToSetupGeoIPIntro": "Nu pare a avea o configurare exacte Geolocation. Aceasta este o caracteristică utilă și fără ea nu se vor vedea informatii corecte si complete de locație pentru vizitatori. Iată cum puteți începe rapid folosind-o:",
+        "HowToInstallApacheModule": "Cum instalez modulul GeoIP pentru Apache?",
+        "HowToInstallNginxModule": "Cum instalez modulul GeoIP pentru Nginx?",
+        "HttpServerModule": "Module HTTP Server",
+        "InvalidGeoIPUpdatePeriod": "Perioada de valabilitate pentru updater GeoIP:%1$s. Valorile valide sunt %2$s.",
+        "ISPDatabase": "Baza de date provideri internet",
+        "LocationDatabase": "Locatie baza de date",
+        "LocationDatabaseHint": "O locatie bază de date este fie o țară, regiune sau oraș baza de date.",
+        "UnsupportedArchiveType": "Arhiva neacceptata tip întâlnit %1$s.",
+        "UpdaterHasNotBeenRun": "Updater-ul nu a fost rulat.",
+        "UpdaterIsNotScheduledToRun": "Acesta nu este programata să ruleze în viitor.",
+        "UpdaterScheduledForNextRun": "Acesta este programat să ruleze în următoarea executare archive.php cron.",
+        "UpdaterWasLastRun": "Programul de actualizare a fost lasat sa ruleze %s.",
+        "UpdaterWillRunNext": "Programarea urmatoare trebuie sa ruleze pe %s."
+    }
+}

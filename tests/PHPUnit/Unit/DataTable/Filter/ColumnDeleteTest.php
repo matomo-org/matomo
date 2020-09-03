@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,7 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
-class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
+class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'ColumnDelete';
 
@@ -35,14 +35,14 @@ class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
     protected function makeDataTable_withoutVisitsColumn($appendRowWithSubtable = true)
     {
         $table = new DataTable();
-        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'row1', 'arrayColumn' => array('visits' => 0, 'columnWithin' => 10))));
-        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'row2', 'arrayColumn' => array('visits' => 1, 'columnWithin' => 11))));
-        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'row3', 'arrayColumn' => array('visits' => 2, 'columnWithin' => 12))));
+        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'row1', 'arrayColumn' => array('columnWithin' => 10))));
+        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'row2', 'arrayColumn' => array('columnWithin' => 11))));
+        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'row3', 'arrayColumn' => array('columnWithin' => 12))));
 
         if($appendRowWithSubtable) {
             $subTable = $this->makeDataTable_withoutVisitsColumn( $appendRowWithSubtable = false );
             $table->addRowFromArray(array(
-                Row::COLUMNS => array('label' => 'row4', 'arrayColumn' => array('visits' => 3, 'columnWithin' => 13)),
+                Row::COLUMNS => array('label' => 'row4', 'arrayColumn' => array('columnWithin' => 13)),
                 Row::DATATABLE_ASSOCIATED => $subTable
             ));
         }
@@ -82,7 +82,7 @@ class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
     public function test_filter_DataTable_removeExistingColumn()
     {
         $table = $this->makeDataTable();
-        $table->filter($this->filter, array('visits'));
+        $table->filter($this->filter, array('visits', array(), false, true));
 
         $this->assertSameDataTable($this->makeDataTable_withoutVisitsColumn(), $table);
     }
@@ -107,7 +107,7 @@ class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
 
     public function test_filter_array_removeExistingColumn()
     {
-        $columnDelete = new DataTable\Filter\ColumnDelete(new DataTable(), $hideColumns = 'visits', $showColumns = array());
+        $columnDelete = new DataTable\Filter\ColumnDelete(new DataTable(), $hideColumns = 'visits', $showColumns = array(), false, true);
         $filteredArray = $columnDelete->filter($this->makeArray());
 
         $this->assertSame($this->makeArray_withoutVisitsColumns(), $filteredArray);
@@ -139,12 +139,11 @@ class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
      */
     protected function makeArray_withoutVisitsColumns()
     {
-        $array = array(
-            array('label' => 'row1', 'arrayColumn' => array('visits' => 0, 'columnWithin' => 10)),
-            array('label' => 'row2', 'arrayColumn' => array('visits' => 1, 'columnWithin' => 11)),
-            array('label' => 'row3', 'arrayColumn' => array('visits' => 2, 'columnWithin' => 12)),
+        return array(
+            array('label' => 'row1', 'arrayColumn' => array('columnWithin' => 10)),
+            array('label' => 'row2', 'arrayColumn' => array('columnWithin' => 11)),
+            array('label' => 'row3', 'arrayColumn' => array('columnWithin' => 12)),
         );
-        return $array;
     }
 
     /**
@@ -152,12 +151,11 @@ class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
      */
     protected function makeArray_showVisitsColumns()
     {
-        $array = array(
+        return array(
             array('label' => 'row1', 'visits' => 1),
             array('label' => 'row2', 'visits' => 2),
             array('label' => 'row3', 'visits' => 3),
         );
-        return $array;
     }
 
 }

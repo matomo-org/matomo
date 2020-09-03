@@ -1,9 +1,9 @@
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Visitor profile popup control.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -224,6 +224,18 @@
                     $('.visitor-profile-visits', $element).append(response);
                     if (response.filter('li').length < 10) {
                         self._showNoMoreVisitsSpan();
+                    }
+
+                    var numbers = $('[data-number]', $element);
+                    var max = $(numbers[0]).attr('data-number');
+
+                    if (numbers.length > max) {
+                        var counter = numbers.length;
+                        numbers.each(function() {
+                            $(this).attr('data-number', counter);
+                            $('.counter', $(this)).text(counter);
+                            counter--;
+                        });
                     }
 
                     piwikHelper.lazyScrollTo($(response)[0], 400, true);

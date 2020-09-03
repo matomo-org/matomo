@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -57,7 +57,6 @@ class PhpFunctionsCheck implements Diagnostic
     {
         return array(
             'debug_backtrace',
-            'create_function',
             'eval',
             'hash',
             'gzcompress',
@@ -100,7 +99,6 @@ class PhpFunctionsCheck implements Diagnostic
     {
         $messages = array(
             'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
-            'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
             'eval'            => 'Installation_SystemCheckEvalHelp',
             'hash'            => 'Installation_SystemCheckHashHelp',
             'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',

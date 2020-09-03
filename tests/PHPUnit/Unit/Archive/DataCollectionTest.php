@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,7 +17,7 @@ use Piwik\Segment;
  * @group DataCollectionTest
  * @group Archive
  */
-class DataCollectionTest extends \PHPUnit_Framework_TestCase
+class DataCollectionTest extends \PHPUnit\Framework\TestCase
 {
     private $site1 = 1;
     private $site2 = 2;

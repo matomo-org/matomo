@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -62,7 +62,10 @@ class UserPreferences
     public function getDefaultReport()
     {
         // User preference: default website ID to load
-        $defaultReport = $this->api->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
+        $defaultReport = $this->api->getUserPreference(
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT,
+            Piwik::getCurrentUserLogin()
+        );
 
         if (!is_numeric($defaultReport)) {
             return $defaultReport;
@@ -123,7 +126,10 @@ class UserPreferences
     public function getDefaultDateWithoutValidation()
     {
         // NOTE: a change in this function might mean a change in plugins/UsersManager/javascripts/usersSettings.js as well
-        $userSettingsDate = $this->api->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
+        $userSettingsDate = $this->api->getUserPreference(
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
+            Piwik::getCurrentUserLogin()
+        );
         if ($userSettingsDate == 'yesterday') {
             return $userSettingsDate;
         }
@@ -140,7 +146,10 @@ class UserPreferences
     public function getDefaultPeriodWithoutValidation($defaultDate = null)
     {
         if (empty($defaultDate)) {
-            $defaultDate = $this->api->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
+            $defaultDate = $this->api->getUserPreference(
+                APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
+                Piwik::getCurrentUserLogin()
+            );
         }
 
         if (empty($defaultDate)) {

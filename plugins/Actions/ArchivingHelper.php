@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -371,7 +371,7 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return DataTable\Row
      */
-    public static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
+    public static function getActionRow($actionName, $actionType, $urlPrefix, &$actionsTablesByType)
     {
         // we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
         /* @var DataTable $currentTable */
@@ -542,7 +542,7 @@ class ArchivingHelper
      *
      * @param int $idAction
      * @param int $actionType
-     * @param \DataTable\Row
+     * @param \Piwik\DataTable\Row
      */
     private static function setCachedActionRow($idAction, $actionType, $actionRow)
     {

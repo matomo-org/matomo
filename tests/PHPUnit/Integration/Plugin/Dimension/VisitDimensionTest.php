@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,9 +9,11 @@
 // there is a test that requires the class to be defined in a plugin
 namespace Piwik\Plugins\Test;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -40,13 +42,13 @@ class FakeConversionVisitDimension extends FakeVisitDimension
         return false;
     }
 
-    protected function configureSegments()
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
         $segment->setSegment('exitPageUrl');
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
         // custom type and sqlSegment
         $segment = new Segment();
@@ -55,7 +57,7 @@ class FakeConversionVisitDimension extends FakeVisitDimension
         $segment->setType(Segment::TYPE_METRIC);
         $segment->setName('Actions_ColumnExitPageURL');
         $segment->setCategory('General_Visit');
-        $this->addSegment($segment);
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 }
 
@@ -74,7 +76,7 @@ class VisitDimensionTest extends IntegrationTestCase
      */
     private $conversionDimension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -212,12 +214,11 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertSame(array($dimension3, $dimension4, $dimension2, $dimension1), $instances);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage  Circular reference detected for required field column4 in dimension column2
-     */
     public function test_sortDimensions_ShouldThrowAnException_IfCircularReferenceDetected()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Circular reference detected for required field column4 in dimension column2');
+
         $dimension1 = new FakeVisitDimension();
         $dimension1->set('columnName', 'column1');
         $dimension1->requiredFields = array('column3');

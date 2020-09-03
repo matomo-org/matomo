@@ -1,17 +1,17 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration\Config\Cache;
 
-use PHPUnit_Framework_TestCase;
 use Piwik\Config;
 use Piwik\Config\Cache;
 use Piwik\Config\IniFileChain;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
+use Piwik\Url;
 
 /**
  * @group Core
@@ -25,11 +25,14 @@ class CacheTest extends IntegrationTestCase
 
     private $testHost = 'analytics.test.matomo.org';
 
-    public function setUp()
+    private $originalHost = '';
+
+    public function setUp(): void
     {
         unset($GLOBALS['ENABLE_CONFIG_PHP_CACHE']);
         $this->setTrustedHosts();
-        $_SERVER['HTTP_HOST'] = $this->testHost;
+        $this->originalHost = Url::getHost(false);
+        Url::setHost($this->testHost);
         $this->cache = new Cache();
         $this->cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
         parent::setUp();
@@ -40,11 +43,11 @@ class CacheTest extends IntegrationTestCase
         Config::setSetting('General', 'trusted_hosts', array($this->testHost, 'foonot.exists'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->setTrustedHosts();
         $this->cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
-        unset($_SERVER['HTTP_HOST']);
+        Url::setHost($this->originalHost);
         parent::tearDown();
     }
 
@@ -56,12 +59,13 @@ class CacheTest extends IntegrationTestCase
 
     /**
      * @dataProvider getRandmHosts
-     * @expectedException \Exception
-     * @expectedExceptionMessage  Unsupported host
      */
     public function test_construct_failsWhenUsingRandomHost($host)
     {
-        $_SERVER['HTTP_HOST'] = $host;
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unsupported host');
+
+        Url::setHost($host);
         new Cache();
     }
 

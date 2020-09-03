@@ -112,6 +112,7 @@
         "Continue": "Continuar",
         "ContinueToPiwik": "Continuar para o Matomo",
         "CurrentlyUsingUnsecureHttp": "Você está atualmente usando o Matomo sobre HTTP não seguro. Isto pode deixar o seu Matomo vulnerável a exploits de segurança. Você pode também estar violando leis de privacidade, visto que algumas funcionalidades, incluindo cookies opt-out, não irão funcionar. Nós recomendamos a você configurar o Matomo para usar SSL (HTTPS) para maior segurança.",
+        "CreationDate": "Data de criação",
         "CreatedByUser": "criado por %s",
         "CurrentMonth": "Mês atual",
         "CurrentWeek": "Semana atual",
@@ -132,7 +133,10 @@
         "DaysHours": "%1$s dias %2$s horas",
         "DaysSinceFirstVisit": "Dias desde a primeira visita",
         "DaysSinceLastEcommerceOrder": "Dias desde o último pedido de Ecommerce",
+        "SecondsSinceLastEcommerceOrder": "Segundos desde o último pedido de Ecommerce",
         "DaysSinceLastVisit": "Dias desde a última visita",
+        "SecondsSinceLastVisit": "Segundos desde a última visita",
+        "SecondsSinceFirstVisit": "Segundos desde a primeira visita",
         "Default": "Padrão",
         "DefaultAppended": "(padrão)",
         "Delete": "Excluir",
@@ -389,6 +393,7 @@
         "Search": "Pesquisar",
         "Clear": "Limpar",
         "SearchNoResults": "sem resultados",
+        "Security": "Segurança",
         "SeeAll": "Ver todos",
         "SeeTheOfficialDocumentationForMoreInformation": "Veja a %1$sdocumentação oficial%2$s para mais informações.",
         "SeeThisFaq": "Veja %1$sEste faq%2$s.",
@@ -511,7 +516,10 @@
         "ClickToRemoveComp": "Clique para remover essa comparação.",
         "MaximumNumberOfSegmentsComparedIs": "O número máximo de segmentos que podem ser comparados simultaneamente é %s.",
         "CompareDatesParamMustMatchComparePeriods": "O comprimento do parâmetro de consulta %1$s deve corresponder ao comprimento do parâmetro de consulta %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s."
+        "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s.",
+        "Custom": "Personalizado",
+        "PreviousPeriod": "Período anterior",
+        "PreviousYear": "Ano anterior"
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Móvel",

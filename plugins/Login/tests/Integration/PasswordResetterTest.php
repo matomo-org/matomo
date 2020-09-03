@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,10 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
-use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -20,6 +20,9 @@ use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 
+/**
+ * @group PasswordResetterTest
+ */
 class PasswordResetterTest extends IntegrationTestCase
 {
     const NEWPASSWORD = 'newpassword';
@@ -39,7 +42,7 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     private $passwordResetter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->passwordResetter = new PasswordResetter();
@@ -71,12 +74,11 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEquals($token, $this->capturedToken);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage You have requested too many password resets recently. A new request can be made in one hour. If you have problems resetting your password, please contact your administrator for help.
-     */
     public function test_passwordReset_notAllowedMoreThanThreeTimesInAnHour()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('You have requested too many password resets recently. A new request can be made in one hour. If you have problems resetting your password, please contact your administrator for help.');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
 
         $this->assertNotEmpty($this->capturedToken);
@@ -115,12 +117,11 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertEquals(1, $data['requests']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Token is invalid or has expired
-     */
     public function test_passwordReset_shouldNotAllowTokenToBeUsedMoreThanOnce()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Token is invalid or has expired');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 
@@ -148,12 +149,11 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Token is invalid or has expired
-     */
     public function test_passwordReset_shouldNotAllowOldTokenToBeUsedAfterAnotherResetRequest()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Token is invalid or has expired');
+
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 
@@ -191,18 +191,18 @@ class PasswordResetterTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => [
-                ['Mail.send', function (Mail $mail) {
-                    $body = $mail->getBodyHtml(true);
-                    $body = preg_replace('/=\n/', '', $body);
-                    preg_match('/resetToken[=\s]*3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
+            'observers.global' => \DI\add([
+                ['Test.Mail.send', \DI\value(function (PHPMailer $mail) {
+                    $body = $mail->createBody();
+                    $body = preg_replace("/=[\r\n]+/", '', $body);
+                    preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
                     if (!empty($matches[1])) {
                         $capturedToken = $matches[1];
                         $capturedToken = preg_replace('/=\s*/', '', $capturedToken);
                         $this->capturedToken = $capturedToken;
                     }
-                }],
-            ],
+                })],
+            ]),
         ];
     }
 }

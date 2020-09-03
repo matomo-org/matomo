@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,7 +19,7 @@ class RolesProvider
     /**
      * @return Role[]
      */
-    public function getAllRoles()
+    public function getAllRoles(): array
     {
         return array(
             new View(),
@@ -30,12 +30,12 @@ class RolesProvider
 
     /**
      * Returns the list of the existing Access level.
-     * Useful when a given API method requests a given acccess Level.
+     * Useful when a given API method requests a given access Level.
      * We first check that the required access level exists.
      *
-     * @return array
+     * @return string[]
      */
-    public function getAllRoleIds()
+    public function getAllRoleIds(): array
     {
         $ids = array();
         foreach ($this->getAllRoles() as $role) {
@@ -44,14 +44,18 @@ class RolesProvider
         return $ids;
     }
 
-    public function isValidRole($roleId)
+    public function isValidRole(string $roleId): bool
     {
         $roles = $this->getAllRoleIds();
 
-        return in_array($roleId, $roles, true);
+        return \in_array($roleId, $roles, true);
     }
 
-    public function checkValidRole($roleId)
+    /**
+     * @param $roleId
+     * @throws Exception
+     */
+    public function checkValidRole(string $roleId): void
     {
         if (!$this->isValidRole($roleId)) {
             $roles = $this->getAllRoleIds();

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
 namespace Piwik\Updater\Migration\Db;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Updater\Migration as MigrationInterface;
 use Piwik\Updater\Migration\Db as DbMigration;
 
 /**
@@ -84,7 +83,7 @@ class Sql extends DbMigration
     {
         $sql = $this->sql;
 
-        if (!Common::stringEndsWith($sql, ';')) {
+        if (!empty($sql) && !Common::stringEndsWith($sql, ';')) {
             $sql .= ';';
         }
 
@@ -93,6 +92,8 @@ class Sql extends DbMigration
 
     public function exec()
     {
-        Db::exec($this->sql);
+        if (!empty($this->sql)) {
+            Db::exec($this->sql);
+        }
     }
 }

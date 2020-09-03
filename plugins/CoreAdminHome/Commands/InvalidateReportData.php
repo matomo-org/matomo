@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -53,6 +53,7 @@ class InvalidateReportData extends ConsoleCommand
             . ' also invalidate all days within 2015-09-13,2015-09-19, even those outside the date range.');
         $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For tests. Runs the command w/o actually '
             . 'invalidating anything.');
+        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'To invalidate data for a specific plugin only.');
         $this->setHelp('Invalidate archived report data by date range, site and period. Invalidated archive data will '
             . 'be re-archived during the next core:archive run. If your log data has changed for some reason, this '
             . 'command can be used to make sure reports are generated using the new, changed log data.');
@@ -64,6 +65,7 @@ class InvalidateReportData extends ConsoleCommand
 
         $cascade = $input->getOption('cascade');
         $dryRun = $input->getOption('dry-run');
+        $plugin = $input->getOption('plugin');
 
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
@@ -83,11 +85,16 @@ class InvalidateReportData extends ConsoleCommand
                     $dates = $this->getPeriodDates($periodType, $dateRange);
 
                     if ($dryRun) {
-                        $output->writeln("[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
+                        $message = "[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
                             . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], segment = [ "
-                            . "$segmentStr ], cascade = [ " . (int)$cascade . " ]");
+                            . "$segmentStr ], cascade = [ " . (int)$cascade . " ]";
+                        if (!empty($plugin)) {
+                            $message .= ", plugin = [ $plugin ]";
+                        }
+                        $output->writeln($message);
                     } else {
-                        $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade);
+                        $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
+                            false, $plugin);
 
                         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
                             $output->writeln($invalidationResult->makeOutputLogs());
@@ -113,7 +120,7 @@ class InvalidateReportData extends ConsoleCommand
                 foreach ($segments as $segment) {
                     $segmentStr = $segment ? $segment->getString() : '';
                     if ($dryRun) {
-                        $dateRangeStr = implode($dateRanges, ';');
+                        $dateRangeStr = implode(';', $dateRanges);
                         $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
                     } else {
                         $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);

@@ -61,21 +61,19 @@ class APITest extends SystemTestCase
         $this->assertTrue($steps[1]['isSkipped']);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Challenge already completed
-     */
     public function test_skipStep_alreadyCompleted()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Challenge already completed');
+
         Request::processRequest('Tour.skipChallenge', array('id' => 'track_data'));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Challenge not found
-     */
     public function test_skipStep_invalid()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Challenge not found');
+
         Request::processRequest('Tour.skipChallenge', array('id' => 'foobarbaz'));
     }
 

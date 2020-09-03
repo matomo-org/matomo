@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="www.frebsite.nl" />
+
+	<title>dotdotdot, jQuery plugin for multiple line content ellipsis.</title>
+	<style type="text/css" media="all">
+		html,
+		body {
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			background-color: #eed;
+			font-family: Arial, Helvetica, Verdana;
+			line-height: 20px;
+			color: #222538;
+			padding: 50px;
+
+			-webkit-text-size-adjust: none;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale
+		}
+
+		:first-child {
+			margin-top: 0;
+		}
+		:last-child {
+			margin-bottom: 0;
+		}
+
+		p {
+			margin: 10px 0;
+		}
+
+
+		a {
+			color: inherit;
+			text-decoration: underline;
+		}
+
+		.wrapper {
+			box-sizing: border-box;
+			width: 80%;
+			max-width: 600px;
+			min-width: 220px;
+			margin: 0 auto;
+		}
+
+		.example {
+			box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+			background: #222538;
+			background: -webkit-linear-gradient(bottom left,#222538,#46454d);
+			background: linear-gradient(to top right,#222538,#46454d);
+
+			color: #eed;
+			font-size: 20px;
+			line-height: 30px;
+			padding: 50px;
+			margin: 50px -50px;
+			overflow: hidden;
+		}
+		.example > div {
+			max-height: 250px;
+		}
+
+		/* readable pathnames */
+		.example ul,
+		.example ol,
+		.example li {
+			display: block;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		.example li {
+			height: 35px;
+			padding: 7px 0;
+		}
+		.example li + li {
+			border-top: 1px solid rgba( 255, 255, 255, 0.2 );
+		}
+
+		/* toggle full story */
+		.example > .full-story {
+			max-height: initial;
+		}
+		.example .toggle:before {
+			content: 'Show more';
+		}
+		.example > .full-story .toggle:before {
+			content: 'Show less';
+		}
+	}
+	</style>
+</head>
+
+<body>
+	<br />
+	<br />
+	<div class="wrapper">
+		<div>
+			<h1>jQuery.dotdotdot</h1>
+			<p>jQuery plugin for truncating multiple line content on a webpage.<br />
+				Resize your browser to see the examples below in action.</p>
+			<p>Documentation: <a href="http://dotdotdot.frebsite.nl" target="_blank">dotdotdot.frebsite.nl</a></p>
+		</div>
+
+		<div class="example">
+			<div id="xmpl-1">
+				<h3>Truncate multiple line content</h3>
+				<p><em>Lorem Ipsum</em> is simply <strong>dummy text</strong> of the printing and typesetting industry.
+					It has been the industry's standard dummy text ever <strong>since the 1500s</strong>, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+					<em>Lorem Ipsum</em> has survived not only <strong>five centuries</strong>, but also the leap into <strong>electronic typesetting</strong>, remaining essentially unchanged.
+					<a href="#/" class="read-more">Read more &raquo;</a></p>
+			</div>
+		</div>
+
+		<div class="example">
+			<div id="xmpl-2">
+				<h3>Truncate to readable pathnames</h3>
+				<ol>
+					<li>file:///users/your-name/desktop/project/website/htdocs/index.html</li>
+					<li>file:///users/your-name/desktop/project/website/htdocs/css/style.css</li>
+					<li>file:///users/your-name/desktop/project/website/htdocs/css/layout.css</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="example">
+			<div id="xmpl-3">
+				<h3>Toggle full story</h3>
+				<p><em>Lorem Ipsum</em> is simply <strong>dummy text</strong> of the printing and typesetting industry.
+					It has been the industry's standard dummy text ever <strong>since the 1500s</strong>, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+					<em>Lorem Ipsum</em> has survived not only <strong>five centuries</strong>, but also the leap into <strong>electronic typesetting</strong>, remaining essentially unchanged.</p>
+				<a class="toggle" href="#"></a>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+	<script src="dist/jquery.dotdotdot.js"></script>
+	<script>
+		$(function() {
+
+			/*
+				Basic example
+			*/
+			$('#xmpl-1').dotdotdot({
+
+				// Prevents the <a class="read-more" /> from being removed
+				keep: '.read-more'
+			});
+
+
+
+			/*
+				Truncate to readable pathnames example
+			*/
+			$('#xmpl-2')
+				.find( 'li' )
+				.each(
+					function()
+					{
+						var $t = $(this);
+
+						//	Wrap each folder in a <span />
+						$t.html( '<span>' + $t.html().split( '/' ).join( '</span><span>/' ) + '</span>' );
+						
+						//	Add the class "file" to the last <span />
+						$t.children().last().addClass( 'file' );
+
+						$t.dotdotdot({
+
+							//	Add a slash before the ellipsis
+							ellipsis: '/\u2026',
+
+							// Prevents the <span class="file" /> from being removed
+							keep: '.file'
+						});
+					}
+				);
+
+
+
+			/*
+				Toggle full story example
+			*/
+			var $xmpl = $('#xmpl-3');
+			$xmpl.dotdotdot({
+
+				// Prevents the <a class="toggle" /> from being removed
+				keep: '.toggle'
+
+			})
+
+			// Get the dotdotdot API
+			var api = $xmpl.data( 'dotdotdot' );
+
+			$xmpl.on(
+				'click',
+				'.toggle',
+				function( e )
+				{
+					e.preventDefault();
+
+					//	When truncated, restore
+					if ( $xmpl.hasClass( 'ddd-truncated' ) )
+					{
+						api.restore();
+						$xmpl.addClass( 'full-story' );
+					}
+
+					//	Not truncated, truncate
+					else
+					{
+						$xmpl.removeClass( 'full-story' );
+						api.truncate();
+						api.watch();
+					}
+				}
+			);
+
+
+
+			/*
+				For the demos
+			*/
+			$('body').on(
+				'click',
+				'a[href^="#/"]',
+				function( e )
+				{
+					alert( 'Thank you for clicking, but that\'s a demo link.' );
+					return;
+				}
+			);
+
+
+		});
+	</script>
+</body>
+
+</html>

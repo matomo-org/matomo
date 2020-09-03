@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,14 +13,18 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
 use Piwik\Date;
+use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Failures;
 use Piwik\Url;
@@ -126,7 +130,8 @@ class API extends \Piwik\Plugin\API
      * Note: This is done automatically when tracking or importing visits in the past.
      *
      * @param string $idSites Comma separated list of site IDs to invalidate reports for.
-     * @param string $dates Comma separated list of dates of periods to invalidate reports for.
+     * @param string|string[] $dates Comma separated list of dates of periods to invalidate reports for or array of strings
+     *                               (needed if period = range).
      * @param string|bool $period The type of period to invalidate: either 'day', 'week', 'month', 'year', 'range'.
      *                            The command will automatically cascade up, invalidating reports for parent periods as
      *                            well. So invalidating a day will invalidate the week it's in, the month it's in and the
@@ -139,7 +144,8 @@ class API extends \Piwik\Plugin\API
      * @return array
      * @hideExceptForSuperUser
      */
-    public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false)
+    public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false,
+                                              $_forceInvalidateNonexistant = false)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
         if (empty($idSites)) {
@@ -154,17 +160,16 @@ class API extends \Piwik\Plugin\API
             $segment = null;
         }
 
-        list($dateObjects, $invalidDates) = $this->getDatesToInvalidateFromString($dates);
+        /** Date[]|string[] $dates */
+        list($dates, $invalidDates) = $this->getDatesToInvalidateFromString($dates, $period);
 
-        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dateObjects, $period, $segment, (bool)$cascadeDown);
+        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, (bool)$cascadeDown, (bool)$_forceInvalidateNonexistant);
 
         $output = $invalidationResult->makeOutputLogs();
         if ($invalidDates) {
-            $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
-                implode(", ", $invalidDates) . ". Matomo simply ignored those and proceeded with the others.";
+            $output[] = 'Warning: some of the Dates to invalidate were invalid: \'' .
+                implode("', '", $invalidDates) . "'. Matomo simply ignored those and proceeded with the others.";
         }
-
-        Site::clearCache(); // TODO: is this needed? it shouldn't be needed...
 
         return $invalidationResult->makeOutputLogs();
     }
@@ -239,32 +244,93 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param bool $segment
+     * @param bool $plugin
+     * @param bool $report
+     * @return mixed
+     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @internal
+     */
+    public function archiveReports($idSite, $period, $date, $segment = false, $plugin = false, $report = false)
+    {
+        if (\Piwik\API\Request::getRootApiRequestMethod() === 'CoreAdminHome.archiveReports') {
+            Piwik::checkUserHasSuperUserAccess();
+        } else {
+            Piwik::checkUserHasViewAccess($idSite);
+        }
+
+        // if cron archiving is running, we will invalidate in CronArchive, not here
+        $isArchivePhpTriggered = SettingsServer::isArchivePhpTriggered();
+        $invalidateBeforeArchiving = !$isArchivePhpTriggered;
+
+        $period = Factory::build($period, $date);
+        $parameters = new ArchiveProcessor\Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd()));
+        if ($report) {
+            $parameters->setArchiveOnlyReport($report);
+        }
+
+        // TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
+        $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
+
+        $result = $archiveLoader->prepareArchive($plugin);
+        if (!empty($result)) {
+            $result = [
+                'idarchives' => $result[0],
+                'nb_visits' => $result[1],
+            ];
+        }
+        return $result;
+    }
+
+    /**
      * Ensure the specified dates are valid.
      * Store invalid date so we can log them
-     * @param array $dates
-     * @return Date[]
+     * @param array|string $dates
+     * @return array
      */
-    private function getDatesToInvalidateFromString($dates)
+    private function getDatesToInvalidateFromString($dates, $period)
     {
         $toInvalidate = array();
         $invalidDates = array();
 
-        $dates = explode(',', trim($dates));
+        if (!is_array($dates)) {
+            $dates = explode(',', trim($dates));
+        }
+
         $dates = array_unique($dates);
 
         foreach ($dates as $theDate) {
             $theDate = trim($theDate);
-            try {
-                $date = Date::factory($theDate);
-            } catch (\Exception $e) {
-                $invalidDates[] = $theDate;
-                continue;
-            }
 
-            if ($date->toString() == $theDate) {
-                $toInvalidate[] = $date;
+            if ($period == 'range') {
+                try {
+                    $period = Factory::build('range', $theDate);
+                } catch (\Exception $e) {
+                    $invalidDates[] = $theDate;
+                    continue;
+                }
+
+                if ($period->getRangeString() == $theDate) {
+                    $toInvalidate[] = $theDate;
+                } else {
+                    $invalidDates[] = $theDate;
+                }
             } else {
-                $invalidDates[] = $theDate;
+                try {
+                    $date = Date::factory($theDate);
+                } catch (\Exception $e) {
+                    $invalidDates[] = $theDate;
+                    continue;
+                }
+
+                if ($date->toString() == $theDate) {
+                    $toInvalidate[] = $date;
+                } else {
+                    $invalidDates[] = $theDate;
+                }
             }
         }
 

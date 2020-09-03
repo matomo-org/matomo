@@ -1,20 +1,17 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\ArchiveProcessor\PluginsArchiver;
-use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Db;
 use Piwik\ArchiveProcessor\Parameters;
-use Exception;
 use Piwik\Plugin\Archiver;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -60,7 +57,7 @@ class PluginsArchiverTest extends IntegrationTestCase
      */
     private $pluginsArchiver;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -68,10 +65,10 @@ class PluginsArchiverTest extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
         Fixture::createWebsite('2015-01-01 00:00:00');
 
-        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters());
+        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParameters());
     }
 
-    private function createArchiveProcessorParamaters()
+    private function createArchiveProcessorParameters()
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', '2015-01-01');
 
@@ -81,13 +78,12 @@ class PluginsArchiverTest extends IntegrationTestCase
         return $params;
     }
 
-    /**
-     * @expectedException \Piwik\ArchiveProcessor\PluginsArchiverException
-     * @expectedExceptionMessage Failed query foo bar - in plugin MyPluginName
-     * @expectedExceptionCode 42
-     */
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
     {
+        $this->expectException(\Piwik\ArchiveProcessor\PluginsArchiverException::class);
+        $this->expectExceptionCode(42);
+        $this->expectExceptionMessage('Failed query foo bar - in plugin MyPluginName');
+
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1);
     }
 
@@ -106,9 +102,10 @@ class PluginsArchiverTest extends IntegrationTestCase
             }
         });
 
-        $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParamaters());
+        $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParameters());
         $this->pluginsArchiver->callAggregateCoreMetrics();
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
-    }
 
+        $this->assertTrue(true); // pass
+    }
 }

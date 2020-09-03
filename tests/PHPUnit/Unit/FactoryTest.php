@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,7 @@ use Piwik\BaseFactory;
 /**
  * @group Core
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreatingExistingClassSucceeds()
     {
@@ -23,12 +23,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Piwik\Timer', $instance);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid class ID
-     */
     public function testCreatingInvalidClassThrows()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid class ID');
+
         BaseFactory::factory("This\\Class\\Does\\Not\\Exist");
     }
 }

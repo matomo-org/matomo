@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,11 +9,11 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
-use Piwik\Http;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -24,13 +24,13 @@ use RecursiveIteratorIterator;
  * @group Core
  * @group ReleaseCheckListTest
  */
-class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
+class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 {
     private $globalConfig;
 
-    const MINIMUM_PHP_VERSION = '5.5.9';
+    const MINIMUM_PHP_VERSION = '7.2.5';
 
-    public function setUp()
+    public function setUp(): void
     {
         $iniReader = new IniReader();
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
@@ -81,7 +81,9 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.png');
         // filter expected screenshots as they might not be checked out and downloaded when stored in git-lfs
-        $files = array_filter($files, function($value) { return !preg_match('/expected-screenshots/', $value); });
+        $files = array_filter($files, function($value) {
+            return !preg_match('/expected-screenshots/', $value) && !preg_match('~icons/src~', $value);
+        });
         $this->checkFilesAreInPngFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.png');
         $this->checkFilesAreInPngFormat($files);
@@ -118,6 +120,9 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $screenshots = array_map($cleanPath, $screenshots);
 
         $lfsFiles = `git lfs ls-files`;
+        if (empty($lfsFiles)) {
+            $lfsFiles = `git lfs ls-files --exclude=`;
+        }
         $submodules = `git submodule | awk '{ print $2 }'`;
         $submodules = explode("\n", $submodules);
         $storedLfsFiles = explode("\n", $lfsFiles);
@@ -159,7 +164,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
-        require_once PIWIK_INCLUDE_PATH . "/core/TaskScheduler.php";
         $this->assertFalse(defined('DEBUG_FORCE_SCHEDULED_TASKS'));
 
         // Check the index.php has "backtrace disabled"
@@ -222,8 +226,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             // Note: entries below are paths and any file within these paths will be automatically whitelisted
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
-            PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
+            PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
+            PIWIK_INCLUDE_PATH . '/vendor/phpunit/php-code-coverage/tests',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
+            PIWIK_INCLUDE_PATH . '/node_modules/',
         );
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
@@ -280,11 +286,9 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             'DBStats'
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
-            if (in_array($pluginName, $this->globalConfig['Plugins']['Plugins'])) {
-                throw new Exception("Plugin $pluginName is enabled by default but shouldn't.");
-            }
+            $this->assertNotContains($pluginName, $this->globalConfig['Plugins']['Plugins'],
+                "Plugin $pluginName is enabled by default but shouldn't.");
         }
-
     }
 
     /**
@@ -446,6 +450,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 strpos($file, 'yuicompressor') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false ||
+                strpos($file, '/node_modules/') !== false ||
+                strpos($file, '/Morpheus/icons/src/') !== false ||
                 strpos($file, '/phantomjs/') !== false
             ) {
                 continue;
@@ -553,6 +559,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $icons = implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
+
+        $this->assertTrue(true); // pass
     }
 
     /**
@@ -615,6 +623,63 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan($minimumExpectedFilesCount, count($filesizes), "Expected at least $minimumExpectedFilesCount files should be included in Piwik.");
         $this->assertGreaterThan($minimumTotalFilesizesExpectedInMb * 1024 * 1024, $sumFilesizes, "expected to have at least $minimumTotalFilesizesExpectedInMb Mb of files in Piwik codebase.");
+    }
+
+    public function test_noUpdatesInCorePlugins()
+    {
+        $manager = Manager::getInstance();
+        $plugins = $manager->loadAllPluginsAndGetTheirInfo();
+
+        $pluginsWithUnexpectedUpdates = array();
+        $pluginsWithUpdates = array();
+        $numTestedCorePlugins = 0;
+
+        // eg these plugins are managed in a submodule and they are installing all tables/columns as part of their plugin install method etc.
+        $corePluginsThatAreIndependent = array('TagManager');
+
+        foreach ($plugins as $pluginName => $info) {
+            if ($manager->isPluginBundledWithCore($pluginName) && !in_array($pluginName, $corePluginsThatAreIndependent)) {
+                $numTestedCorePlugins++;
+                $pathToUpdates = Manager::getPluginDirectory($pluginName) . '/Updates/*.php';
+                $files = _glob($pathToUpdates);
+                if (empty($files)) {
+                    $files = array();
+                }
+
+                foreach ($files as $file) {
+                    $fileVersion = basename($file, '.php');
+                    if (
+                        version_compare('3.13.0', $fileVersion) != 1
+                    ) {
+                        // since matomo 3.13.0 we basically don't want to see any plugin specific updates for core plugins
+                        // they should be instead in core/Updates/*
+                        $pluginsWithUnexpectedUpdates[$pluginName] = $file;
+                    } else {
+                        $pluginsWithUpdates[] = $pluginName;
+                    }
+                }
+            }
+        }
+
+        $this->assertSame(array(), $pluginsWithUnexpectedUpdates);
+
+        // some assertions below to make sure we're actually doing valid tests and there is no bug in above code
+        $this->assertGreaterThan(50, $numTestedCorePlugins);
+        // eg this here shows the plugins that have update files but from older matomo versions.
+        $this->assertSame(array('CustomDimensions', 'DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_values(array_unique($pluginsWithUpdates)));
+    }
+
+    public function test_bowerComponentsBc_referencesFilesThatExists()
+    {
+        $filesThatDoNotExist = [];
+        foreach (UIAssetFetcher::$bowerComponentFileMappings as $oldFile => $newFile) {
+            if ($newFile && !file_exists(PIWIK_DOCUMENT_ROOT . '/' . $newFile)) {
+                $filesThatDoNotExist[] = $newFile;
+            }
+        }
+
+        $this->assertEmpty($filesThatDoNotExist, 'The following asset files in UIAssetFetcher::$bowerComponentFileMappings do not exist: '
+            . implode(', ', $filesThatDoNotExist));
     }
 
     /**
@@ -820,11 +885,13 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $countFileChecked = 0;
         foreach ($files as $file) {
 
-            if($this->isFileBelongToTests($file)) {
+            if($this->isFileBelongToTests($file) || is_dir($file)) {
                 continue;
             }
 
             if(strpos($file, 'vendor/php-di/php-di/website/') !== false
+                || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
+                || strpos($file, 'node_modules/') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;
             }

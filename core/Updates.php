@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -20,32 +20,10 @@ use Piwik\Updater\Migration;
  * method if you need to run SQL queries. Override the {@link doUpdate()} method to do other types
  * of updating, eg, to activate/deactivate plugins or create files.
  *
- * If you define SQL queries in {@link getMigrationQueries()}, you have to call {@link Updater::executeMigrationQueries()},
- * eg:
- *
- *     public function doUpdate(Updater $updater)
- *     {
- *         $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries());
- *     }
- *
  * @example core/Updates/0.4.2.php
  */
 abstract class Updates
 {
-    /**
-     * @deprecated since v2.12.0 use getMigrationQueries() instead. Will be removed in Piwik 4.0.0
-     */
-    public static function getSql()
-    {
-        return array();
-    }
-
-    /**
-     * @deprecated since v2.12.0 use doUpdate() instead. Will be removed in Piwik 4.0.0
-     */
-    public static function update()
-    {
-    }
 
     /**
      * Return migrations to be executed in this update.
@@ -60,25 +38,13 @@ abstract class Updates
      */
     public function getMigrations(Updater $updater)
     {
-        return $this->getMigrationQueries($updater);
-    }
-
-    /**
-     * Return SQL to be executed in this update.
-     *
-     * @param Updater $updater
-     * @return array
-     * @deprecated since Piwik 3.0.0, implement {@link getMigrations()} instead. Will be removed in Piwik 4.0.0
-     */
-    public function getMigrationQueries(Updater $updater)
-    {
-        return static::getSql();
+        return array();
     }
 
     /**
      * Perform the incremental version update.
      *
-     * This method should preform all updating logic. If you define migrations in an overridden `getMigrations()`
+     * This method should perform all updating logic. If you define migrations in an overridden `getMigrations()`
      * method, you must call {@link Updater::executeMigrations()} here.
      *
      * See {@link \Piwik\Plugins\ExamplePlugin\Updates\Updates_0_0_2} for an example.
@@ -88,7 +54,6 @@ abstract class Updates
      */
     public function doUpdate(Updater $updater)
     {
-        static::update();
     }
 
     /**

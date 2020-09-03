@@ -189,7 +189,7 @@ class PasswordVerifier
         $sessionNamespace->setExpirationSeconds(self::VERIFY_VALID_FOR_MINUTES * 60 * 5, 'redirectParams');
 
         if ($this->enableRedirect) {
-            Piwik::redirectToModule('Login', 'confirmPassword');
+            Piwik::redirectToModule(Piwik::getLoginPluginName(), 'confirmPassword');
         }
     }
 }

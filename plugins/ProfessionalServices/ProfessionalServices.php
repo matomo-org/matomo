@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,6 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Request.getRenamedModuleAndAction' => 'renameProfessionalServicesModule',
             'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
@@ -38,26 +37,6 @@ class ProfessionalServices extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
-    }
-
-    /**
-     * @deprecated Can be removed in Piwik 3.0
-     * @param $module
-     * @param $action
-     */
-    public function renameProfessionalServicesModule(&$module, &$action)
-    {
-        if ($module == 'ProfessionalServices') {
-            $module = 'ProfessionalServices';
-
-            if($action == 'promoPiwikPro') {
-                $action = 'promoServices';
-            }
-
-            if ($action == 'rssPiwikPro') {
-                $action = 'rss';
-            }
-        }
     }
 
     public function isRequestForDashboardWidget()

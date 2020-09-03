@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -60,6 +60,13 @@ class ColumnDelete extends BaseFilter
     private $deleteIfZeroOnly;
 
     /**
+     * Delete the column recursively in all nested arrays as well
+     *
+     * @var bool
+     */
+    private $deleteRecursive;
+
+    /**
      * Constructor.
      *
      * @param DataTable $table The DataTable instance that will eventually be filtered.
@@ -69,22 +76,24 @@ class ColumnDelete extends BaseFilter
      *                                    comma-separated list of column names. Columns not in
      *                                    this list will be removed.
      * @param bool $deleteIfZeroOnly If true, columns will be removed only if their value is 0.
+     * @param bool $deleteRecursive If true, columns will be removed in nested arrays.
      */
-    public function __construct($table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false)
+    public function __construct($table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false, $deleteRecursive = false)
     {
         parent::__construct($table);
 
         if (is_string($columnsToRemove)) {
-            $columnsToRemove = $columnsToRemove == '' ? array() : explode(',', $columnsToRemove);
+            $columnsToRemove = $columnsToRemove === '' ? array() : explode(',', $columnsToRemove);
         }
 
         if (is_string($columnsToKeep)) {
-            $columnsToKeep = $columnsToKeep == '' ? array() : explode(',', $columnsToKeep);
+            $columnsToKeep = $columnsToKeep === '' ? array() : explode(',', $columnsToKeep);
         }
 
         $this->columnsToRemove = $columnsToRemove;
         $this->columnsToKeep = array_flip($columnsToKeep); // flip so we can use isset instead of in_array
         $this->deleteIfZeroOnly = $deleteIfZeroOnly;
+        $this->deleteRecursive = $deleteRecursive;
     }
 
     /**
@@ -120,7 +129,7 @@ class ColumnDelete extends BaseFilter
                     }
 
                     if (!$keep
-                        && $name != 'label' // label cannot be removed via whitelisting
+                        && $name !== 'label' // label cannot be removed via whitelisting
                         && !isset($this->columnsToKeep[$name])
                     ) {
                         // we cannot remove row directly to prevent notice "ArrayIterator::next(): Array was modified
@@ -148,29 +157,30 @@ class ColumnDelete extends BaseFilter
 
     /**
      * @param $table
-     * @return array
      */
     protected function removeColumnsFromTable(&$table)
     {
-        if(!$this->isArrayAccess($table)) {
+        if (!$this->isArrayAccess($table)) {
             return;
         }
+
         foreach ($table as $index => $row) {
-            if(!$this->isArrayAccess($row)) {
+            if (!$this->isArrayAccess($row)) {
                 continue;
             }
-           
+
             foreach ($this->columnsToRemove as $column) {
-                
-                if (is_array($row)) {	
+
+                if (is_array($row)) {
                     if (!array_key_exists($column, $row)) {
                         continue;
                     }
-                } elseif ($table instanceof \ArrayAccess) {
+                } elseif ($row instanceof \ArrayAccess) {
                     if (!$row->offsetExists($column)) {
-                    continue;
+                        continue;
                     }
                 }
+
                 if ($this->deleteIfZeroOnly) {
                     $value = $row[$column];
                     if ($value === false || !empty($value)) {
@@ -181,8 +191,9 @@ class ColumnDelete extends BaseFilter
                 unset($table[$index][$column]);
             }
 
-            // Restore me in Piwik 4
-            //$this->removeColumnsFromTable($row);
+            if ($this->deleteRecursive) {
+                $this->removeColumnsFromTable($table[$index]);
+            }
         }
     }
 

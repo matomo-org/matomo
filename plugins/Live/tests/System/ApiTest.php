@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -89,6 +89,27 @@ class ApiTest extends SystemTestCase
                 ),
                 'testSuffix' => 'actionSegment'
             )
+        );
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+             array(
+                 'idSite'     => 1,
+                 'date'       => self::$fixture->dateTime,
+                 'periods'    => array('day'),
+                 'otherRequestParameters' => array('hideColumns' => 'pageTitle,referrerName,pluginIcon'),
+                 'testSuffix' => 'hideColumns'
+             )
+        );
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+             array(
+                 'idSite'     => 1,
+                 'date'       => self::$fixture->dateTime,
+                 'periods'    => array('day'),
+                 'otherRequestParameters' => array(
+                     'hideColumns' => 'pageTitle,referrerName,pluginIcon',
+                     'hideColumnsRecursively' => 0
+                 ),
+                 'testSuffix' => 'hideColumnsNonRecursive'
+             )
         );
 
         return $apiToTest;

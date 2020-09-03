@@ -1,9 +1,9 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Dashboard screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -73,7 +73,11 @@ describe("Dashboard", function () {
         var col2 = await page.jQuery('#dashboardWidgetsArea > .col:eq(2)');
         await col2.hover();
         await page.mouse.up();
+        await page.waitForNetworkIdle();
+        await page.waitFor(100);
         await page.mouse.move(-10, -10);
+
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
     });
@@ -206,7 +210,7 @@ describe("Dashboard", function () {
         await page.evaluate(function () {
             $('#copyDashboardName').val('');
         });
-        await page.type('#copyDashboardName', 'newdash');
+        await page.type('#copyDashboardName', 'new <dash> 💩');
         await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
         await page.select('#copyDashboardUser', 'superUserLogin');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
@@ -299,7 +303,7 @@ describe("Dashboard", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
-        var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
+        var tokenAuth = "a4ca4238a0b923820dcc509a6f75849f";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_token_auth');

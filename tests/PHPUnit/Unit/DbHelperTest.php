@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,12 +12,11 @@ use Piwik\DbHelper;
 
 /**
  * Class DbHelperTest
- * @package Piwik\Tests\Unit
  * @group Core
  * @group Core_Unit
  * @group DbHelper
  */
-class DbHelperTest extends \PHPUnit_Framework_TestCase
+class DbHelperTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

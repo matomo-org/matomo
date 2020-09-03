@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,7 +30,7 @@ class APITest extends IntegrationTestCase
 
     private $hasSuperUserAccess = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ class APITest extends IntegrationTestCase
         $this->makeSureTestRunsInContextOfAnonymousUser();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Access::getInstance()->hasSuperUserAccess($this->hasSuperUserAccess);
         parent::tearDown();

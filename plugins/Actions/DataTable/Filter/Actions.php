@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -79,8 +79,7 @@ class Actions extends BaseFilter
                         if ($row->getIdSubDataTable()) {
                             $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($label))));
                         } else {
-                            $notDefinedName = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
-                            if (trim($label) == $notDefinedName) {
+                            if (trim($label) == $notDefinedTitle) {
                                 $row->setMetadata('segmentValue', '');
                             } else {
                                 $row->setMetadata('segmentValue', urlencode(trim($label)));

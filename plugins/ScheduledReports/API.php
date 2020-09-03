@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,7 +30,6 @@ use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Site;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Psr\Log\LoggerInterface;
 
@@ -323,13 +322,14 @@ class API extends \Piwik\Plugin\API
             $outputType = self::OUTPUT_DOWNLOAD;
         }
 
-        // load specified language
-        if (empty($language)) {
-            $language = Translate::getLanguageDefault();
-        }
-
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        // load specified language
+        if (empty($language)) {
+            $language = $translator->getDefaultLanguage();
+        }
+
         $translator->setCurrentLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
@@ -503,7 +503,7 @@ class API extends \Piwik\Plugin\API
          * handle their new report formats.
          *
          * @param ReportRenderer &$reportRenderer This variable should be set to an instance that
-         *                                        extends {@link Piwik\ReportRenderer} by one of the event
+         *                                        extends {@link \Piwik\ReportRenderer} by one of the event
          *                                        subscribers.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
@@ -711,7 +711,7 @@ class API extends \Piwik\Plugin\API
          * event to list the available report parameters for their transport medium.
          *
          * @param array $availableParameters The list of available parameters for this report type.
-         *                                   This is an array that maps paramater IDs with a boolean
+         *                                   This is an array that maps parameter IDs with a boolean
          *                                   that indicates whether the parameter is mandatory or not.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
