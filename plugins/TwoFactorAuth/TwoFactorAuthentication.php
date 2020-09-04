@@ -7,16 +7,29 @@
  */
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\UsersManager\Model;
 use Exception;
+use Piwik\SettingsPiwik;
 
 require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.php';
 
 class TwoFactorAuthentication
 {
+    const OPTION_PREFIX_TWO_FA_CODE_USED = 'twofa_codes_used_';
+
+    /**
+     * Make sure the same fa code was not used in the last X minutes.
+     * Technically, even 2 minutes be fine since every token is only valid for 30 sec and we only allow the 2 most
+     * recent tokens.
+     */
+    const BLOCK_TWOFA_CODE_MINUTES = 10;
+
     /**
      * @var SystemSettings
      */
@@ -98,6 +111,51 @@ class TwoFactorAuthentication
         return $model->getUser($login);
     }
 
+    private function wasTwoFaCodeUsedRecently($login, $authCode)
+    {
+        $time = Option::get($this->gettwoFaCodeUsedKey($login, $authCode));
+        if (empty($time)) {
+            return false;
+        }
+        $fiveMinutes = 60 * self::BLOCK_TWOFA_CODE_MINUTES;
+        if (time() - $fiveMinutes >= (int)$time) {
+            return true;
+        }
+        return false;
+    }
+
+    private function gettwoFaCodeUsedKey($login, $authCode)
+    {
+        return self::OPTION_PREFIX_TWO_FA_CODE_USED . md5($login . $authCode . SettingsPiwik::getSalt());
+    }
+
+    private function setTwoFaCodeWasUsed($login, $authCode)
+    {
+        $table = Common::prefixTable('option');
+        $bind = array($this->gettwoFaCodeUsedKey($login, $authCode), time(), 0);
+        try {
+            Db::query('INSERT INTO `' . $table . '` (option_name, option_value, autoload) VALUES (?, ?, ?) ', $bind);
+            return true;
+        } catch (Exception $e) {
+            // when 2 process try to insert at same time should result in duplicate error
+            return false;
+        }
+    }
+
+    public function cleanupTwoFaCodesUsedRecently()
+    {
+        $values = Option::getLike(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . '%');
+        if (!empty($values)) {
+            foreach ($values as $optionName => $timeCodeWasUsed) {
+                $fiveMinutesAgo = time() - (60 * self::BLOCK_TWOFA_CODE_MINUTES);
+                if ($timeCodeWasUsed < $fiveMinutesAgo) {
+                    // delete any entry created more than 5 min ago
+                    Option::delete($optionName);
+                }
+            }
+        }
+    }
+
     public function validateAuthCode($login, $authCode)
     {
         if (!$this->isUserUsingTwoFactorAuthentication($login)) {
@@ -105,6 +163,14 @@ class TwoFactorAuthentication
         }
 
         $user = $this->getUser($login);
+
+        if ($this->wasTwoFaCodeUsedRecently($user['login'], $authCode)) {
+            return false;
+        }
+
+        if (!$this->setTwoFaCodeWasUsed($user['login'], $authCode)) {
+            return false;
+        }
 
         if (!empty($user['twofactor_secret'])
             && $this->validateAuthCodeDuringSetup($authCode, $user['twofactor_secret'])) {
