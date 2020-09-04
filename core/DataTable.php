@@ -1894,7 +1894,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
-            throw new Exception("Label column not found in the table to add in addDataTable()");
+            throw new Exception("Label column not found in the table to add in addDataTable() for row " . var_export($row, 1));
         }
         $rowFound = $this->getRowFromLabel($labelToLookFor);
         if ($rowFound === false) {
