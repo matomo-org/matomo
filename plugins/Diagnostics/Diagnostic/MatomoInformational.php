@@ -8,8 +8,10 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\DbHelper;
+use Piwik\Option;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
+use Piwik\Updater;
 use Piwik\Version;
 
 /**
@@ -35,6 +37,7 @@ class MatomoInformational implements Diagnostic
 
         if (SettingsPiwik::isMatomoInstalled()) {
             $results[] = DiagnosticResult::informationalResult('Matomo Install Version', $this->getInstallVersion());
+            $results[] = DiagnosticResult::informationalResult('Matomo Update History', Option::get(Updater::OPTION_KEY_MATOMO_UPDATE_HISTORY));
         }
 
         return $results;
