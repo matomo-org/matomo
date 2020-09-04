@@ -36,7 +36,7 @@ These are only recommendations (because we will keep backward compatibility for 
 #### Breaking changes in HTTP API 
 
 ##### Format changes
-* The `JSON2` API format has now been deprecated and is now applied  by default. The JSON2 renderer will be removed in Matomo 5 and we recommend switching to it. 
+* The `JSON2` API format has now been deprecated and is now applied  by default. The JSON2 renderer will be removed in Matomo 5 and we recommend switching to the `JSON` renderer. 
 * The `JSON` renderer now behaves like the previous `JSON2` renderer did. This means arrays like `['a' => 0, 'b' => 1]` will be rendered in JSON as `{"a":0,"b":1}` instead of `[{"a":0,"b":1}]`. This impacts these API methods:
   * API.getSettings
   * Annotations.get
