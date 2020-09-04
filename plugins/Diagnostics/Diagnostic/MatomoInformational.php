@@ -36,8 +36,8 @@ class MatomoInformational implements Diagnostic
         $results[] = DiagnosticResult::informationalResult('Matomo Version', Version::VERSION);
 
         if (SettingsPiwik::isMatomoInstalled()) {
-            $results[] = DiagnosticResult::informationalResult('Matomo Install Version', $this->getInstallVersion());
             $results[] = DiagnosticResult::informationalResult('Matomo Update History', Option::get(Updater::OPTION_KEY_MATOMO_UPDATE_HISTORY));
+            $results[] = DiagnosticResult::informationalResult('Matomo Install Version', $this->getInstallVersion());
         }
 
         return $results;
