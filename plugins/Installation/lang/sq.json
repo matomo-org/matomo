@@ -22,6 +22,8 @@
         "GoBackAndDefinePrefix": "Kthehuni mbrapsht dhe përcaktoni një Prefiks për Tabelat e Matomo-s",
         "HappyAnalysing": "Analiza të mbara!",
         "Installation": "Instalim",
+        "InformationalResults": "Përfundime informuese",
+        "CopySystemCheck": "Kopjo kontroll sistemi",
         "InstallationStatus": "Gjendje instalimi",
         "InsufficientPrivilegesHelp": "Këto privilegje mund t’i shtoni duke përdorur një mjet të tillë si phpMyAdmin ose duke kryer kërkesat e duhura SQL. Nëse nuk dini si t’i bëni këto gjëra, ju lutemi, kërkojini përgjegjësit të sistemit tuaj t’ju akordojë këto privilegje.",
         "InsufficientPrivilegesMain": "Ose Baza e të Dhënave s’ekziston, (dhe s’krijohet dot), ose Përdoruesi i caktuar ka privilegje të pamjaftueshme. Përdoruesi i bazës së të dhënave duhet të ketë privilegjet vijuese: %s",

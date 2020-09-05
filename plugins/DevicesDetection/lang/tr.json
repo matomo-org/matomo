@@ -20,6 +20,8 @@
         "dataTableLabelModels": "Model",
         "dataTableLabelSystemVersion": "İşletim Sistemi Sürümü",
         "dataTableLabelTypes": "Tür",
+        "ClientType": "İstemci türü",
+        "ClientTypes": "İstemci türleri",
         "Device": "Aygıt",
         "DeviceBrand": "Aygıt Markası",
         "DeviceBrands": "Aygıt markaları",

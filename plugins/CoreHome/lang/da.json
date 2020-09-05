@@ -106,7 +106,9 @@
         "StandardReport": "Standard rapport",
         "FlattenReport": "Flad rapport",
         "ReportWithMetadata": "Rapport med metadata",
+        "ReadMoreOnlineGuide": "Læs mere om dette emne i guiden online.",
         "SeeAvailableVersions": "Se tilgængelige versioner",
-        "QuickLinks": "Hurtiglinks"
+        "QuickLinks": "Hurtiglinks",
+        "Profilable": "Profilérbar"
     }
 }
