@@ -1882,18 +1882,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         return $result;
     }
 
-    private function getDebugInfo()
-    {
-        $source = array();
-        if (!empty($_GET)) {
-            $source = $_GET;
-        }
-        if (!empty($_POST)) {
-            $source = $source + $_POST;
-        }
-        return json_encode($source);
-    }
-
     /**
      * Aggregates the $row columns to this table.
      *
@@ -1907,8 +1895,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
-            $message = sprintf("Label column not found in the table to add in addDataTable(). Request: %s, Row: %s",
-                $this->getDebugInfo(),
+            $message = sprintf("Label column not found in the table to add in addDataTable(). Row: %s",
                 var_export($row->getColumns(), 1)
             );
             throw new Exception($message);
