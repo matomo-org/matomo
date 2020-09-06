@@ -71,23 +71,6 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertEquals($this->site1, $siteid);
     }
 
-    public function test_getPeriodStringFromMetadata_no_Period()
-    {
-        $string = DataTableFactory::getPeriodStringFromMetadata(new DataTable());
-        $this->assertEquals('', $string);
-    }
-
-    public function test_getPeriodStringFromMetadata()
-    {
-        $indices = $this->getResultIndices($period = false, $site = false);
-        $factory = $this->createFactory($indices);
-
-        $table = $factory->makeMerged($index = array(), $indices);
-
-        $string = DataTableFactory::getPeriodStringFromMetadata($table);
-        $this->assertEquals('2012-12-12', $string);
-    }
-
     public function test_makeMerged_numeric_noIndices_shouldContainDefaultRow_IfNoDataGiven()
     {
         $indices = $this->getResultIndices($period = false, $site = false);

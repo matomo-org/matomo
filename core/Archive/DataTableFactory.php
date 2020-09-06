@@ -124,27 +124,6 @@ class DataTableFactory
     }
 
     /**
-     * Returns a string that describes the period of a data table.
-     *
-     * @param DataTable $table
-     * @return string
-     */
-    public static function getPeriodStringFromMetadata(DataTable $table)
-    {
-        $period = $table->getMetadata(self::TABLE_METADATA_PERIOD_INDEX);
-        if (empty($period) || !$period instanceof Period) {
-            return '';
-        }
-
-        $label = $period->getLabel();
-        if ($label === 'day') {
-            return $period->getPrettyString();
-        }
-
-        return $period->getRangeString();
-    }
-
-    /**
      * Tells the factory instance to expand the DataTables that are created by
      * creating subtables and setting the subtable IDs of rows w/ subtables correctly.
      *
