@@ -7,6 +7,7 @@
         "DisablingIncompatiblePlugins": "Uyumsuz uygulama ekleri devre dışı bırakılıyor: %s",
         "DownloadingUpdateFromX": "Güncelleme %s üzerinden indiriliyor",
         "DownloadX": "%s İndir",
+        "UpdateLog": "Güncelleme günlüğü",
         "EmptyDatabaseError": "%s veritabanı boş. Matomo ayar dosyanızı değiştirmeniz ya da silmeniz gerekli.",
         "ErrorDIYHelp": "Uzman bir kullanıcıysanız ve veritabanı güncellemesinde bir sorun ile karşılaşırsanız:",
         "ErrorDIYHelp_1": "Sorunun kaynağını bulup düzeltin (memory_limit ya da max_execution_time gibi)",
