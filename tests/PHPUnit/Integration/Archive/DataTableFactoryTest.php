@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Period;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
+use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -54,6 +55,37 @@ class DataTableFactoryTest extends IntegrationTestCase
         }
 
         API::getInstance()->add('TEST SEGMENT', 'browserCode==ff');
+    }
+
+    public function test_getSiteIdFromMetadata_no_site()
+    {
+        $siteid = DataTableFactory::getSiteIdFromMetadata(new DataTable());
+        $this->assertNull($siteid);
+    }
+
+    public function test_getSiteIdFromMetadata()
+    {
+        $table = new DataTable();
+        $table->setMetadata('site', new Site($this->site1));
+        $siteid = DataTableFactory::getSiteIdFromMetadata($table);
+        $this->assertEquals($this->site1, $siteid);
+    }
+
+    public function test_getPeriodStringFromMetadata_no_Period()
+    {
+        $string = DataTableFactory::getPeriodStringFromMetadata(new DataTable());
+        $this->assertEquals('', $string);
+    }
+
+    public function test_getPeriodStringFromMetadata()
+    {
+        $indices = $this->getResultIndices($period = false, $site = false);
+        $factory = $this->createFactory($indices);
+
+        $table = $factory->makeMerged($index = array(), $indices);
+
+        $string = DataTableFactory::getPeriodStringFromMetadata($table);
+        $this->assertEquals('2012-12-12', $string);
     }
 
     public function test_makeMerged_numeric_noIndices_shouldContainDefaultRow_IfNoDataGiven()

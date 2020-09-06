@@ -11,6 +11,7 @@ namespace Piwik\Archive;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 
@@ -114,12 +115,33 @@ class DataTableFactory
      */
     public static function getSiteIdFromMetadata(DataTable $table)
     {
-        $site = $table->getMetadata('site');
+        $site = $table->getMetadata(self::TABLE_METADATA_SITE_INDEX);
         if (empty($site)) {
             return null;
         } else {
             return $site->getId();
         }
+    }
+
+    /**
+     * Returns a string that describes the period of a data table.
+     *
+     * @param DataTable $table
+     * @return string
+     */
+    public static function getPeriodStringFromMetadata(DataTable $table)
+    {
+        $period = $table->getMetadata(self::TABLE_METADATA_PERIOD_INDEX);
+        if (empty($period) || !$period instanceof Period) {
+            return '';
+        }
+
+        $label = $period->getLabel();
+        if ($label === 'day') {
+            return $period->getPrettyString();
+        }
+
+        return $period->getRangeString();
     }
 
     /**

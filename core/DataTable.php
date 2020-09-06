@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Closure;
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
@@ -1894,7 +1895,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
-            throw new Exception("Label column not found in the table to add in addDataTable() for row " . var_export($row, 1));
+            $message = sprintf("Label column not found in the table to add in addDataTable(). idSite: %s, Period: %s, Row: %s",
+                DataTableFactory::getSiteIdFromMetadata($this),
+                DataTableFactory::getPeriodStringFromMetadata($this),
+                var_export($row, 1)
+            );
+            throw new Exception($message);
         }
         $rowFound = $this->getRowFromLabel($labelToLookFor);
         if ($rowFound === false) {
