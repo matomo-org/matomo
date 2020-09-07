@@ -506,6 +506,24 @@ class ArchiveInvalidator
     }
 
     /**
+     * Remove invalidations for a specific report or all invalidations for a specific plugin. If your plugin supports
+     * archiving data in the past, you may want to call this method to remove any pending invalidations if, for example,
+     * your plugin is deactivated or a report deleted.
+     *
+     * @param int $idSite
+     * @param string $string
+     * @param string|null $report
+     */
+    public function removeInvalidations($idSite, $plugin, $report = null)
+    {
+        if (empty($report)) {
+            $this->model->removeInvalidationsLike($idSite, $plugin);
+        } else {
+            $this->model->removeInvalidations($idSite, $plugin, $report);
+        }
+    }
+
+    /**
      * @param int[] $idSites
      * @param string[][][] $dates
      * @throws \Exception
