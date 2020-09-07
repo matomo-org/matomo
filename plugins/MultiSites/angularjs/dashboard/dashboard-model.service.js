@@ -103,11 +103,6 @@
             return parseInt(end, 10);
         }
 
-        function previousPage() {
-            model.currentPage = model.currentPage - 1;
-            fetchAllSites();
-        }
-
         function sortBy(metric) {
             if (model.sortColumn == metric) {
                 model.reverse = !model.reverse;
