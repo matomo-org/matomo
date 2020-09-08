@@ -655,6 +655,32 @@ class Model
         return true;
     }
 
+    public function isSimilarArchiveInProgress($invalidation)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $bind = [
+            $invalidation['idsite'],
+            $invalidation['period'],
+            $invalidation['date1'],
+            $invalidation['date2'],
+            $invalidation['name'],
+            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+        ];
+
+        if (empty($invalidation['report'])) {
+            $reportClause = "(report IS NULL OR report = '')";
+        } else {
+            $reportClause = "report = ?";
+            $bind[] = $invalidation['report'];
+        }
+
+        $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND `period` = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `status` = ? AND $reportClause LIMIT 1";
+        $result = Db::fetchOne($sql, $bind);
+
+        return !empty($result);
+    }
+
     /**
      * Gets the next invalidated archive that should be archived in a table.
      *
