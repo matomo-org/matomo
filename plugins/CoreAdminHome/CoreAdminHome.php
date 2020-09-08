@@ -71,7 +71,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/protocolCheck.js";
     }
 
