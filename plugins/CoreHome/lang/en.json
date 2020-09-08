@@ -31,7 +31,7 @@
         "ShowExportUrl": "Show Export URL",
         "HideExportUrl": "Hide Export URL",
         "HomeShortcut": "Home",
-        "FindUsOn": "Find us on",
+        "SupportUsOn": "Support us on",
         "IncludeRowsWithLowPopulation": "Rows with low population are hidden %s Show all rows",
         "InjectedHostEmailBody": "Hello, I tried to access Matomo today and encountered the unknown hostname warning.",
         "InjectedHostEmailSubject": "Matomo was accessed with an unknown hostname: %s",
