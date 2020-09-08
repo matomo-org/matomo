@@ -16,6 +16,12 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\Columns\Profilable;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
+use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
+use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
+use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
+use Piwik\Plugins\PagePerformance\Columns\TimeOnLoad;
+use Piwik\Plugins\PagePerformance\Columns\TimeServer;
+use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
@@ -122,6 +128,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
         $columnsToAdd['log_visit']['visitor_seconds_since_last'] = VisitorSecondsSinceLast::COLUMN_TYPE;
         $columnsToAdd['log_visit']['profilable'] = Profilable::COLUMN_TYPE;
+        $columnsToAdd['log_visit'][TimeDomCompletion::class] = TimeDomCompletion::COLUMN_TYPE;
+        $columnsToAdd['log_visit'][TimeDomProcessing::class] = TimeDomProcessing::COLUMN_TYPE;
+        $columnsToAdd['log_visit'][TimeNetwork::class] = TimeNetwork::COLUMN_TYPE;
+        $columnsToAdd['log_visit'][TimeOnLoad::class] = TimeOnLoad::COLUMN_TYPE;
+        $columnsToAdd['log_visit'][TimeServer::class] = TimeServer::COLUMN_TYPE;
+        $columnsToAdd['log_visit'][TimeTransfer::class] = TimeTransfer::COLUMN_TYPE;
 
         $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
         $columnsLogConversion = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
@@ -198,6 +210,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         if (!empty($config->mail['type']) && $config->mail['type'] === 'Crammd5') {
             $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
         }
+
+        $migrations[] = $this->migration->plugin->activate('PagePerformance');
 
         return $migrations;
     }

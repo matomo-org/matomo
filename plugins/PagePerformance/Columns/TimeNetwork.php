@@ -21,8 +21,11 @@ use Piwik\Tracker\Visitor;
 
 class TimeNetwork extends ActionDimension
 {
-    protected $columnName = 'time_network';
-    protected $columnType = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_NAME = 'time_network';
+
+    protected $columnName = self::COLUMN_NAME;
+    protected $columnType = self::COLUMN_TYPE;
     protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeNetwork';
 
