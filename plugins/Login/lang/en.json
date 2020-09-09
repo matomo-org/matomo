@@ -16,6 +16,7 @@
         "SettingBruteForceEnableHelp": "Brute Force Detection is an important security feature used to protect your data from unauthorized access. Instead of allowing any user to try thousands, or millions of password combinations within a very short time, it will only allow a specific amount of failed logins within a short period of time. If too many failed logins occur in that time range, the user won't be able to log in until some time has passed. Please note that if an IP is blocked, every user that uses that IP will be blocked from logging in as well.",
         "SettingBruteForceWhitelistIp": "Never block these IPs from logging in",
         "SettingBruteForceBlacklistIp": "Always block these IPs from logging in",
+        "NotAllowListTakesPrecendence": "If an IP matches both the block and never block list, then the block list takes precendence and the IP would not be allowed.",
         "SettingBruteForceMaxFailedLogins": "Number of allowed login retries within time range",
         "SettingBruteForceMaxFailedLoginsHelp": "If more than this number of failed logins are recorded within the time range configured below, block the IP.",
         "SettingBruteForceTimeRange": "Count login retries within this time range in minutes",
