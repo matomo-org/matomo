@@ -2219,9 +2219,6 @@ if (typeof window.Matomo !== 'object') {
                 // alias to circumvent circular function dependency (JSLint requires this)
                 heartBeatPingIfActivityAlias,
 
-                // the standard visit length as configured in Matomo in "visit_standard_length" config setting
-                configVisitStandardLength = 1800,
-
                 // Disallow hash tags in URL
                 configDiscardHashTag,
 
@@ -3728,11 +3725,6 @@ if (typeof window.Matomo !== 'object') {
 
                 if (!lastTrackerRequestTime) {
                     return false; // no tracking request was ever sent so lets not send heartbeat now
-                }
-                if ((lastTrackerRequestTime + (1000*configVisitStandardLength)) <= now) {
-                    // heart beat does not extend the visit length and therefore there is pretty much no point
-                    // to send requests after this
-                    return false;
                 }
 
                 if (lastTrackerRequestTime + configHeartBeatDelay <= now) {
@@ -5995,18 +5987,6 @@ if (typeof window.Matomo !== 'object') {
              */
             this.disablePerformanceTracking = function () {
                 configPerformanceTrackingEnabled = false;
-            };
-
-            /**
-             * Set visit standard length (in seconds). This should ideally match the visit_standard_length setting
-             * in Matomo in case you customised it. This setting only has an effect if heart beat timer is active
-             * currently.
-             *
-             * @param int visitStandardLengthinSeconds Defaults to 1800s (30 minutes). Cannot be lower than 5.
-             */
-            this.setVisitStandardLength = function (visitStandardLengthinSeconds) {
-                visitStandardLengthinSeconds = Math.max(visitStandardLengthinSeconds, 5);
-                configVisitStandardLength = visitStandardLengthinSeconds;
             };
 
             /**
