@@ -25,7 +25,7 @@ class LoginAllowlist
     public function shouldAllowlistApplyToAPI()
     {
         $general = $this->getGeneralConfig();
-        return !empty($general['login_allow_apply_to_reporting_api_requests']) || !empty($general['login_whitelist_apply_to_reporting_api_requests']);
+        return !empty($general['login_allowlist_apply_to_reporting_api_requests']) || !empty($general['login_whitelist_apply_to_reporting_api_requests']);
     }
 
     public function shouldCheckAllowlist()
