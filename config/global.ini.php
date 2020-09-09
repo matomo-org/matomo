@@ -432,16 +432,16 @@ login_password_recovery_replyto_email_name = "No-reply"
 ; with a "token_auth" URL parameter).
 ;
 ; Examples:
-; login_whitelist_ip[] = 204.93.240.*
-; login_whitelist_ip[] = 204.93.177.0/24
-; login_whitelist_ip[] = 199.27.128.0/21
-; login_whitelist_ip[] = 2001:db8::/48
-; login_whitelist_ip[] = matomo.org
+; login_allowlist_ip[] = 204.93.240.*
+; login_allowlist_ip[] = 204.93.177.0/24
+; login_allowlist_ip[] = 199.27.128.0/21
+; login_allowlist_ip[] = 2001:db8::/48
+; login_allowlist_ip[] = matomo.org
 
-; By default, if a whitelisted IP address is specified via "login_whitelist_ip[]", the reporting user interface as
+; By default, if a whitelisted IP address is specified via "login_allowlist_ip[]", the reporting user interface as
 ; well as HTTP Reporting API requests will only work for these whitelisted IPs.
 ; Set this setting to "0" to allow HTTP Reporting API requests from any IP address.
-login_whitelist_apply_to_reporting_api_requests = 1
+login_allowlist_apply_to_reporting_api_requests = 1
 
 ; By default when user logs out they are redirected to Matomo "homepage" usually the Login form.
 ; Uncomment the next line to set a URL to redirect the user to after they log out of Matomo.

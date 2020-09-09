@@ -20,15 +20,15 @@ use Piwik\SettingsServer;
  * This class is in CoreHome since some alternative Login plugins disable the Login plugin and we want to ensure the
  * feature works for all login plugins.
  */
-class LoginWhitelist
+class LoginAllowlist
 {
-    public function shouldWhitelistApplyToAPI()
+    public function shouldAllowlistApplyToAPI()
     {
         $general = $this->getGeneralConfig();
-        return !empty($general['login_whitelist_apply_to_reporting_api_requests']);
+        return !empty($general['login_allow_apply_to_reporting_api_requests']) || !empty($general['login_whitelist_apply_to_reporting_api_requests']);
     }
 
-    public function shouldCheckWhitelist()
+    public function shouldCheckAllowlist()
     {
         if (Common::isPhpCliMode()) {
             return false;
@@ -39,21 +39,21 @@ class LoginWhitelist
             return false;
         }
 
-        $ips = $this->getWhitelistedLoginIps();
+        $ips = $this->getAllowlistedLoginIps();
         return !empty($ips);
     }
 
-    public function checkIsWhitelisted($ipString)
+    public function checkIsAllowed($ipString)
     {
-        if (!$this->isIpWhitelisted($ipString)) {
-            throw new NoAccessException(Piwik::translate('CoreHome_ExceptionNotWhitelistedIP', $ipString));
+        if (!$this->isIpAllowed($ipString)) {
+            throw new NoAccessException(Piwik::translate('CoreHome_ExceptionNotAllowlistedIP', $ipString));
         }
     }
 
-    public function isIpWhitelisted($userIpString)
+    public function isIpAllowed($userIpString)
     {
         $userIp = NetworkIp::fromStringIP($userIpString);
-        $ipsWhitelisted = $this->getWhitelistedLoginIps();
+        $ipsWhitelisted = $this->getAllowlistedLoginIps();
 
         if (empty($ipsWhitelisted)) {
             return false;
@@ -65,9 +65,9 @@ class LoginWhitelist
     /**
      * @return array
      */
-    protected function getWhitelistedLoginIps()
+    protected function getAllowlistedLoginIps()
     {
-        $ips = StaticContainer::get('login.whitelist.ips');
+        $ips = StaticContainer::get('login.allowlist.ips');
 
         if (!empty($ips) && is_array($ips)) {
             $ips = array_map(function ($ip) {

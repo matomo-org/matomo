@@ -198,7 +198,7 @@ describe("Login", function () {
     });
 
     it('should not show login page when ips whitelisted and ip is not matching', async function() {
-        testEnvironment.overrideConfig('General', 'login_whitelist_ip', ['199.199.199.199']);
+        testEnvironment.overrideConfig('General', 'login_allowlist_ip', ['199.199.199.199']);
         testEnvironment.save();
         await page.goto('');
         await page.waitForNetworkIdle();
@@ -212,7 +212,7 @@ describe("Login", function () {
         delete testEnvironment.queryParamOverride;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.bruteForceBlockIps;
-        testEnvironment.overrideConfig('General', 'login_whitelist_ip', []);
+        testEnvironment.overrideConfig('General', 'login_allowlist_ip', []);
         testEnvironment.save();
 
         await page.goto(bruteForceLogUrl);

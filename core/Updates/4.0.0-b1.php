@@ -211,6 +211,11 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
         }
 
+        $general = $config->General;
+        if (empty($general['login_whitelist_apply_to_reporting_api_requests'])) {
+            $migrations[] = $this->migration->config->set('General', 'login_allowlist_apply_to_reporting_api_requests', '0');
+        }
+
         $migrations[] = $this->migration->plugin->activate('PagePerformance');
 
         return $migrations;
@@ -219,6 +224,15 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        $config = Config::getInstance();
+        $general = $config->General;
+        if (!empty($general['login_whitelist_ip'])) {
+            // the migration->config->set does not support arrays yet so we do it here.
+            $general['login_allowlist_ip'] = $general['login_whitelist_ip'];
+            $config->General = $general;
+            $config->forceSave();
+        }
 
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // switch to default provider if GeoIp Legacy was still in use

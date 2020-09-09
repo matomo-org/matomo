@@ -11,34 +11,34 @@ namespace Piwik\Plugins\CoreHome\tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\NoAccessException;
-use Piwik\Plugins\CoreHome\LoginWhitelist;
+use Piwik\Plugins\CoreHome\LoginAllowlist;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class CustomLoginWhitelist extends LoginWhitelist {
+class CustomLoginAllowlist extends LoginAllowlist {
 
-    public function getWhitelistedLoginIps()
+    public function getAllowlistedLoginIps()
     {
-        return parent::getWhitelistedLoginIps();
+        return parent::getAllowlistedLoginIps();
     }
 
-    public function isIpWhitelisted($ip)
+    public function isIpAllowed($ip)
     {
-        return parent::isIpWhitelisted($ip);
+        return parent::isIpAllowed($ip);
     }
 }
 
 /**
  * @group Plugins
- * @group LoginWhitelist
- * @group LoginWhitelistTest
+ * @group LoginAllowlist
+ * @group LoginAllowlistTest
  */
-class LoginWhitelistTest extends IntegrationTestCase
+class LoginAllowlistTest extends IntegrationTestCase
 {
     /**
-     * @var CustomLoginWhitelist
+     * @var CustomLoginAllowlist
      */
-    private $whitelist;
+    private $allowlist;
 
     private $cliMode;
 
@@ -49,7 +49,7 @@ class LoginWhitelistTest extends IntegrationTestCase
         $this->cliMode = Common::$isCliMode;
         Common::$isCliMode = false;
 
-        $this->whitelist = new CustomLoginWhitelist();
+        $this->allowlist = new CustomLoginAllowlist();
     }
 
     public function tearDown(): void
@@ -60,72 +60,85 @@ class LoginWhitelistTest extends IntegrationTestCase
 
     public function test_shouldWhitelistApplyToAPI_shouldBeEnabledByDefault()
     {
-        $this->assertTrue($this->whitelist->shouldWhitelistApplyToAPI());
+        $this->assertTrue($this->allowlist->shouldAllowlistApplyToAPI());
     }
 
     public function test_shouldWhitelistApplyToAPI_canBeDisabled()
     {
         $this->setGeneralConfig('login_whitelist_apply_to_reporting_api_requests', '0');
-        $this->assertFalse($this->whitelist->shouldWhitelistApplyToAPI());
+        $this->assertFalse($this->allowlist->shouldAllowlistApplyToAPI());
     }
 
     public function test_shouldWhitelistApplyToAPI_enabled()
     {
         $this->setGeneralConfig('login_whitelist_apply_to_reporting_api_requests', '1');
-        $this->assertTrue($this->whitelist->shouldWhitelistApplyToAPI());
+        $this->assertTrue($this->allowlist->shouldAllowlistApplyToAPI());
     }
 
     public function test_shouldCheckWhitelist_shouldNotBeCheckedByDefaultAndNotHaveAnyIps()
     {
-        $this->assertFalse($this->whitelist->shouldCheckWhitelist());
+        $this->assertFalse($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_shouldCheckWhitelist_shouldBeCheckedIfHasAtLeastOneIp()
+    public function test_shouldCheckAllowlist_shouldBeCheckedIfHasAtLeastOneIp()
+    {
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1']);
+        $this->assertTrue($this->allowlist->shouldCheckAllowlist());
+    }
+
+    public function test_shouldCheckAllowlist_shouldNotBeCheckedIfExecutedFromCLI()
+    {
+        Common::$isCliMode = true;
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1']);
+        $this->assertFalse($this->allowlist->shouldCheckAllowlist());
+    }
+
+    public function test_shouldCheckWhitelist_shouldBeCheckedIfHasAtLeastOneIp_forBC()
     {
         $this->setGeneralConfig('login_whitelist_ip', ['192.168.33.1']);
-        $this->assertTrue($this->whitelist->shouldCheckWhitelist());
+        $this->assertTrue($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_shouldCheckWhitelist_shouldNotBeCheckedIfExecutedFromCLI()
+    public function test_shouldCheckWhitelist_shouldNotBeCheckedIfExecutedFromCLI_forBC()
     {
         Common::$isCliMode = true;
         $this->setGeneralConfig('login_whitelist_ip', ['192.168.33.1']);
-        $this->assertFalse($this->whitelist->shouldCheckWhitelist());
+        $this->assertFalse($this->allowlist->shouldCheckAllowlist());
     }
 
     public function test_shouldCheckWhitelist_shouldNotBeCheckedIfOnlyEmptyEntries()
     {
-        $this->setGeneralConfig('login_whitelist_ip', ['', ' ']);
-        $this->assertFalse($this->whitelist->shouldCheckWhitelist());
+        $this->setGeneralConfig('login_allowlist_ip', ['', ' ']);
+        $this->assertFalse($this->allowlist->shouldCheckAllowlist());
     }
 
     public function test_getWhitelistedLoginIps_shouldReturnEmptyArrayByDefault()
     {
-        $this->assertSame($this->whitelist->getWhitelistedLoginIps(), []);
+        $this->assertSame($this->allowlist->getAllowlistedLoginIps(), []);
     }
 
     public function test_getWhitelistedLoginIps_shouldReturnIpsAndTrimIfNeeded()
     {
-        $this->setGeneralConfig('login_whitelist_ip', ['192.168.33.1', ' 127.0.0.1 ', '2001:0db8:85a3:0000:0000:8a2e:0370:7334']);
-        $this->assertSame(['192.168.33.1', '127.0.0.1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'], $this->whitelist->getWhitelistedLoginIps());
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', ' 127.0.0.1 ', '2001:0db8:85a3:0000:0000:8a2e:0370:7334']);
+        $this->assertSame(['192.168.33.1', '127.0.0.1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'], $this->allowlist->getAllowlistedLoginIps());
     }
 
     public function test_getWhitelistedLoginIps_shouldResolveIp()
     {
-        $this->setGeneralConfig('login_whitelist_ip', ['192.168.33.1', 'matomo.org', '127.0.0.1']);
-        $this->assertSame(['192.168.33.1', '185.31.40.177', '127.0.0.1'], $this->whitelist->getWhitelistedLoginIps());
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'matomo.org', '127.0.0.1']);
+        $this->assertSame(['192.168.33.1', '185.31.40.177', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
     public function test_getWhitelistedLoginIps_shouldNotBeCheckedIfOnlyEmptyEntries()
     {
-        $this->setGeneralConfig('login_whitelist_ip', ['', '192.168.33.1 ', ' ']);
-        $this->assertSame(['192.168.33.1'], $this->whitelist->getWhitelistedLoginIps());
+        $this->setGeneralConfig('login_allowlist_ip', ['', '192.168.33.1 ', ' ']);
+        $this->assertSame(['192.168.33.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
     public function test_getWhitelistedLoginIps_shouldNotReturnDuplicates()
     {
-        $this->setGeneralConfig('login_whitelist_ip', [' 192.168.33.1', '192.168.33.1 ', ' 192.168.33.1 ', '192.168.33.1']);
-        $this->assertSame(['192.168.33.1'], $this->whitelist->getWhitelistedLoginIps());
+        $this->setGeneralConfig('login_allowlist_ip', [' 192.168.33.1', '192.168.33.1 ', ' 192.168.33.1 ', '192.168.33.1']);
+        $this->assertSame(['192.168.33.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
     /**
@@ -141,8 +154,8 @@ class LoginWhitelistTest extends IntegrationTestCase
             '204.93.177.0/25',
             '2001:db9::/48'
         ];
-        $this->setGeneralConfig('login_whitelist_ip', $ipsWhitelisted);
-        $this->assertSame($expectedIsWhitelisted, $this->whitelist->isIpWhitelisted($ipString));
+        $this->setGeneralConfig('login_allowlist_ip', $ipsWhitelisted);
+        $this->assertSame($expectedIsWhitelisted, $this->allowlist->isIpAllowed($ipString));
     }
 
     /**
@@ -150,7 +163,7 @@ class LoginWhitelistTest extends IntegrationTestCase
      */
     public function test_isIpWhitelisted_WhenNoIpsConfigured_AllIpsAreWhitelisted($expectedIsWhitelisted, $ipString)
     {
-        $this->assertFalse($this->whitelist->isIpWhitelisted($ipString));
+        $this->assertFalse($this->allowlist->isIpAllowed($ipString));
     }
 
     /**
@@ -166,14 +179,14 @@ class LoginWhitelistTest extends IntegrationTestCase
             '204.93.177.0/25',
             '2001:db9::/48'
         ];
-        $this->setGeneralConfig('login_whitelist_ip', $ipsWhitelisted);
+        $this->setGeneralConfig('login_allowlist_ip', $ipsWhitelisted);
 
         if ($expectedIsWhitelisted) {
-            $this->whitelist->checkIsWhitelisted($ipString);
+            $this->allowlist->checkIsAllowed($ipString);
             $this->assertTrue(true);
         } else {
             try {
-                $this->whitelist->checkIsWhitelisted($ipString);
+                $this->allowlist->checkIsAllowed($ipString);
                 $this->fail('An expected exception has not been thrown');
             } catch (NoAccessException $e) {
                 $this->assertTrue(true);
