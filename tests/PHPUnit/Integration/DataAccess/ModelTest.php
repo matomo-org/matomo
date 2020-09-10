@@ -496,7 +496,8 @@ class ModelTest extends IntegrationTestCase
 
         $this->model->deleteInvalidationsForDeletedSites();
 
-        $invalidations = Db::fetchAll("SELECT idsite, idinvalidation FROM " . Common::prefixTable('archive_invalidations'));
+        $invalidations = Db::fetchAll("SELECT idsite, idinvalidation FROM " . Common::prefixTable('archive_invalidations') .
+            " ORDER BY idinvalidation ASC");
         $this->assertEquals([
             ['idsite' => 1, 'idinvalidation' => 1],
         ], $invalidations);
