@@ -744,4 +744,22 @@ class Model
         }
         return false;
     }
+
+    public function deleteInvalidationsForSites(array $idSites)
+    {
+        $idSites = array_map('intval', $idSites);
+
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "DELETE FROM `$table` WHERE idsite IN (" . implode(',', $idSites) . ")";
+
+        Db::query($sql);
+    }
+
+    public function deleteInvalidationsForDeletedSites()
+    {
+        $siteTable = Common::prefixTable('site');
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "DELETE a FROM `$table` a LEFT JOIN `$siteTable` s ON a.idsite = s.idsite WHERE s.idsite IS NULL";
+        Db::query($sql);
+    }
 }

@@ -18,6 +18,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\Model as CoreModel;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Http;
@@ -75,6 +76,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         // general data purge on invalidated archive records, executed daily
         $this->daily('purgeInvalidatedArchives', null, self::LOW_PRIORITY);
+        $this->daily('purgeInvalidationsForDeletedSites', null, self::LOW_PRIORITY);
 
         $this->weekly('purgeOrphanedArchives', null, self::NORMAL_PRIORITY);
 
@@ -90,6 +92,12 @@ class Tasks extends \Piwik\Plugin\Tasks
         }
 
         $this->scheduleTrackingCodeReminderChecks();
+    }
+
+    public function purgeInvalidationsForDeletedSites()
+    {
+        $coreModel = new CoreModel();
+        $coreModel->deleteInvalidationsForDeletedSites();
     }
 
     public function deleteOldFingerprintSalts()
