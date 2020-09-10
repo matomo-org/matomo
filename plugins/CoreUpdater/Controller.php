@@ -172,15 +172,13 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function oneClickUpdatePartTwo($sendHeader = true)
+    public function oneClickUpdatePartTwo()
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
 
-        if ($sendHeader) {
-            Json::sendHeaderJSON();
-        }
+        Json::sendHeaderJSON();
 
         $task = "Couldn't update Marketplace plugins.";
 
