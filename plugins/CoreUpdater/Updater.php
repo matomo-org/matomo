@@ -298,6 +298,12 @@ class Updater
 
     private function disableIncompatiblePlugins($version)
     {
+        $pluginManager = PluginManager::getInstance();
+        $plugins = $pluginManager->getLoadedPlugins();
+        foreach ($plugins as $plugin) {
+            $plugin->reloadPluginInformation();
+        }
+
         $incompatiblePlugins = $this->getIncompatiblePlugins($version);
         $disabledPluginNames = array();
 
