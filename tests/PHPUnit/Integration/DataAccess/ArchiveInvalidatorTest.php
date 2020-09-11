@@ -82,6 +82,82 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class));
     }
 
+    public function test_removeInvalidations_removesAllForPlugin()
+    {
+        $this->insertInvalidations([
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'done.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
+        ]);
+
+        $this->invalidator->removeInvalidations($idSite = 1, 'MyPlugin');
+
+        $invalidations = $this->getInvalidatedArchiveTableEntries();
+        $expectedInvalidations = [
+            ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done.MyOtherPlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done', 'report' => null],
+        ];
+
+        $this->assertEquals($expectedInvalidations, $invalidations);
+    }
+
+    public function test_removeInvalidations_removesAllForSingleReport()
+    {
+        $this->insertInvalidations([
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'done.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
+        ]);
+
+        $this->invalidator->removeInvalidations($idSite = 1, 'MyPlugin', 'myReport');
+
+        $invalidations = $this->getInvalidatedArchiveTableEntries();
+        $expectedInvalidations = [
+            [
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2012-03-04',
+                'date2' => '2015-03-04',
+                'period' => '1',
+                'name' => 'done.MyPlugin',
+                'report' => NULL,
+            ],
+            [
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2012-03-04',
+                'date2' => '2015-05-05',
+                'period' => '1',
+                'name' => 'done.MyOtherPlugin',
+                'report' => '',
+            ],
+            [
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2012-03-04',
+                'date2' => '2015-05-05',
+                'period' => '1',
+                'name' => 'done',
+                'report' => '',
+            ],
+            [
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2012-03-04',
+                'date2' => '2015-03-04',
+                'period' => '1',
+                'name' => 'done.MyPlugin',
+                'report' => 'myOtherReport',
+            ],
+        ];
+
+        $this->assertEquals($expectedInvalidations, $invalidations);
+    }
+
     public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()
     {
         //Updated for change to allow for multiple transactions to invalidate the same report without deadlock.
@@ -1333,5 +1409,21 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    private function insertInvalidations(array $invalidations)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        foreach ($invalidations as $invalidation) {
+            $sql = "INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report) VALUES (?, ?, ?, ?, ?, NOW(), ?)";
+            Db::query($sql, [
+                $invalidation['name'],
+                $invalidation['idsite'],
+                $invalidation['date1'],
+                $invalidation['date2'],
+                $invalidation['period'],
+                $invalidation['report'],
+            ]);
+        }
     }
 }
