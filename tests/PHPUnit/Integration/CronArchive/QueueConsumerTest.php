@@ -187,16 +187,16 @@ class QueueConsumerTest extends IntegrationTestCase
                 ),
             ),
             array (
-                array ( // duplicate, processed but if in progress or recent should be skipped
+                array (
                     'idarchive' => '1',
                     'idsite' => '1',
                     'date1' => '2018-03-06',
                     'date2' => '2018-03-06',
                     'period' => '1',
-                    'name' => 'done',
+                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => '',
+                    'segment' => 'browserCode==IE',
                 ),
                 array (
                     'idarchive' => '1',
@@ -211,17 +211,6 @@ class QueueConsumerTest extends IntegrationTestCase
                 ),
             ),
             array (
-                array (
-                    'idarchive' => '1',
-                    'idsite' => '1',
-                    'date1' => '2018-03-06',
-                    'date2' => '2018-03-06',
-                    'period' => '1',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                    'report' => NULL,
-                    'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
-                ),
                 array (
                     'idarchive' => '1',
                     'idsite' => '1',
