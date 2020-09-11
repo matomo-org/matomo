@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,6 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GenerateTravisYmlFile extends ConsoleCommand
 {
     const COMMAND_NAME = 'generate:travis-yml';
+
+    public function isEnabled()
+    {
+        return Development::isEnabled();
+    }
 
     protected function configure()
     {
