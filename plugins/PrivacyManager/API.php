@@ -54,6 +54,7 @@ class API extends \Piwik\Plugin\API
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
+        $this->referrerAnonymizer = $referrerAnonymizer;
     }
 
     private function checkDataSubjectVisits($visits)
