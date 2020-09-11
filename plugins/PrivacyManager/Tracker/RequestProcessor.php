@@ -45,23 +45,45 @@ class RequestProcessor extends Tracker\RequestProcessor
                 $request->setParam('ec_id', $orderIdAnonymized);
             }
         }
-
-        if ($this->config->anonymizeReferrer === ReferrerAnonymizer::EXCLUDE_ALL) {
-            $request->setParam('urlref', '');
-        }
     }
 
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
+        $type = $visitProperties->getProperty('referer_type');
+
+        // we do not anonymise the referrer url in manipulateRequest because otherwise the referrer would not be detected
+        // correctly
         $url = $visitProperties->getProperty('referer_url');
         $url = $this->referrerAnonymizer->anonymiseReferrerUrl($url, $this->config->anonymizeReferrer);
         $visitProperties->setProperty('referer_url', $url);
+
+        $name = $visitProperties->getProperty('referer_name');
+        $name = $this->referrerAnonymizer->anonymiseReferrerName($name, $type, $this->config->anonymizeReferrer);
+        $visitProperties->setProperty('referer_name', $name);
+
+        $keyword = $visitProperties->getProperty('referer_keyword');
+        $keyword = $this->referrerAnonymizer->anonymiseReferrerKeyword($keyword, $type, $this->config->anonymizeReferrer);
+        $visitProperties->setProperty('referer_keyword', $keyword);
     }
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
+        if (isset($valuesToUpdate['referer_type'])){
+            $type = $valuesToUpdate['referer_type'];
+        } else {
+            $type = $visitProperties->getProperty('referer_type');
+        }
+
         if (isset($valuesToUpdate['referer_url'])) {
             $valuesToUpdate['referer_url'] = $this->referrerAnonymizer->anonymiseReferrerUrl($valuesToUpdate['referer_url'], $this->config->anonymizeReferrer);
+        }
+
+        if (isset($valuesToUpdate['referer_name'])) {
+            $valuesToUpdate['referer_name'] = $this->referrerAnonymizer->anonymiseReferrerName($valuesToUpdate['referer_name'], $type, $this->config->anonymizeReferrer);
+        }
+
+        if (isset($valuesToUpdate['referer_keyword'])) {
+            $valuesToUpdate['referer_keyword'] = $this->referrerAnonymizer->anonymiseReferrerKeyword($valuesToUpdate['referer_url'], $type, $this->config->anonymizeReferrer);
         }
     }
 

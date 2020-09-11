@@ -38,7 +38,6 @@ class AnonymizeReferrerTest extends \PHPUnit\Framework\TestCase
     {
         return array(
             ['', 'https://foo.com/bar/baz?hello=world', ReferrerAnonymizer::EXCLUDE_ALL,],
-            ['', 'https://foo.com/bar/baz?hello=world', ReferrerAnonymizer::EXCLUDE_URL,],
             ['https://foo.com/bar/baz/', 'https://foo.com/bar/baz/?hello=world', ReferrerAnonymizer::EXCLUDE_QUERY,],
             ['https://foo.com/bar/baz', 'https://foo.com/bar/baz?hello=world', ReferrerAnonymizer::EXCLUDE_QUERY,],
             ['https://foo.com/bar/baz', 'https://foo.com/bar/baz', ReferrerAnonymizer::EXCLUDE_QUERY,],
