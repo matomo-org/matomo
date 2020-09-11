@@ -520,7 +520,7 @@ class ModelTest extends IntegrationTestCase
         $table = Common::prefixTable('archive_invalidations');
         foreach ($invalidations as $invalidation) {
             $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`) VALUES (?, ?, ?, ?, ?)";
-            Db::query($sql, [1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name']]);
+            Db::query($sql, [$invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name']]);
         }
     }
 }
