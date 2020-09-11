@@ -147,15 +147,9 @@ class Updater
                 // in case this works. For explample $response is in this case not an array but a string because the "communcation"
                 // with the controller went wrong: "Got invalid response from API request: https://ABC/?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=ABC. Response was \'curl_exec: SSL certificate problem: unable to get local issuer certificate. Hostname requested was: ABC"
                 try {
-                    $response = null;
-                    Context::executeWithQueryParameters(array('nonce' => $nonce), function () use (&$response) {
-                        $response = FrontController::getInstance()->dispatch('CoreUpdater', 'oneClickUpdatePartTwo', array($sendHeader = false));
-                    });
-                    if (!empty($response)) {
-                        $response = @json_decode($response, $assoc = true);
-                        if (!empty($response) && is_array($response)) {
-                            $messages = array_merge($messages, $response);
-                        }
+                    $response = $this->oneClickUpdatePartTwo($newVersion);
+                    if (!empty($response) && is_array($response)) {
+                        $messages = array_merge($messages, $response);
                     }
                 } catch (Exception $e) {
                     // ignore any error should this fail too. this might be the case eg if
@@ -179,7 +173,7 @@ class Updater
         return $messages;
     }
 
-    public function oneClickUpdatePartTwo()
+    public function oneClickUpdatePartTwo($newVersion = null)
     {
         $messages = [];
 
@@ -189,8 +183,10 @@ class Updater
             return $messages;
         }
 
-        $newVersion = Version::VERSION;
-
+        if (!isset($newVersion)) {
+            $newVersion = Version::VERSION;
+        }
+        
         // we also need to make sure to create a new instance here as otherwise we would change the "global"
         // environment, but we only want to change piwik version temporarily for this task here
         $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
@@ -299,6 +295,12 @@ class Updater
 
     private function disableIncompatiblePlugins($version)
     {
+        $pluginManager = PluginManager::getInstance();
+        $plugins = $pluginManager->getLoadedPlugins();
+        foreach ($plugins as $plugin) {
+            $plugin->reloadPluginInformation();
+        }
+        
         $incompatiblePlugins = $this->getIncompatiblePlugins($version);
         $disabledPluginNames = array();
 

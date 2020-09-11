@@ -97,7 +97,6 @@ class Controller extends \Piwik\Plugin\Controller
             'node_modules/materialize-css/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Morpheus/javascripts/piwikHelper.js',
-            'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
             'node_modules/angular/angular.min.js',
             'node_modules/angular-sanitize/angular-sanitize.min.js',
@@ -173,15 +172,13 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function oneClickUpdatePartTwo($sendHeader = true)
+    public function oneClickUpdatePartTwo()
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
 
-        if ($sendHeader) {
-            Json::sendHeaderJSON();
-        }
+        Json::sendHeaderJSON();
 
         $task = "Couldn't update Marketplace plugins.";
 

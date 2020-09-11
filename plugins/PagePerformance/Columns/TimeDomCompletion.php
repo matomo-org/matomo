@@ -21,8 +21,11 @@ use Piwik\Tracker\Visitor;
 
 class TimeDomCompletion extends ActionDimension
 {
-    protected $columnName = 'time_dom_completion';
-    protected $columnType = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_NAME = 'time_dom_completion';
+
+    protected $columnName = self::COLUMN_NAME;
+    protected $columnType = self::COLUMN_TYPE;
     protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeDomCompletion';
 
