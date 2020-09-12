@@ -725,6 +725,46 @@ class Model
         Db::query($sql);
     }
 
+    public function removeInvalidationsLike($idSite, $start)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "DELETE FROM `$table` WHERE idsite = ? AND `name` LIKE ?";
+
+        Db::query($sql, [$idSite, 'done.' . str_replace('_', "\\_", $start) . '%']);
+    }
+
+    public function removeInvalidations($idSite, $plugin, $report)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "DELETE FROM `$table` WHERE idsite = ? AND `name` = ? AND report = ?";
+
+        Db::query($sql, [$idSite, 'done.' . $plugin, $report]);
+    }
+
+    public function isArchiveAlreadyInProgress($invalidatedArchive)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $bind = [
+            $invalidatedArchive['idsite'],
+            $invalidatedArchive['date1'],
+            $invalidatedArchive['date2'],
+            $invalidatedArchive['period'],
+            $invalidatedArchive['name'],
+        ];
+
+        $reportClause = "(report = '' OR report IS NULL)";
+        if (!empty($invalidatedArchive['report'])) {
+            $reportClause = "report = ?";
+            $bind[] = $invalidatedArchive['report'];
+        }
+
+        $sql = "SELECT MAX(idinvalidation) FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ? AND status = 1 AND $reportClause";
+
+        $inProgressInvalidation = Db::fetchOne($sql, $bind);
+        return $inProgressInvalidation;
+    }
+
     /**
      * Returns true if there is an archive that exists that can be used when aggregating an archive for $period.
      *

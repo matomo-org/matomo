@@ -212,10 +212,10 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date1' => '2018-03-04',
                     'date2' => '2018-03-04',
                     'period' => '1',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'name' => 'done',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
+                    'segment' => '',
                 ),
             ),
             array (

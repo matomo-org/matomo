@@ -179,15 +179,6 @@ class QueueConsumer
                 continue;
             }
 
-            if ($this->hasDifferentDoneFlagType($archivesToProcess, $invalidatedArchive['name'])) {
-                $this->logger->debug("Found archive with different done flag type (segment vs. no segment) in concurrent batch, skipping until next batch: $invalidationDesc");
-
-                $idinvalidation = $invalidatedArchive['idinvalidation'];
-                $invalidationsToExcludeInBatch[$idinvalidation] = true;
-
-                continue;
-            }
-
             if ($invalidatedArchive['segment'] === null) {
                 $this->logger->debug("Found archive for segment that is not auto archived, ignoring: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
@@ -226,6 +217,18 @@ class QueueConsumer
             if ($this->usableArchiveExists($invalidatedArchive)) {
                 $this->logger->debug("Found invalidation with usable archive (not yet outdated) skipping until archive is out of date: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
+                continue;
+            }
+
+            $alreadyInProgressId = $this->model->isArchiveAlreadyInProgress($invalidatedArchive);
+            if ($alreadyInProgressId) {
+                $this->addInvalidationToExclude($invalidatedArchive);
+                if ($alreadyInProgressId < $invalidatedArchive['idinvalidation']) {
+                    $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idinvalidation']}, invalidation already in progress. Since in progress is older, not removing invalidation.");
+               } else if ($alreadyInProgressId > $invalidatedArchive['idinvalidation']) {
+                    $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idinvalidation']}, invalidation already in progress. Since in progress is newer, will remove invalidation.");
+                    $this->model->deleteInvalidations([$invalidatedArchive['idinvalidation']]);
+                }
                 continue;
             }
 
@@ -462,18 +465,6 @@ class QueueConsumer
 
         $archive['segment'] = $storedSegment['definition'];
         return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
-    }
-
-    private function hasDifferentDoneFlagType(array $archivesToProcess, $name)
-    {
-        if (empty($archivesToProcess)) {
-            return false;
-        }
-
-        $existingDoneFlagType = $this->getDoneFlagType($archivesToProcess[0]['name']);
-        $newArchiveDoneFlagType = $this->getDoneFlagType($name);
-
-        return $existingDoneFlagType != $newArchiveDoneFlagType;
     }
 
     private function getPluginNameForArchiveIfAny($archive)
