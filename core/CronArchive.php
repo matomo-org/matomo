@@ -170,6 +170,8 @@ class CronArchive
 
     private $formatter;
 
+    private $lastDbReset = false;
+
     /**
      * @var SegmentArchiving
      */
@@ -369,6 +371,8 @@ class CronArchive
             $numArchivesFinished += $successCount;
         }
 
+        $this->disconnectDb();
+
         $this->logger->info("Done archiving!");
 
         $this->logSection("SUMMARY");
@@ -436,6 +440,9 @@ class CronArchive
         $cliMulti->timeRequests();
 
         $responses = $cliMulti->request($urls);
+        
+        $this->disconnectDb();
+        
         $timers = $cliMulti->getTimers();
         $successCount = 0;
 
@@ -575,6 +582,8 @@ class CronArchive
             return;
         }
 
+        $this->disconnectDb();
+
         // TODO: this is a HACK to get the purgeOutdatedArchives task to work when run below. without
         //       it, the task will not run because we no longer run the tasks through CliMulti.
         //       harder to implement alternatives include:
@@ -586,6 +595,18 @@ class CronArchive
         CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
         $this->logSection("");
+    }
+
+    private function disconnectDb()
+    {
+        $twoHoursInSeconds = 60 * 60 * 2;
+
+        if (time() > ($this->lastDbReset + $twoHoursInSeconds)) {
+            // we aim to through DB connections away only after 2 hours
+            $this->lastDbReset = time();
+            Db::destroyDatabaseObject();
+            Tracker::disconnectCachedDbConnection();
+        }
     }
 
     /**
