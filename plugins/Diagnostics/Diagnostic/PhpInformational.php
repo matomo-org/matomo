@@ -55,6 +55,7 @@ class PhpInformational implements Diagnostic
         $results[] = DiagnosticResult::informationalResult('PHP Datetime', Date::now()->getDatetime());
 
         $disabled_functions = ini_get('disable_functions');
+        $disabled_functions = implode(", ", explode(",", $disabled_functions));
         if (!empty($disabled_functions)) {
             $results[] = DiagnosticResult::informationalResult('PHP Disabled functions', $disabled_functions);
         }
