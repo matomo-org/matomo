@@ -9,39 +9,22 @@
         {% endif %}
     </div>
 
-    <span id="piwik-worth">{{ 'CoreHome_HowMuchIsPiwikWorth'|translate }}</span>
+    <span id="piwik-worth">{{ 'CoreHome_SupportUsOn'|translate }}</span>
 
-    <div class="donate-form-instructions">({{ 'CoreHome_DonateFormInstructions'|translate }})</div>
+    <ul class="browser-default">
+        <li><a href="https://www.patreon.com/matomo" target="_blank" rel="noreferrer noopener">Patreon</a></li>
+        <li><a href="https://ko-fi.com/matomo" target="_blank" rel="noreferrer noopener">Ko-fi</a></li>
+        <li><a href="https://liberapay.com/Matomo" target="_blank" rel="noreferrer noopener">Liberapay</a></li>
+        <li><a href="https://opencollective.com/matomo-analytics" target="_blank" rel="noreferrer noopener">Open Collective</a></li>
+        <li><a href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=RPL23NJURMTFA" target="_blank" rel="noreferrer noopener">PayPal</a></li>
+    </ul>
 
-    <form action="index.php?module=CoreHome&action=redirectToPaypal&idSite=1" method="post" target="_blank">
-        <div class="piwik-donate-slider">
-            <div class="slider-range">
-                <div class="slider-position"></div>
-            </div>
-            <div style="display:inline-block;float:right;">
-                <div class="slider-donate-amount">$30/{{ 'Intl_Year_Short'|translate }}</div>
+    <p style="margin-top: 1em;">
+        {{ 'CoreHome_YourDonationWillHelp'|translate }}
+        <br><br>
+        <strong>{{ 'CoreHome_ThanksFromAllOfUs'|translate }}</strong>
+    </p>
 
-                <img class="slider-smiley-face" width="40" height="40" src="plugins/Morpheus/images/smileyprog_1.png"/>
-            </div>
-
-            <input type="hidden" name="os0" value="Option 1"/>
-        </div>
-
-        <div class="donate-submit">
-            <input type="image" src="plugins/Morpheus/images/paypal_subscribe.png" border="0" name="submit"
-                title="{{ 'CoreHome_SubscribeAndBecomePiwikSupporter'|translate }}"/>
-			<a class="donate-spacer">{{ 'CoreHome_MakeOneTimeDonation'|translate }}</a>
-            <a href="index.php?module=CoreHome&action=redirectToPaypal&idSite=1&onetime=true"
-               rel="noreferrer noopener" target="_blank" class="donate-one-time">{{ 'CoreHome_MakeOneTimeDonation'|translate }}</a>
-        </div>
-
-        <!-- to cache images -->
-        <img style="display:none;" src="plugins/Morpheus/images/smileyprog_0.png"/>
-        <img style="display:none;" src="plugins/Morpheus/images/smileyprog_1.png"/>
-        <img style="display:none;" src="plugins/Morpheus/images/smileyprog_2.png"/>
-        <img style="display:none;" src="plugins/Morpheus/images/smileyprog_3.png"/>
-        <img style="display:none;" src="plugins/Morpheus/images/smileyprog_4.png"/>
-    </form>
     {% if footerMessage is defined %}
         <div class="form-description">
             {{ footerMessage }}

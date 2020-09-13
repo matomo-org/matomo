@@ -34,6 +34,7 @@ use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Measurable\Type;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Piwik\DataAccess\Model as CoreModel;
 
 /**
  * The SitesManager API gives you full control on Websites in Matomo (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -781,6 +782,9 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->getModel()->deleteSite($idSite);
+
+        $coreModel = new CoreModel();
+        $coreModel->deleteInvalidationsForSites([$idSite]);
 
         /**
          * Triggered after a site has been deleted.

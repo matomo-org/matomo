@@ -21,6 +21,7 @@ use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
+use Piwik\Session\SessionInitializer;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -401,7 +402,18 @@ class FrontController extends Singleton
         // ... if session auth fails try normal auth (which will login the anonymous user)
         if (!$loggedIn) {
             $authAdapter = $this->makeAuthenticator();
-            Access::getInstance()->reloadAccess($authAdapter);
+            $success = Access::getInstance()->reloadAccess($authAdapter);
+
+            if ($success
+                && Piwik::isUserIsAnonymous()
+                && $authAdapter->getLogin() === 'anonymous' //double checking the login
+                && Piwik::isUserHasSomeViewAccess()
+                && Session::isSessionStarted()) { // only if session was started, don't do it eg for API
+                // usually the session would be started when someone logs in using login controller. But in this
+                // case we need to init session here for anoynymous users
+                $init = StaticContainer::get(SessionInitializer::class);
+                $init->initSession($authAdapter);
+            }
         } else {
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }

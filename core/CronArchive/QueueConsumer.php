@@ -22,6 +22,7 @@ use Piwik\Period;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Timer;
@@ -122,6 +123,12 @@ class QueueConsumer
 
     public function getNextArchivesToProcess()
     {
+        // in case a site is deleted while archiving is running
+        if (!empty($this->idSite) && !$this->isSiteExists($this->idSite)) {
+            $this->logger->debug("Site ID = {$this->idSite} was deleted during archiving process, moving on.");
+            $this->idSite = null;
+        }
+
         if (empty($this->idSite)) {
             $this->idSite = $this->getNextIdSiteToArchive();
             if (empty($this->idSite)) { // no sites left to archive, stop
@@ -538,5 +545,11 @@ class QueueConsumer
 
         $idArchive = $archiveIdAndVisits[0];
         return !empty($idArchive);
+    }
+
+    private function isSiteExists($idSite)
+    {
+        $site = API::getInstance()->getSiteFromId($idSite);
+        return !empty($site);
     }
 }

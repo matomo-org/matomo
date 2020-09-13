@@ -19,7 +19,7 @@ class GetLanguageCode extends GetLanguage
         parent::init();
         $this->dimension     = new Language();
         $this->name          = Piwik::translate('UserLanguage_LanguageCode');
-        $this->documentation = '';
+        $this->documentation = Piwik::translate('UserLanguage_getLanguageCodeDocumentation');
         $this->order = 11;
     }
 

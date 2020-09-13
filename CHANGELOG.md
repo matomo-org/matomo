@@ -16,6 +16,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
 * Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
 * The visitor ID cookie now contains less data (due to the _idvc, _idts, _viewts and _ects tracking parameters no longer being used). This is a breaking change if you use the Matomo PHP Tracker and forward the visitor cookie to it, and you will need to upgrade the PHP tracker to use with Matomo 4.
+* The tracker method `setVisitStandardLength` has been removed as there is no need for it anymore.
 
 #### Deprecations in Matomo JS tracker
 
