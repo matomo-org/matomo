@@ -23,7 +23,7 @@
         "AverageX": "Média %s",
         "BackToPiwik": "Volta ao Matomo",
         "Broken": "Quebrado",
-        "BrokenDownReportDocumentation": "Subdividem-se em vários relatórios, que são exibidos em sparklines na parte inferior da página. Você pode ampliar os gráficos, clicando no relatório que gostaria de ver.",
+        "BrokenDownReportDocumentation": "Subdividem-se em vários relatórios, que são exibidos em minigráficos na parte inferior da página. Você pode ampliar os gráficos, clicando no relatório que gostaria de ver.",
         "Cancel": "Cancelar",
         "CannotUnzipFile": "Não pode descompactar o arquivo %1$s: %2$s",
         "ChangePassword": "Modificar senha",
@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s.",
         "Custom": "Personalizado",
         "PreviousPeriod": "Período anterior",
-        "PreviousYear": "Ano anterior"
+        "PreviousYear": "Ano anterior",
+        "ViewAccessRequired": "O token_auth usado tem muito acesso para ser usado em um pedido URL não-API. Por favor use uma senha específica do aplicativo para um usuário que só tenha acesso para visualização."
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Móvel",

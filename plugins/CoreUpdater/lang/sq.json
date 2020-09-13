@@ -7,6 +7,7 @@
         "DisablingIncompatiblePlugins": "Po çaktivizohen shtojca të papërputhshme: %s",
         "DownloadingUpdateFromX": "Po shkarkohet përditësimi prej %s",
         "DownloadX": "Shkarko %s",
+        "UpdateLog": "Regjistër përditësimesh",
         "EmptyDatabaseError": "Baza e të dhënave %s është e zbrazët. Kartelën tuaj të formësimit të Matomo-s duhet ta përpunoni ose ta hiqni.",
         "ErrorDIYHelp": "Nëse jeni përdorues i përparuar dhe hasni një gabim në përditësimin e bazës së të dhënave:",
         "ErrorDIYHelp_1": "identifikoni dhe ndreqni burimin e problemit (p.sh., memory_limit ose max_execution_time)",

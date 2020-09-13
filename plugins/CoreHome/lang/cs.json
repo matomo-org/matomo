@@ -20,7 +20,6 @@
         "DonateCall1": "Matomo lze používat zadarmo, to ale neznamená, že jeho vývoj nic nestojí.",
         "DonateCall2": "Matomo potřebuje Vaši podporu, aby mohl růst a prosperovat.",
         "DonateCall3": "Pokud se domníváte, že vám Matomo významně pomohl při vašem podnikání nebo projektu, %1$sprosím zvažte příspěvek%2$s nebo %3$szakoupení prémiové funkce%4$s. Každý cent pomůže.",
-        "DonateFormInstructions": "Klikněte na posuvník ke zvolení částky, poté klikněte na tlačítko Subscribe.",
         "EndShortcut": "Konec",
         "EnterZenMode": "Vstup do režimu Zen (skrýt nabídky)",
         "ExitZenMode": "Ukončit režim Zen (zobrazit nabídky)",
@@ -32,7 +31,6 @@
         "ShowExportUrl": "Zobrazit URL exportu",
         "HideExportUrl": "Skrýt URL exportu",
         "HomeShortcut": "Domů",
-        "HowMuchIsPiwikWorth": "Jak moc si ceníte Matomou?",
         "IncludeRowsWithLowPopulation": "Řádky s nízkou populací jsou skryty %s Zobrazit všechny řádky",
         "InjectedHostEmailBody": "Ahoj. Dnes jsem se snažil dostat do \\Matomou a dostal jsem varování o neznámém ménu hostitele.",
         "InjectedHostEmailSubject": "K Matomo bylo přistupováno s neznámým jménem hostitele %s",
@@ -45,7 +43,6 @@
         "VisitTypeReturning": "Návraty",
         "VisitTypeReturningCustomer": "Věrný zákazník",
         "MainNavigation": "Hlavní navigace",
-        "MakeOneTimeDonation": "Provést jednorázový dar.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Jste přihlášen jako '%1$s' ale zdá se, že nemáte v Matomo žádná práva. %2$s Zeptejte se Vašeho Matomo administrátora (klikem na email)%3$s aby Vám dal 'view' přístup na stránku.",
         "OnlyForSuperUserAccess": "Tento widget je na výchozí nástěnce zobrazen pouze pro uživatele se super uživatelským přístupem",
@@ -109,6 +106,7 @@
         "ReportWithMetadata": "Report s metadaty",
         "ReadMoreOnlineGuide": "Další informace o tomto tématu naleznete v online příručce.",
         "SeeAvailableVersions": "Prohlédnout dostupné verze",
-        "QuickLinks": "Rychlé odkazy"
+        "QuickLinks": "Rychlé odkazy",
+        "Profilable": "Profilovatelné"
     }
 }
