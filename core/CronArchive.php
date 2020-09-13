@@ -391,8 +391,6 @@ class CronArchive
 
     private function launchArchivingFor($archives)
     {
-        $this->disconnectDb();
-
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
@@ -442,6 +440,9 @@ class CronArchive
         $cliMulti->timeRequests();
 
         $responses = $cliMulti->request($urls);
+        
+        $this->disconnectDb();
+        
         $timers = $cliMulti->getTimers();
         $successCount = 0;
 
