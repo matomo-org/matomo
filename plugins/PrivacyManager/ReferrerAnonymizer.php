@@ -80,7 +80,11 @@ class ReferrerAnonymizer
 
     public function anonymiseReferrerUrl($url, $anonymizeOption)
     {
-        if (empty($url)) {
+        if ($anonymizeOption === self::EXCLUDE_NONE) {
+            return $url;
+        }
+
+        if (!is_string($url) && !is_numeric($url)) {
             return $url;
         }
 
@@ -92,7 +96,12 @@ class ReferrerAnonymizer
                 $urlParts = @parse_url($url);
                 if (!empty($urlParts['host']) && !empty($urlParts['path'])) {
                     $scheme = $urlParts['scheme'] ?? '';
-                    $url =  $scheme . '://' . $urlParts['host'] . '/';
+                    if ($scheme) {
+                        $scheme .= '://';
+                    } elseif (strpos($url, '//') === 0) {
+                        $scheme = '//';
+                    }
+                    $url =  $scheme . $urlParts['host'] . '/';
                 }
                 break;
             case self::EXCLUDE_ALL:
