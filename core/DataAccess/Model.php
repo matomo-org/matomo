@@ -652,6 +652,27 @@ class Model
             return false; // we couldn't claim the lock, archive is in progress
         }
 
+        // remove similar invalidations w/ lesser idinvalidation values
+        $bind = [
+            $invalidation['idsite'],
+            $invalidation['period'],
+            $invalidation['date1'],
+            $invalidation['date2'],
+            $invalidation['name'],
+            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+        ];
+
+        if (empty($invalidation['report'])) {
+            $reportClause = "(report IS NULL OR report = '')";
+        } else {
+            $reportClause = "report = ?";
+            $bind[] = $invalidation['report'];
+        }
+
+        $sql = "DELETE FROM " . Common::prefixTable('archive_invalidations') . " WHERE idinvalidation < ? AND idsite = ? AND "
+            . "date1 = ? AND date2 = ? AND `period` = ? AND `name` = ? AND $reportClause";
+        Db::query($sql, $bind);
+
         return true;
     }
 
@@ -704,7 +725,9 @@ class Model
             $sql .= " AND idinvalidation NOT IN (" . implode(',', $idInvalidationsToExclude) . ')';
         }
 
-        $sql .= " ORDER BY date1 DESC, period ASC, CHAR_LENGTH(name) ASC, idinvalidation ASC";
+        // NOTE: order here is very important to ensure we process lower period archives first, and general 'all' archives before
+        // segment archives, and so we use the latest idinvalidation
+        $sql .= " ORDER BY date1 DESC, period ASC, CHAR_LENGTH(name) ASC, idinvalidation DESC";
 
         if ($useLimit) {
             $sql .= " LIMIT 1";
