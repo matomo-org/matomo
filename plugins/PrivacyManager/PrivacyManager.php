@@ -192,7 +192,7 @@ class PrivacyManager extends Plugin
 
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
-        if ($view->requestConfig->getApiModuleToRequest() === 'Referrers') {
+        if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
             $config = new Config();
             if ($config->anonymizeReferrer == ReferrerAnonymizer::EXCLUDE_NONE) {
                 return;

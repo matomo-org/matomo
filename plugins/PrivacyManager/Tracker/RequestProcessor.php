@@ -83,7 +83,7 @@ class RequestProcessor extends Tracker\RequestProcessor
         }
 
         if (isset($valuesToUpdate['referer_keyword'])) {
-            $valuesToUpdate['referer_keyword'] = $this->referrerAnonymizer->anonymiseReferrerKeyword($valuesToUpdate['referer_url'], $type, $this->config->anonymizeReferrer);
+            $valuesToUpdate['referer_keyword'] = $this->referrerAnonymizer->anonymiseReferrerKeyword($valuesToUpdate['referer_keyword'], $type, $this->config->anonymizeReferrer);
         }
     }
 

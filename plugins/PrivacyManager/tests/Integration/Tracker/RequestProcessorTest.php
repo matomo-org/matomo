@@ -98,7 +98,7 @@ class RequestProcessorTest extends IntegrationTestCase
     public function test_onExistingVisit_anonymiseReferrer_byDefaultNothingAnonymised()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_NONE;
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
         $request = $this->makeRequest([]);
         $update = $visit->getProperties();
         $this->requestProcessor->onExistingVisit($update, $visit, $request);
