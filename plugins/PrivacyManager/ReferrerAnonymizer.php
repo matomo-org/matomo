@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**
@@ -24,10 +25,10 @@ class ReferrerAnonymizer
     public function getAvailableAnonymizationOptions()
     {
         return array(
-            self::EXCLUDE_NONE => 'Don\'t anonymize the referrer',
-            self::EXCLUDE_QUERY => 'Remove query parameters from referrer URL',
-            self::EXCLUDE_PATH => 'Keep only the domain of a referrer URL',
-            self::EXCLUDE_ALL => "Don't record the referrer URL but still detect the type of referrer."
+            self::EXCLUDE_NONE => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeNone'),
+            self::EXCLUDE_QUERY => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeQuery'),
+            self::EXCLUDE_PATH => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludePath'),
+            self::EXCLUDE_ALL => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeAll')
             // but try to track the type still
         );
     }
