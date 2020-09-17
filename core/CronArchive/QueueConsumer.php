@@ -153,6 +153,11 @@ class QueueConsumer
             $this->siteRequests = 0;
         }
 
+        // check if we need to process invalidations
+        // NOTE: we do this on every iteration so we don't end up processing say a single user entered invalidation,
+        // and then stop until the next hour.
+        $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($this->idSite);
+
         // we don't want to invalidate different periods together or segment archives w/ no-segment archives
         // together, but it's possible to end up querying these archives. if we find one, we keep track of it
         // in this array to exclude, but after we run the current batch, we reset the array so we'll still
@@ -318,13 +323,6 @@ class QueueConsumer
 
     private function getNextInvalidatedArchive($idSite, $extraInvalidationsToIgnore)
     {
-        $lastInvalidationTime = CronArchive::getLastInvalidationTime();
-        if (empty($lastInvalidationTime)
-            || (time() - $lastInvalidationTime) >= 3600
-        ) {
-            $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
-        }
-
         $iterations = 0;
         while ($iterations < 100) {
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);

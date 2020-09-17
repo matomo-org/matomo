@@ -344,9 +344,6 @@ class CronArchive
         $queueConsumer = new QueueConsumer($this->logger, $this->websiteIdArchiveList, $countOfProcesses, $pid,
             $this->model, $this->segmentArchiving, $this, $this->cliMultiRequestParser, $this->archiveFilter);
 
-        // invalidate once at the start no matter when the last invalidation occurred
-        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
-
         while (true) {
             if ($this->isMaintenanceModeEnabled()) {
                 $this->logger->info("Archiving will stop now because maintenance mode is enabled");
@@ -736,8 +733,13 @@ class CronArchive
         return CoreAdminHomeAPI::getInstance();
     }
 
-    public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain()
+    public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
     {
+        if ($this->model->isInvalidationsScheduledForSite($idSiteToInvalidate)) {
+            $this->logger->debug("Invalidations currently exist for idSite $idSiteToInvalidate, skipping invalidating for now...");
+            return;
+        }
+
         $this->logger->info("Checking for queued invalidations...");
 
         // invalidate remembered site/day pairs
@@ -752,6 +754,10 @@ class CronArchive
 
             $siteIdsToInvalidate = [];
             foreach ($siteIds as $idSite) {
+                if ($idSite != $idSiteToInvalidate) {
+                    continue;
+                }
+
                 $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
                 if ($this->isThereExistingValidPeriod($params)) {
                     $this->logger->info('  Found usable archive for date range {date} for site {idSite}, skipping invalidation for now.', ['date' => $date, 'idSite' => $idSite]);
@@ -776,56 +782,52 @@ class CronArchive
         }
 
         // invalidate today if needed for all websites
-        $this->invalidateRecentDate('today');
+        $this->invalidateRecentDate('today', $idSiteToInvalidate);
 
         // invalidate yesterday archive if the time of the latest valid archive is earlier than today
         // (means the day has changed and there might be more visits that weren't processed)
-        $this->invalidateRecentDate('yesterday');
+        $this->invalidateRecentDate('yesterday', $idSiteToInvalidate);
 
         // invalidate range archives
-        foreach ($this->allWebsites as $idSite) {
-            $dates = $this->getCustomDateRangeToPreProcess($idSite);
+        $dates = $this->getCustomDateRangeToPreProcess($idSiteToInvalidate);
 
-            foreach ($dates as $date) {
-                try {
-                    $period = PeriodFactory::build('range', $date);
-                } catch (\Exception $ex) {
-                    $this->logger->debug("  Found invalid range date in [General] archiving_custom_ranges: {date}", ['date' => $date]);
-                    continue;
-                }
-
-                $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
-                if ($this->isThereExistingValidPeriod($params)) {
-                    $this->logger->info('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSite]);
-                    continue;
-                }
-
-                $this->logger->info('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSite, 'date' => $date]);
-
-                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
+        foreach ($dates as $date) {
+            try {
+                $period = PeriodFactory::build('range', $date);
+            } catch (\Exception $ex) {
+                $this->logger->debug("  Found invalid range date in [General] archiving_custom_ranges: {date}", ['date' => $date]);
+                continue;
             }
+
+            $params = new Parameters(new Site($idSiteToInvalidate), $period, new Segment('', [$idSiteToInvalidate], $period->getDateStart(), $period->getDateEnd()));
+            if ($this->isThereExistingValidPeriod($params)) {
+                $this->logger->info('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSiteToInvalidate]);
+                continue;
+            }
+
+            $this->logger->info('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
+
+            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
         }
 
         // for new segments, invalidate past dates
-        foreach ($this->allWebsites as $idSite) {
-            $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidateForNewSegments($idSite);
+        $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidateForNewSegments($idSiteToInvalidate);
 
-            foreach ($segmentDatesToInvalidate as $info) {
-                $this->logger->info('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
-                    'segment' => $info['segment'],
-                    'idSite' => $idSite,
-                ]);
+        foreach ($segmentDatesToInvalidate as $info) {
+            $this->logger->info('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
+                'segment' => $info['segment'],
+                'idSite' => $idSiteToInvalidate,
+            ]);
 
-                $earliestDate = $info['date'];
+            $earliestDate = $info['date'];
 
-                $allDates = PeriodFactory::build('range', $earliestDate . ',today')->getSubperiods();
-                $allDates = array_map(function (Period $p) {
-                    return $p->getDateStart()->toString();
-                }, $allDates);
-                $allDates = implode(',', $allDates);
+            $allDates = PeriodFactory::build('range', $earliestDate . ',today')->getSubperiods();
+            $allDates = array_map(function (Period $p) {
+                return $p->getDateStart()->toString();
+            }, $allDates);
+            $allDates = implode(',', $allDates);
 
-                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $allDates, $period = false, $info['segment']);
-            }
+            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, $allDates, $period = false, $info['segment']);
         }
 
         $this->setInvalidationTime();
@@ -833,32 +835,31 @@ class CronArchive
         $this->logger->info("Done invalidating");
     }
 
-    private function invalidateRecentDate($dateStr)
+    private function invalidateRecentDate($dateStr, $idSite)
     {
         $isYesterday = $dateStr == 'yesterday';
-        foreach ($this->allWebsites as $idSite) {
-            $date = Date::factory($dateStr);
-            $period = PeriodFactory::build('day', $date);
 
-            $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
-            if ($this->isThereExistingValidPeriod($params, $isYesterday)) {
-                $this->logger->debug("  Found existing valid archive for $dateStr, skipping invalidation...");
-                continue;
-            }
+        $date = Date::factory($dateStr);
+        $period = PeriodFactory::build('day', $date);
 
-            $loader = new Loader($params);
-            if ($loader->canSkipThisArchive()) {
-                $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits for idSite = $idSite, skipping invalidation...");
-                continue;
-            }
-
-            $this->logger->info("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
-                'idSite' => $idSite,
-                'date' => $date->getDatetime(),
-            ]);
-
-            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date->toString(), 'day');
+        $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
+        if ($this->isThereExistingValidPeriod($params, $isYesterday)) {
+            $this->logger->debug("  Found existing valid archive for $dateStr, skipping invalidation...");
+            return;
         }
+
+        $loader = new Loader($params);
+        if ($loader->canSkipThisArchive()) {
+            $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits for idSite = $idSite, skipping invalidation...");
+            return;
+        }
+
+        $this->logger->info("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
+            'idSite' => $idSite,
+            'date' => $date->getDatetime(),
+        ]);
+
+        $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date->toString(), 'day');
     }
 
     public function isThereExistingValidPeriod(Parameters $params, $isYesterday = false)

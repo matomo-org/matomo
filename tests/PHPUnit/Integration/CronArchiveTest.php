@@ -152,7 +152,8 @@ class CronArchiveTest extends IntegrationTestCase
 
         $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
         $cronarchive->setApiToInvalidateArchivedReport($api);
-        $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+        $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+        $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(2);
 
         /**
          * should look like this but the result is random

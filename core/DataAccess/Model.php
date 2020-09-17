@@ -835,4 +835,12 @@ class Model
         $sql = "DELETE a FROM `$table` a LEFT JOIN `$siteTable` s ON a.idsite = s.idsite WHERE s.idsite IS NULL";
         Db::query($sql);
     }
+
+    public function isInvalidationsScheduledForSite($idSite)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
+        $value = Db::fetchOne($sql, [(int) $idSite]);
+        return !empty($value);
+    }
 }
