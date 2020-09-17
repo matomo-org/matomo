@@ -166,22 +166,20 @@ class Access
         if (($forceApiSessionPost && $isApiRequest) || ($forceApiSessionGet && $isApiRequest && $isGetApiRequest)) {
             $request = ($forceApiSessionGet && $isApiRequest && $isGetApiRequest) ? $_GET : $_POST;
             $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $request);
-            if ($tokenAuth !== '') {
-                Session::start();
-                $auth = StaticContainer::get(SessionAuth::class);
-                $auth->setTokenAuth($tokenAuth);
-                $result = $auth->authenticate();
-                if (!$result->wasAuthenticationSuccessful()) {
-                    /**
-                     * Ensures brute force logic to be executed
-                     * @ignore
-                     * @internal
-                     */
-                    Piwik::postEvent('API.Request.authenticate.failed');
-                }
-                Session::close();
-                // if not successful, we will fallback to regular auth
+            Session::start();
+            $auth = StaticContainer::get(SessionAuth::class);
+            $auth->setTokenAuth($tokenAuth);
+            $result = $auth->authenticate();
+            if (!$result->wasAuthenticationSuccessful()) {
+                /**
+                 * Ensures brute force logic to be executed
+                 * @ignore
+                 * @internal
+                 */
+                Piwik::postEvent('API.Request.authenticate.failed');
             }
+            Session::close();
+            // if not successful, we will fallback to regular auth
         }
 
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
