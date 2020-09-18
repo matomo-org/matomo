@@ -45,6 +45,7 @@ class QueueConsumerTest extends IntegrationTestCase
         });
 
         $cronArchive = new CronArchive();
+        $cronArchive->init();
 
         $archiveFilter = $this->makeTestArchiveFilter();
 
@@ -391,6 +392,7 @@ class QueueConsumerTest extends IntegrationTestCase
         Date::$now = strtotime('2020-04-05');
 
         $cronArchive = new CronArchive();
+        $cronArchive->init();
 
         $archiveFilter = $this->makeTestArchiveFilter();
 

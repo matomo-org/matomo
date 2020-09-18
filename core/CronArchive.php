@@ -767,6 +767,10 @@ class CronArchive
                 $siteIdsToInvalidate[] = $idSite;
             }
 
+            if (empty($siteIdsToInvalidate)) {
+                continue;
+            }
+
             $listSiteIds = implode(',', $siteIdsToInvalidate);
 
             try {
