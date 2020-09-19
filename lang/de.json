@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "Die maximale Anzahl von Zeiträumen die gleichzeitig verglichen werden können ist %s.",
         "Custom": "Benutzerdefiniert",
         "PreviousPeriod": "Vorheriger Zeitraum",
-        "PreviousYear": "vorheriges Jahr"
+        "PreviousYear": "vorheriges Jahr",
+        "ViewAccessRequired": "Der verwendete token_auth wurde zu oft für nicht-API URL Anfragen. Bitte verwenden Sie ein programmspezifisches Passwort für den Benutzer, der ausschliesslich über Ansichtszugriffe verfügt."
     },
     "Mobile": {
         "AboutPiwikMobile": "Über Matomo Mobile",

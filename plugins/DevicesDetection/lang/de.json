@@ -20,6 +20,8 @@
         "dataTableLabelModels": "Modell",
         "dataTableLabelSystemVersion": "Betriebssystem-Version",
         "dataTableLabelTypes": "Typ",
+        "ClientType": "Kundentyp",
+        "ClientTypes": "Kundentypen",
         "Device": "Gerät",
         "DeviceBrand": "Gerätemarke",
         "DeviceBrands": "Gerätemarken",
