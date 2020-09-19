@@ -163,14 +163,7 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
 
-        $sequence = new Sequence('ExamplePlugin_archiveCount');
-        $beforeCount = $sequence->getCurrentId();
-
         $output = $this->runArchivePhpCron(['-vvv' => null]);
-
-        $afterCount = $sequence->getCurrentId();
-
-        $this->assertNotEquals($beforeCount, $afterCount, 'example plugin archiving was not triggered');
 
         $this->runApiTests('ExamplePlugin.getExampleArchivedMetric', [
             'idSite' => 'all',
