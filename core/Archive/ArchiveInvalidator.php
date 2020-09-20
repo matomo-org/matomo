@@ -337,7 +337,7 @@ class ArchiveInvalidator
 
     private function getAllPeriodsByYearMonth($periodOrAll, $dates, $cascadeDown, &$result = [])
     {
-        $periods = $periodOrAll ? [$periodOrAll] : ['day', 'week', 'month', 'year'];
+        $periods = $periodOrAll ? [$periodOrAll] : ['day'];
         foreach ($periods as $period) {
             foreach ($dates as $date) {
                 $periodObj = $this->makePeriod($date, $period);

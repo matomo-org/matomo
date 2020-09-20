@@ -112,8 +112,11 @@ class Tasks extends \Piwik\Plugin\Tasks
             return;
         }
 
-        $cronArchive = new CronArchive();
-        $cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+        $idSites = Request::processRequest('SitesManager.getAllSitesId');
+        foreach ($idSites as $idSite) {
+            $cronArchive = new CronArchive();
+            $cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSite);
+        }
     }
 
     private function scheduleTrackingCodeReminderChecks()

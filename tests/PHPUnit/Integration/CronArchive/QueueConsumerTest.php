@@ -45,6 +45,7 @@ class QueueConsumerTest extends IntegrationTestCase
         });
 
         $cronArchive = new CronArchive();
+        $cronArchive->init();
 
         $archiveFilter = $this->makeTestArchiveFilter();
 
@@ -91,6 +92,14 @@ class QueueConsumerTest extends IntegrationTestCase
 
             // duplicates
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
         ];
 
@@ -187,16 +196,16 @@ class QueueConsumerTest extends IntegrationTestCase
                 ),
             ),
             array (
-                array ( // duplicate, processed but if in progress or recent should be skipped
+                array (
                     'idarchive' => '1',
                     'idsite' => '1',
                     'date1' => '2018-03-06',
                     'date2' => '2018-03-06',
                     'period' => '1',
-                    'name' => 'done',
+                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => '',
+                    'segment' => 'browserCode==IE',
                 ),
                 array (
                     'idarchive' => '1',
@@ -211,17 +220,6 @@ class QueueConsumerTest extends IntegrationTestCase
                 ),
             ),
             array (
-                array (
-                    'idarchive' => '1',
-                    'idsite' => '1',
-                    'date1' => '2018-03-06',
-                    'date2' => '2018-03-06',
-                    'period' => '1',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                    'report' => NULL,
-                    'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
-                ),
                 array (
                     'idarchive' => '1',
                     'idsite' => '1',
@@ -339,6 +337,18 @@ class QueueConsumerTest extends IntegrationTestCase
             print "\nInvalidations inserted:\n" . var_export($invalidations, true) . "\n";
             throw $ex;
         }
+
+        // automated ccheck for no duplicates
+        $invalidationDescs = [];
+        foreach ($iteratedInvalidations as $group) {
+            foreach ($group as $invalidation) {
+                unset($invalidation['idarchive']);
+                $invalidationDescs[] = implode('.', $invalidation);
+            }
+        }
+        $uniqueInvalidationDescs = array_unique($invalidationDescs);
+
+        $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
     }
 
     private function makeTestArchiveFilter($restrictToDateRange = null, $restrictToPeriods = null, $segmentsToForce = null, $disableSegmentsArchiving = false)
@@ -382,6 +392,7 @@ class QueueConsumerTest extends IntegrationTestCase
         Date::$now = strtotime('2020-04-05');
 
         $cronArchive = new CronArchive();
+        $cronArchive->init();
 
         $archiveFilter = $this->makeTestArchiveFilter();
 
