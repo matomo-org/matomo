@@ -4241,7 +4241,6 @@ if ($mysql) {
             // test ping not sent on focus
             tracker.enableHeartBeatTimer();
             tracker.setCustomData('token', 7 + tokenBase);
-            tracker.setVisitStandardLength(5);
 
             return Q.delay(6000); // should not send a tracking request because of visit standard length reached
         }).then(function () {
