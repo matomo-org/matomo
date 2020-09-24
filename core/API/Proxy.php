@@ -18,6 +18,13 @@ use Piwik\Plugin\Manager;
 use ReflectionClass;
 use ReflectionMethod;
 
+// prevent upgrade error eg from Matomo 3.x to Matomo 4.x
+if (!class_exists('Piwik\API\NoDefaultValue', false)) {
+    class NoDefaultValue
+    {
+    }
+}
+
 /**
  * Proxy is a singleton that has the knowledge of every method available, their parameters
  * and default values.
