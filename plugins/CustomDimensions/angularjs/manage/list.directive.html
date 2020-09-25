@@ -32,7 +32,7 @@
                 <tr ng-show="scope.numSlotsUsed == 0 && !dimensionsList.model.isLoading">
                     <td colspan="5">{{ 'CustomDimensions_NoCustomDimensionConfigured'|translate }}</td>
                 </tr>
-                <tr ng-repeat="customDimension in dimensionsList.model.customDimensions|filter:{scope: scope.value}|orderBy:'idcustomdimension'"
+                <tr ng-repeat="customDimension in dimensionsList.model.customDimensions|filter:{scope: scope.value}|orderBy:'idcustomdimension.parseInt()'"
                     class="customdimension" ng-class="customDimension.idcustomdimension">
                     <td class="index">{{ customDimension.idcustomdimension }}</td>
                     <td class="name">{{ customDimension.name }}</td>
