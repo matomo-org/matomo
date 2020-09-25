@@ -7,6 +7,7 @@
         "DisablingIncompatiblePlugins": "Deaktiviere inkompatible Plugins: %s",
         "DownloadingUpdateFromX": "Aktualisierung wird von %s heruntergeladen",
         "DownloadX": "%s herunterladen",
+        "UpdateLog": "Log aktualisieren",
         "EmptyDatabaseError": "Die Datenbank %s ist leer. Sie müssen die Konfigurationsdatei anpassen oder entfernen.",
         "ErrorDIYHelp": "Wenn Sie ein professioneller Anwender sind und einen unerwarteten Fehler in der Aktualisierung der Datenbank entdecken:",
         "ErrorDIYHelp_1": "identifizieren und korrigieren Sie die Quelle des Problems (z.B. memory_limit oder max_execution_time)",

@@ -16,6 +16,7 @@
         "SettingBruteForceEnableHelp": "Brute Force algılaması verilerinize izinsiz erişilmesini engelleyen önemi bir güvenlik koruması özelliğidir. Herhangi bir kullanıcının kısa bir zaman aralığında binlerce ya da milyonlarca farklı parolayı denemesine izin vermek yerine, belirli bir süre içinde hatalı parola girişi sayısını sınırlar. Belirtilen zaman aralığında çok fazla sayıda hatalı oturum açma girişimi olursa kullanıcı belirtilen sürenin sonuna kadar bir daha oturum açma girişiminde bulunamaz. Bir IP adresi engellendiğinde aynı adresi kullanan diğer kullanıcıların da oturum açamayacağını unutmayın.",
         "SettingBruteForceWhitelistIp": "Her zaman oturum açabilecek IP adresleri",
         "SettingBruteForceBlacklistIp": "Her zaman engellenecek IP adresleri",
+        "NotAllowListTakesPrecendence": "Bir IP adresi hem engellenecek, hem de engellemeyecek adres listeleri ile eşleşirse, engelleme listesinin önceliği olduğundan IP adresi engellenir.",
         "SettingBruteForceMaxFailedLogins": "Zaman aralığında izin verilen oturum açma girişimi sayısı",
         "SettingBruteForceMaxFailedLoginsHelp": "Belirtilen sayıdan daha fazla hatalı oturum açma girişimi yapıldığında, girişimin yapıldığı IP adresi aşağıda belirtilen süreyle engellenir.",
         "SettingBruteForceTimeRange": "Oturum açma girişimlerinin sayılacağı zaman aralığı",
