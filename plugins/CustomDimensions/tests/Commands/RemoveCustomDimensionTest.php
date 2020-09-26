@@ -86,7 +86,7 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Remove Custom Dimension at index 3 in scope action.', $result);
         self::assertStringContainsString('Are you sure you want to perform this action?', $result);
         self::assertStringContainsString('Starting to remove this Custom Dimension', $result);
-        self::assertStringContainsString('Your Piwik is now configured for up to 4 Custom Dimensions in scope action.', $result);
+        self::assertStringContainsString('Your Matomo is now configured for up to 4 Custom Dimensions in scope action.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
         $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
@@ -111,7 +111,7 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Remove Custom Dimension at index 2 in scope visit', $result);
         self::assertStringContainsString('Are you sure you want to perform this action?', $result);
         self::assertStringContainsString('Starting to remove this Custom Dimension', $result);
-        self::assertStringContainsString('Your Piwik is now configured for up to 4 Custom Dimensions in scope visit.', $result);
+        self::assertStringContainsString('Your Matomo is now configured for up to 4 Custom Dimensions in scope visit.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
         $this->assertSame(array(1,3,4,5), $logVisit->getInstalledIndexes());
