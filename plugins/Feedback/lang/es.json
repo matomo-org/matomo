@@ -39,7 +39,6 @@
         "RemoveOtherLabel": "Quiero ver mi información de 'Otros'",
         "PurgeOldData": "Quiero remover información obsoleta",
         "SearchHelpResources": "Buscar recursos de ayuda en matomo.org",
-        "PopularHelpTopics": "Temas de ayuda populares",
-        "SearchOnMatomo": "Busca '%1$s' en Matomo.org"
+        "PopularHelpTopics": "Temas de ayuda populares"
     }
 }

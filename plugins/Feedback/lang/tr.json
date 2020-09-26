@@ -41,7 +41,6 @@
         "RemoveOtherLabel": "'Diğerleri' ile ilgili bilgilerimi görmek istiyorum",
         "PurgeOldData": "Bazı eski verileri silmek istiyorum",
         "SearchHelpResources": "Matomo.org yardım kaynaklarında arayın",
-        "PopularHelpTopics": "Sık başvurulan yardım konuları",
-        "SearchOnMatomo": "Matomo.org üzerinde '%1$s' arayın"
+        "PopularHelpTopics": "Sık başvurulan yardım konuları"
     }
 }

@@ -114,8 +114,11 @@
         "UncheckToOptOut": "取消勾選來選擇退出追蹤。",
         "CheckToOptIn": "勾選來選擇加入追蹤。",
         "OptOutErrorNoCookies": "選擇退出追蹤的功能必須要開啟 cookie 才能運作。",
+        "OptOutErrorNotHttps": "因為此網站沒有透過 HTTPS 載入，選擇退出追蹤的功能可能無法使用。請重新載入此網頁，檢查你的選擇退出狀態是否改變。",
+        "OptOutErrorWindowOpen": "選擇退出追蹤的彈出視窗似乎被阻擋了，因此選擇退出功能可能無法使用。請重新載入此網頁，檢查你的選擇退出狀態是否改變。",
         "MissingTrackingCodeEmailSubject": "Matomo 分析沒有記錄到 %s 的流量，開始行動",
         "JsTrackingCodeMissingEmail1": "幾天前你在你的 Matomo 分析中新增了網站「%s」。我們剛剛檢查了你的 Matomo 似乎沒有記錄到這個網站的任何流量。",
+        "JsTrackingCodeMissingEmail2": "要開始追蹤資料和深入了解你的使用者，你必須在你的網站上或行動應用程式中設定追蹤程式碼。以網站來說，只要將追蹤程式碼嵌入 %s 標籤之前即可。",
         "JsTrackingCodeMissingEmail3": "要尋找和自訂你的追蹤程式碼，%1$s點擊這裡%2$s（或看看%3$sJavaScript 追蹤客戶端指南%4$s）。",
         "TrackingFailuresIntroduction": "這個頁面列出發生在過去 %s 天追蹤失敗的紀錄。請注意只有最常見的追蹤失敗種類才會被記錄。",
         "NoKnownFailures": "還沒有已知的追蹤失敗紀錄。",
@@ -135,6 +138,7 @@
         "TrackingFailuresEmailSubject": "你的 Matomo 分析追蹤失敗紀錄",
         "TrackingFailuresEmail1": "這只是讓你知道過去幾天中發生了 %s 種不同的追蹤失敗紀錄。",
         "TrackingFailuresEmail2": "%1$s點擊這裡%2$s查看全部追蹤失敗請求。",
-        "ImportFromGoogleAnalytics": "從 Google 分析匯入"
+        "ImportFromGoogleAnalytics": "從 Google 分析匯入",
+        "ImportFromGoogleAnalyticsDescription": "如果你有現成的 Google Analytics 設定檔且想要切換至 Matomo，你可以使用 %1$s GoogleAnalyticsImporter %2$s 外掛匯入你現有的資料。"
     }
 }

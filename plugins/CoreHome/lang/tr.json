@@ -110,6 +110,7 @@
         "ReadMoreOnlineGuide": "Bu konu hakkında ayrıntılı bilgi almak için çevrimiçi rehbere bakabilirsiniz.",
         "SeeAvailableVersions": "Kullanılabilecek Sürümlere Bakın",
         "QuickLinks": "Kestirme Bağlantıları",
-        "Profilable": "Profillenebilir"
+        "Profilable": "Profillenebilir",
+        "SearchOnMatomo": "Matomo.org üzerinde '%1$s' arayın"
     }
 }

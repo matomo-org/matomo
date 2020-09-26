@@ -38,6 +38,7 @@
         "ViewAllPiwikVideoTutorials": "Tampilkan seluruh Video Tutorial Matomo",
         "WebAnalyticsReports": "Laporan Analisis Web",
         "YouAreUsingTheLatestVersion": "Anda menggunakan versi termutakhir Matomo!",
-        "SystemSummaryPhpVersion": "Versi PHP"
+        "SystemSummaryPhpVersion": "Versi PHP",
+        "SearchOnMatomo": "Cari '%1$s' pada Matomo.org"
     }
 }

@@ -25,6 +25,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s 比對 %4$s 從 %2$s 變更為 %3$s。基於這個結果，每列 %5$s%% 資料的進展是在預期的範圍內。",
         "TitleRowChangeDetails": "「%1$s」的%6$s從%2$s（%3$s）變更為%4$s（%5$s）。",
         "TitleRowDisappearedDetails": "「%1$s」比對 %4$s 減少了 %2$s，並且從%3$s中消失。",
+        "TitleRowMoverAndShaker": "此列的影響比平均值高。",
         "TitleRowNewDetails": "「%1$s」比對 %3$s 增加了 %2$s，並且是新數據。",
         "WeekComparedToPreviousWeek": "前一週",
         "WidgetCategory": "洞察",
