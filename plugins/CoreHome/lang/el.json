@@ -110,6 +110,7 @@
         "ReadMoreOnlineGuide": "Διαβάστε περισσότερα για το θέμα στον online οδηγό.",
         "SeeAvailableVersions": "Εμφάνιση Διαθέσιμων Εκδόσεων",
         "QuickLinks": "Γρήγοροι Σύνδεσμοι",
-        "Profilable": "Profilable"
+        "Profilable": "Profilable",
+        "SearchOnMatomo": "Αναζήτηση του '%1$s' στο Matomo.org"
     }
 }

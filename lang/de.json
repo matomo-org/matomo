@@ -520,7 +520,7 @@
         "Custom": "Benutzerdefiniert",
         "PreviousPeriod": "Vorheriger Zeitraum",
         "PreviousYear": "vorheriges Jahr",
-        "ViewAccessRequired": "Der verwendete token_auth wurde zu oft für nicht-API URL Anfragen. Bitte verwenden Sie ein programmspezifisches Passwort für den Benutzer, der ausschliesslich über Ansichtszugriffe verfügt."
+        "ViewAccessRequired": "Der verwendete token_auth hat zu viele Rechte, um für nicht-API URL Anfragen verwendet zu werden. Bitte verwenden Sie ein programmspezifisches Passwort für einen Benutzer, der ausschließlich über Ansichtszugriff verfügt."
     },
     "Mobile": {
         "AboutPiwikMobile": "Über Matomo Mobile",

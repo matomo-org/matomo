@@ -105,6 +105,7 @@
         "ReportWithMetadata": "Informe con metadatos",
         "ReadMoreOnlineGuide": "Lea más sobre este tema en la guía en linea.",
         "SeeAvailableVersions": "Ver versiones disponibles",
-        "QuickLinks": "Enlaces rápidos"
+        "QuickLinks": "Enlaces rápidos",
+        "SearchOnMatomo": "Busca '%1$s' en Matomo.org"
     }
 }

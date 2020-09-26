@@ -107,6 +107,7 @@
         "ReadMoreOnlineGuide": "Leia mais sobre este tópico no guia online.",
         "SeeAvailableVersions": "Ver versões disponíveis",
         "QuickLinks": "Ligações rápidas",
-        "Profilable": "Perfilável"
+        "Profilable": "Perfilável",
+        "SearchOnMatomo": "Procurar por '%1$s' em Matomo.org"
     }
 }

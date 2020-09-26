@@ -105,6 +105,7 @@
         "ReportWithMetadata": "メタデータを使用したレポート",
         "ReadMoreOnlineGuide": "このトピックの詳細については、オンラインガイドをご覧ください。",
         "SeeAvailableVersions": "使用可能なバージョンを表示する",
-        "QuickLinks": "クイックリンク"
+        "QuickLinks": "クイックリンク",
+        "SearchOnMatomo": "Matomo.org で '%1$s' を検索"
     }
 }

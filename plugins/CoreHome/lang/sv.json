@@ -105,6 +105,7 @@
         "ReportWithMetadata": "Rapport med metadata",
         "ReadMoreOnlineGuide": "Läs mer om ämnet i onlineguiden.",
         "SeeAvailableVersions": "Se tillgängliga versioner",
-        "QuickLinks": "Snabblänkar"
+        "QuickLinks": "Snabblänkar",
+        "SearchOnMatomo": "Sök efter '%1$s' på Matomo.org"
     }
 }

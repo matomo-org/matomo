@@ -335,6 +335,7 @@
         "OverlayRowActionTooltipTitle": "開啟網頁覆蓋",
         "Overview": "總覽",
         "Pages": "網頁",
+        "Pagination": "第 %1$s - %2$s 項，共 %3$s 項",
         "PaginationWithoutTotal": "%1$s–%2$s",
         "ParameterMustIntegerBetween": "參數 %1$s 必須是介於 %2$s 和 %3$s 之間的純數字。",
         "Password": "密碼",
@@ -504,6 +505,8 @@
         "ThankYouForUsingMatomo": "感謝你使用 Matomo",
         "TheMatomoTeam": "Matomo 開發團隊",
         "PleaseTryAgain": "請再試一次",
+        "ComparisonRatioTooltip": "於 %3$s 相對於區隔「%2$s」有 %1$s 的變化。",
+        "ComparisonCardTooltip2": "訪問數量於 %3$s 相對 %2$s 差距 %1$s。",
         "VisualizationDoesNotSupportComparison": "此視覺化圖表不支援區隔\/期間比較。",
         "ChangeInX": "%1$s 內含的變更",
         "Comparisons": "比較",
@@ -513,7 +516,8 @@
         "MaximumNumberOfPeriodsComparedIs": "最多僅能同時比較 %s 個期間。",
         "Custom": "自訂",
         "PreviousPeriod": "前一段期間",
-        "PreviousYear": "前一年"
+        "PreviousYear": "前一年",
+        "ViewAccessRequired": "token_auth 密鑰已經在非 API 的 request URL 中被使用太多次。請針對唯讀權限的使用者建立應用程式專用的密碼。"
     },
     "Mobile": {
         "AboutPiwikMobile": "關於 Matomo 行動版",

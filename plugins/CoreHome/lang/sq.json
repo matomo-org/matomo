@@ -110,6 +110,7 @@
         "ReadMoreOnlineGuide": "Lexoni më tepër rreth kësaj teme te udhërrëfyesi në internet.",
         "SeeAvailableVersions": "Shihni Versione të Gatshëm",
         "QuickLinks": "Lidhje të Shpejta",
-        "Profilable": "E profilizueshme"
+        "Profilable": "E profilizueshme",
+        "SearchOnMatomo": "Kërkoni për '%1$s' te Matomo.org"
     }
 }
