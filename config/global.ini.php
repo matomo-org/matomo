@@ -394,6 +394,9 @@ hash_algorithm = whirlpool
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
+; Session garbage collection on (as on some operating systems, i.e. Debian, it may be off by default)
+session_gc_probability = 1
+
 ; (DEPRECATED) has no effect
 login_cookie_name = matomo_auth
 
@@ -421,7 +424,7 @@ login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
 login_password_recovery_replyto_email_name = "No-reply"
 
 ; When configured, only users from a configured IP can log into your Matomo. You can define one or multiple
-; IPv4, IPv6, and IP ranges. You may also define hostnames. However, resolving hostnames in each request 
+; IPv4, IPv6, and IP ranges. You may also define hostnames. However, resolving hostnames in each request
 ; may slightly slow down your Matomo.
 ; This whitelist also affects API requests unless you disabled it via the setting
 ; "login_whitelist_apply_to_reporting_api_requests" below. Note that neither this setting, nor the
@@ -734,7 +737,7 @@ data_comparison_period_limit = 5
 ; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
 ; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
 ; Most users will not have to use a custom file here, but if you run your Matomo instance behind a proxy server/firewall that
-; breaks and reencrypts SSL connections you can set your custom file here. 
+; breaks and reencrypts SSL connections you can set your custom file here.
 custom_cacert_pem=
 
 ; Whether or not to send weekly emails to superusers about tracking failures.

@@ -43,7 +43,7 @@ class Session extends Zend_Session
             return;
         }
         self::$sessionStarted = true;
-    
+
         if (defined('PIWIK_SESSION_NAME')) {
             self::$sessionName = PIWIK_SESSION_NAME;
         }
@@ -114,10 +114,8 @@ class Session extends Zend_Session
             }
         }
 
-        // garbage collection may disabled by default (e.g., Debian)
-        if (ini_get('session.gc_probability') == 0) {
-            @ini_set('session.gc_probability', 1);
-        }
+        // set garbage collection according to user preferences (on by default)
+        @ini_set('session.gc_probability', Config::getInstance()->General['session_gc_probability']);
 
         try {
             parent::start();
@@ -133,7 +131,7 @@ class Session extends Zend_Session
             } else {
                 $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             }
-            
+
             $message = sprintf("Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
