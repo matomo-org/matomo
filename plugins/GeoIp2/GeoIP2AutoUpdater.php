@@ -406,7 +406,9 @@ class GeoIP2AutoUpdater extends Task
 
             $url = $options[$optionKey];
             $url = self::removeDateFromUrl($url);
-
+            if (!empty($url) && strpos(Common::mb_strtolower($url), 'https://') !== 0 && strpos(Common::mb_strtolower($url), 'http://') !== 0) {
+                throw new Exception('Invalid download URL for geoip ' . $optionKey . ': ' . $url);
+            }
             Option::set($optionName, $url);
         }
 
