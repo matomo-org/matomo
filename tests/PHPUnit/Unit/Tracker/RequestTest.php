@@ -48,6 +48,36 @@ class RequestTest extends UnitTestCase
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
+    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfRelativeOffsetIsUsed()
+    {
+        $request = $this->buildRequest(array('cdo' => '10'));
+        $this->assertSame($this->time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfRelativeOffsetIsUsedIsTooMuchInPastShouldReturnFalseWhenNotAuthenticated()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Custom timestamp is 99990 seconds old, requires &token_auth');
+        $request = $this->buildRequest(array('cdo' => '99990'));
+        $this->assertSame($this->time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_CanUseRelativeOffseAndCustomTimestamp()
+    {
+        $time = time() - 20;
+        $request = $this->buildRequest(array('cdo' => '10', 'cdt' => $time));
+        $request->setCurrentTimestamp(time());
+        $this->assertSame($time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_WithCustomTimestamp()
+    {
+        $time = time() - 20;
+        $request = $this->buildRequest(array('cdt' => $time));
+        $request->setCurrentTimestamp(time());
+        $this->assertEquals($time, $request->getCurrentTimestamp());
+    }
+
     public function test_isEmptyRequest_ShouldReturnTrue_InCaseNoParamsSet()
     {
         $request = $this->buildRequest(array());

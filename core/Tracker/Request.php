@@ -491,9 +491,9 @@ class Request
 
         $cdt = $this->getParam('cdt');
         $cdo = $this->getParam('cdo');
-        
+
         if (empty($cdt) && $cdo) {
-            $cdt = $this->timestamp - $cdo;
+            $cdt = $this->timestamp;
         }
 
         if (empty($cdt)) {
@@ -502,6 +502,10 @@ class Request
 
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt);
+        }
+
+        if (!empty($cdo)) {
+            $cdt = $cdt - $cdo;
         }
 
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
