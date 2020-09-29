@@ -49,9 +49,12 @@ table.dataTable img {
   margin-left: 0.5em;
 }
 
-table.dataTable tr:not(.parentComparisonRow) img.link {
-  position: relative;
-  top: 5px;
+table.dataTable tr img.link {
+  margin-left: 4px!important;
+
+  .widget & {
+    margin-left: 1px!important;
+  }
 }
 
 table.subDataTable img.link {
