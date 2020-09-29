@@ -107,22 +107,10 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
         $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
         $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
-        
+
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
-
-        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('option') . "` SET option_value = 'MEDIUMINT UNSIGNED DEFAULT NULL', option_name='version_log_link_visit_action.pageview_position' WHERE option_name='version_log_link_visit_action.interaction_position'");
-
-        $migrations[] = $this->migration->db->changeColumnTypes('log_visit', array(
-            'config_browser_name' => 'VARCHAR(40) NULL',
-            'referer_name' => 'VARCHAR(255) NULL',
-            'visit_total_interactions' => 'MEDIUMINT UNSIGNED DEFAULT 0',
-        ));
-
-        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('option') . "` SET option_value = 'VARCHAR(40) NULL1' WHERE option_name='version_log_visit.config_browser_name'");
-        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('option') . "` SET option_value = 'VARCHAR(255) NULL1' WHERE option_name='version_log_visit.referer_name'");
-        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('option') . "` SET option_value = 'MEDIUMINT UNSIGNED DEFAULT 0' WHERE option_name='version_log_visit.visit_total_interactions'");
 
         $customTrackerPluginActive = false;
         if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {

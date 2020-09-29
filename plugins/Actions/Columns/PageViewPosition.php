@@ -18,7 +18,6 @@ use Piwik\Plugin\Dimension\ActionDimension;
 class PageViewPosition extends ActionDimension
 {
     protected $columnName = 'pageview_position';
-    protected $columnType = 'MEDIUMINT UNSIGNED DEFAULT NULL';
     protected $nameSingular = 'Actions_ColumnPageViewPosition';
     protected $type = self::TYPE_NUMBER;
 
