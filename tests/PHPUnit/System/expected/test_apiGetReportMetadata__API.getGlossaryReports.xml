@@ -13,6 +13,10 @@
 		<documentation>This report shows your visitors' browsers broken down into browser engines. &lt;br /&gt; The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.</documentation>
 	</row>
 	<row>
+		<name>Browser language (Visitors)</name>
+		<documentation>This report shows which language the visitor's browsers are using. (e.g. &quot;English&quot;)</documentation>
+	</row>
+	<row>
 		<name>Browsers (Visitors)</name>
 		<documentation>This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.</documentation>
 	</row>
@@ -69,6 +73,10 @@
 	<row>
 		<name>Keywords (Referrers)</name>
 		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt;&lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.&lt;br /&gt;&lt;br /&gt;Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.</documentation>
+	</row>
+	<row>
+		<name>Language code (Visitors)</name>
+		<documentation>This report shows which exact language code the visitor's browsers is set to. (e.g. &quot;German - Austria (de-at)&quot;)</documentation>
 	</row>
 	<row>
 		<name>Length of Visits (Actions)</name>

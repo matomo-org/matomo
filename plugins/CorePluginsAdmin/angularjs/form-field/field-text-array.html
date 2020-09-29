@@ -1,4 +1,5 @@
 <div>
+    <label for="{{ formField.name }}" ng-bind-html="formField.title"></label>
     <input class="control_{{ formField.uiControl }}"
            type="{{ formField.uiControl }}"
            name="{{ formField.name }}"
@@ -6,5 +7,4 @@
            ng-model="formField.value"
            piwik-attributes="{{formField.uiControlAttributes}}"
     >
-    <label for="{{ formField.name }}" ng-bind-html="formField.title"></label>
 </div>

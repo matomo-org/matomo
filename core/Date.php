@@ -123,7 +123,7 @@ class Date
     public static function factory($dateString, $timezone = null)
     {
         if ($dateString instanceof self) {
-            $dateString = $dateString->toString();
+        	return new Date($dateString->timestamp, $dateString->timezone);
         }
         if ($dateString === 'now') {
             $date = self::now();
@@ -556,7 +556,7 @@ class Date
      */
     public static function today()
     {
-        return new Date(strtotime(date("Y-m-d 00:00:00")));
+        return new Date(strtotime(date("Y-m-d 00:00:00", self::getNowTimestamp())));
     }
 
     /**
@@ -566,7 +566,7 @@ class Date
      */
     public static function tomorrow()
     {
-        return new Date(strtotime('tomorrow'));
+        return new Date(strtotime('tomorrow', self::getNowTimestamp()));
     }
 
     /**
@@ -576,7 +576,7 @@ class Date
      */
     public static function yesterday()
     {
-        return new Date(strtotime("yesterday"));
+        return new Date(strtotime("yesterday", self::getNowTimestamp()));
     }
 
     /**
@@ -586,7 +586,7 @@ class Date
      */
     public static function yesterdaySameTime()
     {
-        return new Date(strtotime("yesterday " . date('H:i:s')));
+        return new Date(strtotime("yesterday " . date('H:i:s'), self::getNowTimestamp()));
     }
 
     /**

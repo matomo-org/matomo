@@ -58,7 +58,7 @@ class TrackerResponseTest extends SystemTestCase
     public function test_response_ShouldSend200ResponseCode_IfImageIsEnabled()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
-
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
         $response = $this->sendHttpRequest($url);
         $this->assertEquals(200, $response['status']);
         $this->assertArrayHasKey('Cache-Control', $response['headers']);
@@ -68,6 +68,7 @@ class TrackerResponseTest extends SystemTestCase
     public function test_response_ShouldSend204ResponseCode_IfImageIsDisabled()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
         $url .= '&send_image=0';
 
         $response = $this->sendHttpRequest($url);
@@ -115,6 +116,7 @@ class TrackerResponseTest extends SystemTestCase
     public function test_response_ShouldSend400ResponseCode_IfInvalidRequestParameterIsGiven()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
         $url .= '&cid=' . str_pad('1', 16, '1');
 
         $response = $this->sendHttpRequest($url);
@@ -152,6 +154,7 @@ class TrackerResponseTest extends SystemTestCase
     public function test_response_ShouldReturnPiwikMessageWithHttp503_InCaseOfMaintenanceMode()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
         $response = $this->sendHttpRequest($url);
         $this->assertEquals(200, $response['status']);
 

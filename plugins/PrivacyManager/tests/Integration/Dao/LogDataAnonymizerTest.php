@@ -24,6 +24,7 @@ use Piwik\Tracker\Cache;
  * Class LogDataAnonymizationsTest
  *
  * @group Plugins
+ * @group LogDataAnonymizerTest
  */
 class LogDataAnonymizerTest extends IntegrationTestCase
 {
@@ -185,12 +186,13 @@ class LogDataAnonymizerTest extends IntegrationTestCase
     public function test_getAvailableVisitColumnsToAnonymize()
     {
         $this->assertSame(array(
+            'profilable' => null,
             'user_id' => null,
             'visit_goal_buyer' => null,
             'visit_goal_converted' => null,
-            'visitor_days_since_first' => null,
-            'visitor_days_since_order' => null,
             'visitor_returning' => null,
+            'visitor_seconds_since_first' => null,
+            'visitor_seconds_since_order' => null,
             'visit_entry_idaction_name' => null,
             'visit_entry_idaction_url' => null,
             'visit_exit_idaction_name' => null,
@@ -206,6 +208,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'config_browser_engine' => null,
             'config_browser_name' => null,
             'config_browser_version' => null,
+            'config_client_type' => null,
             'config_device_brand' => null,
             'config_device_model' => null,
             'config_device_type' => null,
@@ -213,10 +216,9 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'config_os_version' => null,
             'visit_total_events' => null,
             'visitor_localtime' => null,
-            'visitor_days_since_last' => null,
+            'visitor_seconds_since_last' => null,
             'config_resolution' => null,
             'config_cookie' => null,
-            'config_director' => null,
             'config_flash' => null,
             'config_java' => null,
             'config_pdf' => null,
@@ -229,6 +231,12 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'location_latitude' => null,
             'location_longitude' => null,
             'location_region' => null,
+            'last_idlink_va' => null,
+            'custom_dimension_1' => null,
+            'custom_dimension_2' => null,
+            'custom_dimension_3' => null,
+            'custom_dimension_4' => null,
+            'custom_dimension_5' => null,
             'custom_var_k1' => null,
             'custom_var_v1' => null,
             'custom_var_k2' => null,
@@ -239,12 +247,6 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'custom_var_v4' => null,
             'custom_var_k5' => null,
             'custom_var_v5' => null,
-            'last_idlink_va' => null,
-            'custom_dimension_1' => null,
-            'custom_dimension_2' => null,
-            'custom_dimension_3' => null,
-            'custom_dimension_4' => null,
-            'custom_dimension_5' => null,
         ), $this->anonymizer->getAvailableVisitColumnsToAnonymize());
     }
 

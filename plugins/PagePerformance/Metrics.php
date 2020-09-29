@@ -84,6 +84,8 @@ class Metrics
 
     public static function attachActionMetrics(&$metricsConfig)
     {
+        $table = 'log_link_visit_action';
+
         /**
          * @var ActionDimension[] $performanceDimensions
          */
@@ -97,19 +99,20 @@ class Metrics
         ];
         foreach($performanceDimensions as $dimension) {
             $id = $dimension->getColumnName();
+            $column = $table . '.' . $id;
             $metricsConfig['sum_'.$id] = [
                 'aggregation' => 'sum',
                 'query' => "sum(
-                    case when " . $id . " is null
+                    case when " . $column . " is null
                         then 0
-                        else " . $id . "
+                        else " . $column . "
                     end
                 ) / 1000"
             ];
             $metricsConfig['nb_hits_with_'.$id] = [
                 'aggregation' => 'sum',
                 'query' => "sum(
-                    case when " . $id . " is null
+                    case when " . $column . " is null
                         then 0
                         else 1
                     end
@@ -117,11 +120,11 @@ class Metrics
             ];
             $metricsConfig['min_'.$id] = [
                 'aggregation' => 'min',
-                'query' => "min(" . $id . ") / 1000"
+                'query' => "min(" . $column . ") / 1000"
             ];
             $metricsConfig['max_'.$id] = [
                 'aggregation' => 'max',
-                'query' => "max(" . $id . ") / 1000"
+                'query' => "max(" . $column . ") / 1000"
             ];
         }
 

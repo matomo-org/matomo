@@ -69,7 +69,6 @@
         "SuperUserSetupSuccess": "Superbruger oprettet.",
         "SystemCheck": "Systemtjek",
         "SystemCheckAutoUpdateHelp": "Note: Matomo's ét klik opdatering kræver skrive-tilladelser til Matomo mappen og dens indhold.",
-        "SystemCheckCreateFunctionHelp": "Matomo bruger anonyme funktioner til tilbagekald.",
         "SystemCheckDatabaseExtensions": "MySQL udvidelser",
         "SystemCheckDatabaseHelp": "Matomo behøver enten mysqli-udvidelsen eller både PDO- og pdo_mysql-udvidelserne.",
         "SystemCheckDatabaseSSL": "Database SSL-forbindelse",
@@ -149,7 +148,6 @@
         "WelcomeHelp": "<p>Matomo er et open source-webanalyseværktøj, der gør det let af få adgang til den ønskede information om dine besøgende.<\/p><p>Installationen er opdelt i %s lette trin og tager cirka 5 minutter.<\/p>",
         "WelcomeToCommunity": "Velkommen til fællesskab om Matomo!",
         "CannotConnectToDb": "Kan ikke oprette forbindelse til databasen",
-        "CannotConnectToDbResolvingExplanation": "Kan være et midlertidigt problem, så prøv at %1$sopdatere siden%2$s. Hvis problemet fortsætter skal du kontakte din Matomo administrator.",
-        "EmailPrivacyNotice": "Din e-mailadresse vil kun blive brugt til at sende dig Matomo-nyhedsbrevet. Du kan når som helst afmelde dig ved at klikke på afmeldelinket. Vil deler ikke din e-mail med andre eller bruger din e-mail til andre formål end at sende dig Matomo-nyhedsbrevet. Læs mere i vores %1$sprivatlivspolitik%2$s."
+        "CannotConnectToDbResolvingExplanation": "Kan være et midlertidigt problem, så prøv at %1$sopdatere siden%2$s. Hvis problemet fortsætter skal du kontakte din Matomo administrator."
     }
 }

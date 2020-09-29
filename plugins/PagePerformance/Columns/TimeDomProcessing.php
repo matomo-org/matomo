@@ -21,8 +21,11 @@ use Piwik\Tracker\Visitor;
 
 class TimeDomProcessing extends ActionDimension
 {
-    protected $columnName = 'time_dom_processing';
-    protected $columnType = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_NAME = 'time_dom_processing';
+
+    protected $columnName = self::COLUMN_NAME;
+    protected $columnType = self::COLUMN_TYPE;
     protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeDomProcessing';
 
@@ -58,7 +61,8 @@ class TimeDomProcessing extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_dom_processing');
-        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithDomProcessingTime'));
+        $metric3->setType(self::TYPE_NUMBER);
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeDomProcessing'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -67,8 +71,8 @@ class TimeDomProcessing extends ActionDimension
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_time_dom_processing');
-        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageDomProcessingTime'));
-        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageDomProcessingTimeDocumentation'));
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTimeDomProcessing'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTimeDomProcessingDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

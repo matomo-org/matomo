@@ -20,7 +20,6 @@
         "DonateCall1": "Përdorimi i Matomo-a s’do t’ju kushtojë kurrë një dysh, por kjo s’do të thotë që neve nuk na kushton krijimi i tij.",
         "DonateCall2": "Matomo lyp përkrahjen tuaj që të rritet dhe lulëzojë.",
         "DonateCall3": "Nëse jeni të mendimit se Matomo ka sjellë një shtim të vyer të biznesit apo në përpjekjet tuaja, %1$sju lutemi, shihni mundësinë e dhurimit%2$s ose %3$sblerjes së paketës me pagesë%4$s. Çdo qindarkë do të na ndihmonte.",
-        "DonateFormInstructions": "Klikoni mbi rrëshqitësin që të përzgjidhni një vlerë, mandej klikoni Pajtohuni, që të dhuroni.",
         "EndShortcut": "Fund",
         "EnterZenMode": "Kalo nën mënyrën Zen (fshihi menutë)",
         "ExitZenMode": "Dil nga mënyra Zen (shfaqi menutë)",
@@ -32,7 +31,7 @@
         "ShowExportUrl": "Shfaq URL Eksportimi",
         "HideExportUrl": "Fshihe URL-në e Eksportimit",
         "HomeShortcut": "Kreu",
-        "HowMuchIsPiwikWorth": "Sa vlen Matomo për ju?",
+        "SupportUsOn": "Na përkrahni në",
         "IncludeRowsWithLowPopulation": "Janë fshehur rreshta me popullatë të ulët %s Shfaqi krejt rreshtat",
         "InjectedHostEmailBody": "Tungjatjeta, provova të hyj në Matomo sot dhe ndesha sinjalizimin për strehëemër të panjohur.",
         "InjectedHostEmailSubject": "Te Matomo u hy me një strehëemër të panjohur: %s",
@@ -45,7 +44,8 @@
         "VisitTypeReturning": "I rikthyer",
         "VisitTypeReturningCustomer": "Klient i Rikthyer",
         "MainNavigation": "Lëvizja kryesore",
-        "MakeOneTimeDonation": "Ose bëni një dhurim njëherësh.",
+        "YourDonationWillHelp": "Dhurimi juaj do të ndihmojë drejtpërsëdrejti për financim veçorish të reja dhe përmirësime të kësaj platforme statistikash dhe analizimesh me burim të hapët. Kjo do të thotë që bashkësia do të përfitojë përherë nga një mjet që mbron privatësinë dhe ju lejon të jeni në kontroll të të dhënave tuaja.",
+        "ThanksFromAllOfUs": "Faleminderit prej krejt nesh në Matomo!",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Jeni i futur si '%1$s' por duket se s’keni leje të rregulluara për ju në Matomo. %2$s Kërkojini administratorit tuaj te Matomo (klikoni që t’i dërgoni email)%3$s që t’ju japë të drejta 'parjesh' te një sajt.",
         "OnlyForSuperUserAccess": "Ky widget u shfaqet te pulti parazgjedhje vetëm përdoruesve që kanë hyrje si Superpërdorues.",
@@ -102,12 +102,15 @@
         "RowLimit": "Kufi i papërpunuar",
         "CustomLimit": "Kufi vetjak",
         "ExportFormat": "Format eksportimi",
+        "ExportTooltip": "Shënim: URL e prodhuar për eksportimin do të funksionojë vetëm në sesionin e tanishëm të shfletuesit. Nëse doni ta përdorni gjetkë, lypset të përdorni një token të posaçëm për aplikacionin. Këta token-ë mund t’i formësoni te Përgjegjës -> Siguri -> Mirëfilltësime Me Token.",
         "ExpandSubtables": "Zgjeroji nëntabelat",
         "StandardReport": "Raport standard",
         "FlattenReport": "Raport i sheshtë",
         "ReportWithMetadata": "Raport me tejtëdhëna",
         "ReadMoreOnlineGuide": "Lexoni më tepër rreth kësaj teme te udhërrëfyesi në internet.",
         "SeeAvailableVersions": "Shihni Versione të Gatshëm",
-        "QuickLinks": "Lidhje të Shpejta"
+        "QuickLinks": "Lidhje të Shpejta",
+        "Profilable": "E profilizueshme",
+        "SearchOnMatomo": "Kërkoni për '%1$s' te Matomo.org"
     }
 }

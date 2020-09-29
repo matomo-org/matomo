@@ -133,7 +133,10 @@
         "DaysHours": "%1$s days %2$s hours",
         "DaysSinceFirstVisit": "Days since first visit",
         "DaysSinceLastEcommerceOrder": "Days since last Ecommerce order",
+        "SecondsSinceLastEcommerceOrder": "Seconds since last Ecommerce order",
         "DaysSinceLastVisit": "Days since last visit",
+        "SecondsSinceLastVisit": "Seconds since last visit",
+        "SecondsSinceFirstVisit": "Seconds since first visit",
         "Default": "Default",
         "DefaultAppended": "(default)",
         "Delete": "Delete",
@@ -513,7 +516,11 @@
         "ClickToRemoveComp": "Click to remove this comparison.",
         "MaximumNumberOfSegmentsComparedIs": "The maximum number of segments that can be compared simultaneously is %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s query parameter length must match %2$s query parameter length.",
-        "MaximumNumberOfPeriodsComparedIs": "The maximum number of periods that can be compared simultaneously is %s."
+        "MaximumNumberOfPeriodsComparedIs": "The maximum number of periods that can be compared simultaneously is %s.",
+        "Custom": "Custom",
+        "PreviousPeriod": "Previous Period",
+        "PreviousYear": "Previous Year",
+        "ViewAccessRequired": "The token_auth used has too much access to be used in a non-API request URL. Please use an app specific password for a user that only has view access."
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

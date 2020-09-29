@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\API;
 
 use Piwik\Category\CategoryList;
-use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
@@ -52,6 +51,7 @@ class SegmentMetadata
             if (!isset($this->categoryOrder[$segment['category']])) {
                 $category = $categoryList->getCategory($categoryId);
                 if (!empty($category)) {
+                    $segment['category'] = $category->getDisplayName();
                     $this->categoryOrder[$segment['category']] = $category->getOrder();
                 } else {
                     $this->categoryOrder[$segment['category']] = 999;

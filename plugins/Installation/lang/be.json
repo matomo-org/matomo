@@ -31,7 +31,6 @@
         "SuperUserSetupSuccess": "Супер Карыстач створаны з поспехам!",
         "SystemCheck": "Праверка сістэмы",
         "SystemCheckAutoUpdateHelp": "Заўважце: абнаўленне Matomo у рэжыме \\\"аднаго націска\\\" п атрабуе дазвол запісу да тэчцы Matomo і яё змесціва.",
-        "SystemCheckCreateFunctionHelp": "Matomo выкарыстоўвае ананімныя функцыі зваротнага выкліку.",
         "SystemCheckDatabaseHelp": "Matomo патрабуе пашырэнне mysqli альбо абодва пашырэння PDO і pdo_mysql.",
         "SystemCheckDebugBacktraceHelp": "Прагляд::сістэма не ў стане стварыць прадстаўленне для выкліку модуля.",
         "SystemCheckError": "Паўстала памылка - павінна быць выпраўлена перад працягам",

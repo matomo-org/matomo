@@ -12,7 +12,6 @@ use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Auth\Password;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -31,27 +30,27 @@ class TestCap1 extends Capability
 {
     const ID = 'test_cap1';
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getCategory()
+    public function getCategory(): string
     {
         return 'Test';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Cap1';
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function getIncludedInRoles()
+    public function getIncludedInRoles(): array
     {
         return array(
             Admin::ID
@@ -63,27 +62,27 @@ class TestCap2 extends Capability
 {
     const ID = 'test_cap2';
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getCategory()
+    public function getCategory(): string
     {
         return 'Test';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Cap2';
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function getIncludedInRoles()
+    public function getIncludedInRoles(): array
     {
         return array(
             Write::ID, Admin::ID
@@ -95,27 +94,27 @@ class TestCap3 extends Capability
 {
     const ID = 'test_cap3';
 
-    public function getId()
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getCategory()
+    public function getCategory(): string
     {
         return 'Test';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Cap3';
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function getIncludedInRoles()
+    public function getIncludedInRoles(): array
     {
         return array(Admin::ID);
     }
@@ -203,13 +202,13 @@ class APITest extends IntegrationTestCase
 
     public function test_getAllUsersPreferences_isEmpty_whenNoPreferenceAndMultipleRequested()
     {
-        $preferences = $this->api->getAllUsersPreferences(array('preferenceName', 'otherOne'));
+        $preferences = $this->api->getAllUsersPreferences(array('preferenceName', 'randomDoesNotExist'));
         $this->assertEmpty($preferences);
     }
 
     public function test_getUserPreference_ShouldReturnADefaultPreference_IfNoneIsSet()
     {
-        $siteId = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+        $siteId = $this->api->getUserPreference(API::PREFERENCE_DEFAULT_REPORT, $this->login);
         $this->assertEquals('1', $siteId);
     }
 
@@ -217,7 +216,7 @@ class APITest extends IntegrationTestCase
     {
         $this->api->setUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT, 5);
 
-        $siteId = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+        $siteId = $this->api->getUserPreference(API::PREFERENCE_DEFAULT_REPORT, $this->login);
         $this->assertEquals('5', $siteId);
     }
 
@@ -254,24 +253,24 @@ class APITest extends IntegrationTestCase
         $user2 = 'userLogin2';
         $user3 = 'userLogin3';
         $this->api->addUser($user2, 'password', 'userlogin2@password.de');
-        $this->api->setUserPreference($user2, 'myPreferenceName', 'valueForUser2');
+        $this->api->setUserPreference($user2, API::PREFERENCE_DEFAULT_REPORT, 'valueForUser2');
         $this->api->setUserPreference($user2, 'RandomNOTREQUESTED', 'RandomNOTREQUESTED');
 
         $this->api->addUser($user3, 'password', 'userlogin3@password.de');
-        $this->api->setUserPreference($user3, 'myPreferenceName', 'valueForUser3');
-        $this->api->setUserPreference($user3, 'otherPreferenceHere', 'otherPreferenceVALUE');
+        $this->api->setUserPreference($user3, API::PREFERENCE_DEFAULT_REPORT, 'valueForUser3');
+        $this->api->setUserPreference($user3, API::PREFERENCE_DEFAULT_REPORT_DATE, 'otherPreferenceVALUE');
         $this->api->setUserPreference($user3, 'RandomNOTREQUESTED', 'RandomNOTREQUESTED');
 
         $expected = array(
             $user2 => array(
-                'myPreferenceName' => 'valueForUser2'
+                API::PREFERENCE_DEFAULT_REPORT => 'valueForUser2'
             ),
             $user3 => array(
-                'myPreferenceName' => 'valueForUser3',
-                'otherPreferenceHere' => 'otherPreferenceVALUE',
+                API::PREFERENCE_DEFAULT_REPORT => 'valueForUser3',
+                API::PREFERENCE_DEFAULT_REPORT_DATE => 'otherPreferenceVALUE',
             ),
         );
-        $result = $this->api->getAllUsersPreferences(array('myPreferenceName', 'otherPreferenceHere', 'randomDoesNotExist'));
+        $result = $this->api->getAllUsersPreferences(array(API::PREFERENCE_DEFAULT_REPORT, API::PREFERENCE_DEFAULT_REPORT_DATE, 'randomDoesNotExist'));
 
         $this->assertSame($expected, $result);
     }
@@ -280,15 +279,15 @@ class APITest extends IntegrationTestCase
     {
         $user2 = 'user_Login2';
         $this->api->addUser($user2, 'password', 'userlogin2@password.de');
-        $this->api->setUserPreference($user2, 'myPreferenceName', 'valueForUser2');
-        $this->api->setUserPreference($user2, 'RandomNOTREQUESTED', 'RandomNOTREQUESTED');
+        $this->api->setUserPreference($user2, API::PREFERENCE_DEFAULT_REPORT, 'valueForUser2');
+        $this->api->setUserPreference($user2, API::PREFERENCE_DEFAULT_REPORT_DATE, 'RandomNOTREQUESTED');
 
         $expected = array(
             $user2 => array(
-                'myPreferenceName' => 'valueForUser2'
+                API::PREFERENCE_DEFAULT_REPORT => 'valueForUser2'
             ),
         );
-        $result = $this->api->getAllUsersPreferences(array('myPreferenceName', 'otherPreferenceHere', 'randomDoesNotExist'));
+        $result = $this->api->getAllUsersPreferences(array(API::PREFERENCE_DEFAULT_REPORT, 'randomDoesNotExist'));
 
         $this->assertSame($expected, $result);
     }
@@ -1016,12 +1015,13 @@ class APITest extends IntegrationTestCase
     {
         return array(
             'Piwik\Access' => new FakeAccess(),
+            'usersmanager.user_preference_names' => \DI\add(['randomDoesNotExist', 'RandomNOTREQUESTED', 'preferenceName']),
             'observers.global' => \DI\add([
-                ['Access.Capability.addCapabilities', function (&$capabilities) {
+                ['Access.Capability.addCapabilities', \DI\value(function (&$capabilities) {
                     $capabilities[] = new TestCap1();
                     $capabilities[] = new TestCap2();
                     $capabilities[] = new TestCap3();
-                }],
+                })],
             ]),
         );
     }

@@ -13,7 +13,6 @@
 				<pageTitle />
 				<pageIdAction>6</pageIdAction>
 				
-				
 				<pageId>5</pageId>
 				<bandwidth />
 				<pageviewPosition />
@@ -35,11 +34,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -94,16 +95,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -120,6 +112,16 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -135,7 +137,6 @@
 				
 				<revenue>1000</revenue>
 				<goalPageId />
-				
 				<url>http://example.org/homepage</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
@@ -148,7 +149,6 @@
 				<url>http://example.org/homepage</url>
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				
 				
 				<pageId>4</pageId>
 				<bandwidth />
@@ -175,7 +175,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>361</visitDuration>
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
@@ -230,16 +232,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -256,6 +249,16 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -271,7 +274,6 @@
 				
 				<revenue>0</revenue>
 				<goalPageId />
-				
 				<url>http://example.org/homepage</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
@@ -284,7 +286,6 @@
 				<url>http://example.org/homepage</url>
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				
 				
 				<pageId>1</pageId>
 				<bandwidth />
@@ -305,7 +306,6 @@
 				
 				<revenue>0</revenue>
 				<goalPageId />
-				
 				<url>http://example.org/user/profile</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
@@ -319,7 +319,6 @@
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				
 				<pageId>2</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
@@ -330,6 +329,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Status user</customVariablePageName4>
@@ -340,14 +340,12 @@
 						<customVariablePageValue5>looking at &quot;profile page&quot;</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page for user *_)%</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				
 				
 				<pageId>3</pageId>
 				<bandwidth />
@@ -357,6 +355,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Language</customVariablePageName1>
@@ -371,7 +370,6 @@
 						<customVariablePageValue4>looking at &quot;profile page&quot;</customVariablePageValue4>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -388,7 +386,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>364</visitDuration>
 		<visitDurationPretty>6 min 4s</visitDurationPretty>
 		<searches>0</searches>
@@ -443,20 +443,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedIn</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>SET WITH EMPTY VALUE</customVariableName2>
-				<customVariableValue2 />
-			</row>
-			<row>
-				<customVariableName3>Value will be VERY long and truncated</customVariableName3>
-				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</customVariableValue3>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1111x222</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -473,5 +460,19 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedIn</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>SET WITH EMPTY VALUE</customVariableName2>
+				<customVariableValue2 />
+			</row>
+			<row>
+				<customVariableName3>Value will be VERY long and truncated</customVariableName3>
+				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</customVariableValue3>
+			</row>
+		</customVariables>
 	</row>
 </result>

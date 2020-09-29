@@ -22,6 +22,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -32,7 +33,6 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 7</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -65,15 +65,17 @@
 		
 		
 		<userId />
-		<visitorType>returningCustomer</visitorType>
+		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>5</visitCount>
+		<visitCount>3</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>100</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
+		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>86400</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>1</visitDuration>
 		<visitDurationPretty>1s</visitDurationPretty>
 		<searches>0</searches>
@@ -127,17 +129,8 @@
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>82800</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -154,6 +147,16 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -306,15 +309,17 @@
 		
 		
 		<userId />
-		<visitorType>returningCustomer</visitorType>
+		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>5</visitCount>
+		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>100</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>3600</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>1621</visitDuration>
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
@@ -368,17 +373,8 @@
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>3600</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -395,6 +391,16 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -418,6 +424,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -428,7 +435,6 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 6</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -461,15 +467,17 @@
 		
 		
 		<userId />
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>5</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -523,17 +531,8 @@
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -550,5 +549,15 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
+			</row>
+		</customVariables>
 	</row>
 </result>

@@ -29,8 +29,8 @@
 		<nb_visits>10</nb_visits>
 		<nb_actions>14</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>6</sum_visit_length>
-		<bounce_count>7</bounce_count>
+		<sum_visit_length>4</sum_visit_length>
+		<bounce_count>8</bounce_count>
 		<nb_visits_converted>10</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>

@@ -20,7 +20,6 @@
         "DonateCall1": "Matomo her zaman ücretsiz kullanılabilecek ancak bu durum geliştirmenin ücretsiz olduğu anlamına gelmiyor.",
         "DonateCall2": "Gelişip ilerleyebilmesi için Matomo projesi sürekli desteğinize gerek duyuyor.",
         "DonateCall3": "Matomo uygulamasının işinize önemli bir katkı sağladığını düşünüyorsanız, %1$slütfen düzenli bağış yapmayı%2$s ya da %3$sbir özellik satın almayı%4$s düşünün. Her kuruşun yardımı olur.",
-        "DonateFormInstructions": "Düzenli bağış tutarını seçmek için kaydırıcıyı kullanın ve Bağış Yap düğmesine tıklayın.",
         "EndShortcut": "Son",
         "EnterZenMode": "Zen kipine gir (menüleri gizle)",
         "ExitZenMode": "Zen kipinden çık (menüleri görüntüle)",
@@ -32,7 +31,7 @@
         "ShowExportUrl": "Dışa Aktarma Adresi Görüntülensin",
         "HideExportUrl": "Dışa Aktarma Adresi Gizlensin",
         "HomeShortcut": "Ana Sayfa",
-        "HowMuchIsPiwikWorth": "Matomo sizin için ne kadar değerli?",
+        "SupportUsOn": "Şuradan destek olun",
         "IncludeRowsWithLowPopulation": "Düşük dağılımlı satırlar gizlendi %s Tüm satırları görüntüle",
         "InjectedHostEmailBody": "Merhaba, bugün Matomo uygulamasına erişmeye çalıştım ve sunucu adı bilinmiyor uyarısı ile karşılaştım.",
         "InjectedHostEmailSubject": "Matomo uygulamasına bilinmeyen bir sunucu adından erişildi: %s",
@@ -45,7 +44,8 @@
         "VisitTypeReturning": "Geri Gelen",
         "VisitTypeReturningCustomer": "Geri Gelen Müşteri",
         "MainNavigation": "Ana Gezinme",
-        "MakeOneTimeDonation": "Ya da bir kerelik bir bağış yapın.",
+        "YourDonationWillHelp": "Bağışınız, bu açık kaynaklı istatistik platformu için yeni özellik ve geliştirmelerin doğrudan desteklenmesini sağlar. Böylece topluluk her zaman kişisel gizliliği koruyan ve verilerinizin kontrolünü elinizde tutmanızı sağlayan bir araçtan yararlanabilir.",
+        "ThanksFromAllOfUs": "Matomo topluluğu olarak teşekkür ederiz!",
         "Menu": "Menü",
         "NoPrivilegesAskPiwikAdmin": "'%1$s' olarak oturum açmışsınız ancak kullanıcınıza Matomo üzerinde herhangi bir izin verilmemiş gibi görünüyor. Kullanıcınıza bir web sitesini 'Görüntüleme' izni vermesi için %2$sMatomo yöneticiniz ile görüşün (e-posta göndermek için tıklayın)%3$s.",
         "OnlyForSuperUserAccess": "Varsayılan panodaki bu gereç yalnız Super Kullanıcılara görüntülenir.",
@@ -102,12 +102,15 @@
         "RowLimit": "Satır sayısı",
         "CustomLimit": "Özel sayı",
         "ExportFormat": "Dışa aktarma biçimi",
+        "ExportTooltip": "Not: Üretilen dışa aktarma adresi yalnız geçerli tarayıcı oturumunda çalışır. Başka bir yerde kullanmak istiyorsanız, uygulamaya özel bir kod kullanmalısınız. Bu kodları Yönetim -> Güvenlik -> Kimlik Doğrulama Kodları bölümünden yapılandırabilirsiniz.",
         "ExpandSubtables": "Alt tabloları genişlet",
         "StandardReport": "Standart rapor",
         "FlattenReport": "Düz rapor",
         "ReportWithMetadata": "Üst veriler ile rapor",
         "ReadMoreOnlineGuide": "Bu konu hakkında ayrıntılı bilgi almak için çevrimiçi rehbere bakabilirsiniz.",
         "SeeAvailableVersions": "Kullanılabilecek Sürümlere Bakın",
-        "QuickLinks": "Kestirme Bağlantıları"
+        "QuickLinks": "Kestirme Bağlantıları",
+        "Profilable": "Profillenebilir",
+        "SearchOnMatomo": "Matomo.org üzerinde '%1$s' arayın"
     }
 }

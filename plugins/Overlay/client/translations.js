@@ -11,8 +11,8 @@ var Piwik_Overlay_Translations = (function () {
          */
         initialize: function (callback) {
             // Load translation data
-            Piwik_Overlay_Client.api('getTranslations', function (data) {
-                translations = data[0];
+            Matomo_Overlay_Client.api('getTranslations', function (data) {
+                translations = data;
                 callback();
             });
         },

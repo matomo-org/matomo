@@ -21,8 +21,11 @@ use Piwik\Tracker\Visitor;
 
 class TimeNetwork extends ActionDimension
 {
-    protected $columnName = 'time_network';
-    protected $columnType = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    const COLUMN_NAME = 'time_network';
+
+    protected $columnName = self::COLUMN_NAME;
+    protected $columnType = self::COLUMN_TYPE;
     protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeNetwork';
 
@@ -58,7 +61,8 @@ class TimeNetwork extends ActionDimension
 
         $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
         $metric3->setName('pageviews_with_time_network');
-        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithNetworkTime'));
+        $metric3->setType(self::TYPE_NUMBER);
+        $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeNetwork'));
         $metricsList->addMetric($metric3);
 
         $metric4 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -67,8 +71,8 @@ class TimeNetwork extends ActionDimension
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_time_network');
-        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageNetworkTime'));
-        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageNetworkTimeDocumentation'));
+        $metric->setTranslatedName(Piwik::translate('PagePerformance_ColumnAverageTimeNetwork'));
+        $metric->setDocumentation(Piwik::translate('PagePerformance_ColumnAverageTimeNetworkDocumentation'));
         $metricsList->addMetric($metric);
     }
 }

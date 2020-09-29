@@ -80,14 +80,6 @@ class UrlNormalizationTest extends SystemTestCase
             'date'       => $dateTime,
             'segment'    => 'referrerUrl==http://www.google.com/search?q=piwik',
         ));
-        $return[] = array('Referrers.getKeywordsForPageUrl', array(
-            'testSuffix'             => '_keywords',
-            'idSite'                 => $idSite,
-            'date'                   => $dateTime,
-            'otherRequestParameters' => array(
-                'url' => 'http://WWW.example.org/foo/bar.html'
-            )
-        ));
         return $return;
     }
 

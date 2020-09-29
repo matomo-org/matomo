@@ -72,6 +72,7 @@ class PluginsArchiver
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
+
         $shouldAggregateFromRawData = $this->params->isSingleSiteDayArchive();
 
         /**
@@ -81,11 +82,6 @@ class PluginsArchiver
          *
          * @param bool $shouldAggregateFromRawData  Set to true, to aggregate from raw data, or false to aggregate multiple reports.
          * @param Parameters $params
-         * @ignore
-         * @deprecated
-         *
-         * In Matomo 4.0 we should maybe remove this event, and instead maybe always archive from raw data when it is daily archive,
-         * no matter if single site or not. We cannot do this in Matomo 3.X as some custom plugin archivers may not be able to handle multiple sites.
          */
         Piwik::postEvent('ArchiveProcessor.shouldAggregateFromRawData', array(&$shouldAggregateFromRawData, $this->params));
 
@@ -154,7 +150,6 @@ class PluginsArchiver
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
-
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
                 try {
@@ -185,7 +180,7 @@ class PluginsArchiver
                         $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
-                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName", $e->getCode(), $e);
+                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName with trace: " . $e->getTraceAsString(), $e->getCode(), $e);
                 } finally {
                     self::$currentPluginBeingArchived = null;
                 }
@@ -271,13 +266,17 @@ class PluginsArchiver
         if (Rules::shouldProcessReportsAllPlugins(
             array($this->params->getSite()->getId()),
             $this->params->getSegment(),
-            $this->params->getPeriod()->getLabel())) {
+            $this->params->getPeriod()->getLabel())
+        ) {
             return true;
         }
 
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())) {
-            return true;
+        if ($this->params->getRequestedPlugin() &&
+            !\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())
+        ) {
+            return false;
         }
+
         return false;
     }
 

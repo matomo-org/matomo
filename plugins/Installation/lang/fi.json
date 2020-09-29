@@ -66,7 +66,6 @@
         "SuperUserSetupSuccess": "Pääkäyttäjän luominen onnistui!",
         "SystemCheck": "Järjestelmän asetukset",
         "SystemCheckAutoUpdateHelp": "Huomioi: Matomon yhden klikkauksen päivitys vaatii kirjoitusoikeudet Matomon kansioon ja kansion kaikkeen sisältöön.",
-        "SystemCheckCreateFunctionHelp": "Matomo käyttää anonyymejä funktioita takaisinkutsuihin.",
         "SystemCheckDatabaseExtensions": "MySQL-lisäosat",
         "SystemCheckDatabaseHelp": "Matomo vaatii joko mysqli-lisäosan tai sekä PDO- että pdo_mysql-lisäosat..",
         "SystemCheckDatabaseSSL": "Tietokannan SSL-yhteys",
@@ -140,7 +139,6 @@
         "WelcomeHelp": "<p>Matomo on vapaa ja avoin web-analytiikkaohjelmisto, jonka avulla saat haluamaasi tietoa sivustojesi kävijöistä.<\/p><p>Tämä prosessi on jaettu%s helppoon vaiheeseen, ja niiden läpikäynti kestää noin 5 minuuttia.<\/p>",
         "WelcomeToCommunity": "Tervetuloa Matomo-yhteisöön!",
         "CannotConnectToDb": "Tietokantaan yhdistäminen epäonnistui",
-        "CannotConnectToDbResolvingExplanation": "Tämä saattaa olla väliaikainen ongelma, %1$syritä päivittää sivu%2$s. Jos ongelma ilmenee uudelleen, ole yhteydessä tämän Matomo-instanssin ylläpitoon.",
-        "EmailPrivacyNotice": "Sähköpostiosoitettasi käytetään vain Matomo-uutiskirjeen lähetystä varten. Voit lopettaa uutiskirjeen tilauksen milloin hyvänsä. Emme jaa sähköpostiosoitettasi kenenkään muun kanssa, emmekä käytä sähköpostiosoitettasi mihinkään muuhun tarkoitukseen kuin uutiskirjeen lähetykseen. Lue lisää %1$syksityisyyskäytännöstämme%2$s."
+        "CannotConnectToDbResolvingExplanation": "Tämä saattaa olla väliaikainen ongelma, %1$syritä päivittää sivu%2$s. Jos ongelma ilmenee uudelleen, ole yhteydessä tämän Matomo-instanssin ylläpitoon."
     }
 }

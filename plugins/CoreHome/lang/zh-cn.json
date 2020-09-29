@@ -20,7 +20,6 @@
         "DonateCall1": "Matomo 对您来说可以免费使用，但对我们来说并非零成本。",
         "DonateCall2": "Matomo 的茁壮成长离不开您的支持。",
         "DonateCall3": "如果你觉得Matomo对你的商业有价值的话，%1$s请考虑资助%2$s 或者 %3$s购买会员%4$s。任何一分都会有帮助。",
-        "DonateFormInstructions": "点击下面的滑动条设定金额，然后点 Subscribe 按钮捐款",
         "EndShortcut": "结束",
         "EnterZenMode": "进入Zen模式（隐藏菜单）",
         "ExitZenMode": "退出Zen模式（显示菜单）",
@@ -32,7 +31,6 @@
         "ShowExportUrl": "显示导出URL",
         "HideExportUrl": "隐藏导出URL",
         "HomeShortcut": "Home",
-        "HowMuchIsPiwikWorth": "对于您来说Matomo的价值?",
         "IncludeRowsWithLowPopulation": "没有显示低密度数据 %s 显示所有数据",
         "InjectedHostEmailBody": "您好，我今天访问 Matomo 时遇到未知主机名的警告。",
         "InjectedHostEmailSubject": "访问 Matomo 的主机名未知: %s",
@@ -45,7 +43,8 @@
         "VisitTypeReturning": "返回",
         "VisitTypeReturningCustomer": "回归客户",
         "MainNavigation": "主导航",
-        "MakeOneTimeDonation": "一次性捐款",
+        "YourDonationWillHelp": "您的捐赠将直接为这个开源分析平台的新功能和改进提供资金。这意味着社区能持续为您提供保护隐私并完全掌控您数据的工具。",
+        "ThanksFromAllOfUs": "谢谢所有和Matomo相关的人！",
         "Menu": "菜单",
         "NoPrivilegesAskPiwikAdmin": "您当前登录用户是'%1$s' ，但是没有任何Matomo权限。%2$s 联系 Matomo 管理员 (点击发送邮件)%3$s 获得 '查看' 权限。",
         "OnlyForSuperUserAccess": "这个小工具仅仅显示在有超级用户权限的面板里。",
@@ -102,12 +101,14 @@
         "RowLimit": "行限制",
         "CustomLimit": "自定义限制",
         "ExportFormat": "出口格式",
+        "ExportTooltip": "注意：生成的导出URL只会在当前浏览器窗口有效。如果你想把链接用在其他地方，你需要生成一个密钥。你可以到 管理 -> 安全 -> 密钥管理 中配置。",
         "ExpandSubtables": "展开子表",
         "StandardReport": "标准报告",
         "FlattenReport": "展平报告",
         "ReportWithMetadata": "报告元数据",
         "ReadMoreOnlineGuide": "在线指南中阅读有关此主题的更多信息。",
         "SeeAvailableVersions": "请参阅可用版本",
-        "QuickLinks": "快速链接"
+        "QuickLinks": "快速链接",
+        "SearchOnMatomo": "在Matomo.org上搜索“ %1$s”"
     }
 }

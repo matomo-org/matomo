@@ -249,7 +249,7 @@ class Process
 
     public static function getListOfRunningProcesses()
     {
-        $processes = `ps ex 2>/dev/null`;
+        $processes = `ps x 2>/dev/null`;
         if (empty($processes)) {
             return array();
         }
@@ -261,7 +261,7 @@ class Process
      */
      public static function getRunningProcesses()
      {
-         $ids = explode("\n", trim(`ps ex 2>/dev/null | awk '! /defunct/ {print $1}' 2>/dev/null`));
+         $ids = explode("\n", trim(`ps x 2>/dev/null | awk '! /defunct/ {print $1}' 2>/dev/null`));
 
          $ids = array_map('intval', $ids);
          $ids = array_filter($ids, function ($id) {

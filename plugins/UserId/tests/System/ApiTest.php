@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UserId\tests\System;
 
+use Piwik\Config;
 use Piwik\Plugins\UserId\tests\Fixtures\TrackFewVisitsAndCreateUsers;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 

@@ -77,6 +77,8 @@ describe("Dashboard", function () {
         await page.waitFor(100);
         await page.mouse.move(-10, -10);
 
+        await page.waitForNetworkIdle();
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
     });
 
@@ -208,7 +210,7 @@ describe("Dashboard", function () {
         await page.evaluate(function () {
             $('#copyDashboardName').val('');
         });
-        await page.type('#copyDashboardName', 'newdash');
+        await page.type('#copyDashboardName', 'new <dash> 💩');
         await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
         await page.select('#copyDashboardUser', 'superUserLogin');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
@@ -301,7 +303,7 @@ describe("Dashboard", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
-        var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b";
+        var tokenAuth = "a4ca4238a0b923820dcc509a6f75849f";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_token_auth');

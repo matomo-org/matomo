@@ -733,10 +733,11 @@ abstract class Controller
 
         $this->addCustomLogoInfo($view);
 
-        $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
-        $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
-        $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
-        $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
+        $customLogo = new CustomLogo();
+        $view->logoHeader = $customLogo->getHeaderLogoUrl();
+        $view->logoLarge = $customLogo->getLogoUrl();
+        $view->logoSVG = $customLogo->getSVGLogoUrl();
+        $view->hasSVGLogo = $customLogo->hasSVGLogo();
         $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         $view->themeStyles = ThemeStyles::get();
 
@@ -820,7 +821,12 @@ abstract class Controller
             // invalid host, so display warning to user
             $validHosts = Url::getTrustedHostsFromConfig();
             $validHost = $validHosts[0];
-            $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
+
+            if (!empty($_SERVER['SERVER_NAME'])) {
+                $invalidHost = Common::sanitizeInputValue(Url::getHostFromServerNameVar());
+            } else {
+                $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
+            }
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));

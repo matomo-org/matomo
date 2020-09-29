@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\GeoIp2;
 
-require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker which doesn't include this file
-
 use Exception;
 use GeoIp2\Database\Reader;
 use Piwik\Common;
@@ -408,7 +406,9 @@ class GeoIP2AutoUpdater extends Task
 
             $url = $options[$optionKey];
             $url = self::removeDateFromUrl($url);
-
+            if (!empty($url) && strpos(Common::mb_strtolower($url), 'https://') !== 0 && strpos(Common::mb_strtolower($url), 'http://') !== 0) {
+                throw new Exception('Invalid download URL for geoip ' . $optionKey . ': ' . $url);
+            }
             Option::set($optionName, $url);
         }
 

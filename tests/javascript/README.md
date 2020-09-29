@@ -8,3 +8,7 @@ The tests will create a database named `tracker_tests` and store several trackin
 ## Execute
 
 Either open http://piwik.example.com/tests/javascript/ in a browser or execute `phantomjs testrunner.js` on the command line. You can download PhantomJS here: http://phantomjs.org/
+
+To execute tests for a specific module use the `module` URL parameter, for example `&module=core`.
+
+If you are developing multiple tracker plugin and want to only include tests for a specific tracker plugin (like Travis would do) use the URL parameter `plugin` as in `&plugin=MyPluginName`.

@@ -57,7 +57,7 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('3_segment_editor_edit_name');
     });
 
-    it("should show the egment editor's available segments dropdown", async function() {
+    it("should show the segment editor's available segments dropdown", async function() {
         var elem = await page.$('.available_segments a.dropList');
         await elem.hover();
         await page.click('.available_segments a.dropList');
@@ -65,7 +65,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should change segment when another available segment clicked in segment editor's available segments dropdown", async function() {
-        await (await page.jQuery('.ui-menu-item a:contains(Add new segment)')).click();
+        await (await page.jQuery('.ui-menu-item div:contains(Add new segment)')).click();
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('6_segment_editor_different');
     });
@@ -86,7 +86,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should update segment expression when selecting different segment", async function() {
-        await selectDimension('.segmentRow0', 'Actions', 'Action URL');
+        await selectDimension('.segmentRow0', 'Behaviour', 'Action URL');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('dimension_drag_drop');
     });
@@ -106,7 +106,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should add an OR condition when a segment dimension is selected in the OR placeholder section", async function() {
-        await selectDimension('.segmentRow0 .segment-row:last', 'Actions', 'Clicked Outlink');
+        await selectDimension('.segmentRow0 .segment-row:last', 'Behaviour', 'Clicked Outlink');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('drag_or_condition');
     });
@@ -119,7 +119,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should add an AND condition when a segment dimension is dragged to the AND placeholder section", async function() {
-        await selectDimension('.segmentRow1', 'Actions', 'Clicked Outlink');
+        await selectDimension('.segmentRow1', 'Behaviour', 'Clicked Outlink');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('drag_and_condition');
     });

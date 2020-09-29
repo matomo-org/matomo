@@ -371,7 +371,7 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return DataTable\Row
      */
-    public static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
+    public static function getActionRow($actionName, $actionType, $urlPrefix, &$actionsTablesByType)
     {
         // we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
         /* @var DataTable $currentTable */

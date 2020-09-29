@@ -3,6 +3,14 @@
   margin-bottom: 0;
 }
 
+ul.browser-default {
+  list-style-type: disc;
+  li {
+    margin-left: 20px;
+    list-style-type: disc;
+  }
+}
+
 nav {
   background-color: @theme-color-header-background !important;
 
@@ -48,8 +56,13 @@ nav {
     &:hover {
       background-color: rgba(0,0,0,0.1);
     }
-    .title {
-      color: @theme-color-header-text;
+  }
+
+  ul:not(#mobile-top-menu) {
+    .languageSelection {
+      .title {
+        color: @theme-color-header-text;
+      }
     }
   }
 

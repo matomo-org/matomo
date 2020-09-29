@@ -290,6 +290,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $newsletterPiwikORG,
                     $newsletterProfessionalServices
                 );
+                Onboarding::sendSysAdminMail($email);
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {
@@ -491,7 +492,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
-
         return $view->render();
     }
 
@@ -521,8 +521,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $files = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
-            'libs/jquery/themes/base/jquery-ui.min.css',
-            'libs/bower_components/materialize/dist/css/materialize.min.css',
+            "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
+            'node_modules/materialize-css/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Installation/stylesheets/installation.css'
@@ -542,14 +542,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
 
         $files = array(
-            'libs/bower_components/jquery/dist/jquery.min.js',
-            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
-            'libs/bower_components/materialize/dist/js/materialize.min.js',
-            'libs/bower_components/angular/angular.min.js',
-            'libs/bower_components/angular-sanitize/angular-sanitize.min.js',
-            'libs/bower_components/angular-animate/angular-animate.min.js',
-            'libs/bower_components/angular-cookies/angular-cookies.min.js',
-            'libs/bower_components/ngDialog/js/ngDialog.min.js',
+            "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/jquery-ui-dist/jquery-ui.min.js",
+            'node_modules/materialize-css/dist/js/materialize.min.js',
+            "plugins/CoreHome/javascripts/materialize-bc.js",
+            'node_modules/angular/angular.min.js',
+            'node_modules/angular-sanitize/angular-sanitize.min.js',
+            'node_modules/angular-animate/angular-animate.min.js',
+            'node_modules/angular-cookies/angular-cookies.min.js',
+            'node_modules/ng-dialog/js/ngDialog.min.js',
             'plugins/CoreHome/angularjs/common/services/service.module.js',
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
@@ -559,6 +560,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
         );
+
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
+            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
+            $files[] = 'tests/resources/screenshot-override/override.js';
+        }
 
         return AssetManager::compileCustomJs($files);
     }

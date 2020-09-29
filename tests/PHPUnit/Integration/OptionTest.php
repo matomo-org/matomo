@@ -175,4 +175,37 @@ class OptionTest extends IntegrationTestCase
         Option::deleteLike("%\\_defaultReport");
         $this->assertSame('0', Option::get('adefaultReport'));
     }
+
+    public function testDeleteLike_underscoreNotWildcard()
+    {
+        // insert guard - to test unescaped underscore
+        Option::set('adefaultReport', '1', true);
+
+        Option::deleteLike("adefaul_Report"); // the underscore should not match a character
+        $this->assertSame('1', Option::get('adefaultReport'));
+    }
+
+    public function testGetLike()
+    {
+        Option::set('adefaultReport', '1', true);
+        Option::set('adefaultRepo', '1', true);
+        Option::set('adefaultRepppppppport', '1', true);
+
+        $values = Option::getLike("adefaultRepo%"); // the underscore should not match a character
+        $this->assertSame(array(
+            'adefaultRepo' => '1',
+            'adefaultReport' => '1'
+        ), $values);
+    }
+
+    public function testGetLike_underscoreNotWildcard()
+    {
+        // insert guard - to test unescaped underscore
+        Option::set('adefaultReport', '1', true);
+
+        $values = Option::getLike("adefaul_Report"); // the underscore should not match a character
+        $this->assertSame(array(), $values);
+        $values = Option::getLike("adefaul%Report");
+        $this->assertSame(array('adefaultReport' => '1'), $values);
+    }
 }

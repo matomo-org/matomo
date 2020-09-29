@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API;
@@ -98,10 +99,11 @@ class ManyVisitsWithGeoIP extends Fixture
         }
     }
 
+    protected $calledCounter = 0;
+
     private function trackVisits($visitorCount, $setIp = false, $useLocal = true, $doBulk = false)
     {
-        static $calledCounter = 0;
-        $calledCounter++;
+        $this->calledCounter++;
 
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
@@ -119,7 +121,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
 
         for ($i = 0; $i != $visitorCount; ++$i) {
-            $this->trackVisit($t, $calledCounter, $i, $doBulk, array('setIp' => $setIp));
+            $this->trackVisit($t, $this->calledCounter, $i, $doBulk, array('setIp' => $setIp));
         }
 
         if ($doBulk) {
@@ -178,12 +180,6 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setUrl("http://piwik.net/space/quest/iv");
 
         // Manually record some data
-        $t->setDebugStringAppend(
-            '&_idts='. $date->subDay(100)->getTimestampUTC(). // first visit timestamp
-            '&_ects='. $date->subDay(50)->getTimestampUTC(). // Timestamp ecommerce
-            '&_viewts='. $date->subDay(10)->getTimestampUTC(). // Last visit timestamp
-            '&_idvc=5' // Visit count
-        );
         $r = $t->doTrackPageView("Space Quest XII");
 
         if (!$doBulk) {

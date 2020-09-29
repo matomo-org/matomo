@@ -66,10 +66,6 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         $t->setEcommerceView('SKU2', 'PRODUCT name', $category, $price);
         $t->setCustomVariable(5, 'VisitorType', 'NewLoggedOut', 'visit');
         $t->setCustomVariable(4, 'ValueIsZero', '0', 'visit');
-        self::assertEquals(array('_pks', 'SKU2'), $t->getCustomVariable(3, 'page'));
-        self::assertEquals(array('_pkn', 'PRODUCT name'), $t->getCustomVariable(4, 'page'));
-        self::assertEquals(array('_pkc', $category), $t->getCustomVariable(5, 'page'));
-        self::assertEquals(array('_pkp', $price), $t->getCustomVariable(2, 'page'));
         self::assertEquals(array('VisitorType', 'NewLoggedOut'), $t->getCustomVariable(5, 'visit'));
 
         // this is also a goal conversion (visitConvertedGoalId==1)
@@ -85,13 +81,13 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         self::checkResponse($t->doTrackPageView('Another Product page with no category'));
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
-        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $categories = array('Multiple Category 1', '', 0, 'Multiple Category 2', 'Electronics & Cameras', 'Multiple Category 4', 'Multiple Category 5', 'SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttttttttuuuu!'));
+        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $categories = ['Multiple Category 1', '', 0, 'Multiple Category 2', 'Electronics & Cameras', 'Multiple Category 4', 'Multiple Category 5', 'SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttttttttuuuu!']);
         self::checkResponse($t->doTrackPageView('Another Product page with multiple categories'));
 
         // VISIT NO 2
 
         // Fake the returning visit cookie
-        $t->setDebugStringAppend("&_idvc=2");
+        // TODO: can't do this w/ idvc, should be fine for a test
         $t->setBrowserLanguage('pl');
 
         // VIEW category page
@@ -166,7 +162,6 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
             $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($offsetHour + 2.4)->getDatetime());
             // Also recording an order the day after (purposefully using old order ID, it should be ignored by the tracker since it was used in a previous visit)
             if ($offsetHour >= 24) {
-                $t->setDebugStringAppend("&_idvc=1");
                 $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
                 self::checkTrackingFailureResponse($t->doTrackEcommerceOrder($orderId2, $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
             }

@@ -1,0 +1,55 @@
+<div>
+    <div piwik-content-intro>
+        <h2 piwik-enriched-headline>{{ 'CustomDimensions_CustomDimensions'|translate }}</h2>
+
+        <p ng-bind-html="('CustomDimensions_CustomDimensionsIntro'|translate:'&lt;a target=_blank href=\'https://piwik.org/docs/custom-dimensions\'>':'&lt;/a>':dimensionsList.siteName) + ' ' + ('CustomDimensions_CustomDimensionsIntroNext'|translate:'&lt;a target=_blank href=\'https://piwik.org/docs/custom-variables\'>':'&lt;/a>':'&lt;a target=_blank href=\'https://piwik.org/faq/general/faq_21117\'>':'&lt;/a>') ">
+        </p>
+
+        <p ng-show="dimensionsList.model.isLoading">
+            <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+        </p>
+    </div>
+
+    <div ng-repeat="scope in dimensionsList.model.availableScopes" ng-show="!dimensionsList.model.isLoading">
+        <div piwik-content-block content-title="{{ scope.name }} Dimensions">
+
+            <p>
+                {{ 'CustomDimensions_ScopeDescription' + (scope.value|ucfirst) |translate }}
+                {{ 'CustomDimensions_ScopeDescription' + (scope.value|ucfirst) + 'MoreInfo' |translate }}
+            </p>
+
+            <table piwik-content-table>
+                <thead>
+                <tr>
+                    <th class="index">{{ 'General_Id'|translate }}</th>
+                    <th class="name">{{ 'General_Name'|translate }}</th>
+                    <th class="extractions" ng-show="scope.supportsExtractions">{{ 'CustomDimensions_Extractions'|translate }}</th>
+                    <th class="active">{{ 'CorePluginsAdmin_Active'|translate }}</th>
+                    <th class="action">{{ 'General_Action'|translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-show="scope.numSlotsUsed == 0 && !dimensionsList.model.isLoading">
+                    <td colspan="5">{{ 'CustomDimensions_NoCustomDimensionConfigured'|translate }}</td>
+                </tr>
+                <tr ng-repeat="customDimension in dimensionsList.model.customDimensions|filter:{scope: scope.value}|orderBy:'idcustomdimension.parseInt()'"
+                    class="customdimension" ng-class="customDimension.idcustomdimension">
+                    <td class="index">{{ customDimension.idcustomdimension }}</td>
+                    <td class="name">{{ customDimension.name }}</td>
+                    <td class="extractions" ng-show="scope.supportsExtractions"><span ng-class="{'icon-ok': customDimension.extractions[0].pattern}"></span></td>
+                    <td class="active"><span ng-class="{'icon-ok': customDimension.active}"></span></td>
+                    <td class="action"><a ng-href="#?idDimension={{ customDimension.idcustomdimension }}&scope={{ scope.value }}" class="table-action icon-edit" ng-click="addCustomVar"></a></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="tableActionBar">
+                <a class="{{scope.value }}" ng-show="!dimensionsList.model.isLoading"
+                   value="" ng-href="#?idDimension=0&scope={{ scope.value }}" ng-class="{'disabled': !scope.numSlotsLeft}"
+                ><span class="icon-add"></span> {{ 'CustomDimensions_ConfigureNewDimension'|translate }}
+                    <span class="info">({{ 'CustomDimensions_XofYLeft'|translate:scope.numSlotsLeft:scope.numSlotsAvailable }})</span></a>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -13,6 +13,8 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
@@ -22,6 +24,7 @@ use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Failures;
 use Piwik\Url;
@@ -238,6 +241,48 @@ class API extends \Piwik\Plugin\API
         }
 
         return $failures;
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param bool $segment
+     * @param bool $plugin
+     * @param bool $report
+     * @return mixed
+     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @internal
+     */
+    public function archiveReports($idSite, $period, $date, $segment = false, $plugin = false, $report = false)
+    {
+        if (\Piwik\API\Request::getRootApiRequestMethod() === 'CoreAdminHome.archiveReports') {
+            Piwik::checkUserHasSuperUserAccess();
+        } else {
+            Piwik::checkUserHasViewAccess($idSite);
+        }
+
+        // if cron archiving is running, we will invalidate in CronArchive, not here
+        $isArchivePhpTriggered = SettingsServer::isArchivePhpTriggered();
+        $invalidateBeforeArchiving = !$isArchivePhpTriggered;
+
+        $period = Factory::build($period, $date);
+        $parameters = new ArchiveProcessor\Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd()));
+        if ($report) {
+            $parameters->setArchiveOnlyReport($report);
+        }
+
+        // TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
+        $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
+
+        $result = $archiveLoader->prepareArchive($plugin);
+        if (!empty($result)) {
+            $result = [
+                'idarchives' => $result[0],
+                'nb_visits' => $result[1],
+            ];
+        }
+        return $result;
     }
 
     /**

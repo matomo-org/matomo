@@ -13,7 +13,7 @@
  *
  * Should only be used by the broadcast object.
  *
- * @deprecated in 3.2.2, will be removed in Piwik 4
+ * @deprecated in 3.2.2, will be removed in Matomo 5
  */
 (function (window, $, broadcast) {
     angular.module('piwikApp').service('historyService', historyService);

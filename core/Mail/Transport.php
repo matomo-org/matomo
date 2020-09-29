@@ -35,6 +35,8 @@ class Transport
         $phpMailer->CharSet = PHPMailer::CHARSET_UTF8;
         $phpMailer->Encoding = PHPMailer::ENCODING_QUOTED_PRINTABLE;
         $phpMailer->XMailer = ' ';
+        // avoid triggering automated (vacation) responses
+        $phpMailer->addCustomHeader('Auto-Submitted', 'yes');
         $phpMailer->setLanguage(StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage());
         $this->initSmtpTransport($phpMailer);
 
@@ -93,7 +95,7 @@ class Transport
         if (defined('PIWIK_TEST_MODE')) { // hack
             /**
              * @ignore
-             * @deprecated
+             * @internal
              */
             Piwik::postTestEvent("Test.Mail.send", array($phpMailer));
             return true;

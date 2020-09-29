@@ -10,6 +10,7 @@ namespace Piwik\DeviceDetector;
 
 use DeviceDetector\DeviceDetector;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 
 class DeviceDetectorFactory
 {
@@ -51,7 +52,7 @@ class DeviceDetectorFactory
     {
         $deviceDetector = new DeviceDetector($userAgent);
         $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new DeviceDetectorCache(86400));
+        $deviceDetector->setCache(StaticContainer::get('DeviceDetector\Cache\Cache'));
         $deviceDetector->parse();
         return $deviceDetector;
     }

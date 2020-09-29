@@ -23,7 +23,7 @@
         "AverageX": "Média %s",
         "BackToPiwik": "Volta ao Matomo",
         "Broken": "Quebrado",
-        "BrokenDownReportDocumentation": "Subdividem-se em vários relatórios, que são exibidos em sparklines na parte inferior da página. Você pode ampliar os gráficos, clicando no relatório que gostaria de ver.",
+        "BrokenDownReportDocumentation": "Subdividem-se em vários relatórios, que são exibidos em minigráficos na parte inferior da página. Você pode ampliar os gráficos, clicando no relatório que gostaria de ver.",
         "Cancel": "Cancelar",
         "CannotUnzipFile": "Não pode descompactar o arquivo %1$s: %2$s",
         "ChangePassword": "Modificar senha",
@@ -133,7 +133,10 @@
         "DaysHours": "%1$s dias %2$s horas",
         "DaysSinceFirstVisit": "Dias desde a primeira visita",
         "DaysSinceLastEcommerceOrder": "Dias desde o último pedido de Ecommerce",
+        "SecondsSinceLastEcommerceOrder": "Segundos desde o último pedido de Ecommerce",
         "DaysSinceLastVisit": "Dias desde a última visita",
+        "SecondsSinceLastVisit": "Segundos desde a última visita",
+        "SecondsSinceFirstVisit": "Segundos desde a primeira visita",
         "Default": "Padrão",
         "DefaultAppended": "(padrão)",
         "Delete": "Excluir",
@@ -513,7 +516,11 @@
         "ClickToRemoveComp": "Clique para remover essa comparação.",
         "MaximumNumberOfSegmentsComparedIs": "O número máximo de segmentos que podem ser comparados simultaneamente é %s.",
         "CompareDatesParamMustMatchComparePeriods": "O comprimento do parâmetro de consulta %1$s deve corresponder ao comprimento do parâmetro de consulta %2$s.",
-        "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s."
+        "MaximumNumberOfPeriodsComparedIs": "O número máximo de períodos que podem ser comparados simultaneamente é %s.",
+        "Custom": "Personalizado",
+        "PreviousPeriod": "Período anterior",
+        "PreviousYear": "Ano anterior",
+        "ViewAccessRequired": "O token_auth usado tem muito acesso para ser usado em um pedido URL não-API. Por favor use uma senha específica do aplicativo para um usuário que só tenha acesso para visualização."
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Móvel",

@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Live;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\Plugins\Goals\API as APIGoals;
@@ -24,6 +23,14 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\Controller
 {
     const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
+
+    private $profileSummaryProvider;
+
+    public function __construct(ProfileSummaryProvider $profileSummaryProvider)
+    {
+        $this->profileSummaryProvider = $profileSummaryProvider;
+        parent::__construct();
+    }
 
     function index()
     {
@@ -151,7 +158,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $summaryEntries = array();
 
-        $profileSummaries = StaticContainer::get('Piwik\Plugins\Live\ProfileSummaryProvider')->getAllInstances();
+        $profileSummaries = $this->profileSummaryProvider->getAllInstances();
         foreach ($profileSummaries as $profileSummary) {
             $profileSummary->setProfile($view->visitorData);
             $summaryEntries[] = [$profileSummary->getOrder(), $profileSummary->render()];

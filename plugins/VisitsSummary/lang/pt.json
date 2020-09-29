@@ -6,7 +6,7 @@
         "GenerateTime": "%s segundos para renderizar a página",
         "MaxNbActions": "máximo de ações numa visita",
         "NbActionsDescription": "%s ações",
-        "NbActionsPerVisit": "ações (visualizações de páginas, transferências, ligações de saída e pesquisas internas no site) por visita",
+        "NbActionsPerVisit": "ações (visualizações de páginas, transferências, hiperligações de saída e pesquisas internas no <i>site<\/i>) por visita",
         "NbDownloadsDescription": "transferências",
         "NbKeywordsDescription": "palavras-chave únicas",
         "NbOutlinksDescription": "ligações de saída",

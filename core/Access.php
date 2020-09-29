@@ -157,9 +157,15 @@ class Access
 
         $result = null;
 
-        $forceApiSession = Common::getRequestVar('force_api_session', 0, 'int', $_POST);
-        if ($forceApiSession && Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction())) {
-            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_POST);
+        $forceApiSessionPost = Common::getRequestVar('force_api_session', 0, 'int', $_POST);
+        $forceApiSessionGet = Common::getRequestVar('force_api_session', 0, 'int', $_GET);
+        $isApiRequest = Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction());
+        $apiMethod = Request::getMethodIfApiRequest(null);
+        $isGetApiRequest = 1 === substr_count($apiMethod, '.') && strpos($apiMethod, '.get') > 0;
+
+        if (($forceApiSessionPost && $isApiRequest) || ($forceApiSessionGet && $isApiRequest && $isGetApiRequest)) {
+            $request = ($forceApiSessionGet && $isApiRequest && $isGetApiRequest) ? $_GET : $_POST;
+            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $request);
             if (!empty($tokenAuth)) {
                 Session::start();
                 $auth = StaticContainer::get(SessionAuth::class);
@@ -173,6 +179,7 @@ class Access
                      */
                     Piwik::postEvent('API.Request.authenticate.failed');
                 }
+                Session::close();
                 // if not successful, we will fallback to regular auth
             }
         }
@@ -666,7 +673,7 @@ class Access
 
         try {
             $result = $function();
-        } catch (Exception $ex) {
+        } catch (\Throwable $ex) {
             $access->setSuperUserAccess($isSuperUser);
             if ($shouldResetLogin) {
                 $access->login = null;

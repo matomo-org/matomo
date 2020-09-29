@@ -27,6 +27,13 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
         parent::setUpBeforeClass();
     }
 
+    protected function setUp(): void
+    {
+        // test results change based on time of day for some reason
+        Date::$now = strtotime(date('Y-m-d') . ' 20:00:00');
+        parent::setUp();
+    }
+
     /**
      * @dataProvider getApiForTesting
      */
@@ -77,7 +84,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                                                     'testSuffix' => $testSuffix,
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24 * 2,
-                                                        'visitorId' => $visitorId, // testing getLastVisitsForVisitor requires a visitor ID
+                                                        'visitorId' => $visitorId,
                                                         'hideColumns' => 'serverDate,lastActionTimestamp,lastActionDateTime,serverTimestamp,'.
                                                                          'firstActionTimestamp,serverTimePretty,serverDatePretty,'.
                                                                          'serverDatePrettyFirstAction,serverTimePrettyFirstAction'

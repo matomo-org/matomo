@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "变更时区仅会影响新的数据，不会溯及既往。",
         "Currency": "货币",
         "CurrencySymbolWillBeUsedForGoals": "目标收益旁边将显示货币符号。",
+        "CustomizeJavaScriptTracker": "定制JavaScript跟踪",
         "DefaultCurrencyForNewWebsites": "新网站的默认货币",
         "DefaultTimezoneForNewWebsites": "新网站默认时区",
         "DeleteConfirm": "您确定要删除网站 %s 吗？",
@@ -32,6 +33,10 @@
         "GlobalListExcludedUserAgents_Desc": "如果访客的用户代理字串包含指定的字符，访问将不被 Matomo 统计。",
         "GlobalSettings": "全局设置",
         "GlobalWebsitesSettings": "全局参数",
+        "InstallationGuides": "安装指南",
+        "InstallationGuidesIntro": "我们提供逐步指南，说明如何嵌入跟踪代码到一些流行的CMS和网站生成器：",
+        "ExtraInformationNeeded": "要在系统上设置Matomo，您可能需要以下信息：",
+        "Integrations": "集成",
         "JsTrackingTagHelp": "这是要加入所有网页的 JavaScript 跟踪代码",
         "KeepURLFragments": "网址标签跟踪",
         "KeepURLFragmentsHelp": "如果没有选中下面的复选框，网址标签 (%1$s 后面的所有内容) 将被删除: %2$s 将统计为 %3$s",
@@ -66,6 +71,7 @@
         "ShowTrackingTag": "显示跟踪代码",
         "Sites": "网站",
         "SiteSearchUse": "可以用 Matomo 跟踪统计访客站内搜索的内容。",
+        "SiteWithoutDataTitle": "尚未记录数据，请在下面设置",
         "SiteWithoutDataDescription": "这个站点没有跟踪到分析数据。",
         "Timezone": "时区",
         "TrackingSiteSearch": "跟踪站内搜索",
@@ -77,6 +83,13 @@
         "XManagement": "管理%s",
         "ChooseMeasurableTypeHeadline": "你想衡量什么？",
         "YouCurrentlyHaveAccessToNWebsites": "您现在可以访问 %s 个网站。",
-        "YourCurrentIpAddressIs": "您的IP位址是 %s"
+        "YourCurrentIpAddressIs": "您的IP位址是 %s",
+        "DeleteSiteExplanation": "删除网站将会删除为其收集的所有日志数据。此操作是永久的，无法撤消。",
+        "EmailInstructionsSubject": "Matomo Analytics跟踪代码",
+        "EmailInstructionsGenerateTrackingCode": "您也可以生成一段定制的跟踪代码在%1$s",
+        "EmailInstructionsSiteDetailsHeading": "您的站点详情",
+        "EmailInstructionsSiteDetails": "您可能需要这些详细信息使用API或SDK来跟踪Matomo访问。",
+        "EmailInstructionsYourSiteId": "您的站点ID:%1$s",
+        "EmailInstructionsYourTrackingUrl": "您的跟踪URL%1$s"
     }
 }

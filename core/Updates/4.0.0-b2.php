@@ -9,6 +9,9 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Config;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -44,9 +47,26 @@ class Updates_4_0_0_b2 extends PiwikUpdates
             'period' => 'TINYINT UNSIGNED NOT NULL',
             'ts_invalidated' => 'DATETIME NOT NULL',
             'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
+            'report' => 'VARCHAR(255) NULL',
         ], ['idinvalidation']);
 
         $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
+        // keep piwik_ignore for existing  installs
+        $migrations[] = $this->migration->config->set('Tracker', 'ignore_visits_cookie_name', 'piwik_ignore');
+
+        if (!Manager::getInstance()->isPluginActivated('CustomDimensions')) {
+            $migrations[] = $this->migration->plugin->activate('CustomDimensions');
+        }
+
+        $configTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_custom_variables'] ?? null;
+        $configSubTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_subtable_custom_variables'] ?? null;
+
+        if ($configTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_custom_dimensions', $configTableLimit);
+        }
+        if ($configSubTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_subtable_custom_dimensions', $configSubTableLimit);
+        }
 
         return $migrations;
     }
@@ -59,6 +79,8 @@ class Updates_4_0_0_b2 extends PiwikUpdates
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
+
+        ServerFilesGenerator::createFilesForSecurity();
     }
 
     protected function usesGeoIpLegacyLocationProvider()

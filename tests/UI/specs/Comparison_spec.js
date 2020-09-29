@@ -17,10 +17,10 @@ describe("Comparison", function () {
         compareParams = comparePeriod + compareSegment,
         barGraphUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&"
-            + "token_auth=" + tokenAuth + compareParams,
+            + compareParams,
         pieGraphUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphPie&isFooterExpandedInDashboard=1&"
-            + "token_auth=" + tokenAuth + compareParams,
+            + compareParams,
         goalsTableUrl =  "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=tableGoals&filter_limit=5&isFooterExpandedInDashboard=1" + compareParams,
         htmlTableUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
@@ -38,9 +38,10 @@ describe("Comparison", function () {
         await page.goto(dashboardUrl);
         await page.waitForNetworkIdle();
 
-        await page.click('#periodString');
-        await page.waitFor('label[for=comparePeriodTo]');
-        await page.click('label[for=comparePeriodTo]');
+        await page.click('#periodString #date');
+
+        await page.waitFor('input#comparePeriodTo', { visible: true });
+        await page.click('input#comparePeriodTo + span');
 
         await page.click('#calendarApply');
         await page.waitForNetworkIdle();
@@ -114,8 +115,8 @@ describe("Comparison", function () {
 
     it('should remove period comparison if period is selected w/o compare set', async () => {
         await page.click('#periodString .periodSelector');
-        await page.waitFor('label[for=comparePeriodTo]', { visible: true });
-        await page.click('label[for=comparePeriodTo]');
+        await page.waitFor('input#comparePeriodTo', { visible: true });
+        await page.click('input#comparePeriodTo + span');
 
         await page.click('#calendarApply');
         await page.waitForNetworkIdle();

@@ -369,11 +369,9 @@ class Model
 
     public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
     {
-        $selectCustomVariables = '';
-
         $selectFields = implode(', ', $fieldsToRead);
 
-        $select = "SELECT $selectFields $selectCustomVariables ";
+        $select = "SELECT $selectFields ";
         $from   = "FROM " . Common::prefixTable('log_visit');
 
         // Two use cases:

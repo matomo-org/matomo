@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\Widgetize;
 
+use Piwik\Access;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Session\SessionInitializer;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -27,6 +31,13 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function iframe()
     {
+        $token_auth = Common::getRequestVar('token_auth', '', 'string');
+
+        if ($token_auth !== ''
+            && Access::getInstance()->isUserHasSomeWriteAccess()) {
+            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
+        }
+
         $this->init();
 
         $controllerName = Common::getRequestVar('moduleToWidgetize');
@@ -82,4 +93,5 @@ class Controller extends \Piwik\Plugin\Controller
 
         return $view->render();
     }
+
 }

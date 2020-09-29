@@ -11,8 +11,6 @@ namespace Piwik\Tests\Unit\Tracker;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Matomo\Network\IPUtils;
-use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
@@ -109,123 +107,6 @@ class RequestTest extends UnitTestCase
         $this->assertFalse($request->getForcedUserId());
     }
 
-    public function test_getDaysSinceFirstVisit_shouldReturnZeroIfNow()
-    {
-        $this->assertEquals(0.0, $this->request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_ShouldNotReturnMinusValue()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time + 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_TodayMinusHalfDay()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_Yesterday()
-    {
-        $request = $this->buildRequest(array('_idts' => '' .($this->time - 86400)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_12Days()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 12))));
-        $request->setIsAuthenticated();
-        $this->assertEquals(12.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceFirstVisit_IfTimestampIsNotValidShouldIgnoreParam()
-    {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 25 * 365))));
-        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
-    }
-
-    public function test_getDaysSinceLastOrder_shouldReturnZeroIfNow()
-    {
-        $this->assertEquals(0.0, $this->request->getDaysSinceLastOrder());
-    }
-
-    public function test_getDaysSinceLastOrder_ShouldNotReturnMinusValue()
-    {
-        $request = $this->buildRequest(array('_ects' => '' . ($this->time + 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(0.0, $request->getDaysSinceLastOrder());
-    }
-
-    public function test_getDaysSinceLastOrder_TodayMinusHalfDay()
-    {
-        $request = $this->buildRequest(array('_ects' => '' . ($this->time - 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceLastOrder());
-    }
-
-    public function test_getDaysSinceLastOrder_Yesterday()
-    {
-        $request = $this->buildRequest(array('_ects' => '' . ($this->time - 86400)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceLastOrder());
-    }
-
-    public function test_getDaysSinceLastOrder_12Days()
-    {
-        $request = $this->buildRequest(array('_ects' => '' . ($this->time - (86400 * 12))));
-        $request->setIsAuthenticated();
-        $this->assertEquals(12.0, $request->getDaysSinceLastOrder());
-    }
-
-    public function test_getDaysSinceLastOrder_ShouldIgnoreParamIfInvalid()
-    {
-        $request = $this->buildRequest(array('_ects' => 5));
-        $this->assertFalse($request->getDaysSinceLastOrder());
-    }
-
-    public function test_getDaysSinceLastVisit_shouldReturnZeroIfNow()
-    {
-        $this->assertEquals(0.0, $this->request->getDaysSinceLastVisit());
-    }
-
-    public function test_getDaysSinceLastVisit_ShouldNotReturnMinusValue()
-    {
-        $request = $this->buildRequest(array('_viewts' => '' . ($this->time + 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(0.0, $request->getDaysSinceLastVisit());
-    }
-
-    public function test_getDaysSinceLastVisit_TodayMinusHalfDay()
-    {
-        $request = $this->buildRequest(array('_viewts' => '' . ($this->time - 43200)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceLastVisit());
-    }
-
-    public function test_getDaysSinceLastVisit_Yesterday()
-    {
-        $request = $this->buildRequest(array('_viewts' => '' . ($this->time - 86400)));
-        $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceLastVisit());
-    }
-
-    public function test_getDaysSinceLastVisit_12Days()
-    {
-        $request = $this->buildRequest(array('_viewts' => '' . ($this->time - (86400 * 12))));
-        $request->setIsAuthenticated();
-        $this->assertEquals(12.0, $request->getDaysSinceLastVisit());
-    }
-
-    public function test_getDaysSinceLastVisit_ShouldIgnoreParamIfInvalid()
-    {
-        $request = $this->buildRequest(array('_viewts' => '' . 5));
-        $this->assertSame(0, $request->getDaysSinceLastVisit());
-    }
-
     public function test_getGoalRevenue_ShouldReturnDefaultValue_IfNothingSet()
     {
         $this->assertFalse($this->request->getGoalRevenue(false));
@@ -246,26 +127,6 @@ class RequestTest extends UnitTestCase
         $this->assertTrue(ctype_alnum($hash));
 
         $this->assertEquals('da4b9237bacccdf1', $this->request->getUserIdHashed(2));
-    }
-
-    public function test_getVisitCount_shouldReturnOne_IfNotSet()
-    {
-        $this->assertEquals(1, $this->request->getVisitCount());
-    }
-
-    public function test_getVisitCount_shouldReturnTheSetValue_IfHigherThanOne()
-    {
-        $request = $this->buildRequest(array('_idvc' => 13));
-        $this->assertEquals(13, $request->getVisitCount());
-    }
-
-    public function test_getVisitCount_shouldReturnAtLEastOneEvenIfLowerValueIsSet()
-    {
-        $request = $this->buildRequest(array('_idvc' => 0));
-        $this->assertEquals(1, $request->getVisitCount());
-
-        $request = $this->buildRequest(array('_idvc' => -1));
-        $this->assertEquals(1, $request->getVisitCount());
     }
 
     public function test_getLocalTime_shouldFallbackToCurrentDate_IfNoParamIsSet()
@@ -307,48 +168,26 @@ class RequestTest extends UnitTestCase
 
     public function test_getPlugins_shouldReturnZeroForAllIfNothingGiven()
     {
-        $expected = array_fill(0, 9, 0);
+        $expected = array_fill(0, 8, 0);
 
         $this->assertEquals($expected, $this->request->getPlugins());
     }
 
     public function test_getPlugins_shouldReturnAllOneIfAllGiven()
     {
-        $plugins = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
+        $plugins = array('fla', 'java', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
         $request = $this->buildRequest(array_fill_keys($plugins, '1'));
 
-        $this->assertEquals(array_fill(0, 9, 1), $request->getPlugins());
+        $this->assertEquals(array_fill(0, 8, 1), $request->getPlugins());
     }
 
     public function test_getPlugins_shouldDetectSome()
     {
-        $plugins = array('fla' => 1, 'java', 'dir' => '1', 'qt' => '0', 'realp' => 0, 'ag' => 1, 'cookie');
+        $plugins = array('fla' => 1, 'java', 'qt' => '0', 'realp' => 0, 'ag' => 1, 'cookie');
         $request = $this->buildRequest($plugins);
 
-        $expected = array(1, 0, 1, 0, 0, 0, 0, 1, 0);
+        $expected = array(1, 0, 0, 0, 0, 0, 1, 0);
         $this->assertEquals($expected, $request->getPlugins());
-    }
-
-    public function test_truncateCustomVariable_shouldNotTruncateAnything_IfValueIsShortEnough()
-    {
-        $len = CustomVariables::getMaxLengthCustomVariables();
-        $input = str_pad('test', $len - 2, 't');
-
-        $result = Request::truncateCustomVariable($input);
-
-        $this->assertSame($result, $input);
-    }
-
-    public function test_truncateCustomVariable_shouldActuallyTruncateTheValue()
-    {
-        $len = CustomVariables::getMaxLengthCustomVariables();
-        $input = str_pad('test', $len + 2, 't');
-
-        $this->assertGreaterThan(100, $len);
-
-        $truncated = Request::truncateCustomVariable($input);
-
-        $this->assertEquals(str_pad('test', $len, 't'), $truncated);
     }
 
     public function test_getUserAgent_ShouldReturnEmptyString_IfNoneIsSet()

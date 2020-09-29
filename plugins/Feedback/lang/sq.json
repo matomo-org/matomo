@@ -16,7 +16,7 @@
         "ThankYou": "Faleminderit që na ndihmoni ta bëjmë më të mirë Matomo-n!",
         "TopLinkTooltip": "Na thoni se ç’mendim keni, ose kërkoni Asistencë Profesionale.",
         "ViewAnswersToFAQ": "Shihni përgjigjet te %1$sPyetje të Bëra Shpesh%2$s",
-        "FAQs": "FAQ",
+        "FAQs": "PBR-ra",
         "ViewUserGuides": "Mësoni përmes %1$sudhërrëfyesit tonë për përdoruesit%2$s se si ta formësoni Matomo-n dhe si të analizoni me efikasitet të dhënat tuaja",
         "UserGuides": "Udhërrëfyes përdoruesi",
         "CommunityHelp": "Ndihmë nga Bashkësia",
@@ -41,7 +41,6 @@
         "RemoveOtherLabel": "Dua të shoh të dhëna 'Të tjera' të miat",
         "PurgeOldData": "Dua të heq ca të dhëna të vjetra",
         "SearchHelpResources": "Kërkoni për burime ndihme te matomo.org",
-        "PopularHelpTopics": "Tema popullore ndihme",
-        "SearchOnMatomo": "Kërkoni për '%1$s' te Matomo.org"
+        "PopularHelpTopics": "Tema popullore ndihme"
     }
 }

@@ -106,8 +106,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
             'visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]
         ));
+
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
+            'FLOOR(log_visit.visitor_seconds_since_last / 86400)', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
             $restrictToReturningVisitors = true
         ));
 

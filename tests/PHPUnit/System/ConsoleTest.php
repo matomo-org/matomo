@@ -105,6 +105,9 @@ class TestCommandWithException extends ConsoleCommand
     }
 }
 
+/**
+ * @group ConsoleTest3
+ */
 class ConsoleTest extends ConsoleCommandTestCase
 {
     public function setUp(): void
@@ -145,6 +148,16 @@ class ConsoleTest extends ConsoleCommandTestCase
 
     public function test_Console_handlesFatalErrorsCorrectly()
     {
+        $cliPhp = new CliPhp();
+        $php = $cliPhp->findPhpBinary();
+        $command = $php . " -i | grep 'memory_limit => -1'";
+
+        $output = shell_exec($command);
+
+        if ($output == "memory_limit => -1 => -1\n") {
+            $this->markTestSkipped("no memory limit in php-cli");
+        }
+
         $command = Fixture::getCliCommandBase();
         $command .= ' test-command-with-fatal-error';
         $command .= ' 2>&1';
@@ -205,20 +218,20 @@ END;
     {
         return [
             'log.handlers' => [\DI\get(FailureLogMessageDetector::class)],
-            LoggerInterface::class => \DI\object(Logger::class)
+            LoggerInterface::class => \DI\create(Logger::class)
                 ->constructor('piwik', \DI\get('log.handlers'), \DI\get('log.processors')),
 
             'observers.global' => \DI\add([
-                ['Console.filterCommands', function (&$commands) {
+                ['Console.filterCommands', \DI\value(function (&$commands) {
                     $commands[] = TestCommandWithFatalError::class;
                     $commands[] = TestCommandWithException::class;
-                }],
+                })],
 
-                ['Request.dispatch', function ($module, $action) {
+                ['Request.dispatch', \DI\value(function ($module, $action) {
                     if ($module === 'CorePluginsAdmin' && $action === 'safemode') {
                         print "*** IN SAFEMODE ***\n"; // will appear in output
                     }
-                }],
+                })],
             ]),
         ];
     }

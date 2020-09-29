@@ -10,7 +10,6 @@ namespace Piwik\Container;
 
 use DI\Container;
 use DI\ContainerBuilder;
-use Doctrine\Common\Cache\ArrayCache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Plugin\Manager;
@@ -66,7 +65,6 @@ class ContainerFactory
         $builder = new ContainerBuilder();
 
         $builder->useAnnotations(false);
-        $builder->setDefinitionCache(new ArrayCache());
 
         // INI config
         $builder->addDefinitions(new IniConfigDefinitionSource($this->settings));

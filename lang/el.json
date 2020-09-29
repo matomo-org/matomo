@@ -133,7 +133,10 @@
         "DaysHours": "%1$s μέρες %2$s ώρες",
         "DaysSinceFirstVisit": "Ημέρες από την πρώτη επίσκεψη",
         "DaysSinceLastEcommerceOrder": "Μέρες πριν την τελευταία ηλεκτρονική παραγγελία",
+        "SecondsSinceLastEcommerceOrder": "Δευτερόλεπτα πριν την τελευταία ηλεκτρονική παραγγελία",
         "DaysSinceLastVisit": "Ημέρες από την τελευταία επίσκεψη",
+        "SecondsSinceLastVisit": "Δευτερόλεπτα από την τελευταία επίσκεψη",
+        "SecondsSinceFirstVisit": "Δευτερόλεπτα από την πρώτη επίσκεψη",
         "Default": "Προεπιλογή",
         "DefaultAppended": "(εξ' ορισμού)",
         "Delete": "Διαγραφή",
@@ -513,7 +516,11 @@
         "ClickToRemoveComp": "Πατήστε για να αφαιρέσετε τη σύγκριση.",
         "MaximumNumberOfSegmentsComparedIs": "Ο μέγιστος αριθμός τμημάτων που μπορεί να συγκριθούν ταυτόχρονα είναι %s.",
         "CompareDatesParamMustMatchComparePeriods": "Το %1$s μήκος παραμέτρου στο ερώτημα πρέπει να ταιριάζει με το %2$s μέγεθος παραμέτρου ερωτήματος.",
-        "MaximumNumberOfPeriodsComparedIs": "Ο μέγιστος αριθμός περιόδων που μπορεί να συγκριθούν ταυτόχρονα είναι %s."
+        "MaximumNumberOfPeriodsComparedIs": "Ο μέγιστος αριθμός περιόδων που μπορεί να συγκριθούν ταυτόχρονα είναι %s.",
+        "Custom": "Προσαρμογή",
+        "PreviousPeriod": "Προηγούμενη Περίοδος",
+        "PreviousYear": "Προηγούμενο Έτος",
+        "ViewAccessRequired": "Το token_auth που χρησιμοποιείται έχει παραπάνω πρόσβαση από την απαραίτητη για χρήση σε αίτηση URL μη API-κλήσης. Χρησιμοποιήστε ένα συνθηματικό ειδικό για χρήση που έχει πρόσβαση μόνο για ανάγνωση."
     },
     "Mobile": {
         "AboutPiwikMobile": "Σχετικά με το Matomo για κινητά",

@@ -61,11 +61,12 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 </Files>";
 
         $directoriesToProtect = array(
-            '/js'        => $allowAny . $noCachePreview,
-            '/libs'      => $denyAll . $allowStaticAssets,
-            '/vendor'    => $denyAll . $allowStaticAssets,
-            '/plugins'   => $denyAll . $allowStaticAssets,
-            '/misc/user' => $denyAll . $allowStaticAssets,
+            '/js'           => $allowAny . $noCachePreview,
+            '/libs'         => $denyAll . $allowStaticAssets,
+            '/vendor'       => $denyAll . $allowStaticAssets,
+            '/plugins'      => $denyAll . $allowStaticAssets,
+            '/misc/user'    => $denyAll . $allowStaticAssets,
+            '/node_modules' => $denyAll . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
@@ -166,6 +167,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             '/libs',
             '/vendor',
             '/plugins',
+            '/node_modules',
         );
 
         $additionForPlugins = '
@@ -197,6 +199,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         @unlink($path . '/libs/web.config');
         @unlink($path . '/vendor/web.config');
         @unlink($path . '/plugins/web.config');
+        @unlink($path . '/node_modules/web.config');
     }
 
     /**
@@ -314,6 +317,7 @@ HTACCESS_ALLOW;
             '/vendor',
             '/plugins',
             '/misc/user',
+            '/node_modules',
             '/config',
             '/core',
             '/lang',

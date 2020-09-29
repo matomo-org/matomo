@@ -1,6 +1,6 @@
 <?php
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
@@ -8,7 +8,7 @@ use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
 
 return array(
 
-    'Monolog\Logger' => DI\object('Monolog\Logger')
+    'Monolog\Logger' => DI\create('Monolog\Logger')
         ->constructor('piwik', DI\get('log.handlers'), DI\get('log.processors')),
 
     'Psr\Log\LoggerInterface' => DI\get('Monolog\Logger'),
@@ -94,15 +94,15 @@ return array(
         DI\get('Piwik\Plugins\Monolog\Processor\TokenProcessor'),
     ),
 
-    'Piwik\Plugins\Monolog\Handler\FileHandler' => DI\object()
+    'Piwik\Plugins\Monolog\Handler\FileHandler' => DI\create()
         ->constructor(DI\get('log.file.filename'), DI\get('log.level.file'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
-    'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\object()
+    'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\create()
         ->constructor(DI\get('log.level.database'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter')),
 
-    'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => DI\object()
+    'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => DI\create()
         ->constructor(DI\get('log.level.screen'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter')),
 
@@ -173,12 +173,12 @@ return array(
         return $logPath;
     }),
 
-    'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+    'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
                                                                 ->constructor(DI\get('log.short.format')),
-    'log.lineMessageFormatter' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+    'log.lineMessageFormatter' => DI\create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
         ->constructor(DI\get('log.short.format')),
 
-    'log.lineMessageFormatter.file' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+    'log.lineMessageFormatter.file' => DI\autowire('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
         ->constructor(DI\get('log.trace.format'))
         ->constructorParameter('allowInlineLineBreaks', false),
 
@@ -207,6 +207,6 @@ return array(
         return [$fileHandler];
     },
 
-    'archiving.performance.logger' => DI\object(Logger::class)
+    'archiving.performance.logger' => DI\create(Logger::class)
         ->constructor('matomo.archiving.performance', DI\get('archiving.performance.handlers'), DI\get('log.processors')),
 );

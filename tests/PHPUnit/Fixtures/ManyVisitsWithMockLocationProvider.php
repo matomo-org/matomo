@@ -156,7 +156,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $t->setUrl("http://piwik.net/$visitorCounter/");
             $t->setUrlReferrer(null);
             $t->setForceVisitDateTime($visitDate->getDatetime());
-            $t->setCustomTrackingParameter('dimension' . $this->customDimensionId, $i * 5);
+            $t->setCustomDimension('' . $this->customDimensionId, $i * 5);
             $this->trackAction($t, $actionType, $visitorCounter, null);
 
             for ($j = 0; $j != 4; ++$j) {

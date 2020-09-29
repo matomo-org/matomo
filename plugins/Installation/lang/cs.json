@@ -22,6 +22,10 @@
         "GoBackAndDefinePrefix": "Jít zpět a nastavit prefix pro tabulky Matomou",
         "HappyAnalysing": "Šťastné analyzování!",
         "Installation": "Instalace",
+        "InformationalResults": "Informační výsledky",
+        "CopyBelowInfoForSupport": "Zkopírujte nebo stáhněte níže uvedené informace v případě, že vás náš tým podpory požádá o tyto informace.",
+        "CopySystemCheck": "Kopírovat kontrolu systému",
+        "DownloadSystemCheck": "Stáhnout kontrolu systému",
         "InstallationStatus": "Stav instalace",
         "InsufficientPrivilegesHelp": "Tato privilegia můžete přidat v nástroji jako je phpMyAdmin, nebo provedením správných SQL dotazů. Pokud nevíte, jak to udělat, požádejte svého systémového administrátora, aby vám tato privilegia udělil.",
         "InsufficientPrivilegesMain": "Databáze buď neexistuje, a nemohla být vytvořena, nebo má databázový uživatel nedostatečná privilegia. Databázový uživatel musí mít následující privilegia: %s",
@@ -69,7 +73,6 @@
         "SuperUserSetupSuccess": "Super-uživatel úspěšně vytvořen",
         "SystemCheck": "Kontrola systému",
         "SystemCheckAutoUpdateHelp": "Poznámla: Aktualizace pomocí jednoho kliknutí vyžaduje práva pro zápis do adresářů Matomou a jejich obsahu",
-        "SystemCheckCreateFunctionHelp": "Matomo pro zpětná volání využívá anonymní funkce",
         "SystemCheckDatabaseExtensions": "MySQL rozšíření",
         "SystemCheckDatabaseHelp": "Matomo vyžaduje buď rozšíření mysqli, nebo PDO s pdo_mysql rozšířením",
         "SystemCheckDatabaseSSL": "SSL připojení do databáze",
@@ -150,6 +153,6 @@
         "WelcomeToCommunity": "Vítejte v komunitě Matomou!",
         "CannotConnectToDb": "Nelze se připojit k databázi",
         "CannotConnectToDbResolvingExplanation": "To může být dočasný problém, zkuste %1$sobnovit stránku%2$s. Pokud problém přetrvá, kontaktujte svého administrátora Matomou.",
-        "EmailPrivacyNotice": "Vaše e-mailová adresa bude použita pouze k zasílání zpravodaje Matomo. Odběr můžete kdykoli zrušit kliknutím na odkaz pro odhlášení. Váš e-mail nebudeme sdílet s nikým jiným, ani jej nebudeme používat k žádnému jinému účelu než k zasílání zpravodaje Matomo. Pro více informací prosím shlédněte naše %1$szásady ochrany osobních údajů%2$s."
+        "EmailPrivacyNotice": "Vaše e-mailová adresa bude použita pouze k zasílání novinek. Z tohoto důvodu musíme sdílet váš e-mail s poskytovatelem třetí strany. Tento poskytovatel je v současné době Mad Mimi, ale to se může v budoucnu změnit. Váš e-mail nebudeme sdílet s nikým jiným, ani jej nebudeme používat k žádnému jinému účelu než k zasílání newsletteru. Odběr můžete kdykoli zrušit. Další informace naleznete v našich %1$s zásadách ochrany osobních údajů %2$s."
     }
 }

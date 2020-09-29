@@ -14,6 +14,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
@@ -226,25 +227,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by Browser family (eg. Firefox, InternetExplorer)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
-     *
-     * @deprecated since 2.9.0   Use {@link getBrowsers} instead.
-     */
-    public function getBrowserFamilies($idSite, $period, $date, $segment = false)
-    {
-        $table = $this->getBrowsers($idSite, $period, $date, $segment);
-        // this one will not be sorted automatically by nb_visits since there is no Report class for it.
-        $table->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc'));
-
-        return $table;
-    }
-
-    /**
      * Gets datatable displaying number of visits by Browser (Without version)
      * @param int $idSite
      * @param string $period
@@ -255,7 +237,13 @@ class API extends \Piwik\Plugin\API
     public function getBrowsers($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
-        $dataTable->filter('AddSegmentValue');
+        $availableBrowsers = BrowserParser::getAvailableBrowsers();
+        $dataTable->filter('AddSegmentValue', [function($label) use ($availableBrowsers) {
+            if (!array_key_exists($label, $availableBrowsers) && $label !== 'UNK') {
+                return false;
+            }
+            return $label;
+        }]);
 
         // handle legacy archives
         if ($dataTable instanceof DataTable\Map || !$dataTable->getRowsCount()) {

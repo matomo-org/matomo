@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
@@ -19,7 +20,9 @@ use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 
@@ -98,9 +101,22 @@ class Loader
     {
         $this->params->setRequestedPlugin($pluginName);
 
-        list($idArchive, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchive)) { // we have a usable idarchive (it's not invalidated and it's new enough)
-            return $idArchive;
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
+            if (!empty($requestedReport)) {
+                $this->params->setArchiveOnlyReport($requestedReport);
+            }
+        }
+
+        // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
+        // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
+        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
+        if (!empty($idArchives)
+            && !$this->params->getArchiveOnlyReport()
+        ) {
+            // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
+            // a single report
+            return [$idArchives, $visits];
         }
 
         // NOTE: this optimization helps when archiving large periods. eg, if archiving a year w/ a segment where
@@ -110,7 +126,7 @@ class Loader
         // we don't create an archive in this case, because the archive may be in progress in some way, so a 0
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
-            return false;
+            return [false, 0];
         }
 
         // if there is an archive, but we can't use it for some reason, invalidate existing archives before
@@ -135,10 +151,10 @@ class Loader
         }
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return $idArchive;
+            return [[$idArchive], $visits];
         }
 
-        return false;
+        return [false, false];
     }
 
     /**
@@ -154,14 +170,17 @@ class Loader
 
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
+            $requestedReport = $this->params->getArchiveOnlyReport();
 
             $this->params->setRequestedPlugin('VisitsSummary');
+            $this->params->setArchiveOnlyReport(null);
 
             $pluginsArchiver = new PluginsArchiver($this->params);
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $pluginsArchiver->finalizeArchive();
 
             $this->params->setRequestedPlugin($requestedPlugin);
+            $this->params->setArchiveOnlyReport($requestedReport);
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
@@ -341,10 +360,12 @@ class Loader
         $idSite = $params->getSite()->getId();
 
         $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
-        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod()->getDateStart()->getDatetime(), $params->getPeriod()->getDateEnd()->getDatetime());
+        $isArchivingForcedWhenNoVisits = $this->shouldArchiveForSiteEvenWhenNoVisits();
+        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
         $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
 
         return $isWebsiteUsingTracker
+            && !$isArchivingForcedWhenNoVisits
             && !$hasSiteVisitsBetweenTimeframe
             && !$hasChildArchivesInPeriod;
     }
@@ -386,19 +407,20 @@ class Loader
         return $idSitesNotUsingTracker;
     }
 
-    private function hasSiteVisitsBetweenTimeframe($idSite, $date1, $date2)
+    private function hasSiteVisitsBetweenTimeframe($idSite, Period $period)
     {
         $minVisitTimesPerSite = $this->getMinVisitTimesPerSite($idSite);
         if (empty($minVisitTimesPerSite)) {
             return false;
         }
 
-        $date2 = Date::factory($date2)->addDay(1)->getStartOfDay();
+        $timezone = Site::getTimezoneFor($idSite);
+        list($date1, $date2) = $period->getBoundsInTimezone($timezone);
         if ($date2->isEarlier($minVisitTimesPerSite)) {
             return false;
         }
 
-        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe(Date::factory($date1)->getDatetime(), $date2->getDatetime(), $idSite);
+        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
     }
 
     private function getMinVisitTimesPerSite($idSite)
@@ -409,7 +431,9 @@ class Loader
         $value = $cache->fetch($cacheKey);
         if ($value === false) {
             $value = $this->rawLogDao->getMinimumVisitTimeForSite($idSite);
-            $cache->save($cacheKey, $value, $ttl = self::MIN_VISIT_TIME_TTL);
+            if (!empty($value)) {
+                $cache->save($cacheKey, $value, $ttl = self::MIN_VISIT_TIME_TTL);
+            }
         }
 
         if (!empty($value)) {

@@ -59,7 +59,6 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         $this->assertEmpty(ArchiveWithNoVisitsTest_MockArchiver::$methodsCalled);
     }
 
-    // TODO: changed this and another test, will it be an issue? now, CronArchive.getIdSitesNotUsingTracker has to add the site for it to archive no matter what.
     public function test_getIdSitesToArchiveWhenNoVisits_DoesNotTriggerArchiving_IfSiteHasNoVisits()
     {
         // add our mock archiver instance
@@ -78,7 +77,16 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         // initiate archiving and make sure both aggregate methods are called correctly
         VisitsSummaryAPI::getInstance()->get($idSite = 1, 'week', '2012-01-10');
 
-        $expectedMethodCalls = array();
+        $expectedMethodCalls = array(
+            'aggregateDayReport',
+            'aggregateDayReport',
+            'aggregateDayReport',
+            'aggregateDayReport',
+            'aggregateDayReport',
+            'aggregateDayReport',
+            'aggregateDayReport',
+            'aggregateMultipleReports',
+        );
         $this->assertEquals($expectedMethodCalls, ArchiveWithNoVisitsTest_MockArchiver::$methodsCalled);
     }
 

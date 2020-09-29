@@ -2,7 +2,11 @@
     margin: 0;
     padding: 0;
 }
-
+#donate-form-container .piwik-donate-call #piwik-worth,
+#donate-form-container .piwik-donate-call li,
+#donate-form-container .piwik-donate-call ul {
+    display: inline;font-size:14px;
+}
 .topBarElem {
     font-family: arial, sans-serif !important;
     font-size: 13px;

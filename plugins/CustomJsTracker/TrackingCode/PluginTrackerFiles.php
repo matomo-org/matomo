@@ -41,9 +41,7 @@ class PluginTrackerFiles
         $dirs = array();
         $manager = Plugin\Manager::getInstance();
         foreach ($manager->getPluginsLoadedAndActivated() as $pluginName => $plugin) {
-            if ($plugin->isTrackerPlugin()) {
-                $dirs[$pluginName] = rtrim(Plugin\Manager::getPluginDirectory($pluginName), '/') . '/';
-            }
+            $dirs[$pluginName] = rtrim(Plugin\Manager::getPluginDirectory($pluginName), '/') . '/';
         }
         return $dirs;
     }

@@ -10,8 +10,10 @@
         <tr>
             <th>
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select-plugin-all"/>
-                    <label for="select-plugin-all"></label>
+                    <label>
+                        <input type="checkbox" id="select-plugin-all"/>
+                        <span></span>
+                    </label>
                 </span>
             </th>
             <th>{{ 'General_Plugin'|translate }}</th>
@@ -26,8 +28,10 @@
             <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                 <td class="select-cell">
                     <span class="checkbox-container">
-                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
-                        <label for="select-plugin-{{ plugin.name|e('html_attr') }}"></label>
+                        <label>
+                            <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
+                            <span></span>
+                        </label>
                     </span>
                 </td>
                 <td class="name">
@@ -75,7 +79,7 @@
     <script>
         $(function () {
             $('span.checkbox-container').on('change', function() {
-                var isAtLeastOneChecked = $('span.checkbox-container > input:checked').length >= 1;
+                var isAtLeastOneChecked = $('span.checkbox-container input:checked').length >= 1;
                 isAtLeastOneChecked ? $('#update-selected-plugins').removeClass('disabled') : $('#update-selected-plugins').addClass('disabled');
             });
 
@@ -239,8 +243,8 @@
                             <div class="plugin-author">
                                 By
                                     {% if plugin.info.authors is defined -%}
-                                    {% spaceless %}
-                                        {% for author in plugin.info.authors if author.name %}
+                                    {% apply spaceless %}
+                                        {% for author in plugin.info.authors|filter(author => author.name) %}
                                             {% if author.homepage is defined %}
                                                 <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer noopener" target="_blank">{{ author.name }}</a>
                                             {% else %}
@@ -250,7 +254,7 @@
                                                 ,
                                             {% endif %}
                                         {% endfor %}
-                                    {% endspaceless %}
+                                    {% endapply %}
                                     {%- endif %}.
                             </div>
                         {% endif %}
@@ -290,9 +294,9 @@
     {% if displayAdminLinks %}
     <div class="tableActionBar">
         {% if isTheme %}
-            <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
+            <a href="{{ linkTo({'module': 'Marketplace','action':'overview', 'sort': '', 'show': 'themes'}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
         {% else %}
-            <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
+            <a href="{{ linkTo({'module': 'Marketplace','action':'overview', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
         {% endif %}
     </div>
     {% endif %}

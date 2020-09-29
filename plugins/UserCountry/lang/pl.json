@@ -23,6 +23,7 @@
         "getContinentDocumentation": "Raport then pokazuje kraje, w których byli odwiedzający gdzy oglądali strony.",
         "getCountryDocumentation": "Ten raport pokazuje, w którym kraju był odwiedzający kiedy wchodził na twoją stronę.",
         "getRegionDocumentation": "Ten raport pokazuje,w którym regionie był odwiedzający kiedy wchodził na twoją stronę.",
+        "HowToInstallGeoIPDatabases": "Jak pozyskać bazy danych geolokalizacyjnych?",
         "Latitude": "Szerokość",
         "Latitudes": "Szerokości",
         "Location": "Lokalizacja",

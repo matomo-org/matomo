@@ -70,17 +70,17 @@ class ArchiveWebTest extends SystemTestCase
             'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
             'observers.global' => [
-                ['API.Request.intercept', function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
+                ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
                     if ($pluginName == 'CoreAdminHome' && $methodName == 'runCronArchiving') {
                         $returnedValue = 'mock output';
                     }
-                }],
-                ['Console.doRun', function (&$exitCode, InputInterface $input, OutputInterface $output) {
+                })],
+                ['Console.doRun', \DI\value(function (&$exitCode, InputInterface $input, OutputInterface $output) {
                     if ($input->getFirstArgument() == 'core:archive') {
                         $output->writeln('mock output');
                         $exitCode = 0;
                     }
-                }],
+                })],
             ],
         );
     }

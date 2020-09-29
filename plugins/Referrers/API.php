@@ -27,7 +27,6 @@ use Piwik\Site;
  * For example, "getKeywords" returns all search engine keywords (with <a href='http://matomo.org/docs/analytics-api/reference/#toc-metric-definitions' rel='noreferrer' target='_blank'>general analytics metrics</a> for each keyword), "getWebsites" returns referrer websites (along with the full Referrer URL if the parameter &expanded=1 is set).
  * "getReferrerType" returns the Referrer overview report. "getCampaigns" returns the list of all campaigns (and all campaign keywords if the parameter &expanded=1 is set).
  *
- * The methods "getKeywordsForPageUrl" and "getKeywordsForPageTitle" are used to output the top keywords used to find a page.
  * @method static \Piwik\Plugins\Referrers\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -256,29 +255,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated will be removed in Matomo 4.0.0
-     */
-    public function getKeywordsForPageUrl($idSite, $period, $date, $url)
-    {
-        // Fetch the Top keywords for this page
-        $segment = 'entryPageUrl==' . $url;
-        $table = $this->getKeywords($idSite, $period, $date, $segment);
-        $this->filterOutKeywordNotDefined($table);
-        return $this->getLabelsFromTable($table);
-    }
-
-    /**
-     * @deprecated will be removed in Matomo 4.0.0
-     */
-    public function getKeywordsForPageTitle($idSite, $period, $date, $title)
-    {
-        $segment = 'entryPageTitle==' . $title;
-        $table = $this->getKeywords($idSite, $period, $date, $segment);
-        $this->filterOutKeywordNotDefined($table);
-        return $this->getLabelsFromTable($table);
-    }
-
-    /**
      * @param DataTable $table
      */
     private function filterOutKeywordNotDefined($table)
@@ -376,7 +352,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $campaigns = $this->getCampaigns($idSite, $period, $date, $segment);
         $campaigns->applyQueuedFilters();
-        $campaign  = $campaigns->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
+        $row = $campaigns->getRowFromIdSubDataTable($idSubtable);
+        $campaign = $row ? $row->getColumn('label') : '';
 
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('AddSegmentByLabel', array('referrerKeyword'));

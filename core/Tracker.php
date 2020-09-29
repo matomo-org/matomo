@@ -111,6 +111,8 @@ class Tracker
 
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
+            StaticContainer::get(LoggerInterface::class)->debug("Tracker encountered an exception: {ex}", [$e]);
+
             $handler->onException($this, $requestSet, $e);
         }
 
@@ -205,14 +207,6 @@ class Tracker
     public function hasLoggedRequests()
     {
         return 0 !== $this->countOfLoggedRequests;
-    }
-
-    /**
-     * @deprecated since 2.10.0 use {@link Date::getDatetimeFromTimestamp()} instead
-     */
-    public static function getDatetimeFromTimestamp($timestamp)
-    {
-        return Date::getDatetimeFromTimestamp($timestamp);
     }
 
     public function isDatabaseConnected()

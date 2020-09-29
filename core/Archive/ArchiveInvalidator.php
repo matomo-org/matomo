@@ -12,6 +12,9 @@ namespace Piwik\Archive;
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Loader;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -19,6 +22,7 @@ use Piwik\Db;
 use Piwik\Option;
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
@@ -26,6 +30,7 @@ use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\Model as TrackerModel;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -69,10 +74,16 @@ class ArchiveInvalidator
      */
     private $archivingStatus;
 
+    /**
+     * @var SegmentArchiving
+     */
+    private $segmentArchiving;
+
     public function __construct(Model $model, ArchivingStatus $archivingStatus)
     {
         $this->model = $model;
         $this->archivingStatus = $archivingStatus;
+        $this->segmentArchiving = null;
     }
 
     public function getAllRememberToInvalidateArchivedReportsLater()
@@ -188,7 +199,7 @@ class ArchiveInvalidator
 
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
     {
-        $id = $this->buildRememberArchivedReportIdForSite($idSite);
+        $id = $this->buildRememberArchivedReportIdForSite($idSite) . '\_';
         $this->deleteOptionLike($id);
         Cache::clearCacheGeneral();
     }
@@ -228,16 +239,36 @@ class ArchiveInvalidator
 
     /**
      * @param $idSites int[]
-     * @param $dates Date[]
+     * @param $dates Date[]|string[]
      * @param $period string
      * @param $segment Segment
      * @param bool $cascadeDown
+     * @param bool $forceInvalidateNonexistantRanges set true to force inserting rows for ranges in archive_invalidations
+     * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
+     *                     or a plugin name to only archive the specific plugin.
      * @return InvalidationResult
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistantRanges = false)
+                                              $forceInvalidateNonexistantRanges = false, $name = null)
     {
+        $plugin = null;
+        if ($name && strpos($name, '.') !== false) {
+            list($plugin) = explode('.', $name);
+        }
+
+        // remove sites w/ no visits
+        $trackerModel = new TrackerModel();
+        $idSites = array_filter($idSites, function ($idSite) use ($trackerModel) {
+            return !$trackerModel->isSiteEmpty($idSite);
+        });
+
+        if ($plugin
+            && !Manager::getInstance()->isPluginActivated($plugin)
+        ) {
+            throw new \Exception("Plugin is not activated: '$plugin'");
+        }
+
         $invalidationInfo = new InvalidationResult();
 
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
@@ -247,9 +278,9 @@ class ArchiveInvalidator
             $hasMoreThanJustToday[$idSite] = true;
             $tz = Site::getTimezoneFor($idSite);
 
-            if (($period === 'day' || $period === false)
-                && count($dates) === 1
-                && $dates[0]->toString() == Date::factoryInTimezone('today', $tz)
+            if (($period == 'day' || $period === false)
+                && count($dates) == 1
+                && ((string)$dates[0]) == ((string)Date::factoryInTimezone('today', $tz))
             ) {
                 $hasMoreThanJustToday[$idSite] = false;
             }
@@ -282,7 +313,7 @@ class ArchiveInvalidator
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges, $name);
 
         foreach ($idSites as $idSite) {
             Loader::invalidateMinVisitTimeCache($idSite);
@@ -306,7 +337,7 @@ class ArchiveInvalidator
 
     private function getAllPeriodsByYearMonth($periodOrAll, $dates, $cascadeDown, &$result = [])
     {
-        $periods = $periodOrAll ? [$periodOrAll] : ['day', 'week', 'month', 'year'];
+        $periods = $periodOrAll ? [$periodOrAll] : ['day'];
         foreach ($periods as $period) {
             foreach ($dates as $date) {
                 $periodObj = $this->makePeriod($date, $period);
@@ -414,11 +445,91 @@ class ArchiveInvalidator
     }
 
     /**
+     * Schedule rearchiving of reports for a single plugin or single report for N months in the past. The next time
+     * core:archive is run, they will be processed.
+     *
+     * @param int[] $idSite
+     * @param Date $date1
+     * @param Date $date2
+     * @param string $plugin
+     * @param string|null $report
+     * @throws \Exception
+     * @api
+     */
+    public function reArchiveReport(array $idSites, string $plugin, string $report = null, int $lastNMonthsToInvalidate = null)
+    {
+        $lastNMonthsToInvalidate = $lastNMonthsToInvalidate ?: Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
+        if (empty($lastNMonthsToInvalidate)) {
+            return;
+        }
+
+        $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
+        if (empty($lastNMonthsToInvalidate)) {
+            return;
+        }
+
+        $date2 = Date::yesterday();
+        $date1 = $date2->subMonth($lastNMonthsToInvalidate)->setDay(1);
+
+        $dates = [];
+        $date = $date1;
+        while ($date->isEarlier($date2)) {
+            $dates[] = $date;
+            $date = $date->addDay(1);
+        }
+
+        $name = $plugin;
+        if (!empty($report)) {
+            $name .= '.' . $report;
+        }
+
+        $this->markArchivesAsInvalidated($idSites, $dates, 'day', null, $cascadeDown = false, $forceInvalidateRanges = false, $name);
+
+        foreach ($idSites as $idSite) {
+            $segmentDatesToInvalidate = $this->getSegmentArchiving()->getSegmentArchivesToInvalidate($idSite);
+            foreach ($segmentDatesToInvalidate as $info) {
+                $latestDate = Date::factory($info['date']);
+                $latestDate = $latestDate->isEarlier($date1) ? $latestDate : $date1;
+
+                $datesToInvalidateForSegment = [];
+
+                $date = $latestDate;
+                while ($date->isEarlier($date2)) {
+                    $datesToInvalidateForSegment[] = $date;
+                    $date = $date->addDay(1);
+                }
+
+                $this->markArchivesAsInvalidated($idSites, $datesToInvalidateForSegment, 'day', new Segment($info['segment'], [$idSite]),
+                    $cascadeDown = false, $forceInvalidateRanges = false, $name);
+            }
+        }
+    }
+
+    /**
+     * Remove invalidations for a specific report or all invalidations for a specific plugin. If your plugin supports
+     * archiving data in the past, you may want to call this method to remove any pending invalidations if, for example,
+     * your plugin is deactivated or a report deleted.
+     *
+     * @param int $idSite
+     * @param string $string
+     * @param string|null $report
+     */
+    public function removeInvalidations($idSite, $plugin, $report = null)
+    {
+        if (empty($report)) {
+            $this->model->removeInvalidationsLike($idSite, $plugin);
+        } else {
+            $this->model->removeInvalidations($idSite, $plugin, $report);
+        }
+    }
+
+    /**
      * @param int[] $idSites
      * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false, $forceInvalidateNonexistantRanges = false)
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false,
+                                             $forceInvalidateNonexistantRanges = false, $name = null)
     {
         $idSites = array_map('intval', $idSites);
 
@@ -430,7 +541,8 @@ class ArchiveInvalidator
             $table = ArchiveTableCreator::getNumericTable($tableDateObj);
             $yearMonths[] = $tableDateObj->toString('Y_m');
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges, $name);
+
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
@@ -511,5 +623,13 @@ class ArchiveInvalidator
         } else {
             return Period\Factory::build($period, $date);
         }
+    }
+
+    private function getSegmentArchiving()
+    {
+        if (empty($this->segmentArchiving)) {
+            $this->segmentArchiving = new SegmentArchiving(StaticContainer::get('ini.General.process_new_segments_from'));
+        }
+        return $this->segmentArchiving;
     }
 }

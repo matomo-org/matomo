@@ -11,7 +11,6 @@ namespace Piwik\Tracker;
 use Piwik\Common;
 use Piwik\EventDispatcher;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -111,7 +110,6 @@ class VisitorRecognizer
         if ($visitRow
             && count($visitRow) > 0
         ) {
-            $visitProperties->setProperty(self::KEY_ORIGINAL_VISIT_ROW, $visitRow);
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
             $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
@@ -128,14 +126,13 @@ class VisitorRecognizer
         }
     }
 
-    public function removeUnchangedValues(VisitProperties $visitProperties, $visit)
+    public function removeUnchangedValues($visit, VisitProperties $originalVisit = null)
     {
-        $originalRow = $visitProperties->getProperty(self::KEY_ORIGINAL_VISIT_ROW);
-
-        if (empty($originalRow)) {
+        if (empty($originalVisit)) {
             return $visit;
         }
 
+        $originalRow = $originalVisit->getProperties();
         if (!empty($originalRow['idvisitor'])
             && !empty($visit['idvisitor'])
             && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])) {
@@ -240,8 +237,8 @@ class VisitorRecognizer
                 'visit_exit_idaction_url',
                 'visit_exit_idaction_name',
                 'visitor_returning',
-                'visitor_days_since_first',
-                'visitor_days_since_order',
+                'visitor_seconds_since_first',
+                'visitor_seconds_since_order',
                 'visitor_count_visits',
                 'visit_goal_buyer',
 
@@ -283,11 +280,6 @@ class VisitorRecognizer
 
             array_unshift($fields, 'visit_first_action_time');
             array_unshift($fields, 'visit_last_action_time');
-
-            for ($index = 1; $index <= CustomVariables::getNumUsableCustomVariables(); $index++) {
-                $fields[] = 'custom_var_k' . $index;
-                $fields[] = 'custom_var_v' . $index;
-            }
 
             $this->visitFieldsToSelect = array_unique($fields);
         }

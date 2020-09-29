@@ -20,7 +20,6 @@
         "DonateCall1": "Matomo sempre custará nada para usar, mas isso não significa que não nos custa nada para fazê-lo.",
         "DonateCall2": "Matomo precisa do seu apoio continuado para crescer e prosperar.",
         "DonateCall3": "Se você sentir que Matomo tem acrescentado valor significativo para seu negócio ou empreendimento, %1$sconsidere doar para o projeto%2$s ou %3$s comprar um recurso premium%4$s. Cada centavo vai ajudar.",
-        "DonateFormInstructions": "Clique no controle deslizante para selecionar um valor, clique em subscrever para doar.",
         "EndShortcut": "Fim",
         "EnterZenMode": "Entrar no modo Zen (esconder os menus)",
         "ExitZenMode": "Sair do mode Zen (mostrar os menus)",
@@ -32,7 +31,6 @@
         "ShowExportUrl": "Mostrar a URL de exportação",
         "HideExportUrl": "Esconder a URL de exportação",
         "HomeShortcut": "Início",
-        "HowMuchIsPiwikWorth": "Quanto é que o Matomo vale para você?",
         "IncludeRowsWithLowPopulation": "Linhas com poucos dados estão ocultas %s Mostrar todas as linhas",
         "InjectedHostEmailBody": "Olá, eu tentei acessar Matomo hoje e encontrei um aviso de hostname desconhecido.",
         "InjectedHostEmailSubject": "Matomo foi acessado por um hostname desconhecido : %s",
@@ -45,7 +43,6 @@
         "VisitTypeReturning": "Retorno",
         "VisitTypeReturningCustomer": "Retorno de cliente",
         "MainNavigation": "Navegação principal",
-        "MakeOneTimeDonation": "Em vez disso, faça uma doação.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Você está logado como '%1$s', mas parece que você não tem nenhuma permissão definida no Matomo. %2$s Pergunte ao seu administrador Matomo (clique para e-mail) %3$s para lhe dar acesso de 'visão' para um site.",
         "OnlyForSuperUserAccess": "Este widget é exibido no painel padrão somente para usuários com acesso de Super Usuário.",
@@ -102,12 +99,14 @@
         "RowLimit": "Limite de linha",
         "CustomLimit": "Limite personalizado",
         "ExportFormat": "Formato de exportação",
+        "ExportTooltip": "Nota: O gerador de exportação de URL somente funcionará na sessão atual do navegador. Se você quiser usar em outro lugar, precisará usar um token específico para o aplicativo. Você pode configurar esses tokens em Admin -> Segurança -> Autenticação de Token.",
         "ExpandSubtables": "Expandir sub tabelas",
         "StandardReport": "Relatório padrão",
         "FlattenReport": "Achatar relatório",
         "ReportWithMetadata": "Relatório com metadados",
         "ReadMoreOnlineGuide": "Leia mais sobre este tópico no guia online.",
         "SeeAvailableVersions": "Veja Versões Disponíveis",
-        "QuickLinks": "Links rápidos"
+        "QuickLinks": "Links rápidos",
+        "SearchOnMatomo": "Procurar '%1$s' em Matomo.org"
     }
 }

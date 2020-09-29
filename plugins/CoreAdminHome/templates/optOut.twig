@@ -8,6 +8,7 @@
     {% if reloadUrl %}
         <meta http-equiv="refresh" content="0; url={{ reloadUrl }}" />
     {% endif %}
+    <meta name="robots" content="noindex" />
 
     {% if stylesheets.external|length > 0 %}
         {% for style in stylesheets.external %}

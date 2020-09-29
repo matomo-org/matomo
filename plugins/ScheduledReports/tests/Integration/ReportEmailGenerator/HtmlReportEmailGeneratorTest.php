@@ -63,10 +63,10 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
     {
         return [
             'observers.global' => \DI\add([
-                ['Test.Mail.send', function (PHPMailer $mail) {
+                ['Test.Mail.send', \DI\value(function (PHPMailer $mail) {
                     $this->mail = $mail;
                     $this->mail->preSend();
-                }],
+                })],
             ]),
         ];
     }

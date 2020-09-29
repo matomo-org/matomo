@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -73,8 +72,8 @@ class ManySitesImportedLogs extends Fixture
         }
     }
 
-    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50';
-    const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50';
+    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;pageUrl=@/blog/;countryCode==jp';
+    const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;pageUrl=@%2Fblog%2F;countryCode==jp';
 
     public function getDefaultSegments()
     {
@@ -84,7 +83,7 @@ class ManySitesImportedLogs extends Fixture
                                             'autoArchive'     => true,
                                             'enabledAllUsers' => true),
 
-            'segmentNoAutoArchive' => array('definition'      => 'customVariableName1==Not-bot',
+            'segmentNoAutoArchive' => array('definition'      => 'deviceBrand==Apple',
                                             'idSite'          => false,
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
@@ -97,7 +96,7 @@ class ManySitesImportedLogs extends Fixture
             'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
                                                   'idSite'          => 1,
                                                   'autoArchive'     => true,
-                                                  'enabledAllUsers' => true)
+                                                  'enabledAllUsers' => true),
 
             // fails randomly and I really could not find why.
 //            'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),

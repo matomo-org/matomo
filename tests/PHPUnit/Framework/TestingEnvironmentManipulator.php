@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Framework;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Piwik\Application\Environment;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;

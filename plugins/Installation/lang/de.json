@@ -22,6 +22,10 @@
         "GoBackAndDefinePrefix": "Zurückgehen und einen Präfix für die Matomo-Tabellen definieren",
         "HappyAnalysing": "Viel Spaß beim Analysieren!",
         "Installation": "Installation",
+        "InformationalResults": "Informationen",
+        "CopyBelowInfoForSupport": "Kopieren Sie die untenstehende Information oder laden Sie sie herunter für den Fall, dass unser Supportteam Sie danach fragen wird.",
+        "CopySystemCheck": "Systemcheck kopieren",
+        "DownloadSystemCheck": "Systemcheck herunterladen",
         "InstallationStatus": "Status der Installation",
         "InsufficientPrivilegesHelp": "Sie können diese Rechte mit einem Tool wie phpMyAdmin oder den entsprechenden SQL Kommandos hinzufügen. Wenn Sie nicht wissen, was zu tun ist, wenden Sie sich bitte an den System-Administrator, damit er für Sie diese Rechte setzt.",
         "InsufficientPrivilegesMain": "Entweder existiert die Datenbank nicht (und konnte nicht erstellt werden), oder der angegebene Benutzer hat unzureichende Berechtigungen. Der Datenbankbenutzer muss folgende Berechtigungen besitzen: %s",
@@ -69,7 +73,6 @@
         "SuperUserSetupSuccess": "Hauptadministrator erfolgreich angelegt!",
         "SystemCheck": "Systemprüfung",
         "SystemCheckAutoUpdateHelp": "Hinweis: Matomo's Ein-Klick-Aktualisierung benötigt Schreibrechte für den Matomo-Ordner und dessen Inhalt.",
-        "SystemCheckCreateFunctionHelp": "Matomo verwendet anonyme Funktionen für Rückfragen.",
         "SystemCheckDatabaseExtensions": "MySQL Erweiterungen",
         "SystemCheckDatabaseHelp": "Matomo erfordert entweder die mysqli Erweiterung oder die PDO und pdo_mysql Erweiterung.",
         "SystemCheckDatabaseSSL": "Datenbank SSL Verbindung",
@@ -150,6 +153,6 @@
         "WelcomeToCommunity": "Willkommen in der Matomo Community!",
         "CannotConnectToDb": "Verbindung zur Datenbank ist fehlgeschlagen",
         "CannotConnectToDbResolvingExplanation": "Dies könnte ein temporäres Problem sein. Versuchen Sie diese %1$sSeite neu zu laden%2$s. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo Administrator.",
-        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird ausschließlich dafür verwendet Ihnen den Matomo Newsletter zuzusenden. Sie können sich jederzeit davon Abmelden indem Sie den Abmelden Link klicken. Ihre E-Mail-Adresse wird an niemanden weitergegeben und auch nicht zu einem anderen Zweck verwendet, als Ihnen den Matomo Newsletter zuzusenden. Bitte lesen Sie unsere %1$sDatenschutzerklärung%2$s für weitere Informationen."
+        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird nur dafür verwendet, Ihnen den Newsletter zu senden. Dafür werden wir sie an einen Third-Party-Provider weitergeben. Dieser Provider ist aktuell Mad Mimi, aber das wird sich in Zukunft möglicherweise ändern. Wir werden Ihre E-Mail-Adresse sonst mit niemandem teilen oder sie für etwas anderes als für den Newsletter verwenden. Sie können sich jederzeit abmelden. Bitte konsultieren Sie unsere %1$sDatenschutzerklärung%2$s für weitere Informationen."
     }
 }

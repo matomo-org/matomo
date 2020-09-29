@@ -29,7 +29,7 @@ var Piwik_Overlay_FollowingPages = (function () {
         var followingPagesLoaded = false;
 
         // load excluded params
-        Piwik_Overlay_Client.api('getExcludedQueryParameters', function (data) {
+        Matomo_Overlay_Client.api('getExcludedQueryParameters', function (data) {
             for (var i = 0; i < data.length; i++) {
                 if (typeof data[i] == 'object') {
                     data[i] = data[i][0];
@@ -44,7 +44,7 @@ var Piwik_Overlay_FollowingPages = (function () {
         });
 
         // load following pages
-        Piwik_Overlay_Client.api('getFollowingPages', function (data) {
+        Matomo_Overlay_Client.api('getFollowingPages', function (data) {
             followingPages = data;
             processFollowingPages();
 
@@ -419,10 +419,10 @@ var Piwik_Overlay_FollowingPages = (function () {
 
         // Sometimes it fails to remove the notification when the hovered element is removed.
         // To make sure we don't display more than one location at a time, we hide all before showing the new one.
-        Piwik_Overlay_Client.hideNotifications('LinkLocation');
+        Matomo_Overlay_Client.hideNotifications('LinkLocation');
 
         // we don't use .data() because jquery would remove the callback when the link tag is removed
-        linkTag[0].piwikHideNotification = Piwik_Overlay_Client.notification(
+        linkTag[0].piwikHideNotification = Matomo_Overlay_Client.notification(
             Piwik_Overlay_Translations.get('link') + ': ' + linkUrl, 'LinkLocation');
     }
 
@@ -509,8 +509,8 @@ var Piwik_Overlay_FollowingPages = (function () {
          * The main method
          */
         initialize: function (finishCallback) {
-            c = Piwik_Overlay_Client.createElement;
-            Piwik_Overlay_Client.loadScript('plugins/Overlay/client/urlnormalizer.js', function () {
+            c = Matomo_Overlay_Client.createElement;
+            Matomo_Overlay_Client.loadScript('plugins/Overlay/client/urlnormalizer.js', function () {
                 Piwik_Overlay_UrlNormalizer.initialize();
                 load(function () {
                     Piwik_Overlay_UrlNormalizer.setExcludedParameters(excludedParams);

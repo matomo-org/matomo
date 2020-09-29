@@ -34,9 +34,10 @@
 /*global ActiveXObject */
 /*global Blob */
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
+    shift, unshift, piwikAsyncInit, matomoAsyncInit, matomoPluginAsyncInit , frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
-    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
+    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, setCookieConsentGiven,
+    areCookiesEnabled, getRememberedCookieConsent, rememberCookieConsentGiven, forgetCookieConsentGiven, requireCookieConsent,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, connectEnd, requestStart, responseStart,
@@ -51,7 +52,7 @@
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, ag, showModalDialog,
+    pdf, qt, realp, wma, fla, java, ag, showModalDialog,
     maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -61,7 +62,7 @@
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
-    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getCurrentUrl,
+    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -90,8 +91,8 @@
     search, trim, getBoundingClientRect, bottom, right, left, innerWidth, innerHeight, clientWidth, clientHeight,
     isOrWasNodeInViewport, isNodeVisible, buildInteractionRequestParams, buildImpressionRequestParams,
     shouldIgnoreInteraction, setHrefAttribute, setAttribute, buildContentBlock, collectContent, setLocation,
-    CONTENT_ATTR, CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS,
-    CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS,
+    CONTENT_ATTR, CONTENT_CLASS, LEGACY_CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS, LEGACY_CONTENT_PIECE_CLASS,
+    CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, LEGACY_CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS, LEGACY_CONTENT_IGNOREINTERACTION_CLASS,
     trackCallbackOnLoad, trackCallbackOnReady, buildContentImpressionsRequests, wasContentImpressionAlreadyTracked,
     getQuery, getContent, setVisitorId, getContentImpressionsRequestsFromNodes,
     buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
@@ -101,11 +102,11 @@
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent, logAllContentBlocksOnPage,
-    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain, piwikTrackers,
+    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain, matomoTrackers,
     isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
+    getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
@@ -114,9 +115,10 @@
 /*global _paq:true */
 /*members push */
 /*global Piwik:true */
+/*global Matomo:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
           DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
-/*global Piwik_Overlay_Client */
+/*global Matomo_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
 /*global define */
@@ -130,8 +132,8 @@ if (typeof _paq !== 'object') {
     _paq = [];
 }
 
-// Piwik singleton and namespace
-if (typeof window.Piwik !== 'object') {
+// Matomo singleton and namespace
+if (typeof window.Matomo !== 'object') {
     window.Matomo = window.Piwik = (function () {
         'use strict';
 
@@ -170,8 +172,8 @@ if (typeof window.Piwik !== 'object') {
             /* iterator */
             iterator,
 
-            /* local Piwik */
-            Piwik,
+            /* local Matomo */
+            Matomo,
 
             missedPluginTrackerCalls = [],
 
@@ -187,10 +189,10 @@ if (typeof window.Piwik !== 'object') {
          ************************************************************/
 
         /**
-         * See https://github.com/piwik/piwik/issues/8413
+         * See https://github.com/matomo-org/matomo/issues/8413
          * To prevent Javascript Error: Uncaught URIError: URI malformed when encoding is not UTF-8. Use this method
          * instead of decodeWrapper if a text could contain any non UTF-8 encoded characters eg
-         * a URL like http://apache.piwik/test.html?%F6%E4%FC or a link like
+         * a URL like http://apache.matomo/test.html?%F6%E4%FC or a link like
          * <a href="test-with-%F6%E4%FC/story/0">(encoded iso-8859-1 URL)</a>
          */
         function safeDecodeWrapper(url)
@@ -308,12 +310,12 @@ if (typeof window.Piwik !== 'object') {
                     context = fParts[0];
                     f = fParts[1];
 
-                    if ('object' === typeof Piwik[context] && 'function' === typeof Piwik[context][f]) {
-                        Piwik[context][f].apply(Piwik[context], parameterArray);
+                    if ('object' === typeof Matomo[context] && 'function' === typeof Matomo[context][f]) {
+                        Matomo[context][f].apply(Matomo[context], parameterArray);
                     } else if (trackerCall) {
                         // we try to call that method again later as the plugin might not be loaded yet
-                        // a plugin can call "Piwik.retryMissedPluginCalls();" once it has been loaded and then the
-                        // method call to "Piwik[context][f]" may be executed
+                        // a plugin can call "Matomo.retryMissedPluginCalls();" once it has been loaded and then the
+                        // method call to "Matomo[context][f]" may be executed
                         missedPluginTrackerCalls.push(trackerCall);
                     }
 
@@ -339,7 +341,7 @@ if (typeof window.Piwik !== 'object') {
                             if (context[f]) {
                                 context[f].apply(context, parameterArray);
                             } else {
-                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: https://developer.piwik.org/api-reference/tracking-javascript';
+                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Matomo tracker documentation: https://developer.matomo.org/api-reference/tracking-javascript';
                                 logConsoleError(message);
 
                                 if (!isPluginTrackerCall) {
@@ -498,6 +500,13 @@ if (typeof window.Piwik !== 'object') {
             isPageUnloading = true;
 
             executePluginMethod('unload');
+
+            now  = new Date();
+            var aliasTime = now.getTimeAlias();
+            if ((expireDateTime - aliasTime) > 3000) {
+                expireDateTime = aliasTime + 3000;
+            }
+            
             /*
              * Delay/pause (blocks UI)
              */
@@ -721,7 +730,7 @@ if (typeof window.Piwik !== 'object') {
             // + namespaced by: Michael White (http://getsprink.com)
             // +      input by: Brett Zamir (http://brett-zamir.me)
             // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-            // +   jslinted by: Anthon Pang (http://piwik.org)
+            // +   jslinted by: Anthon Pang (https://matomo.org)
 
             var
                 rotate_left = function (n, s) {
@@ -1464,22 +1473,26 @@ if (typeof window.Piwik !== 'object') {
 
         var content = {
             CONTENT_ATTR: 'data-track-content',
-            CONTENT_CLASS: 'piwikTrackContent',
+            CONTENT_CLASS: 'matomoTrackContent',
+            LEGACY_CONTENT_CLASS: 'piwikTrackContent',
             CONTENT_NAME_ATTR: 'data-content-name',
             CONTENT_PIECE_ATTR: 'data-content-piece',
-            CONTENT_PIECE_CLASS: 'piwikContentPiece',
+            CONTENT_PIECE_CLASS: 'matomoContentPiece',
+            LEGACY_CONTENT_PIECE_CLASS: 'piwikContentPiece',
             CONTENT_TARGET_ATTR: 'data-content-target',
-            CONTENT_TARGET_CLASS: 'piwikContentTarget',
+            CONTENT_TARGET_CLASS: 'matomoContentTarget',
+            LEGACY_CONTENT_TARGET_CLASS: 'piwikContentTarget',
             CONTENT_IGNOREINTERACTION_ATTR: 'data-content-ignoreinteraction',
-            CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
+            CONTENT_IGNOREINTERACTION_CLASS: 'matomoContentIgnoreInteraction',
+            LEGACY_CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
             location: undefined,
 
             findContentNodes: function ()
             {
-
                 var cssSelector  = '.' + this.CONTENT_CLASS;
+                var cssSelector2  = '.' + this.LEGACY_CONTENT_CLASS;
                 var attrSelector = '[' + this.CONTENT_ATTR + ']';
-                var contentNodes = query.findMultiple([cssSelector, attrSelector]);
+                var contentNodes = query.findMultiple([cssSelector, cssSelector2, attrSelector]);
 
                 return contentNodes;
             },
@@ -1492,6 +1505,7 @@ if (typeof window.Piwik !== 'object') {
                 // NOTE: we do not use query.findMultiple here as querySelectorAll would most likely not deliver the result we want
 
                 var nodes1 = query.findNodesHavingCssClass(node, this.CONTENT_CLASS);
+                nodes1     = query.findNodesHavingCssClass(node, this.LEGACY_CONTENT_CLASS, nodes1);
                 var nodes2 = query.findNodesHavingAttribute(node, this.CONTENT_ATTR);
 
                 if (nodes2 && nodes2.length) {
@@ -1504,6 +1518,8 @@ if (typeof window.Piwik !== 'object') {
                 if (query.hasNodeAttribute(node, this.CONTENT_ATTR)) {
                     nodes1.push(node);
                 } else if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
+                    nodes1.push(node);
+                } else if (query.hasNodeCssClass(node, this.LEGACY_CONTENT_CLASS)) {
                     nodes1.push(node);
                 }
 
@@ -1527,6 +1543,9 @@ if (typeof window.Piwik !== 'object') {
                     if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
                         return node;
                     }
+                    if (query.hasNodeCssClass(node, this.LEGACY_CONTENT_CLASS)) {
+                        return node;
+                    }
 
                     node = node.parentNode;
 
@@ -1544,6 +1563,9 @@ if (typeof window.Piwik !== 'object') {
 
                 if (!contentPiece) {
                     contentPiece = query.findFirstNodeHavingClass(node, this.CONTENT_PIECE_CLASS);
+                }
+                if (!contentPiece) {
+                    contentPiece = query.findFirstNodeHavingClass(node, this.LEGACY_CONTENT_PIECE_CLASS);
                 }
 
                 if (contentPiece) {
@@ -1569,6 +1591,11 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 target = query.findFirstNodeHavingClass(node, this.CONTENT_TARGET_CLASS);
+                if (target) {
+                    return target;
+                }
+
+                target = query.findFirstNodeHavingClass(node, this.LEGACY_CONTENT_TARGET_CLASS);
                 if (target) {
                     return target;
                 }
@@ -1950,9 +1977,16 @@ if (typeof window.Piwik !== 'object') {
             },
             shouldIgnoreInteraction: function (targetNode)
             {
-                var hasAttr  = query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR);
-                var hasClass = query.hasNodeCssClass(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS);
-                return hasAttr || hasClass;
+                if (query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR)) {
+                    return true;
+                }
+                if (query.hasNodeCssClass(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS)) {
+                    return true;
+                }
+                if (query.hasNodeCssClass(targetNode, this.LEGACY_CONTENT_IGNOREINTERACTION_CLASS)) {
+                    return true;
+                }
+                return false;
             }
         };
 
@@ -1960,7 +1994,7 @@ if (typeof window.Piwik !== 'object') {
          * Page Overlay
          ************************************************************/
 
-        function getPiwikUrlForOverlay(trackerUrl, apiUrl) {
+        function getMatomoUrlForOverlay(trackerUrl, apiUrl) {
             if (apiUrl) {
                 return apiUrl;
             }
@@ -1980,14 +2014,14 @@ if (typeof window.Piwik !== 'object') {
                 // if eg without domain or path "piwik.php" => ''
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'piwik.php'.length);
             } else if (stringEndsWith(trackerUrl, '.php')) {
-                // if eg http://www.example.com/js/piwik.php => http://www.example.com/js/
+                // if eg http://www.example.com/js/matomo.php => http://www.example.com/js/
                 // or if eg http://www.example.com/tracker.php => http://www.example.com/
                 var lastSlash = trackerUrl.lastIndexOf('/');
                 var includeLastSlash = 1;
                 trackerUrl = trackerUrl.slice(0, lastSlash + includeLastSlash);
             }
 
-            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Piwik JS loaded)
+            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Matomo JS loaded)
             if (stringEndsWith(trackerUrl, '/js/')) {
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'js/'.length);
             }
@@ -2004,9 +2038,9 @@ if (typeof window.Piwik !== 'object') {
          * {@internal side-effect: modifies window.name }}
          */
         function isOverlaySession(configTrackerSiteId) {
-            var windowName = 'Piwik_Overlay';
+            var windowName = 'Matomo_Overlay';
 
-            // check whether we were redirected from the piwik overlay plugin
+            // check whether we were redirected from the matomo overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
                 + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
 
@@ -2048,12 +2082,12 @@ if (typeof window.Piwik !== 'object') {
                 period = windowNameParts[1],
                 date = windowNameParts[2],
                 segment = windowNameParts[3],
-                piwikUrl = getPiwikUrlForOverlay(configTrackerUrl, configApiUrl);
+                matomoUrl = getMatomoUrlForOverlay(configTrackerUrl, configApiUrl);
 
             loadScript(
-                piwikUrl + 'plugins/Overlay/client/client.js?v=1',
+                matomoUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date, segment);
+                    Matomo_Overlay_Client.initialize(matomoUrl, configTrackerSiteId, period, date, segment);
                 }
             );
         }
@@ -2086,7 +2120,7 @@ if (typeof window.Piwik !== 'object') {
          ************************************************************/
 
         /*
-         * Piwik Tracker class
+         * Matomo Tracker class
          *
          * trackerUrl and trackerSiteId are optional arguments to the constructor
          *
@@ -2110,6 +2144,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // constants
                 CONSENT_COOKIE_NAME = 'mtm_consent',
+                COOKIE_CONSENT_COOKIE_NAME = 'mtm_cookie_consent',
                 CONSENT_REMOVED_COOKIE_NAME = 'mtm_consent_removed',
 
                 // Current URL and Referrer URL
@@ -2155,7 +2190,7 @@ if (typeof window.Piwik !== 'object') {
                 configTitle = '',
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
+                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','rtf','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -2183,9 +2218,6 @@ if (typeof window.Piwik !== 'object') {
 
                 // alias to circumvent circular function dependency (JSLint requires this)
                 heartBeatPingIfActivityAlias,
-
-                // the standard visit length as configured in Matomo in "visit_standard_length" config setting
-                configVisitStandardLength = 1800,
 
                 // Disallow hash tags in URL
                 configDiscardHashTag,
@@ -2277,6 +2309,9 @@ if (typeof window.Piwik !== 'object') {
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
 
+                // Ecommerce product view
+                ecommerceProductView = {},
+
                 // Ecommerce items
                 ecommerceItems = {},
 
@@ -2301,16 +2336,13 @@ if (typeof window.Piwik !== 'object') {
                 heartBeatSetUp = false,
 
                 // bool used to detect whether this browser window had focus at least once. So far we cannot really
-                // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
+                // detect this 100% correct for an iframe so whenever Matomo is loaded inside an iframe we presume
                 // the window had focus at least once.
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
                 timeWindowLastFocused = null,
 
-                // Timestamp of last tracker request sent to Piwik
+                // Timestamp of last tracker request sent to Matomo
                 lastTrackerRequestTime = null,
-
-                // Handle to the current heart beat timeout
-                heartBeatTimeout,
 
                 // Internal state of the pseudo click handler
                 lastButton,
@@ -2341,7 +2373,10 @@ if (typeof window.Piwik !== 'object') {
                 consentRequestsQueue = [],
 
                 // a unique ID for this tracker during this request
-                uniqueTrackerId = trackerIdCounter++;
+                uniqueTrackerId = trackerIdCounter++,
+
+                // whether a tracking request has been sent yet during this page view
+                hasSentTrackingRequestYet = false;
 
             // Document title
             try {
@@ -2399,7 +2434,7 @@ if (typeof window.Piwik !== 'object') {
             function purify(url) {
                 var targetPattern;
 
-                // we need to remove this parameter here, they wouldn't be removed in Piwik tracker otherwise eg
+                // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
 
@@ -2611,7 +2646,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
-             * Send image request to Piwik server using GET.
+             * Send image request to Matomo server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
@@ -2686,7 +2721,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
-             * POST request to Piwik server using XMLHttpRequest.
+             * POST request to Matomo server using XMLHttpRequest.
              */
             function sendXmlHttpRequest(request, callback, fallbackToGet) {
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
@@ -2770,56 +2805,6 @@ if (typeof window.Piwik !== 'object') {
                 }
             }
 
-            /*
-             * Sets up the heart beat timeout.
-             */
-            function heartBeatUp(delay) {
-                if (heartBeatTimeout
-                    || !configHeartBeatDelay
-                    || !configHasConsent
-                ) {
-                    return;
-                }
-
-                heartBeatTimeout = setTimeout(function heartBeat() {
-                    heartBeatTimeout = null;
-
-                    if (!hadWindowFocusAtLeastOnce) {
-                        // if browser does not support .hasFocus (eg IE5), we assume that the window has focus.
-                        hadWindowFocusAtLeastOnce = (!documentAlias.hasFocus || documentAlias.hasFocus());
-                    }
-
-                    if (!hadWindowFocusAtLeastOnce) {
-                        // only send a ping if the tab actually had focus at least once. For example do not send a ping
-                        // if window was opened via "right click => open in new window" and never had focus see #9504
-                        heartBeatUp(configHeartBeatDelay);
-                        return;
-                    }
-
-                    if (heartBeatPingIfActivityAlias()) {
-                        return;
-                    }
-
-                    var now = new Date(),
-                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
-                    // sanity check
-                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay);
-                    heartBeatUp(heartBeatDelay);
-                }, delay || configHeartBeatDelay);
-            }
-
-            /*
-             * Removes the heart beat timeout.
-             */
-            function heartBeatDown() {
-                if (!heartBeatTimeout) {
-                    return;
-                }
-
-                clearTimeout(heartBeatTimeout);
-                heartBeatTimeout = null;
-            }
-
             function heartBeatOnFocus() {
                 hadWindowFocusAtLeastOnce = true;
                 timeWindowLastFocused = new Date().getTime();
@@ -2837,7 +2822,6 @@ if (typeof window.Piwik !== 'object') {
                 if (hadWindowMinimalFocusToConsiderViewed()) {
                     heartBeatPingIfActivityAlias();
                 }
-                heartBeatDown();
             }
 
             /*
@@ -2857,7 +2841,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // when using multiple trackers then we need to add this event for each tracker
                 coreHeartBeatCounter++;
-                Piwik.addPlugin('HeartBeat' + coreHeartBeatCounter, {
+                Matomo.addPlugin('HeartBeat' + coreHeartBeatCounter, {
                     unload: function () {
                         // we can't remove the unload plugin event when disabling heart beat timer but we at least
                         // check if it is still enabled... note: when enabling heart beat, then disabling, then
@@ -2923,6 +2907,9 @@ if (typeof window.Piwik !== 'object') {
                     consentRequestsQueue.push(request);
                     return;
                 }
+
+                hasSentTrackingRequestYet = true;
+
                 if (!configDoNotTrack && request) {
                     if (configConsentRequired && configHasConsent) { // send a consent=1 when explicit consent is given for the apache logs
                         request += '&consent=1';
@@ -2989,6 +2976,8 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                hasSentTrackingRequestYet = true;
+
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                     var chunks = arrayChunk(requests, 50);
 
@@ -3012,7 +3001,7 @@ if (typeof window.Piwik !== 'object') {
              * Get cookie name with prefix and domain hash
              */
             function getCookieName(baseName) {
-                // NOTE: If the cookie name is changed, we must also update the PiwikTracker.php which
+                // NOTE: If the cookie name is changed, we must also update the MatomoTracker.php which
                 // will attempt to discover first party cookies. eg. See the PHP Client method getVisitorId()
                 return configCookieNamePrefix + baseName + '.' + configTrackerSiteId + '.' + domainHash;
             }
@@ -3068,7 +3057,6 @@ if (typeof window.Piwik !== 'object') {
                         wma: 'application/x-mplayer2',
 
                         // interactive multimedia
-                        dir: 'application/x-director',
                         fla: 'application/x-shockwave-flash',
 
                         // RIA
@@ -3098,8 +3086,12 @@ if (typeof window.Piwik !== 'object') {
                         browserFeatures.java = '1';
                     }
 
-                    // other browser features
-                    browserFeatures.cookie = hasCookies();
+                    if (!isDefined(windowAlias.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
+                        browserFeatures.cookie = navigatorAlias.cookieEnabled ? '1' : '0';
+                    } else {
+                        // Eg IE11 ... prevent error when cookieEnabled is requested within modal dialog. see #11507
+                        browserFeatures.cookie = hasCookies();
+                    }
                 }
 
                 var width = parseInt(screenAlias.width, 10);
@@ -3280,19 +3272,7 @@ if (typeof window.Piwik !== 'object') {
                     uuid,
 
                     // creation timestamp - seconds since Unix epoch
-                    nowTs,
-
-                    // visitCount - 0 = no previous visit
-                    0,
-
-                    // current visit timestamp
-                    nowTs,
-
-                    // last visit timestamp - blank = no previous visit
-                    '',
-
-                    // last ecommerce order timestamp
-                    ''
+                    nowTs
                 ];
 
                 return cookieValue;
@@ -3306,26 +3286,12 @@ if (typeof window.Piwik !== 'object') {
                 var cookieVisitorIdValue = loadVisitorIdCookie(),
                     newVisitor = cookieVisitorIdValue[0],
                     uuid = cookieVisitorIdValue[1],
-                    createTs = cookieVisitorIdValue[2],
-                    visitCount = cookieVisitorIdValue[3],
-                    currentVisitTs = cookieVisitorIdValue[4],
-                    lastVisitTs = cookieVisitorIdValue[5];
-
-                // case migrating from pre-1.5 cookies
-                if (!isDefined(cookieVisitorIdValue[6])) {
-                    cookieVisitorIdValue[6] = "";
-                }
-
-                var lastEcommerceOrderTs = cookieVisitorIdValue[6];
+                    createTs = cookieVisitorIdValue[2];
 
                 return {
                     newVisitor: newVisitor,
                     uuid: uuid,
-                    createTs: createTs,
-                    visitCount: visitCount,
-                    currentVisitTs: currentVisitTs,
-                    lastVisitTs: lastVisitTs,
-                    lastEcommerceOrderTs: lastEcommerceOrderTs
+                    createTs: createTs
                 };
             }
 
@@ -3357,11 +3323,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
-                    visitorIdCookieValues.createTs + '.' +
-                    visitorIdCookieValues.visitCount + '.' +
-                    nowTs + '.' +
-                    visitorIdCookieValues.lastVisitTs + '.' +
-                    visitorIdCookieValues.lastEcommerceOrderTs;
+                    visitorIdCookieValues.createTs + '.';
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
@@ -3434,7 +3396,6 @@ if (typeof window.Piwik !== 'object') {
 
             function setSiteId(siteId) {
                 configTrackerSiteId = siteId;
-                setVisitorIdCookie();
             }
 
             function sortObjectByKeys(value) {
@@ -3519,11 +3480,11 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /**
-             * Returns the URL to call piwik.php,
+             * Returns the URL to call matomo.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
              * Sends the pageview and browser settings with every request in case of race conditions.
              */
-            function getRequest(request, customData, pluginMethod, currentEcommerceOrderTs) {
+            function getRequest(request, customData, pluginMethod) {
                 var i,
                     now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
@@ -3551,13 +3512,10 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
-                if (!isDefined(currentEcommerceOrderTs)) {
-                    currentEcommerceOrderTs = "";
-                }
 
                 // send charset if document charset is not utf-8. sometimes encoding
                 // of urls will be the same as this and not utf-8, which will cause problems
-                // do not send charset if it is utf8 since it's assumed by default in Piwik
+                // do not send charset if it is utf8 since it's assumed by default in Matomo
                 var charSet = documentAlias.characterSet || documentAlias.charset;
 
                 if (!charSet || charSet.toLowerCase() === 'utf-8') {
@@ -3571,16 +3529,6 @@ if (typeof window.Piwik !== 'object') {
 
                 if (!cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
-
-                    // here we make sure that if 'ses' cookie is deleted few times within the visit
-                    // and so this code path is triggered many times for one visit,
-                    // we only increase visitCount once per Visit window (default 30min)
-                    var visitDuration = configSessionCookieTimeout / 1000;
-                    if (!cookieVisitorIdValues.lastVisitTs
-                        || (nowTs - cookieVisitorIdValues.lastVisitTs) > visitDuration) {
-                        cookieVisitorIdValues.visitCount++;
-                        cookieVisitorIdValues.lastVisitTs = cookieVisitorIdValues.currentVisitTs;
-                    }
 
 
                     // Detect the campaign information from the current URL
@@ -3646,13 +3594,12 @@ if (typeof window.Piwik !== 'object') {
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                    '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
+                    '&_id=' + cookieVisitorIdValues.uuid +
+
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
                     (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
                     '&_refts=' + referralTs +
-                    '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
-                    (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
@@ -3681,6 +3628,13 @@ if (typeof window.Piwik !== 'object') {
                 if (customData && isObjectEmpty(customData)) {
                     customData = null;
                     // we deleted all keys from custom data
+                }
+
+                // product page view
+                for (i in ecommerceProductView) {
+                    if (Object.prototype.hasOwnProperty.call(ecommerceProductView, i)) {
+                        request += '&' + i + '=' + encodeWrapper(ecommerceProductView[i]);
+                    }
                 }
 
                 // custom dimensions
@@ -3744,7 +3698,6 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 // update cookies
-                cookieVisitorIdValues.lastEcommerceOrderTs = isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : cookieVisitorIdValues.lastEcommerceOrderTs;
                 setVisitorIdCookie(cookieVisitorIdValues);
                 setSessionCookie();
 
@@ -3773,11 +3726,6 @@ if (typeof window.Piwik !== 'object') {
                 if (!lastTrackerRequestTime) {
                     return false; // no tracking request was ever sent so lets not send heartbeat now
                 }
-                if ((lastTrackerRequestTime + (1000*configVisitStandardLength)) <= now) {
-                    // heart beat does not extend the visit length and therefore there is pretty much no point
-                    // to send requests after this
-                    return false;
-                }
 
                 if (lastTrackerRequestTime + configHeartBeatDelay <= now) {
                     trackerInstance.ping();
@@ -3790,7 +3738,6 @@ if (typeof window.Piwik !== 'object') {
 
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
-                    lastEcommerceOrderTs,
                     now = new Date(),
                     items = [],
                     sku,
@@ -3798,8 +3745,6 @@ if (typeof window.Piwik !== 'object') {
 
                 if (isEcommerceOrder) {
                     request += '&ec_id=' + encodeWrapper(orderId);
-                    // Record date of order in the visitor cookie
-                    lastEcommerceOrderTs = Math.round(now.getTime() / 1000);
                 }
 
                 request += '&revenue=' + grandTotal;
@@ -3850,7 +3795,7 @@ if (typeof window.Piwik !== 'object') {
                     }
                     request += '&ec_items=' + encodeWrapper(windowAlias.JSON.stringify(items));
                 }
-                request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
+                request = getRequest(request, configCustomData, 'ecommerce');
                 sendRequest(request, configTrackerPause);
 
                 if (isEcommerceOrder) {
@@ -3892,7 +3837,7 @@ if (typeof window.Piwik !== 'object') {
              */
             function getClassesRegExp(configClasses, defaultClass) {
                 var i,
-                    classesRegExp = '(^| )(piwik[_-]' + defaultClass;
+                    classesRegExp = '(^| )(piwik[_-]' + defaultClass + '|matomo[_-]' + defaultClass;
 
                 if (configClasses) {
                     for (i = 0; i < configClasses.length; i++) {
@@ -4266,7 +4211,7 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                if (!isNumberOrHasLength(category) || !isNumberOrHasLength(action)) {
                     logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }
@@ -4372,7 +4317,7 @@ if (typeof window.Piwik !== 'object') {
 
             function getCrossDomainVisitorId()
             {
-                var visitorId = getValuesFromVisitorIdCookie().uuid;
+                var visitorId = trackerInstance.getVisitorId();
                 var deviceId = makeCrossDomainDeviceId();
                 return visitorId + deviceId;
             }
@@ -4393,6 +4338,10 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                if (!trackerInstance.getVisitorId()) {
+                    return; // cookies are disabled.
+                }
+
                 // we need to remove the parameter and add it again if needed to make sure we have latest timestamp
                 // and visitorId (eg userId might be set etc)
                 link = removeUrlParameter(link, configVisitorIdUrlParameter);
@@ -4404,7 +4353,7 @@ if (typeof window.Piwik !== 'object') {
                 query.setAnyAttribute(element, 'href', link);
             }
 
-            function isLinkToDifferentDomainButSamePiwikWebsite(element)
+            function isLinkToDifferentDomainButSameMatomoWebsite(element)
             {
                 var targetLink = query.getAttributeValueFromNode(element, 'href');
 
@@ -4457,7 +4406,7 @@ if (typeof window.Piwik !== 'object') {
                     // in case the clicked element is within the <a> (for example there is a <div> within the <a>) this will get the actual <a> link element
                     sourceElement = getSourceElement(sourceElement);
 
-                    if(isLinkToDifferentDomainButSamePiwikWebsite(sourceElement)) {
+                    if(isLinkToDifferentDomainButSameMatomoWebsite(sourceElement)) {
                         replaceHrefForCrossDomainLink(sourceElement);
                     }
 
@@ -4616,15 +4565,15 @@ if (typeof window.Piwik !== 'object') {
                     for (i = 0; i < linkElements.length; i++) {
                         linkElement = linkElements[i];
                         if (!ignorePattern.test(linkElement.className)) {
-                            trackerType = typeof linkElement.piwikTrackers;
+                            trackerType = typeof linkElement.matomoTrackers;
 
                             if ('undefined' === trackerType) {
-                                linkElement.piwikTrackers = [];
+                                linkElement.matomoTrackers = [];
                             }
 
-                            if (-1 === indexOfArray(linkElement.piwikTrackers, trackerInstance)) {
+                            if (-1 === indexOfArray(linkElement.matomoTrackers, trackerInstance)) {
                                 // we make sure to setup link only once for each tracker
-                                linkElement.piwikTrackers.push(trackerInstance);
+                                linkElement.matomoTrackers.push(trackerInstance);
                                 addClickListener(linkElement, enable);
                             }
                         }
@@ -4778,7 +4727,7 @@ if (typeof window.Piwik !== 'object') {
                     var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
                     if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
                         // we setup one unload handler per tracker...
-                        // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make
+                        // Matomo.addPlugin might not be defined at this point, we add the plugin directly also to make
                         // JSLint happy.
                         plugins[trackerQueueId] = {
                             unload: function () {
@@ -4826,9 +4775,6 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getContent = function () {
                 return content;
-            };
-            this.setVisitorId = function (visitorId) {
-                visitorUUID = visitorId;
             };
 
             this.buildContentImpressionRequest = buildContentImpressionRequest;
@@ -4919,7 +4865,7 @@ if (typeof window.Piwik !== 'object') {
              * To access specific data point, you should use the other functions getAttributionReferrer* and getAttributionCampaign*
              *
              * @return array Attribution array, Example use:
-             *   1) Call windowAlias.JSON.stringify(piwikTracker.getAttributionInfo())
+             *   1) Call windowAlias.JSON.stringify(matomoTracker.getAttributionInfo())
              *   2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
              */
             this.getAttributionInfo = function () {
@@ -4965,7 +4911,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Specify the Piwik tracking URL
+             * Specify the Matomo tracking URL
              *
              * @param string trackerUrl
              */
@@ -4974,7 +4920,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik tracking URL
+             * Returns the Matomo tracking URL
              * @returns string
              */
             this.getTrackerUrl = function () {
@@ -4982,31 +4928,40 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik server URL.
+             * Returns the Matomo server URL.
              *
              * @returns string
              */
-            this.getPiwikUrl = function () {
-                return getPiwikUrlForOverlay(this.getTrackerUrl(), configApiUrl);
+            this.getMatomoUrl = function () {
+                return getMatomoUrlForOverlay(this.getTrackerUrl(), configApiUrl);
             };
 
             /**
-             * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
+             * Returns the Matomo server URL.
+             * @deprecated since Matomo 4.0.0 use `getMatomoUrl()` instead.
+             * @returns string
+             */
+            this.getPiwikUrl = function () {
+                return this.getMatomoUrl();
+            };
+
+            /**
+             * Adds a new tracker. All sent requests will be also sent to the given siteId and matomoUrl.
              *
-             * @param string piwikUrl  The tracker URL of the current tracker instance
+             * @param string matomoUrl  The tracker URL of the current tracker instance
              * @param int|string siteId
              * @return Tracker
              */
-            this.addTracker = function (piwikUrl, siteId) {
-                if (!isDefined(piwikUrl) || null === piwikUrl) {
-                    piwikUrl = this.getTrackerUrl();
+            this.addTracker = function (matomoUrl, siteId) {
+                if (!isDefined(matomoUrl) || null === matomoUrl) {
+                    matomoUrl = this.getTrackerUrl();
                 }
 
-                var tracker = new Tracker(piwikUrl, siteId);
+                var tracker = new Tracker(matomoUrl, siteId);
 
                 asyncTrackers.push(tracker);
 
-                Piwik.trigger('TrackerAdded', [this]);
+                Matomo.trigger('TrackerAdded', [this]);
 
                 return tracker;
             };
@@ -5044,6 +4999,22 @@ if (typeof window.Piwik !== 'object') {
             this.setUserId = function (userId) {
                 if (isNumberOrHasLength(userId)) {
                     configUserId = userId;
+                }
+            };
+
+            /**
+             * Sets a Visitor ID to this visitor. Should be a 16 digit hex string.
+             * The visitorId won't be persisted in a cookie or something similar and needs to be set every time.
+             *
+             * @param string User ID
+             */
+            this.setVisitorId = function (visitorId) {
+                var validation = /[0-9A-Fa-f]{16}/g;
+
+                if (isString(visitorId) && validation.test(visitorId)) {
+                    visitorUUID = visitorId;
+                } else {
+                    logConsoleError('Invalid visitorId set' + visitorId);
                 }
             };
 
@@ -5108,7 +5079,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Appends the specified query string to the piwik.php?... Tracking API URL
+             * Appends the specified query string to the matomo.php?... Tracking API URL
              *
              * @param string queryString eg. 'lat=140&long=100'
              */
@@ -5118,7 +5089,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Returns the query string for the current HTTP Tracking API request.
-             * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+             * Matomo would prepend the hostname and path to Matomo: http://example.org/matomo/matomo.php?
              * prior to sending the request.
              *
              * @param request eg. "param=value&param2=value2"
@@ -5354,12 +5325,12 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
-             * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
-             * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
+             * Set array of domains to be treated as local. Also supports path, eg '.matomo.org/subsite1'. In this
+             * case all links that don't go to '*.matomo.org/subsite1/ *' would be treated as outlinks.
+             * For example a link to 'matomo.org/' or 'matomo.org/subsite2' both would be treated as outlinks.
              *
-             * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
-             * that don't go to piwik.org/index* would be treated as outlinks.
+             * Also supports page wildcard, eg 'matomo.org/index*'. In this case all links
+             * that don't go to matomo.org/index* would be treated as outlinks.
              *
              * The current domain will be added automatically if no given host alias contains a path and if no host
              * alias is already given for the current host alias. Say you are on "example.org" and set
@@ -5368,7 +5339,7 @@ if (typeof window.Piwik !== 'object') {
              * it automatically if there was any other host specifying any path like
              * "['example.com', 'example2.com/test']". In this case we would also not add the current
              * domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path
-             * feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts
+             * feature, for Matomo JS Tracker to work correctly in all cases, one needs to specify all hosts
              * manually.
              *
              * @param string|array hostsAlias
@@ -5396,8 +5367,8 @@ if (typeof window.Piwik !== 'object') {
                 // and if no host alias is already given for the current host alias.
                 if (!hasDomainAliasAlready) {
                     /**
-                     * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
-                     * not add piwik.org as it would increase the allowed scope.
+                     * eg if domainAlias = 'matomo.org' and someone set hostsAlias = ['matomo.org/foo'] then we should
+                     * not add matomo.org as it would increase the allowed scope.
                      */
                     configHostsAlias.push(domainAlias);
                 }
@@ -5412,7 +5383,7 @@ if (typeof window.Piwik !== 'object') {
              * current timestamp and the last 6 characters are an id based on the userAgent to identify the users device).
              * This way the current visitorId is forwarded to the page of the different domain.
              *
-             * On the different domain, the Piwik tracker will recognize the set visitorId from the URL parameter and
+             * On the different domain, the Matomo tracker will recognize the set visitorId from the URL parameter and
              * reuse this parameter if the page was loaded within 45 seconds. If cross domain linking was not enabled,
              * it would create a new visit on that page because we wouldn't be able to access the previously created
              * cookie. By enabling cross domain linking you can track several different domains into one website and
@@ -5462,7 +5433,7 @@ if (typeof window.Piwik !== 'object') {
              *
              * Eg:
              *
-             * var url = 'http://myotherdomain.com/?' + piwikTracker.getCrossDomainLinkingUrlParameter();
+             * var url = 'http://myotherdomain.com/?' + matomoTracker.getCrossDomainLinkingUrlParameter();
              * $element.append('<a href="' + url + '"/>');
              */
             this.getCrossDomainLinkingUrlParameter = function () {
@@ -5534,7 +5505,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set the URL of the Piwik API. It is used for Page Overlay.
+             * Set the URL of the Matomo API. It is used for Page Overlay.
              * This method should only be called when the API URL differs from the tracker URL.
              *
              * @param string apiUrl
@@ -5564,7 +5535,7 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Set array of campaign name parameters
              *
-             * @see http://piwik.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/#faq_120
              * @param string|array campaignNames
              */
             this.setCampaignNameKey = function (campaignNames) {
@@ -5574,7 +5545,7 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Set array of campaign keyword parameters
              *
-             * @see http://piwik.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/#faq_120
              * @param string|array campaignKeywords
              */
             this.setCampaignKeywordKey = function (campaignKeywords) {
@@ -5583,7 +5554,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Strip hash tag (or anchor) from URL
-             * Note: this can be done in the Piwik>Settings>Websites on a per-website basis
+             * Note: this can be done in the Matomo>Settings>Websites on a per-website basis
              *
              * @deprecated
              * @param bool enableFilter
@@ -5755,11 +5726,119 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableCookies = function () {
                 configCookiesDisabled = true;
-                browserFeatures.cookie = '0';
 
                 if (configTrackerSiteId) {
                     deleteCookies();
                 }
+            };
+
+            /**
+             * Detects if cookies are enabled or not
+             * @returns {boolean}
+             */
+            this.areCookiesEnabled = function () {
+                return !configCookiesDisabled;
+            };
+
+            /**
+             * Enables cookies if they were disabled previously.
+             */
+            this.setCookieConsentGiven = function () {
+                if (configCookiesDisabled && !configDoNotTrack) {
+                    configCookiesDisabled = false;
+                    if (configTrackerSiteId && hasSentTrackingRequestYet) {
+                        setVisitorIdCookie();
+
+                        // sets attribution cookie, and updates visitorId in the backend
+                        // because hasSentTrackingRequestYet=true we assume there might not be another tracking
+                        // request within this page view so we trigger one ourselves.
+                        // if no tracking request has been sent yet, we don't set the attribution cookie cause Matomo
+                        // sets the cookie only when there is a tracking request. It'll be set if the user sends
+                        // a tracking request afterwards
+                        var request = getRequest('ping=1', null, 'ping');
+                        sendRequest(request, configTrackerPause);
+                    }
+                }
+            };
+
+            /**
+             * When called, no cookies will be set until you have called `setCookieConsentGiven()`
+             * unless consent was given previously AND you called {@link rememberCookieConsentGiven()} when the user
+             * gave consent.
+             *
+             * This may be useful when you want to implement for example a popup to ask for cookie consent.
+             * Once the user has given consent, you should call {@link setCookieConsentGiven()}
+             * or {@link rememberCookieConsentGiven()}.
+             *
+             * If you require tracking consent for example because you are tracking personal data and GDPR applies to you,
+             * then have a look at `_paq.push(['requireConsent'])` instead.
+             *
+             * If the user has already given consent in the past, you can either decide to not call `requireCookieConsent` at all
+             * or call `_paq.push(['setCookieConsentGiven'])` on each page view at any time after calling `requireCookieConsent`.
+             *
+             * When the user gives you the consent to set cookies, you can also call `_paq.push(['rememberCookieConsentGiven', optionalTimeoutInHours])`
+             * and for the duration while the cookie consent is remembered, any call to `requireCoookieConsent` will be automatically ignored
+             * until you call `forgetCookieConsentGiven`.
+             * `forgetCookieConsentGiven` needs to be called when the user removes consent for using cookies. This means if you call `rememberCookieConsentGiven` at the
+             * time the user gives you consent, you do not need to ever call `_paq.push(['setCookieConsentGiven'])` as the consent
+             * will be detected automatically through cookies.
+             */
+            this.requireCookieConsent = function() {
+                if (this.getRememberedCookieConsent()) {
+                    return false;
+                }
+                this.disableCookies();
+                return true;
+            };
+
+            /**
+             * If the user has given cookie consent previously and this consent was remembered, it will return the number
+             * in milliseconds since 1970/01/01 which is the date when the user has given cookie consent. Please note that
+             * the returned time depends on the users local time which may not always be correct.
+             *
+             * @returns number|string
+             */
+            this.getRememberedCookieConsent = function () {
+                return getCookie(COOKIE_CONSENT_COOKIE_NAME);
+            };
+
+            /**
+             * Calling this method will remove any previously given cookie consent and it disables cookies for subsequent
+             * page views. You may call this method if the user removes cookie consent manually, or if you
+             * want to re-ask for cookie consent after a specific time period.
+             */
+            this.forgetCookieConsentGiven = function () {
+                deleteCookie(COOKIE_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                this.disableCookies();
+            };
+
+            /**
+             * Calling this method will remember that the user has given cookie consent across multiple requests by setting
+             * a cookie named "mtm_cookie_consent". You can optionally define the lifetime of that cookie in hours
+             * using a parameter.
+             *
+             * When you call this method, we imply that the user has given cookie consent for this page view, and will also
+             * imply consent for all future page views unless the cookie expires or the user
+             * deletes all her or his cookies. Remembering cookie consent means even if you call {@link disableCookies()},
+             * then cookies will still be enabled and it won't disable cookies since the user has given consent for cookies.
+             *
+             * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly. Please
+             * also note that when you call this method, consent will be implied for all sites that match the configured
+             * cookieDomain and cookiePath. Depending on your website structure, you may need to restrict or widen the
+             * scope of the cookie domain/path to ensure the consent is applied to the sites you want.
+             *
+             * @param int hoursToExpire After how many hours the cookie consent should expire. By default the consent is valid
+             *                          for 30 years unless cookies are deleted by the user or the browser prior to this
+             */
+            this.rememberCookieConsentGiven = function (hoursToExpire) {
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                } else {
+                    hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
+                }
+                this.setCookieConsentGiven();
+                var now = new Date().getTime();
+                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
 
             /**
@@ -5808,7 +5887,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Add click listener to a specific link element.
-             * When clicked, Piwik will log the click automatically.
+             * When clicked, Matomo will log the click automatically.
              *
              * @param DOMElement element
              * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
@@ -5821,7 +5900,7 @@ if (typeof window.Piwik !== 'object') {
              * Install link tracker.
              *
              * If you change the DOM of your website or web application you need to make sure to call this method
-             * again so Piwik can detect links that were added newly.
+             * again so Matomo can detect links that were added newly.
              *
              * The default behaviour is to use actual click events. However, some browsers
              * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
@@ -5872,7 +5951,7 @@ if (typeof window.Piwik !== 'object') {
              *
              * Make sure not to overwrite the window.onerror handler after enabling the JS error
              * tracking as the error tracking won't work otherwise. To capture all JS errors we
-             * recommend to include the Piwik JavaScript tracker in the HTML as early as possible.
+             * recommend to include the Matomo JavaScript tracker in the HTML as early as possible.
              * If possible directly in <head></head> before loading any other JavaScript.
              */
             this.enableJSErrorTracking = function () {
@@ -5911,25 +5990,13 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set visit standard length (in seconds). This should ideally match the visit_standard_length setting
-             * in Matomo in case you customised it. This setting only has an effect if heart beat timer is active
-             * currently.
-             *
-             * @param int visitStandardLengthinSeconds Defaults to 1800s (30 minutes). Cannot be lower than 5.
-             */
-            this.setVisitStandardLength = function (visitStandardLengthinSeconds) {
-                visitStandardLengthinSeconds = Math.max(visitStandardLengthinSeconds, 5);
-                configVisitStandardLength = visitStandardLengthinSeconds;
-            };
-
-            /**
              * Set heartbeat (in seconds)
              *
              * @param int heartBeatDelayInSeconds Defaults to 15s. Cannot be lower than 5.
              */
             this.enableHeartBeatTimer = function (heartBeatDelayInSeconds) {
-                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 5);
-                configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
+                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds || 15, 5);
+                configHeartBeatDelay = heartBeatDelayInSeconds * 1000;
 
                 // if a tracking request has already been sent, start the heart beat timeout
                 if (lastTrackerRequestTime !== null) {
@@ -5941,7 +6008,6 @@ if (typeof window.Piwik !== 'object') {
              * Disable heartbeat if it was previously activated.
              */
             this.disableHeartBeatTimer = function () {
-                heartBeatDown();
 
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
@@ -6231,10 +6297,10 @@ if (typeof window.Piwik !== 'object') {
              * By default we track interactions on click but sometimes you might want to track interactions yourself.
              * For instance you might want to track an interaction manually on a double click or a form submit.
              * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
-             * class `piwikContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
+             * class `matomoContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
              *
              * @param Element domNode  This element itself or any of its parent elements has to be a content block
-             *                         element. Meaning one of those has to have a `piwikTrackContent` CSS class or
+             *                         element. Meaning one of those has to have a `matomoTrackContent` CSS class or
              *                         a `data-track-content` attribute.
              * @param string [contentInteraction='Unknown] The name of the interaction that happened. For instance
              *                                             'click', 'formSubmit', 'DblClick', ...
@@ -6306,20 +6372,20 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
              * This must be called before trackPageView() on the product/category page.
-             * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
-             * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
              *
              * On a category page, you can set the parameter category, and set the other parameters to empty string or false
              *
-             * Tracking Product/Category page views will allow Piwik to report on Product & Categories
+             * Tracking Product/Category page views will allow Matomo to report on Product & Categories
              * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
              *
              * @param string sku Item's SKU code being viewed
              * @param string name Item's Name being viewed
              * @param string category Category page being viewed. On an Item's page, this is the item's category
-             * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
+             * @param float price Item's display price, not use in standard Matomo reports, but output in API product reports.
              */
             this.setEcommerceView = function (sku, name, category, price) {
+                ecommerceProductView = {};
+
                 if (isNumberOrHasLength(category)) {
                     category = String(category);
                 }
@@ -6329,10 +6395,12 @@ if (typeof window.Piwik !== 'object') {
                     category = windowAlias.JSON.stringify(category);
                 }
 
-                customVariablesPage[5] = ['_pkc', category];
+                var param = '_pkc';
+                ecommerceProductView[param] = category;
 
                 if (isDefined(price) && price !== null && price !== false && String(price).length) {
-                    customVariablesPage[2] = ['_pkp', price];
+                    param = '_pkp';
+                    ecommerceProductView[param] = price;
                 }
 
                 // On a category page, do not track Product name not defined
@@ -6341,14 +6409,16 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (isNumberOrHasLength(sku)) {
-                    customVariablesPage[3] = ['_pks', sku];
+                    param = '_pks';
+                    ecommerceProductView[param] = sku;
                 }
 
                 if (!isNumberOrHasLength(name)) {
                     name = "";
                 }
 
-                customVariablesPage[4] = ['_pkn', name];
+                param = '_pkn';
+                ecommerceProductView[param] = name;
             };
 
             /**
@@ -6408,13 +6478,13 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Tracks an Ecommerce order.
              * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
-             * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
+             * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Matomo reports.
              * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
              * After calling this method, items added to the cart will be removed from this JavaScript object.
              *
              * @param string|int orderId (required) Unique Order ID.
              *                   This will be used to count this order only once in the event the order page is reloaded several times.
-             *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik.
+             *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Matomo.
              * @param float grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
              * @param float subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied)
              * @param float tax (optional) Tax amount for this order
@@ -6439,7 +6509,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Sends a tracking request with custom request parameters.
-             * Piwik will prepend the hostname and path to Piwik, as well as all other needed tracking request
+             * Matomo will prepend the hostname and path to Matomo, as well as all other needed tracking request
              * parameters prior to sending the request. Useful eg if you track custom dimensions via a plugin.
              *
              * @param request eg. "param=value&param2=value2"
@@ -6552,10 +6622,6 @@ if (typeof window.Piwik !== 'object') {
              * This may be useful when you want to implement for example a popup to ask for consent before tracking the user.
              * Once the user has given consent, you should call {@link setConsentGiven()} or {@link rememberConsentGiven()}.
              *
-             * Please note that when consent is required, we will temporarily set cookies but not track any data. Those
-             * cookies will only exist during this page view and deleted as soon as the user navigates to a different page
-             * or closes the browser.
-             *
              * If you require consent for tracking personal data for example, you should first call
              * `_paq.push(['requireConsent'])`.
              *
@@ -6570,7 +6636,12 @@ if (typeof window.Piwik !== 'object') {
             this.requireConsent = function () {
                 configConsentRequired = true;
                 configHasConsent = this.hasRememberedConsent();
-                // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
+                if (!configHasConsent) {
+                    // we won't call this.disableCookies() since we don't want to delete any cookies just yet
+                    // user might call `setConsentGiven` next
+                    configCookiesDisabled = true;
+                }
+                // Matomo.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
                 plugins['CoreConsent' + coreConsentCounter] = {
@@ -6587,10 +6658,16 @@ if (typeof window.Piwik !== 'object') {
              * Call this method once the user has given consent. This will cause all tracking requests from this
              * page view to be sent. Please note that the given consent won't be remembered across page views. If you
              * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
+             *
+             * It will also automatically enable cookies if they were disabled previously.
+             *
+             * @param bool [setCookieConsent=true] Internal parameter. Defines whether cookies should be enabled or not.
              */
-            this.setConsentGiven = function () {
+            this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
+
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
+
                 var i, requestType;
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
@@ -6601,11 +6678,23 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
                 consentRequestsQueue = [];
+
+                // we need to enable cookies after sending the previous requests as it will make sure that we send
+                // a ping request if needed. Cookies are only set once we call `getRequest`. Above only calls sendRequest
+                // meaning no cookies will be created unless we called enableCookies after at least one request has been sent.
+                // this will cause a ping request to be sent that sets the cookies and also updates the newly generated visitorId
+                // on the server.
+                // If the user calls setConsentGiven before sending any tracking request (which usually is the case) then
+                // nothing will need to be done as it only enables cookies and the next tracking request will set the cookies
+                // etc.
+                if (!isDefined(setCookieConsent) || setCookieConsent) {
+                    this.setCookieConsentGiven();
+                }
             };
 
             /**
              * Calling this method will remember that the user has given consent across multiple requests by setting
-             * a cookie. You can optionally define the lifetime of that cookie in milliseconds using a parameter.
+             * a cookie. You can optionally define the lifetime of that cookie in hours using a parameter.
              *
              * When you call this method, we imply that the user has given consent for this page view, and will also
              * imply consent for all future page views unless the cookie expires (if timeout defined) or the user
@@ -6617,6 +6706,9 @@ if (typeof window.Piwik !== 'object') {
              * for all sites that match the configured cookieDomain and cookiePath. Depending on your website structure,
              * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
              * to the sites you want.
+             *
+             * @param int hoursToExpire After how many hours the consent should expire. By default the consent is valid
+             *                          for 30 years unless cookies are deleted by the user or the browser prior to this
              */
             this.rememberConsentGiven = function (hoursToExpire) {
                 if (hoursToExpire) {
@@ -6624,7 +6716,10 @@ if (typeof window.Piwik !== 'object') {
                 } else {
                     hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
-                this.setConsentGiven();
+                var setCookieConsent = true;
+                // we currently always enable cookies if we remember consent cause we don't store across requests whether
+                // cookies should be automatically enabled or not.
+                this.setConsentGiven(setCookieConsent);
                 var now = new Date().getTime();
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
@@ -6640,6 +6735,7 @@ if (typeof window.Piwik !== 'object') {
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure);
+                this.forgetCookieConsentGiven();
                 this.requireConsent();
             };
 
@@ -6661,7 +6757,10 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
              */
-            this.forgetUserOptOut = this.rememberConsentGiven;
+            this.forgetUserOptOut = function () {
+                // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
+                this.setConsentGiven(false);
+            };
 
             /**
              * Mark performance metrics as available, once onload event has finished
@@ -6672,7 +6771,7 @@ if (typeof window.Piwik !== 'object') {
                 }, 0);
             });
 
-            Piwik.trigger('TrackerSetup', [this]);
+            Matomo.trigger('TrackerSetup', [this]);
         }
 
         function TrackerProxy() {
@@ -6708,7 +6807,7 @@ if (typeof window.Piwik !== 'object') {
 
                             if (appliedMethods[methodName] > 1
                                 && methodName !== "addTracker") {
-                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
+                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Matomo trackers documentation: https://developer.matomo.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
                             appliedMethods[methodName]++;
@@ -6724,11 +6823,11 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven'];
 
-        function createFirstTracker(piwikUrl, siteId)
+        function createFirstTracker(matomoUrl, siteId)
         {
-            var tracker = new Tracker(piwikUrl, siteId);
+            var tracker = new Tracker(matomoUrl, siteId);
             asyncTrackers.push(tracker);
 
             _paq = applyMethodsInOrder(_paq, applyFirst);
@@ -6743,7 +6842,7 @@ if (typeof window.Piwik !== 'object') {
             // replace initialization array with proxy object
             _paq = new TrackerProxy();
 
-            Piwik.trigger('TrackerAdded', [tracker]);
+            Matomo.trigger('TrackerAdded', [tracker]);
 
             return tracker;
         }
@@ -6754,7 +6853,7 @@ if (typeof window.Piwik !== 'object') {
          *   after the Tracker has been initialized and loaded
          ************************************************************/
 
-        // initialize the Piwik singleton
+        // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
         addEventListener(windowAlias, 'online', function () {
             if (isDefined(navigatorAlias.serviceWorker) && isDefined(navigatorAlias.serviceWorker.ready)) {
@@ -6772,9 +6871,9 @@ if (typeof window.Piwik !== 'object') {
             var tracker, i, matomoHost;
             var originHost = getHostName(e.origin);
 
-            var trackers = Piwik.getAsyncTrackers();
+            var trackers = Matomo.getAsyncTrackers();
             for (i = 0; i < trackers.length; i++) {
-                matomoHost = getHostName(trackers[i].getPiwikUrl());
+                matomoHost = getHostName(trackers[i].getMatomoUrl());
 
                 // find the matching tracker
                 if (matomoHost === originHost) {
@@ -6825,12 +6924,12 @@ if (typeof window.Piwik !== 'object') {
 
                 postMessageToCorrectFrame({
                     maq_opted_in: data.maq_initial_value && tracker.hasConsent(),
-                    maq_url: tracker.getPiwikUrl(),
+                    maq_url: tracker.getMatomoUrl(),
                     maq_optout_by_default: tracker.isConsentRequired()
                 });
             } else if (isDefined(data.maq_opted_in)) {
                 // perform the opt in or opt out...
-                trackers = Piwik.getAsyncTrackers();
+                trackers = Matomo.getAsyncTrackers();
                 for (i = 0; i < trackers.length; i++) {
                     tracker = trackers[i];
                     if (data.maq_opted_in) {
@@ -6843,7 +6942,7 @@ if (typeof window.Piwik !== 'object') {
                 // Make a message to tell the optout iframe about the current state
                 postMessageToCorrectFrame({
                     maq_confirm_opted_in: tracker.hasConsent(),
-                    maq_url: tracker.getPiwikUrl(),
+                    maq_url: tracker.getMatomoUrl(),
                     maq_optout_by_default: tracker.isConsentRequired()
                 });
             }
@@ -6855,7 +6954,7 @@ if (typeof window.Piwik !== 'object') {
          * Public data and methods
          ************************************************************/
 
-        Piwik = {
+        Matomo = {
             initialized: false,
 
             JSON: windowAlias.JSON,
@@ -6972,19 +7071,19 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Get Tracker (factory method)
              *
-             * @param string piwikUrl
+             * @param string matomoUrl
              * @param int|string siteId
              * @return Tracker
              */
-            getTracker: function (piwikUrl, siteId) {
+            getTracker: function (matomoUrl, siteId) {
                 if (!isDefined(siteId)) {
                     siteId = this.getAsyncTracker().getSiteId();
                 }
-                if (!isDefined(piwikUrl)) {
-                    piwikUrl = this.getAsyncTracker().getTrackerUrl();
+                if (!isDefined(matomoUrl)) {
+                    matomoUrl = this.getAsyncTracker().getTrackerUrl();
                 }
 
-                return new Tracker(piwikUrl, siteId);
+                return new Tracker(matomoUrl, siteId);
             },
 
             /**
@@ -6997,19 +7096,19 @@ if (typeof window.Piwik !== 'object') {
             },
 
             /**
-             * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
-             * If piwikUrl is not set, current url will be used.
+             * Adds a new tracker. All sent requests will be also sent to the given siteId and matomoUrl.
+             * If matomoUrl is not set, current url will be used.
              *
-             * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param null|string matomoUrl  If null, will reuse the same tracker URL of the current tracker instance
              * @param int|string siteId
              * @return Tracker
              */
-            addTracker: function (piwikUrl, siteId) {
+            addTracker: function (matomoUrl, siteId) {
                 var tracker;
                 if (!asyncTrackers.length) {
-                    tracker = createFirstTracker(piwikUrl, siteId);
+                    tracker = createFirstTracker(matomoUrl, siteId);
                 } else {
-                    tracker = asyncTrackers[0].addTracker(piwikUrl, siteId);
+                    tracker = asyncTrackers[0].addTracker(matomoUrl, siteId);
                 }
                 return tracker;
             },
@@ -7017,23 +7116,23 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Get internal asynchronous tracker object.
              *
-             * If no parameters are given, it returns the internal asynchronous tracker object. If a piwikUrl and idSite
+             * If no parameters are given, it returns the internal asynchronous tracker object. If a matomoUrl and idSite
              * is given, it will try to find an optional
              *
-             * @param string piwikUrl
+             * @param string matomoUrl
              * @param int|string siteId
              * @return Tracker
              */
-            getAsyncTracker: function (piwikUrl, siteId) {
+            getAsyncTracker: function (matomoUrl, siteId) {
 
                 var firstTracker;
                 if (asyncTrackers && asyncTrackers.length && asyncTrackers[0]) {
                     firstTracker = asyncTrackers[0];
                 } else {
-                    return createFirstTracker(piwikUrl, siteId);
+                    return createFirstTracker(matomoUrl, siteId);
                 }
 
-                if (!siteId && !piwikUrl) {
+                if (!siteId && !matomoUrl) {
                     // for BC and by default we just return the initially created tracker
                     return firstTracker;
                 }
@@ -7043,8 +7142,8 @@ if (typeof window.Piwik !== 'object') {
                     siteId = firstTracker.getSiteId();
                 }
 
-                if ((!isDefined(piwikUrl) || null === piwikUrl) && firstTracker) {
-                    piwikUrl = firstTracker.getTrackerUrl();
+                if ((!isDefined(matomoUrl) || null === matomoUrl) && firstTracker) {
+                    matomoUrl = firstTracker.getTrackerUrl();
                 }
 
                 var tracker, i = 0;
@@ -7052,7 +7151,7 @@ if (typeof window.Piwik !== 'object') {
                     tracker = asyncTrackers[i];
                     if (tracker
                         && String(tracker.getSiteId()) === String(siteId)
-                        && tracker.getTrackerUrl() === piwikUrl) {
+                        && tracker.getTrackerUrl() === matomoUrl) {
 
                         return tracker;
                     }
@@ -7064,11 +7163,7 @@ if (typeof window.Piwik !== 'object') {
              * matomo.js is not writable then there is a chance that first matomo.js is loaded and later the plugin.
              * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
              * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
-             * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
-             *
-             * @param string piwikUrl
-             * @param int|string siteId
-             * @return Tracker
+             * "Matomo.retryMissedPluginCalls()" so they will be executed after all.
              */
             retryMissedPluginCalls: function () {
                 var missedCalls = missedPluginTrackerCalls;
@@ -7081,13 +7176,13 @@ if (typeof window.Piwik !== 'object') {
 
     };
 
-        // Expose Piwik as an AMD module
+        // Expose Matomo as an AMD module
         if (typeof define === 'function' && define.amd) {
-            define('piwik', [], function () { return Piwik; });
-            define('matomo', [], function () { return Piwik; });
+            define('piwik', [], function () { return Matomo; });
+            define('matomo', [], function () { return Matomo; });
         }
 
-        return Piwik;
+        return Matomo;
     }());
 }
 
@@ -7111,12 +7206,12 @@ if (typeof window.Piwik !== 'object') {
     }
 
     if (window
-        && 'object' === typeof window.piwikPluginAsyncInit
-        && window.piwikPluginAsyncInit.length) {
+        && 'object' === typeof window.matomoPluginAsyncInit
+        && window.matomoPluginAsyncInit.length) {
         var i = 0;
-        for (i; i < window.piwikPluginAsyncInit.length; i++) {
-            if (typeof window.piwikPluginAsyncInit[i] === 'function') {
-                window.piwikPluginAsyncInit[i]();
+        for (i; i < window.matomoPluginAsyncInit.length; i++) {
+            if (typeof window.matomoPluginAsyncInit[i] === 'function') {
+                window.matomoPluginAsyncInit[i]();
             }
         }
     }
@@ -7125,12 +7220,16 @@ if (typeof window.Piwik !== 'object') {
         window.piwikAsyncInit();
     }
 
-    if (!window.Piwik.getAsyncTrackers().length) {
-        // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
+    if (window && window.matomoAsyncInit) {
+        window.matomoAsyncInit();
+    }
+
+    if (!window.Matomo.getAsyncTrackers().length) {
+        // we only create an initial tracker when no other async tracker has been created yet in matomoAsyncInit()
         if (hasPaqConfiguration()) {
             // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
-            // Piwik.getAsyncTrackers() would return unconfigured trackers
-            window.Piwik.addTracker();
+            // Matomo.getAsyncTrackers() would return unconfigured trackers
+            window.Matomo.addTracker();
         } else {
             _paq = {push: function (args) {
                     // needed to write it this way for jslint
@@ -7142,8 +7241,8 @@ if (typeof window.Piwik !== 'object') {
         }
     }
 
-    window.Piwik.trigger('PiwikInitialized', []);
-    window.Piwik.initialized = true;
+    window.Matomo.trigger('MatomoInitialized', []);
+    window.Matomo.initialized = true;
 }());
 
 
@@ -7151,7 +7250,7 @@ if (typeof window.Piwik !== 'object') {
 (function () {
     var jsTrackerType = (typeof AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
-        AnalyticsTracker = window.Piwik;
+        AnalyticsTracker = window.Matomo;
     }
 }());
 /*jslint sloppy: false */
@@ -7162,7 +7261,7 @@ if (typeof window.Piwik !== 'object') {
  ************************************************************/
 
 /*
- * Piwik globals
+ * Matomo globals
  *
  *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
  */
@@ -7174,11 +7273,11 @@ if (typeof window.Piwik !== 'object') {
  *
  * @param string documentTitle
  * @param int|string siteId
- * @param string piwikUrl
+ * @param string matomoUrl
  * @param mixed customData
  */
 if (typeof piwik_log !== 'function') {
-    piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
+    piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
         'use strict';
 
         function getOption(optionName) {
@@ -7193,39 +7292,39 @@ if (typeof piwik_log !== 'function') {
 
         // instantiate the tracker
         var option,
-            piwikTracker = window.Piwik.getTracker(piwikUrl, siteId);
+            matomoTracker = window.Matomo.getTracker(matomoUrl, siteId);
 
         // initialize tracker
-        piwikTracker.setDocumentTitle(documentTitle);
-        piwikTracker.setCustomData(customData);
+        matomoTracker.setDocumentTitle(documentTitle);
+        matomoTracker.setCustomData(customData);
 
-        // handle Piwik globals
+        // handle Matomo globals
         option = getOption('tracker_pause');
 
         if (option) {
-            piwikTracker.setLinkTrackingTimer(option);
+            matomoTracker.setLinkTrackingTimer(option);
         }
 
         option = getOption('download_extensions');
 
         if (option) {
-            piwikTracker.setDownloadExtensions(option);
+            matomoTracker.setDownloadExtensions(option);
         }
 
         option = getOption('hosts_alias');
 
         if (option) {
-            piwikTracker.setDomains(option);
+            matomoTracker.setDomains(option);
         }
 
         option = getOption('ignore_classes');
 
         if (option) {
-            piwikTracker.setIgnoreClasses(option);
+            matomoTracker.setIgnoreClasses(option);
         }
 
         // track this page view
-        piwikTracker.trackPageView();
+        matomoTracker.trackPageView();
 
         // default is to install the link tracker
         if (getOption('install_tracker')) {
@@ -7235,17 +7334,17 @@ if (typeof piwik_log !== 'function') {
              *
              * @param string sourceUrl
              * @param int|string siteId
-             * @param string piwikUrl
+             * @param string matomoUrl
              * @param string linkType
              */
-            piwik_track = function (sourceUrl, siteId, piwikUrl, linkType) {
-                piwikTracker.setSiteId(siteId);
-                piwikTracker.setTrackerUrl(piwikUrl);
-                piwikTracker.trackLink(sourceUrl, linkType);
+            piwik_track = function (sourceUrl, siteId, matomoUrl, linkType) {
+                matomoTracker.setSiteId(siteId);
+                matomoTracker.setTrackerUrl(matomoUrl);
+                matomoTracker.trackLink(sourceUrl, linkType);
             };
 
             // set-up link tracking
-            piwikTracker.enableLinkTracking();
+            matomoTracker.enableLinkTracking();
         }
     };
 }

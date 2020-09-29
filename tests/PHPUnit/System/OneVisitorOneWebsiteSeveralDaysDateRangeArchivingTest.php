@@ -121,9 +121,9 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
 
         $tests = array(
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
+            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+3) /*Actions*/
                                             + 2 /* Resolution */
-                                            + 2 /* VisitTime */) * 3,
+                                            + 2 /* VisitTime */) * 3 + 1,
 
             /**
              *  In Each "Period=range" Archive, we expect following non zero numeric entries:
@@ -138,14 +138,14 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
              *          -> There are two archives for each segment (one for "countryCode!=aa"
              *                      and VisitFrequency creates two more.
              *
-             * So each period=range will have = 11 records + (5 metrics + 2 flags // VisitsSummary)
+             * So each period=range will have = 11 records + (5 metrics + 2 flags // VisitsSummary + 3 metrics // VisitorInterest)
              *                                = 18
              *
              * Total expected records = count unique archives * records per archive
-             *                        = 3 * 18
-             *                        = 54
+             *                        = 3 * 21
+             *                        = 21
              */
-            'archive_numeric_2010_12' => 18 * 3,
+            'archive_numeric_2010_12' => 63,
 
             /**
              * In the January date range,
@@ -217,6 +217,12 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
     protected function printDebugWhenTestFails($table)
     {
         $data = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC");
+        if (strpos($table, 'blob') !== false) {
+            $data = array_map(function ($r) {
+                unset($r['value']);
+                return $r;
+            }, $data);
+        }
         var_export($data);
 
         $idArchives = array();

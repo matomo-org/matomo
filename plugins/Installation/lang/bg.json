@@ -47,7 +47,6 @@
         "SuperUserSetupSuccess": "Супер потребителят беше създаден успешно!",
         "SystemCheck": "Проверка на системата",
         "SystemCheckAutoUpdateHelp": "Забележка: Matomo One Click обновяване изисква разрешение за папката Matomo и нейното съдържание.",
-        "SystemCheckCreateFunctionHelp": "Matomo използва анонимни функции за извиквания.",
         "SystemCheckDatabaseHelp": "Необходимо е за да инстаалирате Matomo базата от данни(БД) да поддържа mysqli или PDO и pdo_mysql разширенията.",
         "SystemCheckDebugBacktraceHelp": "View::factory няма да бъде в състояние да създаде мнение за извикване на модул.",
         "SystemCheckError": "Открита е грешка - трябва да бъде поправена преди да преминете нататък",

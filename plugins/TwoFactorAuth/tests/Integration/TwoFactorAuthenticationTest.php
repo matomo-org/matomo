@@ -10,6 +10,7 @@ namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Option;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
@@ -155,6 +156,32 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertFalse($this->twoFa->validateAuthCode('mylogin1', 0));
     }
 
+    public function test_validateAuthCode_userIsUsingTwoFa_sameCodeCannotBeUsedTwice()
+    {
+        $secret1 = '654321';
+        $secret2 = '654321';
+        $this->dao->createRecoveryCodesForLogin('mylogin1');
+        $this->dao->createRecoveryCodesForLogin('mylogin2');
+        $this->twoFa->saveSecret('mylogin1', $secret1);
+        $this->twoFa->saveSecret('mylogin2', $secret2);
+
+        $authCode1 = $this->generateValidAuthCode($secret1);
+        $authCode2 = $this->generateValidAuthCode($secret2);
+
+        $options = Option::getLike(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . '%');
+        $this->assertEquals(array(), $options); // no token used yet
+
+        $this->assertTrue($this->twoFa->validateAuthCode('mylogin2', $authCode2));
+        $this->assertFalse($this->twoFa->validateAuthCode('mylogin2', $authCode2));
+
+        // can be used by different user though
+        $this->assertTrue($this->twoFa->validateAuthCode('mylogin1', $authCode1));
+        $this->assertFalse($this->twoFa->validateAuthCode('mylogin1', $authCode1));
+
+        $options = Option::getLike(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . '%');
+        $this->assertCount(2, $options);
+    }
+
     public function test_validateAuthCode_userIsUsingTwoFa_authenticatesThroughRecoveryCode()
     {
         $this->dao->createRecoveryCodesForLogin('mylogin1');
@@ -180,6 +207,26 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
             // no code can be used twice
             $this->assertFalse($this->twoFa->validateAuthCode('mylogin1', $code));
         }
+    }
+
+    public function test_cleanupTwoFaCodesUsedRecently()
+    {
+        $this->twoFa->cleanupTwoFaCodesUsedRecently();
+
+        Option::set(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . 'test1', time());
+        Option::set(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . 'test2', time() - 100);
+
+        // those two should be deleted because they were used more than 10min ago
+        Option::set(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . 'test3', time() - 1000);
+        Option::set(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . 'test4', time() - 5000);
+
+        $options = Option::getLike(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . '%');
+        $this->assertCount(4, $options);
+
+        $this->twoFa->cleanupTwoFaCodesUsedRecently();
+
+        $options = Option::getLike(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . '%');
+        $this->assertEquals(['twofa_codes_used_test1', 'twofa_codes_used_test2'], array_keys($options));
     }
 
     private function generateValidAuthCode($secret)

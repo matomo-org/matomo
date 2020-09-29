@@ -8,13 +8,10 @@
 namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\ArchiveProcessor\PluginsArchiver;
-use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Db;
 use Piwik\ArchiveProcessor\Parameters;
-use Exception;
 use Piwik\Plugin\Archiver;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -111,5 +108,4 @@ class PluginsArchiverTest extends IntegrationTestCase
 
         $this->assertTrue(true); // pass
     }
-
 }

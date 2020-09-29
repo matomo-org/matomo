@@ -11,7 +11,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>49</pageId>
@@ -24,13 +24,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -63,15 +63,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>77</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -126,12 +128,7 @@
 		<visitLocalTime>20:34:49</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1366x768</resolution>
 		<plugins>cookie, flash, java, pdf</plugins>
 		<pluginsIcons>
@@ -152,6 +149,12 @@
 				<pluginName>pdf</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -164,7 +167,7 @@
 				<type>action</type>
 				<url>http://piwik.org/changelog/</url>
 				<pageTitle>Changelog Archive - Analytics - Piwik</pageTitle>
-				<pageIdAction>44</pageIdAction>
+				<pageIdAction>48</pageIdAction>
 				
 				
 				<pageId>40</pageId>
@@ -177,13 +180,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -204,7 +207,7 @@
 				<type>action</type>
 				<url>http://piwik.org/contact/</url>
 				<pageTitle>Contact the Piwik team - Analytics - Piwik</pageTitle>
-				<pageIdAction>55</pageIdAction>
+				<pageIdAction>59</pageIdAction>
 				
 				
 				<pageId>48</pageId>
@@ -215,13 +218,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -239,15 +242,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>2</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>81</visitDuration>
 		<visitDurationPretty>1 min 21s</visitDurationPretty>
 		<searches>0</searches>
@@ -301,16 +306,17 @@
 		<longitude>-117.679000</longitude>
 		<visitLocalTime>17:33:27</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
-		<daysSinceLastVisit>181</daysSinceLastVisit>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>1536x864</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>1536x864</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -323,7 +329,7 @@
 				<type>action</type>
 				<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
 				<pageTitle>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</pageTitle>
-				<pageIdAction>53</pageIdAction>
+				<pageIdAction>57</pageIdAction>
 				
 				
 				<pageId>47</pageId>
@@ -334,13 +340,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -373,15 +379,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -435,17 +443,8 @@
 		<longitude>9</longitude>
 		<visitLocalTime>01:34:37</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
-		<daysSinceLastVisit>4</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>Demo language</customVariableName2>
-				<customVariableValue2>English</customVariableValue2>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1920x1200</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime, silverlight</plugins>
 		<pluginsIcons>
@@ -474,6 +473,16 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Demo language</customVariableName2>
+				<customVariableValue2>English</customVariableValue2>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -486,7 +495,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>44</pageId>
@@ -499,13 +508,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -526,7 +535,7 @@
 				<type>action</type>
 				<url>http://piwik.org/what-is-piwisk/</url>
 				<pageTitle>What is Piwik? - Analytics - Piwik</pageTitle>
-				<pageIdAction>51</pageIdAction>
+				<pageIdAction>55</pageIdAction>
 				
 				
 				<pageId>46</pageId>
@@ -537,13 +546,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>501</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -561,15 +570,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>7</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>34</visitDuration>
 		<visitDurationPretty>34s</visitDurationPretty>
 		<searches>0</searches>
@@ -623,13 +634,8 @@
 		<longitude>-97</longitude>
 		<visitLocalTime>19:34:01</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
-		<daysSinceLastVisit>6</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>2880x1800</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime</plugins>
 		<pluginsIcons>
@@ -654,6 +660,12 @@
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -666,7 +678,7 @@
 				<type>outlink</type>
 				<url>http://demo.piwik.org/</url>
 				<pageTitle />
-				<pageIdAction>49</pageIdAction>
+				<pageIdAction>53</pageIdAction>
 				
 				
 				<pageId>45</pageId>
@@ -677,13 +689,13 @@
 				<title>Outlink</title>
 				<subtitle>http://demo.piwik.org/</subtitle>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -705,11 +717,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>86406</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -763,13 +777,8 @@
 		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:24</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>1</daysSinceLastVisit>
+		<secondsSinceLastVisit>86406</secondsSinceLastVisit>
 		<resolution>1920x1080</resolution>
 		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
@@ -794,6 +803,12 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -806,7 +821,7 @@
 				<type>action</type>
 				<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
 				<pageTitle>Integrate Piwik into your Rails Application - Analytics - Piwik</pageTitle>
-				<pageIdAction>48</pageIdAction>
+				<pageIdAction>52</pageIdAction>
 				
 				
 				<pageId>43</pageId>
@@ -817,13 +832,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -864,7 +879,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -919,12 +936,7 @@
 		<visitLocalTime>17:33:58</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1360x768</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
@@ -957,6 +969,12 @@
 				<pluginName>windowsmedia</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -969,7 +987,7 @@
 				<type>action</type>
 				<url>http://piwik.org/log-analytics/</url>
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>46</pageIdAction>
 				
 				
 				<pageId>42</pageId>
@@ -980,13 +998,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1019,15 +1037,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>4</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1081,13 +1101,8 @@
 		<longitude>139.650000</longitude>
 		<visitLocalTime>09:33:50</visitLocalTime>
 		<visitLocalHour>9</visitLocalHour>
-		<daysSinceLastVisit>1</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>2560x1440</resolution>
 		<plugins>cookie, java, pdf, quicktime</plugins>
 		<pluginsIcons>
@@ -1108,6 +1123,12 @@
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1120,7 +1141,7 @@
 				<type>action</type>
 				<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
 				<pageTitle>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</pageTitle>
-				<pageIdAction>46</pageIdAction>
+				<pageIdAction>50</pageIdAction>
 				
 				
 				<pageId>41</pageId>
@@ -1133,13 +1154,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1172,15 +1193,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>2</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1235,12 +1258,7 @@
 		<visitLocalTime>01:33:31</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>360x640</resolution>
 		<plugins>cookie, flash</plugins>
 		<pluginsIcons>
@@ -1253,6 +1271,12 @@
 				<pluginName>flash</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1265,7 +1289,7 @@
 				<type>action</type>
 				<url>http://piwik.org/log-analytics/</url>
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>46</pageIdAction>
 				
 				
 				<pageId>39</pageId>
@@ -1278,13 +1302,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1317,15 +1341,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>5</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1379,13 +1405,8 @@
 		<longitude>8.271000</longitude>
 		<visitLocalTime>01:33:13</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
-		<daysSinceLastVisit>3</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>2560x1440</resolution>
 		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
@@ -1418,6 +1439,12 @@
 				<pluginName>windowsmedia</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1430,7 +1457,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>35</pageId>
@@ -1443,13 +1470,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>403</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1470,7 +1497,7 @@
 				<type>action</type>
 				<url>http://piwik.org/download/</url>
 				<pageTitle>Download - Analytics - Piwik</pageTitle>
-				<pageIdAction>39</pageIdAction>
+				<pageIdAction>43</pageIdAction>
 				
 				
 				<pageId>37</pageId>
@@ -1483,19 +1510,19 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>500</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://builds.piwik.org/latest.zip</url>
 				<pageTitle />
-				<pageIdAction>40</pageIdAction>
+				<pageIdAction>44</pageIdAction>
 				
 				
 				<pageId>38</pageId>
@@ -1506,13 +1533,13 @@
 				<title>Download</title>
 				<subtitle>http://builds.piwik.org/latest.zip</subtitle>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1538,7 +1565,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>10</visitDuration>
 		<visitDurationPretty>10s</visitDurationPretty>
 		<searches>0</searches>
@@ -1593,12 +1622,7 @@
 		<visitLocalTime>04:28:18</visitLocalTime>
 		<visitLocalHour>4</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1920x1080</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -1615,6 +1639,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1627,7 +1657,7 @@
 				<type>action</type>
 				<url>http://piwik.org/docs/installation/</url>
 				<pageTitle>Hello Installing Piwik - Analytics - Piwik</pageTitle>
-				<pageIdAction>37</pageIdAction>
+				<pageIdAction>41</pageIdAction>
 				
 				
 				<pageId>36</pageId>
@@ -1640,13 +1670,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1679,15 +1709,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>5</visitCount>
+		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1741,13 +1773,8 @@
 		<longitude>40.415000</longitude>
 		<visitLocalTime>02:32:21</visitLocalTime>
 		<visitLocalHour>2</visitLocalHour>
-		<daysSinceLastVisit>8</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1366x768</resolution>
 		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
@@ -1772,6 +1799,12 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1784,7 +1817,7 @@
 				<type>action</type>
 				<url>http://piwik.org/</url>
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>35</pageIdAction>
+				<pageIdAction>39</pageIdAction>
 				
 				
 				<pageId>34</pageId>
@@ -1797,13 +1830,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1844,7 +1877,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -1899,12 +1934,7 @@
 		<visitLocalTime>01:34:18</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1920x1080</resolution>
 		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
@@ -1929,6 +1959,12 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1954,13 +1990,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1994,13 +2030,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2019,13 +2055,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2044,13 +2080,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2069,13 +2105,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2094,13 +2130,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2119,13 +2155,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2144,13 +2180,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2169,13 +2205,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -2192,13 +2228,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2224,7 +2260,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>54</visitDuration>
 		<visitDurationPretty>54s</visitDurationPretty>
 		<searches>0</searches>
@@ -2279,15 +2317,16 @@
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>63</idVisit>
+		<idVisit>62</idVisit>
 		<visitIp>192.0.2.10</visitIp>
 		
 		
@@ -2296,7 +2335,7 @@
 				<type>action</type>
 				<url>http://piwik.net/view/my/file.html</url>
 				<pageTitle />
-				<pageIdAction>65</pageIdAction>
+				<pageIdAction>69</pageIdAction>
 				
 				
 				<pageId>86</pageId>
@@ -2307,13 +2346,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>182 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>182 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2354,7 +2393,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -2409,11 +2450,12 @@
 		<visitLocalTime>01:13:11</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -2426,7 +2468,7 @@
 				<type>action</type>
 				<url>http://www.notdatefiltered.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>76</pageIdAction>
+				<pageIdAction>80</pageIdAction>
 				
 				
 				<pageId>99</pageId>
@@ -2437,13 +2479,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2484,7 +2526,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -2539,15 +2583,16 @@
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>62</idVisit>
+		<idVisit>61</idVisit>
 		<visitIp>172.20.1.0</visitIp>
 		
 		
@@ -2556,7 +2601,7 @@
 				<type>action</type>
 				<url>http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</url>
 				<pageTitle>302/URL = http%3A%2F%2Fpiwik.net%2FCitrix%2FXenApp%2FWan%2Fauth%2Flogin.jsp</pageTitle>
-				<pageIdAction>63</pageIdAction>
+				<pageIdAction>67</pageIdAction>
 				
 				
 				<pageId>84</pageId>
@@ -2569,13 +2614,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>355 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>302</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>355 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2596,7 +2641,7 @@
 				<type>action</type>
 				<url>http://piwik.net/Citrix/XenApp/Wan/auth/silentDetection.jsp</url>
 				<pageTitle />
-				<pageIdAction>64</pageIdAction>
+				<pageIdAction>68</pageIdAction>
 				
 				
 				<pageId>85</pageId>
@@ -2607,13 +2652,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>5.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>5.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2639,7 +2684,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>242</visitDuration>
 		<visitDurationPretty>4 min 2s</visitDurationPretty>
 		<searches>0</searches>
@@ -2694,15 +2741,16 @@
 		<visitLocalTime>11:55:13</visitLocalTime>
 		<visitLocalHour>11</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>61</idVisit>
+		<idVisit>60</idVisit>
 		<visitIp>173.5.0.0</visitIp>
 		
 		
@@ -2711,7 +2759,7 @@
 				<type>action</type>
 				<url>http://hello.example.com/hello/world/6,681965</url>
 				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
-				<pageIdAction>60</pageIdAction>
+				<pageIdAction>64</pageIdAction>
 				
 				
 				<pageId>93</pageId>
@@ -2724,6 +2772,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>
@@ -2738,13 +2787,12 @@
 						<customVariablePageValue3>404</customVariablePageValue3>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<pageTitle />
-				<pageIdAction>61</pageIdAction>
+				<pageIdAction>65</pageIdAction>
 				
 				
 				<pageId>83</pageId>
@@ -2757,13 +2805,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2784,7 +2832,7 @@
 				<type>action</type>
 				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<pageTitle />
-				<pageIdAction>61</pageIdAction>
+				<pageIdAction>65</pageIdAction>
 				
 				
 				<pageId>94</pageId>
@@ -2795,6 +2843,7 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>
@@ -2809,7 +2858,6 @@
 						<customVariablePageValue3>200</customVariablePageValue3>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2831,11 +2879,13 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>1800</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>2</visitDuration>
 		<visitDurationPretty>2s</visitDurationPretty>
 		<searches>0</searches>
@@ -2890,15 +2940,16 @@
 		<visitLocalTime>17:30:00</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>1800</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>User Name</customVariableName1>
 				<customVariableValue1>user2</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -2911,7 +2962,7 @@
 				<type>action</type>
 				<url>http://xzy.example.com/Products/theProduct</url>
 				<pageTitle />
-				<pageIdAction>56</pageIdAction>
+				<pageIdAction>60</pageIdAction>
 				
 				
 				<pageId>80</pageId>
@@ -2924,13 +2975,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2949,19 +3000,45 @@
 			</row>
 			<row>
 				<type>action</type>
+				<url>http://example.hello.com/Topic/hw43061</url>
+				<pageTitle>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</pageTitle>
+				<pageIdAction>62</pageIdAction>
+				
+				
+				<pageId>81</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<pageviewPosition>2</pageviewPosition>
+				<title>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</title>
+				<subtitle>http://example.hello.com/Topic/hw43061</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>301</customVariablePageValue1>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>action</type>
 				<url>http://xzy.example.com/Products/theProduct</url>
 				<pageTitle />
-				<pageIdAction>56</pageIdAction>
+				<pageIdAction>60</pageIdAction>
 				
 				
 				<pageId>91</pageId>
 				<bandwidth />
-				<pageviewPosition>2</pageviewPosition>
+				<pageviewPosition>3</pageviewPosition>
 				<title />
 				<subtitle>http://xzy.example.com/Products/theProduct</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>
@@ -2976,7 +3053,6 @@
 						<customVariablePageValue3>200</customVariablePageValue3>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3002,12 +3078,14 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>2</visitDuration>
 		<visitDurationPretty>2s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
-		<interactions>2</interactions>
+		<actions>3</actions>
+		<interactions>3</interactions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>example.com</referrerName>
@@ -3057,186 +3135,20 @@
 		<visitLocalTime>17:00:00</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>User Name</customVariableName1>
 				<customVariableValue1>user1</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
 		<idVisit>59</idVisit>
-		<visitIp>70.95.32.0</visitIp>
-		
-		
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://example.hello.com/Topic/hw43061</url>
-				<pageTitle>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</pageTitle>
-				<pageIdAction>58</pageIdAction>
-				
-				
-				<pageId>81</pageId>
-				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<pageviewPosition>1</pageviewPosition>
-				<title>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</title>
-				<subtitle>http://example.hello.com/Topic/hw43061</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>301</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				
-				<revenue>5</revenue>
-				<goalPageId>81</goalPageId>
-				
-				<url>http://example.hello.com/Topic/hw43061</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
-				<title>Goal conversion</title>
-				<subtitle>all ($5 revenue)</subtitle>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://example.hello.com/Topic/hw43061</url>
-				<pageTitle>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</pageTitle>
-				<pageIdAction>58</pageIdAction>
-				
-				
-				<pageId>92</pageId>
-				<bandwidth />
-				<pageviewPosition>2</pageviewPosition>
-				<title>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</title>
-				<subtitle>http://example.hello.com/Topic/hw43061</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<customVariables>
-					<row>
-						<customVariablePageName1>Generation Time</customVariablePageName1>
-						<customVariablePageValue1>0</customVariablePageValue1>
-					</row>
-					<row>
-						<customVariablePageName2>Windows Status Code</customVariablePageName2>
-						<customVariablePageValue2>42</customVariablePageValue2>
-					</row>
-					<row>
-						<customVariablePageName3>HTTP-code</customVariablePageName3>
-						<customVariablePageValue3>301</customVariablePageValue3>
-					</row>
-				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId>user1</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>2</visitDuration>
-		<visitDurationPretty>2s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>2</actions>
-		<interactions>2</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Apple</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Mac 10.10</operatingSystem>
-		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemVersion>10.10</operatingSystemVersion>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 41.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>41.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>United States</location>
-		<latitude>38</latitude>
-		<longitude>-97</longitude>
-		<visitLocalTime>17:00:00</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>User Name</customVariableName1>
-				<customVariableValue1>user1</customVariableValue1>
-			</row>
-		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>60</idVisit>
 		<visitIp>173.5.0.0</visitIp>
 		
 		
@@ -3245,7 +3157,7 @@
 				<type>action</type>
 				<url>http://hello.example.com/hello/world/6,681965</url>
 				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
-				<pageIdAction>60</pageIdAction>
+				<pageIdAction>64</pageIdAction>
 				
 				
 				<pageId>82</pageId>
@@ -3256,13 +3168,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3303,7 +3215,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -3358,11 +3272,157 @@
 		<visitLocalTime>17:00:00</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>67</idVisit>
+		<visitIp>70.95.32.0</visitIp>
+		
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.hello.com/Topic/hw43061</url>
+				<pageTitle>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</pageTitle>
+				<pageIdAction>62</pageIdAction>
+				
+				
+				<pageId>92</pageId>
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<title>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</title>
+				<subtitle>http://example.hello.com/Topic/hw43061</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+				<customVariables>
+					<row>
+						<customVariablePageName1>Generation Time</customVariablePageName1>
+						<customVariablePageValue1>0</customVariablePageValue1>
+					</row>
+					<row>
+						<customVariablePageName2>Windows Status Code</customVariablePageName2>
+						<customVariablePageValue2>42</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName3>HTTP-code</customVariablePageName3>
+						<customVariablePageValue3>301</customVariablePageValue3>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				
+				<revenue>5</revenue>
+				<goalPageId>92</goalPageId>
+				
+				<url>http://example.hello.com/Topic/hw43061</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($5 revenue)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Mac 10.10</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.10</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 41.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>41.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>United States</location>
+		<latitude>38</latitude>
+		<longitude>-97</longitude>
+		<visitLocalTime>17:00:00</visitLocalTime>
+		<visitLocalHour>17</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		<customVariables>
+			<row>
+				<customVariableName1>User Name</customVariableName1>
+				<customVariableValue1>user1</customVariableValue1>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -3379,6 +3439,8 @@
 				
 				
 				<pageId>30</pageId>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU2</productViewSku>
 				<bandwidth>43</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
@@ -3386,21 +3448,16 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
-						<customVariablePageName3>_pks</customVariablePageName3>
-						<customVariablePageValue3>SKU2</customVariablePageValue3>
-					</row>
-					<row>
-						<customVariablePageName4>_pkn</customVariablePageName4>
-						<customVariablePageValue4>PRODUCT name</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3441,7 +3498,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -3496,12 +3555,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName5>VisitorType</customVariableName5>
-				<customVariableValue5>NewLoggedOut</customVariableValue5>
-			</row>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
@@ -3518,6 +3572,12 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -3530,7 +3590,7 @@
 				<type>action</type>
 				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
 				<pageTitle>Piwik Forums</pageTitle>
-				<pageIdAction>31</pageIdAction>
+				<pageIdAction>34</pageIdAction>
 				
 				
 				<pageId>31</pageId>
@@ -3541,13 +3601,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3580,15 +3640,17 @@
 		
 		
 		<userId />
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -3642,23 +3704,14 @@
 		<longitude />
 		<visitLocalTime>08:00:47</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
-		<daysSinceLastVisit>444</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName3>Forum status</customVariableName3>
-				<customVariableValue3>Anonymous</customVariableValue3>
-			</row>
-		</customVariables>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1280x800</resolution>
-		<plugins>cookie, director, flash, java, pdf, windowsmedia</plugins>
+		<plugins>cookie, flash, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
 				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
-				<pluginName>director</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -3677,10 +3730,16 @@
 				<pluginName>windowsmedia</pluginName>
 			</row>
 		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName3>Forum status</customVariableName3>
+				<customVariableValue3>Anonymous</customVariableValue3>
+			</row>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>66</idVisit>
+		<idVisit>65</idVisit>
 		<visitIp>72.45.67.32</visitIp>
 		
 		
@@ -3700,13 +3759,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>915 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>915 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3747,7 +3806,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -3802,15 +3863,16 @@
 		<visitLocalTime>12:20:31</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>67</idVisit>
+		<idVisit>66</idVisit>
 		<visitIp>73.77.55.45</visitIp>
 		
 		
@@ -3819,7 +3881,7 @@
 				<type>action</type>
 				<url>http://piwik.net/api/fútbol-user-agent</url>
 				<pageTitle />
-				<pageIdAction>71</pageIdAction>
+				<pageIdAction>75</pageIdAction>
 				
 				
 				<pageId>90</pageId>
@@ -3830,13 +3892,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>267 B</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>267 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3877,7 +3939,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -3906,10 +3970,10 @@
 		<operatingSystemVersion>7.1</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
+		<browser>Fútbol 1.0</browser>
+		<browserName>Fútbol</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<browserCode>UNK</browserCode>
+		<browserCode>Fútbol</browserCode>
 		<browserVersion>1.0</browserVersion>
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
@@ -3932,15 +3996,16 @@
 		<visitLocalTime>12:20:31</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>65</idVisit>
+		<idVisit>64</idVisit>
 		<visitIp>192.0.2.222</visitIp>
 		
 		
@@ -3948,7 +4013,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
-				<pageIdAction>66</pageIdAction>
+				<pageIdAction>70</pageIdAction>
 				
 				
 				<pageId>88</pageId>
@@ -3962,13 +4027,13 @@
 				<title>Event</title>
 				<subtitle>Category: &quot;cloudfront_rtmp', Action: &quot;play&quot;</subtitle>
 				<eventName>myvideo</eventName>
+				<bandwidth_pretty>3.8 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.8 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3994,7 +4059,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -4049,15 +4116,16 @@
 		<visitLocalTime>23:51:21</visitLocalTime>
 		<visitLocalHour>23</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>64</idVisit>
+		<idVisit>63</idVisit>
 		<visitIp>192.0.2.147</visitIp>
 		
 		
@@ -4065,7 +4133,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
-				<pageIdAction>66</pageIdAction>
+				<pageIdAction>70</pageIdAction>
 				
 				
 				<pageId>87</pageId>
@@ -4078,13 +4146,13 @@
 				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Category: &quot;cloudfront_rtmp', Action: &quot;connect&quot;</subtitle>
+				<bandwidth_pretty>2 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>2 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4110,7 +4178,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -4165,11 +4235,12 @@
 		<visitLocalTime>23:51:20</visitLocalTime>
 		<visitLocalHour>23</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4193,13 +4264,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -4240,7 +4311,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -4295,15 +4368,16 @@
 		<visitLocalTime>20:15:41</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4327,13 +4401,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -4374,7 +4448,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -4429,15 +4505,16 @@
 		<visitLocalTime>20:15:41</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4463,13 +4540,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>301</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -4501,13 +4578,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>307</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4533,7 +4610,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>182</visitDuration>
 		<visitDurationPretty>3 min 2s</visitDurationPretty>
 		<searches>0</searches>
@@ -4588,15 +4667,16 @@
 		<visitLocalTime>19:12:40</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4622,13 +4702,13 @@
 				<title>Download</title>
 				<subtitle>http://piwik.net/thing.js</subtitle>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>download</type>
@@ -4647,13 +4727,13 @@
 				<title>Download</title>
 				<subtitle>http://piwik.net/thing.css</subtitle>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>download</type>
@@ -4670,13 +4750,13 @@
 				<title>Download</title>
 				<subtitle>http://piwik.net/other.png</subtitle>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4702,7 +4782,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>123</visitDuration>
 		<visitDurationPretty>2 min 3s</visitDurationPretty>
 		<searches>0</searches>
@@ -4757,15 +4839,16 @@
 		<visitLocalTime>18:10:38</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4789,13 +4872,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -4836,7 +4919,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -4891,15 +4976,16 @@
 		<visitLocalTime>17:48:08</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Bot</customVariableName1>
 				<customVariableValue1>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -4923,13 +5009,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>500</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -4970,7 +5056,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5025,15 +5113,16 @@
 		<visitLocalTime>17:48:07</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5057,13 +5146,13 @@
 				<title>Download</title>
 				<subtitle>http://piwik.net/19.pdf</subtitle>
 				
+				<bandwidth_pretty>4.1 M</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>4.1 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5089,7 +5178,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5118,10 +5209,10 @@
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
+		<browser>Java</browser>
+		<browserName>Java</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<browserCode>UNK</browserCode>
+		<browserCode>Java</browserCode>
 		<browserVersion />
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
@@ -5144,15 +5235,16 @@
 		<visitLocalTime>17:46:03</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Apache-HttpClient/4.2.1 (java 1.5)</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5176,13 +5268,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -5223,7 +5315,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5278,15 +5372,16 @@
 		<visitLocalTime>16:11:30</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5310,13 +5405,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -5357,7 +5452,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5412,15 +5509,16 @@
 		<visitLocalTime>16:10:38</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5444,13 +5542,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -5491,7 +5589,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5546,11 +5646,12 @@
 		<visitLocalTime>15:31:05</visitLocalTime>
 		<visitLocalHour>15</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5574,13 +5675,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -5621,7 +5722,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5676,11 +5779,12 @@
 		<visitLocalTime>13:49:46</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5704,13 +5808,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -5751,7 +5855,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5806,11 +5912,12 @@
 		<visitLocalTime>20:22:08</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5834,13 +5941,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -5881,7 +5988,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -5936,11 +6045,12 @@
 		<visitLocalTime>20:21:28</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -5964,13 +6074,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6011,7 +6121,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6066,11 +6178,12 @@
 		<visitLocalTime>20:21:03</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6094,13 +6207,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6141,7 +6254,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6196,11 +6311,12 @@
 		<visitLocalTime>20:01:17</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6224,13 +6340,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6271,7 +6387,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6326,11 +6444,12 @@
 		<visitLocalTime>19:59:50</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6354,13 +6473,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6401,7 +6520,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6456,11 +6577,12 @@
 		<visitLocalTime>18:03:40</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6473,7 +6595,7 @@
 				<type>action</type>
 				<url>http://included3.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>72</pageIdAction>
+				<pageIdAction>76</pageIdAction>
 				
 				
 				<pageId>95</pageId>
@@ -6484,13 +6606,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6531,7 +6653,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6586,11 +6710,12 @@
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6603,7 +6728,7 @@
 				<type>action</type>
 				<url>http://included1.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>74</pageIdAction>
+				<pageIdAction>78</pageIdAction>
 				
 				
 				<pageId>97</pageId>
@@ -6614,13 +6739,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6661,7 +6786,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6716,11 +6843,12 @@
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6744,13 +6872,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6791,7 +6919,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6846,11 +6976,12 @@
 		<visitLocalTime>21:00:42</visitLocalTime>
 		<visitLocalHour>21</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -6874,13 +7005,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -6921,7 +7052,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -6976,11 +7109,12 @@
 		<visitLocalTime>20:56:45</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7004,13 +7138,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7051,7 +7185,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -7106,11 +7242,12 @@
 		<visitLocalTime>13:49:48</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7134,13 +7271,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7181,7 +7318,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -7236,11 +7375,12 @@
 		<visitLocalTime>13:48:20</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7264,13 +7404,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7311,7 +7451,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -7366,11 +7508,12 @@
 		<visitLocalTime>13:48:07</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7394,13 +7537,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7441,7 +7584,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -7496,11 +7641,12 @@
 		<visitLocalTime>08:12:03</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7524,13 +7670,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7571,7 +7717,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -7626,11 +7774,12 @@
 		<visitLocalTime>08:11:56</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7654,13 +7803,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7701,7 +7850,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -7756,11 +7907,12 @@
 		<visitLocalTime>08:11:30</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7773,7 +7925,7 @@
 				<type>action</type>
 				<url>http://www.included4.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>73</pageIdAction>
+				<pageIdAction>77</pageIdAction>
 				
 				
 				<pageId>96</pageId>
@@ -7784,13 +7936,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7831,7 +7983,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -7886,11 +8040,12 @@
 		<visitLocalTime>08:10:39</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -7903,7 +8058,7 @@
 				<type>action</type>
 				<url>http://www.included2.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>75</pageIdAction>
+				<pageIdAction>79</pageIdAction>
 				
 				
 				<pageId>98</pageId>
@@ -7914,13 +8069,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -7961,7 +8116,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -8016,11 +8173,12 @@
 		<visitLocalTime>08:10:39</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -8044,13 +8202,13 @@
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -8091,7 +8249,9 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
@@ -8146,10 +8306,11 @@
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+		<customVariables>
+		</customVariables>
 	</row>
 </result>

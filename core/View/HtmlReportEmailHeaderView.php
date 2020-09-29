@@ -67,7 +67,6 @@ class HtmlReportEmailHeaderView extends View
         $emailStyles = EmailStyles::get();
 
         $view->currentPath = SettingsPiwik::getPiwikUrl();
-        $view->logoHeader = API::getInstance()->getHeaderLogoUrl();
 
         $view->themeStyles = $themeStyles;
         $view->emailStyles = $emailStyles;

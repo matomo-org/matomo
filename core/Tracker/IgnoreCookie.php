@@ -28,7 +28,14 @@ class IgnoreCookie
         $cookie_name = @Config::getInstance()->Tracker['cookie_name'];
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
 
-        return new Cookie($cookie_name, null, $cookie_path);
+        $cookie = new Cookie($cookie_name, null, $cookie_path);
+        
+        $domain = @Config::getInstance()->Tracker['cookie_domain'];
+        if (!empty($domain)) {
+            $cookie->setDomain($domain);
+        }
+        
+        return $cookie;
     }
 
     public static function deleteThirdPartyCookieUIDIfExists()
@@ -48,8 +55,17 @@ class IgnoreCookie
     {
         $cookie_name = @Config::getInstance()->Tracker['ignore_visits_cookie_name'];
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
+        
+        $thiryYears = time() + (86400 * 365 * 30);
 
-        return new Cookie($cookie_name, null, $cookie_path);
+        $cookie = new Cookie($cookie_name, $thiryYears, $cookie_path, false, false);
+        
+        $domain = @Config::getInstance()->Tracker['cookie_domain'];
+        if (!empty($domain)) {
+            $cookie->setDomain($domain);
+        }
+        
+        return $cookie;
     }
 
     /**

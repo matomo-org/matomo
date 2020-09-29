@@ -155,8 +155,8 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 500;
-        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 500;
-        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_custom_dimensions'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 500;
         $generalConfig['archiving_ranking_query_row_limit'] = 0;
         $generalConfig['datatable_archiving_maximum_rows_site_search'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_userid_users'] = 500;
@@ -184,8 +184,8 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 4;
-        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 3;
-        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 2;
+        $generalConfig['datatable_archiving_maximum_rows_custom_dimensions'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_userid_users'] = 3;

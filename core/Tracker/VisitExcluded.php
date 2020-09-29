@@ -101,6 +101,14 @@ class VisitExcluded
          * These are of higher priority and should not be overwritten by plugins.
          */
 
+        // Checking if in config some requests are excluded
+        if (!$excluded) {
+            $excluded = $this->request->isRequestExcluded();
+            if ($excluded) {
+                Common::printDebug("Request is excluded.");
+            }
+        }
+
         // Checking if the Piwik ignore cookie is set
         if (!$excluded) {
             $excluded = $this->isIgnoreCookieFound();
@@ -131,11 +139,11 @@ class VisitExcluded
             if (!$excluded) {
                 $excluded = $this->isReferrerSpamExcluded();
                 if ($excluded) {
-                    Common::printDebug("Referrer URL is blacklisted as spam.");
+                    Common::printDebug("Referrer URL is listed as spam.");
                 }
             }
         } else {
-            Common::printDebug("Spam blacklist is disabled.");
+            Common::printDebug("Spam list is disabled.");
         }
 
         // Check if request URL is excluded

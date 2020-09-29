@@ -25,6 +25,7 @@ class Updater
 {
     const INDEX_CURRENT_VERSION = 0;
     const INDEX_NEW_VERSION = 1;
+    const OPTION_KEY_MATOMO_UPDATE_HISTORY = 'MatomoUpdateHistory';
 
     private $pathUpdateFileCore;
     private $pathUpdateFilePlugins;
@@ -459,6 +460,22 @@ class Updater
         $deactivatedPlugins = array();
         $coreError = false;
 
+        try {
+            $history = Option::get(self::OPTION_KEY_MATOMO_UPDATE_HISTORY);
+            $history = explode(',', (string) $history);
+            $previousVersion = Option::get(self::getNameInOptionTable('core'));
+
+            if (!empty($previousVersion) && !in_array($previousVersion, $history, true)) {
+                // this allows us to see which versions of matomo the user was using before this update so we better understand
+                // which version maybe regressed something
+                array_unshift( $history, $previousVersion );
+                $history = array_slice( $history, 0, 6 ); // lets keep only the last 6 versions
+                Option::set(self::OPTION_KEY_MATOMO_UPDATE_HISTORY, implode(',', $history));
+            }
+        } catch (\Exception $e) {
+            // case when the option table is not yet created (before 0.2.10)
+        }
+
         if (!empty($componentsWithUpdateFile)) {
             $currentAccess      = Access::getInstance();
             $hasSuperUserAccess = $currentAccess->hasSuperUserAccess();
@@ -618,19 +635,6 @@ class Updater
         }
 
         return $migration;
-    }
-
-    /**
-     * Performs database update(s)
-     *
-     * @param string $file Update script filename
-     * @param array $sqlarray An array of SQL queries to be executed
-     * @throws UpdaterErrorException
-     * @deprecated
-     */
-    public static function updateDatabase($file, $sqlarray)
-    {
-        self::$activeInstance->executeMigrations($file, $sqlarray);
     }
 
     /**

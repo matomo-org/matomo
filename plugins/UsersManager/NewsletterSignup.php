@@ -36,7 +36,6 @@ class NewsletterSignup
             'email'     => $email,
             'piwikorg'  => (int)$matomoOrg,
             'piwikpro'  => (int)$professionalServices,
-            'url'       => Url::getCurrentUrlWithoutQueryString(),
             'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
         );
 

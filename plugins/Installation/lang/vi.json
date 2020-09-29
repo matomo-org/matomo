@@ -46,7 +46,6 @@
         "SuperUserSetupSuccess": "Siêu người dùng đã được tạo thành công",
         "SystemCheck": "Kiểm tra hệ thống",
         "SystemCheckAutoUpdateHelp": "Chú ý: Một Click cập nhật Matomo đòi hỏi ghi quyền truy cập vào thư mục Matomo và nội dung của nó.",
-        "SystemCheckCreateFunctionHelp": "Matomo sử dụng hàm ẩn danh cho các callback.",
         "SystemCheckDatabaseHelp": "Matomo yêu cầu mysqli extension hoặc cả PDO và pdo_mysql extensions.",
         "SystemCheckDebugBacktraceHelp": "View::factory không thể tạo các lượt xem cho module calling",
         "SystemCheckError": "Một lỗi đã xảy ra - phải được sửa trước khi xử lý",

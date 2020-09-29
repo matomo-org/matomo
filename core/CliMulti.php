@@ -12,6 +12,8 @@ use Piwik\CliMulti\CliPhp;
 use Piwik\CliMulti\Output;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Class CliMulti.
@@ -67,13 +69,19 @@ class CliMulti
     /**
      * @var Timer[]
      */
-    private $timers = [];
+    protected $timers = [];
 
-    private $isTimingRequests = false;
+    protected $isTimingRequests = false;
 
-    public function __construct()
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->supportsAsync = $this->supportsAsync();
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
@@ -324,38 +332,6 @@ class CliMulti
         return StaticContainer::get('path.tmp') . '/climulti';
     }
 
-    public function isCommandAlreadyRunning($url)
-    {
-        if (defined('PIWIK_TEST_MODE')) {
-            return false; // skip check in tests as it might result in random failures
-        }
-
-        if (!$this->supportsAsync) {
-            // we cannot detect if web archive is still running
-            return false;
-        }
-
-        $query = UrlHelper::getQueryFromUrl($url, array('pid' => 'removeme'));
-        $hostname = Url::getHost($checkIfTrusted = false);
-        $commandToCheck = $this->buildCommand($hostname, $query, $output = '', $escape = false);
-
-        $currentlyRunningJobs = `ps aux`;
-
-        $posStart = strpos($commandToCheck, 'console climulti');
-        $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
-        $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
-        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=json&trigger=archivephp
-        $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
-        $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
-
-        if (strpos($currentlyRunningJobs, $shortendCommand) !== false) {
-            Log::debug($shortendCommand . ' is already running');
-            return true;
-        }
-
-        return false;
-    }
-
     private function executeAsyncCli($url, Output $output, $cmdId)
     {
         $this->processes[] = new Process($cmdId);
@@ -365,7 +341,7 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
-        Log::debug($command);
+        $this->logger->debug("Running command: {command}", ['command' => $command]);
         shell_exec($command);
     }
 
@@ -381,6 +357,7 @@ class CliMulti
             $url = str_replace("http://", "https://", $url);
         }
 
+        $requestBody = null;
         if ($this->runAsSuperUser) {
             $tokenAuth = self::getSuperUserTokenAuth();
 
@@ -390,12 +367,12 @@ class CliMulti
                 $url .= '&';
             }
 
-            $url .= 'token_auth=' . $tokenAuth;
+            $requestBody = 'token_auth=' . $tokenAuth;
         }
 
         try {
-            Log::debug("Execute HTTP API request: "  . $url);
-            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
+            $this->logger->debug("Execute HTTP API request: "  . $url);
+            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate, false, false, 'POST', null, null, $requestBody, [], $forcePost = true);
             $output->write($response);
         } catch (\Exception $e) {
             $message = "Got invalid response from API request: $url. ";
@@ -408,7 +385,7 @@ class CliMulti
 
             $output->write($message);
 
-            Log::debug($e);
+            $this->logger->debug($message, ['exception' => $e]);
         }
     }
 

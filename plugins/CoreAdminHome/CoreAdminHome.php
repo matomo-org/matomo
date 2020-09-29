@@ -55,7 +55,7 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
+        $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
@@ -64,14 +64,13 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/bower_components/jquery/dist/jquery.min.js";
-        $jsFiles[] = "libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js";
-        $jsFiles[] = "libs/jquery/jquery.browser.js";
-        $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
+        $jsFiles[] = "node_modules/jquery/dist/jquery.min.js";
+        $jsFiles[] = "node_modules/jquery-ui-dist/jquery-ui.min.js";
+        $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.min.js";
+        $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/protocolCheck.js";
     }
 

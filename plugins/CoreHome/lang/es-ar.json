@@ -20,7 +20,6 @@
         "DonateCall1": "Matomo nunca te costará nada para usarlo, pero eso no significa que no nos cueste hacerlo.",
         "DonateCall2": "Matomo necesita de tu contínuo apoyo para crecer y prosperar.",
         "DonateCall3": "Si sentís que Matomo agregó valor significativo a tu negocio o emprendimiento, %1$spor favor, considerá donar%2$s o %3$scomprar una función prémium%4$s. Cada centavo cuenta.",
-        "DonateFormInstructions": "Hagé clic en el control deslizante para seleccionar una cantidad, luego hagé clic en \"Suscribirse\" para donar.",
         "EndShortcut": "Fin",
         "EnterZenMode": "Entrar al modo Zen (ocultar los menús)",
         "ExitZenMode": "Salir del modo Zen (mostrar los menús)",
@@ -32,7 +31,6 @@
         "ShowExportUrl": "Mostrar dirección web de exportación",
         "HideExportUrl": "Ocultar dirección web de exportación",
         "HomeShortcut": "Página principal",
-        "HowMuchIsPiwikWorth": "¿Cuánto valor tiene Matomo para vos?",
         "IncludeRowsWithLowPopulation": "Se ocultan las filas con baja población %s Mostrar todas las filas",
         "InjectedHostEmailBody": "Hola, hoy intenté acceder a Matomo pero encontré la advertencia sobre nombre de dominio (\"hostname\") desconocido.",
         "InjectedHostEmailSubject": "Se accedió a Matomo desde un servidor desconocido: %s",
@@ -45,7 +43,6 @@
         "VisitTypeReturning": "Regresos",
         "VisitTypeReturningCustomer": "Cliente que vuelve",
         "MainNavigation": "Navegación principal",
-        "MakeOneTimeDonation": "O hacé una donación por única vez.",
         "Menu": "Menú",
         "NoPrivilegesAskPiwikAdmin": "Iniciaste sesión como \"%1$s\", pero parece que no tenés ningún permiso configurado en Matomo. %2$sConsultá al administrador de tu Matomo (hacé clic para enviarle un correo electrónico)%3$s para que te dé acceso de lectura al sitio web.",
         "OnlyForSuperUserAccess": "Este widget se muestra en el panel principal sólo a los usuarios que tengan acceso de súper usuario.",
@@ -108,6 +105,7 @@
         "ReportWithMetadata": "Informe con metadatos",
         "ReadMoreOnlineGuide": "Leé más sobre este tema en la guía en línea.",
         "SeeAvailableVersions": "Ver las versiones disponibles",
-        "QuickLinks": "Enlaces rápidos"
+        "QuickLinks": "Enlaces rápidos",
+        "SearchOnMatomo": "Buscá \"%1$s\" en matomo.org"
     }
 }

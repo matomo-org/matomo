@@ -34,6 +34,7 @@ use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Measurable\Type;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Piwik\DataAccess\Model as CoreModel;
 
 /**
  * The SitesManager API gives you full control on Websites in Matomo (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -182,7 +183,7 @@ class API extends \Piwik\Plugin\API
 
         $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/'.$matomoPhp.'?' . Url::getQueryStringFromParameters($urlParams);
         $html = "<!-- Matomo Image Tracker-->
-<img src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
+<img referrerpolicy=\"no-referrer-when-downgrade\" src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
         return htmlspecialchars($html, ENT_COMPAT, 'UTF-8');
     }
@@ -304,33 +305,6 @@ class API extends \Piwik\Plugin\API
             // can be called before Matomo tables are created so return empty
             return array();
         }
-    }
-
-    /**
-     * Returns the list of the website IDs that received some visits since the specified timestamp.
-     * Requires Super User access.
-     *
-     * @param bool|int $timestamp
-     * @return array The list of website IDs
-     * @deprecated since 2.15 This method will be removed in Matomo 3.0, there is no replacement.
-     */
-    public function getSitesIdWithVisits($timestamp = false)
-    {
-        Piwik::checkUserHasSuperUserAccess();
-
-        if (empty($timestamp)) $timestamp = time();
-
-        $time   = Date::factory((int)$timestamp)->getDatetime();
-        $now    = Date::now()->addHour(1)->getDatetime();
-
-        $result = $this->getModel()->getSitesWithVisits($time, $now);
-
-        $idSites = array();
-        foreach ($result as $idSite) {
-            $idSites[] = $idSite['idsite'];
-        }
-
-        return $idSites;
     }
 
     /**
@@ -809,6 +783,9 @@ class API extends \Piwik\Plugin\API
 
         $this->getModel()->deleteSite($idSite);
 
+        $coreModel = new CoreModel();
+        $coreModel->deleteInvalidationsForSites([$idSite]);
+
         /**
          * Triggered after a site has been deleted.
          *
@@ -1059,29 +1036,6 @@ class API extends \Piwik\Plugin\API
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
-    }
-
-    /**
-     * Returns true if site-specific user agent exclusion has been enabled. If it hasn't,
-     * only the global user agent substrings (see @setGlobalExcludedUserAgents) will be used.
-     *
-     * @return bool
-     * @deprecated Will be removed in Matomo 4.0
-     */
-    public function isSiteSpecificUserAgentExcludeEnabled()
-    {
-        return true;
-    }
-
-    /**
-     * Sets whether it should be allowed to exclude different user agents for different
-     * websites.
-     *
-     * @param bool $enabled
-     * @deprecated Will be removed in Matomo 4.0
-     */
-    public function setSiteSpecificUserAgentExcludeEnabled($enabled)
-    {
     }
 
     /**

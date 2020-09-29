@@ -21,6 +21,7 @@ use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
+use Piwik\Session\SessionInitializer;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -153,7 +154,7 @@ class FrontController extends Singleton
         if (self::$enableDispatch === false) {
             return;
         }
-
+        
         $filter = new Router();
         $redirection = $filter->filterUrl(Url::getCurrentUrl());
         if ($redirection !== null) {
@@ -176,7 +177,7 @@ class FrontController extends Singleton
              * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
-        } catch (\Twig_Error_Runtime $e) {
+        } catch (\Twig\Error\RuntimeError $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         } catch(StylesheetLessCompileException $e) {
@@ -199,7 +200,6 @@ class FrontController extends Singleton
      * @param string $actionName The controller action name, eg, `'realtimeMap'`.
      * @param array $parameters Array of parameters to pass to the controller action method.
      * @return string The `echo`'d data or the return value of the controller action.
-     * @deprecated
      */
     public function fetchDispatch($module = null, $actionName = null, $parameters = null)
     {
@@ -402,16 +402,32 @@ class FrontController extends Singleton
         // ... if session auth fails try normal auth (which will login the anonymous user)
         if (!$loggedIn) {
             $authAdapter = $this->makeAuthenticator();
-            Access::getInstance()->reloadAccess($authAdapter);
+            $success = Access::getInstance()->reloadAccess($authAdapter);
+
+            if ($success
+                && Piwik::isUserIsAnonymous()
+                && $authAdapter->getLogin() === 'anonymous' //double checking the login
+                && Piwik::isUserHasSomeViewAccess()
+                && Session::isSessionStarted()) { // only if session was started, don't do it eg for API
+                // usually the session would be started when someone logs in using login controller. But in this
+                // case we need to init session here for anoynymous users
+                $init = StaticContainer::get(SessionInitializer::class);
+                $init->initSession($authAdapter);
+            }
         } else {
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
-        if (Common::getRequestVar('token_auth', false, 'string') !== false) {
+        if (Common::getRequestVar('token_auth', '', 'string') !== ''
+            && Request::shouldReloadAuthUsingTokenAuth(null)) {
             Request::reloadAuthUsingTokenAuth();
+            if (Request::isTokenAuthLimitedToViewAccess($module, $action)) {
+                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
+            }
         }
+
         SettingsServer::raiseMemoryLimitIfNecessary();
 
         \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();

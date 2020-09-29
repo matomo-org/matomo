@@ -11,7 +11,7 @@
         "CampaignSource": "Source de la campagne",
         "CampaignSourceHelp": "Utilisé pour suivre la source de la campagne telle que 'infolettre' pour votre marketing courriel, 'affilié', ou le nom du site web qui affiche votre publicité.",
         "CampaignContent": "Contenu de la campagne",
-        "CampaignContentHelp": "Ce paramètre est souvent utilisé lorsque vous testez plusieurs publicités, et vous ajouteriez le nom de chacune afin de void laquelle est la plus efficace pour approter du trafic.",
+        "CampaignContentHelp": "Ce paramètre est souvent utilisé lorsque vous testez plusieurs annonces et inclut le nom de chaque annonce pour voir lequel est le plus efficace pour générer du trafic.",
         "CampaignMedium": "Mëdia de la campagne",
         "CampaignMediumHelp": "Utilisé pour décrire l'activité marketing, par exemple 'PPC' pour une campagne rénumérée au click ou 'SEM' pour des publicités de recherche, ou 'revue' pour suivre les revues d'un produit sur un site affilié.",
         "ColumnSearchEngine": "Moteur de recherche",

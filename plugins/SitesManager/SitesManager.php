@@ -13,12 +13,14 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
 use Piwik\Session\SessionNamespace;
 
@@ -197,6 +199,16 @@ class SitesManager extends \Piwik\Plugin
         $array['timezone'] = $this->getTimezoneFromWebsite($website);
         $array['ts_created'] = $website['ts_created'];
         $array['type'] = $website['type'];
+
+        // we make sure to have the fingerprint salts for the last 3 days incl tmrw in the cache so we don't need to
+        // query the DB directly for these days
+        $datesToGenerateSalt = array(Date::now()->addDay(1), Date::now(), Date::now()->subDay(1), Date::now()->subDay(2));
+
+        $fingerprintSaltKey = new FingerprintSalt();
+        foreach ($datesToGenerateSalt as $date) {
+            $dateString = $fingerprintSaltKey->getDateString($date, $array['timezone']);
+            $array[FingerprintSalt::OPTION_PREFIX . $dateString] = $fingerprintSaltKey->getSalt($dateString, $idSite);
+        }
     }
 
     public function setTrackerCacheGeneral(&$cache)

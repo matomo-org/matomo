@@ -49,7 +49,6 @@
         "SuperUserSetupSuccess": "Peakasutaja on edukalt loodud!",
         "SystemCheck": "Süsteemi kontroll",
         "SystemCheckAutoUpdateHelp": "Märge: Matomo automaatne uuendus nõuab kirjutusõigust Matomou juurkataloogi ja selle sisule.",
-        "SystemCheckCreateFunctionHelp": "Matomo kasutab anonüümseid funktsioone süsteemile vastuste saatmiseks.",
         "SystemCheckDatabaseExtensions": "MySQL-i laiendid",
         "SystemCheckDatabaseHelp": "Matomo vajab kas ainult mysqli või nii PDO kui ka pdo_mysql laiendust mõlemat.",
         "SystemCheckError": "Ilmnes viga - Enne jätkamist tuleb see parandada",

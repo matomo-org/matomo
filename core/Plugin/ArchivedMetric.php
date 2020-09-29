@@ -161,6 +161,11 @@ class ArchivedMetric extends Metric
         return $value;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function getTranslatedName()
     {
         if (!empty($this->translatedName)) {
@@ -192,6 +197,10 @@ class ArchivedMetric extends Metric
         }
 
         $column = $this->dbTable . '.'  . $this->dimension->getColumnName();
+
+        if ($this->dimension->getSqlSegment()) {
+            $column = str_replace($this->dimension->getDbTableName(), $this->dbTable, $this->dimension->getSqlSegment());
+        }
 
         if (!empty($this->aggregation)) {
             return sprintf($this->aggregation, $column);

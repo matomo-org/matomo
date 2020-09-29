@@ -1,6 +1,7 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "Kan de functie apache_get_modules niet vinden, uitgegaan van non-Apache webserver.",
+        "AutomaticSetup": "Configureer automatisch geolocatie met behulp van een dbip-database",
         "CannotFindGeoIPServerVar": "De %s variabele is niet ingesteld. Je server is waarschijnlijk niet correct geconfigureerd",
         "CannotListContent": "Kon geen lijst maken van de inhoud voor %1$s: %2$s",
         "CannotUnzipGeoIPFile": "Kan het GeoIP-bestand niet uitpakken in %1$s:%2$s",
@@ -13,6 +14,7 @@
         "GeoIPNoServerVars": "Matomo kan geen GeoIP %s variabelen vinden.",
         "GeoIPServerVarsFound": "Matomo detecteert de volgende GeoIP %s variabelen",
         "GeoIPVariablesConfigurationHere": "Je kunt %1$s gebruikte servervariabelen hier %2$sconfigureren.",
+        "HowToSetupGeoIP": "Hoe u nauwkeurige geolocatie instelt met dbip",
         "HowToInstallApacheModule": "Hoe installeer ik de GeoIP module voor Apache?",
         "HowToInstallNginxModule": "Hoe installeer ik de GeoIP-module voor Nginx?",
         "HttpServerModule": "HTTP Server Module",

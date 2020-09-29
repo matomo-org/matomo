@@ -135,8 +135,13 @@
   vertical-align: top;
   height: auto;
   border: none;
-  box-sizing: content-box;
+  box-sizing: border-box;
   float: left;
+  width: 50%;
+
+  & > * {
+    box-sizing: content-box;
+  }
 
   body:not(.widgetized) .widget & {
     width: 100%;
@@ -167,7 +172,6 @@
   margin: 0;
   border-right: 1px solid #d1cec8;
   padding: 22px 0 0 22px;
-  width: 553px;
 
   body:not(.widgetized) .widget & {
     padding: 0 10px;
@@ -177,7 +181,6 @@
 .visitor-profile-visits-info {
   margin: 28px 0 0 -1px;
   border-left: 1px solid #d1cec8;
-  width: 574px;
 }
 
 .visitor-profile-header {
@@ -342,6 +345,7 @@
   color: @theme-color-text;
   cursor: pointer;
   background-color: @color-silver-l95;
+  margin-right: 1px;
 
   &:hover {
     background-color: #bfbfbf;

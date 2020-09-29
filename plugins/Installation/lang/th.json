@@ -32,7 +32,6 @@
         "SuperUserSetupSuccess": "Super User สร้างขึ้นเสร็จแล้ว!",
         "SystemCheck": "ตรวจสอบระบบ",
         "SystemCheckAutoUpdateHelp": "หมายเหตุ: โปรแกรมอัพเดตหนึ่งคลิกของ Matomo ต้องใช้สิทธิ์การเขียนไปยังโฟลเดอร์ Matomo และเนื้อหา",
-        "SystemCheckCreateFunctionHelp": "Matomo ใช้ฟังก์ชันแบบไม่ระบุชื่อสำหรับการเรียกกลับ",
         "SystemCheckDatabaseHelp": "Matomo ต้องมีนามสกุล mysqli หรือนามสกุล PDO และ pdo_mysql",
         "SystemCheckDebugBacktraceHelp": "View::factory จะไม่สามารถสร้างมุมมองสำหรับเรียกโมดูล",
         "SystemCheckError": "เกิดข้อผิดพลาดขึ้น - ต้องแก้ไขก่อนดำเนินการต่อไป",

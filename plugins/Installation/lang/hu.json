@@ -31,7 +31,6 @@
         "SuperUserSetupSuccess": "Mindenható (Super User) felhasználó sikeresen létrehozva!",
         "SystemCheck": "rendszerellenőrzés",
         "SystemCheckAutoUpdateHelp": "Megjegyzés: Az egyklikkes Matomo frissítés működéséhez írási jogosultság szükséges a Matomo mappára és annak tartalmára egyaránt.",
-        "SystemCheckCreateFunctionHelp": "A Matomo anonim funkciókat használ a callback-okhoz.",
         "SystemCheckDatabaseHelp": "A Matomo-nek szüksége van vagy a mysqli kiterjesztésre vagy a PDO és a pdo_mysql kiterjesztésekre.",
         "SystemCheckDebugBacktraceHelp": "View::factory nem áll rendelkezésre a nézetek legenerálásához az azt meghívó modul számára.",
         "SystemCheckError": "Hiba lépet fel - ki kell javítanod, mielőtt folytatnád",

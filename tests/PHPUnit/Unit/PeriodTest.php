@@ -280,4 +280,58 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
             ['2014-03-31 23:59:59', 'month', '2014-03-03 03:04:05', true],
         ];
     }
+
+    /**
+     * @dataProvider getTestDataForIsPeriodIntersectingWith
+     */
+    public function test_isPeriodIntersectingWith($date1, $period1, $date2, $period2, $expected)
+    {
+        $period1Obj = Period\Factory::build($period1, $date1);
+        $period2Obj = Period\Factory::build($period2, $date2);
+        $actual = $period1Obj->isPeriodIntersectingWith($period2Obj);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForIsPeriodIntersectingWith()
+    {
+        return [
+            ['2015-03-04', 'day', '2015-03-04', 'day', true],
+            ['2015-03-04', 'day', '2015-03-04', 'week', true],
+            ['2015-03-04', 'day', '2015-03-12', 'week', false],
+            ['2015-03-04', 'week', '2015-03-08', 'day', true],
+            ['2015-03-04', 'week', '2015-03-09', 'day', false],
+            ['2015-03-04', 'month', '2015-03-09', 'day', true],
+            ['2015-03-04', 'month', '2015-03-01', 'week', true],
+            ['2015-03-04', 'month', '2015-02-28', 'week', true],
+            ['2015-03-01', 'month', '2015-02-28', 'month', false],
+            ['2015-03-01', 'week', '2015-02-28', 'week', true],
+            ['2015-03-04', 'year', '2015-03-01', 'day', true],
+            ['2015-03-04', 'year', '2016-03-01', 'week', false],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForGetBoundsInTimezone
+     */
+    public function test_getBoundsInTimezone($period, $date, $timezone, $expectedDate1, $expectedDate2)
+    {
+        $periodObj = Period\Factory::build($period, $date);
+
+        list($date1, $date2) = $periodObj->getBoundsInTimezone($timezone);
+
+        $this->assertEquals($expectedDate1, $date1->getDatetime());
+        $this->assertEquals($expectedDate2, $date2->getDatetime());
+    }
+
+    public function getTestDataForGetBoundsInTimezone()
+    {
+        return [
+            ['day', '2018-03-04', 'America/Los_Angeles', '2018-03-04 08:00:00', '2018-03-05 07:59:59'],
+            ['day', '2018-03-04', 'UTC+8', '2018-03-03 16:00:00', '2018-03-04 15:59:59'],
+            ['day', '2018-03-04', 'UTC-8', '2018-03-04 08:00:00', '2018-03-05 07:59:59'],
+            ['week', '2018-03-04', 'America/Los_Angeles', '2018-02-26 08:00:00', '2018-03-05 07:59:59'],
+            ['week', '2018-03-04', 'UTC-4', '2018-02-26 04:00:00', '2018-03-05 03:59:59'],
+            ['week', '2018-03-04', 'UTC', '2018-02-26 00:00:00', '2018-03-04 23:59:59'],
+        ];
+    }
 }

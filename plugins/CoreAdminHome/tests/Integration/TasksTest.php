@@ -133,13 +133,15 @@ class TasksTest extends IntegrationTestCase
 
         $expected = [
             'invalidateOutdatedArchives.',
+            'deleteOldFingerprintSalts.',
             'purgeOutdatedArchives.',
             'purgeInvalidatedArchives.',
+            'purgeInvalidationsForDeletedSites.',
             'purgeOrphanedArchives.',
             'optimizeArchiveTable.',
             'cleanupTrackingFailures.',
             'notifyTrackingFailures.',
-            'updateSpammerBlacklist.',
+            'updateSpammerList.',
             'checkSiteHasTrackedVisits.2',
             'checkSiteHasTrackedVisits.3',
             'checkSiteHasTrackedVisits.4',
@@ -238,9 +240,9 @@ class TasksTest extends IntegrationTestCase
     {
         return [
             'observers.global' => \DI\add([
-                ['Mail.send', function (Mail $mail) {
+                ['Mail.send', \DI\value(function (Mail $mail) {
                     $this->mail = $mail;
-                }],
+                })],
             ]),
         ];
     }

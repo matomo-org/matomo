@@ -5,6 +5,7 @@ namespace Piwik\Plugins\CoreUpdater\ReleaseChannel;
 
 use Piwik\UpdateCheck\ReleaseChannel;
 use Piwik\Url;
+use Piwik\Version;
 
 class GitCommitReleaseChannel extends ReleaseChannel
 {
@@ -20,7 +21,10 @@ class GitCommitReleaseChannel extends ReleaseChannel
 
     public function getUrlToCheckForLatestAvailableVersion()
     {
-        return 'http://' . Url::getHost(false) . '/tests/resources/one-click-update-version.php';
+        $majorVersion = (int) Version::VERSION;
+        $majorVersion += 1;
+
+        return 'http://' . Url::getHost(false) . '/tests/resources/one-click-update-version.php?v=' . $majorVersion;
     }
 
     public function getDownloadUrlWithoutScheme($version)

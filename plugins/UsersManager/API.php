@@ -179,7 +179,13 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets a user preference
+     * Sets a user preference. Plugins can add custom preference names by declaring them in their plugin config/config.php
+     * like this:
+     *
+     * ```php
+     * return array('usersmanager.user_preference_names' => DI\add(array('preference_name_1', 'preference_name_2')));
+     * ```
+     *
      * @param string $userLogin
      * @param string $preferenceName
      * @param string $preferenceValue
@@ -188,17 +194,33 @@ class API extends \Piwik\Plugin\API
     public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
-        Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
+
+        if (!$this->model->userExists($userLogin)) {
+            throw new Exception('User does not exist: ' . $userLogin);
+        }
+
+        if ($userLogin === 'anonymous') {
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
+        $nameIfSupported = $this->getPreferenceId($userLogin, $preferenceName);
+        Option::set($nameIfSupported, $preferenceValue);
     }
 
     /**
      * Gets a user preference
-     * @param string $userLogin
      * @param string $preferenceName
+     * @param string|bool $userLogin Optional, defaults to current user log in when set to false.
      * @return bool|string
      */
-    public function getUserPreference($userLogin, $preferenceName)
+    public function getUserPreference($preferenceName, $userLogin = false)
     {
+        if ($userLogin === false) {
+            // the default value for first parameter is there to have it an optional parameter in the HTTP API
+            // in PHP it won't be optional. Could move parameter to the end of the method but did not want to break
+            // BC
+            $userLogin = Piwik::getCurrentUserLogin();
+        }
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
         $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);
@@ -260,6 +282,18 @@ class API extends \Piwik\Plugin\API
     {
         if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
+        }
+        $names = array(
+            self::PREFERENCE_DEFAULT_REPORT,
+            self::PREFERENCE_DEFAULT_REPORT_DATE,
+            'isLDAPUser', // used in loginldap
+            'hideSegmentDefinitionChangeMessage',// used in JS
+        );
+        $customPreferences = StaticContainer::get('usersmanager.user_preference_names');
+
+        if (!in_array($preference, $names, true)
+            && !in_array($preference, $customPreferences, true)) {
+            throw new Exception('Not supported preference name: ' . $preference);
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }

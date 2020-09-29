@@ -80,7 +80,10 @@ class SegmentSelectorControl extends UIControl
         $this->isUserAnonymous = Piwik::isUserIsAnonymous();
         $this->segmentTranslations = $this->getTranslations();
         $this->segmentProcessedOnRequest = Rules::isBrowserArchivingAvailableForSegments();
-        $this->hideSegmentDefinitionChangeMessage = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), 'hideSegmentDefinitionChangeMessage');
+        $this->hideSegmentDefinitionChangeMessage = UsersManagerAPI::getInstance()->getUserPreference(
+            'hideSegmentDefinitionChangeMessage',
+            Piwik::getCurrentUserLogin()
+        );
     }
 
     public function getClientSideProperties()

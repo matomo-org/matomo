@@ -84,6 +84,7 @@
                       id="downloadReportForm_{{ report.idreport|e('html_attr') }}"
                 >
                     <input type="hidden" name="token_auth" value="{{ token_auth|e('html_attr') }}">
+                    <input type="hidden" name="force_api_session" value="1">
                 </form>
                 <a href="javascript:void(0)"
                    ng-click="manageScheduledReport.displayReport({{ report.idreport|json_encode }})"

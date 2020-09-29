@@ -47,7 +47,6 @@
         "SuperUserSetupSuccess": "उत्कृष्ट प्रयोक्ता सफलता के साथ बनाया!",
         "SystemCheck": "प्रणाली की जाँच करें",
         "SystemCheckAutoUpdateHelp": "नोट: Matomo के एक क्लिक अद्यतन Matomo फ़ोल्डर और उसकी सामग्री को लिखने के अनुमति की आवश्यकता है.",
-        "SystemCheckCreateFunctionHelp": "Matomo कॉलबैक के लिए गुमनाम फ़ंक्शंस का उपयोग करता है.",
         "SystemCheckDatabaseHelp": "Matomo mysqli विस्तार या तो या पीडीओ और pdo_mysql एक्सटेंशन दोनों की आवश्यकता है.",
         "SystemCheckDebugBacktraceHelp": "देखें :: कारखाने कालिंग मॉड्यूल के लिए विचारों को पैदा करने में सक्षम नहीं होंगे.",
         "SystemCheckError": "एक त्रुटि - आप आगे बढ़ने से पहले तय की जानी चाहिए",

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>site2 value1</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>721</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>1</nb_conversions>
+				
+				<revenue>2541</revenue>
+				<items>1</items>
+			</row>
+		</goals>
+		<nb_conversions>0</nb_conversions>
+		<revenue>0</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		
+		<avg_time_on_site>721</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
+		<nb_actions_per_visit>2</nb_actions_per_visit>
+		<segment>dimension1==site2+value1</segment>
+	</row>
+</result>
