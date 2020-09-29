@@ -54,9 +54,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $columnsToAdd = [];
 
         $migrations = [];
-        $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
-        $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
-        $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
 
         /** APP SPECIFIC TOKEN START */
         $migrations[] = $this->migration->db->createTable('user_token_auth', array(
@@ -86,10 +83,42 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             }
         }
 
+        /** APP SPECIFIC TOKEN END */
+
+        // invalidations table
+        $migrations[] = $this->migration->db->createTable('archive_invalidations', [
+            'idinvalidation' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
+            'idarchive' => 'INTEGER UNSIGNED NULL',
+            'name' => 'VARCHAR(255) NOT NULL',
+            'idsite' => 'INTEGER NOT NULL',
+            'date1' => 'DATE NOT NULL',
+            'date2' => 'DATE NOT NULL',
+            'period' => 'TINYINT UNSIGNED NOT NULL',
+            'ts_invalidated' => 'DATETIME NOT NULL',
+            'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
+            'report' => 'VARCHAR(255) NULL',
+        ], ['idinvalidation']);
+
+        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
+
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
         $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
+        $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
+        $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
+        $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
+        $migrations[] = $this->migration->db->changeColumnTypes('log_visit', array(
+            'config_browser_name' => 'VARCHAR(40) NULL',
+            'referer_name' => 'VARCHAR(255) NULL',
+            'visit_total_interactions' => 'MEDIUMINT UNSIGNED DEFAULT 0',
+        ));
 
-        /** APP SPECIFIC TOKEN END */
+        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('option')
+            . "` SET option_value = 'VARCHAR(40) NULL1' WHERE option_name= 'version_log_visit.config_browser_name'");
+
+        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('option')
+            . "` SET option_value = 'VARCHAR(255) NULL1' WHERE option_name= 'version_log_visit.referer_name'");
+        $migrations[] = $this->migration->db->sql("UPDATE `" . Common::prefixTable('option')
+            . "` SET option_value = 'MEDIUMINT UNSIGNED DEFAULT 0' WHERE option_name= 'version_log_visit.visit_total_interactions'");
 
         $customTrackerPluginActive = false;
         if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {
@@ -212,21 +241,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
         }
 
-        // invalidations table
-        $migrations[] = $this->migration->db->createTable('archive_invalidations', [
-            'idinvalidation' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
-            'idarchive' => 'INTEGER UNSIGNED NULL',
-            'name' => 'VARCHAR(255) NOT NULL',
-            'idsite' => 'INTEGER NOT NULL',
-            'date1' => 'DATE NOT NULL',
-            'date2' => 'DATE NOT NULL',
-            'period' => 'TINYINT UNSIGNED NOT NULL',
-            'ts_invalidated' => 'DATETIME NOT NULL',
-            'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
-            'report' => 'VARCHAR(255) NULL',
-        ], ['idinvalidation']);
-
-        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
         // keep piwik_ignore for existing  installs
         $migrations[] = $this->migration->config->set('Tracker', 'ignore_visits_cookie_name', 'piwik_ignore');
 
