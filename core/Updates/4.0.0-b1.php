@@ -16,6 +16,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\Columns\Profilable;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
 use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
@@ -211,7 +212,38 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
         }
 
+        // invalidations table
+        $migrations[] = $this->migration->db->createTable('archive_invalidations', [
+            'idinvalidation' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
+            'idarchive' => 'INTEGER UNSIGNED NULL',
+            'name' => 'VARCHAR(255) NOT NULL',
+            'idsite' => 'INTEGER NOT NULL',
+            'date1' => 'DATE NOT NULL',
+            'date2' => 'DATE NOT NULL',
+            'period' => 'TINYINT UNSIGNED NOT NULL',
+            'ts_invalidated' => 'DATETIME NOT NULL',
+            'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
+            'report' => 'VARCHAR(255) NULL',
+        ], ['idinvalidation']);
+
+        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
+        // keep piwik_ignore for existing  installs
+        $migrations[] = $this->migration->config->set('Tracker', 'ignore_visits_cookie_name', 'piwik_ignore');
+
         $migrations[] = $this->migration->plugin->activate('PagePerformance');
+        if (!Manager::getInstance()->isPluginActivated('CustomDimensions')) {
+            $migrations[] = $this->migration->plugin->activate('CustomDimensions');
+        }
+
+        $configTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_custom_variables'] ?? null;
+        $configSubTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_subtable_custom_variables'] ?? null;
+
+        if ($configTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_custom_dimensions', $configTableLimit);
+        }
+        if ($configSubTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_subtable_custom_dimensions', $configSubTableLimit);
+        }
 
         return $migrations;
     }
@@ -228,6 +260,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // eg the case when not updating from most recent Matomo 3.X and when not using the UI updater
         // afterwards the should receive a notification that the plugins are outdated
         self::ensureCorePluginsThatWereMovedToMarketplaceCanBeUpdated();
+        ServerFilesGenerator::createFilesForSecurity();
     }
 
     public static function ensureCorePluginsThatWereMovedToMarketplaceCanBeUpdated()
