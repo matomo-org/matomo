@@ -62,10 +62,18 @@ class RequestTest extends UnitTestCase
         $this->assertSame($this->time - 10, $request->getCurrentTimestamp());
     }
 
-    public function test_getCurrentTimestamp_CanUseRelativeOffseAndCustomTimestamp()
+    public function test_getCurrentTimestamp_CanUseRelativeOffsetAndCustomTimestamp()
     {
         $time = time() - 20;
         $request = $this->buildRequest(array('cdo' => '10', 'cdt' => $time));
+        $request->setCurrentTimestamp(time());
+        $this->assertSame($time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_CanUseNegativeRelativeOffsetAndCustomTimestamp()
+    {
+        $time = time() - 20;
+        $request = $this->buildRequest(array('cdo' => '-10', 'cdt' => $time));
         $request->setCurrentTimestamp(time());
         $this->assertSame($time - 10, $request->getCurrentTimestamp());
     }

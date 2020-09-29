@@ -505,7 +505,7 @@ class Request
         }
 
         if (!empty($cdo)) {
-            $cdt = $cdt - $cdo;
+            $cdt = $cdt - abs($cdo);
         }
 
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
