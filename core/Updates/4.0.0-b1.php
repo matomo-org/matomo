@@ -128,12 +128,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
         $columnsToAdd['log_visit']['visitor_seconds_since_last'] = VisitorSecondsSinceLast::COLUMN_TYPE;
         $columnsToAdd['log_visit']['profilable'] = Profilable::COLUMN_TYPE;
-        $columnsToAdd['log_visit'][TimeDomCompletion::COLUMN_NAME] = TimeDomCompletion::COLUMN_TYPE;
-        $columnsToAdd['log_visit'][TimeDomProcessing::COLUMN_NAME] = TimeDomProcessing::COLUMN_TYPE;
-        $columnsToAdd['log_visit'][TimeNetwork::COLUMN_NAME] = TimeNetwork::COLUMN_TYPE;
-        $columnsToAdd['log_visit'][TimeOnLoad::COLUMN_NAME] = TimeOnLoad::COLUMN_TYPE;
-        $columnsToAdd['log_visit'][TimeServer::COLUMN_NAME] = TimeServer::COLUMN_TYPE;
-        $columnsToAdd['log_visit'][TimeTransfer::COLUMN_NAME] = TimeTransfer::COLUMN_TYPE;
+        $columnsToAdd['log_link_visit_action'][TimeDomCompletion::COLUMN_NAME] = TimeDomCompletion::COLUMN_TYPE;
+        $columnsToAdd['log_link_visit_action'][TimeDomProcessing::COLUMN_NAME] = TimeDomProcessing::COLUMN_TYPE;
+        $columnsToAdd['log_link_visit_action'][TimeNetwork::COLUMN_NAME] = TimeNetwork::COLUMN_TYPE;
+        $columnsToAdd['log_link_visit_action'][TimeOnLoad::COLUMN_NAME] = TimeOnLoad::COLUMN_TYPE;
+        $columnsToAdd['log_link_visit_action'][TimeServer::COLUMN_NAME] = TimeServer::COLUMN_TYPE;
+        $columnsToAdd['log_link_visit_action'][TimeTransfer::COLUMN_NAME] = TimeTransfer::COLUMN_TYPE;
 
         $columnsToMaybeAdd = ['revenue', 'revenue_discount', 'revenue_shipping', 'revenue_subtotal', 'revenue_tax'];
         $columnsLogConversion = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
