@@ -103,6 +103,7 @@
         "ReportWithMetadata": "Raportti metadatan kera",
         "ReadMoreOnlineGuide": "Lue lisää tästä aiheesta verkko-oppaasta.",
         "SeeAvailableVersions": "Näytä saatavilla olevat versiot",
-        "QuickLinks": "Pikalinkit"
+        "QuickLinks": "Pikalinkit",
+        "SearchOnMatomo": "Hae '%1$s' Matomo.orgista"
     }
 }

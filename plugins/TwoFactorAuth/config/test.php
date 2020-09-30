@@ -1,8 +1,8 @@
 <?php
 
 return array(
-    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => DI\create('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
-    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\create('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
+    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => DI\autowire('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
+    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\autowire('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
     'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication $previous */
 
@@ -40,6 +40,7 @@ return array(
             foreach (array('with2FA', 'with2FADisable') as $user) {
                 $previous->useRecoveryCode($user, '123456'); // we are using it first to make sure there is no duplicate
                 $previous->insertRecoveryCode($user, '123456');
+                \Piwik\Option::deleteLike(\Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . '%');
             }
         }
 

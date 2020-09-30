@@ -4241,7 +4241,6 @@ if ($mysql) {
             // test ping not sent on focus
             tracker.enableHeartBeatTimer();
             tracker.setCustomData('token', 7 + tokenBase);
-            tracker.setVisitStandardLength(5);
 
             return Q.delay(6000); // should not send a tracking request because of visit standard length reached
         }).then(function () {
@@ -4884,7 +4883,7 @@ if ($mysql) {
         strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
         var rememberedConsent = tracker.getRememberedConsent();
         strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
-        strictEqual(String(rememberedConsent).substr(0, 2), '15', "getRememberedConsent, starts with correct data" );
+        strictEqual(String(rememberedConsent).substr(0, 2), '16', "getRememberedConsent, starts with correct data" );
 
         tracker.requireConsent();
         strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );

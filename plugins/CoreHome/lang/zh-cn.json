@@ -43,6 +43,8 @@
         "VisitTypeReturning": "返回",
         "VisitTypeReturningCustomer": "回归客户",
         "MainNavigation": "主导航",
+        "YourDonationWillHelp": "您的捐赠将直接为这个开源分析平台的新功能和改进提供资金。这意味着社区能持续为您提供保护隐私并完全掌控您数据的工具。",
+        "ThanksFromAllOfUs": "谢谢所有和Matomo相关的人！",
         "Menu": "菜单",
         "NoPrivilegesAskPiwikAdmin": "您当前登录用户是'%1$s' ，但是没有任何Matomo权限。%2$s 联系 Matomo 管理员 (点击发送邮件)%3$s 获得 '查看' 权限。",
         "OnlyForSuperUserAccess": "这个小工具仅仅显示在有超级用户权限的面板里。",
@@ -106,6 +108,7 @@
         "ReportWithMetadata": "报告元数据",
         "ReadMoreOnlineGuide": "在线指南中阅读有关此主题的更多信息。",
         "SeeAvailableVersions": "请参阅可用版本",
-        "QuickLinks": "快速链接"
+        "QuickLinks": "快速链接",
+        "SearchOnMatomo": "在Matomo.org上搜索“ %1$s”"
     }
 }

@@ -62,7 +62,7 @@ class OneClickDone
         @Common::stripHeader('Pragma');
         @Common::stripHeader('Expires');
         @Common::sendHeader('Content-Type: text/html; charset=UTF-8');
-        @Common::sendHeader('Cache-Control: must-revalidate');
+        @Common::sendHeader('Cache-Control: no-store');
         @Common::sendHeader('X-Frame-Options: deny');
 
         $error = htmlspecialchars($this->error, ENT_QUOTES, 'UTF-8');

@@ -78,7 +78,7 @@ class AddCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Adding 3 Custom Dimension(s) in scope action.', $result);
         self::assertStringContainsString('Are you sure you want to perform this action?', $result);
         self::assertStringContainsString('Starting to add Custom Dimension(s)', $result);
-        self::assertStringContainsString('Your Piwik is now configured for up to 8 Custom Dimensions in scope action.', $result);
+        self::assertStringContainsString('Your Matomo is now configured for up to 8 Custom Dimensions in scope action.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
         $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
@@ -106,7 +106,7 @@ class AddCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Adding 2 Custom Dimension(s) in scope visit.', $result);
         self::assertStringContainsString('Are you sure you want to perform this action?', $result);
         self::assertStringContainsString('Starting to add Custom Dimension(s)', $result);
-        self::assertStringContainsString('Your Piwik is now configured for up to 7 Custom Dimensions in scope visit.', $result);
+        self::assertStringContainsString('Your Matomo is now configured for up to 7 Custom Dimensions in scope visit.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
         $this->assertSame(range(1,7), $logVisit->getInstalledIndexes());

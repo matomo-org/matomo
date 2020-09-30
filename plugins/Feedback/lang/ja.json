@@ -41,7 +41,6 @@
         "RemoveOtherLabel": "'その他'のデータを見たい",
         "PurgeOldData": "古いデータを削除したい",
         "SearchHelpResources": "matomo.org ヘルプリソースを検索する",
-        "PopularHelpTopics": "人気のあるヘルプトピック",
-        "SearchOnMatomo": "Matomo.org で '%1$s' を検索"
+        "PopularHelpTopics": "人気のあるヘルプトピック"
     }
 }

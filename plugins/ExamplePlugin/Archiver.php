@@ -87,10 +87,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         if ($this->isRequestedReport(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
-            $archiveCount = $this->incrementArchiveCount();
-            $archiveCount = 50 + $archiveCount;
-            $archiveCount += 5 - ($archiveCount % 5); // round up to nearest 5 multiple to avoid random test failures
-            $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_CONST_METRIC_NAME, $archiveCount);
+            $callCount = $this->getAndIncrementArchiveCallCount();
+            $metricValue = $callCount > 0 ? 1 : 0;
+            $this->getProcessor()->insertNumericRecord(self::EXAMPLEPLUGIN_CONST_METRIC_NAME, $metricValue);
         }
     }
 
@@ -124,16 +123,15 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private function createSequence()
     {
-        $sequence = new Sequence('ExamplePlugin_archiveCount');
-        if (!$sequence->exists()) {
-            for ($i = 0; $i < 100; ++$i) {
-                try {
-                    $sequence->create();
-                    break;
-                } catch (\Exception $ex) {
-                    // ignore
-                }
-            }
-        }
+    }
+
+    private function getAndIncrementArchiveCallCount()
+    {
+        $params = $this->getProcessor()->getParams();
+        $optionName = 'ExamplePlugin.metricValue.' . md5($params->getSite()->getId() . '.' . $params->getPeriod()->getRangeString()
+            . '.' . $params->getPeriod()->getLabel() . '.' . $params->getSegment()->getHash());
+        $value = (int) Option::get($optionName);
+        Option::set($optionName, $value + 1);
+        return $value;
     }
 }

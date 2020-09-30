@@ -15,7 +15,7 @@
         "API": "API",
         "Apply": "应用",
         "ArchivingInlineHelp": "对于中高流量的网站，建议禁用Matomo浏览器触发归档。最好是设置定时任务，每小时处理一次Matomo报表。",
-        "ArchivingTriggerDescription": "适合大型的Matomo安装，需要%1$s设置定时任务(Cron job) %2$s来自动处理报表。",
+        "ArchivingTriggerDescription": "适合大型的Matomo安装，需要%1$s设置定时任务（cron job） %2$s来自动处理报表。",
         "AuthenticationMethodSmtp": "SMTP 验证方法",
         "AverageOrderValue": "平均订单额",
         "AveragePrice": "平均价格",
@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "可同时比较的最大周期数为%s。",
         "Custom": "自定义",
         "PreviousPeriod": "上一个周期",
-        "PreviousYear": "上一年"
+        "PreviousYear": "上一年",
+        "ViewAccessRequired": "使用的token_auth具有太多访问权限，无法在非API请求的URL中使用。 请对只有有查看访问权限的用户使用特定的应用密码。"
     },
     "Mobile": {
         "AboutPiwikMobile": "关于 Matomo 移动版",
@@ -531,7 +532,7 @@
         "Advanced": "高级",
         "AnonymousAccess": "匿名访问",
         "AnonymousTracking": "匿名跟踪",
-        "AskForAnonymousTrackingPermission": "启用后，Matomo Mobile会发送匿名使用者的数据到 matomo.org，这些数据用于帮助Matomo Mobile开发者更好了解软件的使用情况。发送的数据包括: 点击的菜单和设置，操作系统名称和版本，Matomo Mobile中的错误信息。我们不会跟踪您的任何分析数据，匿名数据永远不会公开。您可以在任何时候到管理设置中禁用\/启用 匿名跟踪。",
+        "AskForAnonymousTrackingPermission": "启用后，Matomo Mobile将发送匿名使用者的数据到 matomo.org，用于帮助Matomo Mobile开发者更好地了解应用的使用方式。发送的数据包括：点击的菜单和设置，操作系统名称和版本，Matomo Mobile中的错误信息。我们不会跟踪您的任何分析数据，这些匿名数据永远不会公开。您可以随时在设置中禁用或者启用匿名跟踪。",
         "ChooseHttpTimeout": "请选择HTTP超时值",
         "ChooseMetric": "选择指标",
         "ChooseReport": "选择报表",
