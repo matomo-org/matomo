@@ -7,15 +7,11 @@
  */
 namespace Piwik\Plugins\PrivacyManager\Diagnostic;
 
-use Piwik\DbHelper;
-use Piwik\Option;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
-use Piwik\Updater;
-use Piwik\Version;
 
 /**
  * Information about Matomo itself

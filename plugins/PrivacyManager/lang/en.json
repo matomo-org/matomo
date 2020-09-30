@@ -66,6 +66,7 @@
         "DeleteReportsConfirm": "You are about to enable report data deletion. If old reports are removed, you will have to re-process them in order view them. Are you sure you want to do this?",
         "DeleteAggregateReportsDetailedInfo": "When you enable this setting, all aggregated reports will be deleted. Aggregated reports are generated from the raw data and represent aggregated data from several individual visits. For example, the \"Country\" report lists aggregated numbers to see how many visits you have gotten from each country.",
         "KeepBasicMetricsReportsDetailedInfo": "When you enable this setting, some numeric key performance indicators won't be deleted.",
+        "InfoSomeReferrerInfoMayBeAnonymized": "Some referrer information may be missing because referrer anonymisation is enabled as following: %s",
         "DeleteReportsInfo2": "If you delete old reports, they may be re-processed again from your RAW data when you request them.",
         "DeleteReportsInfo3": "If you have also enabled \"%s\", then the reports data you're deleting will be permanently lost.",
         "DeleteReportsOlderThan": "Delete reports older than",

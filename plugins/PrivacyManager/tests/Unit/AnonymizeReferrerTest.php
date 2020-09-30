@@ -8,9 +8,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Unit;
 
-use Matomo\Network\IP;
 use Piwik\Common;
-use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 
 class AnonymizeReferrerTest extends \PHPUnit\Framework\TestCase

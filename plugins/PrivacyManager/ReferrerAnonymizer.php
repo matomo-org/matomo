@@ -12,9 +12,6 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
-/**
- * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
- */
 class ReferrerAnonymizer
 {
     const EXCLUDE_QUERY = 'exclude_query';

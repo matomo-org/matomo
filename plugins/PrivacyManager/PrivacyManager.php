@@ -203,7 +203,7 @@ class PrivacyManager extends Plugin
             $anonymizer = StaticContainer::get(ReferrerAnonymizer::class);
             $methods = $anonymizer->getAvailableAnonymizationOptions();
             if (!empty($methods[$config->anonymizeReferrer])) {
-                $view->config->show_footer_message .= sprintf('Some referrer information may be missing because referrer anonymisation is enabled as following: %s', $methods[$config->anonymizeReferrer]);
+                $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoSomeReferrerInfoMayBeAnonymized', $methods[$config->anonymizeReferrer]);
             }
         }
     }
