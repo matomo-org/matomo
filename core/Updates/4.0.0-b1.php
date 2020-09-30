@@ -16,6 +16,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\Columns\Profilable;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
 use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
@@ -53,9 +54,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $columnsToAdd = [];
 
         $migrations = [];
-        $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
-        $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
-        $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
 
         /** APP SPECIFIC TOKEN START */
         $migrations[] = $this->migration->db->createTable('user_token_auth', array(
@@ -85,10 +83,34 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             }
         }
 
+        /** APP SPECIFIC TOKEN END */
+
+        // invalidations table
+        $migrations[] = $this->migration->db->createTable('archive_invalidations', [
+            'idinvalidation' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
+            'idarchive' => 'INTEGER UNSIGNED NULL',
+            'name' => 'VARCHAR(255) NOT NULL',
+            'idsite' => 'INTEGER NOT NULL',
+            'date1' => 'DATE NOT NULL',
+            'date2' => 'DATE NOT NULL',
+            'period' => 'TINYINT UNSIGNED NOT NULL',
+            'ts_invalidated' => 'DATETIME NOT NULL',
+            'status' => 'TINYINT(1) UNSIGNED DEFAULT 0',
+            'report' => 'VARCHAR(255) NULL',
+        ], ['idinvalidation']);
+
+        $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
+
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
         $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
 
-        /** APP SPECIFIC TOKEN END */
+        $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
+        $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
+        $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
+
+        $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
+        $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
+        $migrations[] = $this->migration->db->changeColumn('log_link_visit_action', 'interaction_position', 'pageview_position', 'MEDIUMINT UNSIGNED DEFAULT NULL');
 
         $customTrackerPluginActive = false;
         if (in_array('CustomPiwikJs', Config::getInstance()->Plugins['Plugins'])) {
@@ -105,10 +127,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         // Prepare all installed tables for utf8mb4 conversions. e.g. make some indexed fields smaller so they don't exceed the maximum key length
         $allTables = DbHelper::getTablesInstalled();
-
-        $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
-        $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
-        $migrations[] = $this->migration->db->changeColumnType('option', 'option_name', 'VARCHAR(191)');
 
         foreach ($allTables as $table) {
             if (preg_match('/archive_/', $table) == 1) {
@@ -211,7 +229,23 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->config->set('mail', 'type', 'Cram-md5');
         }
 
+        // keep piwik_ignore for existing  installs
+        $migrations[] = $this->migration->config->set('Tracker', 'ignore_visits_cookie_name', 'piwik_ignore');
+
         $migrations[] = $this->migration->plugin->activate('PagePerformance');
+        if (!Manager::getInstance()->isPluginActivated('CustomDimensions')) {
+            $migrations[] = $this->migration->plugin->activate('CustomDimensions');
+        }
+
+        $configTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_custom_variables'] ?? null;
+        $configSubTableLimit = Config::getInstance()->getFromLocalConfig('General')['datatable_archiving_maximum_rows_subtable_custom_variables'] ?? null;
+
+        if ($configTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_custom_dimensions', $configTableLimit);
+        }
+        if ($configSubTableLimit) {
+            $migrations[] = $this->migration->config->set('General', 'datatable_archiving_maximum_rows_subtable_custom_dimensions', $configSubTableLimit);
+        }
 
         return $migrations;
     }
@@ -228,6 +262,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         // eg the case when not updating from most recent Matomo 3.X and when not using the UI updater
         // afterwards the should receive a notification that the plugins are outdated
         self::ensureCorePluginsThatWereMovedToMarketplaceCanBeUpdated();
+        ServerFilesGenerator::createFilesForSecurity();
     }
 
     public static function ensureCorePluginsThatWereMovedToMarketplaceCanBeUpdated()

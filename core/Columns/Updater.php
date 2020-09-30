@@ -55,6 +55,16 @@ class Updater extends \Piwik\Updates
 
     /**
      * @param PiwikUpdater $updater
+     * @return Migration[]
+     * @api
+     */
+    public function getMigrations(PiwikUpdater $updater)
+    {
+        return $this->getMigrationQueries($updater);
+    }
+
+    /**
+     * @param PiwikUpdater $updater
      * @return Migration\Db[]
      */
     public function getMigrationQueries(PiwikUpdater $updater)
