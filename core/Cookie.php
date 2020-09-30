@@ -234,10 +234,12 @@ class Cookie
         // we keep trying to read signed content for BC ... if it detects a correctly signed cookie then we read
         // this value
         $cookieStr = $this->extractSignedContent($_COOKIE[$this->name]);
+        $isSigned = !empty($cookieStr);
 
         if ($cookieStr === false
             && !empty($_COOKIE[$this->name])
             && strpos($_COOKIE[$this->name], '=') !== false) {
+            // cookie was set since Matomo 4
             $cookieStr = $_COOKIE[$this->name];
         }
 
@@ -253,10 +255,16 @@ class Cookie
 
             if (!is_numeric($varValue)) {
                 $tmpValue = base64_decode($varValue);
-                $varValue = safe_unserialize($tmpValue);
+                if ($isSigned) {
+                    // only unserialise content if it was signed meaning the cookie was generated pre Matomo 4
+                    $varValue = safe_unserialize($tmpValue);
+                } else {
+                    $varValue = $tmpValue;
+                }
 
                 // discard entire cookie
                 // note: this assumes we never serialize a boolean
+                // can only happen when it was signed pre Matomo 4
                 if ($varValue === false && $tmpValue !== 'b:0;') {
                     $this->value = array();
                     unset($_COOKIE[$this->name]);
@@ -280,7 +288,7 @@ class Cookie
 
         foreach ($this->value as $name => $value) {
             if (!is_numeric($value)) {
-                $value = base64_encode(safe_serialize($value));
+                $value = base64_encode($value);
             }
             $cookieStrArr[] = "$name=$value"; 
         }
