@@ -2382,7 +2382,7 @@ function PiwikTest() {
     });
     
     test("Tracker getHostName(), *UrlParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
-        expect(80);
+        expect(81);
 
         var tracker = Piwik.getTracker();
 
@@ -2409,6 +2409,7 @@ function PiwikTest() {
         equal( tracker.hook.test._getUrlParameter('http://piwik.org/?q=test', 'q'), 'test', '?q');
         equal( tracker.hook.test._getUrlParameter('http://piwik.org/?q=test#aq=not', 'q'), 'test', '?q');
         equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2', 'q'), 'test2', '&q');
+        equal( tracker.hook.test._getUrlParameter('https://piwik.org/?pk_campaign=qwerty2%25-', 'pk_campaign'), 'qwerty2%-', '&pk_campaign');
 
         // _getUrlParameter in hash tag
         equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#aq=not', 'q'), 'test2', '&q');
